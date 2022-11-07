@@ -9,7 +9,7 @@ from viresclient import AeolusRequest
 import matplotlib.pyplot as plt
 from ipywidgets import interact
 import ipywidgets as widgets
-import cartopy.crs as ccrs
+# import cartopy.crs as ccrs
 import xarray as xr
 import numpy as np
 import os
