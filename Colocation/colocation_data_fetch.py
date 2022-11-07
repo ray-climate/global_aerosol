@@ -136,7 +136,7 @@ for i in range(len(lat_ALADIN_colocation)):
         nc_ALADIN_altitude = ncfile.createVariable('ALADIN_altitude', 'f4', ('altitude',))
         nc_ALADIN_altitude[:] = SCA_middle_bin_altitude_obs
 
-        # print('new updated implem')
+        # print('new updated implementation version-2')
         #
         # logging.info(
         #     '----------> CALIOP data location: (%.2f, %.2f)' % (lat_CALIOP_colocation[i], lon_CALIOP_colocation[i]))
