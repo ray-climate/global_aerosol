@@ -8,6 +8,7 @@
 import sys
 sys.path.append('../')
 
+from Caliop.caliop import Caliop_hdf_reader
 from datetime import datetime, timedelta
 from Aeolus.aeolus import *
 import pandas as pd
@@ -84,7 +85,14 @@ while start_date_datetime <= end_date_datetime:
                 '{:02d}'.format(caliop_interval_start.day))
 
             for file in os.listdir(caliop_fetch_dir):
-                print(caliop_fetch_dir + file)
+
+                caliop_request = Caliop_hdf_reader()
+
+                caliop_interval_latitude = caliop_request._get_latitude(file)
+                caliop_interval_longitude = caliop_request._get_longitude(file)
+                print(caliop_interval_latitude)
+                print(caliop_interval_latitude.shape)
+
             caliop_interval_start += timedelta(days = 1)
         print('---------------------')
 

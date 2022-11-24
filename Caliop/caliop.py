@@ -142,6 +142,14 @@ class Caliop_hdf_reader():
 
         return data
 
+    def _get_tropopause_height(self, filename):
+
+        sd = SD(filename)
+        datasets = sd.select('Tropopause_Height')
+        data = datasets.get()[:,0]
+
+        return data
+
     def _get_longitude(self, filename):
 
         sd = SD(filename)
