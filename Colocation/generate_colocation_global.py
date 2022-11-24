@@ -92,7 +92,7 @@ while start_date_datetime <= end_date_datetime:
                 caliop_interval_longitude = caliop_request._get_longitude(file)
                 print(caliop_interval_latitude)
                 print(caliop_interval_latitude.shape)
-
+                quit()
             caliop_interval_start += timedelta(days = 1)
         print('---------------------')
 
