@@ -10,6 +10,7 @@ sys.path.append('../')
 
 from datetime import datetime, timedelta
 from Aeolus.aeolus import *
+import pandas as pd
 import numpy as np
 import logging
 import sys
@@ -20,6 +21,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     filename= './aeolus_caliop_global_colocation.log',
                     level=logging.INFO)
 
+CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km/'
 database_dir = './database'
 
 try:
@@ -34,6 +36,7 @@ time_delta = timedelta(hours = 1) # time delta for separating Aeolus measuremets
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d %H:%M')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d %H:%M')
 AEOLUS_DATA_PRODUCT = "ALD_U_N_2A"
+
 
 while start_date_datetime <= end_date_datetime:
     year_i = '{:04d}'.format(start_date_datetime.year)
@@ -54,6 +57,7 @@ while start_date_datetime <= end_date_datetime:
     aeolus_interval_latitude = ds_sca['latitude_of_DEM_intersection_obs']
     aeolus_interval_longitude = ds_sca['longitude_of_DEM_intersection_obs']
     aeolus_interval_timestamp = ds_sca['SCA_time_obs_datetime']
+    aeolus_interval_timestamp = pd.to_datetime(aeolus_interval_timestamp)
 
     for j in range(len(aeolus_interval_latitude)):
 
@@ -62,9 +66,28 @@ while start_date_datetime <= end_date_datetime:
         day_j = '{:02d}'.format(aeolus_interval_timestamp[j].day)
         hour_j = '{:02d}'.format(aeolus_interval_timestamp[j].hour)
         minute_j = '{:02d}'.format(aeolus_interval_timestamp[j].minute)
+        second_j = '{:02d}'.format(aeolus_interval_timestamp[j].second)
 
         logging.info(
-            '----------> Search colocated CALIOP profiles based on Aeolus location: (%.2f, %.2f) at %s-%s-%s %s:%s'
-            % (aeolus_interval_latitude[j], aeolus_interval_longitude[j], year_j, month_j, day_j, hour_j, minute_j))
+            '----------> Search colocated CALIOP profiles based on Aeolus location: (%.2f, %.2f) at %s-%s-%s %s:%s:%s'
+            % (aeolus_interval_latitude[j], aeolus_interval_longitude[j], year_j, month_j, day_j, hour_j, minute_j,
+               second_j))
+
+        caliop_interval_start = aeolus_interval_timestamp[j] - timedelta(days = 1)
+
+        while caliop_interval_start <= aeolus_interval_timestamp[j] + timedelta(days = 1):
+
+            caliop_fetch_dir = CALIOP_JASMIN_dir + '%s/%s_%s_%s/'%(
+                caliop_interval_start.year,
+                caliop_interval_start.year,
+                '{:02d}'.format(caliop_interval_start.month),
+                '{:02d}'.format(caliop_interval_start.day))
+
+            for file in os.listdir(caliop_fetch_dir):
+                print(caliop_fetch_dir + file)
+            caliop_interval_start += timedelta(days = 1)
+        print('---------------------')
+
+
     quit()
     start_date_datetime += time_delta
