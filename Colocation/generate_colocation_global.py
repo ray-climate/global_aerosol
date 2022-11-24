@@ -86,13 +86,14 @@ while start_date_datetime <= end_date_datetime:
 
             for file in os.listdir(caliop_fetch_dir):
 
-                caliop_request = Caliop_hdf_reader()
+                if file.endswith('hdf'):
+                    caliop_request = Caliop_hdf_reader()
 
-                caliop_interval_latitude = caliop_request._get_latitude(file)
-                caliop_interval_longitude = caliop_request._get_longitude(file)
-                print(caliop_interval_latitude)
-                print(caliop_interval_latitude.shape)
-                quit()
+                    caliop_interval_latitude = caliop_request._get_latitude(file)
+                    caliop_interval_longitude = caliop_request._get_longitude(file)
+                    print(caliop_interval_latitude)
+                    print(caliop_interval_latitude.shape)
+                    quit()
             caliop_interval_start += timedelta(days = 1)
         print('---------------------')
 
