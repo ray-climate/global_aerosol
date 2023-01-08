@@ -10,6 +10,7 @@ import sys
 sys.path.append('../')
 
 from datetime import datetime, timedelta
+from get_aeolus import *
 import logging
 import csv
 
@@ -55,9 +56,9 @@ while start_date_datetime <= end_date_datetime:
     year_i = '{:04d}'.format(start_date_datetime.year)
     month_i = '{:02d}'.format(start_date_datetime.month)
     day_i = '{:02d}'.format(start_date_datetime.day)
-    logging.info('#############################################################')
-    logging.info('Start searching colocations for: %s-%s-%s' % (year_i, month_i, day_i))
-    logging.info('#############################################################')
+    logger.info('#############################################################')
+    logger.info('Start searching colocations for: %s-%s-%s' % (year_i, month_i, day_i))
+    logger.info('#############################################################')
 
     search_year = year_i
     search_month = month_i
@@ -80,10 +81,13 @@ while start_date_datetime <= end_date_datetime:
                 lon_aeolus = row['AEOLUS_longitude']
                 caliop_filename = row['CALIOP_filename']
 
-        logging.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        logging.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_aeolus), float(lon_aeolus)))
+        logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+        logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_aeolus), float(lon_aeolus)))
         # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
         #                                       savefig_dir)
-        quit()
+
         aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
                                  (search_year, search_month, search_year, search_month, search_day)
+
+        extract_variables_from_aeolus(aeolus_colocation_file, logger)
+        quit()
