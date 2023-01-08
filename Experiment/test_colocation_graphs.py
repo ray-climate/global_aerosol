@@ -13,9 +13,21 @@ from datetime import datetime, timedelta
 import logging
 import csv
 
+def get_script_name():
+    return sys.modules['__main__'].__file__
+
+# Get the name of the script
+script_name = get_script_name()
+
+# Split the script name into a base name and an extension
+script_base, script_ext = os.path.splitext(script_name)
+
+# Add the .log extension to the base name
+log_filename = script_base + '.log'
+
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     filemode='w',
-                    filename=sys.modules['__main__'].__file__,
+                    filename=log_filename,
                     level=logging.INFO)
 
 # Get a logger object
