@@ -72,6 +72,6 @@ while start_date_datetime <= end_date_datetime:
         logging.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_aeolus), float(lon_aeolus)))
         # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
         #                                       savefig_dir)
-
+        quit()
         aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
                                  (search_year, search_month, search_year, search_month, search_day)
