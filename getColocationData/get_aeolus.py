@@ -11,7 +11,7 @@ from netCDF4 import Dataset
 import numpy as np
 import logging
 
-def extract_variables_from_aeolus(nc_file):
+def extract_variables_from_aeolus(nc_file, logger):
     """Extract relevant variables from the AEOLUS data"""
 
     # open the netcdf file
@@ -61,3 +61,6 @@ def extract_variables_from_aeolus(nc_file):
 
     # Update longitude values
     sca_lon_obs_array[sca_lon_obs_array > 180.] -= 360.
+
+    # Log a message indicating that the data has been extracted
+    logger.info("Extracted data from AEOLUS file")
