@@ -10,6 +10,7 @@ import sys
 sys.path.append('../')
 
 from getColocationData.get_aeolus import *
+from getColocationData.get_caliop import *
 from datetime import datetime, timedelta
 import logging
 import csv
@@ -90,4 +91,26 @@ while start_date_datetime <= end_date_datetime:
                                  (search_year, search_month, search_year, search_month, search_day)
 
         extract_variables_from_aeolus(aeolus_colocation_file, logger)
+
+        # Search for the file on the specified date
+        caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
+
+        caliop_colocation_file = CALIOP_JASMIN_dir + '/%s/%s_%s_%s/' \
+                                 % (search_year, search_year, search_month, search_day) + caliop_filename
+
+        # If the file is not found, search for the file on the previous day
+        if caliop_colocation_file is None:
+            caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
+                                                      start_date_datetime - timedelta(days=1))
+
+        # If the file is still not found, search for the file on the following day
+        if caliop_colocation_file is None:
+            caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
+                                                      start_date_datetime + timedelta(days=1))
+
+        # If the file is still not found after searching the specified date and the previous and following days, raise an error
+        if caliop_colocation_file is None:
+            logger.error("CALIOP file not found in specified date or surrounding days")
+
+        logger.info("Extracted caliop")
         quit()
