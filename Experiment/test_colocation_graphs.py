@@ -9,8 +9,8 @@ import os
 import sys
 sys.path.append('../')
 
+from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
-from get_aeolus import *
 import logging
 import csv
 
