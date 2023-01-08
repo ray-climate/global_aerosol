@@ -16,7 +16,7 @@ import os
 
 class GetAeolusFromVirES():
 
-    def __init__(self, measurement_start, measurement_stop, DATA_PRODUCT, save_dir='./'):
+    def __init__(self, measurement_start, measurement_stop, DATA_PRODUCT, save_dir='./', save_data = './'):
         super().__init__()
 
         self.measurement_start = measurement_start
@@ -31,11 +31,12 @@ class GetAeolusFromVirES():
 
         # self.plot_overview_map()
         self.add_datetime_to_dataset()
-        self.add_QC_flag()
+        # self.add_QC_flag()
         self.add_mid_bin_geolocation()
         self.add_mid_bin_altitude()
-        self.add_lidar_ratio()
-        self.add_l1b_snr_to_sca()
+        # self.add_lidar_ratio()
+        # self.add_l1b_snr_to_sca()
+        self.ds_sca.to_file(save_data, overwrite=True)
 
     def set_fields(self):
         parameter_observation = [
@@ -85,7 +86,8 @@ class GetAeolusFromVirES():
 
         # set SCA fields
         request.set_fields(sca_fields = self.parameter_sca)
-
+        request.set_fields(sca_fields=self.parameter_sca)
+        print(self.parameter_sca)
         # set start and end time and request data
         data_sca = request.get_between(
             start_time = self.measurement_start,
@@ -93,6 +95,8 @@ class GetAeolusFromVirES():
             filetype="nc",
             asynchronous=True)
 
+        data_sca.to_file("./retrieved_data.nc", overwrite=True)
+        quit()
         # Save data as xarray data set
         ds_sca_preliminary = data_sca.as_xarray()
 
@@ -129,6 +133,9 @@ class GetAeolusFromVirES():
         for param in ds_sca_preliminary.keys():
             ds_sca[param] = (ds_sca_preliminary[param].dims, ds_sca_preliminary[param].data[unique_mask],
                              ds_sca_preliminary[param].attrs)
+            # ds_sca[param] = (ds_sca_preliminary[param].dims, ds_sca_preliminary[param].data,
+            #                  ds_sca_preliminary[param].attrs)
+            # print(param, ds_sca[param].shape)
         del ds_sca_preliminary
 
         return ds_sca
@@ -178,6 +185,8 @@ class GetAeolusFromVirES():
     def add_mid_bin_geolocation(self):
 
         # SCA altitude
+        # print(self.ds_sca["rayleigh_altitude_obs"].shape)
+        # print(self.ds_sca["sca_mask"].shape)
         self.ds_sca["SCA_bin_altitude_obs"] = (
             ("sca_dim", "array_25"),
             self.ds_sca["rayleigh_altitude_obs"][self.ds_sca["sca_mask"].astype(bool)].data,
@@ -219,6 +228,12 @@ class GetAeolusFromVirES():
     def add_l1b_snr_to_sca(self):
 
         # SNR for SCA
+        # print(self.ds_L1B["rayleigh_SNR"][:, :-1].shape)
+        # print(self.ds_L1B["mie_SNR"].shape)
+        # print(self.ds_L1B["rayleigh_altitude"].shape)
+        # print(self.ds_L1B["mie_altitude"].shape)
+        # print(self.ds_L1B["time"])
+
         rayleigh_SNR = self.ds_L1B["rayleigh_SNR"][:, :-1][self.ds_sca["sca_mask"].astype(bool)].data
         self.ds_sca["SCA_rayleigh_SNR"] = (
             ("sca_dim", "array_24"),
@@ -609,3 +624,72 @@ class PlotData():
             transform=ccrs.Geodetic(),
             label="selected profile",
         )
+
+class SaveVirESNetcdf():
+
+    def __init__(self, measurement_start, measurement_stop, DATA_PRODUCT, save_filename='./'):
+        super().__init__()
+
+        self.measurement_start = measurement_start
+        self.measurement_stop = measurement_stop
+        self.DATA_PRODUCT = DATA_PRODUCT
+        self.save_filename = save_filename
+
+        (self.parameter_observation, self.parameter_sca) = self.set_fields()
+        self.save_netCDF()
+
+    def set_fields(self):
+        parameter_observation = [
+            "L1B_start_time_obs",
+            "L1B_centroid_time_obs",
+            "longitude_of_DEM_intersection_obs",
+            "latitude_of_DEM_intersection_obs",
+            "altitude_of_DEM_intersection_obs",
+            "rayleigh_altitude_obs",
+            "sca_mask",
+        ]
+
+        parameter_sca = [
+            "SCA_time_obs",
+            "SCA_middle_bin_altitude_obs",
+            "SCA_QC_flag",
+            "SCA_processing_qc_flag",
+            "SCA_middle_bin_processing_qc_flag",
+            "SCA_extinction",
+            "SCA_extinction_variance",
+            "SCA_backscatter",
+            "SCA_backscatter_variance",
+            "SCA_LOD",
+            "SCA_LOD_variance",
+            "SCA_middle_bin_extinction",
+            "SCA_middle_bin_extinction_variance",
+            "SCA_middle_bin_backscatter",
+            "SCA_middle_bin_backscatter_variance",
+            "SCA_middle_bin_LOD",
+            "SCA_middle_bin_LOD_variance",
+            "SCA_middle_bin_BER",
+            "SCA_middle_bin_BER_variance",
+            "SCA_SR",
+        ]
+
+        return parameter_observation, parameter_sca
+
+    def save_netCDF(self):
+
+        # Data request for SCA aerosol product
+        request = AeolusRequest()
+        request.set_collection(self.DATA_PRODUCT)
+
+        # set observation fields
+        request.set_fields(observation_fields=self.parameter_observation)
+        # set SCA fields
+        request.set_fields(sca_fields=self.parameter_sca)
+
+        # set start and end time and request data
+        data_sca = request.get_between(
+            start_time=self.measurement_start,
+            end_time=self.measurement_stop,
+            filetype="nc",
+            asynchronous=True)
+
+        data_sca.to_file(self.save_filename, overwrite=True)

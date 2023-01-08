@@ -243,6 +243,51 @@ class Caliop_hdf_reader():
         plt.savefig(save_str)
         plt.close()
 
+    def plot_2d_map_subplot(self, x, y, z, title, ax, xvmin=None, xmax=None):
+
+        import matplotlib.colors as colors
+        import matplotlib.dates as mdates
+        import matplotlib.pyplot as plt
+        import datetime
+
+        X, Y = np.meshgrid(x, y)
+        Z = z
+
+        if 'Extinction' in title:
+            plt.pcolormesh(X, Y, Z, norm=colors.LogNorm(vmin=1.e-2, vmax=1.e1), cmap=self._cliop_cmp())
+            cbar = plt.colorbar(extend='both', shrink=0.8)
+            cbar.set_label('[km$^{-1}$]', fontsize=30, rotation=90)
+            cbar.ax.tick_params(labelsize=20)
+
+        if 'Depolarization' in title:
+            plt.pcolormesh(X, Y, Z, vmin=0, vmax=1., cmap='jet')
+            cbar = plt.colorbar(extend='both', shrink=0.8)
+            cbar.ax.tick_params(labelsize=20)
+
+        if 'Backscatter' in title:
+            plt.pcolormesh(X, Y, Z, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=self._cliop_cmp())
+            cbar = plt.colorbar(extend='both', shrink=0.8)
+            cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
+            cbar.ax.tick_params(labelsize=20)
+
+        ax.set_xlabel('Latitude', fontsize=30)
+        ax.set_ylabel('Height [km]', fontsize=30)
+
+        if xvmin != None:
+            ax.set_xlim([xvmin, xmax])
+
+        if isinstance(x[0], datetime.date):
+            xformatter = mdates.DateFormatter('%H:%M')
+            ax.gcf().axes[0].xaxis.set_major_formatter(xformatter)
+
+        ax.set_ylim([0., 20.])
+
+        # ax.title('%s' % title, fontsize=30)
+        for tick in ax.xaxis.get_major_ticks():
+            tick.label.set_fontsize(25)
+        for tick in ax.yaxis.get_major_ticks():
+            tick.label.set_fontsize(25)
+
     def plot_aerosol_subtype_classification(self, x, y, z, title, text, save_str):
 
         # 0 = not determined

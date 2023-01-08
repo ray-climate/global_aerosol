@@ -144,26 +144,26 @@ for i in range(len(lat_ALADIN_colocation)):
                                                    DATA_PRODUCT=DATA_PRODUCT)
 
                 ds_sca = VirES_request._get_ds_sca()
-                SCA_time_obs_datetime = ds_sca['SCA_time_obs_datetime']
+                sca_time_obs_datetime = ds_sca['sca_time_obs_datetime']
                 latitude_of_DEM_intersection_obs = ds_sca['latitude_of_DEM_intersection_obs']
                 longitude_of_DEM_intersection_obs = ds_sca['longitude_of_DEM_intersection_obs']
-                SCA_middle_bin_backscatter = ds_sca['SCA_middle_bin_backscatter']
-                SCA_middle_bin_altitude = ds_sca['SCA_middle_bin_altitude_obs']
+                sca_middle_bin_backscatter = ds_sca['sca_middle_bin_backscatter']
+                sca_middle_bin_altitude = ds_sca['sca_middle_bin_altitude_obs']
                 longitude_of_DEM_intersection_obs[longitude_of_DEM_intersection_obs > 180.] = longitude_of_DEM_intersection_obs[longitude_of_DEM_intersection_obs > 180.] - 360.
 
                 # print('target aeolus time: %s'%datetime_UTC_ALADIN_i)
-                # print('search aeolus time:', SCA_time_obs_datetime)
+                # print('search aeolus time:', sca_time_obs_datetime)
                 # print('search aeolus lat', latitude_of_DEM_intersection_obs)
 
-                time_list_aladin = [abs((pd.to_datetime(k) - datetime_UTC_ALADIN_i).total_seconds()) for k in SCA_time_obs_datetime.values]
-                # print('search aeolus alt', SCA_middle_bin_altitude[np.argmin(time_list_aladin), :])
-                # print('search aeolus beta', SCA_middle_bin_backscatter[np.argmin(time_list_aladin), :])
-                SCA_middle_bin_backscatter_obs = SCA_middle_bin_backscatter[np.argmin(time_list_aladin), :]
-                SCA_middle_bin_backscatter_obs[SCA_middle_bin_backscatter_obs == -1.e6] = np.nan
-                # print('min index:', np.argmin(time_list_aladin), SCA_time_obs_datetime[np.argmin(time_list_aladin)])
-                SCA_middle_bin_altitude_obs = SCA_middle_bin_altitude[np.argmin(time_list_aladin), :]
-                print(SCA_middle_bin_backscatter_obs)
-                print(SCA_middle_bin_altitude_obs)
+                time_list_aladin = [abs((pd.to_datetime(k) - datetime_UTC_ALADIN_i).total_seconds()) for k in sca_time_obs_datetime.values]
+                # print('search aeolus alt', sca_middle_bin_altitude[np.argmin(time_list_aladin), :])
+                # print('search aeolus beta', sca_middle_bin_backscatter[np.argmin(time_list_aladin), :])
+                sca_middle_bin_backscatter_obs = sca_middle_bin_backscatter[np.argmin(time_list_aladin), :]
+                sca_middle_bin_backscatter_obs[sca_middle_bin_backscatter_obs == -1.e6] = np.nan
+                # print('min index:', np.argmin(time_list_aladin), sca_time_obs_datetime[np.argmin(time_list_aladin)])
+                sca_middle_bin_altitude_obs = sca_middle_bin_altitude[np.argmin(time_list_aladin), :]
+                print(sca_middle_bin_backscatter_obs)
+                print(sca_middle_bin_altitude_obs)
                 # quit()
                 logging.info('----------> CALIOP data location: (%.2f, %.2f)' % (lat_CALIOP_colocation[i], lon_CALIOP_colocation[i]))
 
@@ -233,8 +233,8 @@ for i in range(len(lat_ALADIN_colocation)):
                 ncfile = Dataset(netcdf_file, mode='w', format='NETCDF4')
 
                 # aladin write
-                aladin_backscatter_dim = ncfile.createDimension('aladin_backscatter', SCA_middle_bin_backscatter.shape[1])
-                aladin_altitude_dim = ncfile.createDimension('aladin_altitude', SCA_middle_bin_altitude.shape[1])
+                aladin_backscatter_dim = ncfile.createDimension('aladin_backscatter', sca_middle_bin_backscatter.shape[1])
+                aladin_altitude_dim = ncfile.createDimension('aladin_altitude', sca_middle_bin_altitude.shape[1])
 
                 nc_ALADIN_latitude = ncfile.createVariable('ALADIN_latitude', 'f4')
                 nc_ALADIN_latitude[:] = latitude_of_DEM_intersection_obs[np.argmin(time_list_aladin)]
@@ -243,10 +243,10 @@ for i in range(len(lat_ALADIN_colocation)):
                 nc_ALADIN_longitude[:] = longitude_of_DEM_intersection_obs[np.argmin(time_list_aladin)]
 
                 nc_ALADIN_backscatter = ncfile.createVariable('ALADIN_backscatter_midBin', 'f4', ('aladin_backscatter',))
-                nc_ALADIN_backscatter[:] = SCA_middle_bin_backscatter_obs
+                nc_ALADIN_backscatter[:] = sca_middle_bin_backscatter_obs
 
                 nc_ALADIN_altitude = ncfile.createVariable('ALADIN_altitude', 'f4', ('aladin_altitude',))
-                nc_ALADIN_altitude[:] = SCA_middle_bin_altitude_obs
+                nc_ALADIN_altitude[:] = sca_middle_bin_altitude_obs
 
                 # caliop write
                 caliop_backscatter_dim = ncfile.createDimension('caliop_backscatter', caliop_beta_532nm.shape[0])
@@ -264,10 +264,10 @@ for i in range(len(lat_ALADIN_colocation)):
                 nc_CALIOP_altitude = ncfile.createVariable('CALIOP_altitude', 'f4', ('caliop_altitude',))
                 nc_CALIOP_altitude[:] = caliop_l2_altitude
 
-                print(SCA_middle_bin_altitude_obs)
-                print(SCA_middle_bin_backscatter_obs)
+                print(sca_middle_bin_altitude_obs)
+                print(sca_middle_bin_backscatter_obs)
 
-                get_beta_plot(SCA_middle_bin_altitude_obs[1:], SCA_middle_bin_backscatter_obs,
+                get_beta_plot(sca_middle_bin_altitude_obs[1:], sca_middle_bin_backscatter_obs,
                               caliop_l2_altitude, caliop_beta_532nm[:, np.argmin(time_list_caliop)],
                               './figures/%s%s%s%s%s%s.png'%(colocation_year, colocation_month,
                                                             colocation_day, ALADIN_hour, ALADIN_minute, ALADIN_second),
