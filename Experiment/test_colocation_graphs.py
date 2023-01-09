@@ -124,6 +124,6 @@ while start_date_datetime <= end_date_datetime:
                                footprint_caliop_lat, footprint_caliop_lon,
                                interval=10)
 
-        plot_grid_tiles(lat_colocation, lon_colocation, footprint_aeolus_lat, footprint_aeolus_lon, footprint_caliop_lat, footprint_caliop_lon)
+        plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff, lon_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff)
 
         quit()
