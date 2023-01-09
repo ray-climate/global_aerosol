@@ -26,9 +26,9 @@ import math
     # m.drawcoastlines()
     # m.fillcontinents()
 
-def plot_grid_tile(lat, lon, interval=10):
+def plot_grid_tiles(lat, lon, interval=10):
     """
-    Plot a regional grid tile in the Sinusoidal Tile Grid projection using Basemap.
+    Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
 
     Parameters
     ----------
@@ -40,20 +40,20 @@ def plot_grid_tile(lat, lon, interval=10):
         Interval between grid lines (in degrees), by default 10
     """
     # Calculate the bounds of the regional grid tile
-    lat_min = math.floor(lat / interval) * interval
-    lat_max = lat_min + interval
-    lon_min = math.floor(lon / interval) * interval
-    lon_max = lon_min + interval
-    lat_mid = lat_min + interval / 2.
-    lon_mid = lon_min + interval / 2.
+    lat_min = math.floor(lat / interval) * interval - interval
+    lat_max = lat_min + 2 * interval
+    lon_min = math.floor(lon / interval) * interval - interval
+    lon_max = lon_min + 2 * interval
+    lat_mid = math.floor(lat / interval) * interval
+    lon_mid = math.floor(lon / interval) * interval
 
     # Create a list of latitudes and longitudes to use as grid lines
-    lats = range(lat_min, lat_max + 1, interval)
-    lons = range(lon_min, lon_max + 1, interval)
-
+    lats = range(lat_min - interval, lat_max + interval + 1, interval)
+    lons = range(lon_min - interval, lon_max + interval + 1, interval)
+    print(lats)
     # Create a Basemap object using the Sinusoidal Tile Grid projection
-    m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
-                llcrnrlon=lon_min, urcrnrlon=lon_max,
+    m = Basemap(projection='merc', llcrnrlat=lat_min - interval, urcrnrlat=lat_max + interval,
+                llcrnrlon=lon_min - interval, urcrnrlon=lon_max + interval,
                 lat_0=lat_mid, lon_0=lon_mid)
 
     # Draw the grid lines
@@ -67,4 +67,4 @@ def plot_grid_tile(lat, lon, interval=10):
     # Show the map
     plt.savefig('./test.png')
 
-plot_grid_tile(0.5, 42, interval=10)
+plot_grid_tiles(0.5, 42, interval=10)
