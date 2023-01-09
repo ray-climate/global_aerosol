@@ -52,4 +52,4 @@ def plot_grid_tiles(lat, lon, interval=10):
     # Show the map
     plt.savefig('./test.png')
 
-plot_grid_tiles(0.5, 42, interval=10)
+# plot_grid_tiles(0.5, 42, interval=10)
