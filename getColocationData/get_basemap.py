@@ -24,12 +24,12 @@ def plot_grid_tiles(lat, lon, interval=10):
         Interval between grid lines (in degrees), by default 10
     """
     # Calculate the bounds of the regional grid tile
-    lat_min = math.floor(lat / interval) * interval - interval
+    lat_min = round(lat / interval) * interval - interval
     lat_max = lat_min + 2 * interval
-    lon_min = math.floor(lon / interval) * interval - interval
+    lon_min = round(lon / interval) * interval - interval
     lon_max = lon_min + 2 * interval
-    lat_mid = math.floor(lat / interval) * interval
-    lon_mid = math.floor(lon / interval) * interval
+    lat_mid = round(lat / interval) * interval
+    lon_mid = round(lon / interval) * interval
 
     # Create a list of latitudes and longitudes to use as grid lines
     lats = range(lat_min - interval, lat_max + interval, int(interval / 2))
