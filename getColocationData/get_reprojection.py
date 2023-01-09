@@ -7,13 +7,15 @@
 
 import math
 
-def reproject_observations(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_caliop, lon_caliop, interval=10):
+def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_aeolus, lon_aeolus, time_aeolus, lat_caliop, lon_caliop, interval=10):
 
     lat_min = math.floor(lat_colocation / interval) * interval - interval
     lat_max = lat_min + 2 * interval
     lon_min = math.floor(lon_colocation / interval) * interval - interval
     lon_max = lon_min + 2 * interval
 
+    print(time_colocation)
+    print(time_aeolus)
     lat_aeolus_cutoff = lat_aeolus[(lat_aeolus > lat_min) & (lat_aeolus < lat_max)]
     lon_aeolus_cutoff = lon_aeolus[(lon_aeolus > lon_min) & (lon_aeolus < lon_max)]
 

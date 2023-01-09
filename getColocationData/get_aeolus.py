@@ -65,5 +65,5 @@ def extract_variables_from_aeolus(nc_file, logger):
     # Log a message indicating that the data has been extracted
     logger.info("Extracted data from AEOLUS file")
 
-    return sca_lat_obs_array, sca_lon_obs_array
+    return sca_lat_obs_array, sca_lon_obs_array, sca_observation_time_array
 
