@@ -42,9 +42,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
 
     x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
     x_caliop, y_caliop = m(lon_caliop, lat_caliop)
-
-    m.scatter(x_aeolus, y_aeolus, marker='o', color='g', s=18, label='AEOLUS')
-    m.scatter(x_caliop, y_caliop, marker='_', color='k', s=5, label='CALIOP')
+    x_colocation, y_colocation = m(lon_colocation, lat_colocation)
 
     # Draw the grid lines
     m.drawparallels(lats, labels=[True,False,False,False])
@@ -53,6 +51,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     # Draw the coastlines and fill the continents
     m.drawcoastlines()
     m.fillcontinents(color='lightgray')
+
+    m.scatter(x_aeolus, y_aeolus, marker='o', color='g', s=18, label='AEOLUS')
+    m.scatter(x_caliop, y_caliop, marker='_', color='k', s=5, label='CALIOP')
+    m.scatter(x_colocation, y_colocation, marker="*", c="r", s=100, label='Colocation')
 
     # Show the map
     plt.savefig('./test.png')
