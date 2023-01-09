@@ -79,9 +79,14 @@ while start_date_datetime <= end_date_datetime:
         with open(input_file, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                lat_aeolus = row['AEOLUS_latitude']
-                lon_aeolus = row['AEOLUS_longitude']
+                lat_aeolus = float(row['AEOLUS_latitude'])
+                lon_aeolus = float(row['AEOLUS_longitude'])
                 caliop_filename = row['CALIOP_filename']
+
+                if lat_aeolus > 180.:
+                    lat_aeolus = lat_aeolus - 360.
+                if lon_aeolus > 180.:
+                    lon_aeolus = lon_aeolus - 360.
 
         logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_aeolus), float(lon_aeolus)))
