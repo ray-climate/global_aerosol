@@ -10,6 +10,7 @@ import sys
 sys.path.append('../')
 
 from getColocationData.get_reprojection import *
+from getColocationData.get_basemap import *
 from getColocationData.get_aeolus import *
 from getColocationData.get_caliop import *
 from datetime import datetime, timedelta
@@ -117,9 +118,12 @@ while start_date_datetime <= end_date_datetime:
 
         (footprint_caliop_lat, footprint_caliop_lon) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
-        reproject_observations(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime,
+        (lat_aeolus_cutoff, lon_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff) = \
+            reproject_observations(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime,
                                footprint_aeolus_lat, footprint_aeolus_lon, footprint_aeolus_time,
                                footprint_caliop_lat, footprint_caliop_lon,
                                interval=10)
+
+        plot_grid_tiles(lat_aeolus, lat_aeolus, interval=10)
 
         quit()
