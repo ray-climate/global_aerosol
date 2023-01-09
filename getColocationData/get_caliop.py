@@ -19,16 +19,16 @@ def find_caliop_file(dir, filename, date):
     else:
         return None
 
-# def extract_variables_from_aeolus(nc_file, logger):
-#     """Extract relevant variables from the CALIOP data"""
-#
-#     caliop_request = Caliop_hdf_reader()
-#     caliop_latitude_list = caliop_request. \
-#         _get_latitude(caliop_colocation_file)
-#     caliop_longitude_list = caliop_request. \
-#         _get_longitude(caliop_colocation_file)
-#     caliop_beta_list = caliop_request. \
-#         _get_calipso_data(filename=caliop_colocation_file,
-#                           variable='Total_Backscatter_Coefficient_532')
-#     print(aeolus_beta_list.shape)
-#     print(caliop_beta_list.shape)
+def extract_variables_from_caliop(nc_file, logger):
+    """Extract relevant variables from the CALIOP data"""
+
+    caliop_request = Caliop_hdf_reader()
+    caliop_latitude_list = caliop_request. \
+        _get_latitude(nc_file)
+    caliop_longitude_list = caliop_request. \
+        _get_longitude(nc_file)
+    caliop_beta_list = caliop_request. \
+        _get_calipso_data(filename=nc_file,
+                          variable='Total_Backscatter_Coefficient_532')
+    print(caliop_beta_list.shape)
+    logger.info("Extracted caliop", caliop_beta_list.shape )

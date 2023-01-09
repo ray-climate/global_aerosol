@@ -111,6 +111,7 @@ while start_date_datetime <= end_date_datetime:
         # If the file is still not found after searching the specified date and the previous and following days, raise an error
         if caliop_colocation_file is None:
             logger.error("CALIOP file not found in specified date or surrounding days")
+        logger.info(caliop_colocation_file)
+        extract_variables_from_caliop(caliop_colocation_file, logger)
 
-        logger.info("Extracted caliop")
         quit()
