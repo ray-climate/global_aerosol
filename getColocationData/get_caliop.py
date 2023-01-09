@@ -32,3 +32,5 @@ def extract_variables_from_caliop(hdf_file, logger):
                           variable='Total_Backscatter_Coefficient_532')
 
     logger.info("Extracted caliop")
+
+    return caliop_latitude_list, caliop_longitude_list
