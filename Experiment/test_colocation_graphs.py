@@ -102,7 +102,7 @@ while start_date_datetime <= end_date_datetime:
         if caliop_colocation_file is None:
             caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
                                                       start_date_datetime - timedelta(days=1))
-        logger.info(caliop_colocation_file)
+        logger.info(start_date_datetime - timedelta(days=1))
         # If the file is still not found, search for the file on the following day
         if caliop_colocation_file is None:
             caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
