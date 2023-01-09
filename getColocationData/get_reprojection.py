@@ -29,8 +29,9 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
     lon_max = lon_min + 2 * interval
 
     index_colocation = np.where(time_aeolus == time_colocation)[0][0]
-    print(time_colocation)
-    print(time_aeolus)
+    print(lon_aeolus_filtered)
+    print(lon_min)
+    print(lon_max)
     lat_aeolus_cutoff = lat_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max)]
     lon_aeolus_cutoff = lon_aeolus_filtered[(lon_aeolus_filtered > lon_min) & (lon_aeolus_filtered < lon_max)]
 
