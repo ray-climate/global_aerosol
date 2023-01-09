@@ -48,8 +48,8 @@ def plot_grid_tiles(lat, lon, interval=10):
     lon_mid = math.floor(lon / interval) * interval
 
     # Create a list of latitudes and longitudes to use as grid lines
-    lats = range(lat_min - interval, lat_max + interval, interval / 2)
-    lons = range(lon_min - interval, lon_max + interval, interval / 2)
+    lats = range(lat_min - interval, lat_max + interval, int(interval / 2))
+    lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
