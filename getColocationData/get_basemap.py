@@ -10,22 +10,6 @@ from matplotlib.gridspec import GridSpec
 import matplotlib.pyplot as plt
 import math
 
-    # fig = plt.figure(constrained_layout=True, figsize=(30, 20))
-    # gs = GridSpec(3, 3, figure=fig)
-    #
-    # ax1 = fig.add_subplot(gs[0, :])
-    #
-    # m = Basemap(llcrnrlon=int(sca_lon_obs_array[index] - 20.),
-    #             llcrnrlat=int(sca_lat_obs_array[index] - 20.),
-    #             urcrnrlon=int(sca_lon_obs_array[index] + 20.),
-    #             urcrnrlat=int(sca_lat_obs_array[index] + 20.),
-    #             rsphere=(6378137.00, 6356752.3142),
-    #             resolution='l', projection='sinu',
-    #             lat_0=aeolus_lat_list[50], lon_0=aeolus_lon_list[50], suppress_ticks='False')
-    #
-    # m.drawcoastlines()
-    # m.fillcontinents()
-
 def plot_grid_tiles(lat, lon, interval=10):
     """
     Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
