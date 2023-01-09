@@ -31,4 +31,4 @@ def extract_variables_from_caliop(hdf_file, logger):
         _get_calipso_data(filename=hdf_file,
                           variable='Total_Backscatter_Coefficient_532')
 
-    logger.info("Extracted caliop", caliop_beta_list.shape )
+    logger.info("Extracted caliop")
