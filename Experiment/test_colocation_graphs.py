@@ -80,17 +80,17 @@ while start_date_datetime <= end_date_datetime:
         with open(input_file, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                lat_aeolus = float(row['AEOLUS_latitude'])
-                lon_aeolus = float(row['AEOLUS_longitude'])
+                lat_colocation = float(row['AEOLUS_latitude'])
+                lon_colocation = float(row['AEOLUS_longitude'])
                 caliop_filename = row['CALIOP_filename']
 
-                if lat_aeolus > 180.:
-                    lat_aeolus = lat_aeolus - 360.
-                if lon_aeolus > 180.:
-                    lon_aeolus = lon_aeolus - 360.
+                if lat_colocation > 180.:
+                    lat_colocation = lat_colocation - 360.
+                if lon_colocation > 180.:
+                    lon_colocation = lon_colocation - 360.
 
         logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_aeolus), float(lon_aeolus)))
+        logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_colocation), float(lon_colocation)))
         # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
         #                                       savefig_dir)
 
@@ -119,11 +119,11 @@ while start_date_datetime <= end_date_datetime:
         (footprint_caliop_lat, footprint_caliop_lon) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
         (lat_aeolus_cutoff, lon_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff) = \
-            reproject_observations(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime,
+            reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
                                footprint_aeolus_lat, footprint_aeolus_lon, footprint_aeolus_time,
                                footprint_caliop_lat, footprint_caliop_lon,
                                interval=10)
-        print(lat_aeolus, lon_aeolus)
-        plot_grid_tiles(lat_aeolus, lon_aeolus, interval=10)
+
+        plot_grid_tiles(lat_colocation, lon_colocation, footprint_aeolus_lat, footprint_aeolus_lon, footprint_caliop_lat, footprint_caliop_lon)
 
         quit()
