@@ -123,7 +123,7 @@ while start_date_datetime <= end_date_datetime:
                                footprint_aeolus_lat, footprint_aeolus_lon, footprint_aeolus_time,
                                footprint_caliop_lat, footprint_caliop_lon,
                                interval=10)
-
+        print(lat_aeolus, lon_aeolus)
         plot_grid_tiles(lat_aeolus, lon_aeolus, interval=10)
 
         quit()
