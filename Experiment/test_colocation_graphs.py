@@ -91,7 +91,7 @@ while start_date_datetime <= end_date_datetime:
                                  (search_year, search_month, search_year, search_month, search_day)
 
         (footprint_aeolus_lat, footprint_aeolus_lon) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
-        print(footprint_aeolus_lat)
+
         # Search for the file on the specified date
         caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
 
@@ -109,6 +109,7 @@ while start_date_datetime <= end_date_datetime:
         if caliop_colocation_file is None:
             logger.error("CALIOP file not found in specified date or surrounding days")
 
-        extract_variables_from_caliop(caliop_colocation_file, logger)
-
+        (footprint_caliop_lat, footprint_caliop_lon) = extract_variables_from_caliop(caliop_colocation_file, logger)
+        print(footprint_aeolus_lat)
+        print(footprint_caliop_lat)
         quit()
