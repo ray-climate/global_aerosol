@@ -52,7 +52,7 @@ def plot_grid_tile(lat, lon, interval=10):
     lons = range(lon_min, lon_max + 1, interval)
 
     # Create a Basemap object using the Sinusoidal Tile Grid projection
-    m = Basemap(projection='sinu', llcrnrlat=lat_min, urcrnrlat=lat_max,
+    m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
                 lat_0=lat_mid, lon_0=lon_mid)
 
