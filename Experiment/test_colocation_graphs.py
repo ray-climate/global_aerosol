@@ -9,6 +9,7 @@ import os
 import sys
 sys.path.append('../')
 
+from getColocationData.get_reprojection import *
 from getColocationData.get_aeolus import *
 from getColocationData.get_caliop import *
 from datetime import datetime, timedelta
@@ -110,6 +111,10 @@ while start_date_datetime <= end_date_datetime:
             logger.error("CALIOP file not found in specified date or surrounding days")
 
         (footprint_caliop_lat, footprint_caliop_lon) = extract_variables_from_caliop(caliop_colocation_file, logger)
-        print(footprint_aeolus_lat)
-        print(footprint_caliop_lat)
+
+        reproject_observations(lat_aeolus, lon_aeolus,
+                               footprint_aeolus_lat, footprint_aeolus_lon,
+                               footprint_caliop_lat, footprint_caliop_lon,
+                               interval=10)
+
         quit()
