@@ -95,8 +95,6 @@ while start_date_datetime <= end_date_datetime:
         # Search for the file on the specified date
         caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
 
-        caliop_colocation_file = CALIOP_JASMIN_dir + '/%s/%s_%s_%s/' \
-                                 % (search_year, search_year, search_month, search_day) + caliop_filename
         print(caliop_colocation_file)
         # If the file is not found, search for the file on the previous day
         if caliop_colocation_file is None:
