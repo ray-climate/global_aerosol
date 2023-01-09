@@ -112,7 +112,7 @@ while start_date_datetime <= end_date_datetime:
 
         (footprint_caliop_lat, footprint_caliop_lon) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
-        reproject_observations(lat_aeolus, lon_aeolus,
+        reproject_observations(float(lat_aeolus), float(lon_aeolus),
                                footprint_aeolus_lat, footprint_aeolus_lon,
                                footprint_caliop_lat, footprint_caliop_lon,
                                interval=10)
