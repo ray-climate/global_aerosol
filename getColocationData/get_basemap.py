@@ -44,13 +44,17 @@ def plot_grid_tile(lat, lon, interval=10):
     lat_max = lat_min + interval
     lon_min = math.floor(lon / interval) * interval
     lon_max = lon_min + interval
+    lat_mid = lat_min + interval / 2.
+    lon_mid = lon_min + interval / 2.
 
     # Create a list of latitudes and longitudes to use as grid lines
     lats = range(lat_min, lat_max + 1, interval)
     lons = range(lon_min, lon_max + 1, interval)
 
     # Create a Basemap object using the Sinusoidal Tile Grid projection
-    m = Basemap(projection='sinu', llcrnrlat=lat_min, urcrnrlat=lat_max, llcrnrlon=lon_min, urcrnrlon=lon_max)
+    m = Basemap(projection='sinu', llcrnrlat=lat_min, urcrnrlat=lat_max,
+                llcrnrlon=lon_min, urcrnrlon=lon_max,
+                lat_0=lat_mid, lon_0=lon_mid)
 
     # Draw the grid lines
     m.drawparallels(lats, labels=[True,False,False,False])
