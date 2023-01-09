@@ -97,20 +97,21 @@ while start_date_datetime <= end_date_datetime:
 
         caliop_colocation_file = CALIOP_JASMIN_dir + '/%s/%s_%s_%s/' \
                                  % (search_year, search_year, search_month, search_day) + caliop_filename
-
+        logger.info(caliop_colocation_file)
         # If the file is not found, search for the file on the previous day
         if caliop_colocation_file is None:
             caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
                                                       start_date_datetime - timedelta(days=1))
-
+        logger.info(caliop_colocation_file)
         # If the file is still not found, search for the file on the following day
         if caliop_colocation_file is None:
             caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
                                                       start_date_datetime + timedelta(days=1))
-
+        logger.info(caliop_colocation_file)
         # If the file is still not found after searching the specified date and the previous and following days, raise an error
         if caliop_colocation_file is None:
             logger.error("CALIOP file not found in specified date or surrounding days")
+
         logger.info(caliop_colocation_file)
         extract_variables_from_caliop(caliop_colocation_file, logger)
 
