@@ -83,16 +83,16 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid = beta_caliop
 
-    plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
+    fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
 
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax2)
 
     # Add the colorbar to the divider
-    cbar = divider.append_axes("right", size="5%", pad=0.05)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
 
     # Create the colorbar
-    cbar = plt.colorbar(extend='both',)
+    cbar = plt.colorbar(fig2, cax=cax, extend='both')
     # cbar = plt.colorbar( shrink=0.8, pad=0.002)
     cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
