@@ -56,3 +56,11 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
     return lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff
 
 
+def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
+
+    print(alt_caliop)
+    print(alt_aeolus[0,:])
+
+
+
+

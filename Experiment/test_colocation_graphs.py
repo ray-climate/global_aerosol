@@ -116,7 +116,7 @@ while start_date_datetime <= end_date_datetime:
         if caliop_colocation_file is None:
             logger.error("CALIOP file not found in specified date or surrounding days")
 
-        (footprint_lat_caliop, footprint_lon_caliop, altitude_caliop, beta_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
+        (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
         (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff) = \
             reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
@@ -124,8 +124,10 @@ while start_date_datetime <= end_date_datetime:
                                footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
                                interval=10)
 
+        resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
+
         plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                         lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff,
-                        altitude_caliop, beta_caliop_cutoff)
+                        alt_caliop, beta_caliop_cutoff)
 
         quit()
