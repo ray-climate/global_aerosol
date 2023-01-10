@@ -110,7 +110,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     print(lat_aeolus.shape)
     print(alt_aeolus.shape)
     print(beta_aeolus.shape)
-
+    print(alt_aeolus)
     # Show the map
     plt.savefig('./test.png')
 
