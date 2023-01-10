@@ -107,6 +107,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     for tick in ax2.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
+    print(lat_aeolus.shape)
+    print(alt_aeolus.shape)
+    print(beta_aeolus.shape)
+
     # Show the map
     plt.savefig('./test.png')
 
