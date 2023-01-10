@@ -72,7 +72,7 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
 
     # Replace any -1 values in alt_aeolus with NaN values
     alt_aeolus[alt_aeolus == -1] = np.nan
-
+    data_aeolus[data_aeolus == -1.e6] = np.nan
     # Convert altitude values from meters to kilometers
     alt_aeolus *= 1e-3
 
