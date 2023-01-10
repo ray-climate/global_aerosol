@@ -29,7 +29,11 @@ def _cliop_cmp():
     return cliop_cmp
 
 
-def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus, lat_caliop, lon_caliop, alt_caliop, beta_caliop, interval=10):
+def plot_grid_tiles(lat_colocation, lon_colocation,
+                    lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus,
+                    lat_caliop, lon_caliop, alt_caliop, beta_caliop,
+                    savefigname,
+                    interval=10):
     """
     Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
 
@@ -151,6 +155,6 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
 
 
     # Show the map
-    plt.savefig('./test.png')
+    plt.savefig(savefigname)
 
 # plot_grid_tiles(0.5, 42, interval=10)
