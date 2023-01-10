@@ -77,7 +77,7 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
     alt_aeolus *= 1e-3
 
     # convert aeolus data with the given scaling factor
-    data_aeolus *= 1e3
+    data_aeolus = data_aeolus * 1.e-6 * 1.e3
 
     # Create empty array for resampled data, with same shape as alt_aeolus
     data_aeolus_resample = np.zeros((alt_aeolus.shape[0], np.size(alt_caliop)))
