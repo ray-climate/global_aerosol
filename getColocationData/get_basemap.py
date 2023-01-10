@@ -117,7 +117,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     ax3 = fig.add_subplot(gs[2, 0:2])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
-    print(z_grid_aeolus)
+
     fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
                           cmap=_cliop_cmp())
 
@@ -137,7 +137,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     ax3.set_ylabel('Height [km]', fontsize=30)
 
     ax3.set_ylim([0., 25.])
-    ax3.set_title('CALIOP L2 Backscatter coeff.', fontsize=30)
+    ax3.set_title('AEOLUS L2 Backscatter coeff.', fontsize=30)
     for tick in ax3.xaxis.get_major_ticks():
         tick.label.set_fontsize(25)
     for tick in ax3.yaxis.get_major_ticks():
