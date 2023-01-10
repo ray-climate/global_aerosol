@@ -87,6 +87,18 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
 
+    plt.xlabel('Latitude', fontsize=30)
+    plt.ylabel('Height [km]', fontsize=30)
+
+    plt.ylim([0., 25.])
+    plt.title('CALIOP L2 Backscatter coeff.', fontsize=30)
+    for tick in ax2.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax2.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    plt.tight_layout()
+
+
     # Show the map
     plt.savefig('./test.png')
 
