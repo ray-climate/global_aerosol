@@ -8,12 +8,13 @@
 import numpy as np
 import math
 
-def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_aeolus, lon_aeolus, time_aeolus, lat_caliop, lon_caliop, interval=10):
+def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_aeolus, lon_aeolus, time_aeolus, lat_caliop, lon_caliop, beta_caliop, interval=10):
 
     # Find the index in the time_aeolus array where the value is equal to time_colocation
     index_colocation = np.where(time_aeolus == time_colocation)[0][0]
 
     # Set the start and end indices for the filtered lat and lon arrays
+    # plus minus 50 to ensure only the target orbit from the entire .nc file is extracted
     aeolus_index_start = index_colocation - 50
     aeolus_index_end = index_colocation + 50
 
@@ -42,12 +43,9 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
     lat_caliop_cutoff = lat_caliop[(lat_caliop > lat_min) & (lat_caliop < lat_max)]
     # Filter the lon_caliop array based on the latitude range and store the result in lon_caliop_cutoff
     lon_caliop_cutoff = lon_caliop[(lat_caliop > lat_min) & (lat_caliop < lat_max)]
-
+    print(beta_caliop.shape)
+    quit()
+    beta_caliop_cutoff = beta_caliop
     return lat_aeolus_cutoff, lon_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff
-
-
-
-
-
 
 
