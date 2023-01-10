@@ -29,6 +29,10 @@ def extract_variables_from_aeolus(nc_file, logger):
         sca_middle_bin_extinction = nc_data['sca']['SCA_middle_bin_extinction'][:]
     print(len(L1B_start_time_obs))
     print(len(sca_observation_time))
+    print(L1B_start_time_obs[0])
+    print(sca_observation_time[0])
+    print(L1B_start_time_obs[10])
+    print(sca_observation_time[10])
     print(sca_middle_bin_backscatter.shape)
     quit()
     # Convert time variables to datetime objects
