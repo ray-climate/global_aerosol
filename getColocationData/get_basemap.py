@@ -55,9 +55,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
     fig = plt.figure(constrained_layout=True, figsize=(30, 20))
-    gs = GridSpec(3, 3, figure=fig)
+    gs = GridSpec(4, 4, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0, :])
+    ax1 = fig.add_subplot(gs[0:1, :])
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
@@ -79,7 +79,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     m.scatter(x_caliop, y_caliop, marker='_', color='k', s=5, label='CALIOP')
     m.scatter(x_colocation, y_colocation, marker="*", c="r", s=100, label='Colocation')
 
-    ax2 = fig.add_subplot(gs[1, 0:2])
+    ax2 = fig.add_subplot(gs[2, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid_caliop = beta_caliop
 
@@ -105,7 +105,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     ax2.set_xlabel('Latitude', fontsize=30)
     ax2.set_ylabel('Height [km]', fontsize=30)
 
-    ax2.set_xlim([lat_caliop[0], lat_caliop[-1]])
+    ax2.set_xlim([np.min(lat_caliop), np.max(lat_caliop)])
     ax2.set_ylim([0., 25.])
     ax2.set_title('CALIOP L2 Backscatter coeff.', fontsize=30)
     for tick in ax2.xaxis.get_major_ticks():
@@ -117,7 +117,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     #### add subplot of aeolus backscatter
     ######################################################################
 
-    ax3 = fig.add_subplot(gs[2, 0:2])
+    ax3 = fig.add_subplot(gs[3, 0:2])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
@@ -141,7 +141,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     ax3.set_xlabel('Latitude', fontsize=30)
     ax3.set_ylabel('Height [km]', fontsize=30)
 
-    ax3.set_xlim([lat_caliop[0], lat_caliop[-1]])
+    ax3.set_xlim([np.min(lat_caliop), np.max(lat_caliop)])
     ax3.set_ylim([0., 25.])
     ax3.set_title('AEOLUS L2 Backscatter coeff.', fontsize=30)
     for tick in ax3.xaxis.get_major_ticks():
