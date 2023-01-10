@@ -35,6 +35,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     lats = range(lat_min - interval, lat_max + interval, int(interval / 2))
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
+    fig = plt.figure(constrained_layout=True, figsize=(30, 20))
+    gs = GridSpec(3, 3, figure=fig)
+    ax1 = fig.add_subplot(gs[0, :])
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
