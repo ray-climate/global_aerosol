@@ -83,7 +83,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     z_grid = beta_caliop
 
     plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
-    cbar = plt.colorbar(extend='both', shrink=0.8, pad=0.01)
+    cbar = plt.colorbar(extend='both', shrink=0.8, pad=0.002)
     cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
 
