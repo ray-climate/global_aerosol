@@ -67,8 +67,8 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     x_colocation, y_colocation = m(lon_colocation, lat_colocation)
 
     # Draw the grid lines
-    m.drawparallels(lats, labels=[True,False,False,False])
-    m.drawmeridians(lons, labels=[False,False,False,True])
+    m.drawparallels(lats, labels=[True,False,False,False], fontsize=25)
+    m.drawmeridians(lons, labels=[False,False,False,True], fontsize=25)
 
     # Draw the coastlines and fill the continents
     m.drawcoastlines()
@@ -96,8 +96,6 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
         tick.label.set_fontsize(25)
     for tick in ax2.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
-    plt.tight_layout()
-
 
     # Show the map
     plt.savefig('./test.png')
