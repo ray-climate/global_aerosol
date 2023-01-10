@@ -86,7 +86,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     ######################################################################
     #### add subplot of caliop backscatter
     ######################################################################
-    fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
+    #fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
+    fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
+                          cmap='viridis')
 
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax2)
@@ -103,6 +105,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     ax2.set_xlabel('Latitude', fontsize=30)
     ax2.set_ylabel('Height [km]', fontsize=30)
 
+    ax2.set_xlim([lat_caliop[0], lat_caliop[-1]])
     ax2.set_ylim([0., 25.])
     ax2.set_title('CALIOP L2 Backscatter coeff.', fontsize=30)
     for tick in ax2.xaxis.get_major_ticks():
@@ -138,6 +141,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     ax3.set_xlabel('Latitude', fontsize=30)
     ax3.set_ylabel('Height [km]', fontsize=30)
 
+    ax3.set_xlim([lat_caliop[0], lat_caliop[-1]])
     ax3.set_ylim([0., 25.])
     ax3.set_title('AEOLUS L2 Backscatter coeff.', fontsize=30)
     for tick in ax3.xaxis.get_major_ticks():
