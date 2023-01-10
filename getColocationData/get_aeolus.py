@@ -33,6 +33,8 @@ def extract_variables_from_aeolus(nc_file, logger):
     print(sca_observation_time[0])
     print(L1B_start_time_obs[10])
     print(sca_observation_time[10])
+    print(L1B_start_time_obs[2000])
+    print(sca_observation_time[2000])
     print(sca_middle_bin_backscatter.shape)
     quit()
     # Convert time variables to datetime objects
