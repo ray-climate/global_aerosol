@@ -58,9 +58,10 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
 
 def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
 
+    alt_aeolus[alt_aeolus == -1] = np.nan
     print(alt_caliop)
     print(alt_aeolus[0,:])
-
+    quit()
 
 
 
