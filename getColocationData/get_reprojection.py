@@ -8,7 +8,7 @@
 import numpy as np
 import math
 
-def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_aeolus, lon_aeolus, time_aeolus, lat_caliop, lon_caliop, beta_caliop, interval=10):
+def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_aeolus, lon_aeolus, alt_aeolus, time_aeolus, lat_caliop, lon_caliop, beta_caliop, interval=10):
 
     # Find the index in the time_aeolus array where the value is equal to time_colocation
     index_colocation = np.where(time_aeolus == time_colocation)[0][0]
@@ -28,7 +28,9 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
     # Filter the lat and lon arrays based on the start and end indices
     lat_aeolus_filtered = lat_aeolus[aeolus_index_start: aeolus_index_end][:]
     lon_aeolus_filtered = lon_aeolus[aeolus_index_start: aeolus_index_end][:]
-
+    alt_aeolus_filtered = alt_aeolus[aeolus_index_start: aeolus_index_end, :][:]
+    print(alt_aeolus_filtered.shape)
+    quit()
     # Compute the minimum and maximum values for the latitude and longitude ranges
     lat_min = math.floor(lat_colocation / interval) * interval - interval
     lat_max = lat_min + 2 * interval
@@ -39,6 +41,7 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
     lat_aeolus_cutoff = lat_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max)]
     # Filter the lon_aeolus_filtered array based on the latitude range and store the result in lon_aeolus_cutoff
     lon_aeolus_cutoff = lon_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max)]
+    # alt_aeolus_cutoff =
     # Filter the lat_caliop array based on the latitude range and store the result in lat_caliop_cutoff
     lat_caliop_cutoff = lat_caliop[(lat_caliop > lat_min) & (lat_caliop < lat_max)]
     # Filter the lon_caliop array based on the latitude range and store the result in lon_caliop_cutoff
