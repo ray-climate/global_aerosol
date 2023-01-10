@@ -97,7 +97,7 @@ while start_date_datetime <= end_date_datetime:
         aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
                                  (search_year, search_month, search_year, search_month, search_day)
 
-        (footprint_aeolus_lat, footprint_aeolus_lon, footprint_aeolus_time) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
+        (footprint_lat_aeolus, footprint_lon_aeolus, footprint_time_aeolus) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
 
         # Search for the file on the specified date
         caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
@@ -116,12 +116,12 @@ while start_date_datetime <= end_date_datetime:
         if caliop_colocation_file is None:
             logger.error("CALIOP file not found in specified date or surrounding days")
 
-        (footprint_caliop_lat, footprint_caliop_lon) = extract_variables_from_caliop(caliop_colocation_file, logger)
+        (footprint_lat_caliop, footprint_lon_caliop, beta_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
         (lat_aeolus_cutoff, lon_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff) = \
             reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
-                               footprint_aeolus_lat, footprint_aeolus_lon, footprint_aeolus_time,
-                               footprint_caliop_lat, footprint_caliop_lon,
+                               footprint_lat_aeolus, footprint_lon_aeolus, footprint_time_aeolus,
+                               footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
                                interval=10)
 
         plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff, lon_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff)

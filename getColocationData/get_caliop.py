@@ -33,4 +33,4 @@ def extract_variables_from_caliop(hdf_file, logger):
 
     logger.info("Extracted caliop")
 
-    return caliop_latitude_list, caliop_longitude_list
+    return caliop_latitude_list, caliop_longitude_list, caliop_beta_list
