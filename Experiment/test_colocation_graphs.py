@@ -97,8 +97,8 @@ while start_date_datetime <= end_date_datetime:
         aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
                                  (search_year, search_month, search_year, search_month, search_day)
 
-        (footprint_lat_aeolus, footprint_lon_aeolus, footprint_time_aeolus, beta_aeolus_mb) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
-        print(beta_aeolus_mb.shape)
+        (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
+        print(altitude_aeolus.shape)
         print(footprint_lat_aeolus.shape)
         quit()
         # Search for the file on the specified date

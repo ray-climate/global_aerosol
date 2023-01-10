@@ -28,9 +28,6 @@ def extract_variables_from_aeolus(nc_file, logger):
         sca_middle_bin_backscatter = nc_data['sca']['SCA_middle_bin_backscatter'][:]
         sca_middle_bin_extinction = nc_data['sca']['SCA_middle_bin_extinction'][:]
 
-    print(sca_middle_bin_altitude_obs.shape)
-    print(sca_middle_bin_backscatter.shape)
-    quit()
     # Convert time variables to datetime objects
     sca_observation_time_dt = num2date(sca_observation_time, units="s since 2000-01-01",
                                        only_use_cftime_datetimes=False)
@@ -41,24 +38,27 @@ def extract_variables_from_aeolus(nc_file, logger):
     sca_observation_time_list = []
     sca_lat_obs_list = []
     sca_lon_obs_list = []
+    sca_alt_obs_list = []
     sca_middle_bin_backscatter_list = []
     sca_middle_bin_extinction_list = []
 
     # Iterate through the AEOLUS data, selecting only data points that have a corresponding L1B_start_time_obs value
 
-    for time, lat, lon, backscatter, extinction in zip(sca_observation_time_dt, latitude_of_DEM_intersection_obs,
-                                                       longitude_of_DEM_intersection_obs, sca_middle_bin_backscatter,
-                                                       sca_middle_bin_extinction):
+    for time, lat, lon, alt, backscatter, extinction in zip(sca_observation_time_dt, latitude_of_DEM_intersection_obs,
+                                                            longitude_of_DEM_intersection_obs, sca_middle_bin_altitude_obs,
+                                                            sca_middle_bin_backscatter, sca_middle_bin_extinction):
         if time in L1B_start_time_obs_dt:
             sca_observation_time_list.append(time)
             sca_lat_obs_list.append(lat)
             sca_lon_obs_list.append(lon)
+            sca_alt_obs_list.append(alt)
             sca_middle_bin_backscatter_list.append(backscatter)
             sca_middle_bin_extinction_list.append(extinction)
 
     sca_observation_time_array = np.asarray(sca_observation_time_list)
     sca_lat_obs_array = np.asarray(sca_lat_obs_list)
     sca_lon_obs_array = np.asarray(sca_lon_obs_list)
+    sca_alt_obs_array = np.asarray(sca_alt_obs_list)
     sca_middle_bin_backscatter_array = np.asarray(sca_middle_bin_backscatter_list)
     sca_middle_bin_extinction_array = np.asarray(sca_middle_bin_extinction_list)
 
@@ -68,5 +68,5 @@ def extract_variables_from_aeolus(nc_file, logger):
     # Log a message indicating that the data has been extracted
     logger.info("Extracted data from AEOLUS file")
 
-    return sca_lat_obs_array, sca_lon_obs_array, sca_observation_time_array, sca_middle_bin_backscatter_array
+    return sca_lat_obs_array, sca_lon_obs_array, sca_alt_obs_array, sca_observation_time_array, sca_middle_bin_backscatter_array
 
