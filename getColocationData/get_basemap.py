@@ -7,10 +7,28 @@
 
 from mpl_toolkits.basemap import Basemap
 from matplotlib.gridspec import GridSpec
+import matplotlib.colors as colors
 import matplotlib.pyplot as plt
-import math
+import numpy as np
 
-def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_caliop, lon_caliop, interval=10):
+
+def _cliop_cmp():
+    from matplotlib.colors import ListedColormap
+    from matplotlib import cm
+
+    rainbow = cm.get_cmap('jet', 25)
+    rainbow_colors = rainbow(np.linspace(0, 1, 30))
+
+    gray = cm.get_cmap('gray', 12)
+    gray_colors = gray(np.linspace(0, 1, 12))
+
+    cliop_color = np.vstack((rainbow_colors, gray_colors))
+    cliop_cmp = ListedColormap(cliop_color)
+
+    return cliop_cmp
+
+
+def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_caliop, lon_caliop, alt_caliop, beta_caliop, interval=10):
     """
     Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
 
@@ -37,6 +55,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
 
     fig = plt.figure(constrained_layout=True, figsize=(30, 20))
     gs = GridSpec(3, 3, figure=fig)
+
     ax1 = fig.add_subplot(gs[0, :])
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
@@ -58,6 +77,15 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     m.scatter(x_aeolus, y_aeolus, marker='o', color='g', s=18, label='AEOLUS')
     m.scatter(x_caliop, y_caliop, marker='_', color='k', s=5, label='CALIOP')
     m.scatter(x_colocation, y_colocation, marker="*", c="r", s=100, label='Colocation')
+
+    ax2 = fig.add_subplot(gs[1, :])
+    x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
+    z_grid = beta_caliop
+
+    plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
+    cbar = plt.colorbar(extend='both', shrink=0.8)
+    cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
+    cbar.ax.tick_params(labelsize=20)
 
     # Show the map
     plt.savefig('./test.png')
