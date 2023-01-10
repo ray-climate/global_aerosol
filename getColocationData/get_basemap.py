@@ -89,7 +89,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     divider = make_axes_locatable(ax2)
 
     # Add the colorbar to the divider
-    cax = divider.append_axes("right", size="5%", pad=0.05)
+    cax = divider.append_axes("right", size="1%", pad=0.05)
 
     # Create the colorbar
     cbar = plt.colorbar(fig2, cax=cax, extend='both', shrink=0.8)
