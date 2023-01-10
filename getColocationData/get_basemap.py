@@ -81,9 +81,12 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
 
     ax2 = fig.add_subplot(gs[1, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
-    z_grid = beta_caliop
+    z_grid_caliop = beta_caliop
 
-    fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
+    ######################################################################
+    #### add subplot of caliop backscatter
+    ######################################################################
+    fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
 
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax2)
@@ -107,10 +110,40 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     for tick in ax2.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
-    print(lat_aeolus.shape)
-    print(alt_aeolus.shape)
-    print(beta_aeolus.shape)
-    print(alt_aeolus)
+    ######################################################################
+    #### add subplot of aeolus backscatter
+    ######################################################################
+
+    ax3 = fig.add_subplot(gs[2, 0:2])
+    x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
+    z_grid_aeolus = beta_aeolus
+
+    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, beta_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
+                          cmap=_cliop_cmp())
+
+    # Create an axes divider for the main plot
+    divider = make_axes_locatable(ax3)
+
+    # Add the colorbar to the divider
+    cax = divider.append_axes("right", size="1.5%", pad=0.1)
+
+    # Create the colorbar
+    cbar = plt.colorbar(fig3, cax=cax, extend='both', shrink=0.6)
+    # cbar = plt.colorbar( shrink=0.8, pad=0.002)
+    cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
+    cbar.ax.tick_params(labelsize=20)
+
+    ax3.set_xlabel('Latitude', fontsize=30)
+    ax3.set_ylabel('Height [km]', fontsize=30)
+
+    ax3.set_ylim([0., 25.])
+    ax3.set_title('CALIOP L2 Backscatter coeff.', fontsize=30)
+    for tick in ax3.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax3.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+
+
     # Show the map
     plt.savefig('./test.png')
 

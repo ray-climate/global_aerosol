@@ -57,11 +57,45 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
 
 
 def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
+    """
+    Resample the input data_aeolus based on the altitude values in alt_aeolus and alt_caliop.
 
+    Parameters:
+        lat_aeolus: numpy array, latitude values for data_aeolus
+        alt_aeolus: numpy array, altitude values for data_aeolus, unit -> metres.
+        data_aeolus: numpy array, input data to be resampled,
+        alt_caliop: numpy array, altitude values to resample data_aeolus to, unit -> km.
+
+    Returns:
+        data_aeolus_resample: numpy array, resampled data based on alt_caliop
+    """
+
+    # Replace any -1 values in alt_aeolus with NaN values
     alt_aeolus[alt_aeolus == -1] = np.nan
-    print(alt_caliop)
-    print(alt_aeolus[0,:])
-    quit()
+
+    # Convert altitude values from meters to kilometers
+    alt_aeolus *= 1e3
+
+    # convert aeolus data with the given scaling factor
+    data_aeolus *= 1e-6
+
+    # Create empty array for resampled data, with same shape as alt_aeolus
+    data_aeolus_resample = np.zeros(alt_aeolus.shape[0], (np.size(alt_caliop)))
+    data_aeolus_resample[:] = np.nan
+
+    # Iterate through rows and columns of alt_aeolus and data_aeolus
+    for i in range(alt_aeolus.shape[0]):
+        alt_aeolus_i = alt_aeolus[i, :]
+        for k in range(np.size(alt_aeolus_i)):
+            if alt_aeolus_i[k] > 0:
+                if (k + 1) < len(alt_aeolus_i):
+                    # Resample data based on nearest altitude value less than current value in alt_caliop
+                    data_aeolus_resample[i, (alt_caliop < alt_aeolus_i[k]) & (alt_caliop > alt_aeolus_i[k + 1])] = \
+                    data_aeolus[i, k]
+
+    return data_aeolus_resample
+
+
 
 
 
