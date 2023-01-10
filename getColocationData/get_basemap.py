@@ -118,7 +118,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, alt_
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
-    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, beta_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
+    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
                           cmap=_cliop_cmp())
 
     # Create an axes divider for the main plot
