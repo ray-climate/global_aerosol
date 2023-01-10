@@ -54,6 +54,9 @@ def extract_variables_from_aeolus(nc_file, logger):
             sca_alt_obs_list.append(alt)
             sca_middle_bin_backscatter_list.append(backscatter)
             sca_middle_bin_extinction_list.append(extinction)
+            print(time)
+            print(lat)
+            print(backscatter)
 
     sca_observation_time_array = np.asarray(sca_observation_time_list)
     sca_lat_obs_array = np.asarray(sca_lat_obs_list)
