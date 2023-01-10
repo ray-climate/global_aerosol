@@ -89,8 +89,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     divider = make_axes_locatable(ax2)
 
     # Add the colorbar to the divider
-    cbar = divider.append_axes("right", size="5%", extend='both', pad=0.05)
+    cbar = divider.append_axes("right", size="5%", pad=0.05)
 
+    # Create the colorbar
+    cbar = plt.colorbar(extend='both',)
     # cbar = plt.colorbar( shrink=0.8, pad=0.002)
     cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
