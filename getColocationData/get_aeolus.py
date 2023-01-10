@@ -22,6 +22,10 @@ def extract_variables_from_aeolus(nc_file, logger):
         L1B_start_time_obs = list(map(int, nc_data['observations']['L1B_start_time_obs'][:]))
         latitude_of_DEM_intersection_obs = nc_data['observations']['latitude_of_DEM_intersection_obs'][:]
         longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
+        latitude_of_DEM_intersection_obs[
+        0:len(latitude_of_DEM_intersection_obs) - 1] = latitude_of_DEM_intersection_obs[1:]
+        longitude_of_DEM_intersection_obs[
+        0:len(longitude_of_DEM_intersection_obs) - 1] = longitude_of_DEM_intersection_obs[1:]
         sca_observation_time = list(map(int, nc_data['sca']['SCA_time_obs'][:]))
 
         sca_middle_bin_altitude_obs = nc_data['sca']['SCA_middle_bin_altitude_obs'][:]
@@ -54,9 +58,6 @@ def extract_variables_from_aeolus(nc_file, logger):
             sca_alt_obs_list.append(alt)
             sca_middle_bin_backscatter_list.append(backscatter)
             sca_middle_bin_extinction_list.append(extinction)
-            print(time)
-            print(lat)
-            print(backscatter)
 
     sca_observation_time_array = np.asarray(sca_observation_time_list)
     sca_lat_obs_array = np.asarray(sca_lat_obs_list)
