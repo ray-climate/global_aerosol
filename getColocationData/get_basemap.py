@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        09/01/2023 13:23
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.basemap import Basemap
 from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
@@ -83,7 +84,14 @@ def plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus, lon_aeolus, lat_
     z_grid = beta_caliop
 
     plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
-    cbar = plt.colorbar(extend='both', shrink=0.8, pad=0.002)
+
+    # Create an axes divider for the main plot
+    divider = make_axes_locatable(ax2)
+
+    # Add the colorbar to the divider
+    cbar = divider.append_axes("right", size="5%", extend='both', pad=0.05)
+
+    # cbar = plt.colorbar( shrink=0.8, pad=0.002)
     cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
 
