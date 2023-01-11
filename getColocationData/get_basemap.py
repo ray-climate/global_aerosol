@@ -84,7 +84,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     m.scatter(x_colocation, y_colocation, marker="*", c="r", s=100, label='Colocation')
 
     # Draw the circle
-    r = 200000. / 6371.01 * m.rmajor
+    r = 200. / 6371.01 * m.rmajor
     m.tissot(x_colocation, y_colocation, r, 100, lw=1, facecolor='none', edgecolor='blue')
 
     ax2 = fig.add_subplot(gs[2, 0:2])
