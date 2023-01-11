@@ -54,8 +54,8 @@ longitude_of_DEM_intersection_obs = dataset_nc['observations']['longitude_of_DEM
 sca_time_obs = dataset_nc['sca']['sca_time_obs'][:]
 sca_time_obs = [int(i) for i in sca_time_obs]
 
-sca_middle_bin_backscatter = dataset_nc['sca']['sca_middle_bin_backscatter'][:]
-sca_middle_bin_extinction = dataset_nc['sca']['sca_middle_bin_extinction'][:]
+sca_middle_bin_backscatter = dataset_nc['sca']['SCA_middle_bin_backscatter'][:]
+sca_middle_bin_extinction = dataset_nc['sca']['SCA_middle_bin_extinction'][:]
 
 sca_time_obs_datetime = num2date(sca_time_obs, units="s since 2000-01-01", only_use_cftime_datetimes=False)
 L1B_start_time_obs_datetime = num2date(L1B_start_time_obs, units="s since 2000-01-01", only_use_cftime_datetimes=False)
