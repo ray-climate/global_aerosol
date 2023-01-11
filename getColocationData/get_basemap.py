@@ -59,9 +59,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
     fig = plt.figure(constrained_layout=True, figsize=(30, 20))
-    gs = GridSpec(4, 4, figure=fig)
+    gs = GridSpec(5, 4, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0:2, 1:3])
+    ax1 = fig.add_subplot(gs[0:3, 1:3])
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
@@ -85,10 +85,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     # Draw the circle
     radius = 2.e5
-    circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.8)
+    circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     ax1.add_patch(circle)
 
-    ax2 = fig.add_subplot(gs[2, 0:2])
+    ax2 = fig.add_subplot(gs[3, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid_caliop = beta_caliop
 
@@ -126,7 +126,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus backscatter
     ######################################################################
 
-    ax3 = fig.add_subplot(gs[3, 0:2])
+    ax3 = fig.add_subplot(gs[4, 0:2])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
