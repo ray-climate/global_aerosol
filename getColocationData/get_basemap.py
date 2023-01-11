@@ -85,6 +85,8 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     # Draw the circle
     radius = 200.
+    x2, y2 = m(lon_colocation, lat_colocation + 2)
+    print(y2-y_colocation)
     circle = plt.Circle((x_colocation, y_colocation), radius, color='red', fill=True, fc='none', alpha=0.5)
     ax1.add_patch(circle)
 
