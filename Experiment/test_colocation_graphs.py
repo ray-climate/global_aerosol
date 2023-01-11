@@ -44,7 +44,7 @@ CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km
 # colocation footprint data in csv files
 colocation_fp_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Colocation/colocation_database'
 # dir to save graphs and netcdf
-savefig_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/getColocationData/figures'
+savefig_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Experiment/figures'
 cwd = os.getcwd()
 
 start_date = '2019-05-03' # start data for analysis
@@ -128,6 +128,6 @@ while start_date_datetime <= end_date_datetime:
 
         plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                         lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
-                        alt_caliop, beta_caliop_cutoff, savefigname='%s.png'%aeolus_time_str)
+                        alt_caliop, beta_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str)
 
 
