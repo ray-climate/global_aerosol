@@ -96,7 +96,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of caliop backscatter
     ######################################################################
     #fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
-    fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
+    fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
                           cmap='viridis')
 
     # Create an axes divider for the main plot
@@ -132,7 +132,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     # fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
     #                       cmap=_cliop_cmp())
-    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
+    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
                           cmap='viridis')
 
     # Create an axes divider for the main plot
