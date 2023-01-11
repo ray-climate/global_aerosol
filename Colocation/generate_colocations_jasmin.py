@@ -34,7 +34,7 @@ try:
 except:
     os.mkdir(database_dir)
 
-search_date = '2019-05-03'
+search_date = '2019-07-02'
 
 search_date_datetime = datetime.strptime(search_date, '%Y-%m-%d')
 
