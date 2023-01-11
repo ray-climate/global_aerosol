@@ -84,9 +84,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     m.scatter(x_colocation, y_colocation, marker="*", c="r", s=100, label='Colocation')
 
     # Draw the circle
-    x2, y2 = m(lon_colocation, lat_colocation + 2)
-    circle1 = plt.Circle((x_colocation, y_colocation), y2 - y_colocation, color='black', fill=False)
-    ax1.add_patch(circle1)
+    radius = 200.
+    circle = plt.Circle((x_colocation, y_colocation), radius, color='red', fill=True, fc='none', alpha=0.5)
+    ax1.add_patch(circle)
 
     ax2 = fig.add_subplot(gs[2, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
