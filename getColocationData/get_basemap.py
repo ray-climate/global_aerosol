@@ -84,8 +84,11 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     m.scatter(x_colocation, y_colocation, marker="*", c="r", s=100, label='Colocation')
 
     # Draw the circle
-    r = 200. / 6371.01 * m.rmajor
-    m.tissot(x_colocation, y_colocation, r, 100, lw=1, facecolor='none', edgecolor='blue')
+    radius = 200. / 6371.01 * m.rmajor
+    # m.tissot(x_colocation, y_colocation, r, 100, lw=1, facecolor='none', edgecolor='blue')
+    lons = [lon_colocation, lon_colocation + radius / 111.13]  # convert radius to degree
+    lats = [lat_colocation, lat_colocation]
+    m.drawgreatcircle(lons[0], lats[0], lons[1], lats[1], linewidth=2, color='blue')
 
     ax2 = fig.add_subplot(gs[2, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
