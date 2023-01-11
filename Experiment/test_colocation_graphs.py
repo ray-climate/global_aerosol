@@ -44,11 +44,11 @@ CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km
 # colocation footprint data in csv files
 colocation_fp_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Colocation/colocation_database'
 # dir to save graphs and netcdf
-savefig_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Experiment/figures'
+savefig_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Experiment/figures-2019-07-02'
 cwd = os.getcwd()
 
-start_date = '2019-05-03' # start data for analysis
-end_date   = '2019-05-04' # end date for analysis
+start_date = '2019-07-02' # start data for analysis
+end_date   = '2019-07-03' # end date for analysis
 time_delta = timedelta(days = 1)
 
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
