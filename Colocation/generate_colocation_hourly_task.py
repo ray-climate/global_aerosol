@@ -46,8 +46,8 @@ try:
 except:
     os.mkdir(database_dir)
 
-search_date_start = '2019-07-02-0000'
-search_date_end = '2019-07-02-0100'
+search_date_start = sys.argv[1] #'2019-07-02-0000'
+search_date_end = sys.argv[2] #'2019-07-02-0100'
 
 search_date_start_datetime = datetime.strptime(search_date_start, '%Y-%m-%d-%H%M')
 search_date_end_datetime = datetime.strptime(search_date_end, '%Y-%m-%d-%H%M')
