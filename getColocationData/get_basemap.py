@@ -96,6 +96,8 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of caliop backscatter
     ######################################################################
     #fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1), cmap=_cliop_cmp())
+    print(lat_caliop)
+    print(alt_caliop)
     fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
                           cmap='viridis')
 
