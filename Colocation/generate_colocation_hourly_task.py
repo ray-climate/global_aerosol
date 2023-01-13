@@ -49,7 +49,7 @@ except:
 search_date = '2019-07-02-0000'
 search_date = '2019-07-02-0100'
 
-search_date_datetime = datetime.strptime(search_date, '%Y-%m-%d-%M-%S')
+search_date_datetime = datetime.strptime(search_date, '%Y-%m-%d-%M%S')
 print(search_date_datetime)
 quit()
 search_year = '{:04d}'.format(search_date_datetime.year)
