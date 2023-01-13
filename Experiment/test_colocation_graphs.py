@@ -123,13 +123,10 @@ while start_date_datetime <= end_date_datetime:
                                footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
                                footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
                                interval=10)
-        print(alt_aeolus_cutoff, 88888)
+
         beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
-        print(alt_aeolus_cutoff, 888889999)
         alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
-        print(alpha_aeolus_resample[alpha_aeolus_resample>0], 111)
-        print(beta_aeolus_resample[beta_aeolus_resample > 0], 222)
-        quit()
+
         plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                         lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
                         alt_caliop, beta_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str)
