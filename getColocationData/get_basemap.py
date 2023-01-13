@@ -30,7 +30,7 @@ def _cliop_cmp():
 
 
 def plot_grid_tiles(lat_colocation, lon_colocation,
-                    lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus,
+                    lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus, alpha_aeolus,
                     lat_caliop, lon_caliop, alt_caliop, beta_caliop,
                     savefigname,
                     interval=10):
@@ -156,6 +156,38 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     for tick in ax3.xaxis.get_major_ticks():
         tick.label.set_fontsize(25)
     for tick in ax3.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+
+    ######################################################################
+    #### add subplot of aeolus extinction
+    ######################################################################
+
+    ax5 = fig.add_subplot(gs[4, 2:4])
+    z_grid_aeolus_alpha = alpha_aeolus.T
+
+    fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis')
+
+    # Create an axes divider for the main plot
+    divider = make_axes_locatable(ax3)
+
+    # Add the colorbar to the divider
+    cax = divider.append_axes("right", size="1.5%", pad=0.1)
+
+    # Create the colorbar
+    cbar = plt.colorbar(fig3, cax=cax, extend='both', shrink=0.6)
+    # cbar = plt.colorbar( shrink=0.8, pad=0.002)
+    cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
+    cbar.ax.tick_params(labelsize=20)
+
+    ax5.set_xlabel('Latitude', fontsize=30)
+    ax5.set_ylabel('Height [km]', fontsize=30)
+
+    ax5.set_xlim([np.min(lat_caliop), np.max(lat_caliop)])
+    ax5.set_ylim([0., 25.])
+    ax5.set_title('AEOLUS L2 Extinction coeff.', fontsize=30)
+    for tick in ax5.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax5.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
 
