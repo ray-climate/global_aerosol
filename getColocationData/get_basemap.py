@@ -164,7 +164,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     ax5 = fig.add_subplot(gs[4, 2:4])
     z_grid_aeolus_alpha = alpha_aeolus.T
-    print(z_grid_aeolus_alpha)
+    print(z_grid_aeolus_alpha[z_grid_aeolus_alpha>0])
     fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis')
 
     # Create an axes divider for the main plot
