@@ -59,9 +59,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
     fig = plt.figure(constrained_layout=True, figsize=(30, 20))
-    gs = GridSpec(5, 40, figure=fig)
+    gs = GridSpec(50, 40, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0:2, 10:30])
+    ax1 = fig.add_subplot(gs[0:18, 10:30])
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
@@ -88,7 +88,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     ax1.add_patch(circle)
 
-    ax2 = fig.add_subplot(gs[2, 0:18])
+    ax2 = fig.add_subplot(gs[22:30, 0:18])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid_caliop = beta_caliop
 
@@ -126,7 +126,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus backscatter
     ######################################################################
 
-    ax3 = fig.add_subplot(gs[3, 0:18])
+    ax3 = fig.add_subplot(gs[32:40, 0:18])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
@@ -162,7 +162,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus extinction
     ######################################################################
 
-    ax5 = fig.add_subplot(gs[2, 22:40])
+    ax5 = fig.add_subplot(gs[32:40, 22:40])
     z_grid_aeolus_alpha = alpha_aeolus.T
 
     fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis', norm=colors.LogNorm(vmin=1.e-3, vmax=1.))
@@ -176,7 +176,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     # Create the colorbar
     cbar = plt.colorbar(fig5, cax=cax, extend='both', shrink=0.6)
     # cbar = plt.colorbar( shrink=0.8, pad=0.002)
-    cbar.set_label('[km$^{-1}]', fontsize=30, rotation=90)
+    cbar.set_label('[km$^{-1}$]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
 
     ax5.set_xlabel('Latitude', fontsize=30)
