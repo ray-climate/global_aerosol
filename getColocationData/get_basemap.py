@@ -58,10 +58,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     lats = range(lat_min - interval, lat_max + interval, int(interval / 2))
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
-    fig = plt.figure(constrained_layout=True, figsize=(35, 20))
-    gs = GridSpec(5, 4, figure=fig)
+    fig = plt.figure(constrained_layout=True, figsize=(30, 20))
+    gs = GridSpec(5, 40, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0:3, 1:3])
+    ax1 = fig.add_subplot(gs[0:3, 10:30])
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
@@ -88,7 +88,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     ax1.add_patch(circle)
 
-    ax2 = fig.add_subplot(gs[3, 0:2])
+    ax2 = fig.add_subplot(gs[3, 0:19])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid_caliop = beta_caliop
 
@@ -126,7 +126,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus backscatter
     ######################################################################
 
-    ax3 = fig.add_subplot(gs[4, 0:2])
+    ax3 = fig.add_subplot(gs[4, 0:19])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
@@ -162,7 +162,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus extinction
     ######################################################################
 
-    ax5 = fig.add_subplot(gs[4, 2:4])
+    ax5 = fig.add_subplot(gs[4, 21:40])
     z_grid_aeolus_alpha = alpha_aeolus.T
 
     fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis')
