@@ -49,8 +49,8 @@ except:
 search_date_start = '2019-07-02-0000'
 search_date_end = '2019-07-02-0100'
 
-search_date_start_datetime = datetime.strptime(search_date_start, '%Y-%m-%d-%M%S')
-search_date_end_datetime = datetime.strptime(search_date_end, '%Y-%m-%d-%M%S')
+search_date_start_datetime = datetime.strptime(search_date_start, '%Y-%m-%d-%H%M')
+search_date_end_datetime = datetime.strptime(search_date_end, '%Y-%m-%d-%H%M')
 
 search_year = '{:04d}'.format(search_date_start_datetime.year)
 search_month = '{:02d}'.format(search_date_start_datetime.month)
