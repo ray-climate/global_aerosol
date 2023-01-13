@@ -90,7 +90,7 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
     # Iterate through rows and columns of alt_aeolus and data_aeolus
     for i in range(alt_aeolus.shape[0]):
         alt_aeolus_i = alt_aeolus[i, :]
-
+        print(alt_aeolus_i)
         for k in range(np.size(alt_aeolus_i)):
             if alt_aeolus_i[k] > 0:
                 if (k + 1) < len(alt_aeolus_i):
