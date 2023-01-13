@@ -132,7 +132,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     # fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
     #                       cmap=_cliop_cmp())
-    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-3, vmax=1.),
+    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
                           cmap='viridis')
 
     # Create an axes divider for the main plot
@@ -165,16 +165,16 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     ax5 = fig.add_subplot(gs[4, 25:40])
     z_grid_aeolus_alpha = alpha_aeolus.T
 
-    fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis')
+    fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis', norm=colors.LogNorm(vmin=1.e-3, vmax=1.))
 
     # Create an axes divider for the main plot
-    divider = make_axes_locatable(ax3)
+    divider = make_axes_locatable(ax5)
 
     # Add the colorbar to the divider
     cax = divider.append_axes("right", size="1.5%", pad=0.1)
 
     # Create the colorbar
-    cbar = plt.colorbar(fig3, cax=cax, extend='both', shrink=0.6)
+    cbar = plt.colorbar(fig5, cax=cax, extend='both', shrink=0.6)
     # cbar = plt.colorbar( shrink=0.8, pad=0.002)
     cbar.set_label('[km$^{-1}]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
