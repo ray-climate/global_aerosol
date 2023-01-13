@@ -97,8 +97,7 @@ for i in range(len(sca_time_obs_datetime)):
 sca_time_obs_array = np.asarray(sca_time_obs_list)
 sca_lat_obs_array = np.asarray(sca_lat_obs_list)
 sca_lon_obs_array = np.asarray(sca_lon_obs_list)
-print(sca_time_obs_array)
-quit()
+
 for m in range(np.size(sca_time_obs_array)):
 
     year_m = '{:04d}'.format(sca_time_obs_array[m].year)
