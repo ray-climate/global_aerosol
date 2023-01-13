@@ -19,9 +19,21 @@ import logging
 import csv
 import os
 
+def get_script_name():
+    return sys.modules['__main__'].__file__
+
+# Get the name of the script
+script_name = get_script_name()
+
+# Split the script name into a base name and an extension
+script_base, script_ext = os.path.splitext(script_name)
+
+# Add the .log extension to the base name
+log_filename = script_base + '.log'
+
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     filemode='w',
-                    filename= './generate_colocations_jasmin.log',
+                    filename=log_filename,
                     level=logging.INFO)
 
 CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km/'
@@ -34,10 +46,12 @@ try:
 except:
     os.mkdir(database_dir)
 
-search_date = '2019-07-02'
+search_date = '2019-07-02-0000'
+search_date = '2019-07-02-0100'
 
-search_date_datetime = datetime.strptime(search_date, '%Y-%m-%d')
-
+search_date_datetime = datetime.strptime(search_date, '%Y-%m-%d-%M-%S')
+print(search_date_datetime)
+quit()
 search_year = '{:04d}'.format(search_date_datetime.year)
 search_month = '{:02d}'.format(search_date_datetime.month)
 search_day = '{:02d}'.format(search_date_datetime.day)
@@ -54,17 +68,12 @@ longitude_of_DEM_intersection_obs = dataset_nc['observations']['longitude_of_DEM
 sca_time_obs = dataset_nc['sca']['SCA_time_obs'][:]
 sca_time_obs = [int(i) for i in sca_time_obs]
 
-sca_middle_bin_backscatter = dataset_nc['sca']['SCA_middle_bin_backscatter'][:]
-sca_middle_bin_extinction = dataset_nc['sca']['SCA_middle_bin_extinction'][:]
-
 sca_time_obs_datetime = num2date(sca_time_obs, units="s since 2000-01-01", only_use_cftime_datetimes=False)
 L1B_start_time_obs_datetime = num2date(L1B_start_time_obs, units="s since 2000-01-01", only_use_cftime_datetimes=False)
 
 sca_time_obs_list = []
 sca_lat_obs_list = []
 sca_lon_obs_list = []
-sca_middle_bin_backscatter_list = []
-sca_middle_bin_extinction_list = []
 
 for i in range(len(sca_time_obs_datetime)):
     if sca_time_obs_datetime[i] in L1B_start_time_obs_datetime:
@@ -73,14 +82,10 @@ for i in range(len(sca_time_obs_datetime)):
             latitude_of_DEM_intersection_obs[L1B_start_time_obs_datetime == sca_time_obs_datetime[i]][0])
         sca_lon_obs_list.append(
             longitude_of_DEM_intersection_obs[L1B_start_time_obs_datetime == sca_time_obs_datetime[i]][0])
-        sca_middle_bin_backscatter_list.append(sca_middle_bin_backscatter[i, :].filled())
-        sca_middle_bin_extinction_list.append(sca_middle_bin_extinction[i, :].filled())
 
 sca_time_obs_array = np.asarray(sca_time_obs_list)
 sca_lat_obs_array = np.asarray(sca_lat_obs_list)
 sca_lon_obs_array = np.asarray(sca_lon_obs_list)
-sca_middle_bin_backscatter_array = np.asarray(sca_middle_bin_backscatter_list)
-sca_middle_bin_extinction_array = np.asarray(sca_middle_bin_extinction_list)
 
 for m in range(np.size(sca_time_obs_array)):
 
