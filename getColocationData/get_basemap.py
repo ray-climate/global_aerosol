@@ -88,7 +88,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     ax1.add_patch(circle)
 
-    ax2 = fig.add_subplot(gs[3, 0:19])
+    ax2 = fig.add_subplot(gs[3, 0:15])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid_caliop = beta_caliop
 
@@ -126,13 +126,13 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus backscatter
     ######################################################################
 
-    ax3 = fig.add_subplot(gs[4, 0:19])
+    ax3 = fig.add_subplot(gs[4, 0:15])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
     # fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-4, vmax=1.e-1),
     #                       cmap=_cliop_cmp())
-    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
+    fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-3, vmax=1.),
                           cmap='viridis')
 
     # Create an axes divider for the main plot
@@ -162,7 +162,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus extinction
     ######################################################################
 
-    ax5 = fig.add_subplot(gs[4, 21:40])
+    ax5 = fig.add_subplot(gs[4, 25:40])
     z_grid_aeolus_alpha = alpha_aeolus.T
 
     fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis')
