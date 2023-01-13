@@ -79,8 +79,7 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
     data_aeolus[data_aeolus == -1.e6] = np.nan
     # Convert altitude values from meters to kilometers
     alt_aeolus *= 1e-3
-    print(alt_aeolus)
-    quit()
+
     # convert aeolus data with the given scaling factor
     data_aeolus = data_aeolus * 1.e-6 * 1.e3
 
@@ -91,7 +90,8 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
     # Iterate through rows and columns of alt_aeolus and data_aeolus
     for i in range(alt_aeolus.shape[0]):
         alt_aeolus_i = alt_aeolus[i, :]
-        print(i, data_aeolus[i,:])
+        print(i, alt_aeolus_i)
+        quit()
         for k in range(np.size(alt_aeolus_i)):
             if alt_aeolus_i[k] > 0:
                 if (k + 1) < len(alt_aeolus_i):
