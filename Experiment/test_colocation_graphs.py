@@ -97,7 +97,7 @@ while start_date_datetime <= end_date_datetime:
         aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
                                  (search_year, search_month, search_year, search_month, search_day)
 
-        (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
+        (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
 
         # Search for the file on the specified date
         caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
@@ -118,16 +118,17 @@ while start_date_datetime <= end_date_datetime:
 
         (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
-        (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff) = \
+        (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff) = \
             reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
-                               footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb,
+                               footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
                                footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
                                interval=10)
 
         beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
+        alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
 
         plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
-                        lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
+                        lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
                         alt_caliop, beta_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str)
 
 
