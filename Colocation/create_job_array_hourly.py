@@ -18,7 +18,7 @@ except:
     pathlib.Path(job_array_dir).mkdir(parents=True, exist_ok=True)
 
 start_date = '2019-01-01 00:00' # start date of search colocations, year-month-day
-end_date = '2019-01-02 00:00' # end date of search colocations, year-month-day
+end_date = '2019-07-01 00:00' # end date of search colocations, year-month-day
 time_delta = timedelta(hours = 1) # time delta for separating Aeolus measuremets
 
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d %H:%M')
