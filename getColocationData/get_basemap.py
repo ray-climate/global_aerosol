@@ -58,7 +58,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     lats = range(lat_min - interval, lat_max + interval, int(interval / 2))
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
-    fig = plt.figure(constrained_layout=True, figsize=(30, 20))
+    fig = plt.figure(constrained_layout=True, figsize=(35, 20))
     gs = GridSpec(5, 4, figure=fig)
 
     ax1 = fig.add_subplot(gs[0:3, 1:3])
@@ -164,7 +164,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     ax5 = fig.add_subplot(gs[4, 2:4])
     z_grid_aeolus_alpha = alpha_aeolus.T
-    print(z_grid_aeolus_alpha[z_grid_aeolus_alpha>0])
+
     fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis')
 
     # Create an axes divider for the main plot
@@ -176,7 +176,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     # Create the colorbar
     cbar = plt.colorbar(fig3, cax=cax, extend='both', shrink=0.6)
     # cbar = plt.colorbar( shrink=0.8, pad=0.002)
-    cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
+    cbar.set_label('[km$^{-1}]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
 
     ax5.set_xlabel('Latitude', fontsize=30)
