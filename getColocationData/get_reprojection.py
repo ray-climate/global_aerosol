@@ -48,7 +48,8 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
     beta_aeolus_cutoff = beta_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max),:]
     # Filter the alpha_aeolus_filtered array based on the latitude range and store the result in alpha_aeolus_cutoff
     alpha_aeolus_cutoff = alpha_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max), :]
-    print(alpha_aeolus_cutoff[alpha_aeolus_cutoff>0])
+    print(alpha_aeolus_cutoff[alpha_aeolus_cutoff>0], 1111)
+
     # Filter the lat_caliop array based on the latitude range and store the result in lat_caliop_cutoff
     lat_caliop_cutoff = lat_caliop[(lat_caliop > lat_min) & (lat_caliop < lat_max)]
     # Filter the lon_caliop array based on the latitude range and store the result in lon_caliop_cutoff
