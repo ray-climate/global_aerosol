@@ -93,18 +93,18 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
         alt_aeolus_i = alt_aeolus[i, :]
         print(alt_aeolus_i,777)
 
-        for k in range(np.size(alt_aeolus_i)):
-            if alt_aeolus_i[k] > 0:
-                if (k + 1) < len(alt_aeolus_i):
-                    print(i,k, data_aeolus[i, k])
-                    # Resample data based on nearest altitude value less than current value in alt_caliop
-                    data_aeolus_resample[i, (alt_caliop < alt_aeolus_i[k]) & (alt_caliop > alt_aeolus_i[k + 1])] = \
-                    data_aeolus[i, k]
-                    print(alt_caliop, alt_aeolus_i[k], alt_aeolus_i[k + 1])
-                    print(data_aeolus_resample[i, (alt_caliop < alt_aeolus_i[k]) & (alt_caliop > alt_aeolus_i[k + 1])])
-
-        quit()
-    print(data_aeolus_resample[data_aeolus_resample>0], 6666)
+    #     for k in range(np.size(alt_aeolus_i)):
+    #         if alt_aeolus_i[k] > 0:
+    #             if (k + 1) < len(alt_aeolus_i):
+    #                 print(i,k, data_aeolus[i, k])
+    #                 # Resample data based on nearest altitude value less than current value in alt_caliop
+    #                 data_aeolus_resample[i, (alt_caliop < alt_aeolus_i[k]) & (alt_caliop > alt_aeolus_i[k + 1])] = \
+    #                 data_aeolus[i, k]
+    #                 print(alt_caliop, alt_aeolus_i[k], alt_aeolus_i[k + 1])
+    #                 print(data_aeolus_resample[i, (alt_caliop < alt_aeolus_i[k]) & (alt_caliop > alt_aeolus_i[k + 1])])
+    #
+    #     quit()
+    # print(data_aeolus_resample[data_aeolus_resample>0], 6666)
     return data_aeolus_resample
 
 
