@@ -87,7 +87,7 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
     data_aeolus_resample = np.zeros((alt_aeolus.shape[0], np.size(alt_caliop)))
     data_aeolus_resample[:] = np.nan
     print(alt_aeolus)
-    quit()
+
     # Iterate through rows and columns of alt_aeolus and data_aeolus
     for i in range(alt_aeolus.shape[0]):
         alt_aeolus_i = alt_aeolus[i, :]
