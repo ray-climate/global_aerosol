@@ -98,6 +98,7 @@ def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
                     # Resample data based on nearest altitude value less than current value in alt_caliop
                     data_aeolus_resample[i, (alt_caliop < alt_aeolus_i[k]) & (alt_caliop > alt_aeolus_i[k + 1])] = \
                     data_aeolus[i, k]
+                    print(data_aeolus_resample[i, (alt_caliop < alt_aeolus_i[k]) & (alt_caliop > alt_aeolus_i[k + 1])])
     print(data_aeolus_resample[data_aeolus_resample>0], 6666)
     return data_aeolus_resample
 
