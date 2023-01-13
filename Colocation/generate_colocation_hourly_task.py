@@ -46,15 +46,15 @@ try:
 except:
     os.mkdir(database_dir)
 
-search_date = '2019-07-02-0000'
-search_date = '2019-07-02-0100'
+search_date_start = '2019-07-02-0000'
+search_date_end = '2019-07-02-0100'
 
-search_date_datetime = datetime.strptime(search_date, '%Y-%m-%d-%M%S')
-print(search_date_datetime)
-quit()
-search_year = '{:04d}'.format(search_date_datetime.year)
-search_month = '{:02d}'.format(search_date_datetime.month)
-search_day = '{:02d}'.format(search_date_datetime.day)
+search_date_start_datetime_start = datetime.strptime(search_date_start, '%Y-%m-%d-%M%S')
+search_date_end_datetime_start = datetime.strptime(search_date_end, '%Y-%m-%d-%M%S')
+
+search_year = '{:04d}'.format(search_date_start_datetime_start.year)
+search_month = '{:02d}'.format(search_date_start_datetime_start.month)
+search_day = '{:02d}'.format(search_date_start_datetime_start.day)
 
 aeolus_dir = Aeolus_JASMIN_dir + '%s-%s/%s-%s-%s.nc'%(search_year, search_month, search_year, search_month, search_day)
 dataset_nc = nc.Dataset(aeolus_dir)
@@ -70,7 +70,8 @@ sca_time_obs = [int(i) for i in sca_time_obs]
 
 sca_time_obs_datetime = num2date(sca_time_obs, units="s since 2000-01-01", only_use_cftime_datetimes=False)
 L1B_start_time_obs_datetime = num2date(L1B_start_time_obs, units="s since 2000-01-01", only_use_cftime_datetimes=False)
-
+print(sca_time_obs_datetime)
+quit()
 sca_time_obs_list = []
 sca_lat_obs_list = []
 sca_lon_obs_list = []
