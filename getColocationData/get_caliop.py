@@ -32,7 +32,10 @@ def extract_variables_from_caliop(hdf_file, logger):
     caliop_beta_list = caliop_request. \
         _get_calipso_data(filename=hdf_file,
                           variable='Total_Backscatter_Coefficient_532')
+    caliop_alpha_list = caliop_request. \
+        _get_calipso_data(filename=hdf_file,
+                          variable='Extinction_Coefficient_532')
 
     logger.info("Extracted caliop")
 
-    return caliop_latitude_list, caliop_longitude_list, caliop_altitude_list, caliop_beta_list
+    return caliop_latitude_list, caliop_longitude_list, caliop_altitude_list, caliop_beta_list, caliop_alpha_list

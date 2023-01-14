@@ -31,9 +31,8 @@ def _cliop_cmp():
 
 def plot_grid_tiles(lat_colocation, lon_colocation,
                     lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus, alpha_aeolus,
-                    lat_caliop, lon_caliop, alt_caliop, beta_caliop,
-                    savefigname,
-                    interval=10):
+                    lat_caliop, lon_caliop, alt_caliop, beta_caliop, alpha_caliop,
+                    savefigname, interval=10):
     """
     Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
 
@@ -157,6 +156,38 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     for tick in ax3.xaxis.get_major_ticks():
         tick.label.set_fontsize(25)
     for tick in ax3.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+
+    ######################################################################
+    #### add subplot of caliop extinction
+    ######################################################################
+
+    ax4 = fig.add_subplot(gs[22:34, 22:40])
+    z_grid_caliop_alpha = alpha_caliop
+
+    fig4 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_alpha, norm=colors.LogNorm(vmin=1.e-3, vmax=1.), cmap='viridis')
+
+    # Create an axes divider for the main plot
+    divider = make_axes_locatable(ax4)
+
+    # Add the colorbar to the divider
+    cax = divider.append_axes("right", size="1.5%", pad=0.1)
+
+    # Create the colorbar
+    cbar = plt.colorbar(fig4, cax=cax, extend='both', shrink=0.6)
+    # cbar = plt.colorbar( shrink=0.8, pad=0.002)
+    cbar.set_label('[km$^{-1}$]', fontsize=30, rotation=90)
+    cbar.ax.tick_params(labelsize=20)
+
+    ax4.set_xlabel('Latitude', fontsize=30)
+    ax4.set_ylabel('Height [km]', fontsize=30)
+
+    ax4.set_xlim([np.min(lat_caliop), np.max(lat_caliop)])
+    ax4.set_ylim([0., 25.])
+    ax4.set_title('CALIOP L2 Extinction coeff.', fontsize=30)
+    for tick in ax4.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax4.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
     ######################################################################
