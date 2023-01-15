@@ -222,7 +222,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     for tick in ax5.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
-    plt.subplots_adjust(wspace=0.4, hspace=0.4)
+    plt.subplots_adjust(wspace=1., hspace=1.)
     plt.tight_layout()
     # Show the map
     plt.savefig(savefigname)
