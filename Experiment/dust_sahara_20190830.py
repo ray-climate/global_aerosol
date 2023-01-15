@@ -21,7 +21,7 @@ import csv
 ##############################################################
 start_date = '2019-08-30' # start data for analysis
 end_date   = '2019-08-31' # end date for analysis
-temporal_wd = 7. # hours of temporal window
+temporal_wd = 10. # hours of temporal window
 lat_up = 36.
 lat_down = 5.
 lon_left = -35.
@@ -94,15 +94,19 @@ while start_date_datetime <= end_date_datetime:
 
         with open(input_file, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
-            for row in reader:
-                lat_colocation = float(row['AEOLUS_latitude'])
-                lon_colocation = float(row['AEOLUS_longitude'])
-                caliop_filename = row['CALIOP_filename']
+            try:
+                for row in reader:
+                    lat_colocation = float(row['AEOLUS_latitude'])
+                    lon_colocation = float(row['AEOLUS_longitude'])
+                    caliop_filename = row['CALIOP_filename']
 
-                if lat_colocation > 180.:
-                    lat_colocation = lat_colocation - 360.
-                if lon_colocation > 180.:
-                    lon_colocation = lon_colocation - 360.
+                    if lat_colocation > 180.:
+                        lat_colocation = lat_colocation - 360.
+                    if lon_colocation > 180.:
+                        lon_colocation = lon_colocation - 360.
+            except:
+                logger.error('Error reading colocation footprint')
+                continue
 
         if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
             logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
