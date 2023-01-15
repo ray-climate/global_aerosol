@@ -231,7 +231,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
         tick.label.set_fontsize(25)
 
     plt.subplots_adjust(wspace=1., hspace=1.)
-    plt.suptitle("%s"%title, fontsize=28)
+    plt.suptitle("%s"%title, fontweight='bold', fontstyle='italic', fontsize=28)
     plt.tight_layout()
     # Show the map
     plt.savefig(savefigname)
