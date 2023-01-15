@@ -61,7 +61,13 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     gs = GridSpec(3, 4, figure=fig)
 
     # ax1 = fig.add_subplot(gs[0:1, 1:3])
-    ax1 = fig.add_axes([0.05, 0.6, 0.4, 0.4])
+    """
+    The add_axes() method takes a list of four values that specify the position of the 
+    subplot on the figure. The first two values specify the x and y coordinates of the 
+    bottom left corner of the subplot, respectively, as a fraction of the figure size.
+    """
+    ax1 = fig.add_axes([0.45, 0.7, 0.25, 0.25])
+
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
