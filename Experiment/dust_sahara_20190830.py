@@ -133,25 +133,23 @@ while start_date_datetime <= end_date_datetime:
                 logger.error("CALIOP file not found in specified date or surrounding days")
 
             cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%dT%H-%M-%S')
-            print(cliop_time_datetime - aeolus_time_datetime)
-            print(aeolus_time_datetime- cliop_time_datetime)
-            print(abs(aeolus_time_datetime- cliop_time_datetime))
-            quit()
+            abs_temportal_distance = abs(aeolus_time_datetime- cliop_time_datetime)
 
-            (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop, alpha_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
+            if abs_temportal_distance < timedelta(hours=temporal_wd):
+                (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop, alpha_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
-            (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff) = \
-                reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
-                                   footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
-                                   footprint_lat_caliop, footprint_lon_caliop, beta_caliop, alpha_caliop,
-                                   interval=10)
+                (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff) = \
+                    reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
+                                       footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
+                                       footprint_lat_caliop, footprint_lon_caliop, beta_caliop, alpha_caliop,
+                                       interval=10)
 
-            beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
-            alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
+                beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
+                alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
 
-            plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
-                            lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
-                            alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
-                            title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year))
+                plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
+                                lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
+                                alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
+                                title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year))
 
 
