@@ -21,6 +21,7 @@ import csv
 ##############################################################
 start_date = '2019-08-30' # start data for analysis
 end_date   = '2019-08-31' # end date for analysis
+temporal_wd = 7. # hours of temporal window
 lat_up = 36.
 lat_down = 5.
 lon_left = -35.
@@ -103,6 +104,8 @@ while start_date_datetime <= end_date_datetime:
                 if lon_colocation > 180.:
                     lon_colocation = lon_colocation - 360.
 
+        print(aeolus_time_datetime)
+        quit()
         if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
             logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
             logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_colocation), float(lon_colocation)))
