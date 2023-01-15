@@ -104,8 +104,6 @@ while start_date_datetime <= end_date_datetime:
                 if lon_colocation > 180.:
                     lon_colocation = lon_colocation - 360.
 
-        print(aeolus_time_datetime)
-        quit()
         if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
             logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
             logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_colocation), float(lon_colocation)))
@@ -119,6 +117,10 @@ while start_date_datetime <= end_date_datetime:
 
             # Search for the file on the specified date
             caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
+
+            print(aeolus_time_datetime)
+            print(caliop_colocation_file)
+            quit()
 
             # If the file is not found, search for the file on the previous day
             if caliop_colocation_file is None:
