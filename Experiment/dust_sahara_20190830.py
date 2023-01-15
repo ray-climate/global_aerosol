@@ -111,9 +111,11 @@ while start_date_datetime <= end_date_datetime:
                 logger.error('Error reading colocation footprint')
                 continue
 
+        logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+        logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_colocation), float(lon_colocation)))
+
         if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
-            logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-            logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_colocation), float(lon_colocation)))
+
             # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
             #                                       savefig_dir)
 
@@ -162,7 +164,7 @@ while start_date_datetime <= end_date_datetime:
                                 lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
                                 alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
-                                colocation_info=colocation_info)
+                                colocation_info=colocation_info, logger=logger)
             else:
                 logger.warning("Colocation profiles exceed minimum temporal windows - %s"%temporal_wd)
 
