@@ -32,7 +32,7 @@ def _cliop_cmp():
 def plot_grid_tiles(lat_colocation, lon_colocation,
                     lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus, alpha_aeolus,
                     lat_caliop, lon_caliop, alt_caliop, beta_caliop, alpha_caliop,
-                    savefigname, interval=10):
+                    savefigname, title, interval=10):
     """
     Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
 
@@ -66,7 +66,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     subplot on the figure. The first two values specify the x and y coordinates of the 
     bottom left corner of the subplot, respectively, as a fraction of the figure size.
     """
-    ax1 = fig.add_axes([0.35, 0.7, 0.3, 0.25])
+    ax1 = fig.add_axes([0.35, 0.7, 0.5, 0.25])
 
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
@@ -231,6 +231,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
         tick.label.set_fontsize(25)
 
     plt.subplots_adjust(wspace=1., hspace=1.)
+    plt.suptitle("%s"%title, fontsize=28)
     plt.tight_layout()
     # Show the map
     plt.savefig(savefigname)
