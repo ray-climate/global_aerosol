@@ -66,7 +66,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     subplot on the figure. The first two values specify the x and y coordinates of the 
     bottom left corner of the subplot, respectively, as a fraction of the figure size.
     """
-    ax1 = fig.add_axes([0.35, 0.7, 0.5, 0.25])
+    ax1 = fig.add_subplot(gs[0, 0:2])
 
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
@@ -92,8 +92,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     # Draw the circle
     radius = 2.e5
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
+    plt.legend(fontsize=20)
     ax1.add_patch(circle)
-    ax1.text(6, 8, "My Text", ha="left", va="center")
+
     # setting the position of first subplot
 
     ax2 = fig.add_subplot(gs[1, 0:2])
