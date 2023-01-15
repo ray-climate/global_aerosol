@@ -74,8 +74,11 @@ while start_date_datetime <= end_date_datetime:
     year_i = '{:04d}'.format(start_date_datetime.year)
     month_i = '{:02d}'.format(start_date_datetime.month)
     day_i = '{:02d}'.format(start_date_datetime.day)
+    hour_i = '{:02d}'.format(start_date_datetime.hour)
+    minute_i = '{:02d}'.format(start_date_datetime.minute)
+
     logger.info('#############################################################')
-    logger.info('Start searching colocations for: %s-%s-%s' % (year_i, month_i, day_i))
+    logger.info('Start searching colocations for: %s-%s-%s %s:%s' % (year_i, month_i, day_i, hour_i, minute_i))
     logger.info('#############################################################')
 
     search_year = year_i
@@ -140,7 +143,7 @@ while start_date_datetime <= end_date_datetime:
             abs_temportal_distance = abs(aeolus_time_datetime- cliop_time_datetime)
             abs_temportal_total_seconds = abs_temportal_distance.total_seconds()
             abs_temportal_total_hours = abs_temportal_total_seconds / 3600.
-            abs_temportal_total_minutes = abs_temportal_total_seconds / 60.
+
             if abs_temportal_distance < timedelta(hours=temporal_wd):
                 (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop, alpha_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
@@ -153,12 +156,17 @@ while start_date_datetime <= end_date_datetime:
                 beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
                 alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
 
-                colocation_info = 'Temporal distance \n%s hours %s mins'%(abs_temportal_total_hours, abs_temportal_total_minutes)
+                colocation_info = 'Temporal distance \n%.1f hours'%(abs_temportal_total_hours)
 
                 plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                                 lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
                                 alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
                                 colocation_info=colocation_info)
+            else:
+                logger.warning("Colocation profiles exceed minimum temporal windows - %s"%temporal_wd)
+
+        else:
+            logger.warning("Colocation profiles exceed the AOI.")
 
 
