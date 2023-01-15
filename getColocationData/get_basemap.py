@@ -94,6 +94,12 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     plt.legend(fontsize=20)
     ax1.add_patch(circle)
+    ax1.text(0.75, 0.95, 'test',
+            horizontalalignment='left',
+            verticalalignment='top',
+            transform=ax1.transAxes,
+            fontsize=20,
+            color='black')
 
     # setting the position of first subplot
 
