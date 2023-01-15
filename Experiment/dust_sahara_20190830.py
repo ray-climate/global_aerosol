@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    dust_sahara_20190829.py
+# @Filename:    dust_sahara_20190830.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        15/01/2023 17:52
@@ -19,8 +19,8 @@ import logging
 import csv
 
 ##############################################################
-start_date = '2019-08-29' # start data for analysis
-end_date   = '2019-08-30' # end date for analysis
+start_date = '2019-08-30' # start data for analysis
+end_date   = '2019-08-31' # end date for analysis
 lat_up = 36.
 lat_down = 5.
 lon_left = -35.
