@@ -138,7 +138,9 @@ while start_date_datetime <= end_date_datetime:
 
             cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%dT%H-%M-%S')
             abs_temportal_distance = abs(aeolus_time_datetime- cliop_time_datetime)
-
+            abs_temportal_total_seconds = abs_temportal_distance.total_seconds()
+            abs_temportal_total_hours = abs_temportal_total_seconds / 3600.
+            abs_temportal_total_minutes = abs_temportal_total_seconds / 60.
             if abs_temportal_distance < timedelta(hours=temporal_wd):
                 (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop, alpha_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
 
@@ -151,7 +153,7 @@ while start_date_datetime <= end_date_datetime:
                 beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
                 alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
 
-                colocation_info = 'Temporal distance \n%s hours %s mins'%(abs_temportal_distance.hours, abs_temportal_distance.minutes)
+                colocation_info = 'Temporal distance \n%s hours %s mins'%(abs_temportal_total_hours, abs_temportal_total_minutes)
 
                 plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                                 lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
