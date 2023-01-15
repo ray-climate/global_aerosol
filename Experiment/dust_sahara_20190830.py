@@ -132,7 +132,7 @@ while start_date_datetime <= end_date_datetime:
             if caliop_colocation_file is None:
                 logger.error("CALIOP file not found in specified date or surrounding days")
 
-            cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%d-T%H-%M-%S')
+            cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%dT%H-%M-%S')
             print(cliop_time_datetime - aeolus_time_datetime)
             quit()
 
