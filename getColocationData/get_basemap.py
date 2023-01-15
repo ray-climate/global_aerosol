@@ -65,7 +65,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
                 lat_0=lat_mid, lon_0=lon_mid)
-
+    ax1.set_size_inches(2, 2)
     x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
     x_caliop, y_caliop = m(lon_caliop, lat_caliop)
     x_colocation, y_colocation = m(lon_colocation, lat_colocation)
