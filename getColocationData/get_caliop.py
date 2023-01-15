@@ -13,7 +13,7 @@ def find_caliop_file(dir, filename, date):
     month = '{:02d}'.format(date.month)
     day = '{:02d}'.format(date.day)
     caliop_colocation_file = dir + '/%s/%s_%s_%s/' % (year, year, month, day) + filename
-    print(caliop_colocation_file, date)
+
     if os.path.exists(caliop_colocation_file):
         return caliop_colocation_file
     else:
