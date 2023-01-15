@@ -134,6 +134,7 @@ while start_date_datetime <= end_date_datetime:
 
             cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%dT%H-%M-%S')
             print(cliop_time_datetime - aeolus_time_datetime)
+            print(aeolus_time_datetime- cliop_time_datetime)
             quit()
 
             (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop, alpha_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
