@@ -65,7 +65,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
                 lat_0=lat_mid, lon_0=lon_mid)
-    ax1.set_size_inches(2, 2)
+
     x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
     x_caliop, y_caliop = m(lon_caliop, lat_caliop)
     x_colocation, y_colocation = m(lon_colocation, lat_colocation)
@@ -86,6 +86,8 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     radius = 2.e5
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     ax1.add_patch(circle)
+    # setting the position of first subplot
+    gs.update(left=0.05, right=0.48, wspace=0.05)
 
     ax2 = fig.add_subplot(gs[1, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
