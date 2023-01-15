@@ -60,7 +60,8 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     fig = plt.figure(constrained_layout=True, figsize=(30, 20))
     gs = GridSpec(3, 4, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0:1, 1:3])
+    # ax1 = fig.add_subplot(gs[0:1, 1:3])
+    ax1 = fig.add_axes([0.05, 0.6, 0.4, 0.4])
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
                 llcrnrlon=lon_min, urcrnrlon=lon_max,
@@ -87,7 +88,6 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     ax1.add_patch(circle)
     # setting the position of first subplot
-    gs.update(left=0.05, right=0.48, wspace=0.05)
 
     ax2 = fig.add_subplot(gs[1, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
