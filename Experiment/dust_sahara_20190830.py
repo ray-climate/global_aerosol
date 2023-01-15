@@ -169,4 +169,6 @@ while start_date_datetime <= end_date_datetime:
         else:
             logger.warning("Colocation profiles exceed the AOI.")
 
+    start_date_datetime = start_date_datetime + time_delta
+
 
