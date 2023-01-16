@@ -60,7 +60,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
     fig = plt.figure(constrained_layout=True, figsize=(30, 20))
-    gs = GridSpec(3, 4, figure=fig)
+    gs = GridSpec(4, 4, figure=fig)
 
     # ax1 = fig.add_subplot(gs[0:1, 1:3])
     """
@@ -96,17 +96,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     plt.legend(fontsize=20)
     ax1.add_patch(circle)
-    ax1.text(1.1, 0.7, '%s'%colocation_info,
-            horizontalalignment='left',
-            verticalalignment='top',
-            transform=ax1.transAxes,
-            fontsize=22,
-            fontweight='bold',
-            color='black')
 
     # setting the position of first subplot
 
-    ax2 = fig.add_subplot(gs[1, 0:2])
+    ax2 = fig.add_subplot(gs[2, 0:2])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid_caliop = beta_caliop
 
@@ -145,7 +138,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus backscatter
     ######################################################################
 
-    ax3 = fig.add_subplot(gs[2, 0:2])
+    ax3 = fig.add_subplot(gs[3, 0:2])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
@@ -181,7 +174,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of caliop extinction
     ######################################################################
 
-    ax4 = fig.add_subplot(gs[1, 2:4])
+    ax4 = fig.add_subplot(gs[2, 2:4])
     z_grid_caliop_alpha = alpha_caliop
 
     fig4 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_alpha, norm=colors.LogNorm(vmin=1.e-3, vmax=1.), cmap='viridis')
@@ -213,7 +206,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus extinction
     ######################################################################
 
-    ax5 = fig.add_subplot(gs[2, 2:4])
+    ax5 = fig.add_subplot(gs[3, 2:4])
     z_grid_aeolus_alpha = alpha_aeolus.T
 
     fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis', norm=colors.LogNorm(vmin=1.e-3, vmax=1.))
@@ -247,15 +240,6 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     ax6 = fig.add_subplot(gs[0, 2:4])
 
-    aerosol_type_text = "0 = not determined \n" \
-                        "1 = clean marine\n" \
-                        "2 = dust \n" \
-                        "3 = polluted continental / smoke \n" \
-                        "4 = clean continental \n" \
-                        "5 = polluted dust \n" \
-                        "6 = elevated smoke \n" \
-                        "7 = dusty marine"
-
     cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
     bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
     norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
@@ -270,19 +254,45 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     ax6.set_xlabel('Latitude', fontsize=30)
     ax6.set_ylabel('Height [km]', fontsize=30)
 
-    ax6.text(0.65, 0.95, aerosol_type_text,
-             horizontalalignment='left',
-             verticalalignment='top',
-             transform=ax6.transAxes,
-             fontsize=20,
-             color='white')
-
     for tick in ax6.xaxis.get_major_ticks():
         tick.label.set_fontsize(25)
     for tick in ax6.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
-    #
+    ######################################################################
+    #### add text about the location using space of subplot(1,0)
+    ######################################################################
+
+    ax7 = fig.add_subplot(gs[1, 0:2])
+    ax1.text(0.5, 0.5, '%s' % colocation_info,
+             horizontalalignment='left',
+             verticalalignment='top',
+             transform=ax1.transAxes,
+             fontsize=26,
+             fontweight='bold',
+             color='black')
+
+    ######################################################################
+    #### add text to describe the aerosol typeing using space of subplot(1,1)
+    ######################################################################
+
+    aerosol_type_text = "0 = not determined    " \
+                        "1 = clean marine      " \
+                        "2 = dust              " \
+                        "3 = polluted continental / smoke\n" \
+                        "4 = clean continental " \
+                        "5 = polluted dust     " \
+                        "6 = elevated smoke    " \
+                        "7 = dusty marine"
+
+    ax8 = fig.add_subplot(gs[1, 0:2])
+    ax8.text(0.05, 0.95, aerosol_type_text,
+             horizontalalignment='left',
+             verticalalignment='top',
+             transform=ax6.transAxes,
+             fontsize=26,
+             fontweight='bold',
+             color='black')
 
     plt.subplots_adjust(wspace=1., hspace=1.)
     plt.suptitle("%s"%title, fontweight='bold', fontstyle='italic', fontsize=28)

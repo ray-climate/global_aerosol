@@ -166,7 +166,7 @@ while start_date_datetime <= end_date_datetime:
                 beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
                 alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
 
-                colocation_info = 'Temporal distance \n%.1f hours'%(abs_temportal_total_hours)
+                colocation_info = 'Temporal distance = %.1f hours'%(abs_temportal_total_hours)
 
                 plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                                 lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample,
