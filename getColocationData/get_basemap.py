@@ -282,7 +282,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     for tick in ax6.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
-
+    #
 
     plt.subplots_adjust(wspace=1., hspace=1.)
     plt.suptitle("%s"%title, fontweight='bold', fontstyle='italic', fontsize=28)
