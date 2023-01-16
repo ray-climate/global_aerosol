@@ -147,13 +147,21 @@ while start_date_datetime <= end_date_datetime:
             abs_temportal_total_hours = abs_temportal_total_seconds / 3600.
 
             if abs_temportal_distance < timedelta(hours=temporal_wd):
-                (footprint_lat_caliop, footprint_lon_caliop, alt_caliop, beta_caliop, alpha_caliop) = extract_variables_from_caliop(caliop_colocation_file, logger)
+                (footprint_lat_caliop, footprint_lon_caliop,
+                 alt_caliop, beta_caliop, alpha_caliop,
+                 aerosol_type_caliop, feature_type_caliop) \
+                    = extract_variables_from_caliop(caliop_colocation_file, logger)
 
-                (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff) = \
+                (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
+                 beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff,
+                 lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff,
+                 aerosol_type_caliop_cutoff, feature_type_caliop_cutoff) = \
                     reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
-                                       footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
-                                       footprint_lat_caliop, footprint_lon_caliop, beta_caliop, alpha_caliop,
-                                       interval=10)
+                                       footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
+                                           footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
+                                           footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
+                                           alpha_caliop, aerosol_type_caliop, feature_type_caliop,
+                                           interval=10)
 
                 beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
                 alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
@@ -161,8 +169,11 @@ while start_date_datetime <= end_date_datetime:
                 colocation_info = 'Temporal distance \n%.1f hours'%(abs_temportal_total_hours)
 
                 plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
-                                lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample, alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
-                                alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
+                                lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample,
+                                alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
+                                alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff,
+                                aerosol_type_caliop_cutoff, feature_type_caliop_cutoff,
+                                savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
                                 colocation_info=colocation_info, logger=logger)
             else:

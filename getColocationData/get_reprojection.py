@@ -8,7 +8,12 @@
 import numpy as np
 import math
 
-def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_aeolus, lon_aeolus, alt_aeolus, time_aeolus, beta_aeolus, alpha_aeolus, lat_caliop, lon_caliop, beta_caliop, alpha_caliop, interval=10):
+def reproject_observations(lat_colocation, lon_colocation, time_colocation,
+                           lat_aeolus, lon_aeolus, alt_aeolus, time_aeolus,
+                           beta_aeolus, alpha_aeolus, lat_caliop,
+                           lon_caliop, beta_caliop, alpha_caliop,
+                           aerosol_type_caliop, feature_type_caliop,
+                           interval=10):
 
     # Find the index in the time_aeolus array where the value is equal to time_colocation
     index_colocation = np.where(time_aeolus == time_colocation)[0][0]
@@ -58,7 +63,13 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation, lat_
     beta_caliop_cutoff = beta_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
     alpha_caliop_cutoff = alpha_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
 
-    return lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff
+    aerosol_type_caliop_cutoff = aerosol_type_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
+    feature_type_caliop_cutoff = feature_type_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
+
+    return lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, \
+           beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, \
+           lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff, \
+           aerosol_type_caliop_cutoff, feature_type_caliop_cutoff
 
 
 def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):

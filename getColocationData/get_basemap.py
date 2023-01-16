@@ -10,6 +10,7 @@ from mpl_toolkits.basemap import Basemap
 from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
 
 
@@ -32,6 +33,7 @@ def _cliop_cmp():
 def plot_grid_tiles(lat_colocation, lon_colocation,
                     lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus, alpha_aeolus,
                     lat_caliop, lon_caliop, alt_caliop, beta_caliop, alpha_caliop,
+                    aerosol_type_caliop, feature_type_caliop,
                     savefigname, title, colocation_info, logger, interval=10):
     """
     Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
@@ -238,6 +240,49 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
         tick.label.set_fontsize(25)
     for tick in ax5.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
+
+    ######################################################################
+    #### add subplot of caliop aerosol types
+    ######################################################################
+
+    ax6 = fig.add_subplot(gs[0, 2:4])
+
+    aerosol_type_text = "0 = not determined \n" \
+                        "1 = clean marine\n" \
+                        "2 = dust \n" \
+                        "3 = polluted continental / smoke \n" \
+                        "4 = clean continental \n" \
+                        "5 = polluted dust \n" \
+                        "6 = elevated smoke \n" \
+                        "7 = dusty marine"
+
+    cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
+    bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+
+    z_grid_caliop_type = aerosol_type_caliop
+    z_grid_caliop_type[feature_type_caliop == 4] = 0
+
+    plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
+    cbar = plt.colorbar(shrink=0.8)
+    cbar.ax.tick_params(labelsize=18)
+
+    ax6.set_xlabel('Profile Number', fontsize=30)
+    ax6.set_ylabel('Height [km]', fontsize=30)
+
+    ax6.text(0.75, 0.95, aerosol_type_text,
+             horizontalalignment='left',
+             verticalalignment='top',
+             transform=ax6.transAxes,
+             fontsize=26,
+             color='white')
+
+    for tick in ax6.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax6.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+
+
 
     plt.subplots_adjust(wspace=1., hspace=1.)
     plt.suptitle("%s"%title, fontweight='bold', fontstyle='italic', fontsize=28)
