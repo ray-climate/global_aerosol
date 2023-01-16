@@ -296,7 +296,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     ax8 = fig.add_subplot(gs[1, 2:4])
 
     fig8 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, alpha=0)
-    ax8.axis('off')
+    # ax8.axis('off')
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax8)
 
@@ -305,11 +305,12 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     cbar = plt.colorbar(fig8, cax=cax, shrink=0.6, orientation="horizontal")
     cbar.ax.tick_params(labelsize=18)
 
-    ax8.text(0.05, 0.95, aerosol_type_text,
+    fig8.set_visible(False)
+    ax8.text(0.05, 0.8, aerosol_type_text,
              horizontalalignment='left',
              verticalalignment='top',
              transform=ax8.transAxes,
-             fontsize=26,
+             fontsize=28,
              fontweight='bold',
              color='black')
 
