@@ -295,8 +295,8 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     ax8 = fig.add_subplot(gs[1, 2:4])
 
-    fig8 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, alpha=0)
-    # ax8.axis('off')
+    fig8 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
+    ax8.axis('off')
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax8)
 
