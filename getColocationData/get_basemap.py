@@ -253,7 +253,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     divider = make_axes_locatable(ax6)
 
     # Add the colorbar to the divider
-    cax = divider.append_axes("bottom", size="7%", pad="10%")
+    cax = divider.append_axes("bottom", size="7%", pad="20%")
 
     cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
     cbar.ax.tick_params(labelsize=18)
@@ -270,14 +270,14 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add text about the location using space of subplot(1,0)
     ######################################################################
 
-    # ax7 = fig.add_subplot(gs[1, 0:2])
-    # ax7.text(0.5, 0.5, '%s' % colocation_info,
-    #          horizontalalignment='left',
-    #          verticalalignment='top',
-    #          transform=ax1.transAxes,
-    #          fontsize=26,
-    #          fontweight='bold',
-    #          color='black')
+    ax7 = fig.add_subplot(gs[1, 0:2])
+    ax7.text(0.5, 0.5, '%s' % colocation_info,
+             horizontalalignment='left',
+             verticalalignment='top',
+             transform=ax1.transAxes,
+             fontsize=26,
+             fontweight='bold',
+             color='black')
 
     ######################################################################
     #### add text to describe the aerosol typeing using space of subplot(1,1)
