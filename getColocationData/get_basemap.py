@@ -96,11 +96,11 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     plt.legend(fontsize=20)
     ax1.add_patch(circle)
-    ax1.text(1.2, 0.7, '%s'%colocation_info,
+    ax1.text(1.1, 0.7, '%s'%colocation_info,
             horizontalalignment='left',
             verticalalignment='top',
             transform=ax1.transAxes,
-            fontsize=26,
+            fontsize=22,
             fontweight='bold',
             color='black')
 
@@ -267,14 +267,14 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     cbar = plt.colorbar(shrink=0.8)
     cbar.ax.tick_params(labelsize=18)
 
-    ax6.set_xlabel('Profile Number', fontsize=30)
+    ax6.set_xlabel('Latitude', fontsize=30)
     ax6.set_ylabel('Height [km]', fontsize=30)
 
-    ax6.text(0.75, 0.95, aerosol_type_text,
+    ax6.text(0.65, 0.95, aerosol_type_text,
              horizontalalignment='left',
              verticalalignment='top',
              transform=ax6.transAxes,
-             fontsize=26,
+             fontsize=20,
              color='white')
 
     for tick in ax6.xaxis.get_major_ticks():
