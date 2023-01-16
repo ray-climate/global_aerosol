@@ -59,7 +59,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     lats = range(lat_min - interval, lat_max + interval, int(interval / 2))
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
 
-    fig = plt.figure(constrained_layout=True, figsize=(30, 20))
+    fig = plt.figure(constrained_layout=True, figsize=(45, 30))
     gs = GridSpec(4, 4, figure=fig)
 
     # ax1 = fig.add_subplot(gs[0:1, 1:3])
@@ -248,6 +248,12 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     z_grid_caliop_type[feature_type_caliop == 4] = 0
 
     fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
+
+    # Create an axes divider for the main plot
+    divider = make_axes_locatable(ax6)
+
+    # Add the colorbar to the divider
+    cax = divider.append_axes("right", size="1.5%", pad=0.1)
 
     cbar = plt.colorbar(fig6, cax=cax, shrink=0.6)
     cbar.ax.tick_params(labelsize=18)
