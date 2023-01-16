@@ -255,7 +255,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     # Add the colorbar to the divider
     cax = divider.append_axes("bottom", size="7%", pad="2%")
 
-    cbar = plt.colorbar(fig6, cax=cax, shrink=0.6)
+    cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
     cbar.ax.tick_params(labelsize=18)
 
     ax6.set_xlabel('Latitude', fontsize=30)
