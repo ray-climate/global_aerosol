@@ -272,11 +272,11 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     ax7 = fig.add_subplot(gs[1, 0:2])
     ax7.axis('off')
-    ax7.text(0.5, 0.5, '%s' % colocation_info,
+    ax7.text(0.2, 0.5, '%s' % colocation_info,
              horizontalalignment='left',
              verticalalignment='top',
              transform=ax7.transAxes,
-             fontsize=26,
+             fontsize=30,
              fontweight='bold',
              color='black')
 
@@ -285,11 +285,11 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     ######################################################################
 
     aerosol_type_text = "0 = not determined    " \
-                        "1 = clean marine      " \
+                        "1 = clean marine      \n" \
                         "2 = dust              " \
-                        "3 = polluted continental / smoke\n" \
+                        "3 = polluted continental / smoke" \
                         "4 = clean continental " \
-                        "5 = polluted dust     " \
+                        "5 = polluted dust     \n" \
                         "6 = elevated smoke    " \
                         "7 = dusty marine"
 
