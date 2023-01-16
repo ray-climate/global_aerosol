@@ -247,8 +247,9 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop == 4] = 0
 
-    plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
-    cbar = plt.colorbar(shrink=0.8)
+    fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
+
+    cbar = plt.colorbar(fig6, cax=cax, shrink=0.6)
     cbar.ax.tick_params(labelsize=18)
 
     ax6.set_xlabel('Latitude', fontsize=30)
