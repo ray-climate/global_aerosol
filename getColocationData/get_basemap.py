@@ -264,7 +264,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     ######################################################################
 
     ax7 = fig.add_subplot(gs[1, 0:2])
-    ax1.text(0.5, 0.5, '%s' % colocation_info,
+    ax7.text(0.5, 0.5, '%s' % colocation_info,
              horizontalalignment='left',
              verticalalignment='top',
              transform=ax1.transAxes,
