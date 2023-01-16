@@ -274,7 +274,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     ax7.text(0.5, 0.5, '%s' % colocation_info,
              horizontalalignment='left',
              verticalalignment='top',
-             transform=ax1.transAxes,
+             transform=ax7.transAxes,
              fontsize=26,
              fontweight='bold',
              color='black')
