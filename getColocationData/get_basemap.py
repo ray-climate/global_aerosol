@@ -263,36 +263,36 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add text about the location using space of subplot(1,0)
     ######################################################################
 
-    ax7 = fig.add_subplot(gs[1, 0:2])
-    ax7.text(0.5, 0.5, '%s' % colocation_info,
-             horizontalalignment='left',
-             verticalalignment='top',
-             transform=ax1.transAxes,
-             fontsize=26,
-             fontweight='bold',
-             color='black')
+    # ax7 = fig.add_subplot(gs[1, 0:2])
+    # ax7.text(0.5, 0.5, '%s' % colocation_info,
+    #          horizontalalignment='left',
+    #          verticalalignment='top',
+    #          transform=ax1.transAxes,
+    #          fontsize=26,
+    #          fontweight='bold',
+    #          color='black')
 
     ######################################################################
     #### add text to describe the aerosol typeing using space of subplot(1,1)
     ######################################################################
 
-    aerosol_type_text = "0 = not determined    " \
-                        "1 = clean marine      " \
-                        "2 = dust              " \
-                        "3 = polluted continental / smoke\n" \
-                        "4 = clean continental " \
-                        "5 = polluted dust     " \
-                        "6 = elevated smoke    " \
-                        "7 = dusty marine"
-
-    ax8 = fig.add_subplot(gs[1, 2:4])
-    ax8.text(0.05, 0.95, aerosol_type_text,
-             horizontalalignment='left',
-             verticalalignment='top',
-             transform=ax6.transAxes,
-             fontsize=26,
-             fontweight='bold',
-             color='black')
+    # aerosol_type_text = "0 = not determined    " \
+    #                     "1 = clean marine      " \
+    #                     "2 = dust              " \
+    #                     "3 = polluted continental / smoke\n" \
+    #                     "4 = clean continental " \
+    #                     "5 = polluted dust     " \
+    #                     "6 = elevated smoke    " \
+    #                     "7 = dusty marine"
+    #
+    # ax8 = fig.add_subplot(gs[1, 2:4])
+    # ax8.text(0.05, 0.95, aerosol_type_text,
+    #          horizontalalignment='left',
+    #          verticalalignment='top',
+    #          transform=ax6.transAxes,
+    #          fontsize=26,
+    #          fontweight='bold',
+    #          color='black')
 
     plt.subplots_adjust(wspace=1., hspace=1.)
     plt.suptitle("%s"%title, fontweight='bold', fontstyle='italic', fontsize=28)
