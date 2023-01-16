@@ -250,7 +250,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
 
     # Create an axes divider for the main plot
-    divider = make_axes_locatable(ax6)
+    # divider = make_axes_locatable(ax6)
 
     # Add the colorbar to the divider
     # cax = divider.append_axes("bottom", size="7%", pad="30%")
@@ -294,9 +294,13 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
                         "7 = dusty marine"
 
     ax8 = fig.add_subplot(gs[1, 2:4])
-    ax8.axis('off')
 
-    fig8 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, np.zeros((x_grid_caliop.shape)))
+    fig8 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, alpha=0)
+    ax8.axis('off')
+    # Create an axes divider for the main plot
+    divider = make_axes_locatable(ax8)
+
+    # Add the colorbar to the divider
     cax = divider.append_axes("top", size="7%", pad="1%")
     cbar = plt.colorbar(fig8, cax=cax, shrink=0.6, orientation="horizontal")
     cbar.ax.tick_params(labelsize=18)
