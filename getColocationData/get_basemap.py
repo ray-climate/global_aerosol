@@ -253,10 +253,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     divider = make_axes_locatable(ax6)
 
     # Add the colorbar to the divider
-    cax = divider.append_axes("bottom", size="7%", pad="30%")
+    # cax = divider.append_axes("bottom", size="7%", pad="30%")
 
-    cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
-    cbar.ax.tick_params(labelsize=18)
+    # cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
+    # cbar.ax.tick_params(labelsize=18)
 
     ax6.set_xlabel('Latitude', fontsize=30)
     ax6.set_ylabel('Height [km]', fontsize=30)
@@ -284,17 +284,22 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add text to describe the aerosol typeing using space of subplot(1,1)
     ######################################################################
 
-    aerosol_type_text = "0 = not determined    " \
-                        "1 = clean marine      \n" \
-                        "2 = dust              " \
-                        "3 = polluted continental / smoke" \
-                        "4 = clean continental " \
-                        "5 = polluted dust     \n" \
-                        "6 = elevated smoke    " \
+    aerosol_type_text = "0 = not determined\n" \
+                        "1 = clean marine\n" \
+                        "2 = dust\n" \
+                        "3 = polluted continental / smoke\n" \
+                        "4 = clean continental\n" \
+                        "5 = polluted dust\n" \
+                        "6 = elevated smoke\n" \
                         "7 = dusty marine"
 
-    ax8 = fig.add_subplot(gs[1, 2:4])
+    fig8, ax8 = fig.add_subplot(gs[1, 2:4])
     ax8.axis('off')
+
+    cax = divider.append_axes("top", size="7%", pad="1%")
+    cbar = plt.colorbar(fig8, cax=cax, shrink=0.6, orientation="horizontal")
+    cbar.ax.tick_params(labelsize=18)
+
     ax8.text(0.05, 0.95, aerosol_type_text,
              horizontalalignment='left',
              verticalalignment='top',
