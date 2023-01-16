@@ -285,7 +285,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
                         "6 = elevated smoke    " \
                         "7 = dusty marine"
 
-    ax8 = fig.add_subplot(gs[1, 0:2])
+    ax8 = fig.add_subplot(gs[1, 2:4])
     ax8.text(0.05, 0.95, aerosol_type_text,
              horizontalalignment='left',
              verticalalignment='top',
