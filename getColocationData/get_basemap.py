@@ -305,7 +305,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
                         "6 = elevated smoke\n" \
                         "7 = dusty marine"
 
-    ax8 = fig.add_subplot(gs[3, 0:2])
+    ax8 = fig.add_subplot(gs[3,  0:2])
 
     fig8 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
     ax8.axis('off')
