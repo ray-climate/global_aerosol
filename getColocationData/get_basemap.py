@@ -67,9 +67,6 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     lat_colocation_caliop = lat_caliop[np.argmin(colocation_distance_array)]
     lon_colocation_caliop = lon_caliop[np.argmin(colocation_distance_array)]
-    print(lat_colocation, lon_colocation)
-    print(lat_colocation_caliop, lon_colocation_caliop)
-    quit()
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
     gs = GridSpec(4, 4, figure=fig)
@@ -80,7 +77,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     subplot on the figure. The first two values specify the x and y coordinates of the 
     bottom left corner of the subplot, respectively, as a fraction of the figure size.
     """
-    ax1 = fig.add_subplot(gs[0, 0:2])
+    ax1 = fig.add_subplot(gs[0:2, 0:2])
 
     # Create a Basemap object using the Sinusoidal Tile Grid projection
     m = Basemap(projection='merc', llcrnrlat=lat_min, urcrnrlat=lat_max,
@@ -122,7 +119,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
                           cmap='viridis')
-    ax2.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.3, lw=20)
+    ax2.axvline(x=lat_colocation_caliop, color='red', linestyle='solid', alpha=0.3, lw=20)
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax2)
 
@@ -190,7 +187,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     z_grid_caliop_alpha = alpha_caliop
 
     fig4 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_alpha, norm=colors.LogNorm(vmin=1.e-3, vmax=1.), cmap='viridis')
-    ax4.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.3, lw=20)
+    ax4.axvline(x=lat_colocation_caliop, color='red', linestyle='solid', alpha=0.3, lw=20)
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax4)
 
@@ -282,15 +279,15 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add text about the location using space of subplot(1,0)
     ######################################################################
 
-    ax7 = fig.add_subplot(gs[1, 0:2])
-    ax7.axis('off')
-    ax7.text(0.2, 0.5, '%s' % colocation_info,
-             horizontalalignment='left',
-             verticalalignment='top',
-             transform=ax7.transAxes,
-             fontsize=30,
-             fontweight='bold',
-             color='black')
+    # ax7 = fig.add_subplot(gs[1, 0:2])
+    # ax7.axis('off')
+    # ax7.text(0.2, 0.5, '%s' % colocation_info,
+    #          horizontalalignment='left',
+    #          verticalalignment='top',
+    #          transform=ax7.transAxes,
+    #          fontsize=30,
+    #          fontweight='bold',
+    #          color='black')
 
     ######################################################################
     #### add text to describe the aerosol typeing using space of subplot(1,1)
