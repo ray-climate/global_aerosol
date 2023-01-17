@@ -177,7 +177,7 @@ while start_date_datetime <= end_date_datetime:
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
                                 colocation_info=colocation_info, logger=logger)
             else:
-                logger.warning("Colocation profiles exceed minimum temporal windows - %s"%temporal_wd)
+                logger.warning("Colocation profiles exceed minimum temporal window, go to next......")
 
         else:
             logger.warning("Colocation profiles exceed the AOI, go to next......")
