@@ -103,7 +103,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     # Draw the circle
     radius = 2.e5
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
-    plt.legend(fontsize=20)
+    plt.legend(fontsize=28)
     ax1.add_patch(circle)
 
     # setting the position of first subplot
