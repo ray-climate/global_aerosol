@@ -178,7 +178,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     z_grid_caliop_alpha = alpha_caliop
 
     fig4 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_alpha, norm=colors.LogNorm(vmin=1.e-3, vmax=1.), cmap='viridis')
-
+    fig4.axvline(x=lat_colocation, color='red', linestyle='dashed')
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax4)
 
