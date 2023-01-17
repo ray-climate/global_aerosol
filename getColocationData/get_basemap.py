@@ -11,6 +11,7 @@ from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import geopy.distance
 import numpy as np
 
 
@@ -58,6 +59,12 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     # Create a list of latitudes and longitudes to use as grid lines
     lats = range(lat_min - interval, lat_max + interval, int(interval / 2))
     lons = range(lon_min - interval, lon_max + interval, int(interval / 2))
+
+    # calculate and find the closest distance point
+    colocation_distance_list = [geopy.distance.geodesic((lat_colocation, lon_colocation),
+                                                      (lat_caliop[s], lon_caliop[s])).km for s in range(len(lat_caliop))]
+    print(colocation_distance_list)
+    quit()
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
     gs = GridSpec(4, 4, figure=fig)
@@ -306,7 +313,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     cbar.ax.tick_params(labelsize=18)
 
     fig8.set_visible(False)
-    ax8.text(0.05, 0.8, aerosol_type_text,
+    ax8.text(0.35, 0.8, aerosol_type_text,
              horizontalalignment='left',
              verticalalignment='top',
              transform=ax8.transAxes,
