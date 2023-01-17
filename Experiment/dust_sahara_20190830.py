@@ -78,7 +78,7 @@ while start_date_datetime <= end_date_datetime:
     minute_i = '{:02d}'.format(start_date_datetime.minute)
 
     logger.info('#############################################################')
-    logger.info('Start searching colocations for: %s-%s-%s %s:%s' % (year_i, month_i, day_i, hour_i, minute_i))
+    logger.info('Start searching colocations for: %s-%s-%s %s:%s +1 hour' % (year_i, month_i, day_i, hour_i, minute_i))
     logger.info('#############################################################')
 
     search_year = year_i
@@ -112,8 +112,8 @@ while start_date_datetime <= end_date_datetime:
                 continue
 
         logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        logger.info('Fetching colocations for lat lon: %.2f, %.2f' % (float(lat_colocation), float(lon_colocation)))
-
+        logger.info('Fetching colocations......')
+        logger.info('lat, lon: (%.2f, %.2f)' % (float(lat_colocation), float(lon_colocation)))
         if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
 
             # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
@@ -180,7 +180,7 @@ while start_date_datetime <= end_date_datetime:
                 logger.warning("Colocation profiles exceed minimum temporal windows - %s"%temporal_wd)
 
         else:
-            logger.warning("Colocation profiles exceed the AOI.")
+            logger.warning("Colocation profiles exceed the AOI, go to next......")
 
     start_date_datetime = start_date_datetime + time_delta
 
