@@ -111,7 +111,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     # setting the position of first subplot
 
-    ax2 = fig.add_subplot(gs[2, 0:2])
+    ax2 = fig.add_subplot(gs[0, 2:4])
     x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
     z_grid_caliop = beta_caliop
 
@@ -150,7 +150,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of aeolus backscatter
     ######################################################################
 
-    ax3 = fig.add_subplot(gs[3, 0:2])
+    ax3 = fig.add_subplot(gs[1, 2:4])
     x_grid_aeolus, y_grid_aeolus = np.meshgrid(lat_aeolus, alt_caliop) # aeolus is already resampled vertically
     z_grid_aeolus = beta_aeolus.T
 
@@ -250,7 +250,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #### add subplot of caliop aerosol types
     ######################################################################
 
-    ax6 = fig.add_subplot(gs[0, 2:4])
+    ax6 = fig.add_subplot(gs[2, 0:2])
 
     cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
     bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -305,7 +305,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
                         "6 = elevated smoke\n" \
                         "7 = dusty marine"
 
-    ax8 = fig.add_subplot(gs[1, 2:4])
+    ax8 = fig.add_subplot(gs[3, 0:2])
 
     fig8 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
     ax8.axis('off')
@@ -327,8 +327,13 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
              color='black')
 
     # plot colocated backscatter profiles
+
+    beta_caliop_sublist = beta_caliop[:, max(location_index_caliop - 8, 0):min(location_index_caliop + 8, alpha_caliop.shape[1])]
+    beta_caliop_sublist[beta_caliop_sublist < 0] = np.nan
+
     ax9 = fig.add_subplot(gs[0:2, 4])
-    fig9 = plt.plot(beta_aeolus[location_index_aeolus,:], alt_caliop, 'r-', label='Aeolus', lw=3)
+    fig9 = plt.plot(beta_aeolus[location_index_aeolus,:], alt_caliop, 'r-', label='AEOLUS', lw=3)
+    plt.plot(np.nanmean(beta_caliop_sublist, axis=1), alt_caliop, 'k-', label='CALIOP', lw=3)
     ax9.set_xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=30)
     ax9.set_ylabel('Height [km]', fontsize=30)
     ax9.xaxis.set_major_locator(ticker.MaxNLocator(nbins=4, integer=True))
@@ -343,6 +348,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     alpha_caliop_sublist = alpha_caliop[:, max(location_index_caliop-8,0):min(location_index_caliop+8, alpha_caliop.shape[1])]
     alpha_caliop_sublist[alpha_caliop_sublist<0] = np.nan
+
     ax10 = fig.add_subplot(gs[2:4, 4])
     fig10 = plt.plot(alpha_aeolus[location_index_aeolus, :], alt_caliop, 'r-', label='AEOLUS', lw=3)
     plt.plot(np.nanmean(alpha_caliop_sublist, axis=1), alt_caliop, 'k-', label='CALIOP', lw=3)
