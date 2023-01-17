@@ -65,11 +65,13 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
                                                       (lat_caliop[s], lon_caliop[s])).km for s in range(len(lat_caliop))]
     colocation_distance_array = np.asarray(colocation_distance_list)
 
-    lat_colocation_caliop = lat_caliop[np.argmin(colocation_distance_array)]
-    lon_colocation_caliop = lon_caliop[np.argmin(colocation_distance_array)]
+    location_index_aeolus = np.argmin((abs(lat_aeolus - lat_colocation)))
+    location_index_caliop = np.argmin(colocation_distance_array)
+    lat_colocation_caliop = lat_caliop[location_index_caliop]
+    lon_colocation_caliop = lon_caliop[location_index_caliop]
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-    gs = GridSpec(4, 4, figure=fig)
+    gs = GridSpec(4, 5, figure=fig)
 
     # ax1 = fig.add_subplot(gs[0:1, 1:3])
     """
@@ -322,6 +324,17 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
              fontsize=28,
              fontweight='bold',
              color='black')
+
+    # plot colocated backscatter profiles
+    ax8 = fig.add_subplot(gs[0:2, 4])
+    fig9 = plt.plot(beta_aeolus[location_index_aeolus,:], alt_caliop)
+    ax5.set_xlabel('Backscatter coeff.', fontsize=30)
+    ax5.set_ylabel('Height [km]', fontsize=30)
+
+    for tick in ax5.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax5.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
 
     plt.subplots_adjust(wspace=1., hspace=1.)
     plt.suptitle("%s"%title, fontweight='bold', fontstyle='italic', fontsize=28, y=1.05)
