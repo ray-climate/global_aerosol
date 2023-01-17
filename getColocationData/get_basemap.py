@@ -110,7 +110,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
                           cmap='viridis')
-    ax2.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.5, lw=8)
+    ax2.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.3, lw=20)
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax2)
 
@@ -146,7 +146,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     #                       cmap=_cliop_cmp())
     fig3 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
                           cmap='viridis')
-    ax3.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.5, lw=8)
+    ax3.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.3, lw=20)
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax3)
 
@@ -178,7 +178,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     z_grid_caliop_alpha = alpha_caliop
 
     fig4 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_alpha, norm=colors.LogNorm(vmin=1.e-3, vmax=1.), cmap='viridis')
-    ax4.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.5, lw=8)
+    ax4.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.3, lw=20)
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax4)
 
@@ -210,7 +210,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     z_grid_aeolus_alpha = alpha_aeolus.T
 
     fig5 = plt.pcolormesh(x_grid_aeolus, y_grid_aeolus, z_grid_aeolus_alpha, cmap='viridis', norm=colors.LogNorm(vmin=1.e-3, vmax=1.))
-    ax5.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.5, lw=8)
+    ax5.axvline(x=lat_colocation, color='red', linestyle='solid', alpha=0.3, lw=20)
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax5)
 
