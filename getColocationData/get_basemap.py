@@ -345,7 +345,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     alpha_caliop_sublist[alpha_caliop_sublist<0] = np.nan
     ax10 = fig.add_subplot(gs[2:4, 4])
     fig10 = plt.plot(alpha_aeolus[location_index_aeolus, :], alt_caliop, 'r-', label='AEOLUS', lw=3)
-    plt.plot(np.nanmean(alpha_caliop_sublist, axis=1), alt_caliop, 'r-', label='CALIOP', lw=3)
+    plt.plot(np.nanmean(alpha_caliop_sublist, axis=1), alt_caliop, 'k-', label='CALIOP', lw=3)
     ax10.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=30)
     ax10.set_ylabel('Height [km]', fontsize=30)
     ax10.xaxis.set_major_locator(ticker.MaxNLocator(nbins=4, integer=True))
