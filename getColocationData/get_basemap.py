@@ -341,7 +341,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     # plot colocated extinction profiles
     print(alpha_caliop.shape)
-    alpha_caliop_sublist = alpha_caliop[:, max(location_index_caliop-10,0):min(location_index_caliop+11,alpha_caliop.shape[1])]
+    alpha_caliop_sublist = alpha_caliop[:, max(location_index_caliop-10,0):min(location_index_caliop+11, alpha_caliop.shape[1])]
     print(alpha_caliop_sublist.shape)
     quit()
     ax10 = fig.add_subplot(gs[2:4, 4])
