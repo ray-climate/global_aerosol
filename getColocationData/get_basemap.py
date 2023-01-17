@@ -340,7 +340,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     plt.legend(fontsize=28)
 
     # plot colocated extinction profiles
-    ax10 = fig.add_subplot(gs[0:2, 4])
+    ax10 = fig.add_subplot(gs[2:4, 4])
     fig10 = plt.plot(alpha_aeolus[location_index_aeolus, :], alt_caliop, 'r-', label='Aeolus', lw=3)
     ax10.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=30)
     ax10.set_ylabel('Height [km]', fontsize=30)
