@@ -340,12 +340,12 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     plt.legend(fontsize=28)
 
     # plot colocated extinction profiles
-    print(alpha_caliop.shape)
-    alpha_caliop_sublist = alpha_caliop[:, max(location_index_caliop-10,0):min(location_index_caliop+11, alpha_caliop.shape[1])]
-    print(alpha_caliop_sublist.shape)
-    quit()
+
+    alpha_caliop_sublist = alpha_caliop[:, max(location_index_caliop-8,0):min(location_index_caliop+8, alpha_caliop.shape[1])]
+    alpha_caliop_sublist[alpha_caliop_sublist<0] = np.nan
     ax10 = fig.add_subplot(gs[2:4, 4])
-    fig10 = plt.plot(alpha_aeolus[location_index_aeolus, :], alt_caliop, 'r-', label='Aeolus', lw=3)
+    fig10 = plt.plot(alpha_aeolus[location_index_aeolus, :], alt_caliop, 'r-', label='AEOLUS', lw=3)
+    plt.plot(np.nanmean(alpha_caliop_sublist, axis=1), alt_caliop, 'r-', label='CALIOP', lw=3)
     ax10.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=30)
     ax10.set_ylabel('Height [km]', fontsize=30)
     ax10.xaxis.set_major_locator(ticker.MaxNLocator(nbins=4, integer=True))
