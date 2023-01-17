@@ -63,7 +63,12 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     # calculate and find the closest distance point
     colocation_distance_list = [geopy.distance.geodesic((lat_colocation, lon_colocation),
                                                       (lat_caliop[s], lon_caliop[s])).km for s in range(len(lat_caliop))]
-    print(colocation_distance_list)
+    colocation_distance_array = np.asarray(colocation_distance_list)
+
+    lat_colocation_caliop = lat_caliop[np.argmin(colocation_distance_array)]
+    lon_colocation_caliop = lon_caliop[np.argmin(colocation_distance_array)]
+    print(lat_caliop, lon_caliop)
+    print(lat_colocation_caliop, lon_colocation_caliop)
     quit()
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
