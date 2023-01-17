@@ -326,14 +326,14 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
              color='black')
 
     # plot colocated backscatter profiles
-    ax8 = fig.add_subplot(gs[0:2, 4])
-    fig9 = plt.plot(beta_aeolus[location_index_aeolus,:], alt_caliop)
-    ax5.set_xlabel('Backscatter coeff.', fontsize=30)
-    ax5.set_ylabel('Height [km]', fontsize=30)
+    ax9 = fig.add_subplot(gs[0:2, 4])
+    fig9 = plt.plot(beta_aeolus[location_index_aeolus,:], alt_caliop, 'r-', label='Aeolus', lw=3)
+    ax9.set_xlabel('Backscatter coeff.', fontsize=30)
+    ax9.set_ylabel('Height [km]', fontsize=30)
 
-    for tick in ax5.xaxis.get_major_ticks():
+    for tick in ax9.xaxis.get_major_ticks():
         tick.label.set_fontsize(25)
-    for tick in ax5.yaxis.get_major_ticks():
+    for tick in ax9.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
 
     plt.subplots_adjust(wspace=1., hspace=1.)
