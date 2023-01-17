@@ -67,7 +67,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
 
     lat_colocation_caliop = lat_caliop[np.argmin(colocation_distance_array)]
     lon_colocation_caliop = lon_caliop[np.argmin(colocation_distance_array)]
-    print(lat_caliop, lon_caliop)
+    print(lat_colocation, lon_colocation)
     print(lat_colocation_caliop, lon_colocation_caliop)
     quit()
 
