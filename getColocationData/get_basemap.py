@@ -9,6 +9,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.basemap import Basemap
 from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
+import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import geopy.distance
@@ -330,13 +331,27 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     fig9 = plt.plot(beta_aeolus[location_index_aeolus,:], alt_caliop, 'r-', label='Aeolus', lw=3)
     ax9.set_xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=30)
     ax9.set_ylabel('Height [km]', fontsize=30)
-    import matplotlib.ticker as ticker
     ax9.xaxis.set_major_locator(ticker.MaxNLocator(nbins=4, integer=True))
 
     for tick in ax9.xaxis.get_major_ticks():
         tick.label.set_fontsize(25)
     for tick in ax9.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
+    plt.legend(fontsize=28)
+
+    # plot colocated extinction profiles
+    ax10 = fig.add_subplot(gs[0:2, 4])
+    fig10 = plt.plot(alpha_aeolus[location_index_aeolus, :], alt_caliop, 'r-', label='Aeolus', lw=3)
+    ax10.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=30)
+    ax10.set_ylabel('Height [km]', fontsize=30)
+    ax10.xaxis.set_major_locator(ticker.MaxNLocator(nbins=4, integer=True))
+
+    for tick in ax10.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax10.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    plt.legend(fontsize=28)
+
 
     plt.subplots_adjust(wspace=1., hspace=1.)
     plt.suptitle("%s"%title, fontweight='bold', fontstyle='italic', fontsize=28, y=1.05)
