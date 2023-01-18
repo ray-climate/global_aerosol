@@ -6,6 +6,8 @@
 # @Time:        18/01/2023 16:32
 
 from datetime import datetime, timedelta
+import pathlib
+import os
 
 data_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km'
 
@@ -24,6 +26,11 @@ while start_date_datetime <= end_date_datetime:
     day_i = '{:02d}'.format(start_date_datetime.day)
 
     save_dir_i = data_dir + '/%s/%s_%s_%s'%(year_i, year_i, month_i, day_i)
-    print(save_dir_i)
+
+    try:
+        os.stat(save_dir_i)
+    except:
+        pathlib.Path(save_dir_i).mkdir(parents=True, exist_ok=True)
+
     start_date_datetime = start_date_datetime + time_delta
 
