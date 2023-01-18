@@ -1,50 +1,87 @@
 
+###
 # !/usr/bin/python
-from cookielib import CookieJar
-from urllib import urlencode
 
-import urllib2
 
-# The user credentials that will be used to authenticate access to the data
+import requests  # get the requsts library from https://github.com/requests/requests
 
+
+# overriding requests.Session.rebuild_auth to mantain headers when redirected
+
+class SessionWithHeaderRedirection(requests.Session):
+    AUTH_HOST = 'urs.earthdata.nasa.gov'
+
+    def __init__(self, username, password):
+
+        super().__init__()
+
+        self.auth = (username, password)
+
+    # Overrides from the library to keep headers when redirected to or from
+
+    # the NASA auth host.
+
+    def rebuild_auth(self, prepared_request, response):
+
+        headers = prepared_request.headers
+
+        url = prepared_request.url
+
+        if 'Authorization' in headers:
+
+            original_parsed = requests.utils.urlparse(response.request.url)
+
+            redirect_parsed = requests.utils.urlparse(url)
+
+            if (original_parsed.hostname != redirect_parsed.hostname) and \
+ \
+                    redirect_parsed.hostname != self.AUTH_HOST and \
+ \
+                    original_parsed.hostname != self.AUTH_HOST:
+
+            del headers['Authorization']
+
+        return
+
+
+# create session with the user credentials that will be used to authenticate access to the data
 username = "ruisong123"
 password = "Lztxdy.862210"
 
-# The url of the file we wish to retrieve
+
+session = SessionWithHeaderRedirection(username, password)
+
+# the url of the file we wish to retrieve
 
 url = "https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20/2020/05/CAL_LID_L2_05kmAPro-Standard-V4-20.2020-05-20T06-30-56ZN.hdf"
 
-# Create a password manager to deal with the 401 reponse that is returned from
-# Earthdata Login
+# extract the filename from the url to be used when saving the file
 
-password_manager = urllib2.HTTPPasswordMgrWithDefaultRealm()
-password_manager.add_password(None, "https://urs.earthdata.nasa.gov", username, password)
+filename = url[url.rfind('/') + 1:]
 
-# Create a cookie jar for storing cookies. This is used to store and return
-# the session cookie given to use by the data server (otherwise it will just
-# keep sending us back to Earthdata Login to authenticate).  Ideally, we
-# should use a file based cookie jar to preserve cookies between runs. This
-# will make it much more efficient.
+try:
 
-cookie_jar = CookieJar()
+    # submit the request using the session
 
-# Install all the handlers.
+    response = session.get(url, stream=True)
 
-opener = urllib2.build_opener(
-    urllib2.HTTPBasicAuthHandler(password_manager),
-    # urllib2.HTTPHandler(debuglevel=1),    # Uncomment these two lines to see
-    # urllib2.HTTPSHandler(debuglevel=1),   # details of the requests/responses
-    urllib2.HTTPCookieProcessor(cookie_jar))
-urllib2.install_opener(opener)
+    print(response.status_code)
 
-# Create and submit the request. There are a wide range of exceptions that
-# can be thrown here, including HTTPError and URLError. These should be
-# caught and handled.
+    # raise an exception in case of http errors
 
-request = urllib2.Request(url)
-response = urllib2.urlopen(request)
+    response.raise_for_status()
 
-# Print out the result (not a good idea with binary data!)
+    # save the file
 
-body = response.read()
-print(body)
+    with open(filename, 'wb') as fd:
+
+        for chunk in response.iter_content(chunk_size=1024 * 1024):
+            fd.write(chunk)
+
+
+
+except requests.exceptions.HTTPError as e:
+
+    # handle any errors here
+
+    print(e)
