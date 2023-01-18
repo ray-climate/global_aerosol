@@ -14,7 +14,7 @@ with requests.Session() as session:
 
     r1 = session.request('get', url)
 
-    r = session.get(r1.url, auth=(username, password))
+    r = session.get(r1.url)
 
     if r.ok:
         print(r.content)  # Say
