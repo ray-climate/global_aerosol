@@ -1,20 +1,13 @@
-
-###
-# !/usr/bin/python
-
-# Example URL
-username = "ruisong123"
-password = "Lztxdy.862210"
-url = "https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20/2020/05/CAL_LID_L2_05kmAPro-Standard-V4-20.2020-05-20T06-30-56ZN.hdf"
-
 import requests
+from bs4 import BeautifulSoup
 
-with requests.Session() as session:
-    session.auth = (username, password)
+url = 'wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --auth-no-challenge=on --keep-session-cookies https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20/2020/05/'
+response = requests.get(url)
+soup = BeautifulSoup(response.content, 'html.parser')
 
-    r1 = session.request('get', url)
+filenames = []
+for a in soup.find_all('a', href=True):
+    if a['href'].endswith('.hdf'):
+        filenames.append(a['href'])
 
-    r = session.get(r1.url, auth=(username, password))
-
-    print(r.content)  # Say
-
+print(filenames)
