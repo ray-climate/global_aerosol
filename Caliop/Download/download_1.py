@@ -7,6 +7,8 @@
 
 from datetime import datetime, timedelta
 
+data_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km'
+
 start_date = '2020-05-16' # start data for downloading
 end_date   = '2020-07-31' # end date for downloading
 
@@ -17,6 +19,11 @@ time_delta = timedelta(days = 1)
 
 while start_date_datetime <= end_date_datetime:
 
-    print(start_date_datetime)
+    year_i = '{:04d}'.format(start_date_datetime.year)
+    month_i = '{:02d}'.format(start_date_datetime.month)
+    day_i = '{:02d}'.format(start_date_datetime.day)
+
+    save_dir_i = data_dir + '/%s/%s_%s_%s'%(year_i, year_i, month_i, day_i)
+    print(save_dir_i)
     start_date_datetime = start_date_datetime + time_delta
 
