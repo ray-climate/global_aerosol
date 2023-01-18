@@ -8,12 +8,12 @@
 from datetime import datetime, timedelta
 
 start_date = '2020-05-16' # start data for downloading
-end_date   = '2020-07-31' # end date for downloading
+end_date   = '2020-08-01' # end date for downloading
 
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
-time_delta = timedelta(hours = 1)
+time_delta = timedelta(days = 1)
 
 while start_date_datetime <= end_date_datetime:
 
