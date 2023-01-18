@@ -2,81 +2,20 @@
 ###
 # !/usr/bin/python
 
-
-import requests  # get the requsts library from https://github.com/requests/requests
-
-
-# overriding requests.Session.rebuild_auth to mantain headers when redirected
-
-class SessionWithHeaderRedirection(requests.Session):
-    AUTH_HOST = 'urs.earthdata.nasa.gov'
-
-    def __init__(self, username, password):
-
-        super().__init__()
-
-        self.auth = (username, password)
-
-    # Overrides from the library to keep headers when redirected to or from
-
-    # the NASA auth host.
-
-    def rebuild_auth(self, prepared_request, response):
-
-        headers = prepared_request.headers
-
-        url = prepared_request.url
-
-        if 'Authorization' in headers:
-
-            original_parsed = requests.utils.urlparse(response.request.url)
-
-            redirect_parsed = requests.utils.urlparse(url)
-
-            if (original_parsed.hostname != redirect_parsed.hostname) and redirect_parsed.hostname != self.AUTH_HOST and original_parsed.hostname != self.AUTH_HOST:
-                    del headers['Authorization']
-
-        return
-
-
-# create session with the user credentials that will be used to authenticate access to the data
+# Example URL
 username = "ruisong123"
 password = "Lztxdy.862210"
-
-
-session = SessionWithHeaderRedirection(username, password)
-
-# the url of the file we wish to retrieve
-
 url = "https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20/2020/05/CAL_LID_L2_05kmAPro-Standard-V4-20.2020-05-20T06-30-56ZN.hdf"
 
-# extract the filename from the url to be used when saving the file
+import requests
 
-filename = url[url.rfind('/') + 1:]
+with requests.Session() as session:
+    session.auth = (username, password)
 
-try:
+    r1 = session.request('get', url)
 
-    # submit the request using the session
+    r = session.get(r1.url, auth=(username, password))
 
-    response = session.get(url, stream=True)
+    if r.ok:
+        print(r.content)  # Say
 
-    print(response.status_code)
-
-    # raise an exception in case of http errors
-
-    response.raise_for_status()
-
-    # save the file
-
-    with open(filename, 'wb') as fd:
-
-        for chunk in response.iter_content(chunk_size=1024 * 1024):
-            fd.write(chunk)
-
-
-
-except requests.exceptions.HTTPError as e:
-
-    # handle any errors here
-
-    print(e)
