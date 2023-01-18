@@ -33,13 +33,8 @@ class SessionWithHeaderRedirection(requests.Session):
 
             redirect_parsed = requests.utils.urlparse(url)
 
-            if (original_parsed.hostname != redirect_parsed.hostname) and \
- \
-                    redirect_parsed.hostname != self.AUTH_HOST and \
- \
-                    original_parsed.hostname != self.AUTH_HOST:
-
-            del headers['Authorization']
+            if (original_parsed.hostname != redirect_parsed.hostname) and redirect_parsed.hostname != self.AUTH_HOST and original_parsed.hostname != self.AUTH_HOST:
+                    del headers['Authorization']
 
         return
 
