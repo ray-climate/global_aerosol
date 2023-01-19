@@ -9,6 +9,7 @@ import os
 import sys
 sys.path.append('../')
 
+from getColocationData.save_colocated_data import *
 from getColocationData.get_reprojection import *
 from getColocationData.get_basemap import *
 from getColocationData.get_aeolus import *
@@ -56,6 +57,7 @@ CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km
 colocation_fp_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Colocation/colocation_database'
 # dir to save graphs and netcdf
 savefig_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Experiment/%s'%script_base
+savenc_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Database'
 
 try:
     os.stat(savefig_dir)
@@ -168,6 +170,17 @@ while start_date_datetime <= end_date_datetime:
 
                 colocation_info = 'Temporal distance = %.1f hours'%(abs_temportal_total_hours)
 
+                savenc_subdir = savenc_dir + '/%s/%s-%s-%s'
+
+                try:
+                    os.stat(savenc_subdir)
+                except:
+                    pathlib.Path(savenc_subdir).mkdir(parents=True, exist_ok=True)
+
+                saveFilename = savenc_subdir + '/%s.nc'
+
+                save_colocation_nc(saveFilename)
+                quit()
                 plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                                 lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample,
                                 alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
