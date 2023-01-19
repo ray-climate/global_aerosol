@@ -170,14 +170,14 @@ while start_date_datetime <= end_date_datetime:
 
                 colocation_info = 'Temporal distance = %.1f hours'%(abs_temportal_total_hours)
 
-                savenc_subdir = savenc_dir + '/%s/%s-%s-%s'
+                savenc_subdir = savenc_dir + '/%s/%s-%s-%s'%(year_i, year_i, month_i, day_i)
 
                 try:
                     os.stat(savenc_subdir)
                 except:
                     pathlib.Path(savenc_subdir).mkdir(parents=True, exist_ok=True)
 
-                saveFilename = savenc_subdir + '/%s.nc'
+                saveFilename = savenc_subdir + '/%s.nc'%aeolus_time_str
 
                 save_colocation_nc(saveFilename)
                 quit()
