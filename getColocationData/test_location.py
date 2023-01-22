@@ -30,7 +30,10 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
 # Get a logger object
 logger = logging.getLogger()
 
+Aeolus_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive'
 colocation_fp_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Colocation/colocation_database'
-aeolus_colocation_file = colocation_fp_dir + '/2019/2019-08-30/AEOLUS-20190830T051323.csv'
+
+aeolus_colocation_file = Aeolus_JASMIN_dir + '/2019-08/2019-08-30.nc'
+
 (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb) \
     = extract_variables_from_aeolus(aeolus_colocation_file, logger)
