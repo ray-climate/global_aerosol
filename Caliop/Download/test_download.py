@@ -6,4 +6,4 @@ save_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Caliop/Dow
 os.system("wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --auth-no-challenge=on --keep-session-cookies --content-disposition -P %s -A '*2020-05-17*' -r -nd -np -nc -nH --cut-dirs=4 -e robots=off https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20/2020/05/"%save_dir)
 
 
-wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --auth-no-challenge=on --keep-session-cookies --content-disposition -P ./  -r -nd -np -nc -nH --cut-dirs=4 -e robots=off https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20/2020/05/CAL_LID_L2_05kmAPro-Standard-V4-20.2020-05-22T03-37-27ZD.hdf
+wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --auth-no-challenge=on --keep-session-cookies --content-disposition -P ./  -r -nd -np -nc -nH --cut-dirs=4 -e robots=off https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20/2020/06/CAL_LID_L2_05kmAPro-Standard-V4-20.2020-06-02T08-56-12ZD.hdf
