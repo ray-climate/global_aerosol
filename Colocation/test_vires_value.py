@@ -26,7 +26,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     level=logging.INFO)
 
 start_date = '2019-08-30 05:09' # start date of search colocations, year-month-day
-end_date = '2022-08-30 05:15' # end date of search colocations, year-month-day
+end_date = '2019-08-30 05:15' # end date of search colocations, year-month-day
 time_delta = timedelta(days = 1)
 
 save_dir = './test'
