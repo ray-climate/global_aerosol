@@ -27,11 +27,6 @@ def extract_variables_from_aeolus(nc_file, logger):
         sca_middle_bin_altitude_obs = nc_data['sca']['SCA_middle_bin_altitude_obs'][:]
         sca_middle_bin_backscatter = nc_data['sca']['SCA_middle_bin_backscatter'][:]
         sca_middle_bin_extinction = nc_data['sca']['SCA_middle_bin_extinction'][:]
-    print(len(latitude_of_DEM_intersection_obs))
-    print(latitude_of_DEM_intersection_obs[1384])
-    print(longitude_of_DEM_intersection_obs[1384])
-    print(sca_middle_bin_backscatter[1384,:])
-    print(sca_middle_bin_altitude_obs[1384,:])
 
     # latitude_of_DEM_intersection_obs[1:] = latitude_of_DEM_intersection_obs[0:len(latitude_of_DEM_intersection_obs) - 1]
     # longitude_of_DEM_intersection_obs[1:] = longitude_of_DEM_intersection_obs[0:len(latitude_of_DEM_intersection_obs) - 1]
@@ -62,11 +57,11 @@ def extract_variables_from_aeolus(nc_file, logger):
             sca_alt_obs_list.append(alt)
             sca_middle_bin_backscatter_list.append(backscatter)
             sca_middle_bin_extinction_list.append(extinction)
-            if lat == 11.794943:
-                print(lat)
-                print(lon)
-                print(backscatter)
-                quit()
+            # if lat == 11.794943:
+            #     print(lat)
+            #     print(lon)
+            #     print(backscatter)
+            #     quit()
 
     sca_observation_time_array = np.asarray(sca_observation_time_list)
     sca_lat_obs_array = np.asarray(sca_lat_obs_list)
