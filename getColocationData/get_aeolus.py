@@ -31,6 +31,7 @@ def extract_variables_from_aeolus(nc_file, logger):
     print(latitude_of_DEM_intersection_obs[1384])
     print(longitude_of_DEM_intersection_obs[1384])
     print(sca_middle_bin_backscatter[1384,:])
+    print(sca_middle_bin_altitude_obs[1384,:])
 
     latitude_of_DEM_intersection_obs[1:] = latitude_of_DEM_intersection_obs[0:len(latitude_of_DEM_intersection_obs) - 1]
     longitude_of_DEM_intersection_obs[1:] = longitude_of_DEM_intersection_obs[0:len(latitude_of_DEM_intersection_obs) - 1]
