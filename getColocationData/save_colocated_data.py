@@ -20,4 +20,4 @@ def save_colocation_nc(saveFilename, lat_aeolus, lon_aeolus, alt_aeolus, beta_ae
     nc_lon_aeolus[:] = lon_aeolus
 
     nc_beta_aeolus = ncfile.createVariable('aeolus_beta', 'f4', ('y_aeolus', 'x_aeolus'))
-    nc_beta_aeolus[:] = beta_aeolus
+    nc_beta_aeolus[:] = beta_aeolus.T
