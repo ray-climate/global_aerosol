@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        22/01/2023 17:03
 
+import os
 import sys
 sys.path.append('../')
 from getColocationData.get_aeolus import *
