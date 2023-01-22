@@ -159,7 +159,7 @@ while start_date_datetime <= end_date_datetime:
                  lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff,
                  aerosol_type_caliop_cutoff, feature_type_caliop_cutoff) = \
                     reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
-                                       footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
+                                           footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
                                            footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
                                            footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
                                            alpha_caliop, aerosol_type_caliop, feature_type_caliop,
