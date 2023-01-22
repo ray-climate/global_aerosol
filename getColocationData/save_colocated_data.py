@@ -33,11 +33,10 @@ def save_colocation_nc(saveFilename, lat_aeolus, lon_aeolus, alt_aeolus,
 
     nc_alt_aeolus = ncfile_aeolus.createVariable('aeolus_altitude', 'f4', ('alt_mid_aeolus', 'x_aeolus'))
     nc_alt_aeolus[:] = alt_aeolus.T
-    print(lat_caliop.shape)
-    print(beta_caliop.shape)
+
     ncfile_caliop = ncfile.createGroup("caliop_data")
-    ncfile_caliop.createDimension('x_caliop', beta_caliop.shape[0])
-    ncfile_caliop.createDimension('y_caliop', beta_caliop.shape[1])
+    ncfile_caliop.createDimension('x_caliop', beta_caliop.shape[1])
+    ncfile_caliop.createDimension('y_caliop', beta_caliop.shape[0])
 
     nc_lat_caliop = ncfile_caliop.createVariable('caliop_latitude', 'f4', ('x_caliop'))
     nc_lat_caliop[:] = lat_caliop
