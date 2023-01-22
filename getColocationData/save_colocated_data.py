@@ -50,5 +50,5 @@ def save_colocation_nc(saveFilename, lat_aeolus, lon_aeolus, alt_aeolus,
     nc_alpha_caliop = ncfile_caliop.createVariable('caliop_alpha', 'f4', ('y_caliop', 'x_caliop'))
     nc_alpha_caliop[:] = alpha_caliop
 
-    nc_alt_caliop = ncfile_caliop.createVariable('caliop_altitude', 'f4', ('y_aeolus'))
+    nc_alt_caliop = ncfile_caliop.createVariable('caliop_altitude', 'f4', ('y_caliop'))
     nc_alt_caliop[:] = alt_caliop
