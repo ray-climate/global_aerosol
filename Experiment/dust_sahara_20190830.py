@@ -181,7 +181,7 @@ while start_date_datetime <= end_date_datetime:
 
                 save_colocation_nc(saveFilename, lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
                                    beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff)
-                quit()
+
                 plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
                                 lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample,
                                 alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
