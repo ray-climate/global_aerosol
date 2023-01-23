@@ -199,7 +199,7 @@ while start_date_datetime <= end_date_datetime:
                                 alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
                                 alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff,
                                 aerosol_type_caliop_cutoff, feature_type_caliop_cutoff,
-                                savefigname=savefig_dir + '/%s-%s-%sT%s%s.png'%(year_i, month_i, day_i, hour_i, minute_i),
+                                savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
                                 colocation_info=colocation_info, logger=logger)
 
