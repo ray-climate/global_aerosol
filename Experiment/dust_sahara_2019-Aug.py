@@ -102,115 +102,119 @@ while start_date_datetime <= end_date_datetime:
     # locate the daily footprint data directory
     colocation_dir_daily = colocation_fp_dir + '/%s/%s-%s-%s/' % (search_year, search_year, search_month, search_day)
 
-    for file in os.listdir(colocation_dir_daily):
+    if os.path.isdir(colocation_dir_daily):
 
-        aeolus_time_str = (file.split('AEOLUS-'))[1].split('.csv')[0]
-        aeolus_time_datetime = datetime.strptime(aeolus_time_str, '%Y%m%dT%H%M%S')
+        for file in os.listdir(colocation_dir_daily):
 
-        input_file = colocation_dir_daily + file
+            aeolus_time_str = (file.split('AEOLUS-'))[1].split('.csv')[0]
+            aeolus_time_datetime = datetime.strptime(aeolus_time_str, '%Y%m%dT%H%M%S')
 
-        with open(input_file, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            try:
-                for row in reader:
-                    lat_colocation = float(row['AEOLUS_latitude'])
-                    lon_colocation = float(row['AEOLUS_longitude'])
-                    caliop_filename = row['CALIOP_filename']
+            input_file = colocation_dir_daily + file
 
-                    if lat_colocation > 180.:
-                        lat_colocation = lat_colocation - 360.
-                    if lon_colocation > 180.:
-                        lon_colocation = lon_colocation - 360.
-            except:
-                logger.error('Error reading colocation footprint')
-                continue
-
-        logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        logger.info('Fetching colocations......')
-        logger.info('lat, lon: (%.2f, %.2f)' % (float(lat_colocation), float(lon_colocation)))
-        if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
-
-            # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
-            #                                       savefig_dir)
-
-            aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
-                                     (search_year, search_month, search_year, search_month, search_day)
-
-            (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
-
-            # Search for the file on the specified date
-            caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
-
-            # If the file is not found, search for the file on the previous day
-            if caliop_colocation_file is None:
-                caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
-                                                          start_date_datetime - timedelta(days=1))
-
-            # If the file is still not found, search for the file on the following day
-            if caliop_colocation_file is None:
-                caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
-                                                          start_date_datetime + timedelta(days=1))
-
-            # If the file is still not found after searching the specified date and the previous and following days, raise an error
-            if caliop_colocation_file is None:
-                logger.error("CALIOP file not found in specified date or surrounding days")
-
-            cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%dT%H-%M-%S')
-            abs_temportal_distance = abs(aeolus_time_datetime - cliop_time_datetime)
-            abs_temportal_total_seconds = abs_temportal_distance.total_seconds()
-            abs_temportal_total_hours = abs_temportal_total_seconds / 3600.
-
-            if abs_temportal_distance < timedelta(hours=temporal_wd):
-                (footprint_lat_caliop, footprint_lon_caliop,
-                 alt_caliop, beta_caliop, alpha_caliop,
-                 aerosol_type_caliop, feature_type_caliop) \
-                    = extract_variables_from_caliop(caliop_colocation_file, logger)
-
-                (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
-                 beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff,
-                 lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff,
-                 aerosol_type_caliop_cutoff, feature_type_caliop_cutoff) = \
-                    reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
-                                           footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
-                                           footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
-                                           footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
-                                           alpha_caliop, aerosol_type_caliop, feature_type_caliop,
-                                           interval=10)
-
-                beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
-                alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
-
-                colocation_info = 'Temporal distance = %.1f hours'%(abs_temportal_total_hours)
-
-                savenc_subdir = savenc_dir + '/%s/%s-%s-%s'%(year_i, year_i, month_i, day_i)
-
+            with open(input_file, newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
                 try:
-                    os.stat(savenc_subdir)
+                    for row in reader:
+                        lat_colocation = float(row['AEOLUS_latitude'])
+                        lon_colocation = float(row['AEOLUS_longitude'])
+                        caliop_filename = row['CALIOP_filename']
+
+                        if lat_colocation > 180.:
+                            lat_colocation = lat_colocation - 360.
+                        if lon_colocation > 180.:
+                            lon_colocation = lon_colocation - 360.
                 except:
-                    pathlib.Path(savenc_subdir).mkdir(parents=True, exist_ok=True)
+                    logger.error('Error reading colocation footprint')
+                    continue
 
-                saveFilename = savenc_subdir + '/%s.nc'%aeolus_time_str
+            logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+            logger.info('Fetching colocations......')
+            logger.info('lat, lon: (%.2f, %.2f)' % (float(lat_colocation), float(lon_colocation)))
+            if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
 
-                save_colocation_nc(saveFilename, lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
-                                   beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff)
+                # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
+                #                                       savefig_dir)
 
-                plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
-                                lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample,
-                                alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
-                                alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff,
-                                aerosol_type_caliop_cutoff, feature_type_caliop_cutoff,
-                                savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
-                                title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
-                                colocation_info=colocation_info, tem_dis = abs_temportal_total_hours, logger=logger)
+                aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
+                                         (search_year, search_month, search_year, search_month, search_day)
 
-                datetime_str_list.append('%s'%aeolus_time_str)
-                ncFile_list.append(savefig_dir + '/%s.png'%aeolus_time_str)
+                (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
+
+                # Search for the file on the specified date
+                caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
+
+                # If the file is not found, search for the file on the previous day
+                if caliop_colocation_file is None:
+                    caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
+                                                              start_date_datetime - timedelta(days=1))
+
+                # If the file is still not found, search for the file on the following day
+                if caliop_colocation_file is None:
+                    caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename,
+                                                              start_date_datetime + timedelta(days=1))
+
+                # If the file is still not found after searching the specified date and the previous and following days, raise an error
+                if caliop_colocation_file is None:
+                    logger.error("CALIOP file not found in specified date or surrounding days")
+
+                cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%dT%H-%M-%S')
+                abs_temportal_distance = abs(aeolus_time_datetime - cliop_time_datetime)
+                abs_temportal_total_seconds = abs_temportal_distance.total_seconds()
+                abs_temportal_total_hours = abs_temportal_total_seconds / 3600.
+
+                if abs_temportal_distance < timedelta(hours=temporal_wd):
+                    (footprint_lat_caliop, footprint_lon_caliop,
+                     alt_caliop, beta_caliop, alpha_caliop,
+                     aerosol_type_caliop, feature_type_caliop) \
+                        = extract_variables_from_caliop(caliop_colocation_file, logger)
+
+                    (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
+                     beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff,
+                     lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff,
+                     aerosol_type_caliop_cutoff, feature_type_caliop_cutoff) = \
+                        reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
+                                               footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
+                                               footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
+                                               footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
+                                               alpha_caliop, aerosol_type_caliop, feature_type_caliop,
+                                               interval=10)
+
+                    beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
+                    alpha_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, alpha_aeolus_cutoff, alt_caliop)
+
+                    colocation_info = 'Temporal distance = %.1f hours'%(abs_temportal_total_hours)
+
+                    savenc_subdir = savenc_dir + '/%s/%s-%s-%s'%(year_i, year_i, month_i, day_i)
+
+                    try:
+                        os.stat(savenc_subdir)
+                    except:
+                        pathlib.Path(savenc_subdir).mkdir(parents=True, exist_ok=True)
+
+                    saveFilename = savenc_subdir + '/%s.nc'%aeolus_time_str
+
+                    save_colocation_nc(saveFilename, lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
+                                       beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff, alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff)
+
+                    plot_grid_tiles(lat_colocation, lon_colocation, lat_aeolus_cutoff,
+                                    lon_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_resample,
+                                    alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
+                                    alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff,
+                                    aerosol_type_caliop_cutoff, feature_type_caliop_cutoff,
+                                    savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
+                                    title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
+                                    colocation_info=colocation_info, tem_dis = abs_temportal_total_hours, logger=logger)
+
+                    datetime_str_list.append('%s'%aeolus_time_str)
+                    ncFile_list.append(savefig_dir + '/%s.png'%aeolus_time_str)
+
+                else:
+                    logger.warning("Colocation profiles exceed minimum temporal window, go to next......")
 
             else:
-                logger.warning("Colocation profiles exceed minimum temporal window, go to next......")
-
-        else:
-            logger.warning("Colocation profiles exceed the AOI, go to next......")
+                logger.warning("Colocation profiles exceed the AOI, go to next......")
+    else:
+        logger.warning(f'{colocation_dir_daily} not exists, no colocation data found.')
 
     start_date_datetime = start_date_datetime + time_delta
 
