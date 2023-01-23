@@ -24,7 +24,7 @@ from datetime import datetime, timedelta
 
 ##############################################################
 start_date = '2019-08-24' # start data for analysis
-end_date   = '2019-08-29' # end date for analysis
+end_date   = '2019-08-31' # end date for analysis
 temporal_wd = 10. # hours of temporal window
 lat_up = 38.
 lat_down = 5.
@@ -206,7 +206,7 @@ while start_date_datetime <= end_date_datetime:
                                     colocation_info=colocation_info, tem_dis = abs_temportal_total_hours, logger=logger)
 
                     datetime_str_list.append('%s'%aeolus_time_str)
-                    ncFile_list.append(savefig_dir + '/%s.png'%aeolus_time_str)
+                    ncFile_list.append(saveFilename)
 
                 else:
                     logger.warning("Colocation profiles exceed minimum temporal window, go to next......")
