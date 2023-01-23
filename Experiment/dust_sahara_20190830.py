@@ -5,19 +5,22 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        15/01/2023 17:52
 
+# Import external libraries
 import os
 import sys
-sys.path.append('../')
+import argparse
+import pathlib
+import logging
+import csv
 
+# Import internal modules
+sys.path.append('../')
 from getColocationData.save_colocated_data import *
 from getColocationData.get_reprojection import *
 from getColocationData.get_basemap import *
 from getColocationData.get_aeolus import *
 from getColocationData.get_caliop import *
 from datetime import datetime, timedelta
-import pathlib
-import logging
-import csv
 
 ##############################################################
 start_date = '2019-08-30' # start data for analysis
@@ -49,6 +52,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
 # Get a logger object
 logger = logging.getLogger()
 
+# Set up data directories
 # aeolus data mirror
 Aeolus_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive'
 # caliop v-20 and v-21 data
@@ -59,6 +63,7 @@ colocation_fp_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/C
 savefig_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Experiment/%s'%script_base
 savenc_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Database'
 
+# Create output directories if they don't exist
 try:
     os.stat(savefig_dir)
 except:
@@ -66,14 +71,18 @@ except:
 
 cwd = os.getcwd()
 
+# Set up time delta
 time_delta = timedelta(days = 1)
 
+# Parse start and end dates
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
+# Initialize lists for datetime strings and netCDF files
 datetime_str_list = []
 ncFile_list = []
 
+# Iterate through date range
 while start_date_datetime <= end_date_datetime:
 
     year_i = '{:04d}'.format(start_date_datetime.year)
@@ -194,7 +203,7 @@ while start_date_datetime <= end_date_datetime:
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
                                 colocation_info=colocation_info, logger=logger)
 
-                datetime_str_list.append('%s-%s-%sT%s%s'%(year_i, month_i, day_i, hour_i, minute_i))
+                datetime_str_list.append('%s'%aeolus_time_str)
                 ncFile_list.append(savefig_dir + '/%s.png'%aeolus_time_str)
 
             else:
@@ -211,7 +220,7 @@ with open(savefig_dir + '/datafile_conclusion.csv', "w") as output:
     writer.writerow(('Colocation Datetime', 'ncFile Location'))
 
     for datetime_str_list_i, ncFile_list_i in zip(datetime_str_list, ncFile_list):
-        writer.writerow(datetime_str_list_i, ncFile_list_i)
+        writer.writerow((datetime_str_list_i, ncFile_list_i))
 
 
 
