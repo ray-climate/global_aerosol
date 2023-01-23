@@ -110,7 +110,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     plt.legend(fontsize=28)
     ax1.add_patch(circle)
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-    textstr = 'temporal distance = %.1f\nspatial distance = %.1f'%(tem_dis, spa_dis)
+    textstr = 'temporal distance = %.1f hours\nspatial distance = %.1f km'%(tem_dis, spa_dis)
     ax1.text(0.5, -0.1, textstr, transform=ax1.transAxes, fontsize=22,
             verticalalignment='top', bbox=props)
 
