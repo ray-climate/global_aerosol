@@ -156,7 +156,7 @@ while start_date_datetime <= end_date_datetime:
                 logger.error("CALIOP file not found in specified date or surrounding days")
 
             cliop_time_datetime = datetime.strptime(caliop_colocation_file[-25:-6], '%Y-%m-%dT%H-%M-%S')
-            abs_temportal_distance = abs(aeolus_time_datetime- cliop_time_datetime)
+            abs_temportal_distance = abs(aeolus_time_datetime - cliop_time_datetime)
             abs_temportal_total_seconds = abs_temportal_distance.total_seconds()
             abs_temportal_total_hours = abs_temportal_total_seconds / 3600.
 
@@ -201,7 +201,7 @@ while start_date_datetime <= end_date_datetime:
                                 aerosol_type_caliop_cutoff, feature_type_caliop_cutoff,
                                 savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
-                                colocation_info=colocation_info, logger=logger)
+                                colocation_info=colocation_info, tem_dis = abs_temportal_total_hours, logger=logger)
 
                 datetime_str_list.append('%s'%aeolus_time_str)
                 ncFile_list.append(savefig_dir + '/%s.png'%aeolus_time_str)

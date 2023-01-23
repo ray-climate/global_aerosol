@@ -36,7 +36,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
                     lat_aeolus, lon_aeolus, alt_aeolus, beta_aeolus, alpha_aeolus,
                     lat_caliop, lon_caliop, alt_caliop, beta_caliop, alpha_caliop,
                     aerosol_type_caliop, feature_type_caliop,
-                    savefigname, title, colocation_info, logger, interval=10):
+                    savefigname, title, colocation_info, logger, tem_dis, interval=10):
     """
     Plot the regional grid tile and the four closest grid tiles to it in the Sinusoidal Tile Grid projection using Basemap.
 
@@ -65,6 +65,7 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     colocation_distance_list = [geopy.distance.geodesic((lat_colocation, lon_colocation),
                                                       (lat_caliop[s], lon_caliop[s])).km for s in range(len(lat_caliop))]
     colocation_distance_array = np.asarray(colocation_distance_list)
+    spa_dis = np.min(colocation_distance_array)
 
     location_index_aeolus = np.argmin((abs(lat_aeolus - lat_colocation)))
     location_index_caliop = np.argmin(colocation_distance_array)
@@ -108,6 +109,10 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     circle = plt.Circle((x_colocation, y_colocation), radius, color='none', fill=True, fc='red', alpha=0.2)
     plt.legend(fontsize=28)
     ax1.add_patch(circle)
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+    textstr = 'temporal distance = %.1f\nspatial distance = %.1f'%(tem_dis, spa_dis)
+    ax1.text(0.05, 0.2, textstr, transform=ax1.transAxes, fontsize=28,
+            verticalalignment='top', bbox=props)
 
     # setting the position of first subplot
 
