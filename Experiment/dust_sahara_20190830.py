@@ -71,6 +71,9 @@ time_delta = timedelta(days = 1)
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
+datetime_str_list = []
+ncFile_list = []
+
 while start_date_datetime <= end_date_datetime:
 
     year_i = '{:04d}'.format(start_date_datetime.year)
@@ -187,9 +190,13 @@ while start_date_datetime <= end_date_datetime:
                                 alpha_aeolus_resample, lat_caliop_cutoff, lon_caliop_cutoff,
                                 alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff,
                                 aerosol_type_caliop_cutoff, feature_type_caliop_cutoff,
-                                savefigname=savefig_dir + '/%s.png'%aeolus_time_str,
+                                savefigname=savefig_dir + '/%s-%s-%sT%s%s.png'%(year_i, month_i, day_i, hour_i, minute_i),
                                 title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
                                 colocation_info=colocation_info, logger=logger)
+
+                datetime_str_list.append('%s-%s-%sT%s%s'%(year_i, month_i, day_i, hour_i, minute_i))
+                ncFile_list.append(savefig_dir + '/%s.png'%aeolus_time_str)
+
             else:
                 logger.warning("Colocation profiles exceed minimum temporal window, go to next......")
 
@@ -197,5 +204,15 @@ while start_date_datetime <= end_date_datetime:
             logger.warning("Colocation profiles exceed the AOI, go to next......")
 
     start_date_datetime = start_date_datetime + time_delta
+
+with open(savefig_dir + '/datafile_conclusion.csv', "w") as output:
+
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerow(('Colocation Datetime', 'ncFile Location'))
+
+    for datetime_str_list_i, ncFile_list_i in zip(datetime_str_list, ncFile_list):
+        writer.writerow(datetime_str_list_i, ncFile_list_i)
+
+
 
 
