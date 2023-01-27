@@ -6,6 +6,7 @@
 # @Time:        27/01/2023 13:19
 
 # Import external libraries
+from datetime import datetime, timedelta
 import logging
 import sys
 import os
@@ -40,3 +41,23 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     filemode='w',
                     filename=log_filename,
                     level=logging.INFO)
+
+colocationData_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Database'
+
+# Parse start and end dates
+start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
+
+# Iterate through date range
+while start_date_datetime <= end_date_datetime:
+
+    year_i = '{:04d}'.format(start_date_datetime.year)
+    month_i = '{:02d}'.format(start_date_datetime.month)
+    day_i = '{:02d}'.format(start_date_datetime.day)
+
+    # locate the daily colocation observation parameter from satellite data
+    colocationData_daily_dir = colocationData_dir + '/%s/%s-%s-%s/' % (year_i, month_i, day_i)
+
+    for file in os.listdir(colocationData_daily_dir):
+        if file.endswith('.nc'):
+            print(file)
