@@ -48,6 +48,9 @@ colocationData_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
+# Set up time delta
+time_delta = timedelta(days = 1)
+
 # Iterate through date range
 while start_date_datetime <= end_date_datetime:
 
@@ -61,3 +64,5 @@ while start_date_datetime <= end_date_datetime:
     for file in os.listdir(colocationData_daily_dir):
         if file.endswith('.nc'):
             print(file)
+
+    start_date_datetime = start_date_datetime + time_delta
