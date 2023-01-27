@@ -61,8 +61,11 @@ while start_date_datetime <= end_date_datetime:
     # locate the daily colocation observation parameter from satellite data
     colocationData_daily_dir = colocationData_dir + '/%s/%s-%s-%s/' % (year_i, year_i, month_i, day_i)
 
-    for file in os.listdir(colocationData_daily_dir):
-        if file.endswith('.nc'):
-            print(file)
+    if os.path.isdir(colocationData_daily_dir):
+        for file in os.listdir(colocationData_daily_dir):
+            if file.endswith('.nc'):
+                print(file)
+    else:
+        print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
 
     start_date_datetime = start_date_datetime + time_delta
