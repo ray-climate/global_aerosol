@@ -56,7 +56,7 @@ while start_date_datetime <= end_date_datetime:
     day_i = '{:02d}'.format(start_date_datetime.day)
 
     # locate the daily colocation observation parameter from satellite data
-    colocationData_daily_dir = colocationData_dir + '/%s/%s-%s-%s/' % (year_i, month_i, day_i)
+    colocationData_daily_dir = colocationData_dir + '/%s/%s-%s-%s/' % (year_i, year_i, month_i, day_i)
 
     for file in os.listdir(colocationData_daily_dir):
         if file.endswith('.nc'):
