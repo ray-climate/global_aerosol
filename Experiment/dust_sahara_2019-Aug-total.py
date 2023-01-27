@@ -8,6 +8,7 @@
 # Import external libraries
 import logging
 import sys
+import os
 
 """
 This code uses all pre-calculated colocation files to do the retrieval analysis and comparison.
