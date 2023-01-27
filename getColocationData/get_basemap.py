@@ -373,6 +373,8 @@ def plot_grid_tiles(lat_colocation, lon_colocation,
     plt.tight_layout()
     # Show the map
     plt.savefig(savefigname)
-    logger.info("Colocation is map generated. ----------------------> Success")
+    logger.info("Colocation map is generated. ----------------------> Success")
+
+    return tem_dis, spa_dis
 
 # plot_grid_tiles(0.5, 42, interval=10)
