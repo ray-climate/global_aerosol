@@ -11,8 +11,6 @@ import numpy as np
 
 def extractColocationParameters(inputNetCDF):
 
-    print(inputNetCDF)
-
     with Dataset(inputNetCDF, 'r') as nc_data:
         lat_colocation = nc_data['colocation_info']['latitude'][:]
         lon_colocation = nc_data['colocation_info']['longitude'][:]
@@ -32,9 +30,6 @@ def extractColocationParameters(inputNetCDF):
                                                         (lat_caliop[s], lon_caliop[s])).km for s in
                                 range(len(lat_caliop))]
     colocation_distance_array = np.asarray(colocation_distance_list)
-
-    print(colocation_distance_array)
     caliop_index_x = np.argmin(colocation_distance_array)
-    print(colocation_distance_array[caliop_index_x])
 
     quit()
