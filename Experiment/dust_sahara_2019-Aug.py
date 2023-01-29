@@ -202,7 +202,7 @@ while start_date_datetime <= end_date_datetime:
                                                          title='%s/%s/%s CALIOP-AEOLUS Co-located Level-2 Profiles'%(search_day, search_month, search_year),
                                                          colocation_info=colocation_info, tem_dis = abs_temportal_total_hours, logger=logger)
 
-                    save_colocation_nc(saveFilename, lat_aeolus_cutoff, lat_colocation, lon_colocation, lon_aeolus_cutoff, alt_aeolus_cutoff,
+                    save_colocation_nc(saveFilename, lat_colocation, lon_colocation, lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
                                        beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff,
                                        alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, tem_dis, spa_dis)
 
