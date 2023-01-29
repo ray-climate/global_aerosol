@@ -35,6 +35,6 @@ def extractColocationParameters(inputNetCDF):
 
     print(colocation_distance_array)
     caliop_index_x = np.argmin(colocation_distance_array)
-    print(colocation_distance_array[x])
+    print(colocation_distance_array[caliop_index_x])
 
     quit()
