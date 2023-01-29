@@ -11,6 +11,10 @@ import logging
 import sys
 import os
 
+# Import internal modules
+sys.path.append('../')
+from readColocationData.readColocationNetCDF import *
+
 """
 This code uses all pre-calculated colocation files to do the retrieval analysis and comparison.
 """
@@ -64,7 +68,8 @@ while start_date_datetime <= end_date_datetime:
     if os.path.isdir(colocationData_daily_dir):
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
-                print(file)
+                extractColocationParameters(colocationData_daily_dir + file)
+
     else:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
 
