@@ -7,7 +7,8 @@
 
 from netCDF4 import Dataset
 
-def save_colocation_nc(saveFilename, lat_aeolus, lon_aeolus, alt_aeolus,
+def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
+                       lat_aeolus, lon_aeolus, alt_aeolus,
                        beta_aeolus, alpha_aeolus,
                        lat_caliop, lon_caliop, alt_caliop,
                        beta_caliop, alpha_caliop,
@@ -18,8 +19,12 @@ def save_colocation_nc(saveFilename, lat_aeolus, lon_aeolus, alt_aeolus,
     ncfile_colocation = ncfile.createGroup("colocation_info")
     ncfile_tem_dis = ncfile_colocation.createVariable('tem_dis', 'f4', ())
     ncfile_spa_dis = ncfile_colocation.createVariable('spa_dis', 'f4', ())
+    ncfile_col_lat = ncfile_colocation.createVariable('latitude', 'f4', ())
+    ncfile_col_lon = ncfile_colocation.createVariable('longitude', 'f4', ())
     ncfile_tem_dis[:] = tem_dis
     ncfile_spa_dis[:] = spa_dis
+    ncfile_col_lat[:] = lat_colocation
+    ncfile_col_lon[:] = lon_colocation
 
     ncfile_aeolus = ncfile.createGroup("aeolus_data")
     ncfile_aeolus.createDimension('x_aeolus', beta_aeolus.shape[0])
