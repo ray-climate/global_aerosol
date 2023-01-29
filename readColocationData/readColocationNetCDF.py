@@ -11,7 +11,13 @@ def extractColocationParameters(inputNetCDF):
 
     print(inputNetCDF)
     with Dataset(inputNetCDF, 'r') as nc_data:
-        lat_colocationn = nc_data['colocation_info']['latitude'][:]
+        lat_colocation = nc_data['colocation_info']['latitude'][:]
+        lon_colocation = nc_data['colocation_info']['longitude'][:]
+
+        lat_aeolus = nc_data['aeolus_data']['aeolus_latitude'][:]
+        lon_aeolus = nc_data['aeolus_data']['aeolus_longitude'][:]
+
         aeolus_beta = nc_data['aeolus_data']['aeolus_beta'][:]
-        print(lat_colocationn)
-        print(aeolus_beta.shape)
+        print(lat_colocation)
+        print(lat_aeolus)
+        quit()
