@@ -36,7 +36,14 @@ def extractColocationParameters(inputNetCDF):
     caliop_index_x = np.argmin(colocation_distance_array)
 
     alt_aeolus_centre = alt_aeolus[:, aeolus_index_x]
-    alt_aeolus[alt_aeolus == -1] = np.nan
-    print(alt_aeolus_centre)
+    aeolus_beta_centre = aeolus_beta[:, aeolus_index_x]
+
+    for k in range(np.size(alt_aeolus_centre)):
+        if alt_aeolus_centre[k] > 0:
+            if (k + 1) < len(alt_aeolus_centre):
+
+                print(aeolus_beta_centre[k])
+
+    quit()
     # print(alt_caliop)
     # quit()
