@@ -12,6 +12,8 @@ import sys
 import os
 
 # Import internal modules
+import numpy as np
+
 sys.path.append('../')
 from readColocationData.readColocationNetCDF import *
 
@@ -71,16 +73,17 @@ while start_date_datetime <= end_date_datetime:
     if os.path.isdir(colocationData_daily_dir):
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
-                (beta_aeolus_i, beta_caliop_stats_i) = extractColocationParameters(colocationData_daily_dir + file)
+                (beta_aeolus_i, beta_caliop_i) = extractColocationParameters(colocationData_daily_dir + file)
                 beta_aeolus_all.extend(beta_aeolus_i)
-                beta_caliop_all.extend(beta_caliop_stats_i)
-                print(len(beta_aeolus_all))
-                print(len(beta_aeolus_all))
+                beta_caliop_all.extend(beta_caliop_i)
 
     else:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
 
     start_date_datetime = start_date_datetime + time_delta
+
+beta_aeolus_all = np.asarray(beta_aeolus_all)
+beta_caliop_all = np.asarray(beta_caliop_all)
 
 import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
