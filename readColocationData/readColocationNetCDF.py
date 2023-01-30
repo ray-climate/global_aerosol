@@ -28,12 +28,14 @@ def extractColocationParameters(inputNetCDF):
     aeolus_index_x = np.argmin(abs(lat_aeolus - lat_colocation))
 
     # calculate and find the closest distance point
-    colocation_distance_list = [geopy.distance.geodesic((lat_colocation, lon_colocation),
-                                                        (lat_caliop[s], lon_caliop[s])).km for s in
-                                range(len(lat_caliop))]
+
+    colocation_distance_list = [
+        geopy.distance.geodesic((lat_colocation, lon_colocation), (lat_caliop[s], lon_caliop[s])).km for s in
+        range(len(lat_caliop))]
     colocation_distance_array = np.asarray(colocation_distance_list)
     caliop_index_x = np.argmin(colocation_distance_array)
 
-    print(alt_aeolus.shape)
-    print(alt_caliop.shape)
+    alt_aeolus_centre = alt_aeolus[:, aeolus_index_x]
+    print(alt_aeolus_centre)
+    print(alt_caliop)
     quit()
