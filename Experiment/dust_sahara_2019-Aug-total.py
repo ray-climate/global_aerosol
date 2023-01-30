@@ -55,6 +55,9 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 # Set up time delta
 time_delta = timedelta(days = 1)
 
+beta_aeolus_all = []
+beta_caliop_all = []
+
 # Iterate through date range
 while start_date_datetime <= end_date_datetime:
 
@@ -69,8 +72,8 @@ while start_date_datetime <= end_date_datetime:
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
                 (beta_aeolus_i, beta_caliop_stats_i) = extractColocationParameters(colocationData_daily_dir + file)
-                print(len(beta_aeolus_i), len(beta_caliop_stats_i))
-                quit()
+                beta_aeolus_all.append(beta_aeolus_i)
+                print(len(beta_aeolus_all))
 
     else:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
