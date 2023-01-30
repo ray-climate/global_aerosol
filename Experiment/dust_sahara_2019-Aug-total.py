@@ -87,11 +87,10 @@ import pandas as pd
 import seaborn as sns
 
 # Convert data to pandas dataframe
-data = pd.DataFrame({'beta_aeolus_all': beta_aeolus_all, 'beta_caliop_all': beta_caliop_all})
-
+data = np.array([beta_aeolus_all, beta_caliop_all]).T
 
 fig, ax = plt.subplots(figsize=(12, 12))
-sns.jointplot(x='beta_caliop_all', y='beta_aeolus_all', data=data, kind='kde')
+sns.kdeplot(data[:, 0], data[:, 1], shade=True, cmap="Blues")
 ax.set_xlabel('beta_caliop_all')
 ax.set_ylabel('beta_aeolus_all')
 plt.xlim([0.,0.05])
