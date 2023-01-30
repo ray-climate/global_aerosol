@@ -73,9 +73,18 @@ while start_date_datetime <= end_date_datetime:
             if file.endswith('.nc'):
                 (beta_aeolus_i, beta_caliop_stats_i) = extractColocationParameters(colocationData_daily_dir + file)
                 beta_aeolus_all.extend(beta_aeolus_i)
+                beta_caliop_all.extend(beta_caliop_all)
                 print(len(beta_aeolus_all))
 
     else:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
 
     start_date_datetime = start_date_datetime + time_delta
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+ax.scatter(beta_caliop_all, beta_aeolus_all)
+ax.set_xlabel('beta_caliop_all')
+ax.set_ylabel('beta_aeolus_all')
+plt.savefig('./beta_all.png')
