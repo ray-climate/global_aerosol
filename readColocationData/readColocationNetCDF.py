@@ -42,15 +42,14 @@ def extractColocationParameters(inputNetCDF):
     beta_aeolus_centre = beta_aeolus[:, aeolus_index_x]
 
     beta_aeolus_stats = []
-    print(beta_caliop.shape)
-    quit()
+
     for k in range(np.size(alt_aeolus_centre)):
         if alt_aeolus_centre[k] > 0:
             if (k + 1) < len(alt_aeolus_centre):
 
                 beta_aeolus_stats.append(beta_aeolus_centre[k] * 1.e-6 * 1.e3) # scaling factor, and unit conversion
                 print(beta_aeolus_centre[k] * 1.e-6 * 1.e3)
-                print(beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1])])
+                print(beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1])], caliop_index_x)
 
     quit()
     # print(alt_caliop)
