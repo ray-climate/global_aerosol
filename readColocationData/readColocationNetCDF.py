@@ -17,11 +17,13 @@ def extractColocationParameters(inputNetCDF):
 
         lat_aeolus = nc_data['aeolus_data']['aeolus_latitude'][:]
         lon_aeolus = nc_data['aeolus_data']['aeolus_longitude'][:]
+        alt_aeolus = nc_data['aeolus_data']['aeolus_altitude'][:]
         aeolus_beta = nc_data['aeolus_data']['aeolus_beta'][:]
         aeolus_alpha = nc_data['aeolus_data']['aeolus_alpha'][:]
 
         lat_caliop = nc_data['caliop_data']['caliop_latitude'][:]
         lon_caliop = nc_data['caliop_data']['caliop_longitude'][:]
+        alt_caliop = nc_data['caliop_data']['caliop_altitude'][:]
 
     aeolus_index_x = np.argmin(abs(lat_aeolus - lat_colocation))
 
@@ -32,4 +34,6 @@ def extractColocationParameters(inputNetCDF):
     colocation_distance_array = np.asarray(colocation_distance_list)
     caliop_index_x = np.argmin(colocation_distance_array)
 
+    print(alt_aeolus.shape)
+    print(alt_caliop.shape)
     quit()
