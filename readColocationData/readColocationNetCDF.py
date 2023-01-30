@@ -36,6 +36,16 @@ def extractColocationParameters(inputNetCDF):
     colocation_distance_array = np.asarray(colocation_distance_list)
     caliop_index_x = np.argmin(colocation_distance_array)
 
+    caliop_index_x_min = caliop_index_x - 50
+    caliop_index_x_max = caliop_index_x + 50
+
+    # If the start index is negative, set it to 0
+    if caliop_index_x_min < 0:
+        caliop_index_x_min = 0
+    # If the end index is greater than the length of the lat_aeolus array, set it to the length of the array
+    if caliop_index_x_max > len(colocation_distance_array):
+        caliop_index_x_max = len(colocation_distance_array)
+
     alt_aeolus_centre = alt_aeolus[:, aeolus_index_x]
     alt_aeolus_centre = alt_aeolus_centre * 1e-3
 
@@ -49,8 +59,9 @@ def extractColocationParameters(inputNetCDF):
 
                 beta_aeolus_stats.append(beta_aeolus_centre[k] * 1.e-6 * 1.e3) # scaling factor, and unit conversion
                 print(beta_aeolus_centre[k] * 1.e-6 * 1.e3)
-                value = beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x]
-                print(value)
+                beta_caliop_filter = beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max]
+                beta_caliop_stats = np.nanmean(beta_caliop_filter)
+                print(beta_aeolus_stats, beta_caliop_filter, beta_caliop_stats)
 
     quit()
     # print(alt_caliop)
