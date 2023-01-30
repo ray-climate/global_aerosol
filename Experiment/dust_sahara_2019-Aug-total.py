@@ -83,14 +83,15 @@ while start_date_datetime <= end_date_datetime:
     start_date_datetime = start_date_datetime + time_delta
 
 import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
+from scipy.stats import gaussian_kde
 
-# Convert data to pandas dataframe
-data = np.array([beta_aeolus_all, beta_caliop_all]).T
+x = beta_caliop_all
+y = beta_aeolus_all
+xy = np.vstack([x,y])
+z = gaussian_kde(xy)(xy)
 
 fig, ax = plt.subplots(figsize=(12, 12))
-sns.kdeplot(data, shade=True, cmap="Blues")
+ax.scatter(x, y, c=z, s=100)
 ax.set_xlabel('beta_caliop_all')
 ax.set_ylabel('beta_aeolus_all')
 plt.xlim([0.,0.05])
