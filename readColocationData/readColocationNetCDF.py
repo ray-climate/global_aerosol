@@ -61,7 +61,7 @@ def extractColocationParameters(inputNetCDF):
                 print(beta_aeolus_centre[k] * 1.e-6 * 1.e3)
                 print(caliop_index_x_min, caliop_index_x_max)
                 beta_caliop_filter = beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max]
-                print(beta_caliop)
+                print(beta_caliop.shape)
                 print(beta_caliop_filter)
                 beta_caliop_stats = np.nanmean(beta_caliop_filter)
                 print(beta_caliop_stats)
