@@ -18,12 +18,13 @@ def extractColocationParameters(inputNetCDF):
         lat_aeolus = nc_data['aeolus_data']['aeolus_latitude'][:]
         lon_aeolus = nc_data['aeolus_data']['aeolus_longitude'][:]
         alt_aeolus = nc_data['aeolus_data']['aeolus_altitude'][:]
-        aeolus_beta = nc_data['aeolus_data']['aeolus_beta'][:]
-        aeolus_alpha = nc_data['aeolus_data']['aeolus_alpha'][:]
+        beta_aeolus = nc_data['aeolus_data']['aeolus_beta'][:]
+        alpha_aeolus = nc_data['aeolus_data']['aeolus_alpha'][:]
 
         lat_caliop = nc_data['caliop_data']['caliop_latitude'][:]
         lon_caliop = nc_data['caliop_data']['caliop_longitude'][:]
         alt_caliop = nc_data['caliop_data']['caliop_altitude'][:]
+        beta_caliop = nc_data['caliop_data']['caliop_beta'][:]
 
     aeolus_index_x = np.argmin(abs(lat_aeolus - lat_colocation))
 
@@ -36,13 +37,19 @@ def extractColocationParameters(inputNetCDF):
     caliop_index_x = np.argmin(colocation_distance_array)
 
     alt_aeolus_centre = alt_aeolus[:, aeolus_index_x]
-    aeolus_beta_centre = aeolus_beta[:, aeolus_index_x]
+    alt_aeolus_centre = alt_aeolus_centre * 1e-3
+
+    beta_aeolus_centre = beta_aeolus[:, aeolus_index_x]
+
+    beta_aeolus_stats = []
 
     for k in range(np.size(alt_aeolus_centre)):
         if alt_aeolus_centre[k] > 0:
             if (k + 1) < len(alt_aeolus_centre):
 
-                print(aeolus_beta_centre[k])
+                beta_aeolus_stats.append(beta_aeolus_centre[k] * 1.e-6 * 1.e3) # scaling factor, and unit conversion
+                print(beta_aeolus_centre[k] * 1.e-6 * 1.e3)
+                print(beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1])])
 
     quit()
     # print(alt_caliop)
