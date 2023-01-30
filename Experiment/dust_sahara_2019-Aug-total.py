@@ -69,7 +69,7 @@ while start_date_datetime <= end_date_datetime:
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
                 (beta_aeolus_i, beta_caliop_stats_i) = extractColocationParameters(colocationData_daily_dir + file)
-                print(beta_aeolus_i.shape, beta_caliop_stats_i.shape)
+                print(len(beta_aeolus_i), len(beta_caliop_stats_i))
                 quit()
 
     else:
