@@ -85,8 +85,8 @@ while start_date_datetime <= end_date_datetime:
 import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
 
-x = beta_caliop_all
-y = beta_aeolus_all
+x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
+y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
 xy = np.vstack([x,y])
 z = gaussian_kde(xy)(xy)
 
