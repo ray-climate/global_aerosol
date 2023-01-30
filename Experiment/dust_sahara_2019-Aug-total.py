@@ -83,9 +83,15 @@ while start_date_datetime <= end_date_datetime:
     start_date_datetime = start_date_datetime + time_delta
 
 import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
-fig, ax = plt.subplots()
-ax.scatter(beta_caliop_all, beta_aeolus_all)
+# Convert data to pandas dataframe
+data = pd.DataFrame({'beta_aeolus_all': beta_aeolus_all, 'beta_caliop_all': beta_caliop_all})
+
+
+fig, ax = plt.subplots(figsize=(12, 12))
+sns.jointplot(x='beta_caliop_all', y='beta_aeolus_all', data=data, kind='kde')
 ax.set_xlabel('beta_caliop_all')
 ax.set_ylabel('beta_aeolus_all')
 plt.xlim([0.,0.05])
