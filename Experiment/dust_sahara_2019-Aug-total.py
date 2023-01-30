@@ -90,7 +90,7 @@ import seaborn as sns
 data = np.array([beta_aeolus_all, beta_caliop_all]).T
 
 fig, ax = plt.subplots(figsize=(12, 12))
-sns.kdeplot(data[:, 0], data[:, 1], shade=True, cmap="Blues")
+sns.kdeplot(data, shade=True, cmap="Blues")
 ax.set_xlabel('beta_caliop_all')
 ax.set_ylabel('beta_aeolus_all')
 plt.xlim([0.,0.05])
