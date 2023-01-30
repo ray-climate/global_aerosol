@@ -68,7 +68,9 @@ while start_date_datetime <= end_date_datetime:
     if os.path.isdir(colocationData_daily_dir):
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
-                extractColocationParameters(colocationData_daily_dir + file)
+                (beta_aeolus_i, beta_caliop_stats_i) = extractColocationParameters(colocationData_daily_dir + file)
+                print(beta_aeolus_i.shape, beta_caliop_stats_i.shape)
+                quit()
 
     else:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
