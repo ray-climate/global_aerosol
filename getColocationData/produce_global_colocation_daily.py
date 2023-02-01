@@ -27,7 +27,7 @@ start_date = '2019-01-01' # start data for analysis
 end_date   = '2019-01-01' # end date for analysis
 temporal_wd = 10. # hours of temporal window
 lat_up = 90.
-lat_down = 90.
+lat_down = -90.
 lon_left = -180.
 lon_right = 180.
 ##############################################################
@@ -123,6 +123,7 @@ while start_date_datetime <= end_date_datetime:
             logger.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
             logger.info('Fetching colocations......')
             logger.info('lat, lon: (%.2f, %.2f)' % (float(lat_colocation), float(lon_colocation)))
+
             if (lat_colocation > lat_down) & (lat_colocation < lat_up) & (lon_colocation > lon_left) & (lon_colocation < lon_right):
 
                 # (lat_m, lon_m, aod_m) = get_MODIS_aod(float(lat_aeolus), float(lon_aeolus), aeolus_time_datetime, cwd,
