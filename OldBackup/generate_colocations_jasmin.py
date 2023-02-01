@@ -26,7 +26,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
 
 CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km/'
 Aeolus_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
-database_dir = './colocation_database'
+database_dir = '../Colocation/colocation_database'
 spatial_threshold = 200. # 200km threshold
 
 try:

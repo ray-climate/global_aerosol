@@ -28,10 +28,10 @@ import logging
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     filemode='w',
-                    filename= './output.log',
+                    filename='../Colocation/output.log',
                     level=logging.INFO)
 
-output_dir = './subdatasets'
+output_dir = '../Colocation/subdatasets'
 temporal_threshold = 8. # temporal space between co-located AEOLUS and CALIOP data.
 caliop_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Colocation/CALIOP_data/' \
              'asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-20'
@@ -70,7 +70,7 @@ def get_beta_plot(aladin_alt, aladin_beta, caliop_alt, caliop_beta, save_dir, la
     plt.savefig(save_dir)
 
 
-for file in os.listdir('./colocated_AEOLUS_CALIPSO/'):
+for file in os.listdir('../Colocation/colocated_AEOLUS_CALIPSO/'):
 
     if (file.endswith('.nc')) & ('2020_06' in file):
 

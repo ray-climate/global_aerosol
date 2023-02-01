@@ -23,11 +23,11 @@ import os
 
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     filemode='w',
-                    filename= './aeolus_caliop_global_colocation.log',
+                    filename='../Colocation/aeolus_caliop_global_colocation.log',
                     level=logging.INFO)
 
 CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km/'
-database_dir = './database'
+database_dir = '../Colocation/database'
 
 try:
     os.stat(database_dir)

@@ -17,14 +17,14 @@ try:
 except:
     pathlib.Path(job_array_dir).mkdir(parents=True, exist_ok=True)
 
-start_date = '2019-01-01 00:00' # start date of search colocations, year-month-day
-end_date = '2019-07-01 00:00' # end date of search colocations, year-month-day
+start_date = '2021-01-01 00:00' # start date of search colocations, year-month-day
+end_date = '2022-01-01 00:00' # end date of search colocations, year-month-day
 time_delta = timedelta(hours = 1) # time delta for separating Aeolus measuremets
 
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d %H:%M')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d %H:%M')
 
-index =  0
+index = 0
 
 while start_date_datetime <= end_date_datetime:
 
