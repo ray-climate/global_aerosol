@@ -96,7 +96,7 @@ class GetAeolusFromVirES():
             asynchronous=True)
 
         data_sca.to_file("./retrieved_data.nc", overwrite=True)
-        quit()
+
         # Save data as xarray data set
         ds_sca_preliminary = data_sca.as_xarray()
 
@@ -691,7 +691,8 @@ class SaveVirESNetcdf():
             end_time=self.measurement_stop,
             filetype="nc",
             asynchronous=True)
-        print(data_sca, 111)
+        ds_sca_preliminary = data_sca.as_xarray()
+        print(ds_sca_preliminary, 111)
         quit()
 
         data_sca.to_file(self.save_filename, overwrite=True)
