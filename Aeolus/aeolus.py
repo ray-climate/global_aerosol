@@ -691,5 +691,7 @@ class SaveVirESNetcdf():
             end_time=self.measurement_stop,
             filetype="nc",
             asynchronous=True)
+        print(data_sca)
+        quit()
 
         data_sca.to_file(self.save_filename, overwrite=True)
