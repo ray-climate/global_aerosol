@@ -18,7 +18,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                     filename= './aeolus_archive_mirror.log',
                     level=logging.INFO)
 
-start_date = '2019-01-01 00:00' # start date of search colocations, year-month-day
+start_date = '2021-01-01 00:00' # start date of search colocations, year-month-day
 end_date = '2022-01-01 00:00' # end date of search colocations, year-month-day
 time_delta = timedelta(days = 1)
 
