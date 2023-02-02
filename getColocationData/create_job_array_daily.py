@@ -3,23 +3,23 @@
 # @Filename:    create_job_array_daily.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        13/01/2023 13:19
+# @Time:        02/02/2023 15:30
 
 from datetime import datetime, timedelta
 import pathlib
 import csv
 import os
 
-job_array_dir = './job_array_hourly'
+job_array_dir = './job_array_daily'
 
 try:
     os.stat(job_array_dir)
 except:
     pathlib.Path(job_array_dir).mkdir(parents=True, exist_ok=True)
 
-start_date = '2021-01-01 00:00' # start date of search colocations, year-month-day
+start_date = '2021-05-26 00:00' # start date of search colocations, year-month-day
 end_date = '2022-01-01 00:00' # end date of search colocations, year-month-day
-time_delta = timedelta(hours = 1) # time delta for separating Aeolus measuremets
+time_delta = timedelta(days = 1) # time delta for separating Aeolus measuremets
 
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d %H:%M')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d %H:%M')
@@ -48,3 +48,4 @@ while start_date_datetime <= end_date_datetime:
 
     index += 1
     start_date_datetime += time_delta
+
