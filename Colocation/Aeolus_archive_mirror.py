@@ -51,6 +51,7 @@ while start_date_datetime <= end_date_datetime:
 
     while download_index < 2:
         try:
+            print(start_date_datetime, aeolus_interval_end)
             VirES_request = SaveVirESNetcdf(measurement_start=start_date_datetime,
                                             measurement_stop=aeolus_interval_end,
                                             DATA_PRODUCT=AEOLUS_DATA_PRODUCT,
