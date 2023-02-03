@@ -24,7 +24,7 @@ This code uses all pre-calculated colocation files to do the retrieval analysis 
 ##############################################################
 start_date = '2021-05-26' # start data for analysis
 end_date   = '2021-07-01' # end date for analysis
-temporal_wd = 10. # hours of temporal window
+temporal_wd = 5. # hours of temporal window
 lat_up = 60.
 lat_down = -60.
 lon_left = -180.
