@@ -85,6 +85,11 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 datetime_str_list = []
 ncFile_list = []
 
+with open('./colocation_ref_%s.csv'%start_date, "w") as output:
+
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerow(('Colocation_Datetime', 'Parameter_File_Location'))
+
 # Iterate through date range
 while start_date_datetime <= end_date_datetime:
 
@@ -219,6 +224,11 @@ while start_date_datetime <= end_date_datetime:
                     datetime_str_list.append('%s'%aeolus_time_str)
                     ncFile_list.append(saveFilenameNC)
 
+                    with open('./colocation_ref_%s.csv' % start_date, "a") as output:
+
+                        writer = csv.writer(output, lineterminator='\n')
+                        writer.writerow((aeolus_time_str, saveFilenameNC))
+
                 else:
                     logger.warning("Colocation profiles exceed minimum temporal window, go to next......")
 
@@ -227,15 +237,11 @@ while start_date_datetime <= end_date_datetime:
     else:
         logger.warning(f'{colocation_dir_daily} not exists, no colocation data found.')
 
+
+
     start_date_datetime = start_date_datetime + time_delta
 
-with open('./colocation_ref_%s.csv'%start_date, "w") as output:
 
-    writer = csv.writer(output, lineterminator='\n')
-    writer.writerow(('Colocation Datetime', 'ncFile Location'))
-
-    for datetime_str_list_i, ncFile_list_i in zip(datetime_str_list, ncFile_list):
-        writer.writerow((datetime_str_list_i, ncFile_list_i))
 
 
 

@@ -44,7 +44,7 @@ def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
     nc_alpha_aeolus = ncfile_aeolus.createVariable('aeolus_alpha', 'f4', ('y_aeolus', 'x_aeolus'))
     nc_alpha_aeolus[:] = alpha_aeolus.T
 
-    nc_qc_aeolus = ncfile_aeolus.createVariable('aeolus_qc', 'f4', ('y_aeolus', 'x_aeolus'))
+    nc_qc_aeolus = ncfile_aeolus.createVariable('aeolus_qc', 'unit8', ('y_aeolus', 'x_aeolus'))
     nc_qc_aeolus[:] = qc_aeolus.T
 
     nc_ber_aeolus = ncfile_aeolus.createVariable('aeolus_ber', 'f4', ('y_aeolus', 'x_aeolus'))
