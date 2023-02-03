@@ -85,10 +85,7 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d-%M%S')
 datetime_str_list = []
 ncFile_list = []
 
-with open('./colocation_ref_%s.csv'%start_date, "w") as output:
 
-    writer = csv.writer(output, lineterminator='\n')
-    writer.writerow(('Colocation_Datetime', 'Parameter_File_Location'))
 
 # Iterate through date range
 while start_date_datetime <= end_date_datetime:
@@ -106,6 +103,18 @@ while start_date_datetime <= end_date_datetime:
     search_year = year_i
     search_month = month_i
     search_day = day_i
+
+    savenc_subdir = savenc_dir + '/%s/%s-%s-%s' % (year_i, year_i, month_i, day_i)
+
+    try:
+        os.stat(savenc_subdir)
+    except:
+        pathlib.Path(savenc_subdir).mkdir(parents=True, exist_ok=True)
+
+    with open(savenc_subdir + '/colocation_ref_%s.csv' % start_date, "w") as output:
+
+        writer = csv.writer(output, lineterminator='\n')
+        writer.writerow(('Colocation_Datetime', 'Parameter_File_Location'))
 
     # locate the daily footprint data directory
     colocation_dir_daily = colocation_fp_dir + '/%s/%s-%s-%s/' % (search_year, search_year, search_month, search_day)
@@ -198,13 +207,6 @@ while start_date_datetime <= end_date_datetime:
 
                     colocation_info = 'Temporal distance = %.1f hours'%(abs_temportal_total_hours)
 
-                    savenc_subdir = savenc_dir + '/%s/%s-%s-%s'%(year_i, year_i, month_i, day_i)
-
-                    try:
-                        os.stat(savenc_subdir)
-                    except:
-                        pathlib.Path(savenc_subdir).mkdir(parents=True, exist_ok=True)
-
                     saveFilenameNC = savenc_subdir + '/%s.nc'%aeolus_time_str
                     saveFilenamePNG = savenc_subdir + '/%s.png' % aeolus_time_str
 
@@ -224,7 +226,7 @@ while start_date_datetime <= end_date_datetime:
                     datetime_str_list.append('%s'%aeolus_time_str)
                     ncFile_list.append(saveFilenameNC)
 
-                    with open('./colocation_ref_%s.csv' % start_date, "a") as output:
+                    with open(savenc_subdir + '/colocation_ref_%s.csv' % start_date, "a") as output:
 
                         writer = csv.writer(output, lineterminator='\n')
                         writer.writerow((aeolus_time_str, saveFilenameNC))
