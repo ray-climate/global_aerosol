@@ -692,7 +692,5 @@ class SaveVirESNetcdf():
             filetype="nc",
             asynchronous=True)
         ds_sca_preliminary = data_sca.as_xarray()
-        print(ds_sca_preliminary, 111)
-        quit()
 
         data_sca.to_file(self.save_filename, overwrite=True)

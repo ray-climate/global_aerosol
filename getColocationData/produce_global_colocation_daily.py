@@ -23,8 +23,18 @@ from getColocationData.get_caliop import *
 from datetime import datetime, timedelta
 
 ##############################################################
-start_date = '2019-01-01' # start data for analysis
-end_date   = '2019-01-01' # end date for analysis
+# start_date = '2019-01-01' # start data for analysis
+# end_date   = '2019-01-01' # end date for analysis
+
+with open(sys.argv[1], newline='') as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=',')
+    row_index = 0
+    for row in csvreader:
+        if row_index == 1:
+            start_date = row[0]
+            end_date = row[1]
+        row_index += 1
+
 temporal_wd = 10. # hours of temporal window
 lat_up = 90.
 lat_down = -90.
@@ -132,7 +142,10 @@ while start_date_datetime <= end_date_datetime:
                 aeolus_colocation_file = Aeolus_JASMIN_dir + '/%s-%s/%s-%s-%s.nc' % \
                                          (search_year, search_month, search_year, search_month, search_day)
 
-                (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus, footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb) = extract_variables_from_aeolus(aeolus_colocation_file, logger)
+                (footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
+                 footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
+                 qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
+                    extract_variables_from_aeolus(aeolus_colocation_file, logger)
 
                 # Search for the file on the specified date
                 caliop_colocation_file = find_caliop_file(CALIOP_JASMIN_dir, caliop_filename, start_date_datetime)
@@ -163,12 +176,14 @@ while start_date_datetime <= end_date_datetime:
                         = extract_variables_from_caliop(caliop_colocation_file, logger)
 
                     (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
-                     beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff,
-                     lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff,
+                     beta_aeolus_cutoff, alpha_aeolus_cutoff,
+                     qc_aeolus_cutoff, ber_aeolus_cutoff, lod_aeolus_cutoff,
+                     lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff,
                      aerosol_type_caliop_cutoff, feature_type_caliop_cutoff) = \
                         reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
                                                footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
                                                footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
+                                               qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb,
                                                footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
                                                alpha_caliop, aerosol_type_caliop, feature_type_caliop,
                                                interval=10)
@@ -198,8 +213,8 @@ while start_date_datetime <= end_date_datetime:
                                                          colocation_info=colocation_info, tem_dis = abs_temportal_total_hours, logger=logger)
 
                     save_colocation_nc(saveFilenameNC, lat_colocation, lon_colocation, lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
-                                       beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, lon_caliop_cutoff,
-                                       alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, tem_dis, spa_dis)
+                                       beta_aeolus_cutoff, alpha_aeolus_cutoff, qc_aeolus_cutoff, ber_aeolus_cutoff, lod_aeolus_cutoff,
+                                       lat_caliop_cutoff, lon_caliop_cutoff, alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, tem_dis, spa_dis)
 
                     datetime_str_list.append('%s'%aeolus_time_str)
                     ncFile_list.append(saveFilenameNC)

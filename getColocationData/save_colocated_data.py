@@ -10,6 +10,7 @@ from netCDF4 import Dataset
 def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
                        lat_aeolus, lon_aeolus, alt_aeolus,
                        beta_aeolus, alpha_aeolus,
+                       qc_aeolus, ber_aeolus, lod_aeolus,
                        lat_caliop, lon_caliop, alt_caliop,
                        beta_caliop, alpha_caliop,
                        tem_dis, spa_dis):
@@ -42,6 +43,15 @@ def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
 
     nc_alpha_aeolus = ncfile_aeolus.createVariable('aeolus_alpha', 'f4', ('y_aeolus', 'x_aeolus'))
     nc_alpha_aeolus[:] = alpha_aeolus.T
+
+    nc_qc_aeolus = ncfile_aeolus.createVariable('aeolus_qc', 'f4', ('y_aeolus', 'x_aeolus'))
+    nc_qc_aeolus[:] = qc_aeolus.T
+
+    nc_ber_aeolus = ncfile_aeolus.createVariable('aeolus_ber', 'f4', ('y_aeolus', 'x_aeolus'))
+    nc_ber_aeolus[:] = ber_aeolus.T
+
+    nc_lod_aeolus = ncfile_aeolus.createVariable('aeolus_lod', 'f4', ('y_aeolus', 'x_aeolus'))
+    nc_lod_aeolus[:] = lod_aeolus.T
 
     nc_alt_aeolus = ncfile_aeolus.createVariable('aeolus_altitude', 'f4', ('alt_mid_aeolus', 'x_aeolus'))
     nc_alt_aeolus[:] = alt_aeolus.T

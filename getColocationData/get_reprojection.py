@@ -10,8 +10,8 @@ import math
 
 def reproject_observations(lat_colocation, lon_colocation, time_colocation,
                            lat_aeolus, lon_aeolus, alt_aeolus, time_aeolus,
-                           beta_aeolus, alpha_aeolus, lat_caliop,
-                           lon_caliop, beta_caliop, alpha_caliop,
+                           beta_aeolus, alpha_aeolus, qc_aeolus, ber_aeolus, lod_aeolus,
+                           lat_caliop, lon_caliop, beta_caliop, alpha_caliop,
                            aerosol_type_caliop, feature_type_caliop,
                            interval=10):
 
@@ -36,6 +36,9 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation,
     alt_aeolus_filtered = alt_aeolus[aeolus_index_start: aeolus_index_end, :][:]
     beta_aeolus_filtered = beta_aeolus[aeolus_index_start: aeolus_index_end, :][:]
     alpha_aeolus_filtered = alpha_aeolus[aeolus_index_start: aeolus_index_end, :][:]
+    qc_aeolus_filtered = qc_aeolus[aeolus_index_start: aeolus_index_end, :][:]
+    ber_aeolus_filtered = ber_aeolus[aeolus_index_start: aeolus_index_end, :][:]
+    lod_aeolus_filtered = lod_aeolus[aeolus_index_start: aeolus_index_end, :][:]
 
     # Compute the minimum and maximum values for the latitude and longitude ranges
     lat_min = math.floor(lat_colocation / interval) * interval - interval
@@ -53,6 +56,13 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation,
     beta_aeolus_cutoff = beta_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max),:]
     # Filter the alpha_aeolus_filtered array based on the latitude range and store the result in alpha_aeolus_cutoff
     alpha_aeolus_cutoff = alpha_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max), :]
+    # Filter the qc_aeolus_filtered array based on the latitude range and store the result in qc_aeolus_cutoff
+    qc_aeolus_cutoff = qc_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max), :]
+    # Filter the ber_aeolus_filtered array based on the latitude range and store the result in ber_aeolus_cutoff
+    ber_aeolus_cutoff = ber_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max), :]
+    # Filter the lod_aeolus_filtered array based on the latitude range and store the result in lod_aeolus_cutoff
+    lod_aeolus_cutoff = lod_aeolus_filtered[(lat_aeolus_filtered > lat_min) & (lat_aeolus_filtered < lat_max), :]
+
     # print(alpha_aeolus_cutoff[alpha_aeolus_cutoff>0], 1111)
 
     # Filter the lat_caliop array based on the latitude range and store the result in lat_caliop_cutoff
@@ -67,9 +77,9 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation,
     feature_type_caliop_cutoff = feature_type_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
 
     return lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, \
-           beta_aeolus_cutoff, alpha_aeolus_cutoff, lat_caliop_cutoff, \
-           lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff, \
-           aerosol_type_caliop_cutoff, feature_type_caliop_cutoff
+           beta_aeolus_cutoff, alpha_aeolus_cutoff, qc_aeolus_cutoff, ber_aeolus_cutoff, lod_aeolus_cutoff, \
+           lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, \
+           alpha_caliop_cutoff,  aerosol_type_caliop_cutoff, feature_type_caliop_cutoff
 
 
 def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
