@@ -38,8 +38,8 @@ def extractColocationParameters(inputNetCDF):
         colocation_distance_array = np.asarray(colocation_distance_list)
         caliop_index_x = np.argmin(colocation_distance_array)
 
-        caliop_index_x_min = caliop_index_x - 50
-        caliop_index_x_max = caliop_index_x + 50
+        caliop_index_x_min = caliop_index_x - 9
+        caliop_index_x_max = caliop_index_x + 9
 
         # If the start index is negative, set it to 0
         if caliop_index_x_min < 0:
