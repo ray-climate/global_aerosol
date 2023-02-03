@@ -6,6 +6,7 @@
 # @Time:        19/01/2023 14:36
 
 from netCDF4 import Dataset
+import numpy as np
 
 def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
                        lat_aeolus, lon_aeolus, alt_aeolus,
@@ -44,7 +45,7 @@ def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
     nc_alpha_aeolus = ncfile_aeolus.createVariable('aeolus_alpha', 'f4', ('y_aeolus', 'x_aeolus'))
     nc_alpha_aeolus[:] = alpha_aeolus.T
 
-    nc_qc_aeolus = ncfile_aeolus.createVariable('aeolus_qc', 'unit8', ('y_aeolus', 'x_aeolus'))
+    nc_qc_aeolus = ncfile_aeolus.createVariable('aeolus_qc', np.unit8, ('y_aeolus', 'x_aeolus'))
     nc_qc_aeolus[:] = qc_aeolus.T
 
     nc_ber_aeolus = ncfile_aeolus.createVariable('aeolus_ber', 'f4', ('y_aeolus', 'x_aeolus'))
