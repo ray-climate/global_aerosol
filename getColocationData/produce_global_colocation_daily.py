@@ -78,8 +78,8 @@ cwd = os.getcwd()
 time_delta = timedelta(days = 1)
 
 # Parse start and end dates
-start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
-end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
+start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d-%M%S')
+end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d-%M%S')
 
 # Initialize lists for datetime strings and netCDF files
 datetime_str_list = []
