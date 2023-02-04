@@ -98,6 +98,7 @@ with open('./%s.csv' % script_base, "w") as output:
     for j in range(len(beta_aeolus_all)):
         writer.writerow((time_str_all[j], beta_aeolus_all[j], beta_caliop_all[j], alt_bottom_all[j], alt_top_all[j]))
         print(beta_aeolus_all[j], beta_caliop_all[j])
+
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
 
