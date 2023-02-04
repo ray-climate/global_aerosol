@@ -28,6 +28,7 @@ def extractColocationParameters(inputNetCDF):
         beta_caliop = nc_data['caliop_data']['caliop_beta'][:]
 
     if tem_dis < 5.:
+
         aeolus_index_x = np.argmin(abs(lat_aeolus - lat_colocation))
 
         # calculate and find the closest distance point
@@ -66,14 +67,14 @@ def extractColocationParameters(inputNetCDF):
 
                         beta_aeolus_stats.append(beta_aeolus_centre[k] * 1.e-6 * 1.e3) # scaling factor, and unit conversion
                         beta_caliop_filter = beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max]
-                        print(alt_aeolus_centre[k], alt_aeolus_centre[k+1], beta_aeolus_centre[k] * 1.e-6 * 1.e3)
+                        # print(alt_aeolus_centre[k], alt_aeolus_centre[k+1], beta_aeolus_centre[k] * 1.e-6 * 1.e3)
 
                         beta_caliop_stats.append(np.nanmean(beta_caliop_filter))
                         alt_bottom_stats.append(alt_aeolus_centre[k + 1])
                         alt_top_stats.append(alt_aeolus_centre[k])
                         time_str_stats.append(inputNetCDF[0:-3])
 
-                        return beta_aeolus_stats, beta_caliop_stats, alt_bottom_stats, alt_top_stats, time_str_stats
+        return beta_aeolus_stats, beta_caliop_stats, alt_bottom_stats, alt_top_stats, time_str_stats
 
     else:
         return [-0.1], [-0.1], [-0.1], [-0.1], [-0.1]
