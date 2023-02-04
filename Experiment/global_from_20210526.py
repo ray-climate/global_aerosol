@@ -110,10 +110,16 @@ y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
 xy = np.vstack([x,y])
 z = gaussian_kde(xy)(xy)
 
-fig, ax = plt.subplots(figsize=(8, 8))
+fig, ax = plt.subplots(figsize=(10, 10))
 ax.scatter(x, y, c=z, s=50, cmap=plt.cm.jet)
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
 plt.xlim([0.,0.01])
 plt.ylim([0.,0.01])
+
+for tick in ax.xaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+for tick in ax.yaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+
 plt.savefig('./beta_all_from_20210526.png')
