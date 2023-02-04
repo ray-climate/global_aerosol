@@ -70,7 +70,7 @@ def extractColocationParameters(inputNetCDF):
                         print(alt_aeolus_centre[k])
                         print(alt_aeolus_centre[k + 1])
                         print(beta_caliop_filter)
-                        quit()
+
                         beta_caliop_stats.append(np.nanmean(beta_caliop_filter))
                         alt_bottom_stats.append(alt_aeolus_centre[k + 1])
                         alt_top_stats.append(alt_aeolus_centre[k])
