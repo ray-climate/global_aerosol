@@ -23,7 +23,7 @@ This code uses all pre-calculated colocation files to do the retrieval analysis 
 """
 
 ##############################################################
-start_date = '2021-11-01' # start data for analysis
+start_date = '2021-11-28' # start data for analysis
 end_date   = '2021-12-01' # end date for analysis
 temporal_wd = 5. # hours of temporal window
 lat_up = 60.
@@ -111,7 +111,7 @@ xy = np.vstack([x,y])
 z = gaussian_kde(xy)(xy)
 
 fig, ax = plt.subplots(figsize=(8, 8))
-ax.scatter(x, y, c=z, s=50, edgecolor='', cmap=plt.cm.jet)
+ax.scatter(x, y, c=z, s=50, cmap=plt.cm.jet)
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
 plt.xlim([0.,0.01])
