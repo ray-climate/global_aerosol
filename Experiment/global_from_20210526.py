@@ -23,7 +23,7 @@ This code uses all pre-calculated colocation files to do the retrieval analysis 
 """
 
 ##############################################################
-start_date = '2021-10-01' # start data for analysis
+start_date = '2021-06-01' # start data for analysis
 end_date   = '2021-12-01' # end date for analysis
 temporal_wd = 5. # hours of temporal window
 lat_up = 60.
@@ -77,6 +77,7 @@ while start_date_datetime <= end_date_datetime:
     if os.path.isdir(colocationData_daily_dir):
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
+                print(file)
 
                 (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i) = extractColocationParameters(colocationData_daily_dir + file)
                 beta_aeolus_all.extend(beta_aeolus_i)
