@@ -58,7 +58,8 @@ def extractColocationParameters(inputNetCDF):
         beta_aeolus_stats = []
         beta_caliop_stats = []
         time_str_stats = []
-
+        print(alt_caliop)
+        quit()
         for k in range(np.size(alt_aeolus_centre)):
             if alt_aeolus_centre[k] > 0:
                 if (k + 1) < len(alt_aeolus_centre):
