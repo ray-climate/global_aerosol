@@ -8,6 +8,7 @@
 # Import external libraries
 from datetime import datetime, timedelta
 import logging
+import csv
 import sys
 import os
 
@@ -59,6 +60,9 @@ time_delta = timedelta(days = 1)
 
 beta_aeolus_all = []
 beta_caliop_all = []
+alt_bottom_all = []
+alt_top_all = []
+time_str_all = []
 
 # Iterate through date range
 while start_date_datetime <= end_date_datetime:
@@ -74,14 +78,24 @@ while start_date_datetime <= end_date_datetime:
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
                 print(file)
-                (beta_aeolus_i, beta_caliop_i) = extractColocationParameters(colocationData_daily_dir + file)
+                (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i) = extractColocationParameters(colocationData_daily_dir + file)
                 beta_aeolus_all.extend(beta_aeolus_i)
                 beta_caliop_all.extend(beta_caliop_i)
+                alt_bottom_all.extend(alt_bottom_i)
+                alt_top_all.extend(alt_top_i)
+                time_str_all.extend(time_str_i)
 
     else:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
 
     start_date_datetime = start_date_datetime + time_delta
+
+with open('./%s.csv' % script_base, "w") as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerow(('Colocation_Datetime', 'Aeolus_beta', 'Caliop_beta', 'alt_bottom', 'alt_top'))
+
+    for j in range(len(beta_aeolus_all)):
+        writer.writerow((time_str_all[j], beta_aeolus_all[j], beta_caliop_all[j], alt_bottom_all[j], alt_top_all[j]))
 
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
