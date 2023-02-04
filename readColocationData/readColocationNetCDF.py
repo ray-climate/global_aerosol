@@ -74,4 +74,4 @@ def extractColocationParameters(inputNetCDF):
                         return beta_aeolus_stats, beta_caliop_stats, alt_bottom_stats, alt_top_stats, time_str_stats
 
     else:
-        return [-0.1], [-0.1]
+        return [-0.1], [-0.1], [-0.1], [-0.1], [-0.1]
