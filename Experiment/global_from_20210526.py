@@ -77,7 +77,7 @@ while start_date_datetime <= end_date_datetime:
     if os.path.isdir(colocationData_daily_dir):
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
-                print(file)
+
                 (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i) = extractColocationParameters(colocationData_daily_dir + file)
                 beta_aeolus_all.extend(beta_aeolus_i)
                 beta_caliop_all.extend(beta_caliop_i)
@@ -96,7 +96,7 @@ with open('./%s.csv' % script_base, "w") as output:
 
     for j in range(len(beta_aeolus_all)):
         writer.writerow((time_str_all[j], beta_aeolus_all[j], beta_caliop_all[j], alt_bottom_all[j], alt_top_all[j]))
-
+        print(beta_aeolus_all[j], beta_caliop_all[j])
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
 
