@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    global_from_20210526.py
+# @Filename:    global_20211001-20211101.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        03/02/2023 15:21
+# @Time:        06/02/2023 12:21
 
 # Import external libraries
 from datetime import datetime, timedelta
@@ -130,4 +130,4 @@ for tick in ax.xaxis.get_major_ticks():
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 
-plt.savefig('./beta_all_from_20210526.png')
+plt.savefig('./beta_all_from_20211101.png')
