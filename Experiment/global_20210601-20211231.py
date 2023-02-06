@@ -38,7 +38,7 @@ lon_right = 180.
 ##############################################################
 
 BER_threshold = 0.05
-beta_threshold = 0.01
+beta_threshold = 0.004
 
 def get_script_name():
     return sys.modules['__main__'].__file__
