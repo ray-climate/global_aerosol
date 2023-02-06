@@ -159,13 +159,14 @@ print(np.size(x))
 # AEOLUS BER hist plot
 fig, ax = plt.subplots(figsize=(10, 10))
 
-plt.hist(ber_aeolus_all, bins=1000, edgecolor='black', alpha=0.7)
+plt.hist(ber_aeolus_all, bins=1000, color='red', edgecolor='black', alpha=0.7)
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 plt.xlim([0, .2])
+plt.title('AEOLUS BER histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_BER_hist1d.png' %script_base)
 
 fig, ax = plt.subplots(figsize=(10, 10))
