@@ -72,7 +72,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
     beta_caliop_all = []
     beta_aeolus_all = []
 
-    with open('./%s.csv' % script_base, newline='') as csvfile:
+    with open(output_dir + '/%s.csv' % script_base, newline='') as csvfile:
 
         reader = csv.reader(csvfile)
         index = 0
