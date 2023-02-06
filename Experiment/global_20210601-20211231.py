@@ -157,6 +157,7 @@ else:
             except:
                 continue
 
+qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
 print(qc_aeolus_all)
 quit()
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
@@ -196,7 +197,6 @@ plt.savefig(output_dir + '/%s_hist2d.png' %script_base)
 
 x2 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02) & (ber_aeolus_all < BER_threshold)]
 y2 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02) & (ber_aeolus_all < BER_threshold)]
-
 
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist2d(x2, y2, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
