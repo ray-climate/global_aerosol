@@ -161,10 +161,8 @@ qc_aeolus_all = [0 if ele =='--' else ele for ele in qc_aeolus_all]
 qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
 qc_aeolus_flag = np.unpackbits(qc_aeolus_all).reshape([np.size(qc_aeolus_all), 8])
 
-print(qc_aeolus_flag[0])
-print(qc_aeolus_all[0])
-
-quit()
+beta_aeolus_SNR_filtered = [np.nan if qc_aeolus_flag[q][1] == 0 else beta_aeolus_all[q] for q in range(np.size(qc_aeolus_all))]
+beta_aeolus_SNR_filtered = np.asarray(beta_aeolus_SNR_filtered)
 
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
@@ -218,3 +216,21 @@ for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 
 plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
+
+x3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_SNR_filtered < 0.02) & (ber_aeolus_all < BER_threshold)]
+y3 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_SNR_filtered < 0.02) & (ber_aeolus_all < BER_threshold)]
+
+fig, ax = plt.subplots(figsize=(10, 10))
+plt.hist2d(x3, y3, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
+
+ax.set_xlabel('beta_caliop_all', fontsize=18)
+ax.set_ylabel('beta_aeolus_all', fontsize=18)
+plt.xlim([0.,0.02])
+plt.ylim([0.,0.02])
+
+for tick in ax.xaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+for tick in ax.yaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+
+plt.savefig(output_dir + '/%s_cloudQC_SNRQC_hist2d.png' %script_base)
