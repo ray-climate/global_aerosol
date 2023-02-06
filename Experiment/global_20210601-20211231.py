@@ -151,8 +151,10 @@ else:
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 
+print(np.size(x))
+
 fig, ax = plt.subplots(figsize=(10, 10))
-plt.hist2d(x, y, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
+plt.hist2d(x, y, bins=(100, 100), cmap = "RdYlGn_r", norm = colors.LogNorm())
 
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
