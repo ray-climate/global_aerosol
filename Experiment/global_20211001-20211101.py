@@ -137,15 +137,15 @@ y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop
 # z = gaussian_kde(xy)(xy)
 
 fig, ax = plt.subplots(figsize=(10, 10))
-plt.hist2d(x, y, bins=(300, 300), cmap = "RdYlGn_r",
+plt.hist2d(x, y, bins=(100, 100), cmap = "RdYlGn_r",
            norm = colors.LogNorm())
 print(x)
 print(np.size(x))
 # ax.scatter(x, y, c=z, s=50, cmap=plt.cm.jet)
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0.,0.05])
-plt.ylim([0.,0.05])
+plt.xlim([0.,0.02])
+plt.ylim([0.,0.02])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
