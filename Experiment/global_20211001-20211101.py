@@ -137,7 +137,7 @@ y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
 # z = gaussian_kde(xy)(xy)
 
 fig, ax = plt.subplots(figsize=(10, 10))
-plt.hist2d(x, y, bins = 100, cmap = "Greens",
+plt.hist2d(x, y, bins = 30, cmap = "RdYlGn_r",
            norm = colors.LogNorm())
 
 # ax.scatter(x, y, c=z, s=50, cmap=plt.cm.jet)
