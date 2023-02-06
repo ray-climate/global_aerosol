@@ -123,11 +123,11 @@ beta_aeolus_all = []
 with open('./%s.csv' % script_base, newline='') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
-        beta_caliop_all.append(row[0])
-        beta_aeolus_all.append(row[1])
+        beta_caliop_all.append(float(row[0]))
+        beta_aeolus_all.append(float(row[1]))
 
-beta_aeolus_all = np.asarray(beta_aeolus_all)
-beta_caliop_all = np.asarray(beta_caliop_all)
+beta_aeolus_all = np.asarray(beta_aeolus_all[1:])
+beta_caliop_all = np.asarray(beta_caliop_all[1:])
 print(beta_aeolus_all)
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
