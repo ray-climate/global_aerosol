@@ -85,19 +85,21 @@ while start_date_datetime <= end_date_datetime:
     if os.path.isdir(colocationData_daily_dir):
         for file in os.listdir(colocationData_daily_dir):
             if file.endswith('.nc'):
-                print(file)
 
-                (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i, qc_i, ber_i,
-                 lod_i) = extractColocationParameters(colocationData_daily_dir + '/' + file)
+                try:
+                    (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i, qc_i, ber_i,
+                     lod_i) = extractColocationParameters(colocationData_daily_dir + '/' + file)
 
-                beta_aeolus_all.extend(beta_aeolus_i)
-                beta_caliop_all.extend(beta_caliop_i)
-                alt_bottom_all.extend(alt_bottom_i)
-                alt_top_all.extend(alt_top_i)
-                time_str_all.extend(time_str_i)
-                qc_aeolus_all.extend(qc_i)
-                ber_aeolus_all.extend(ber_i)
-                lod_aeolus_all.extend(lod_i)
+                    beta_aeolus_all.extend(beta_aeolus_i)
+                    beta_caliop_all.extend(beta_caliop_i)
+                    alt_bottom_all.extend(alt_bottom_i)
+                    alt_top_all.extend(alt_top_i)
+                    time_str_all.extend(time_str_i)
+                    qc_aeolus_all.extend(qc_i)
+                    ber_aeolus_all.extend(ber_i)
+                    lod_aeolus_all.extend(lod_i)
+                except:
+                    continue
 
     else:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
