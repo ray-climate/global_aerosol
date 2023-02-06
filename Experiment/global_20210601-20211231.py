@@ -84,7 +84,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
             if index > 0:
                 beta_caliop_all.append(float(row[1]))
                 beta_aeolus_all.append(float(row[2]))
-                qc_aeolus_all.append(float(row[5]))
+                qc_aeolus_all.append(row[5])
                 ber_aeolus_all.append(float(row[6]))
 
             index = index + 1
