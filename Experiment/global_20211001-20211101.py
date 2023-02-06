@@ -99,9 +99,6 @@ while start_date_datetime <= end_date_datetime:
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
 
-print(beta_aeolus_all)
-print(beta_aeolus_all.shape)
-quit()
 with open('./%s.csv' % script_base, "w") as output:
     writer = csv.writer(output, lineterminator='\n')
     writer.writerow(('Colocation_Datetime', 'Aeolus_beta', 'Caliop_beta', 'alt_bottom', 'alt_top', 'Aeolus_QC', 'Aeolus_BER', 'Aeolus_LOD'))
