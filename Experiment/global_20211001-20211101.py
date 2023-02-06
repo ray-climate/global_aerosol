@@ -95,6 +95,10 @@ while start_date_datetime <= end_date_datetime:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
 
     start_date_datetime = start_date_datetime + time_delta
+
+beta_aeolus_all = np.asarray(beta_aeolus_all)
+beta_caliop_all = np.asarray(beta_caliop_all)
+
 print(beta_aeolus_all)
 print(beta_aeolus_all.shape)
 quit()
@@ -111,8 +115,7 @@ with open('./%s.csv' % script_base, "w") as output:
         except:
             continue
 
-beta_aeolus_all = np.asarray(beta_aeolus_all)
-beta_caliop_all = np.asarray(beta_caliop_all)
+
 
 import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
