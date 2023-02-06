@@ -71,6 +71,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
 
     beta_caliop_all = []
     beta_aeolus_all = []
+    ber_aeolus_all = []
 
     with open(output_dir + '/%s.csv' % script_base, newline='') as csvfile:
 
@@ -80,10 +81,12 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
             if index > 0:
                 beta_caliop_all.append(float(row[1]))
                 beta_aeolus_all.append(float(row[2]))
+                ber_aeolus_all.append(6)
             index = index + 1
 
     beta_aeolus_all = np.asarray(beta_aeolus_all)
     beta_caliop_all = np.asarray(beta_caliop_all)
+    ber_aeolus_all = np.asarray(ber_aeolus_all)
 
 else:
 
@@ -152,6 +155,18 @@ x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 
 print(np.size(x))
+
+# AEOLUS BER hist plot
+fig, ax = plt.subplots(figsize=(10, 10))
+
+plt.hist(ber_aeolus_all, bins=50, edgecolor='black', alpha=0.7)
+
+for tick in ax.xaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+for tick in ax.yaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+
+plt.savefig(output_dir + '/%s_BER_hist1d.png' %script_base)
 
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist2d(x, y, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
