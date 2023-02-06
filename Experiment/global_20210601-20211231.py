@@ -159,8 +159,9 @@ else:
 
 qc_aeolus_all = [0 if ele =='--' else ele for ele in qc_aeolus_all]
 qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
-qc_aeolus_flag = np.unpackbits(qc_aeolus_all, axis=1)
-print(qc_aeolus_flag)
+qc_aeolus_flag = np.unpackbits(qc_aeolus_all)
+print(qc_aeolus_all.shape)
+print(qc_aeolus_flag.shape)
 print(qc_aeolus_flag[0])
 quit()
 
