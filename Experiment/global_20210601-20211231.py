@@ -81,7 +81,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
             if index > 0:
                 beta_caliop_all.append(float(row[1]))
                 beta_aeolus_all.append(float(row[2]))
-                ber_aeolus_all.append(6)
+                ber_aeolus_all.append(float(row[6]))
             index = index + 1
 
     beta_aeolus_all = np.asarray(beta_aeolus_all)
