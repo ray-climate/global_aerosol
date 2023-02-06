@@ -38,6 +38,7 @@ lon_right = 180.
 ##############################################################
 
 BER_threshold = 0.05
+beta_threshold = 0.01
 
 def get_script_name():
     return sys.modules['__main__'].__file__
@@ -217,8 +218,8 @@ for tick in ax.yaxis.get_major_ticks():
 
 plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
 
-x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_SNR_filtered < 0.02) & (ber_aeolus_all < BER_threshold)]
-y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_SNR_filtered < 0.02) & (ber_aeolus_all < BER_threshold)]
+x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
+y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 
 from scipy.stats import kde
 nbins=300
@@ -231,8 +232,8 @@ fig, ax = plt.subplots(figsize=(10, 10))
 plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0.,0.02])
-plt.ylim([0.,0.02])
+plt.xlim([0., beta_threshold])
+plt.ylim([0., beta_threshold])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
