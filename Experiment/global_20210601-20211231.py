@@ -187,21 +187,7 @@ plt.xlim([0, .2])
 plt.title('AEOLUS Backscatter-Extinction-Ratio histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_BER_hist1d.png' %script_base)
 
-# AEOLUS Altitude top bin hist plot
-fig, ax = plt.subplots(figsize=(10, 10))
 
-plt.hist(alt_top_all, bins=1000, color='red', edgecolor='black', alpha=0.7)
-
-ax.set_xlabel('AEOLUS top bin altitude', fontsize=18)
-ax.set_ylabel('Number of retrievals', fontsize=18)
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-# plt.xlim([0, .2])
-plt.title('AEOLUS top bin altitude histogram', fontsize=18)
-plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist2d(x, y, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
