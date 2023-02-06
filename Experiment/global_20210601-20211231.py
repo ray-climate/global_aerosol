@@ -239,8 +239,10 @@ plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
 
 x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
-
+print(x3)
+print(y3)
 from scipy.stats import kde
+
 nbins=300
 k = kde.gaussian_kde([x3,y3])
 xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
