@@ -10,7 +10,7 @@ from scipy.stats import gaussian_kde
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import numpy as np
-import logging
+import pathlib
 import csv
 import sys
 import os
@@ -49,10 +49,12 @@ script_base, script_ext = os.path.splitext(script_name)
 # Add the .log extension to the base name
 log_filename = script_base + '.log'
 
-logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
-                    filemode='w',
-                    filename=log_filename,
-                    level=logging.INFO)
+output_dir = './%s' %script_base
+# Create output directories if they don't exist
+try:
+    os.stat(output_dir)
+except:
+    pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 colocationData_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Database'
 
@@ -63,7 +65,7 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 # Set up time delta
 time_delta = timedelta(days = 1)
 
-if os.path.exists('./%s.csv' % script_base):
+if os.path.exists(output_dir + '/%s.csv' % script_base):
 
     print("Colocated profiles are already extracted in %s.csv" %script_base)
 
@@ -131,12 +133,12 @@ else:
     beta_aeolus_all = np.asarray(beta_aeolus_all)
     beta_caliop_all = np.asarray(beta_caliop_all)
 
-    with open('./%s.csv' % script_base, "w") as output:
+    with open(output_dir + '/%s.csv' % script_base, "w") as output:
         writer = csv.writer(output, lineterminator='\n')
         writer.writerow(('Colocation_Datetime', 'Aeolus_beta', 'Caliop_beta', 'alt_bottom', 'alt_top', 'Aeolus_QC', 'Aeolus_BER', 'Aeolus_LOD'))
 
         for j in range(np.size(beta_aeolus_all)):
-            print(beta_aeolus_all[j], beta_caliop_all[j])
+
             try:
                 if (float(beta_aeolus_all[j]) > 0) & (float(beta_caliop_all[j]) >0):
                     writer.writerow((time_str_all[j], float(beta_aeolus_all[j]), float(beta_caliop_all[j]),
@@ -161,4 +163,4 @@ for tick in ax.xaxis.get_major_ticks():
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 
-plt.savefig('./%s_hist2d.png' %script_base)
+plt.savefig(output_dir + '/%s_hist2d.png' %script_base)
