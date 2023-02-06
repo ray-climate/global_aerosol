@@ -219,7 +219,7 @@ plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
 
 x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_SNR_filtered < 0.02) & (ber_aeolus_all < BER_threshold)]
 y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_SNR_filtered < 0.02) & (ber_aeolus_all < BER_threshold)]
-
+print(np.size(x3))
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist2d(x3, y3, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
 
