@@ -159,8 +159,9 @@ else:
 
 qc_aeolus_all = [0 if ele =='--' else ele for ele in qc_aeolus_all]
 qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
-print(qc_aeolus_all)
+qc_aeolus_flag = np.unpackbits(qc_aeolus_all)
 quit()
+
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 
