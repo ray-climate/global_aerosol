@@ -37,6 +37,8 @@ lon_left = -180.
 lon_right = 180.
 ##############################################################
 
+BER_threshold = 0.05
+
 def get_script_name():
     return sys.modules['__main__'].__file__
 
@@ -154,8 +156,6 @@ else:
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 
-print(np.size(x))
-
 # AEOLUS BER hist plot
 fig, ax = plt.subplots(figsize=(10, 10))
 
@@ -186,3 +186,23 @@ for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 
 plt.savefig(output_dir + '/%s_hist2d.png' %script_base)
+
+
+x2 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02) & (ber_aeolus_all < BER_threshold)]
+y2 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02) & (ber_aeolus_all < BER_threshold)]
+
+
+fig, ax = plt.subplots(figsize=(10, 10))
+plt.hist2d(x2, y2, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
+
+ax.set_xlabel('beta_caliop_all', fontsize=18)
+ax.set_ylabel('beta_aeolus_all', fontsize=18)
+plt.xlim([0.,0.02])
+plt.ylim([0.,0.02])
+
+for tick in ax.xaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+for tick in ax.yaxis.get_major_ticks():
+    tick.label.set_fontsize(18)
+
+plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
