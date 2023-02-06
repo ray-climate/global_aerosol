@@ -159,7 +159,7 @@ print(np.size(x))
 # AEOLUS BER hist plot
 fig, ax = plt.subplots(figsize=(10, 10))
 
-plt.hist(ber_aeolus_all, bins=50, edgecolor='black', alpha=0.7)
+plt.hist(ber_aeolus_all, bins=500, edgecolor='black', alpha=0.7)
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
