@@ -139,7 +139,7 @@ y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist2d(x, y, bins = 5, cmap = "RdYlGn_r",
            norm = colors.LogNorm())
-
+print(x)
 # ax.scatter(x, y, c=z, s=50, cmap=plt.cm.jet)
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
