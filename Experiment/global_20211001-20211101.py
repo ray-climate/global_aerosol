@@ -132,8 +132,8 @@ with open('./%s.csv' % script_base, newline='') as csvfile:
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
 
-x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.002) & (beta_aeolus_all < 0.002)]
-y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.002) & (beta_aeolus_all < 0.002)]
+x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
+y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 # xy = np.vstack([x,y])
 # z = gaussian_kde(xy)(xy)
 print(np.size(x))
@@ -144,8 +144,8 @@ plt.hist2d(x, y, bins=(50, 50), cmap = "RdYlGn_r",
 # ax.scatter(x, y, c=z, s=50, cmap=plt.cm.jet)
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0.,0.002])
-plt.ylim([0.,0.002])
+plt.xlim([0.,0.02])
+plt.ylim([0.,0.02])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
