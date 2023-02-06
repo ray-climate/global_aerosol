@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    global_20211001-20211101.py
+# @Filename:    global_20211201-20211231.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        06/02/2023 12:21
-
-# Import external libraries
+# @Time:        06/02/2023 17:49
 
 from datetime import datetime, timedelta
 from scipy.stats import gaussian_kde
@@ -25,8 +23,8 @@ This code uses all pre-calculated colocation files to do the retrieval analysis 
 """
 
 ##############################################################
-start_date = '2021-06-01' # start data for analysis
-end_date   = '2021-12-01' # end date for analysis
+start_date = '2021-12-01' # start data for analysis
+end_date   = '2021-12-02' # end date for analysis
 temporal_wd = 5. # hours of temporal window
 lat_up = 60.
 lat_down = -60.
