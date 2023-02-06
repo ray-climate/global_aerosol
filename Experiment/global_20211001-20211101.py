@@ -22,7 +22,7 @@ This code uses all pre-calculated colocation files to do the retrieval analysis 
 
 ##############################################################
 start_date = '2021-11-01' # start data for analysis
-end_date   = '2021-11-05' # end date for analysis
+end_date   = '2021-11-10' # end date for analysis
 temporal_wd = 5. # hours of temporal window
 lat_up = 60.
 lat_down = -60.
@@ -103,7 +103,7 @@ with open('./%s.csv' % script_base, "w") as output:
     writer = csv.writer(output, lineterminator='\n')
     writer.writerow(('Colocation_Datetime', 'Aeolus_beta', 'Caliop_beta', 'alt_bottom', 'alt_top', 'Aeolus_QC', 'Aeolus_BER', 'Aeolus_LOD'))
 
-    for j in range(len(beta_aeolus_all)):
+    for j in range(np.size(beta_aeolus_all)):
         try:
             if beta_aeolus_all[j] > 0 & beta_caliop_all[j] >0:
                 writer.writerow((time_str_all[j], beta_aeolus_all[j], beta_caliop_all[j],
@@ -111,8 +111,6 @@ with open('./%s.csv' % script_base, "w") as output:
                                  ber_aeolus_all[j], lod_aeolus_all[j]))
         except:
             continue
-
-
 
 import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
