@@ -165,7 +165,7 @@ for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
-plt.xlim([-.5, .2])
+plt.xlim([0, .2])
 plt.savefig(output_dir + '/%s_BER_hist1d.png' %script_base)
 
 fig, ax = plt.subplots(figsize=(10, 10))
