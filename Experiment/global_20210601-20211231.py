@@ -161,12 +161,15 @@ fig, ax = plt.subplots(figsize=(10, 10))
 
 plt.hist(ber_aeolus_all, bins=1000, color='red', edgecolor='black', alpha=0.7)
 
+ax.set_xlabel('AEOLUS BER', fontsize=18)
+ax.set_ylabel('Number of retrievals', fontsize=18)
+
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 plt.xlim([0, .2])
-plt.title('AEOLUS BER histogram', fontsize=18)
+plt.title('AEOLUS Backscatter-Extinction-Ratio histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_BER_hist1d.png' %script_base)
 
 fig, ax = plt.subplots(figsize=(10, 10))
