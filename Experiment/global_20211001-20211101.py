@@ -125,8 +125,8 @@ with open('./%s.csv' % script_base, newline='') as csvfile:
     index = 0
     for row in reader:
         if index > 0:
-            beta_caliop_all.append(float(row[0]))
-            beta_aeolus_all.append(float(row[1]))
+            beta_caliop_all.append(float(row[1]))
+            beta_aeolus_all.append(float(row[2]))
         index = index + 1
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
