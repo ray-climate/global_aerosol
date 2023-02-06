@@ -96,8 +96,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
     qc_aeolus_all = np.asarray(qc_aeolus_all)
     ber_aeolus_all = np.asarray(ber_aeolus_all)
     alt_top_all = np.asarray(alt_top_all)
-    print(beta_caliop_all)
-    quit()
+
 else:
 
     beta_aeolus_all = []
@@ -236,7 +235,8 @@ for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 
 plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
-
+print(beta_caliop_all)
+print(beta_aeolus_SNR_filtered)
 x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 print(x3)
