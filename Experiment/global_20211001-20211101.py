@@ -126,8 +126,8 @@ with open('./%s.csv' % script_base, newline='') as csvfile:
         beta_caliop_all.append(row[0])
         beta_aeolus_all.append(row[1])
 
-beta_aeolus_all = np.asarray(beta_aeolus_all)
-beta_caliop_all = np.asarray(beta_caliop_all)
+beta_aeolus_all = np.asarray(beta_aeolus_all[1:])
+beta_caliop_all = np.asarray(beta_caliop_all[1:])
 
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
