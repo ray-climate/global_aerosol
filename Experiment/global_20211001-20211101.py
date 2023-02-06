@@ -131,8 +131,8 @@ with open('./%s.csv' % script_base, newline='') as csvfile:
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
 
-x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
-y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0)]
+x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.05) & (beta_aeolus_all < 0.05)]
+y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.05) & (beta_aeolus_all < 0.05)]
 # xy = np.vstack([x,y])
 # z = gaussian_kde(xy)(xy)
 
