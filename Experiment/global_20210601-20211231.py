@@ -111,6 +111,7 @@ else:
                 if file.endswith('.nc'):
 
                     try:
+                        print('Processing file %s......'%file)
                         (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i, qc_i, ber_i,
                          lod_i) = extractColocationParameters(colocationData_daily_dir + '/' + file)
 
