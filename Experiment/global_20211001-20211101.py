@@ -136,7 +136,7 @@ x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.01) & (beta_aeolus_all < 0.01)]
 # xy = np.vstack([x,y])
 # z = gaussian_kde(xy)(xy)
-
+print(np.size(x))
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist2d(x, y, bins=(70, 70), cmap = "RdYlGn_r",
            norm = colors.LogNorm())
