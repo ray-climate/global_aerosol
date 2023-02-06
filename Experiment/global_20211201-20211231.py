@@ -23,9 +23,14 @@ This code uses all pre-calculated colocation files to do the retrieval analysis 
 """
 
 ##############################################################
-start_date = '2021-12-01' # start data for analysis
-end_date   = '2021-12-02' # end date for analysis
-temporal_wd = 5. # hours of temporal window
+# Define start and end dates
+start_date = '2021-12-01'
+end_date = '2021-12-02'
+
+# Define the temporal window size
+temporal_wd = 5. # hours
+
+# Define the spatial bounds
 lat_up = 60.
 lat_down = -60.
 lon_left = -180.
@@ -75,7 +80,7 @@ while start_date_datetime <= end_date_datetime:
     day_i = '{:02d}'.format(start_date_datetime.day)
 
     # locate the daily colocation observation parameter from satellite data
-    colocationData_daily_dir = colocationData_dir + '/%s/%s-%s-%s/' % (year_i, year_i, month_i, day_i)
+    colocationData_daily_dir = os.path.join(colocationData_dir, year_i, f"{year_i}-{month_i}-{day_i}")
 
     if os.path.isdir(colocationData_daily_dir):
         for file in os.listdir(colocationData_daily_dir):
@@ -84,6 +89,7 @@ while start_date_datetime <= end_date_datetime:
 
                 (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i, qc_i, ber_i,
                  lod_i) = extractColocationParameters(colocationData_daily_dir + file)
+
                 beta_aeolus_all.extend(beta_aeolus_i)
                 beta_caliop_all.extend(beta_caliop_i)
                 alt_bottom_all.extend(alt_bottom_i)
