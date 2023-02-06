@@ -22,7 +22,7 @@ This code uses all pre-calculated colocation files to do the retrieval analysis 
 
 ##############################################################
 start_date = '2021-11-01' # start data for analysis
-end_date   = '2021-12-01' # end date for analysis
+end_date   = '2021-11-05' # end date for analysis
 temporal_wd = 5. # hours of temporal window
 lat_up = 60.
 lat_down = -60.
@@ -95,7 +95,9 @@ while start_date_datetime <= end_date_datetime:
         print('No colocation for %s-%s-%s'%(year_i, month_i, day_i))
 
     start_date_datetime = start_date_datetime + time_delta
-
+print(beta_aeolus_all)
+print(beta_aeolus_all.shape)
+quit()
 with open('./%s.csv' % script_base, "w") as output:
     writer = csv.writer(output, lineterminator='\n')
     writer.writerow(('Colocation_Datetime', 'Aeolus_beta', 'Caliop_beta', 'alt_bottom', 'alt_top', 'Aeolus_QC', 'Aeolus_BER', 'Aeolus_LOD'))
