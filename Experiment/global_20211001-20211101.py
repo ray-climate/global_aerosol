@@ -106,8 +106,8 @@ with open('./%s.csv' % script_base, "w") as output:
     for j in range(np.size(beta_aeolus_all)):
         print(beta_aeolus_all[j], beta_caliop_all[j])
         try:
-            if beta_aeolus_all[j] > 0 & beta_caliop_all[j] >0:
-                writer.writerow((time_str_all[j], beta_aeolus_all[j], beta_caliop_all[j],
+            if float(beta_aeolus_all[j]) > 0 & float(beta_caliop_all[j]) >0:
+                writer.writerow((time_str_all[j], float(beta_aeolus_all[j]), float(beta_caliop_all[j]),
                                  alt_bottom_all[j], alt_top_all[j], qc_aeolus_all[j],
                                  ber_aeolus_all[j], lod_aeolus_all[j]))
         except:
