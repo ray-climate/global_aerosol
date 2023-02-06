@@ -74,6 +74,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
     beta_caliop_all = []
     beta_aeolus_all = []
     ber_aeolus_all = []
+    qc_aeolus_all = []
 
     with open(output_dir + '/%s.csv' % script_base, newline='') as csvfile:
 
@@ -83,11 +84,14 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
             if index > 0:
                 beta_caliop_all.append(float(row[1]))
                 beta_aeolus_all.append(float(row[2]))
+                qc_aeolus_all.append(float(row[5]))
                 ber_aeolus_all.append(float(row[6]))
+
             index = index + 1
 
     beta_aeolus_all = np.asarray(beta_aeolus_all)
     beta_caliop_all = np.asarray(beta_caliop_all)
+    qc_aeolus_all = np.asarray(qc_aeolus_all)
     ber_aeolus_all = np.asarray(ber_aeolus_all)
 
 else:
@@ -153,6 +157,8 @@ else:
             except:
                 continue
 
+print(qc_aeolus_all)
+quit()
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 
