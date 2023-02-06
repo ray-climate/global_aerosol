@@ -57,6 +57,9 @@ def extractColocationParameters(inputNetCDF):
         alt_aeolus_centre = alt_aeolus_centre * 1e-3
 
         beta_aeolus_centre = beta_aeolus[:, aeolus_index_x]
+        qc_aeolus_centre = qc_aeolus[:, aeolus_index_x]
+        ber_aeolus_centre = ber_aeolus[:, aeolus_index_x]
+        lod_aeolus_centre = lod_aeolus[:, aeolus_index_x]
 
         alt_bottom_stats = []
         alt_top_stats = []
@@ -79,9 +82,9 @@ def extractColocationParameters(inputNetCDF):
                         alt_bottom_stats.append(alt_aeolus_centre[k + 1])
                         alt_top_stats.append(alt_aeolus_centre[k])
                         time_str_stats.append(inputNetCDF[-18:-3])
-                        qc_aeolus_stats.append(qc_aeolus[k])
-                        ber_aeolus_stats.append(qc_aeolus[k])
-                        lod_aeolus_stats.append(qc_aeolus[k])
+                        qc_aeolus_stats.append(qc_aeolus_centre[k])
+                        ber_aeolus_stats.append(ber_aeolus_centre[k])
+                        lod_aeolus_stats.append(lod_aeolus_centre[k])
 
         return beta_aeolus_stats, beta_caliop_stats, alt_bottom_stats, alt_top_stats, time_str_stats, qc_aeolus_stats, ber_aeolus_stats, lod_aeolus_stats
 

@@ -103,9 +103,10 @@ with open('./%s.csv' % script_base, "w") as output:
     writer.writerow(('Colocation_Datetime', 'Aeolus_beta', 'Caliop_beta', 'alt_bottom', 'alt_top', 'Aeolus_QC', 'Aeolus_BER', 'Aeolus_LOD'))
 
     for j in range(len(beta_aeolus_all)):
-        writer.writerow((time_str_all[j], beta_aeolus_all[j], beta_caliop_all[j],
-                         alt_bottom_all[j], alt_top_all[j], qc_aeolus_all[j],
-                         ber_aeolus_all[j], lod_aeolus_all[j]))
+        if beta_aeolus_all[j] > 0 & beta_caliop_all[j] >0:
+            writer.writerow((time_str_all[j], beta_aeolus_all[j], beta_caliop_all[j],
+                             alt_bottom_all[j], alt_top_all[j], qc_aeolus_all[j],
+                             ber_aeolus_all[j], lod_aeolus_all[j]))
 
 beta_aeolus_all = np.asarray(beta_aeolus_all)
 beta_caliop_all = np.asarray(beta_caliop_all)
