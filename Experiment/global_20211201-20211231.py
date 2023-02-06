@@ -88,7 +88,7 @@ while start_date_datetime <= end_date_datetime:
                 print(file)
 
                 (beta_aeolus_i, beta_caliop_i, alt_bottom_i, alt_top_i, time_str_i, qc_i, ber_i,
-                 lod_i) = extractColocationParameters(colocationData_daily_dir + file)
+                 lod_i) = extractColocationParameters(colocationData_daily_dir + '/' + file)
 
                 beta_aeolus_all.extend(beta_aeolus_i)
                 beta_caliop_all.extend(beta_caliop_i)
