@@ -237,6 +237,7 @@ for tick in ax.yaxis.get_major_ticks():
 plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
 print(beta_caliop_all)
 print(beta_aeolus_SNR_filtered)
+print(ber_aeolus_all)
 x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 print(x3)
