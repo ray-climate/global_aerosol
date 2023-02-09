@@ -225,12 +225,12 @@ plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 
-fig, ax = plt.subplots(2, 4, figsize=(16, 10))
+fig, ax = plt.subplots(2, 3, figsize=(16, 10))
 
 # Loop through the axis array and plot random data
 plot_index = 0
 for i in range(2):
-    for j in range(4):
+    for j in range(3):
 
         if plot_index <= len(aeolus_layers_keys):
 
@@ -241,16 +241,17 @@ for i in range(2):
             zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
             ax[i, j].pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-            ax[i, j].set_xlabel('beta_caliop_all', fontsize=18)
-            ax[i, j].set_ylabel('beta_aeolus_all', fontsize=18)
+            ax[i, j].set_aspect(1)
+            ax[i, j].set_xlabel('beta_caliop_all', fontsize=12)
+            ax[i, j].set_ylabel('beta_aeolus_all', fontsize=12)
 
-            plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-            plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+            ax[i, j].set_xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+            ax[i, j].set_ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
             for tick in ax[i, j].xaxis.get_major_ticks():
-                tick.label.set_fontsize(18)
+                tick.label.set_fontsize(12)
             for tick in ax[i, j].yaxis.get_major_ticks():
-                tick.label.set_fontsize(18)
+                tick.label.set_fontsize(12)
 
             plot_index = plot_index + 1
 
