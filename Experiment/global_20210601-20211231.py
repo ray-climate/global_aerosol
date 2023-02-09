@@ -235,7 +235,7 @@ plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
 plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
@@ -256,7 +256,7 @@ plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
 plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
@@ -277,7 +277,7 @@ plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
 plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
@@ -298,7 +298,7 @@ plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
 plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
@@ -319,7 +319,7 @@ plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
 plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
