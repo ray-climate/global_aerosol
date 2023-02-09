@@ -6,9 +6,9 @@
 # @Time:        06/02/2023 17:49
 
 from datetime import datetime, timedelta
-from scipy.stats import gaussian_kde
 import matplotlib.pyplot as plt
 from matplotlib import colors
+from scipy.stats import kde
 import numpy as np
 import pathlib
 import csv
@@ -225,33 +225,12 @@ plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 
-fig, ax = plt.subplots(figsize=(10, 10))
-plt.hist2d(x, y, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
-
-ax.set_xlabel('beta_caliop_all', fontsize=18)
-ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., plot_beta_max])
-plt.ylim([0., plot_beta_max])
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-
-plt.savefig(output_dir + '/%s_SNR_Cloud_QC_hist2d.png' %script_base)
-quit()
-x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
-y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
-
-from scipy.stats import kde
-
 nbins=300
-k = kde.gaussian_kde([x3,y3])
-xi, yi = np.mgrid[x3.min():x3.max():nbins*1j, y3.min():y3.max():nbins*1j]
+k = kde.gaussian_kde([x,y])
+xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
 fig, ax = plt.subplots(figsize=(10, 10))
-# plt.hist2d(x3, y3, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
 plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
@@ -264,7 +243,7 @@ for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 
 plt.savefig(output_dir + '/%s_cloudQC_SNRQC_hist2d.png' %script_base)
-
+quit()
 x4 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold) & (alt_top_all < 5.)]
 y4 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold) & (alt_top_all < 5.)]
 
