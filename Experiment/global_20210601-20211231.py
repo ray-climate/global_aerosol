@@ -37,7 +37,7 @@ lon_left = -180.
 lon_right = 180.
 ##############################################################
 
-BER_threshold = 0.03
+BER_threshold = 0.05
 # beta_threshold = 0.004
 
 plot_beta_max = 0.04
@@ -271,7 +271,7 @@ for i in range(2):
 plt.subplots_adjust(hspace=0.5)
 
 plt.savefig(output_dir + '/test.png')
-quit()
+
 nbins=1000
 k = kde.gaussian_kde([x,y])
 xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
@@ -335,7 +335,7 @@ plt.savefig(output_dir + '/%s_cloudQC_SNRQC_5-10km_hist2d.png' %script_base)
 
 x4 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
 y4 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
-
+print(np.size(x4))
 k = kde.gaussian_kde([x4,y4])
 xi, yi = np.mgrid[x4.min():x4.max():nbins*1j, y4.min():y4.max():nbins*1j]
 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
