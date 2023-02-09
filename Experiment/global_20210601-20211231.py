@@ -228,11 +228,11 @@ y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)
 fig, ax = plt.subplots(2, 4, figsize=(10, 16))
 
 # Loop through the axis array and plot random data
-for i in range(5):
-
-    x = np.linspace(0, 10, 100)
-    y = np.random.randn(100)
-    ax[i].plot(x, y)
+for i in range(4):
+    for j in range(2):
+        x = np.linspace(0, 10, 100)
+        y = np.random.randn(100)
+        ax[i, j].plot(x, y)
 
 plt.savefig(output_dir + '/test.png' %script_base)
 quit()
