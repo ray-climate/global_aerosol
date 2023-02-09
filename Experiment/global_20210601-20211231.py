@@ -40,6 +40,15 @@ lon_right = 180.
 BER_threshold = 0.05
 beta_threshold = 0.004
 
+##############################################################
+# set up the altitude range for different layers, this altitude range is Aeolus_top bin.
+aeolus_layers = {'layer-1': (0, 5),
+                 'layer-2': (5, 10),
+                 'layer-3': (10, 15),
+                 'layer-4': (15, np.nan)}
+print(aeolus_layers)
+print(aeolus_layers[0])
+quit()
 def get_script_name():
     return sys.modules['__main__'].__file__
 
@@ -243,7 +252,7 @@ from scipy.stats import kde
 
 nbins=300
 k = kde.gaussian_kde([x3,y3])
-xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
+xi, yi = np.mgrid[x3.min():x3.max():nbins*1j, y3.min():y3.max():nbins*1j]
 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
 fig, ax = plt.subplots(figsize=(10, 10))
