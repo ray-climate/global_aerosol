@@ -297,8 +297,8 @@ fig, ax = plt.subplots(figsize=(10, 10))
 plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., plot_beta_max])
-plt.ylim([0., plot_beta_max])
+plt.xlim([0., 0.02])
+plt.ylim([0., 0.02])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
@@ -318,8 +318,8 @@ fig, ax = plt.subplots(figsize=(10, 10))
 plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., plot_beta_max])
-plt.ylim([0., plot_beta_max])
+plt.xlim([0., 0.0025])
+plt.ylim([0., 0.0025])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
