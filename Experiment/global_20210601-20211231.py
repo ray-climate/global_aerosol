@@ -42,12 +42,13 @@ beta_threshold = 0.004
 
 ##############################################################
 # set up the altitude range for different layers, this altitude range is Aeolus_top bin.
-aeolus_layers = {'layer-1': (0, 5),
-                 'layer-2': (5, 10),
-                 'layer-3': (10, 15),
-                 'layer-4': (15, np.nan)}
-print(aeolus_layers)
-print(aeolus_layers[0])
+aeolus_layers_dic = {'layer-1': (0, 5),
+                     'layer-2': (5, 10),
+                    'layer-3': (10, 15),
+                    'layer-4': (15, np.nan)}
+print(aeolus_layers_dic)
+keys = list(aeolus_layers_dic.keys())
+# print(aeolus_layers[0])
 quit()
 def get_script_name():
     return sys.modules['__main__'].__file__
