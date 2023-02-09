@@ -242,8 +242,8 @@ for i in range(2):
 
             ax[i, j].pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
             ax[i, j].set_aspect(1)
-            ax[i, j].set_xlabel(r'$532 nm \beta_{CALIPSO} [km^{-1}sr^{-1}]$', fontsize=12)
-            ax[i, j].set_ylabel(r'$355 nm \beta_{AEOLUS}$ [km^{-1}sr^{-1}]', fontsize=12)
+            ax[i, j].set_xlabel(r'$532\ nm\  \beta_{CALIPSO}\  [km^{-1}sr^{-1}]$', fontsize=12)
+            ax[i, j].set_ylabel(r'$355\ nm\  \beta_{AEOLUS}\  [km^{-1}sr^{-1}]$', fontsize=12)
 
             ax[i, j].set_xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
             ax[i, j].set_ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
