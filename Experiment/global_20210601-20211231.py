@@ -234,8 +234,8 @@ fig, ax = plt.subplots(figsize=(10, 10))
 plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., beta_threshold])
-plt.ylim([0., beta_threshold])
+# plt.xlim([0., beta_threshold])
+# plt.ylim([0., beta_threshold])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
