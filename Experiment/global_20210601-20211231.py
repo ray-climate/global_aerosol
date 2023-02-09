@@ -265,8 +265,8 @@ for tick in ax.yaxis.get_major_ticks():
 
 plt.savefig(output_dir + '/%s_cloudQC_SNRQC_0-5km_hist2d.png' %script_base)
 
-x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 7.)]
-y3 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 7.)]
+x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 8.5)]
+y3 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 8.5)]
 
 k = kde.gaussian_kde([x3,y3])
 xi, yi = np.mgrid[x3.min():x3.max():nbins*1j, y3.min():y3.max():nbins*1j]
