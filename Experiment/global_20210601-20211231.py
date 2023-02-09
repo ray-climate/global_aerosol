@@ -265,8 +265,8 @@ for tick in ax.yaxis.get_major_ticks():
 
 plt.savefig(output_dir + '/%s_cloudQC_SNRQC_0-5km_hist2d.png' %script_base)
 
-x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 5.)]
-y3 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 5.)]
+x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 7.)]
+y3 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 7.)]
 
 k = kde.gaussian_kde([x3,y3])
 xi, yi = np.mgrid[x3.min():x3.max():nbins*1j, y3.min():y3.max():nbins*1j]
@@ -286,8 +286,8 @@ for tick in ax.yaxis.get_major_ticks():
 
 plt.savefig(output_dir + '/%s_cloudQC_SNRQC_5-10km_hist2d.png' %script_base)
 
-x4 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 13.) & (alt_top_all > 10.)]
-y4 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 13.) & (alt_top_all > 10.)]
+x4 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
+y4 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
 
 k = kde.gaussian_kde([x4,y4])
 xi, yi = np.mgrid[x4.min():x4.max():nbins*1j, y4.min():y4.max():nbins*1j]
