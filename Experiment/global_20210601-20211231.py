@@ -241,15 +241,15 @@ for i in range(2):
             zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
             ax[i, j].pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-            ax.set_xlabel('beta_caliop_all', fontsize=18)
-            ax.set_ylabel('beta_aeolus_all', fontsize=18)
+            ax[i, j].set_xlabel('beta_caliop_all', fontsize=18)
+            ax[i, j].set_ylabel('beta_aeolus_all', fontsize=18)
 
             plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
             plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
-            for tick in ax.xaxis.get_major_ticks():
+            for tick in ax[i, j].xaxis.get_major_ticks():
                 tick.label.set_fontsize(18)
-            for tick in ax.yaxis.get_major_ticks():
+            for tick in ax[i, j].yaxis.get_major_ticks():
                 tick.label.set_fontsize(18)
 
             plot_index = plot_index + 1
