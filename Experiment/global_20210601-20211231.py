@@ -38,9 +38,9 @@ lon_right = 180.
 ##############################################################
 
 BER_threshold = 0.05
-beta_threshold = 0.004
+# beta_threshold = 0.004
 
-plot_beta_max = 0.02
+plot_beta_max = 0.05
 ##############################################################
 # set up the altitude range for different layers, this altitude range is Aeolus_top bin.
 aeolus_layers_dic = {'layer-1': (0, 5),
@@ -234,8 +234,8 @@ fig, ax = plt.subplots(figsize=(10, 10))
 plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-# plt.xlim([0., beta_threshold])
-# plt.ylim([0., beta_threshold])
+plt.xlim([0., plot_beta_max])
+plt.ylim([0., plot_beta_max])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
