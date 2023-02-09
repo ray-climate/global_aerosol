@@ -234,7 +234,7 @@ for i in range(4):
         y = np.random.randn(100)
         ax[i, j].plot(x, y)
 
-plt.savefig(output_dir + '/test.png' %script_base)
+plt.savefig(output_dir + '/test.png')
 quit()
 nbins=1000
 k = kde.gaussian_kde([x,y])
