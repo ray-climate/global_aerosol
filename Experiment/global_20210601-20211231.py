@@ -245,6 +245,8 @@ for i in range(2):
             ax[i, j].set_xlabel(r'$532\ nm\  \beta_{CALIPSO}\  [km^{-1}sr^{-1}]$', fontsize=12)
             ax[i, j].set_ylabel(r'$355\ nm\  \beta_{AEOLUS}\  [km^{-1}sr^{-1}]$', fontsize=12)
 
+            ax[i, j].set_title('All altitude bins\n Colocation Number = 1000', fontsize=12)
+
             ax[i, j].set_xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
             ax[i, j].set_ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
 
