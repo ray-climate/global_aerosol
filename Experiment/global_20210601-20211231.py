@@ -37,7 +37,7 @@ lon_left = -180.
 lon_right = 180.
 ##############################################################
 
-BER_threshold = 0.05
+BER_threshold = 0.03
 # beta_threshold = 0.004
 
 plot_beta_max = 0.04
@@ -49,8 +49,7 @@ aeolus_layers_dic = {'layer-1': (0, 5),
                      'layer-4': (15, np.nan)}
 
 aeolus_layers_keys = list(aeolus_layers_dic.keys())
-print(aeolus_layers_dic[aeolus_layers_keys[0]], aeolus_layers_dic[aeolus_layers_keys[1]])
-quit()
+
 ##############################################################
 def get_script_name():
     return sys.modules['__main__'].__file__
