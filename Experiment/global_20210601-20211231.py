@@ -40,7 +40,7 @@ lon_right = 180.
 BER_threshold = 0.05
 # beta_threshold = 0.004
 
-plot_beta_max = 0.05
+plot_beta_max = 0.04
 ##############################################################
 # set up the altitude range for different layers, this altitude range is Aeolus_top bin.
 aeolus_layers_dic = {'layer-1': (0, 5),
@@ -225,7 +225,7 @@ plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 
-nbins=300
+nbins=1000
 k = kde.gaussian_kde([x,y])
 xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
