@@ -49,7 +49,8 @@ aeolus_layers_dic = {'layer-1': (0, 5),
                      'layer-4': (15, np.nan)}
 
 aeolus_layers_keys = list(aeolus_layers_dic.keys())
-
+print(aeolus_layers_dic[aeolus_layers_keys[0]], aeolus_layers_dic[aeolus_layers_keys[1]])
+quit()
 ##############################################################
 def get_script_name():
     return sys.modules['__main__'].__file__
@@ -222,8 +223,7 @@ plt.title('AEOLUS top bin altitude histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 ################################################################################
 
-x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
-y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
+
 
 fig, ax = plt.subplots(2, 3, figsize=(16, 10))
 
@@ -235,6 +235,15 @@ for i in range(2):
         if plot_index <= len(aeolus_layers_keys):
 
             nbins = 1000
+
+            if plot_index == 0:
+
+                x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
+                y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
+            else:
+                x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
+                y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
+
             Colocation_number = np.size(x)
             k = kde.gaussian_kde([x, y])
             xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
@@ -259,6 +268,7 @@ for i in range(2):
 
         else:
             ax[i, j].set_visible(False)
+
 plt.subplots_adjust(hspace=0.5)
 
 plt.savefig(output_dir + '/test.png')
