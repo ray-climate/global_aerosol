@@ -45,8 +45,8 @@ plot_beta_max = 0.04
 # set up the altitude range for different layers, this altitude range is Aeolus_top bin.
 aeolus_layers_dic = {'layer-1': (0, 5),
                      'layer-2': (5, 10),
-                    'layer-3': (10, 15),
-                    'layer-4': (15, np.nan)}
+                     'layer-3': (10, 15),
+                     'layer-4': (15, np.nan)}
 
 aeolus_layers_keys = list(aeolus_layers_dic.keys())
 
@@ -225,14 +225,34 @@ plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 
-fig, ax = plt.subplots(4, 2, figsize=(10, 16))
+fig, ax = plt.subplots(2, 4, figsize=(16, 10))
 
 # Loop through the axis array and plot random data
-for i in range(4):
-    for j in range(2):
-        x = np.linspace(0, 10, 100)
-        y = np.random.randn(100)
-        ax[i, j].plot(x, y)
+plot_index = 0
+for i in range(2):
+    for j in range(4):
+
+        if plot_index <= len(aeolus_layers_keys):
+
+            nbins = 1000
+
+            k = kde.gaussian_kde([x, y])
+            xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
+            zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+
+            ax[i, j].pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
+            ax.set_xlabel('beta_caliop_all', fontsize=18)
+            ax.set_ylabel('beta_aeolus_all', fontsize=18)
+
+            plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+            plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+
+            for tick in ax.xaxis.get_major_ticks():
+                tick.label.set_fontsize(18)
+            for tick in ax.yaxis.get_major_ticks():
+                tick.label.set_fontsize(18)
+
+            plot_index = plot_index + 1
 
 plt.savefig(output_dir + '/test.png')
 quit()
