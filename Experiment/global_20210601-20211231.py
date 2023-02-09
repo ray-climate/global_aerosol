@@ -235,7 +235,7 @@ for i in range(2):
         if plot_index <= len(aeolus_layers_keys):
 
             nbins = 1000
-
+            Colocation_number = np.size(x)
             k = kde.gaussian_kde([x, y])
             xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
             zi = k(np.vstack([xi.flatten(), yi.flatten()]))
@@ -245,7 +245,7 @@ for i in range(2):
             ax[i, j].set_xlabel(r'$532\ nm\  \beta_{CALIPSO}\  [km^{-1}sr^{-1}]$', fontsize=12)
             ax[i, j].set_ylabel(r'$355\ nm\  \beta_{AEOLUS}\  [km^{-1}sr^{-1}]$', fontsize=12)
 
-            ax[i, j].set_title('All altitude bins\n Colocation Number = 1000', fontsize=12)
+            ax[i, j].set_title('All altitude bins\n Colocation Number = %s'%Colocation_number, fontsize=12)
 
             ax[i, j].set_xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
             ax[i, j].set_ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
@@ -259,6 +259,7 @@ for i in range(2):
 
         else:
             ax[i, j].set_visible(False)
+plt.subplots_adjust(hspace=0.5)
 
 plt.savefig(output_dir + '/test.png')
 quit()
