@@ -40,17 +40,17 @@ lon_right = 180.
 BER_threshold = 0.05
 beta_threshold = 0.004
 
+plot_beta_max = 0.02
 ##############################################################
 # set up the altitude range for different layers, this altitude range is Aeolus_top bin.
 aeolus_layers_dic = {'layer-1': (0, 5),
                      'layer-2': (5, 10),
                     'layer-3': (10, 15),
                     'layer-4': (15, np.nan)}
-print(aeolus_layers_dic)
-keys = list(aeolus_layers_dic.keys())
-print(keys)
-# print(aeolus_layers[0])
-quit()
+
+aeolus_layers_keys = list(aeolus_layers_dic.keys())
+
+##############################################################
 def get_script_name():
     return sys.modules['__main__'].__file__
 
@@ -69,6 +69,7 @@ try:
     os.stat(output_dir)
 except:
     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+##############################################################
 
 colocationData_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Database'
 
@@ -171,20 +172,25 @@ else:
             except:
                 continue
 
-
-qc_aeolus_all = [0 if ele =='--' else ele for ele in qc_aeolus_all]
+################################################################################
+# remove aeolus with low SNR
+qc_aeolus_all = [0 if element =='--' else element for element in qc_aeolus_all]
 qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
 qc_aeolus_flag = np.unpackbits(qc_aeolus_all).reshape([np.size(qc_aeolus_all), 8])
 
 beta_aeolus_SNR_filtered = [np.nan if qc_aeolus_flag[q][1] == 0 else beta_aeolus_all[q] for q in range(np.size(qc_aeolus_all))]
-beta_aeolus_SNR_filtered = np.asarray(beta_aeolus_SNR_filtered)
+beta_aeolus_SNR_cloud_filtered = np.copy(beta_aeolus_SNR_filtered)
+beta_aeolus_SNR_cloud_filtered[ber_aeolus_all < BER_threshold] = np.nan
+beta_aeolus_SNR_cloud_filtered = np.asarray(beta_aeolus_SNR_cloud_filtered)
 
-x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
-y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
+#
+#
+# x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
+# y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02)]
 
+################################################################################
 # AEOLUS BER hist plot
 fig, ax = plt.subplots(figsize=(10, 10))
-
 plt.hist(ber_aeolus_all, bins=1000, color='red', edgecolor='black', alpha=0.7)
 
 ax.set_xlabel('AEOLUS BER', fontsize=18)
@@ -197,7 +203,9 @@ for tick in ax.yaxis.get_major_ticks():
 plt.xlim([0, .2])
 plt.title('AEOLUS Backscatter-Extinction-Ratio histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_BER_hist1d.png' %script_base)
+################################################################################
 
+################################################################################
 # AEOLUS Altitude top bin hist plot
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist(alt_top_all, bins=100, color='red', edgecolor='black', alpha=0.7)
@@ -212,41 +220,26 @@ for tick in ax.yaxis.get_major_ticks():
 # plt.xlim([0, .2])
 plt.title('AEOLUS top bin altitude histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
+################################################################################
+
+x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
+y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
 
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist2d(x, y, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
 
 ax.set_xlabel('beta_caliop_all', fontsize=18)
 ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0.,0.02])
-plt.ylim([0.,0.02])
+plt.xlim([0., plot_beta_max])
+plt.ylim([0., plot_beta_max])
 
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(18)
 
-plt.savefig(output_dir + '/%s_hist2d.png' %script_base)
-
-
-x2 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02) & (ber_aeolus_all < BER_threshold)]
-y2 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_all > 0) & (beta_caliop_all < 0.02) & (beta_aeolus_all < 0.02) & (ber_aeolus_all < BER_threshold)]
-
-fig, ax = plt.subplots(figsize=(10, 10))
-plt.hist2d(x2, y2, bins=(50, 50), cmap = "RdYlGn_r", norm = colors.LogNorm())
-
-ax.set_xlabel('beta_caliop_all', fontsize=18)
-ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0.,0.02])
-plt.ylim([0.,0.02])
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-
-plt.savefig(output_dir + '/%s_cloudQC_hist2d.png' %script_base)
-
+plt.savefig(output_dir + '/%s_SNR_Cloud_QC_hist2d.png' %script_base)
+quit()
 x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 y3 = beta_aeolus_SNR_filtered[(beta_caliop_all > 0) & (beta_aeolus_SNR_filtered > 0) & (beta_caliop_all < beta_threshold) & (beta_aeolus_SNR_filtered < beta_threshold) & (ber_aeolus_all < BER_threshold)]
 
