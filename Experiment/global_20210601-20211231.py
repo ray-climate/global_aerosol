@@ -49,7 +49,9 @@ aeolus_layers_dic = {'layer-1': (0, 5),
                      'layer-4': (15, np.nan)}
 
 aeolus_layers_keys = list(aeolus_layers_dic.keys())
-
+print(aeolus_layers_dic[aeolus_layers_keys[0]])
+print(aeolus_layers_dic[aeolus_layers_keys[1]])
+quit()
 ##############################################################
 def get_script_name():
     return sys.modules['__main__'].__file__
@@ -269,8 +271,8 @@ for i in range(2):
             ax[i, j].set_visible(False)
 
 plt.subplots_adjust(hspace=0.5)
-
 plt.savefig(output_dir + '/test.png')
+quit()
 
 nbins=1000
 k = kde.gaussian_kde([x,y])
