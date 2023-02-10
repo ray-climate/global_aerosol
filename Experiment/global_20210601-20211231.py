@@ -49,8 +49,8 @@ aeolus_layers_dic = {'layer-1': (0, 5),
                      'layer-4': (15, np.nan)}
 
 aeolus_layers_keys = list(aeolus_layers_dic.keys())
-print(aeolus_layers_dic[aeolus_layers_keys[0][0]])
-print(float(aeolus_layers_dic[aeolus_layers_keys[0][0]]))
+print(aeolus_layers_dic[aeolus_layers_keys[0]][0])
+print(float(aeolus_layers_dic[aeolus_layers_keys[0]][0]))
 quit()
 ##############################################################
 def get_script_name():
