@@ -39,7 +39,6 @@ lon_right = 180.
 
 BER_threshold = 0.05
 # beta_threshold = 0.004
-
 plot_beta_max = 0.04
 ##############################################################
 # set up the altitude range for different layers, this altitude range is Aeolus_top bin.
@@ -242,8 +241,7 @@ for i in range(2):
 
 
             else:
-                print(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0])
-                print(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][1])
+
                 try :
                     x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (
                                 alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0])) & (
@@ -263,35 +261,36 @@ for i in range(2):
                                 alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]))]
 
             Colocation_number = np.size(x)
-            print(Colocation_number)
-            k = kde.gaussian_kde([x, y])
-            xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
-            zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+            if Colocation_number > 0:
 
-            ax[i, j].pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-            ax[i, j].set_aspect(1)
-            ax[i, j].set_xlabel(r'$532\ nm\  \beta_{CALIPSO}\  [km^{-1}sr^{-1}]$', fontsize=12)
-            ax[i, j].set_ylabel(r'$355\ nm\  \beta_{AEOLUS}\  [km^{-1}sr^{-1}]$', fontsize=12)
+                k = kde.gaussian_kde([x, y])
+                xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
+                zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
-            if plot_index == 0:
-                ax[i, j].set_title('Altitude bins: All \n Colocation Number = %s'%Colocation_number, fontsize=12)
-            else:
-                try:
-                    if float(aeolus_layers_keys[plot_index - 1][1]) > 0:
-                        ax[i, j].set_title('Altitude bins: %s - %s km \n Colocation Number = %s' % (
-                        aeolus_layers_keys[plot_index - 1][0], aeolus_layers_keys[plot_index - 1][1], Colocation_number),
-                                           fontsize=12)
-                except:
-                    ax[i, j].set_title('Altitude bins: %s km above \n Colocation Number = %s' % (
-                        aeolus_layers_keys[plot_index - 1][0], Colocation_number), fontsize=12)
+                ax[i, j].pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
+                ax[i, j].set_aspect(1)
+                ax[i, j].set_xlabel(r'$532\ nm\  \beta_{CALIPSO}\  [km^{-1}sr^{-1}]$', fontsize=12)
+                ax[i, j].set_ylabel(r'$355\ nm\  \beta_{AEOLUS}\  [km^{-1}sr^{-1}]$', fontsize=12)
 
-            ax[i, j].set_xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-            ax[i, j].set_ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+                if plot_index == 0:
+                    ax[i, j].set_title('Altitude bins: All \n Colocation Number = %s'%Colocation_number, fontsize=12)
+                else:
+                    try:
+                        if float(aeolus_layers_keys[plot_index - 1][1]) > 0:
+                            ax[i, j].set_title('Altitude bins: %s - %s km \n Colocation Number = %s' % (
+                            aeolus_layers_keys[plot_index - 1][0], aeolus_layers_keys[plot_index - 1][1], Colocation_number),
+                                               fontsize=12)
+                    except:
+                        ax[i, j].set_title('Altitude bins: %s km above \n Colocation Number = %s' % (
+                            aeolus_layers_keys[plot_index - 1][0], Colocation_number), fontsize=12)
 
-            for tick in ax[i, j].xaxis.get_major_ticks():
-                tick.label.set_fontsize(12)
-            for tick in ax[i, j].yaxis.get_major_ticks():
-                tick.label.set_fontsize(12)
+                ax[i, j].set_xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+                ax[i, j].set_ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+
+                for tick in ax[i, j].xaxis.get_major_ticks():
+                    tick.label.set_fontsize(12)
+                for tick in ax[i, j].yaxis.get_major_ticks():
+                    tick.label.set_fontsize(12)
 
             plot_index = plot_index + 1
 
