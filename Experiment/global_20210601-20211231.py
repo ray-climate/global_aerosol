@@ -261,6 +261,7 @@ for i in range(2):
                                 alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]))]
 
             Colocation_number = np.size(x)
+
             if Colocation_number > 0:
 
                 k = kde.gaussian_kde([x, y])
@@ -276,16 +277,17 @@ for i in range(2):
                     ax[i, j].set_title('Altitude bins: All \n Colocation Number = %s'%Colocation_number, fontsize=12)
 
                 else:
-                    print(aeolus_layers_keys[plot_index - 1][0], 111)
-                    print(aeolus_layers_keys[plot_index - 1][1], 222)
+
                     try:
-                        if float(aeolus_layers_keys[plot_index - 1][1]) > 0:
+                        if float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][1]) > 0:
                             ax[i, j].set_title('Altitude bins: %s - %s km \n Colocation Number = %s' % (
-                            aeolus_layers_keys[plot_index - 1][0], aeolus_layers_keys[plot_index - 1][1], Colocation_number),
+                                float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]),
+                                float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][1]), Colocation_number),
                                                fontsize=12)
                     except:
                         ax[i, j].set_title('Altitude bins: %s km above \n Colocation Number = %s' % (
-                            aeolus_layers_keys[plot_index - 1][0], Colocation_number), fontsize=12)
+                            float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]), Colocation_number),
+                                           fontsize=12)
 
                 ax[i, j].set_xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
                 ax[i, j].set_ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
@@ -294,6 +296,9 @@ for i in range(2):
                     tick.label.set_fontsize(12)
                 for tick in ax[i, j].yaxis.get_major_ticks():
                     tick.label.set_fontsize(12)
+
+            else:
+                ax[i, j].set_visible(False)
 
             plot_index = plot_index + 1
 
