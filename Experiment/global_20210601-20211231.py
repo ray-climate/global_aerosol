@@ -262,6 +262,7 @@ for i in range(2):
                                 alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]))]
 
             Colocation_number = np.size(x)
+            print(Colocation_number)
             k = kde.gaussian_kde([x, y])
             xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
             zi = k(np.vstack([xi.flatten(), yi.flatten()]))
