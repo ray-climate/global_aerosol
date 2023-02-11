@@ -274,7 +274,10 @@ for i in range(2):
 
                 if plot_index == 0:
                     ax[i, j].set_title('Altitude bins: All \n Colocation Number = %s'%Colocation_number, fontsize=12)
+
                 else:
+                    print(aeolus_layers_keys[plot_index - 1][0], 111)
+                    print(aeolus_layers_keys[plot_index - 1][1], 222)
                     try:
                         if float(aeolus_layers_keys[plot_index - 1][1]) > 0:
                             ax[i, j].set_title('Altitude bins: %s - %s km \n Colocation Number = %s' % (
