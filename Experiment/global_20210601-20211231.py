@@ -49,9 +49,7 @@ aeolus_layers_dic = {'layer-1': (0, 5),
                      'layer-4': (15, np.nan)}
 
 aeolus_layers_keys = list(aeolus_layers_dic.keys())
-print(aeolus_layers_dic[aeolus_layers_keys[0]][0])
-print(float(aeolus_layers_dic[aeolus_layers_keys[0]][0]))
-quit()
+
 ##############################################################
 def get_script_name():
     return sys.modules['__main__'].__file__
@@ -248,20 +246,23 @@ for i in range(2):
             else:
 
                 try :
+
                     x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (
-                        (alt_top_all > aeolus_layers_dic[aeolus_layers_keys[plot_index - 1][0]])) & (
-                                            (alt_top_all < aeolus_layers_dic[aeolus_layers_keys[plot_index - 1][1]]))]
+                                alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0])) & (
+                                                    alt_top_all < float(
+                                                aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][1]))]
 
                     y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (
-                    (alt_top_all > aeolus_layers_dic[aeolus_layers_keys[plot_index - 1][0]])) & (
-                                        (alt_top_all < aeolus_layers_dic[aeolus_layers_keys[plot_index - 1][1]]))]
+                                alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0])) & (
+                                                    alt_top_all < float(
+                                                aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][1]))]
 
                 except:
                     x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (
-                        (alt_top_all > aeolus_layers_dic[aeolus_layers_keys[plot_index - 1][0]]))]
+                                alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]))]
 
                     y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (
-                        (alt_top_all > aeolus_layers_dic[aeolus_layers_keys[plot_index - 1][0]]))]
+                                alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]))]
 
             Colocation_number = np.size(x)
             k = kde.gaussian_kde([x, y])
