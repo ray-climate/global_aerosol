@@ -37,7 +37,7 @@ lon_left = -180.
 lon_right = 180.
 ##############################################################
 
-BER_threshold = 0.07
+BER_threshold = 0.05
 # beta_threshold = 0.004
 plot_beta_max = 0.04
 ##############################################################
@@ -269,6 +269,7 @@ for i in range(2):
                 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
                 ax[i, j].pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlBu_r')
+                ax[i, j].scatter(x, y)
                 ax[i, j].set_aspect(1)
                 ax[i, j].set_xlabel(r'$532\ nm\  \beta_{CALIPSO}\  [km^{-1}sr^{-1}]$', fontsize=12)
                 ax[i, j].set_ylabel(r'$355\ nm\  \beta_{AEOLUS}\  [km^{-1}sr^{-1}]$', fontsize=12)
