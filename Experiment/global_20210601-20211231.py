@@ -235,9 +235,6 @@ for i in range(2):
 
             nbins = 1000
 
-            print(aeolus_layers_dic[aeolus_layers_keys[0]])
-            print(aeolus_layers_dic[aeolus_layers_keys[1]])
-
             if plot_index == 0:
 
                 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
@@ -277,11 +274,12 @@ for i in range(2):
             if plot_index == 0:
                 ax[i, j].set_title('Altitude bins: All \n Colocation Number = %s'%Colocation_number, fontsize=12)
             else:
-                if float(aeolus_layers_keys[plot_index - 1][1]) > 0:
-                    ax[i, j].set_title('Altitude bins: %s - %s km \n Colocation Number = %s' % (
-                    aeolus_layers_keys[plot_index - 1][0], aeolus_layers_keys[plot_index - 1][1], Colocation_number),
-                                       fontsize=12)
-                else:
+                try:
+                    if float(aeolus_layers_keys[plot_index - 1][1]) > 0:
+                        ax[i, j].set_title('Altitude bins: %s - %s km \n Colocation Number = %s' % (
+                        aeolus_layers_keys[plot_index - 1][0], aeolus_layers_keys[plot_index - 1][1], Colocation_number),
+                                           fontsize=12)
+                except:
                     ax[i, j].set_title('Altitude bins: %s km above \n Colocation Number = %s' % (
                         aeolus_layers_keys[plot_index - 1][0], Colocation_number), fontsize=12)
 
@@ -365,7 +363,7 @@ plt.savefig(output_dir + '/%s_cloudQC_SNRQC_5-10km_hist2d.png' %script_base)
 
 x4 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
 y4 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
-print(np.size(x4))
+
 k = kde.gaussian_kde([x4,y4])
 xi, yi = np.mgrid[x4.min():x4.max():nbins*1j, y4.min():y4.max():nbins*1j]
 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
