@@ -243,7 +243,7 @@ for i in range(2):
 
             else:
                 print(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0])
-                print(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0])
+                print(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][1])
                 try :
                     x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (
                                 alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0])) & (
