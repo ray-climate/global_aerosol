@@ -186,20 +186,21 @@ while start_date_datetime <= end_date_datetime:
                 if abs_temportal_distance < timedelta(hours=temporal_wd):
                     (footprint_lat_caliop, footprint_lon_caliop,
                      alt_caliop, beta_caliop, alpha_caliop,
-                     aerosol_type_caliop, feature_type_caliop) \
+                     aerosol_type_caliop, feature_type_caliop, caliop_Depolarization_Ratio_list) \
                         = extract_variables_from_caliop(caliop_colocation_file, logger)
 
                     (lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
                      beta_aeolus_cutoff, alpha_aeolus_cutoff,
                      qc_aeolus_cutoff, ber_aeolus_cutoff, lod_aeolus_cutoff,
                      lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, alpha_caliop_cutoff,
-                     aerosol_type_caliop_cutoff, feature_type_caliop_cutoff) = \
+                     aerosol_type_caliop_cutoff, feature_type_caliop_cutoff, depolarization_ratio_caliop_cutoff) = \
                         reproject_observations(lat_colocation, lon_colocation, aeolus_time_datetime,
                                                footprint_lat_aeolus, footprint_lon_aeolus, altitude_aeolus,
                                                footprint_time_aeolus, beta_aeolus_mb, alpha_aeolus_mb,
                                                qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb,
                                                footprint_lat_caliop, footprint_lon_caliop, beta_caliop,
-                                               alpha_caliop, aerosol_type_caliop, feature_type_caliop,
+                                               alpha_caliop, aerosol_type_caliop,
+                                               feature_type_caliop, caliop_Depolarization_Ratio_list,
                                                interval=10)
 
                     beta_aeolus_resample = resample_aeolus(lat_aeolus_cutoff, alt_aeolus_cutoff, beta_aeolus_cutoff, alt_caliop)
@@ -221,7 +222,9 @@ while start_date_datetime <= end_date_datetime:
 
                     save_colocation_nc(saveFilenameNC, lat_colocation, lon_colocation, lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff,
                                        beta_aeolus_cutoff, alpha_aeolus_cutoff, qc_aeolus_cutoff, ber_aeolus_cutoff, lod_aeolus_cutoff,
-                                       lat_caliop_cutoff, lon_caliop_cutoff, alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff, tem_dis, spa_dis)
+                                       lat_caliop_cutoff, lon_caliop_cutoff, alt_caliop, beta_caliop_cutoff, alpha_caliop_cutoff,
+                                       aerosol_type_caliop_cutoff, feature_type_caliop_cutoff, depolarization_ratio_caliop_cutoff,
+                                       tem_dis, spa_dis)
 
                     datetime_str_list.append('%s'%aeolus_time_str)
                     ncFile_list.append(saveFilenameNC)

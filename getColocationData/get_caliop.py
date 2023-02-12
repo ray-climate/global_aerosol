@@ -39,7 +39,11 @@ def extract_variables_from_caliop(hdf_file, logger):
         _get_feature_classification(filename=hdf_file,
                                     variable='Atmospheric_Volume_Description')
 
+    caliop_Depolarization_Ratio_list = caliop_request. \
+        _get_calipso_data(filename=hdf_file,
+                          variable='Particulate_Depolarization_Ratio_Profile_532')
+
     logger.info("Extracted data from caliop file")
     return caliop_latitude_list, caliop_longitude_list, \
            caliop_altitude_list, caliop_beta_list, \
-           caliop_alpha_list, caliop_aerosol_type, caliop_feature_type
+           caliop_alpha_list, caliop_aerosol_type, caliop_feature_type, caliop_Depolarization_Ratio_list

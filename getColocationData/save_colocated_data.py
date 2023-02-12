@@ -14,6 +14,8 @@ def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
                        qc_aeolus, ber_aeolus, lod_aeolus,
                        lat_caliop, lon_caliop, alt_caliop,
                        beta_caliop, alpha_caliop,
+                       aerosol_type_caliop, feature_type_caliop,
+                       depolarization_ratio_caliop,
                        tem_dis, spa_dis):
 
     ncfile = Dataset(saveFilename, mode='w', format='NETCDF4')
@@ -72,6 +74,15 @@ def save_colocation_nc(saveFilename, lat_colocation, lon_colocation,
 
     nc_alpha_caliop = ncfile_caliop.createVariable('caliop_alpha', 'f4', ('y_caliop', 'x_caliop'))
     nc_alpha_caliop[:] = alpha_caliop
+
+    nc_aerosol_type_caliop = ncfile_caliop.createVariable('aerosol_type_caliop', 'int', ('y_caliop', 'x_caliop'))
+    nc_aerosol_type_caliop[:] = aerosol_type_caliop
+
+    nc_feature_type_caliop = ncfile_caliop.createVariable('feature_type_caliop', 'int', ('y_caliop', 'x_caliop'))
+    nc_feature_type_caliop[:] = feature_type_caliop
+
+    nc_depolarization_ratio_caliop = ncfile_caliop.createVariable('caliop_depolarization', 'f4', ('y_caliop', 'x_caliop'))
+    nc_depolarization_ratio_caliop[:] = depolarization_ratio_caliop
 
     nc_alt_caliop = ncfile_caliop.createVariable('caliop_altitude', 'f4', ('y_caliop'))
     nc_alt_caliop[:] = alt_caliop

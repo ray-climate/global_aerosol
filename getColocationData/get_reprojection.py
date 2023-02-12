@@ -12,7 +12,7 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation,
                            lat_aeolus, lon_aeolus, alt_aeolus, time_aeolus,
                            beta_aeolus, alpha_aeolus, qc_aeolus, ber_aeolus, lod_aeolus,
                            lat_caliop, lon_caliop, beta_caliop, alpha_caliop,
-                           aerosol_type_caliop, feature_type_caliop,
+                           aerosol_type_caliop, feature_type_caliop, depolarization_ratio_caliop,
                            interval=10):
 
     # Find the index in the time_aeolus array where the value is equal to time_colocation
@@ -76,10 +76,13 @@ def reproject_observations(lat_colocation, lon_colocation, time_colocation,
     aerosol_type_caliop_cutoff = aerosol_type_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
     feature_type_caliop_cutoff = feature_type_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
 
+    depolarization_ratio_caliop_cutoff = depolarization_ratio_caliop[:, (lat_caliop > lat_min) & (lat_caliop < lat_max)]
+
     return lat_aeolus_cutoff, lon_aeolus_cutoff, alt_aeolus_cutoff, \
            beta_aeolus_cutoff, alpha_aeolus_cutoff, qc_aeolus_cutoff, ber_aeolus_cutoff, lod_aeolus_cutoff, \
            lat_caliop_cutoff, lon_caliop_cutoff, beta_caliop_cutoff, \
-           alpha_caliop_cutoff,  aerosol_type_caliop_cutoff, feature_type_caliop_cutoff
+           alpha_caliop_cutoff,  aerosol_type_caliop_cutoff, \
+           feature_type_caliop_cutoff, depolarization_ratio_caliop_cutoff
 
 
 def resample_aeolus(lat_aeolus, alt_aeolus, data_aeolus, alt_caliop):
