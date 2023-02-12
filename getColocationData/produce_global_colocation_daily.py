@@ -70,7 +70,7 @@ CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km
 # colocation footprint data in csv files
 colocation_fp_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Colocation/colocation_database'
 # dir to save graphs and netcdf
-savenc_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Database'
+savenc_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/Database_v2'
 
 cwd = os.getcwd()
 
