@@ -94,12 +94,11 @@ def extractColocationParameters(inputNetCDF):
                         feature_type_mask_k = np.copy(feature_type_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max])
 
                         aerosol_type_mask_k = aerosol_type_mask_k[feature_type_mask_k == 3]
-                        print(111111,aerosol_type_mask_k)
 
-                        print(22222, np.bincount(aerosol_type_mask_k))
-                        most_common_aerosol_type = np.argmax(np.bincount(aerosol_type_mask_k))
-                        print(np.nanmean(beta_caliop_filter))
-                        print(777777, most_common_aerosol_type)
+                        if np.size(aerosol_type_mask_k) > 0:
+                            most_common_aerosol_type = np.argmax(np.bincount(aerosol_type_mask_k))
+                            print(most_common_aerosol_type)
+
 
 
         return beta_aeolus_stats, beta_caliop_stats, aerosol_type_caliop_stats, feature_type_caliop_stats, \
