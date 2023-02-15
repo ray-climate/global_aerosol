@@ -36,7 +36,6 @@ def extractColocationParameters(inputNetCDF):
 
     if tem_dis < 5.:
 
-
         aeolus_index_x = np.argmin(abs(lat_aeolus - lat_colocation))
 
         # calculate and find the closest distance point
@@ -97,11 +96,12 @@ def extractColocationParameters(inputNetCDF):
                         print(5555555555)
                         aerosol_type_mask_k = aerosol_type_mask_k[feature_type_mask_k == 3]
                         print(66666)
+                        print(aerosol_type_mask_k)
                         most_common_aerosol_type = max(set(aerosol_type_mask_k), key=aerosol_type_mask_k.count)
+                        print(most_common_aerosol_type)
                         print(777777, most_common_aerosol_type)
                         print(most_common_aerosol_type)
 
-                        quit()
 
         return beta_aeolus_stats, beta_caliop_stats, aerosol_type_caliop_stats, feature_type_caliop_stats, \
                alt_bottom_stats, alt_top_stats, time_str_stats, qc_aeolus_stats, ber_aeolus_stats, lod_aeolus_stats
