@@ -302,7 +302,7 @@ for type_i in range(len(aeolus_type_keys)):
 
                 Colocation_number = np.size(x)
 
-                if Colocation_number > 0:
+                if Colocation_number > 1:
 
                     k = kde.gaussian_kde([x, y])
                     xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
