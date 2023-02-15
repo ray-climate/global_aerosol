@@ -96,7 +96,7 @@ def extractColocationParameters(inputNetCDF):
                         aerosol_type_mask_k = aerosol_type_mask_k[feature_type_mask_k == 3]
                         print(111111)
                         print(type(aerosol_type_mask_k))
-
+                        print(22222, np.bincount(aerosol_type_mask_k))
                         most_common_aerosol_type = np.argmax(np.bincount(aerosol_type_mask_k))
 
                         print(777777, most_common_aerosol_type)
