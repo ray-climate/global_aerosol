@@ -257,13 +257,14 @@ beta_aeolus_all_bk = np.copy(beta_aeolus_all)
 beta_caliop_all_bk = np.copy(beta_caliop_all)
 aerosol_type_caliop_all_bk = np.copy(aerosol_type_caliop_all)
 beta_aeolus_SNR_cloud_filtered_bk = np.copy(beta_aeolus_SNR_cloud_filtered)
+alt_top_all_bk = np.copy(alt_top_all)
 
 for type_i in range(len(aeolus_type_keys)):
 
     beta_aeolus_all = beta_aeolus_all_bk[aerosol_type_caliop_all == int(aeolus_type_keys[type_i])]
     beta_caliop_all = beta_caliop_all_bk[aerosol_type_caliop_all == int(aeolus_type_keys[type_i])]
     beta_aeolus_SNR_cloud_filtered = beta_aeolus_SNR_cloud_filtered_bk[aerosol_type_caliop_all == int(aeolus_type_keys[type_i])]
-
+    alt_top_all = alt_top_all_bk[aerosol_type_caliop_all == int(aeolus_type_keys[type_i])]
     fig, ax = plt.subplots(2, 3, figsize=(16, 10))
 
     plot_index = 0
