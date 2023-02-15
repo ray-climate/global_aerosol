@@ -70,7 +70,7 @@ aeolus_type_keys = list(aeolus_type_dic.keys())
 for type_i in range(len(aeolus_type_keys)):
 
     a = aeolus_type_dic[int(aeolus_type_keys[type_i])]
-
+    print(a)
 quit()
 ##############################################################
 def get_script_name():
