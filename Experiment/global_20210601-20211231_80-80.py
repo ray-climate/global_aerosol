@@ -301,7 +301,7 @@ for type_i in range(len(aeolus_type_keys)):
                                     alt_top_all > float(aeolus_layers_dic[aeolus_layers_keys[plot_index - 1]][0]))]
 
                 Colocation_number = np.size(x)
-
+                print(Colocation_number)
                 if Colocation_number > 1:
 
                     k = kde.gaussian_kde([x, y])
