@@ -69,7 +69,6 @@ def extractColocationParameters(inputNetCDF):
         beta_aeolus_stats = []
         beta_caliop_stats = []
         aerosol_type_caliop_stats = []
-        feature_type_caliop_stats = []
         time_str_stats = []
         qc_aeolus_stats = []
         ber_aeolus_stats = []
@@ -96,13 +95,14 @@ def extractColocationParameters(inputNetCDF):
                         aerosol_type_mask_k = aerosol_type_mask_k[feature_type_mask_k == 3]
 
                         if np.size(aerosol_type_mask_k) > 0:
-                            most_common_aerosol_type = np.argmax(np.bincount(aerosol_type_mask_k))
-                            print(most_common_aerosol_type)
+                            most_common_aerosol_type_k = np.argmax(np.bincount(aerosol_type_mask_k))
+                        else:
+                            most_common_aerosol_type_k = 0
 
+                        aerosol_type_caliop_stats.append(most_common_aerosol_type_k)
 
-
-        return beta_aeolus_stats, beta_caliop_stats, aerosol_type_caliop_stats, feature_type_caliop_stats, \
+        return beta_aeolus_stats, beta_caliop_stats, aerosol_type_caliop_stats, \
                alt_bottom_stats, alt_top_stats, time_str_stats, qc_aeolus_stats, ber_aeolus_stats, lod_aeolus_stats
 
     else:
-        return [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1]
+        return [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1]

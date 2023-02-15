@@ -230,8 +230,6 @@ plt.title('AEOLUS top bin altitude histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 ################################################################################
 
-
-
 fig, ax = plt.subplots(2, 3, figsize=(16, 10))
 
 # Loop through the axis array and plot random data
@@ -247,7 +245,6 @@ for i in range(2):
 
                 x = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
                 y = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0)]
-
 
             else:
 
