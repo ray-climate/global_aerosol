@@ -120,7 +120,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
                 beta_caliop_all.append(float(row[2]))
                 aerosol_type_caliop_all.append(int(row[3]))
                 qc_aeolus_all.append(row[6])
-                ber_aeolus_all.append(row[7])
+                ber_aeolus_all.append(float(row[7]))
                 alt_top_all.append(float(row[5]))
             index = index + 1
 
@@ -200,7 +200,7 @@ else:
 
 ################################################################################
 # remove aeolus with low SNR
-qc_aeolus_all = [0 if element =='--' else float(element) for element in qc_aeolus_all]
+qc_aeolus_all = [0 if element =='--' else element for element in qc_aeolus_all]
 qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
 qc_aeolus_flag = np.unpackbits(qc_aeolus_all).reshape([np.size(qc_aeolus_all), 8])
 print(ber_aeolus_all)
