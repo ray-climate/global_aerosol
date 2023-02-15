@@ -148,6 +148,7 @@ else:
                          lod_i) = extractColocationParameters(colocationData_daily_dir + '/' + file)
                         aerosol_type_caliop_all.extend(aerosol_type_caliop_i)
                         print(aerosol_type_caliop_i)
+                        print(beta_caliop_i)
                         beta_aeolus_all.extend(beta_aeolus_i)
                         beta_caliop_all.extend(beta_caliop_i)
                         alt_bottom_all.extend(alt_bottom_i)
