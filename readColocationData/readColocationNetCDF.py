@@ -36,8 +36,9 @@ def extractColocationParameters(inputNetCDF):
 
     if tem_dis < 5.:
 
-        aeolus_index_x = np.argmin(abs(lat_aeolus - lat_colocation))
 
+        aeolus_index_x = np.argmin(abs(lat_aeolus - lat_colocation))
+        print(aeolus_index_x)
         # calculate and find the closest distance point
 
         colocation_distance_list = [
