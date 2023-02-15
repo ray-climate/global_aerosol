@@ -57,13 +57,13 @@ aeolus_layers_dic = {'layer-1': (0, 5),
 aeolus_layers_keys = list(aeolus_layers_dic.keys())
 
 aeolus_type_dic = {0: 'undefined',
-                   1: 'clean marine',
+                   1: 'clean_marine',
                    2: 'dust',
-                   3: 'polluted continental / smoke',
-                   4: 'clean continental',
-                   5: 'polluted dust',
-                   6: 'elevated smoke',
-                   7: 'dusty marine'}
+                   3: 'polluted_continental_smoke',
+                   4: 'clean_continental',
+                   5: 'polluted_dust',
+                   6: 'elevated_smoke',
+                   7: 'dusty_marine'}
 
 aeolus_type_keys = list(aeolus_type_dic.keys())
 
