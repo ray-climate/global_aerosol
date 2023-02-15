@@ -26,6 +26,7 @@ def extractColocationParameters(inputNetCDF):
         lon_caliop = nc_data['caliop_data']['caliop_longitude'][:]
         alt_caliop = nc_data['caliop_data']['caliop_altitude'][:]
         beta_caliop = nc_data['caliop_data']['caliop_beta'][:]
+
         aerosol_type_caliop = nc_data['caliop_data']['aerosol_type_caliop'][:]
         feature_type_caliop = nc_data['caliop_data']['feature_type_caliop'][:]
 
@@ -93,6 +94,7 @@ def extractColocationParameters(inputNetCDF):
                         feature_type_mask_k = np.copy(feature_type_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max])
 
                         aerosol_type_mask_k = aerosol_type_mask_k[feature_type_mask_k == 3]
+                        print(feature_type_mask_k)
                         print(aerosol_type_mask_k)
                         quit()
 
