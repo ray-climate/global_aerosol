@@ -200,7 +200,7 @@ else:
 
 ################################################################################
 # remove aeolus with low SNR
-qc_aeolus_all = [0 if element =='--' else element for element in qc_aeolus_all]
+qc_aeolus_all = [0 if element =='--' else float(element) for element in qc_aeolus_all]
 qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
 qc_aeolus_flag = np.unpackbits(qc_aeolus_all).reshape([np.size(qc_aeolus_all), 8])
 print(ber_aeolus_all)
