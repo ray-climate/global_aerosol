@@ -79,7 +79,7 @@ def extractColocationParameters(inputNetCDF):
             if alt_aeolus_centre[k] > 0:
                 if (k + 1) < len(alt_aeolus_centre):
                     if alt_aeolus_centre[k+1] > 0:
-                        print(2222222)
+
                         beta_aeolus_stats.append(beta_aeolus_centre[k] * 1.e-6 * 1.e3) # scaling factor, and unit conversion
                         beta_caliop_filter = beta_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max]
                         beta_caliop_stats.append(np.nanmean(beta_caliop_filter))
@@ -89,14 +89,14 @@ def extractColocationParameters(inputNetCDF):
                         qc_aeolus_stats.append(qc_aeolus_centre[k])
                         ber_aeolus_stats.append(ber_aeolus_centre[k])
                         lod_aeolus_stats.append(lod_aeolus_centre[k])
-                        print(33333)
+
                         aerosol_type_mask_k = np.copy(aerosol_type_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max])
                         feature_type_mask_k = np.copy(feature_type_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max])
-                        print(aerosol_type_mask_k)
-                        print(5555555555)
+
                         aerosol_type_mask_k = aerosol_type_mask_k[feature_type_mask_k == 3]
-                        print(66666)
+                        print(111111)
                         print(aerosol_type_mask_k)
+                        print(max(set(aerosol_type_mask_k), key=aerosol_type_mask_k.count))
                         most_common_aerosol_type = max(set(aerosol_type_mask_k), key=aerosol_type_mask_k.count)
                         print(most_common_aerosol_type)
                         print(777777, most_common_aerosol_type)
