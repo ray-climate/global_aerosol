@@ -31,8 +31,8 @@ end_date = '2021-12-31'
 temporal_wd = 5. # hours
 
 # Define the spatial bounds
-lat_up = 60.
-lat_down = -60.
+lat_up = 80.
+lat_down = -80.
 lon_left = -180.
 lon_right = 180.
 ##############################################################
@@ -307,108 +307,108 @@ for i in range(2):
             ax[i, j].set_visible(False)
 
 plt.subplots_adjust(hspace=0.5)
-plt.savefig(output_dir + '/test.png')
-quit()
+plt.savefig(output_dir + '/aerosol_global_distribution.png')
 
-nbins=1000
-k = kde.gaussian_kde([x,y])
-xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
-zi = k(np.vstack([xi.flatten(), yi.flatten()]))
-
-fig, ax = plt.subplots(figsize=(10, 10))
-plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-ax.set_xlabel('beta_caliop_all', fontsize=18)
-ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-
-plt.savefig(output_dir + '/%s_cloudQC_SNRQC_hist2d.png' %script_base)
-
-x2 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 5.)]
-y2 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 5.)]
-
-k = kde.gaussian_kde([x2,y2])
-xi, yi = np.mgrid[x2.min():x2.max():nbins*1j, y2.min():y2.max():nbins*1j]
-zi = k(np.vstack([xi.flatten(), yi.flatten()]))
-
-fig, ax = plt.subplots(figsize=(10, 10))
-plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-ax.set_xlabel('beta_caliop_all', fontsize=18)
-ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., np.nanmin([np.nanmax(x2), np.nanmax(y2)])])
-plt.ylim([0., np.nanmin([np.nanmax(x2), np.nanmax(y2)])])
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-
-plt.savefig(output_dir + '/%s_cloudQC_SNRQC_0-5km_hist2d.png' %script_base)
-
-x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 8.5)]
-y3 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 8.5)]
-
-k = kde.gaussian_kde([x3,y3])
-xi, yi = np.mgrid[x3.min():x3.max():nbins*1j, y3.min():y3.max():nbins*1j]
-zi = k(np.vstack([xi.flatten(), yi.flatten()]))
-
-fig, ax = plt.subplots(figsize=(10, 10))
-plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-ax.set_xlabel('beta_caliop_all', fontsize=18)
-ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., np.nanmin([np.nanmax(x3), np.nanmax(y3)])])
-plt.ylim([0., np.nanmin([np.nanmax(x3), np.nanmax(y3)])])
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-
-plt.savefig(output_dir + '/%s_cloudQC_SNRQC_5-10km_hist2d.png' %script_base)
-
-x4 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
-y4 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
-
-k = kde.gaussian_kde([x4,y4])
-xi, yi = np.mgrid[x4.min():x4.max():nbins*1j, y4.min():y4.max():nbins*1j]
-zi = k(np.vstack([xi.flatten(), yi.flatten()]))
-
-fig, ax = plt.subplots(figsize=(10, 10))
-plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-ax.set_xlabel('beta_caliop_all', fontsize=18)
-ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., np.nanmin([np.nanmax(x4), np.nanmax(y4)])])
-plt.ylim([0., np.nanmin([np.nanmax(x4), np.nanmax(y4)])])
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-
-plt.savefig(output_dir + '/%s_cloudQC_SNRQC_10-15km_hist2d.png' %script_base)
-
-x5 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all > 15.)]
-y5 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all > 15.)]
-
-k = kde.gaussian_kde([x5,y5])
-xi, yi = np.mgrid[x5.min():x5.max():nbins*1j, y5.min():y5.max():nbins*1j]
-zi = k(np.vstack([xi.flatten(), yi.flatten()]))
-
-fig, ax = plt.subplots(figsize=(10, 10))
-plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
-ax.set_xlabel('beta_caliop_all', fontsize=18)
-ax.set_ylabel('beta_aeolus_all', fontsize=18)
-plt.xlim([0., np.nanmin([np.nanmax(x5), np.nanmax(y5)])])
-plt.ylim([0., np.nanmin([np.nanmax(x5), np.nanmax(y5)])])
-
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(18)
-
-plt.savefig(output_dir + '/%s_cloudQC_SNRQC_15km-above_hist2d.png' %script_base)
+#
+# nbins=1000
+# k = kde.gaussian_kde([x,y])
+# xi, yi = np.mgrid[x.min():x.max():nbins*1j, y.min():y.max():nbins*1j]
+# zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+#
+# fig, ax = plt.subplots(figsize=(10, 10))
+# plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
+# ax.set_xlabel('beta_caliop_all', fontsize=18)
+# ax.set_ylabel('beta_aeolus_all', fontsize=18)
+# plt.xlim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+# plt.ylim([0., np.nanmin([np.nanmax(x), np.nanmax(y)])])
+#
+# for tick in ax.xaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+# for tick in ax.yaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+#
+# plt.savefig(output_dir + '/%s_cloudQC_SNRQC_hist2d.png' %script_base)
+#
+# x2 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 5.)]
+# y2 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 5.)]
+#
+# k = kde.gaussian_kde([x2,y2])
+# xi, yi = np.mgrid[x2.min():x2.max():nbins*1j, y2.min():y2.max():nbins*1j]
+# zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+#
+# fig, ax = plt.subplots(figsize=(10, 10))
+# plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
+# ax.set_xlabel('beta_caliop_all', fontsize=18)
+# ax.set_ylabel('beta_aeolus_all', fontsize=18)
+# plt.xlim([0., np.nanmin([np.nanmax(x2), np.nanmax(y2)])])
+# plt.ylim([0., np.nanmin([np.nanmax(x2), np.nanmax(y2)])])
+#
+# for tick in ax.xaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+# for tick in ax.yaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+#
+# plt.savefig(output_dir + '/%s_cloudQC_SNRQC_0-5km_hist2d.png' %script_base)
+#
+# x3 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 8.5)]
+# y3 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 10.) & (alt_top_all > 8.5)]
+#
+# k = kde.gaussian_kde([x3,y3])
+# xi, yi = np.mgrid[x3.min():x3.max():nbins*1j, y3.min():y3.max():nbins*1j]
+# zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+#
+# fig, ax = plt.subplots(figsize=(10, 10))
+# plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
+# ax.set_xlabel('beta_caliop_all', fontsize=18)
+# ax.set_ylabel('beta_aeolus_all', fontsize=18)
+# plt.xlim([0., np.nanmin([np.nanmax(x3), np.nanmax(y3)])])
+# plt.ylim([0., np.nanmin([np.nanmax(x3), np.nanmax(y3)])])
+#
+# for tick in ax.xaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+# for tick in ax.yaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+#
+# plt.savefig(output_dir + '/%s_cloudQC_SNRQC_5-10km_hist2d.png' %script_base)
+#
+# x4 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
+# y4 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all < 15.) & (alt_top_all > 10.)]
+#
+# k = kde.gaussian_kde([x4,y4])
+# xi, yi = np.mgrid[x4.min():x4.max():nbins*1j, y4.min():y4.max():nbins*1j]
+# zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+#
+# fig, ax = plt.subplots(figsize=(10, 10))
+# plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
+# ax.set_xlabel('beta_caliop_all', fontsize=18)
+# ax.set_ylabel('beta_aeolus_all', fontsize=18)
+# plt.xlim([0., np.nanmin([np.nanmax(x4), np.nanmax(y4)])])
+# plt.ylim([0., np.nanmin([np.nanmax(x4), np.nanmax(y4)])])
+#
+# for tick in ax.xaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+# for tick in ax.yaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+#
+# plt.savefig(output_dir + '/%s_cloudQC_SNRQC_10-15km_hist2d.png' %script_base)
+#
+# x5 = beta_caliop_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all > 15.)]
+# y5 = beta_aeolus_all[(beta_caliop_all > 0) & (beta_aeolus_SNR_cloud_filtered > 0) & (alt_top_all > 15.)]
+#
+# k = kde.gaussian_kde([x5,y5])
+# xi, yi = np.mgrid[x5.min():x5.max():nbins*1j, y5.min():y5.max():nbins*1j]
+# zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+#
+# fig, ax = plt.subplots(figsize=(10, 10))
+# plt.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlGn_r')
+# ax.set_xlabel('beta_caliop_all', fontsize=18)
+# ax.set_ylabel('beta_aeolus_all', fontsize=18)
+# plt.xlim([0., np.nanmin([np.nanmax(x5), np.nanmax(y5)])])
+# plt.ylim([0., np.nanmin([np.nanmax(x5), np.nanmax(y5)])])
+#
+# for tick in ax.xaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+# for tick in ax.yaxis.get_major_ticks():
+#     tick.label.set_fontsize(18)
+#
+# plt.savefig(output_dir + '/%s_cloudQC_SNRQC_15km-above_hist2d.png' %script_base)
