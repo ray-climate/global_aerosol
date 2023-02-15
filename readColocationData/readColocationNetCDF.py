@@ -97,7 +97,7 @@ def extractColocationParameters(inputNetCDF):
                         print(111111)
                         print(type(aerosol_type_mask_k))
 
-                        most_common_aerosol_type = max(set(aerosol_type_mask_k), key=aerosol_type_mask_k.count)
+                        most_common_aerosol_type = np.argmax(np.bincount(aerosol_type_mask_k))
 
                         print(777777, most_common_aerosol_type)
 
