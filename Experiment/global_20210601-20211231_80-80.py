@@ -67,11 +67,6 @@ aeolus_type_dic = {0: 'undefined',
 
 aeolus_type_keys = list(aeolus_type_dic.keys())
 
-for type_i in range(len(aeolus_type_keys)):
-
-    a = aeolus_type_dic[int(aeolus_type_keys[type_i])]
-    print(a)
-quit()
 ##############################################################
 def get_script_name():
     return sys.modules['__main__'].__file__
@@ -87,6 +82,7 @@ log_filename = script_base + '.log'
 
 output_dir = './%s' %script_base
 # Create output directories if they don't exist
+
 try:
     os.stat(output_dir)
 except:
@@ -108,6 +104,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
 
     beta_caliop_all = []
     beta_aeolus_all = []
+    aerosol_type_caliop_all = []
     ber_aeolus_all = []
     qc_aeolus_all = []
     alt_top_all = []
@@ -118,8 +115,10 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
         index = 0
         for row in reader:
             if index > 0:
-                beta_caliop_all.append(float(row[1]))
-                beta_aeolus_all.append(float(row[2]))
+
+                beta_aeolus_all.append(float(row[1]))
+                beta_caliop_all.append(float(row[2]))
+                aerosol_type_caliop_all.append(int(row[3]))
                 qc_aeolus_all.append(row[5])
                 ber_aeolus_all.append(float(row[6]))
                 alt_top_all.append(float(row[4]))
@@ -127,6 +126,7 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
 
     beta_aeolus_all = np.asarray(beta_aeolus_all)
     beta_caliop_all = np.asarray(beta_caliop_all)
+    aerosol_type_caliop_all = np.asarray(aerosol_type_caliop_all)
     qc_aeolus_all = np.asarray(qc_aeolus_all)
     ber_aeolus_all = np.asarray(ber_aeolus_all)
     alt_top_all = np.asarray(alt_top_all)
@@ -248,7 +248,7 @@ plt.title('AEOLUS top bin altitude histogram', fontsize=18)
 plt.savefig(output_dir + '/%s_top_alt_hist1d.png' %script_base)
 ################################################################################
 
-fig, ax = plt.subplots(2, 3, figsize=(16, 10))
+
 
 # Loop through the axis array and plot random data
 
@@ -258,7 +258,11 @@ aerosol_type_caliop_all_bk = np.copy(aerosol_type_caliop_all)
 
 for type_i in range(len(aeolus_type_keys)):
 
-    beta_caliop_all = beta_caliop_all_bk[aerosol_type_caliop_all == [aeolus_type_dic[plot_index - 1]][0]]
+    beta_aeolus_all = beta_aeolus_all_bk[aerosol_type_caliop_all == int(aeolus_type_keys[type_i])]
+    beta_caliop_all = beta_caliop_all_bk[aerosol_type_caliop_all == int(aeolus_type_keys[type_i])]
+
+    fig, ax = plt.subplots(2, 3, figsize=(16, 10))
+
     plot_index = 0
     for i in range(2):
         for j in range(3):
@@ -339,5 +343,6 @@ for type_i in range(len(aeolus_type_keys)):
                 ax[i, j].set_visible(False)
 
     plt.subplots_adjust(hspace=0.5)
-    plt.savefig(output_dir + '/aerosol_20210601-20211231-80-80.png')
+    plt.savefig(output_dir + '/aerosol_20210601-20211231-80-80_%s.png'%(aeolus_type_dic[int(aeolus_type_keys[type_i])]))
+    plt.close()
 
