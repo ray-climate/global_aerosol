@@ -119,9 +119,9 @@ if os.path.exists(output_dir + '/%s.csv' % script_base):
                 beta_aeolus_all.append(float(row[1]))
                 beta_caliop_all.append(float(row[2]))
                 aerosol_type_caliop_all.append(int(row[3]))
-                qc_aeolus_all.append(row[5])
-                ber_aeolus_all.append(row[6])
-                alt_top_all.append(float(row[4]))
+                qc_aeolus_all.append(row[6])
+                ber_aeolus_all.append(row[7])
+                alt_top_all.append(float(row[5]))
             index = index + 1
 
     beta_aeolus_all = np.asarray(beta_aeolus_all)
