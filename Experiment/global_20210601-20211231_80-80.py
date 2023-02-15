@@ -65,7 +65,7 @@ aeolus_type_dic = {0: 'undefined',
                    6: 'elevated smoke',
                    7: 'dusty marine'}
 
-aeolus_type_keys = list(aeolus_layers_dic.keys())
+aeolus_type_keys = list(aeolus_type_dic.keys())
 
 for type_i in range(len(aeolus_type_keys)):
 
