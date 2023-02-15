@@ -203,7 +203,8 @@ else:
 qc_aeolus_all = [0 if element =='--' else element for element in qc_aeolus_all]
 qc_aeolus_all = np.array(qc_aeolus_all, dtype=np.uint8)
 qc_aeolus_flag = np.unpackbits(qc_aeolus_all).reshape([np.size(qc_aeolus_all), 8])
-
+print(ber_aeolus_all)
+print(type(ber_aeolus_all))
 beta_aeolus_SNR_filtered = [np.nan if qc_aeolus_flag[q][1] == 0 else beta_aeolus_all[q] for q in range(np.size(qc_aeolus_all))]
 beta_aeolus_SNR_cloud_filtered = np.copy(beta_aeolus_SNR_filtered)
 beta_aeolus_SNR_cloud_filtered[ber_aeolus_all < BER_threshold] = np.nan
