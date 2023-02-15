@@ -26,6 +26,8 @@ def extractColocationParameters(inputNetCDF):
         lon_caliop = nc_data['caliop_data']['caliop_longitude'][:]
         alt_caliop = nc_data['caliop_data']['caliop_altitude'][:]
         beta_caliop = nc_data['caliop_data']['caliop_beta'][:]
+        aerosol_type_caliop = nc_data['caliop_data']['aerosol_type_caliop'][:]
+        feature_type_caliop = nc_data['caliop_data']['feature_type_caliop'][:]
 
         qc_aeolus = nc_data['aeolus_data']['aeolus_qc'][:]
         ber_aeolus = nc_data['aeolus_data']['aeolus_ber'][:]
@@ -65,6 +67,8 @@ def extractColocationParameters(inputNetCDF):
         alt_top_stats = []
         beta_aeolus_stats = []
         beta_caliop_stats = []
+        aerosol_type_caliop_stats = []
+        feature_type_caliop_stats = []
         time_str_stats = []
         qc_aeolus_stats = []
         ber_aeolus_stats = []
@@ -85,7 +89,12 @@ def extractColocationParameters(inputNetCDF):
                         ber_aeolus_stats.append(ber_aeolus_centre[k])
                         lod_aeolus_stats.append(lod_aeolus_centre[k])
 
-        return beta_aeolus_stats, beta_caliop_stats, alt_bottom_stats, alt_top_stats, time_str_stats, qc_aeolus_stats, ber_aeolus_stats, lod_aeolus_stats
+                        aerosol_type_caliop_k = aerosol_type_caliop[(alt_caliop < alt_aeolus_centre[k]) & (alt_caliop > alt_aeolus_centre[k+1]), caliop_index_x_min : caliop_index_x_max]
+                        print(aerosol_type_caliop_k)
+                        quit()
+
+        return beta_aeolus_stats, beta_caliop_stats, aerosol_type_caliop_stats, feature_type_caliop_stats, \
+               alt_bottom_stats, alt_top_stats, time_str_stats, qc_aeolus_stats, ber_aeolus_stats, lod_aeolus_stats
 
     else:
         return [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1], [-0.1]
