@@ -14,7 +14,7 @@ import os
 ##############################################################
 # Define start and end dates
 start_date = '2020-06-15'
-end_date = '2020-06-20'
+end_date = '2020-06-21'
 
 # Define the spatial bounds
 lat_up = 37.
@@ -61,9 +61,10 @@ except:
 ##############################################################
 
 # Parse start and end dates
-start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d-%M%S')
-end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d-%M%S')
+start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
+print(start_date_datetime)
 while start_date_datetime <= end_date_datetime:
 
     year_i = '{:04d}'.format(start_date_datetime.year)
