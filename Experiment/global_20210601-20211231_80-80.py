@@ -5,13 +5,6 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        15/02/2023 11:06
 
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-
-# @Filename:    global_20210601-20211231.py
-# @Author:      Dr. Rui Song
-# @Email:       rui.song@physics.ox.ac.uk
-# @Time:        06/02/2023 17:49
-
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib import colors
