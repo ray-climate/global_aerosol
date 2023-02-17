@@ -118,9 +118,8 @@ while start_date_datetime <= end_date_datetime:
                                                 variable='Atmospheric_Volume_Description')
                 caliop_aerosol_type_mask = np.copy(caliop_aerosol_type)
 
-                print(caliop_feature_type!= 3)
                 caliop_aerosol_type_mask[caliop_feature_type != 3] = -1.
-                caliop_aerosol_type_mask[caliop_aerosol_type_mask < 0] = np.nan
+
                 caliop_Depolarization_Ratio_list = caliop_request. \
                     _get_calipso_data(filename=caliop_fetch_dir + file,
                                       variable='Particulate_Depolarization_Ratio_Profile_532')
@@ -130,7 +129,13 @@ while start_date_datetime <= end_date_datetime:
                 longtitude_all.extend(caliop_longitude_list[spatial_mask])
                 beta_all.extend(caliop_beta_list[:, spatial_mask])
                 aerosol_type.extend(caliop_aerosol_type_mask[:, spatial_mask])
-
+                print(np.asarray(beta_all).shape)
+                print(np.asarray(aerosol_type).shape)
     start_date_datetime = start_date_datetime + time_delta
+
+# ncfile = Dataset(saveFilename, mode='w', format='NETCDF4')
+# ncfile_data = ncfile.createGroup("CALIPSO")
+# ncfile_data.createDimension('x_caliop', beta_caliop.shape[1])
+# ncfile_data.createDimension('y_caliop', beta_caliop.shape[0])
 
 
