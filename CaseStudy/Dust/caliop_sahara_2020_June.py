@@ -128,7 +128,7 @@ while start_date_datetime <= end_date_datetime:
                 datatime_all.extend(caliop_utc_list[spatial_mask])
                 latitude_all.extend(caliop_latitude_list[spatial_mask])
                 longtitude_all.extend(caliop_longitude_list[spatial_mask])
-                altitude_all.extend(altitude_all[spatial_mask])
+                altitude_all.extend(caliop_altitude_list[spatial_mask])
                 beta_all.extend(caliop_beta_list[:, spatial_mask])
                 aerosol_type.extend(caliop_aerosol_type_mask[:, spatial_mask])
 
