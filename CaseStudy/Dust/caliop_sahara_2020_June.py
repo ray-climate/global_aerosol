@@ -72,6 +72,7 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 datatime_all = []
 latitude_all = []
 longtitude_all = []
+beta_all = []
 
 while start_date_datetime <= end_date_datetime:
 
@@ -117,10 +118,11 @@ while start_date_datetime <= end_date_datetime:
                     _get_calipso_data(filename=caliop_fetch_dir + file,
                                       variable='Particulate_Depolarization_Ratio_Profile_532')
 
-                datatime_all.extend(caliop_utc_list)
-                latitude_all.extend(caliop_latitude_list)
-                longtitude_all.extend(caliop_longitude_list)
-                print(datatime_all)
+                datatime_all.extend(caliop_utc_list[spatial_mask])
+                latitude_all.extend(caliop_latitude_list[spatial_mask])
+                longtitude_all.extend(caliop_longitude_list[spatial_mask])
+                beta_all.extend(caliop_beta_list[:, spatial_mask])
+                print(beta_all.shape)
 
 
 
