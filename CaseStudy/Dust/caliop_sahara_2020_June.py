@@ -140,7 +140,7 @@ caliop_altitude = np.asarray(caliop_altitude_list)
 
 sort_index = np.argsort(datatime_all)
 
-datatime_all_sort = datatime_all[sort_index]
+datatime_all_sort = sorted(datatime_all)
 beta_all_sort = beta_all[sort_index, :].T
 
 X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
