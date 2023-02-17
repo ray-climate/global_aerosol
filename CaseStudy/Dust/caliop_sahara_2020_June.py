@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        16/02/2023 18:26
 
+from Caliop.caliop import Caliop_hdf_reader
 from datetime import datetime, timedelta
 import logging
 import pathlib
@@ -78,6 +79,9 @@ while start_date_datetime <= end_date_datetime:
     for file in os.listdir(caliop_fetch_dir):
         if file.endswith('hdf'):
             print('Find data: %s'%file)
+            caliop_request = Caliop_hdf_reader()
+            caliop_interval_latitude = caliop_request._get_latitude(caliop_fetch_dir + file)
+            caliop_interval_longitude = caliop_request._get_longitude(caliop_fetch_dir + file)
 
     start_date_datetime = start_date_datetime + time_delta
 
