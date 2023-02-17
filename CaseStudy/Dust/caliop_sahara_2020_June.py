@@ -10,6 +10,7 @@ sys.path.append('../../')
 
 from Caliop.caliop import Caliop_hdf_reader
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 import numpy as np
 import logging
 import pathlib
@@ -19,7 +20,7 @@ import os
 ##############################################################
 # Define start and end dates
 start_date = '2020-06-15'
-end_date = '2020-06-21'
+end_date = '2020-06-16'
 
 # Define the spatial bounds
 lat_up = 37.
@@ -132,7 +133,27 @@ while start_date_datetime <= end_date_datetime:
                 aerosol_type.extend(caliop_aerosol_type_mask[:, spatial_mask])
 
     start_date_datetime = start_date_datetime + time_delta
-#
+
+beta_all = np.asarray(beta_all)
+aerosol_type = np.asarray(aerosol_type)
+caliop_altitude = np.asarray(caliop_altitude_list)
+
+sort_index = np.argsort(datatime_all)
+
+datatime_all_sort = datatime_all[sort_index]
+beta_all_sort = beta_all[sort_index, :].T
+
+X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
+fig, ax = plt.subplots(figsize=(30, 10))
+plt.pcolormesh(X, Y, beta_all_sort, cmap='rainbow')
+plt.xlabel('Time', fontsize=30)
+plt.ylabel('Height [m]', fontsize=30)
+# ax.yaxis.set_ticks(np.linspace(alt[0], alt[-1], 5))
+# cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
+# cbar.set_label('[Mm$^{0-1}$sr$^{-1}$]', fontsize=30)
+# cbar.ax.tick_params(labelsize=20)
+plt.savefig('./test_timeseries.png')
+
 # ncfile = Dataset(saveFilename, mode='w', format='NETCDF4')
 # ncfile_data = ncfile.createGroup("CALIPSO")
 # ncfile_data.createDimension('x_caliop', beta_all.shape[0])
