@@ -122,7 +122,7 @@ while start_date_datetime <= end_date_datetime:
                 latitude_all.extend(caliop_latitude_list[spatial_mask])
                 longtitude_all.extend(caliop_longitude_list[spatial_mask])
                 beta_all.extend(caliop_beta_list[:, spatial_mask])
-                print(beta_all.shape)
+                print(np.asarray(beta_all).shape)
 
 
 
