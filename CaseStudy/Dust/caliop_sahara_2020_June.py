@@ -99,6 +99,7 @@ while start_date_datetime <= end_date_datetime:
                 caliop_request = Caliop_hdf_reader()
                 caliop_utc_list = caliop_request. \
                     _get_profile_UTC(caliop_fetch_dir + file)
+                caliop_utc_list = np.asarray(caliop_utc_list)
                 caliop_latitude_list = caliop_request. \
                     _get_latitude(caliop_fetch_dir + file)
                 caliop_longitude_list = caliop_request. \
