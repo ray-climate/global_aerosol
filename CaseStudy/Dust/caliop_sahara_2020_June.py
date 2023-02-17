@@ -92,37 +92,37 @@ while start_date_datetime <= end_date_datetime:
             print(caliop_latitude.shape)
             print(caliop_longitude.shape)
             spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (caliop_longitude < lon_right))
-            print(spatial_mask)
-            quit()
-            if len(spatial_mask) > 0:
-
-                print('Data found within the spatial window: %s' % file)
-
-                caliop_request = Caliop_hdf_reader()
-                caliop_utc_list = caliop_request. \
-                    _get_profile_UTC(caliop_fetch_dir + file)
-                caliop_latitude_list = caliop_request. \
-                    _get_latitude(caliop_fetch_dir + file)
-                caliop_longitude_list = caliop_request. \
-                    _get_longitude(caliop_fetch_dir + file)
-                caliop_altitude_list = caliop_request. \
-                    get_altitudes(caliop_fetch_dir + file)
-                caliop_beta_list = caliop_request. \
-                    _get_calipso_data(filename=caliop_fetch_dir + file,
-                                      variable='Total_Backscatter_Coefficient_532')
-                caliop_alpha_list = caliop_request. \
-                    _get_calipso_data(filename=caliop_fetch_dir + file,
-                                      variable='Extinction_Coefficient_532')
-                (caliop_aerosol_type, caliop_feature_type) = caliop_request. \
-                    _get_feature_classification(filename=caliop_fetch_dir + file,
-                                                variable='Atmospheric_Volume_Description')
-                caliop_Depolarization_Ratio_list = caliop_request. \
-                    _get_calipso_data(filename=caliop_fetch_dir + file,
-                                      variable='Particulate_Depolarization_Ratio_Profile_532')
-
-                print(caliop_latitude_list.shape)
-                print(caliop_alpha_list.shape)
-                print(caliop_utc_list)
+            print(spatial_mask[0])
+            # quit()
+            # if len(spatial_mask) > 0:
+            #
+            #     print('Data found within the spatial window: %s' % file)
+            #
+            #     caliop_request = Caliop_hdf_reader()
+            #     caliop_utc_list = caliop_request. \
+            #         _get_profile_UTC(caliop_fetch_dir + file)
+            #     caliop_latitude_list = caliop_request. \
+            #         _get_latitude(caliop_fetch_dir + file)
+            #     caliop_longitude_list = caliop_request. \
+            #         _get_longitude(caliop_fetch_dir + file)
+            #     caliop_altitude_list = caliop_request. \
+            #         get_altitudes(caliop_fetch_dir + file)
+            #     caliop_beta_list = caliop_request. \
+            #         _get_calipso_data(filename=caliop_fetch_dir + file,
+            #                           variable='Total_Backscatter_Coefficient_532')
+            #     caliop_alpha_list = caliop_request. \
+            #         _get_calipso_data(filename=caliop_fetch_dir + file,
+            #                           variable='Extinction_Coefficient_532')
+            #     (caliop_aerosol_type, caliop_feature_type) = caliop_request. \
+            #         _get_feature_classification(filename=caliop_fetch_dir + file,
+            #                                     variable='Atmospheric_Volume_Description')
+            #     caliop_Depolarization_Ratio_list = caliop_request. \
+            #         _get_calipso_data(filename=caliop_fetch_dir + file,
+            #                           variable='Particulate_Depolarization_Ratio_Profile_532')
+            #
+            #     print(caliop_latitude_list.shape)
+            #     print(caliop_alpha_list.shape)
+            #     print(caliop_utc_list)
 
 
 
