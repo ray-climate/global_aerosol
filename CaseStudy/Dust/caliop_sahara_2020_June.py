@@ -95,6 +95,8 @@ while start_date_datetime <= end_date_datetime:
                 print('Data found within the spatial window: %s' % file)
 
                 caliop_request = Caliop_hdf_reader()
+                caliop_utc_list = caliop_request. \
+                    _get_profile_UTC(caliop_fetch_dir + file)
                 caliop_latitude_list = caliop_request. \
                     _get_latitude(caliop_fetch_dir + file)
                 caliop_longitude_list = caliop_request. \
@@ -116,6 +118,7 @@ while start_date_datetime <= end_date_datetime:
 
                 print(caliop_latitude_list.shape)
                 print(caliop_alpha_list.shape)
+                print(caliop_utc_list)
 
 
 
