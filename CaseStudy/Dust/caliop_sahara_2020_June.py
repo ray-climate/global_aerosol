@@ -86,9 +86,23 @@ while start_date_datetime <= end_date_datetime:
             caliop_latitude = caliop_request._get_latitude(caliop_fetch_dir + file)
             caliop_longitude = caliop_request._get_longitude(caliop_fetch_dir + file)
 
-            spatial_mask = caliop_latitude[(caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (caliop_longitude < lon_right)]
+            spatial_mask = caliop_latitude[
+                (caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (
+                            caliop_longitude < lon_right)]
+
             if len(spatial_mask) > 0:
+
                 print('Data found within the spatial window: %s' % file)
+
+                caliop_request = Caliop_hdf_reader()
+                caliop_latitude_list = caliop_request. \
+                    _get_latitude(file)
+                caliop_longitude_list = caliop_request. \
+                    _get_longitude(file)
+                caliop_altitude_list = caliop_request. \
+                    get_altitudes(file)
+
+                print(caliop_latitude_list)
 
 
 
