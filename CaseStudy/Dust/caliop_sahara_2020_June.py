@@ -117,6 +117,7 @@ while start_date_datetime <= end_date_datetime:
                     _get_feature_classification(filename=caliop_fetch_dir + file,
                                                 variable='Atmospheric_Volume_Description')
                 caliop_aerosol_type_mask = np.copy(caliop_aerosol_type)
+                print(caliop_feature_type)
                 caliop_aerosol_type_mask[caliop_feature_type != 3] = np.nan
 
                 caliop_Depolarization_Ratio_list = caliop_request. \
