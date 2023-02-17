@@ -96,11 +96,11 @@ while start_date_datetime <= end_date_datetime:
 
                 caliop_request = Caliop_hdf_reader()
                 caliop_latitude_list = caliop_request. \
-                    _get_latitude(file)
+                    _get_latitude(caliop_fetch_dir + file)
                 caliop_longitude_list = caliop_request. \
-                    _get_longitude(file)
+                    _get_longitude(caliop_fetch_dir + file)
                 caliop_altitude_list = caliop_request. \
-                    get_altitudes(file)
+                    get_altitudes(caliop_fetch_dir + file)
 
                 print(caliop_latitude_list)
 
