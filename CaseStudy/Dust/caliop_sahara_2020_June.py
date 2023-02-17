@@ -131,7 +131,7 @@ while start_date_datetime <= end_date_datetime:
                 longtitude_all.extend(caliop_longitude_list[spatial_mask])
                 beta_all.extend(caliop_beta_list[:, spatial_mask])
                 aerosol_type.extend(caliop_aerosol_type_mask[:, spatial_mask])
-
+                print(beta_all.shape)
     start_date_datetime = start_date_datetime + time_delta
 
 beta_all = np.asarray(beta_all)
