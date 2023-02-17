@@ -72,6 +72,7 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 datatime_all = []
 latitude_all = []
 longtitude_all = []
+altitude_all = []
 beta_all = []
 aerosol_type = []
 
@@ -127,15 +128,24 @@ while start_date_datetime <= end_date_datetime:
                 datatime_all.extend(caliop_utc_list[spatial_mask])
                 latitude_all.extend(caliop_latitude_list[spatial_mask])
                 longtitude_all.extend(caliop_longitude_list[spatial_mask])
+                altitude_all.extend(altitude_all[spatial_mask])
                 beta_all.extend(caliop_beta_list[:, spatial_mask])
                 aerosol_type.extend(caliop_aerosol_type_mask[:, spatial_mask])
-                print(np.asarray(beta_all).shape)
-                print(np.asarray(aerosol_type).shape)
-    start_date_datetime = start_date_datetime + time_delta
 
+    start_date_datetime = start_date_datetime + time_delta
+#
 # ncfile = Dataset(saveFilename, mode='w', format='NETCDF4')
 # ncfile_data = ncfile.createGroup("CALIPSO")
-# ncfile_data.createDimension('x_caliop', beta_caliop.shape[1])
-# ncfile_data.createDimension('y_caliop', beta_caliop.shape[0])
+# ncfile_data.createDimension('x_caliop', beta_all.shape[0])
+# ncfile_data.createDimension('y_caliop', beta_all.shape[1])
+#
+# nc_lat_caliop = ncfile_data.createVariable('caliop_latitude', 'f4', ('x_caliop'))
+# nc_lat_caliop[:] = latitude_all
+#
+# nc_lon_caliop = ncfile_data.createVariable('caliop_longitude', 'f4', ('x_caliop'))
+# nc_lon_caliop[:] = longtitude_all
+#
+# nc_alt_caliop = ncfile_data.createVariable('caliop_altitude', 'f4', ('y_caliop'))
+# nc_alt_caliop[:] = altitude_all
 
 
