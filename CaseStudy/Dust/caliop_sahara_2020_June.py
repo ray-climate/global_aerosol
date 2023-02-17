@@ -73,6 +73,7 @@ datatime_all = []
 latitude_all = []
 longtitude_all = []
 beta_all = []
+aerosol_type = []
 
 while start_date_datetime <= end_date_datetime:
 
@@ -115,18 +116,18 @@ while start_date_datetime <= end_date_datetime:
                 (caliop_aerosol_type, caliop_feature_type) = caliop_request. \
                     _get_feature_classification(filename=caliop_fetch_dir + file,
                                                 variable='Atmospheric_Volume_Description')
+                caliop_aerosol_type_mask = np.copy(caliop_aerosol_type)
+                caliop_aerosol_type_mask[caliop_feature_type != 3] = np.nan
+
                 caliop_Depolarization_Ratio_list = caliop_request. \
                     _get_calipso_data(filename=caliop_fetch_dir + file,
                                       variable='Particulate_Depolarization_Ratio_Profile_532')
-                print(spatial_mask)
-                print(caliop_utc_list[spatial_mask])
+
                 datatime_all.extend(caliop_utc_list[spatial_mask])
                 latitude_all.extend(caliop_latitude_list[spatial_mask])
                 longtitude_all.extend(caliop_longitude_list[spatial_mask])
                 beta_all.extend(caliop_beta_list[:, spatial_mask])
-                print(np.asarray(beta_all).shape)
-
-
+                aerosol_type.extend(caliop_aerosol_type_mask[:, spatial_mask])
 
     start_date_datetime = start_date_datetime + time_delta
 
