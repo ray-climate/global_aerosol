@@ -10,6 +10,7 @@ sys.path.append('../../')
 
 from Caliop.caliop import Caliop_hdf_reader
 from datetime import datetime, timedelta
+import numpy as np
 import logging
 import pathlib
 import sys
@@ -68,7 +69,10 @@ except:
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
-print(start_date_datetime)
+datatime_all = []
+latitude_all = []
+longtitude_all = []
+
 while start_date_datetime <= end_date_datetime:
 
     year_i = '{:04d}'.format(start_date_datetime.year)
@@ -86,10 +90,11 @@ while start_date_datetime <= end_date_datetime:
             caliop_latitude = caliop_request._get_latitude(caliop_fetch_dir + file)
             caliop_longitude = caliop_request._get_longitude(caliop_fetch_dir + file)
 
-            spatial_mask = caliop_latitude[
+            spatial_mask = np.where[
                 (caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (
                             caliop_longitude < lon_right)]
-
+            print(spatial_mask)
+            quit()
             if len(spatial_mask) > 0:
 
                 print('Data found within the spatial window: %s' % file)
