@@ -82,11 +82,14 @@ while start_date_datetime <= end_date_datetime:
     for file in os.listdir(caliop_fetch_dir):
         if file.endswith('hdf'):
             print('Find data: %s'%file)
+
             caliop_request = Caliop_hdf_reader()
             caliop_latitude = caliop_request._get_latitude(caliop_fetch_dir + file)
             caliop_longitude = caliop_request._get_longitude(caliop_fetch_dir + file)
-            print(caliop_latitude)
-            print(caliop_longitude)
+
+            spatial_mask = caliop_latitude[(caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (caliop_longitude < lon_right)]
+            print(spatial_mask)
+
 
     start_date_datetime = start_date_datetime + time_delta
 
