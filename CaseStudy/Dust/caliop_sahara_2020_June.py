@@ -117,6 +117,7 @@ while start_date_datetime <= end_date_datetime:
                 caliop_Depolarization_Ratio_list = caliop_request. \
                     _get_calipso_data(filename=caliop_fetch_dir + file,
                                       variable='Particulate_Depolarization_Ratio_Profile_532')
+                print(spatial_mask)
                 print(caliop_utc_list[spatial_mask])
                 datatime_all.extend(caliop_utc_list[spatial_mask])
                 latitude_all.extend(caliop_latitude_list[spatial_mask])
