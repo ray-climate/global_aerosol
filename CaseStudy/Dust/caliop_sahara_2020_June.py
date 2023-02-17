@@ -5,6 +5,9 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        16/02/2023 18:26
 
+import sys
+sys.path.append('../../')
+
 from Caliop.caliop import Caliop_hdf_reader
 from datetime import datetime, timedelta
 import logging
