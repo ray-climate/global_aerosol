@@ -121,6 +121,7 @@ while start_date_datetime <= end_date_datetime:
                 caliop_aerosol_type_mask, caliop_Depolarization_Ratio = caliop_data
                 print(len(caliop_utc))
                 print(caliop_latitude.shape)
+                print(caliop_beta.shape)
                 datatime_all.extend(caliop_utc)
                 latitude_all.extend(caliop_latitude)
                 longitude_all.extend(caliop_longitude)
