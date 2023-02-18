@@ -20,8 +20,8 @@ import os
 
 ##############################################################
 # Define start and end dates
-start_date = '2020-06-14'
-end_date = '2020-06-22'
+start_date = '2020-06-17'
+end_date = '2020-06-24'
 
 # Define the spatial bounds
 lat_up = 37.
@@ -159,7 +159,7 @@ plt.ylim([0., 16])
 ax.yaxis.set_ticks(range(0, 16, 2))
 
 # Generate tick indices
-tick_indices = np.linspace(0, len(datatime_all_sort) - 1, 9, dtype=int)
+tick_indices = np.linspace(0, len(datatime_all_sort) - 1, 8, dtype=int)
 # Set x-tick labels
 plt.xticks(np.asarray(datatime_all_sort)[tick_indices], rotation=45, fontsize=20)
 
