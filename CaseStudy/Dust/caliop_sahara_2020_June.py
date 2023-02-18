@@ -143,7 +143,7 @@ beta_all_sort = beta_all[:, sort_index]
 
 X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
 fig, ax = plt.subplots(figsize=(30, 10))
-plt.pcolormesh(X, Y, beta_all_sort, norm=colors.LogNorm(vmin = np.min(beta_all_sort), vmax = np.max(beta_all_sort)), cmap='rainbow')
+plt.pcolormesh(X, Y, beta_all_sort, norm=colors.LogNorm(vmin = np.nanmin(beta_all_sort), vmax = np.namax(beta_all_sort)), cmap='rainbow')
 plt.xlabel('Time', fontsize=30)
 plt.ylabel('Height [m]', fontsize=30)
 plt.ylim([0., 15])
