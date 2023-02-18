@@ -20,7 +20,7 @@ import os
 ##############################################################
 # Define start and end dates
 start_date = '2020-06-15'
-end_date = '2020-06-16'
+end_date = '2020-06-15'
 
 # Define the spatial bounds
 lat_up = 37.
@@ -126,6 +126,27 @@ while start_date_datetime <= end_date_datetime:
                 aerosol_type_mask_all.append(caliop_aerosol_type_mask)
 
     start_date_datetime += time_delta
+
+
+beta_all = np.asarray(beta_all)
+aerosol_type = np.asarray(aerosol_type_mask_all)
+caliop_altitude = np.asarray(caliop_altitude)
+
+sort_index = np.argsort(datatime_all)
+
+datatime_all_sort = sorted(datatime_all)
+beta_all_sort = beta_all[sort_index, :].T
+
+X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
+fig, ax = plt.subplots(figsize=(30, 10))
+plt.pcolormesh(X, Y, beta_all_sort, cmap='rainbow')
+plt.xlabel('Time', fontsize=30)
+plt.ylabel('Height [m]', fontsize=30)
+# ax.yaxis.set_ticks(np.linspace(alt[0], alt[-1], 5))
+# cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
+# cbar.set_label('[Mm$^{0-1}$sr$^{-1}$]', fontsize=30)
+# cbar.ax.tick_params(labelsize=20)
+plt.savefig('./test_timeseries.png')
 
 #
 #
