@@ -141,8 +141,7 @@ beta_all_sort = beta_all[:, sort_index]
 beta_all_sort[beta_all_sort<0] = np.nan
 aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
-aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
-aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort_mask, axis = 0)
+aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort, axis = 0)
 aerosol_type_all_sort_mask_index = np.where(aerosol_type_all_sort_mask > 0)[0]
 print(aerosol_type_all_sort_mask_index)
 
