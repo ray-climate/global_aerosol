@@ -141,30 +141,29 @@ beta_all_sort = beta_all[:, sort_index]
 beta_all_sort[beta_all_sort<0] = np.nan
 aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
-aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
-aerosol_type_all_sort_mask[(aerosol_type_all_sort == 2) | (aerosol_type_all_sort == 5) |(aerosol_type_all_sort == 6) ] = 1
-aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort_mask, axis = 0)
-print(aerosol_type_all_sort_mask)
-aerosol_type_all_sort_mask_index = np.where(aerosol_type_all_sort_mask > 0)[0]
-print(aerosol_type_all_sort_mask_index)
+# aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
+# aerosol_type_all_sort_mask[(aerosol_type_all_sort == 2) | (aerosol_type_all_sort == 5) |(aerosol_type_all_sort == 6) ] = 1
+# aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort_mask, axis = 0)
+# aerosol_type_all_sort_mask_index = np.where(aerosol_type_all_sort_mask > 0)[0]
+# datatime_all_sort = np.asarray(datatime_all_sort)
+# datatime_filtered = datatime_all_sort[aerosol_type_all_sort_mask_index]
+# beta_filtered = beta_all_sort[:, aerosol_type_all_sort_mask_index]
+# aerosol_type_filtered = aerosol_type_all_sort[:, aerosol_type_all_sort_mask_index]
 
-datatime_all_sort = np.asarray(datatime_all_sort)
-print(datatime_all_sort)
-datatime_filtered = datatime_all_sort[aerosol_type_all_sort_mask_index]
-print(datatime_filtered)
-beta_filtered = beta_all_sort[:, aerosol_type_all_sort_mask_index]
-aerosol_type_filtered = aerosol_type_all_sort[:, aerosol_type_all_sort_mask_index]
-
-X, Y = np.meshgrid(datatime_filtered, caliop_altitude)
-fig, ax = plt.subplots(figsize=(30, 10))
-plt.pcolormesh(X, Y, beta_filtered, vmin = 0.1, vmax = 0.007, cmap='rainbow')
+X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
+fig, ax = plt.subplots(figsize=(12, 10))
+plt.pcolormesh(X, Y, beta_all_sort, vmin = 0.1, vmax = 0.007, cmap='rainbow')
 plt.xlabel('Time', fontsize=30)
 plt.ylabel('Height [m]', fontsize=30)
-plt.ylim([0., 15])
-# ax.yaxis.set_ticks(np.linspace(alt[0], alt[-1], 5))
+plt.ylim([0., 16])
+ax.yaxis.set_ticks(np.linspace(0, 16, 2))
 cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
 cbar.set_label('[km$^{0-1}$sr$^{-1}$]', fontsize=30)
 cbar.ax.tick_params(labelsize=20)
+for tick in ax.xaxis.get_major_ticks():
+    tick.label.set_fontsize(20)
+for tick in ax.yaxis.get_major_ticks():
+    tick.label.set_fontsize(20)
 plt.savefig('./test_timeseries.png')
 
 #
