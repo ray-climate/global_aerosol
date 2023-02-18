@@ -128,7 +128,8 @@ while start_date_datetime <= end_date_datetime:
 
     start_date_datetime += time_delta
 
-
+print(len(beta_all))
+print(beta_all.shape)
 beta_all = np.asarray(beta_all)
 aerosol_type = np.asarray(aerosol_type_mask_all)
 caliop_altitude = np.asarray(caliop_altitude)
