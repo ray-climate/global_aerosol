@@ -148,9 +148,9 @@ plt.xlabel('Time', fontsize=30)
 plt.ylabel('Height [m]', fontsize=30)
 plt.ylim([0., 15])
 # ax.yaxis.set_ticks(np.linspace(alt[0], alt[-1], 5))
-# cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
-# cbar.set_label('[Mm$^{0-1}$sr$^{-1}$]', fontsize=30)
-# cbar.ax.tick_params(labelsize=20)
+cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
+cbar.set_label('[km$^{0-1}$sr$^{-1}$]', fontsize=30)
+cbar.ax.tick_params(labelsize=20)
 plt.savefig('./test_timeseries.png')
 
 #
