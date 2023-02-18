@@ -185,6 +185,8 @@ for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(15)
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(15)
+ax.set_xscale('log')
+plt.ylim([0., 10])
 plt.grid()
 plt.savefig('./test_1d.png')
 plt.close()
