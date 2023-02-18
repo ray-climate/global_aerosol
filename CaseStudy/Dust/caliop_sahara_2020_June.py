@@ -152,7 +152,7 @@ aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
 
 x_space = np.linspace(1, len(datatime_all_sort), len(datatime_all_sort))
-X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
+X, Y = np.meshgrid(x_space, caliop_altitude)
 fig, ax = plt.subplots(figsize=(12, 10))
 plt.pcolormesh(X, Y, beta_all_sort, norm=colors.LogNorm(vmin = 0.0001, vmax = 0.03), cmap='rainbow')
 plt.xlabel('Datetime', fontsize=20)
