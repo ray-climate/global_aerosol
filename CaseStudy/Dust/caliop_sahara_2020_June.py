@@ -150,6 +150,7 @@ aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 # beta_filtered = beta_all_sort[:, aerosol_type_all_sort_mask_index]
 # aerosol_type_filtered = aerosol_type_all_sort[:, aerosol_type_all_sort_mask_index]
 
+
 x_space = np.linspace(1, len(datatime_all_sort), len(datatime_all_sort))
 X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
 fig, ax = plt.subplots(figsize=(12, 10))
