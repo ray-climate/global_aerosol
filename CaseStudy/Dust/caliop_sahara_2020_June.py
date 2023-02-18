@@ -147,7 +147,9 @@ aerosol_type_all_sort_mask_index = np.where(aerosol_type_all_sort_mask > 0)[0]
 print(aerosol_type_all_sort_mask_index)
 
 datatime_all_sort = np.asarray(datatime_all_sort)
+print(datatime_all_sort)
 datatime_filtered = datatime_all_sort[aerosol_type_all_sort_mask_index]
+print(datatime_filtered)
 beta_filtered = beta_all_sort[:, aerosol_type_all_sort_mask_index]
 aerosol_type_filtered = aerosol_type_all_sort[:, aerosol_type_all_sort_mask_index]
 
