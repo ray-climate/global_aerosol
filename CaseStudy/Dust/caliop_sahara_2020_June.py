@@ -143,7 +143,8 @@ aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
 aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
 aerosol_type_all_sort_mask[(aerosol_type_all_sort == 2) | (aerosol_type_all_sort == 5) |(aerosol_type_all_sort == 6) ] = 1
-aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort, axis = 0)
+aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort_mask, axis = 0)
+print(aerosol_type_all_sort_mask)
 aerosol_type_all_sort_mask_index = np.where(aerosol_type_all_sort_mask > 0)[0]
 print(aerosol_type_all_sort_mask_index)
 
