@@ -135,11 +135,13 @@ while start_date_datetime <= end_date_datetime:
 
 beta_all = np.asarray(beta_all)
 aerosol_type_all = np.asarray(aerosol_type_all)
-
 sort_index = np.argsort(datatime_all)
 
 datatime_all_sort = sorted(datatime_all)
 beta_all_sort = beta_all[:, sort_index]
+
+print(np.nanmin(beta_all_sort))
+print(np.nanmax(beta_all_sort))
 
 X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
 fig, ax = plt.subplots(figsize=(30, 10))
