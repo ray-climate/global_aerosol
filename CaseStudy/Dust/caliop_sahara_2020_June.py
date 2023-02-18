@@ -123,7 +123,7 @@ while start_date_datetime <= end_date_datetime:
                 datatime_all.extend(caliop_utc)
                 latitude_all.extend(caliop_latitude)
                 longitude_all.extend(caliop_longitude)
-                beta_all.append(caliop_beta)
+                beta_all.extend(caliop_beta)
                 print(beta_all.shape)
                 aerosol_type_mask_all.append(caliop_aerosol_type_mask)
 
