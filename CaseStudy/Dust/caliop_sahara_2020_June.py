@@ -20,8 +20,8 @@ import os
 
 ##############################################################
 # Define start and end dates
-start_date = '2020-06-17'
-end_date = '2020-06-24'
+start_date = '2020-06-20'
+end_date = '2020-06-20'
 
 # Define the spatial bounds
 lat_up = 37.
