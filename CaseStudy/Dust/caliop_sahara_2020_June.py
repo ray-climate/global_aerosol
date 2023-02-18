@@ -154,13 +154,17 @@ X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
 fig, ax = plt.subplots(figsize=(12, 10))
 plt.pcolormesh(X, Y, beta_all_sort, norm=colors.LogNorm(vmin = 0.0001, vmax = 0.03), cmap='rainbow')
 plt.xlabel('Time', fontsize=20)
-plt.ylabel('Height [m]', fontsize=20)
+plt.ylabel('Height [km]', fontsize=20)
 plt.ylim([0., 16])
 ax.yaxis.set_ticks(range(0, 16, 2))
-# ax.yaxis.set_ticks(rotation)
+
+# Generate tick indices
+tick_indices = np.linspace(0, len(datatime_all_sort) - 1, 5, dtype=int)
+# Set x-tick labels
+plt.xticks(datatime_all_sort[tick_indices], rotation=45)
 
 cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
-cbar.set_label('[km$^{0-1}$sr$^{-1}$]', fontsize=30)
+cbar.set_label('[km$^{0-1}$sr$^{-1}$]', fontsize=20)
 cbar.ax.tick_params(labelsize=20)
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(20)
