@@ -100,7 +100,7 @@ latitude_all = []
 longitude_all = []
 altitude_all = []
 beta_all = []
-aerosol_type_mask_all = []
+aerosol_type_all = []
 
 while start_date_datetime <= end_date_datetime:
 
@@ -118,29 +118,27 @@ while start_date_datetime <= end_date_datetime:
 
             if caliop_data:
                 caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
-                caliop_aerosol_type_mask, caliop_Depolarization_Ratio = caliop_data
+                caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
                 datatime_all.extend(caliop_utc)
                 latitude_all.extend(caliop_latitude)
                 longitude_all.extend(caliop_longitude)
                 try:
                     beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
+                    aerosol_type_all = np.concatenate([aerosol_type_all, caliop_aerosol_type], axis=1)
                 except:
                     beta_all = np.copy(caliop_beta)
-                aerosol_type_mask_all.append(caliop_aerosol_type_mask)
+                    aerosol_type_all = np.copy(caliop_aerosol_type)
 
     start_date_datetime += time_delta
 
 
 beta_all = np.asarray(beta_all)
-print(len(datatime_all))
-print(beta_all.shape)
-aerosol_type = np.asarray(aerosol_type_mask_all)
-caliop_altitude = np.asarray(caliop_altitude)
+aerosol_type_all = np.asarray(aerosol_type_all)
 
 sort_index = np.argsort(datatime_all)
 
 datatime_all_sort = sorted(datatime_all)
-beta_all_sort = beta_all[sort_index, :].T
+beta_all_sort = beta_all[:, sort_index]
 
 X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
 fig, ax = plt.subplots(figsize=(30, 10))
