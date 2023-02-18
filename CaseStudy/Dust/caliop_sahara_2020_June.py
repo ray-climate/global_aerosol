@@ -124,7 +124,6 @@ while start_date_datetime <= end_date_datetime:
                 latitude_all.extend(caliop_latitude)
                 longitude_all.extend(caliop_longitude)
                 beta_all.extend(caliop_beta)
-                print(np.asarray(beta_all).shape)
                 aerosol_type_mask_all.append(caliop_aerosol_type_mask)
 
     start_date_datetime += time_delta
