@@ -20,8 +20,8 @@ import os
 
 ##############################################################
 # Define start and end dates
-start_date = '2020-06-17'
-end_date = '2020-06-24'
+start_date = '2020-06-20'
+end_date = '2020-06-20'
 
 # Define the spatial bounds
 lat_up = 37.
@@ -138,7 +138,7 @@ sort_index = np.argsort(datatime_all)
 
 datatime_all_sort = sorted(datatime_all)
 beta_all_sort = beta_all[:, sort_index]
-beta_all_sort[beta_all_sort<0] = np.nan
+beta_all_sort[beta_all_sort<0] = 0
 aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
 # aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
@@ -151,26 +151,41 @@ aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 # aerosol_type_filtered = aerosol_type_all_sort[:, aerosol_type_all_sort_mask_index]
 
 
-x_space = np.linspace(1, len(datatime_all_sort), len(datatime_all_sort))
-X, Y = np.meshgrid(x_space, caliop_altitude)
-fig, ax = plt.subplots(figsize=(12, 10))
-plt.pcolormesh(X, Y, beta_all_sort, norm=colors.LogNorm(vmin = 0.0001, vmax = 0.03), cmap='rainbow')
-plt.xlabel('Datetime', fontsize=20)
-plt.ylabel('Height [km]', fontsize=20)
-plt.ylim([0., 16])
-ax.yaxis.set_ticks(range(0, 16, 2))
+##### 2D mesh plot ##########################################################
+# x_space = np.linspace(1, len(datatime_all_sort), len(datatime_all_sort))
+# X, Y = np.meshgrid(x_space, caliop_altitude)
+# fig, ax = plt.subplots(figsize=(12, 10))
+# plt.pcolormesh(X, Y, beta_all_sort, norm=colors.LogNorm(vmin = 0.0001, vmax = 0.03), cmap='rainbow')
+# plt.xlabel('Datetime', fontsize=20)
+# plt.ylabel('Height [km]', fontsize=20)
+# plt.ylim([0., 16])
+# ax.yaxis.set_ticks(range(0, 16, 2))
+#
+# # Generate tick indices
+# # tick_indices = np.linspace(0, len(datatime_all_sort) - 1, 8, dtype=int)
+# # Set x-tick labels
+# # plt.xticks(np.asarray(datatime_all_sort)[tick_indices], rotation=45, fontsize=20)
+#
+# cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
+# cbar.set_label('[km$^{0-1}$sr$^{-1}$]', fontsize=20)
+# cbar.ax.tick_params(labelsize=20)
+# for tick in ax.xaxis.get_major_ticks():
+#     tick.label.set_fontsize(20)
+# for tick in ax.yaxis.get_major_ticks():
+#     tick.label.set_fontsize(20)
+# plt.savefig('./test_timeseries.png')
+##### 2D mesh plot ##########################################################
 
-# Generate tick indices
-# tick_indices = np.linspace(0, len(datatime_all_sort) - 1, 8, dtype=int)
-# Set x-tick labels
-# plt.xticks(np.asarray(datatime_all_sort)[tick_indices], rotation=45, fontsize=20)
-
-cbar = plt.colorbar(extend='both', shrink=0.7, fraction=0.05)
-cbar.set_label('[km$^{0-1}$sr$^{-1}$]', fontsize=20)
-cbar.ax.tick_params(labelsize=20)
+##### 1D backscatter plot ###################################################
+fig, ax = plt.subplots(figsize=(15, 8))
+plt.plot(np.mean(beta_all_sort, axis=0), caliop_altitude, 'r-*', lw=2)
+plt.xlabel('Backscatter coefficient', fontsize=15)
+plt.ylabel('Averaged photon counts', fontsize=15)
 for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(20)
+    tick.label.set_fontsize(15)
 for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(20)
-plt.savefig('./test_timeseries.png')
-
+    tick.label.set_fontsize(15)
+plt.grid()
+plt.savefig('./test_1d.png')
+plt.close()
+##### 1D backscatter plot ###################################################
