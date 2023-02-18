@@ -178,7 +178,7 @@ aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
 ##### 1D backscatter plot ###################################################
 fig, ax = plt.subplots(figsize=(15, 8))
-plt.plot(np.mean(beta_all_sort, axis=0), caliop_altitude, 'r-*', lw=2)
+plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
 plt.xlabel('Backscatter coefficient', fontsize=15)
 plt.ylabel('Averaged photon counts', fontsize=15)
 for tick in ax.xaxis.get_major_ticks():
