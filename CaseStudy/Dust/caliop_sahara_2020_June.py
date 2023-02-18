@@ -122,7 +122,10 @@ while start_date_datetime <= end_date_datetime:
                 datatime_all.extend(caliop_utc)
                 latitude_all.extend(caliop_latitude)
                 longitude_all.extend(caliop_longitude)
-                beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
+                try:
+                    beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
+                except:
+                    beta_all = np.copy(caliop_beta)
                 aerosol_type_mask_all.append(caliop_aerosol_type_mask)
 
     start_date_datetime += time_delta
