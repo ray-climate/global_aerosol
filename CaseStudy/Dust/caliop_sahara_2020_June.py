@@ -139,9 +139,7 @@ sort_index = np.argsort(datatime_all)
 
 datatime_all_sort = sorted(datatime_all)
 beta_all_sort = beta_all[:, sort_index]
-
-print(np.nanmin(beta_all_sort))
-print(np.nanmax(beta_all_sort))
+beta_all_sort[beta_all_sort<0] = 0
 
 X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
 fig, ax = plt.subplots(figsize=(30, 10))
