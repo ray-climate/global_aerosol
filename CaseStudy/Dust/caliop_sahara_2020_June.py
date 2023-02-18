@@ -159,7 +159,7 @@ plt.ylim([0., 16])
 ax.yaxis.set_ticks(range(0, 16, 2))
 
 # Generate tick indices
-tick_indices = np.linspace(0, len(datatime_all_sort) - 1, 5, dtype=int)
+tick_indices = np.linspace(0, len(datatime_all_sort) - 1, 9, dtype=int)
 # Set x-tick labels
 plt.xticks(np.asarray(datatime_all_sort)[tick_indices], rotation=45, fontsize=20)
 
