@@ -119,13 +119,10 @@ while start_date_datetime <= end_date_datetime:
             if caliop_data:
                 caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
                 caliop_aerosol_type_mask, caliop_Depolarization_Ratio = caliop_data
-                print(len(caliop_utc))
-                print(caliop_latitude.shape)
-                print(caliop_beta.shape)
                 datatime_all.extend(caliop_utc)
                 latitude_all.extend(caliop_latitude)
                 longitude_all.extend(caliop_longitude)
-                beta_all.extend(caliop_beta)
+                beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
                 aerosol_type_mask_all.append(caliop_aerosol_type_mask)
 
     start_date_datetime += time_delta
