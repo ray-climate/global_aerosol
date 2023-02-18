@@ -132,7 +132,6 @@ while start_date_datetime <= end_date_datetime:
 
     start_date_datetime += time_delta
 
-
 beta_all = np.asarray(beta_all)
 aerosol_type_all = np.asarray(aerosol_type_all)
 sort_index = np.argsort(datatime_all)
@@ -140,10 +139,20 @@ sort_index = np.argsort(datatime_all)
 datatime_all_sort = sorted(datatime_all)
 beta_all_sort = beta_all[:, sort_index]
 beta_all_sort[beta_all_sort<0] = np.nan
+aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
-X, Y = np.meshgrid(datatime_all_sort, caliop_altitude)
+aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
+aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort_mask, axis = 0)
+aerosol_type_all_sort_mask_index = np.where(aerosol_type_all_sort_mask > 0)[0]
+print(aerosol_type_all_sort_mask_index)
+
+datatime_filtered = datatime_all_sort[aerosol_type_all_sort_mask_index]
+beta_filtered = beta_all_sort[:, aerosol_type_all_sort_mask_index]
+aerosol_type_filtered = aerosol_type_all_sort[:, aerosol_type_all_sort_mask_index]
+
+X, Y = np.meshgrid(datatime_filtered, caliop_altitude)
 fig, ax = plt.subplots(figsize=(30, 10))
-plt.pcolormesh(X, Y, beta_all_sort, vmin = 0.1, vmax = 0.02, cmap='rainbow')
+plt.pcolormesh(X, Y, beta_filtered, vmin = 0.1, vmax = 0.007, cmap='rainbow')
 plt.xlabel('Time', fontsize=30)
 plt.ylabel('Height [m]', fontsize=30)
 plt.ylim([0., 15])
