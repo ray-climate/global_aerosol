@@ -84,7 +84,7 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     if len(spatial_mask) > 0:
 
         # logger.info('Data found within the spatial window: %s', caliop_file_path)
-        print('Data found within the spatial window: ' %caliop_file_path)
+        print('Data found within the spatial window: ', caliop_file_path)
         return caliop_utc[spatial_mask], caliop_latitude[spatial_mask], \
                caliop_longitude[spatial_mask], caliop_altitude, caliop_beta[:, spatial_mask], \
                caliop_aerosol_type[:, spatial_mask], caliop_Depolarization_Ratio[:, spatial_mask]
