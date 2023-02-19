@@ -169,7 +169,7 @@ for k in range(len(meridional_boundary) - 1):
 
 fig.text(0.5, 0.02, 'Backscatter coefficient', ha='center', va='center', fontsize=17)
 fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
-fig.subplots_adjust(left=0.05, right=0.95, bottom=0.15, top=0.95, wspace=0.2, hspace=0.2)
+fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.2, hspace=0.2)
 
 plt.savefig('./test_1d-8.png')
 
