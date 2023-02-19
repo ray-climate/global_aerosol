@@ -159,14 +159,14 @@ for k in range(len(meridional_boundary) - 1):
 
     if meridional_boundary[k] < 0:
         if meridional_boundary[k+1] < 0:
-            axk.set_xlabel('[%s W - %s W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+            axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
         else:
-            axk.set_xlabel('[%s W - %s E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+            axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
     else:
         if meridional_boundary[k+1] < 0:
-            axk.set_xlabel('[%s E - %s W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+            axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
         else:
-            axk.set_xlabel('[%s E - %s E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+            axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
 
     # axk.set_ylabel('Averaged photon counts', fontsize=15)
     for tick in axk.xaxis.get_major_ticks():
@@ -178,7 +178,7 @@ for k in range(len(meridional_boundary) - 1):
     axk.set_ylim([0., 15])
     axk.grid()
 
-fig.text(0.5, 0.02, 'Backscatter coefficient', ha='center', va='center', fontsize=17)
+fig.text(0.5, 0.02, 'Backscatter coefficient [km$^{-1}$sr$^{-1}$]', ha='center', va='center', fontsize=17)
 fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
 fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.3, hspace=0.2)
 
