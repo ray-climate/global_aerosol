@@ -93,10 +93,6 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
-# Parse start and end dates
-start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
-end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
-
 fig = plt.figure(constrained_layout=True, figsize=(25, 10))
 gs = GridSpec(1, 8, figure=fig)
 
@@ -111,6 +107,10 @@ for k in range(len(meridional_boundary) - 1):
     caliop_altitude = []
     beta_all = []
     aerosol_type_all = []
+
+    # Parse start and end dates
+    start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+    end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
     while start_date_datetime <= end_date_datetime:
 
