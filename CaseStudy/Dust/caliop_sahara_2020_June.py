@@ -155,8 +155,8 @@ for k in range(len(meridional_boundary) - 1):
     axk = fig.add_subplot(gs[0, k])
     # figk = plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
     figk = plt.plot(a, b, 'r-*', lw=2)
-    axk.set_xlabel('Backscatter coefficient', fontsize=15)
-    axk.set_ylabel('Averaged photon counts', fontsize=15)
+    # axk.set_xlabel('Backscatter coefficient', fontsize=15)
+    # axk.set_ylabel('Averaged photon counts', fontsize=15)
     for tick in axk.xaxis.get_major_ticks():
         tick.label.set_fontsize(15)
     for tick in axk.yaxis.get_major_ticks():
@@ -165,6 +165,10 @@ for k in range(len(meridional_boundary) - 1):
     axk.set_xlim([1.e-4, 1.e-2])
     axk.set_ylim([0., 15])
     axk.grid()
+
+fig.text(0.5, 0.02, 'Backscatter coefficient', ha='center', va='center', fontsize=15)
+# Add a master y label
+fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=20)
 
 plt.savefig('./test_1d-8.png')
 
