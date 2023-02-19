@@ -10,6 +10,7 @@ sys.path.append('../../')
 
 from Caliop.caliop import Caliop_hdf_reader
 from datetime import datetime, timedelta
+from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,13 +27,13 @@ end_date = '2020-06-20'
 # Define the spatial bounds
 lat_up = 37.
 lat_down = 1.
-lon_left = -72.
-lon_right = 31.
+# lon_left = -72.
+# lon_right = 31.
 
 # Set up time delta
 time_delta = timedelta(days = 1)
 ##############################################################
-
+meridional_boundary = [-90., -75., -60., -45., -30., -15., 0., 15., 30.]
 ##############################################################
 
 # Define output directory
@@ -96,50 +97,76 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
-datatime_all = []
-latitude_all = []
-longitude_all = []
-caliop_altitude = []
-beta_all = []
-aerosol_type_all = []
+fig = plt.figure(constrained_layout=True, figsize=(36, 18))
+gs = GridSpec(1, 8, figure=fig)
 
-while start_date_datetime <= end_date_datetime:
+for k in range(len(meridional_boundary) - 1):
 
-    year_i = '{:04d}'.format(start_date_datetime.year)
-    month_i = '{:02d}'.format(start_date_datetime.month)
-    day_i = '{:02d}'.format(start_date_datetime.day)
+    lon_left = meridional_boundary[k]
+    lon_right = meridional_boundary[k + 1]
 
-    caliop_fetch_dir = os.path.join(CALIOP_JASMIN_dir, year_i, f'{year_i}_{month_i}_{day_i}')
+    datatime_all = []
+    latitude_all = []
+    longitude_all = []
+    caliop_altitude = []
+    beta_all = []
+    aerosol_type_all = []
 
-    for caliop_file_name in os.listdir(caliop_fetch_dir):
-        if caliop_file_name.endswith('hdf'):
-            caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
+    # while start_date_datetime <= end_date_datetime:
+    #
+    #     year_i = '{:04d}'.format(start_date_datetime.year)
+    #     month_i = '{:02d}'.format(start_date_datetime.month)
+    #     day_i = '{:02d}'.format(start_date_datetime.day)
+    #
+    #     caliop_fetch_dir = os.path.join(CALIOP_JASMIN_dir, year_i, f'{year_i}_{month_i}_{day_i}')
+    #
+    #     for caliop_file_name in os.listdir(caliop_fetch_dir):
+    #         if caliop_file_name.endswith('hdf'):
+    #             caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
+    #
+    #             caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
+    #
+    #             if caliop_data:
+    #                 caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
+    #                 caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
+    #                 datatime_all.extend(caliop_utc)
+    #                 latitude_all.extend(caliop_latitude)
+    #                 longitude_all.extend(caliop_longitude)
+    #                 try:
+    #                     beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
+    #                     aerosol_type_all = np.concatenate([aerosol_type_all, caliop_aerosol_type], axis=1)
+    #                 except:
+    #                     beta_all = np.copy(caliop_beta)
+    #                     aerosol_type_all = np.copy(caliop_aerosol_type)
+    #
+    #     start_date_datetime += time_delta
+    #
+    # beta_all = np.asarray(beta_all)
+    # aerosol_type_all = np.asarray(aerosol_type_all)
+    # sort_index = np.argsort(datatime_all)
+    #
+    # datatime_all_sort = sorted(datatime_all)
+    # beta_all_sort = beta_all[:, sort_index]
+    # beta_all_sort[beta_all_sort<0] = 0
+    # aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
-            caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
+    a = np.linspace(1,100,100)
+    b = np.linspace(1,100,100)
+    axk = fig.add_subplot(gs[0, k])
+    # figk = plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
+    figk = plt.plot(a, b, 'r-*', lw=2)
+    axk.set_xlabel('Backscatter coefficient', fontsize=15)
+    axk.set_ylabel('Averaged photon counts', fontsize=15)
+    for tick in axk.xaxis.get_major_ticks():
+        tick.label.set_fontsize(15)
+    for tick in axk.yaxis.get_major_ticks():
+        tick.label.set_fontsize(15)
+    axk.set_xscale('log')
+    axk.set_xlim([1.e-4, 1.e-2])
+    axk.set_ylim([0., 15])
+    axk.grid()
 
-            if caliop_data:
-                caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
-                caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
-                datatime_all.extend(caliop_utc)
-                latitude_all.extend(caliop_latitude)
-                longitude_all.extend(caliop_longitude)
-                try:
-                    beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
-                    aerosol_type_all = np.concatenate([aerosol_type_all, caliop_aerosol_type], axis=1)
-                except:
-                    beta_all = np.copy(caliop_beta)
-                    aerosol_type_all = np.copy(caliop_aerosol_type)
-
-    start_date_datetime += time_delta
-
-beta_all = np.asarray(beta_all)
-aerosol_type_all = np.asarray(aerosol_type_all)
-sort_index = np.argsort(datatime_all)
-
-datatime_all_sort = sorted(datatime_all)
-beta_all_sort = beta_all[:, sort_index]
-beta_all_sort[beta_all_sort<0] = 0
-aerosol_type_all_sort = aerosol_type_all[:, sort_index]
+plt.savefig('./test_1d-8.png')
 
 # aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
 # aerosol_type_all_sort_mask[(aerosol_type_all_sort == 2) | (aerosol_type_all_sort == 5) |(aerosol_type_all_sort == 6) ] = 1
@@ -177,18 +204,18 @@ aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 ##### 2D mesh plot ##########################################################
 
 ##### 1D backscatter plot ###################################################
-fig, ax = plt.subplots(figsize=(8, 15))
-plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
-plt.xlabel('Backscatter coefficient', fontsize=15)
-plt.ylabel('Averaged photon counts', fontsize=15)
-for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(15)
-for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(15)
-ax.set_xscale('log')
-plt.xlim([1.e-4, 1.e-2])
-plt.ylim([0., 15])
-plt.grid()
-plt.savefig('./test_1d.png')
-plt.close()
+# fig, ax = plt.subplots(figsize=(8, 15))
+# plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
+# plt.xlabel('Backscatter coefficient', fontsize=15)
+# plt.ylabel('Averaged photon counts', fontsize=15)
+# for tick in ax.xaxis.get_major_ticks():
+#     tick.label.set_fontsize(15)
+# for tick in ax.yaxis.get_major_ticks():
+#     tick.label.set_fontsize(15)
+# ax.set_xscale('log')
+# plt.xlim([1.e-4, 1.e-2])
+# plt.ylim([0., 15])
+# plt.grid()
+# plt.savefig('./test_1d.png')
+# plt.close()
 ##### 1D backscatter plot ###################################################
