@@ -99,6 +99,7 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
 fig = plt.figure(constrained_layout=True, figsize=(25, 10))
 gs = GridSpec(1, 8, figure=fig)
+fig.suptitle("%s" %start_date_datetime, fontsize = 17)
 
 for k in range(len(meridional_boundary) - 1):
 
@@ -155,7 +156,18 @@ for k in range(len(meridional_boundary) - 1):
     axk = fig.add_subplot(gs[0, k])
     # figk = plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
     figk = plt.plot(a, b, 'r-*', lw=2)
-    # axk.set_xlabel('Backscatter coefficient', fontsize=15)
+
+    if meridional_boundary[k] < 0:
+        if meridional_boundary[k+1] < 0:
+            axk.set_xlabel('[%s W - %s W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+        else:
+            axk.set_xlabel('[%s W - %s E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+    else:
+        if meridional_boundary[k+1] < 0:
+            axk.set_xlabel('[%s E - %s W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+        else:
+            axk.set_xlabel('[%s E - %s E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+
     # axk.set_ylabel('Averaged photon counts', fontsize=15)
     for tick in axk.xaxis.get_major_ticks():
         tick.label.set_fontsize(15)
