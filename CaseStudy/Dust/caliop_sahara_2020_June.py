@@ -99,6 +99,7 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
 fig = plt.figure(constrained_layout=True, figsize=(20, 10))
 gs = GridSpec(1, 8, figure=fig)
+fig.subplots_adjust(wspace=0.1, hspace=0.1)
 
 for k in range(len(meridional_boundary) - 1):
 
@@ -166,10 +167,9 @@ for k in range(len(meridional_boundary) - 1):
     axk.set_ylim([0., 15])
     axk.grid()
 
-fig.text(0.5, 0.02, 'Backscatter coefficient', ha='center', va='center', fontsize=15)
-# Add a master y label
-fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=20)
-fig.subplots_adjust(left=0.1, right=0.9, bottom=0.15, top=0.9, wspace=0.2, hspace=0.2)
+fig.text(0.5, 0.02, 'Backscatter coefficient', ha='center', va='center', fontsize=17)
+fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
+fig.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95, wspace=0.2, hspace=0.2)
 
 plt.savefig('./test_1d-8.png')
 
