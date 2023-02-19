@@ -99,7 +99,6 @@ end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
 
 fig = plt.figure(constrained_layout=True, figsize=(25, 10))
 gs = GridSpec(1, 8, figure=fig)
-fig.suptitle("%s" %start_date_datetime, fontsize = 17)
 
 for k in range(len(meridional_boundary) - 1):
 
@@ -113,14 +112,14 @@ for k in range(len(meridional_boundary) - 1):
     beta_all = []
     aerosol_type_all = []
 
-    # while start_date_datetime <= end_date_datetime:
-    #
-    #     year_i = '{:04d}'.format(start_date_datetime.year)
-    #     month_i = '{:02d}'.format(start_date_datetime.month)
-    #     day_i = '{:02d}'.format(start_date_datetime.day)
-    #
-    #     caliop_fetch_dir = os.path.join(CALIOP_JASMIN_dir, year_i, f'{year_i}_{month_i}_{day_i}')
-    #
+    while start_date_datetime <= end_date_datetime:
+
+        year_i = '{:04d}'.format(start_date_datetime.year)
+        month_i = '{:02d}'.format(start_date_datetime.month)
+        day_i = '{:02d}'.format(start_date_datetime.day)
+
+        caliop_fetch_dir = os.path.join(CALIOP_JASMIN_dir, year_i, f'{year_i}_{month_i}_{day_i}')
+
     #     for caliop_file_name in os.listdir(caliop_fetch_dir):
     #         if caliop_file_name.endswith('hdf'):
     #             caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
@@ -178,6 +177,7 @@ for k in range(len(meridional_boundary) - 1):
     axk.set_ylim([0., 15])
     axk.grid()
 
+fig.suptitle("%s-%s-%s" %(year_i, month_i, day_i), fontsize = 17)
 fig.text(0.5, 0.02, 'Backscatter coefficient [km$^{-1}$sr$^{-1}$]', ha='center', va='center', fontsize=17)
 fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
 fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.3, hspace=0.2)
