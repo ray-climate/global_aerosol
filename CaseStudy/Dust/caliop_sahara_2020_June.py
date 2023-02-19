@@ -176,8 +176,8 @@ for day in range(14, 27):
             tick.label.set_fontsize(15)
         for tick in axk.yaxis.get_major_ticks():
             tick.label.set_fontsize(15)
-        axk.set_xscale('log')
-        axk.set_xlim([1.e-4, 2.e-2])
+        # axk.set_xscale('log')
+        axk.set_xlim([0, 2.e-2])
         axk.set_ylim([0., 8])
         axk.grid()
 
@@ -186,7 +186,7 @@ for day in range(14, 27):
     fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
     fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.3, hspace=0.2)
 
-    plt.savefig(output_dir + '/dust_backscatter_%s-%s-%s.png'%(year_i, month_i, day_i))
+    plt.savefig(output_dir + '/dust_backscatter_nolog_%s-%s-%s.png'%(year_i, month_i, day_i))
 
 # aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
 # aerosol_type_all_sort_mask[(aerosol_type_all_sort == 2) | (aerosol_type_all_sort == 5) |(aerosol_type_all_sort == 6) ] = 1
