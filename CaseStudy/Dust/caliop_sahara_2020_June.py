@@ -120,41 +120,41 @@ for k in range(len(meridional_boundary) - 1):
 
         caliop_fetch_dir = os.path.join(CALIOP_JASMIN_dir, year_i, f'{year_i}_{month_i}_{day_i}')
 
-    #     for caliop_file_name in os.listdir(caliop_fetch_dir):
-    #         if caliop_file_name.endswith('hdf'):
-    #             caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
-    #
-    #             caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
-    #
-    #             if caliop_data:
-    #                 caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
-    #                 caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
-    #                 datatime_all.extend(caliop_utc)
-    #                 latitude_all.extend(caliop_latitude)
-    #                 longitude_all.extend(caliop_longitude)
-    #                 try:
-    #                     beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
-    #                     aerosol_type_all = np.concatenate([aerosol_type_all, caliop_aerosol_type], axis=1)
-    #                 except:
-    #                     beta_all = np.copy(caliop_beta)
-    #                     aerosol_type_all = np.copy(caliop_aerosol_type)
-    #
+        for caliop_file_name in os.listdir(caliop_fetch_dir):
+            if caliop_file_name.endswith('hdf'):
+                caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
+
+                caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
+
+                if caliop_data:
+                    caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
+                    caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
+                    datatime_all.extend(caliop_utc)
+                    latitude_all.extend(caliop_latitude)
+                    longitude_all.extend(caliop_longitude)
+                    try:
+                        beta_all = np.concatenate([beta_all, caliop_beta], axis=1)
+                        aerosol_type_all = np.concatenate([aerosol_type_all, caliop_aerosol_type], axis=1)
+                    except:
+                        beta_all = np.copy(caliop_beta)
+                        aerosol_type_all = np.copy(caliop_aerosol_type)
+
         start_date_datetime += time_delta
-    #
-    # beta_all = np.asarray(beta_all)
-    # aerosol_type_all = np.asarray(aerosol_type_all)
-    # sort_index = np.argsort(datatime_all)
-    #
-    # datatime_all_sort = sorted(datatime_all)
-    # beta_all_sort = beta_all[:, sort_index]
-    # beta_all_sort[beta_all_sort<0] = 0
-    # aerosol_type_all_sort = aerosol_type_all[:, sort_index]
+
+    beta_all = np.asarray(beta_all)
+    aerosol_type_all = np.asarray(aerosol_type_all)
+    sort_index = np.argsort(datatime_all)
+
+    datatime_all_sort = sorted(datatime_all)
+    beta_all_sort = beta_all[:, sort_index]
+    beta_all_sort[beta_all_sort<0] = 0
+    aerosol_type_all_sort = aerosol_type_all[:, sort_index]
 
     a = np.linspace(1,100,100)
     b = np.linspace(1,100,100)
     axk = fig.add_subplot(gs[0, k])
-    # figk = plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
-    figk = plt.plot(a, b, 'r-*', lw=2)
+    figk = plt.plot(np.mean(beta_all_sort, axis=1), caliop_altitude, 'r-*', lw=2)
+    # figk = plt.plot(a, b, 'r-*', lw=2)
 
     if meridional_boundary[k] < 0:
         if meridional_boundary[k+1] < 0:
