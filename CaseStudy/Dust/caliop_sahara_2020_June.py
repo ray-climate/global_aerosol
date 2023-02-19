@@ -139,7 +139,7 @@ for k in range(len(meridional_boundary) - 1):
     #                     beta_all = np.copy(caliop_beta)
     #                     aerosol_type_all = np.copy(caliop_aerosol_type)
     #
-    #     start_date_datetime += time_delta
+        start_date_datetime += time_delta
     #
     # beta_all = np.asarray(beta_all)
     # aerosol_type_all = np.asarray(aerosol_type_all)
