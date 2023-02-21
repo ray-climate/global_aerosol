@@ -59,8 +59,10 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     # open the netcdf file
     with Dataset(aeolus_ncFile, 'r') as nc_data:
 
-        latitude_of_DEM_intersection_obs = nc_data['observations']['latitude_of_DEM_intersection_obs'][:]
+        latitude = nc_data['observations']['latitude_of_DEM_intersection_obs'][:]
         longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
+        longitude = [lon_i - 180. if lon_i > 180 else lon_i for lon_i in longitude_of_DEM_intersection_obs]
+
 
         sca_middle_bin_altitude_obs = nc_data['sca']['SCA_middle_bin_altitude_obs'][:]
         sca_middle_bin_backscatter = nc_data['sca']['SCA_middle_bin_backscatter'][:]
@@ -69,11 +71,11 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
         sca_middle_bin_ber = nc_data['sca']['SCA_middle_bin_BER'][:]
 
     # Apply spatial mask
-    spatial_mask = np.where((latitude_of_DEM_intersection_obs > lat_down) & (latitude_of_DEM_intersection_obs < lat_up) &
-                            (longitude_of_DEM_intersection_obs > lon_left) & (longitude_of_DEM_intersection_obs < lon_right))[0]
+    spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
+                            (longitude > lon_left) & (longitude < lon_right))[0]
     print(sca_middle_bin_altitude_obs.shape)
     print(sca_middle_bin_altitude_obs[spatial_mask, :].shape)
-    print(longitude_of_DEM_intersection_obs[longitude_of_DEM_intersection_obs>180])
+
     quit()
 # Extract relevant variables from the AEOLUS data
 ##############################################################
