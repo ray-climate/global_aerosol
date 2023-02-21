@@ -169,7 +169,7 @@ for day in range(14, 27):
                         # Resample data based on nearest altitude value less than current value in alt_caliop
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
                         sca_mb_backscatter[m, n]
-        aa = np.mean(backscatter_resample, axis=0)
+        aa = np.nanmean(backscatter_resample, axis=0)
         print(aa[aa>0])
         axk = fig.add_subplot(gs[0, k])
         figk = plt.plot(np.mean(backscatter_resample, axis=0), alt_caliop, 'r-*', lw=2)
