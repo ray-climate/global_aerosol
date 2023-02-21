@@ -8,6 +8,7 @@
 import sys
 sys.path.append('../../')
 
+from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
@@ -78,8 +79,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     # Apply spatial mask
     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                             (longitude > lon_left) & (longitude < lon_right))[0]
-    print(latitude.shape)
-    print(sca_middle_bin_altitude_obs.shape)
+
     latitude = latitude[spatial_mask]
     longitude = longitude[spatial_mask]
     sca_middle_bin_altitude_obs = sca_middle_bin_altitude_obs[spatial_mask, :]
@@ -130,10 +130,19 @@ for day in range(14, 27):
                 if aeolus_file_name.endswith('%s-%s-%s.nc'%(year_i,  month_i, day_i)):
 
                     aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
-                    (latitude_i, longitude_i, sca_mb_altitude, sca_mb_backscatter) = read_aeolus_data(aeolus_file_path,
-                                                                                                      lat_down, lat_up,
-                                                                                                      lon_left,
-                                                                                                      lon_right)
+
+                    (latitude, longitude, sca_mb_altitude,
+                     footprint_time_aeolus, sca_mb_backscatter, alpha_aeolus_mb,
+                     qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
+                        extract_variables_from_aeolus(aeolus_file_path, logger)
+
+                    spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
+                                            (longitude > lon_left) & (longitude < lon_right))[0]
+
+                    latitude_i = latitude[spatial_mask]
+                    longitude_i = longitude[spatial_mask]
+                    sca_mb_altitude = sca_mb_altitude[spatial_mask, :]
+                    sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
 
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
