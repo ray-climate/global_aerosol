@@ -144,6 +144,5 @@ for day in range(14, 27):
 
                     print(beta_all.shape)
 
-            start_date_datetime += time_delta
 
     quit()
