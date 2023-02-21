@@ -73,6 +73,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
                             (longitude_of_DEM_intersection_obs > lon_left) & (longitude_of_DEM_intersection_obs < lon_right))[0]
     print(sca_middle_bin_altitude_obs.shape)
     print(sca_middle_bin_altitude_obs[spatial_mask, :].shape)
+    print(longitude_of_DEM_intersection_obs[longitude_of_DEM_intersection_obs>180])
     quit()
 # Extract relevant variables from the AEOLUS data
 ##############################################################
