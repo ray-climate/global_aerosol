@@ -63,9 +63,16 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
         longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
 
         sca_middle_bin_altitude_obs = nc_data['sca']['SCA_middle_bin_altitude_obs'][:]
+        sca_middle_bin_backscatter = nc_data['sca']['SCA_middle_bin_backscatter'][:]
+        sca_middle_bin_extinction = nc_data['sca']['SCA_middle_bin_extinction'][:]
+        sca_middle_bin_qc = nc_data['sca']['SCA_middle_bin_processing_qc_flag'][:]
+        sca_middle_bin_ber = nc_data['sca']['SCA_middle_bin_BER'][:]
 
-    print(latitude_of_DEM_intersection_obs.shape)
+    # Apply spatial mask
+    spatial_mask = np.where((latitude_of_DEM_intersection_obs > lat_down) & (latitude_of_DEM_intersection_obs < lat_up) &
+                            (longitude_of_DEM_intersection_obs > lon_left) & (longitude_of_DEM_intersection_obs < lon_right))[0]
     print(sca_middle_bin_altitude_obs.shape)
+    print(sca_middle_bin_altitude_obs[spatial_mask, :].shape)
     quit()
 # Extract relevant variables from the AEOLUS data
 ##############################################################
