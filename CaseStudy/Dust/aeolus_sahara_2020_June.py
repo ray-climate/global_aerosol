@@ -203,5 +203,3 @@ for day in range(14, 27):
     fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.3, hspace=0.2)
 
     plt.savefig(output_dir + '/aeolus_dust_backscatter_log_%s-%s-%s.png' % (year_i, month_i, day_i))
-
-    quit()
