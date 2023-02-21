@@ -167,6 +167,7 @@ for day in range(14, 27):
                 if alt_aeolus_m[n] > 0:
                     if (n + 1) < len(alt_aeolus_m):
                         # Resample data based on nearest altitude value less than current value in alt_caliop
+                        print(alt_caliop, alt_aeolus_m[n])
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
                         backscatter_resample[m, n]
 
