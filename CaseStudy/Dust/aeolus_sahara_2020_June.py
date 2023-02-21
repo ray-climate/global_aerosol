@@ -78,14 +78,14 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     # Apply spatial mask
     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                             (longitude > lon_left) & (longitude < lon_right))[0]
-
+    print(latitude.shape)
+    print(sca_middle_bin_altitude_obs.shape)
     latitude = latitude[spatial_mask]
     longitude = longitude[spatial_mask]
     sca_middle_bin_altitude_obs = sca_middle_bin_altitude_obs[spatial_mask, :]
     sca_middle_bin_backscatter = sca_middle_bin_backscatter[spatial_mask, :]
 
     if len(spatial_mask) > 0:
-
         # logger.info('Data found within the spatial window: %s', caliop_file_path)
         print('Data found within the spatial window: ', aeolus_ncFile)
         return latitude, longitude, sca_middle_bin_altitude_obs, sca_middle_bin_backscatter
@@ -193,7 +193,7 @@ for day in range(14, 27):
         for tick in axk.yaxis.get_major_ticks():
             tick.label.set_fontsize(15)
         axk.set_xscale('log')
-        axk.set_xlim([0, 2.e-2])
+        axk.set_xlim([1.e-4, 2.e-2])
         axk.set_ylim([0., 8])
         axk.grid()
 
