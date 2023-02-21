@@ -170,6 +170,6 @@ for day in range(14, 27):
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
                         backscatter_resample[m, n]
 
-        print(backscatter_resample)
+        print(backscatter_resample[backscatter_resample>0])
         quit()
     quit()
