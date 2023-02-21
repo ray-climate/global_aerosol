@@ -106,12 +106,10 @@ for day in range(14, 27):
         lon_left = meridional_boundary[k]
         lon_right = meridional_boundary[k + 1]
 
-        datatime_all = []
         latitude_all = []
         longitude_all = []
-        caliop_altitude = []
+        altitude_all = []
         beta_all = []
-        aerosol_type_all = []
 
         # Parse start and end dates
         start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
@@ -135,6 +133,17 @@ for day in range(14, 27):
                                                                                                       lat_down, lat_up,
                                                                                                       lon_left,
                                                                                                       lon_right)
-                    print(sca_mb_backscatter)
-                    quit()
+
+                    latitude_all.extend(latitude_i)
+                    longitude_all.extend(longitude_i)
+
+                    try:
+                        beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=1)
+
+                    except:
+                        beta_all = np.copy(sca_mb_backscatter)
+                    print(beta_all.shape)
+
             start_date_datetime += time_delta
+
+    quit()
