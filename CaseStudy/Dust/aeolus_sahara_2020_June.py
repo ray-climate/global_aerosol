@@ -171,7 +171,8 @@ for day in range(14, 27):
                         sca_mb_backscatter[m, n]
 
         beta_volume_sum = np.sum(backscatter_resample, axis=1)
-
+        print(beta_volume_sum)
+        print(beta_volume_sum.shape)
         axk = fig.add_subplot(gs[0, k])
         figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum>0, :], axis=0), alt_caliop, 'r-*', lw=2)
 
