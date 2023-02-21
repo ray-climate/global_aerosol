@@ -62,7 +62,10 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
         latitude_of_DEM_intersection_obs = nc_data['observations']['latitude_of_DEM_intersection_obs'][:]
         longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
 
-    print(latitude_of_DEM_intersection_obs)
+        sca_middle_bin_altitude_obs = nc_data['sca']['SCA_middle_bin_altitude_obs'][:]
+
+    print(latitude_of_DEM_intersection_obs.shape)
+    print(sca_middle_bin_altitude_obs.shape)
     quit()
 # Extract relevant variables from the AEOLUS data
 ##############################################################
