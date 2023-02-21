@@ -148,7 +148,7 @@ for day in range(14, 27):
             start_date_datetime += time_delta
 
         altitude_all[altitude_all == -1] = np.nan
-        sca_mb_backscatter[sca_mb_backscatter == -1.e6] = np.nan
+        sca_mb_backscatter[sca_mb_backscatter == -1.e6] = 0
 
         # Convert altitude values from meters to kilometers
         altitude_all = altitude_all * 1e-3
@@ -169,6 +169,7 @@ for day in range(14, 27):
                         # Resample data based on nearest altitude value less than current value in alt_caliop
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
                         sca_mb_backscatter[m, n]
+
 
         beta_volume_sum = np.sum(backscatter_resample, axis=1)
         print(beta_volume_sum)
