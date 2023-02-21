@@ -144,7 +144,7 @@ for day in range(14, 27):
                             aerosol_type_all = np.copy(caliop_aerosol_type)
 
             start_date_datetime += time_delta
-
+        np.save('./caliop_altitude.npy', caliop_altitude)
         beta_all = np.asarray(beta_all)
         aerosol_type_all = np.asarray(aerosol_type_all)
         sort_index = np.argsort(datatime_all)
@@ -188,6 +188,7 @@ for day in range(14, 27):
 
     plt.savefig(output_dir + '/dust_backscatter_nolog_%s-%s-%s.png'%(year_i, month_i, day_i))
 
+np.save('./caliop_altitude.npy', caliop_altitude)
 # aerosol_type_all_sort_mask = np.zeros((aerosol_type_all_sort.shape))
 # aerosol_type_all_sort_mask[(aerosol_type_all_sort == 2) | (aerosol_type_all_sort == 5) |(aerosol_type_all_sort == 6) ] = 1
 # aerosol_type_all_sort_mask = np.sum(aerosol_type_all_sort_mask, axis = 0)
