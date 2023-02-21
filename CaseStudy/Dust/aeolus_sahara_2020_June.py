@@ -75,10 +75,21 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     # Apply spatial mask
     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                             (longitude > lon_left) & (longitude < lon_right))[0]
-    print(sca_middle_bin_altitude_obs.shape)
-    print(sca_middle_bin_altitude_obs[spatial_mask, :].shape)
 
-    quit()
+    latitude = latitude[spatial_mask]
+    longitude = longitude[spatial_mask]
+    sca_middle_bin_altitude_obs = sca_middle_bin_altitude_obs[spatial_mask, :]
+    sca_middle_bin_backscatter = sca_middle_bin_backscatter[spatial_mask, :]
+
+    if len(spatial_mask) > 0:
+
+        # logger.info('Data found within the spatial window: %s', caliop_file_path)
+        print('Data found within the spatial window: ', aeolus_ncFile)
+        return latitude, longitude, sca_middle_bin_altitude_obs, sca_middle_bin_backscatter
+    else:
+        return None
+
+
 # Extract relevant variables from the AEOLUS data
 ##############################################################
 # Define start and end dates
@@ -120,5 +131,10 @@ for day in range(14, 27):
                     aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
 
                     print(aeolus_file_path)
-                    read_aeolus_data(aeolus_file_path, lat_down, lat_up, lon_left, lon_right)
+                    (latitude_i, longitude_i, sca_mb_altitude, sca_mb_backscatter) = read_aeolus_data(aeolus_file_path,
+                                                                                                      lat_down, lat_up,
+                                                                                                      lon_left,
+                                                                                                      lon_right)
+                    print(sca_mb_backscatter)
+                    quit()
             start_date_datetime += time_delta
