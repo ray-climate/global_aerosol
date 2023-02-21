@@ -133,6 +133,7 @@ for day in range(14, 27):
                     if caliop_data:
                         caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
                         caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
+                        np.save('./caliop_altitude.npy', caliop_altitude)
                         datatime_all.extend(caliop_utc)
                         latitude_all.extend(caliop_latitude)
                         longitude_all.extend(caliop_longitude)
@@ -144,7 +145,7 @@ for day in range(14, 27):
                             aerosol_type_all = np.copy(caliop_aerosol_type)
 
             start_date_datetime += time_delta
-        np.save('./caliop_altitude.npy', caliop_altitude)
+
         beta_all = np.asarray(beta_all)
         aerosol_type_all = np.asarray(aerosol_type_all)
         sort_index = np.argsort(datatime_all)
