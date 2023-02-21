@@ -92,3 +92,6 @@ for day in range(14, 27):
                 if aeolus_file_name.endswith('%s-%s-%s.nc'%(year_i,  month_i, day_i)):
 
                     aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
+                    print(aeolus_file_path)
+
+            start_date_datetime += time_delta
