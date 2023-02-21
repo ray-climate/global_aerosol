@@ -63,13 +63,15 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
         longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
         longitude = [lon_i - 180. if lon_i > 180 else lon_i for lon_i in longitude_of_DEM_intersection_obs]
 
-
         sca_middle_bin_altitude_obs = nc_data['sca']['SCA_middle_bin_altitude_obs'][:]
         sca_middle_bin_backscatter = nc_data['sca']['SCA_middle_bin_backscatter'][:]
         sca_middle_bin_extinction = nc_data['sca']['SCA_middle_bin_extinction'][:]
         sca_middle_bin_qc = nc_data['sca']['SCA_middle_bin_processing_qc_flag'][:]
         sca_middle_bin_ber = nc_data['sca']['SCA_middle_bin_BER'][:]
 
+    latitude = np.asarray(latitude)
+    longitude = np.asarray(longitude)
+    sca_middle_bin_backscatter = np.asarray(sca_middle_bin_backscatter)
     # Apply spatial mask
     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                             (longitude > lon_left) & (longitude < lon_right))[0]
