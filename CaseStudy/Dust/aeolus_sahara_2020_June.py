@@ -54,7 +54,7 @@ logger = logging.getLogger()
 AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
 
 # take caliop altitude for projection
-caliop_altitude = np.load('./caliop_altitude.npy')
+alt_caliop = np.load('./caliop_altitude.npy')
 
 ##############################################################
 def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
@@ -130,8 +130,6 @@ for day in range(14, 27):
                 if aeolus_file_name.endswith('%s-%s-%s.nc'%(year_i,  month_i, day_i)):
 
                     aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
-
-                    print(aeolus_file_path)
                     (latitude_i, longitude_i, sca_mb_altitude, sca_mb_backscatter) = read_aeolus_data(aeolus_file_path,
                                                                                                       lat_down, lat_up,
                                                                                                       lon_left,
@@ -142,12 +140,36 @@ for day in range(14, 27):
 
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
+                        altitude_all = np.concatenate([altitude_all, sca_mb_altitude], axis=0)
                     except:
                         beta_all = np.copy(sca_mb_backscatter)
-
-                    print(sca_mb_altitude)
-                    print(sca_mb_backscatter)
+                        altitude_all = np.copy(sca_mb_altitude)
 
             start_date_datetime += time_delta
 
+        altitude_all[altitude_all == -1] = np.nan
+        sca_mb_backscatter[sca_mb_backscatter == -1.e6] = np.nan
+
+        # Convert altitude values from meters to kilometers
+        altitude_all = altitude_all * 1e-3
+
+        # convert aeolus data with the given scaling factor: convert to km-1.sr-1
+        sca_mb_backscatter = sca_mb_backscatter * 1.e-6 * 1.e3
+
+        # Create empty array for resampled data, with same shape as alt_aeolus
+        backscatter_resample = np.zeros((altitude_all.shape[0], np.size(alt_caliop)))
+        backscatter_resample[:] = np.nan
+
+        # Iterate through rows and columns of alt_aeolus and data_aeolus
+        for m in range(altitude_all.shape[0]):
+            alt_aeolus_m = altitude_all[m, :]
+            for n in range(np.size(alt_aeolus_m)):
+                if alt_aeolus_m[n] > 0:
+                    if (n + 1) < len(alt_aeolus_m):
+                        # Resample data based on nearest altitude value less than current value in alt_caliop
+                        backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
+                        backscatter_resample[m, n]
+
+        print(backscatter_resample)
+        quit()
     quit()

@@ -133,7 +133,7 @@ for day in range(14, 27):
                     if caliop_data:
                         caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
                         caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
-                        np.save('./caliop_altitude.npy', caliop_altitude)
+
                         datatime_all.extend(caliop_utc)
                         latitude_all.extend(caliop_latitude)
                         longitude_all.extend(caliop_longitude)
