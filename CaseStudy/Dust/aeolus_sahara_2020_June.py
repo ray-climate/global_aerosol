@@ -170,8 +170,10 @@ for day in range(14, 27):
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
                         sca_mb_backscatter[m, n]
 
+        beta_volume_sum = np.sum(backscatter_resample, axis=1)
+
         axk = fig.add_subplot(gs[0, k])
-        figk = plt.plot(np.mean(backscatter_resample, axis=0), alt_caliop, 'r-*', lw=2)
+        figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum>0, :], axis=0), alt_caliop, 'r-*', lw=2)
 
         if meridional_boundary[k] < 0:
             if meridional_boundary[k+1] < 0:
