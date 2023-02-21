@@ -172,8 +172,7 @@ for day in range(14, 27):
 
 
         beta_volume_sum = np.sum(backscatter_resample, axis=1)
-        print(beta_volume_sum)
-        print(beta_volume_sum.shape)
+
         axk = fig.add_subplot(gs[0, k])
         figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum>0, :], axis=0), alt_caliop, 'r-*', lw=2)
 
@@ -193,7 +192,7 @@ for day in range(14, 27):
             tick.label.set_fontsize(15)
         for tick in axk.yaxis.get_major_ticks():
             tick.label.set_fontsize(15)
-        # axk.set_xscale('log')
+        axk.set_xscale('log')
         axk.set_xlim([0, 2.e-2])
         axk.set_ylim([0., 8])
         axk.grid()
@@ -203,6 +202,6 @@ for day in range(14, 27):
     fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
     fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.3, hspace=0.2)
 
-    plt.savefig(output_dir + '/aeolus_dust_backscatter_%s-%s-%s.png' % (year_i, month_i, day_i))
+    plt.savefig(output_dir + '/aeolus_dust_backscatter_log_%s-%s-%s.png' % (year_i, month_i, day_i))
 
     quit()
