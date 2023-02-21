@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
 import matplotlib.pyplot as plt
+from netCDF4 import Dataset
 import numpy as np
 import logging
 import pathlib
@@ -53,7 +54,17 @@ logger = logging.getLogger()
 AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
 
 ##############################################################
+def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 
+    # open the netcdf file
+    with Dataset(aeolus_ncFile, 'r') as nc_data:
+
+        latitude_of_DEM_intersection_obs = nc_data['observations']['latitude_of_DEM_intersection_obs'][:]
+        longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
+
+    print(latitude_of_DEM_intersection_obs)
+    quit()
+# Extract relevant variables from the AEOLUS data
 ##############################################################
 # Define start and end dates
 for day in range(14, 27):
