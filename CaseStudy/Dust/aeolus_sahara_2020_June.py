@@ -170,6 +170,35 @@ for day in range(14, 27):
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
                         sca_mb_backscatter[m, n]
 
-        print(backscatter_resample[backscatter_resample>0])
-        quit()
+        axk = fig.add_subplot(gs[0, k])
+        figk = plt.plot(np.mean(backscatter_resample, axis=1), alt_caliop, 'r-*', lw=2)
+
+        if meridional_boundary[k] < 0:
+            if meridional_boundary[k+1] < 0:
+                axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+            else:
+                axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+        else:
+            if meridional_boundary[k+1] < 0:
+                axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+            else:
+                axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+
+        # axk.set_ylabel('Averaged photon counts', fontsize=15)
+        for tick in axk.xaxis.get_major_ticks():
+            tick.label.set_fontsize(15)
+        for tick in axk.yaxis.get_major_ticks():
+            tick.label.set_fontsize(15)
+        # axk.set_xscale('log')
+        axk.set_xlim([0, 2.e-2])
+        axk.set_ylim([0., 8])
+        axk.grid()
+
+    fig.suptitle("%s-%s-%s" % (year_i, month_i, day_i), fontsize=17)
+    fig.text(0.5, 0.02, 'Backscatter coefficient [km$^{-1}$sr$^{-1}$]', ha='center', va='center', fontsize=17)
+    fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
+    fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.3, hspace=0.2)
+
+    plt.savefig(output_dir + '/aeolus_dust_backscatter_%s-%s-%s.png' % (year_i, month_i, day_i))
+
     quit()
