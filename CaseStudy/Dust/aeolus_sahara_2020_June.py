@@ -138,10 +138,10 @@ for day in range(14, 27):
                     longitude_all.extend(longitude_i)
 
                     try:
-                        beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=1)
-
+                        beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
                     except:
                         beta_all = np.copy(sca_mb_backscatter)
+
                     print(beta_all.shape)
 
             start_date_datetime += time_delta
