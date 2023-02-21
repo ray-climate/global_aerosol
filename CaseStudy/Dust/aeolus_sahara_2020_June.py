@@ -61,7 +61,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 
         latitude = nc_data['observations']['latitude_of_DEM_intersection_obs'][:]
         longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
-        longitude = [lon_i - 180. if lon_i > 180 else lon_i for lon_i in longitude_of_DEM_intersection_obs]
+        longitude = [lon_i - 360. if lon_i > 180 else lon_i for lon_i in longitude_of_DEM_intersection_obs]
 
         sca_middle_bin_altitude_obs = nc_data['sca']['SCA_middle_bin_altitude_obs'][:]
         sca_middle_bin_backscatter = nc_data['sca']['SCA_middle_bin_backscatter'][:]
