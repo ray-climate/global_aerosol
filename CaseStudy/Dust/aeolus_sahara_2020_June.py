@@ -53,6 +53,9 @@ logger = logging.getLogger()
 # Define data directory
 AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
 
+# take caliop altitude for projection
+caliop_altitude = np.load('./caliop_altitude.npy')
+
 ##############################################################
 def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 
@@ -142,7 +145,9 @@ for day in range(14, 27):
                     except:
                         beta_all = np.copy(sca_mb_backscatter)
 
-                    print(beta_all.shape)
+                    print(sca_mb_altitude)
+                    print(sca_mb_backscatter)
 
+            start_date_datetime += time_delta
 
     quit()
