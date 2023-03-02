@@ -172,7 +172,7 @@ for day in range(14, 27):
 
         # convert aeolus data with the given scaling factor: convert to km-1.sr-1
         beta_all = beta_all * 1.e-6 * 1.e3
-
+        print(ber_all)
         # Create empty array for resampled data, with same shape as alt_aeolus
         backscatter_resample = np.zeros((altitude_all.shape[0], np.size(alt_caliop)))
         # backscatter_resample[:] = np.nan
