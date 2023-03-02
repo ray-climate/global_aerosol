@@ -166,12 +166,12 @@ for day in range(14, 27):
             start_date_datetime += time_delta
 
         altitude_all[altitude_all == -1] = np.nan
-        ber_all[ber_all == -1.e6] = 0
+        beta_all[beta_all == -1.e6] = 0
         # Convert altitude values from meters to kilometers
         altitude_all = altitude_all * 1e-3
 
         # convert aeolus data with the given scaling factor: convert to km-1.sr-1
-        ber_all = ber_all * 1.e-6 * 1.e3
+        beta_all = beta_all * 1.e-6 * 1.e3
 
         # Create empty array for resampled data, with same shape as alt_aeolus
         backscatter_resample = np.zeros((altitude_all.shape[0], np.size(alt_caliop)))
@@ -185,7 +185,7 @@ for day in range(14, 27):
                     if (n + 1) < len(alt_aeolus_m):
                         # Resample data based on nearest altitude value less than current value in alt_caliop
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
-                        ber_all[m, n]
+                        beta_all[m, n]
 
         ber_all_mask = np.zeros((ber_all.shape))
         ber_all_mask[ber_all < BER_threshold] = 1.
@@ -197,7 +197,7 @@ for day in range(14, 27):
         figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum > 0, :], axis=0), alt_caliop, 'r-*', lw=2,
                         label='no filter')
         plt.plot(np.mean(backscatter_resample[(beta_volume_sum > 0) & (ber_volume_sum < 1), :], axis=0),
-                 alt_caliop, 'r-*', lw=2, label='cloud removed')
+                 alt_caliop, 'b-*', lw=2, label='cloud removed')
 
         if meridional_boundary[k] < 0:
             if meridional_boundary[k+1] < 0:
@@ -215,6 +215,7 @@ for day in range(14, 27):
             tick.label.set_fontsize(15)
         for tick in axk.yaxis.get_major_ticks():
             tick.label.set_fontsize(15)
+        # axk.legend(loc='upper right', fontsize=15)
         axk.set_xscale('log')
         axk.set_xlim([1.e-4, 2.e-2])
         axk.set_ylim([0., 8])
