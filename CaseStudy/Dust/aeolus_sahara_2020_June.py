@@ -164,17 +164,14 @@ for day in range(14, 27):
                         altitude_all = np.copy(sca_mb_altitude)
 
             start_date_datetime += time_delta
-        print(sca_mb_backscatter.shape)
-        print(beta_all.shape)
-        print(beta_all)
-        quit()
+
         altitude_all[altitude_all == -1] = np.nan
-        sca_mb_backscatter[sca_mb_backscatter == -1.e6] = 0
+        ber_all[ber_all == -1.e6] = 0
         # Convert altitude values from meters to kilometers
         altitude_all = altitude_all * 1e-3
 
         # convert aeolus data with the given scaling factor: convert to km-1.sr-1
-        sca_mb_backscatter = sca_mb_backscatter * 1.e-6 * 1.e3
+        ber_all = ber_all * 1.e-6 * 1.e3
 
         # Create empty array for resampled data, with same shape as alt_aeolus
         backscatter_resample = np.zeros((altitude_all.shape[0], np.size(alt_caliop)))
@@ -188,13 +185,19 @@ for day in range(14, 27):
                     if (n + 1) < len(alt_aeolus_m):
                         # Resample data based on nearest altitude value less than current value in alt_caliop
                         backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
-                        sca_mb_backscatter[m, n]
+                        ber_all[m, n]
 
-
+        ber_all_mask = np.zeros((ber_all.shape))
+        ber_all_mask[ber_all < BER_threshold] = 1.
+        ber_volume_sum = np.sum(ber_all_mask, axis=1)
         beta_volume_sum = np.sum(backscatter_resample, axis=1)
 
         axk = fig.add_subplot(gs[0, k])
-        figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum>0, :], axis=0), alt_caliop, 'r-*', lw=2)
+
+        figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum > 0, :], axis=0), alt_caliop, 'r-*', lw=2,
+                        label='no filter')
+        plt.plot(np.mean(backscatter_resample[(beta_volume_sum > 0) & (ber_volume_sum < 1), :], axis=0),
+                 alt_caliop, 'r-*', lw=2, label='cloud removed')
 
         if meridional_boundary[k] < 0:
             if meridional_boundary[k+1] < 0:
@@ -222,4 +225,4 @@ for day in range(14, 27):
     fig.text(0.02, 0.5, 'Heights [km]', ha='center', va='center', rotation='vertical', fontsize=17)
     fig.subplots_adjust(left=0.05, right=0.95, bottom=0.1, top=0.95, wspace=0.3, hspace=0.2)
 
-    plt.savefig(output_dir + '/aeolus_dust_backscatter_log_%s-%s-%s.png' % (year_i, month_i, day_i))
+    plt.savefig(output_dir + '/aeolus_dust_backscatter_%s-%s-%s.png' % (year_i, month_i, day_i))
