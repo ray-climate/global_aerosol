@@ -190,6 +190,7 @@ for day in range(14, 27):
         ber_all_mask = np.zeros((ber_all.shape))
         ber_all_mask[ber_all < BER_threshold] = 1.
         ber_volume_sum = np.sum(ber_all_mask, axis=1)
+        print(ber_volume_sum)
         beta_volume_sum = np.sum(backscatter_resample, axis=1)
 
         axk = fig.add_subplot(gs[0, k])
