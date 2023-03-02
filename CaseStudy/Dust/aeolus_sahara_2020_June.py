@@ -166,6 +166,7 @@ for day in range(14, 27):
             start_date_datetime += time_delta
         print(sca_mb_backscatter.shape)
         print(beta_all.shape)
+        print(beta_all)
         quit()
         altitude_all[altitude_all == -1] = np.nan
         sca_mb_backscatter[sca_mb_backscatter == -1.e6] = 0
