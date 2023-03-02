@@ -27,7 +27,7 @@ lat_down = 1.
 # lon_left = -72.
 # lon_right = 31.
 
-BER_threshold = 0.01
+BER_threshold = 0.005
 
 # Set up time delta
 time_delta = timedelta(days = 1)
