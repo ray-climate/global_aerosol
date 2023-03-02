@@ -167,7 +167,7 @@ for day in range(14, 27):
 
         altitude_all[altitude_all == -1] = np.nan
         beta_all[beta_all == -1.e6] = 0
-        ber_all[beta_all < 0.] = np.nan
+        ber_all[ber_all < 0.] = np.nan
         # Convert altitude values from meters to kilometers
         altitude_all = altitude_all * 1e-3
 
