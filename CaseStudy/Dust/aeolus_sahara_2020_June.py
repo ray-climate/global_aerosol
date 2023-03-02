@@ -27,6 +27,8 @@ lat_down = 1.
 # lon_left = -72.
 # lon_right = 31.
 
+BER_threshold = 0.05
+
 # Set up time delta
 time_delta = timedelta(days = 1)
 ##############################################################
@@ -76,6 +78,8 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     latitude = np.asarray(latitude)
     longitude = np.asarray(longitude)
     sca_middle_bin_backscatter = np.asarray(sca_middle_bin_backscatter)
+    sca_middle_bin_ber = np.asarray(sca_middle_bin_ber)
+
     # Apply spatial mask
     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                             (longitude > lon_left) & (longitude < lon_right))[0]
@@ -84,6 +88,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     longitude = longitude[spatial_mask]
     sca_middle_bin_altitude_obs = sca_middle_bin_altitude_obs[spatial_mask, :]
     sca_middle_bin_backscatter = sca_middle_bin_backscatter[spatial_mask, :]
+    sca_middle_bin_ber = sca_middle_bin_ber[spatial_mask, :]
 
     if len(spatial_mask) > 0:
         # logger.info('Data found within the spatial window: %s', caliop_file_path)
@@ -113,6 +118,7 @@ for day in range(14, 27):
         longitude_all = []
         altitude_all = []
         beta_all = []
+        ber_all = []
 
         # Parse start and end dates
         start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
@@ -143,22 +149,26 @@ for day in range(14, 27):
                     longitude_i = longitude[spatial_mask]
                     sca_mb_altitude = sca_mb_altitude[spatial_mask, :]
                     sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
+                    sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
 
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
 
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
+                        ber_all = np.concatenate([ber_all, sca_mb_ber], axis=0)
                         altitude_all = np.concatenate([altitude_all, sca_mb_altitude], axis=0)
                     except:
                         beta_all = np.copy(sca_mb_backscatter)
+                        ber_all = np.copy(sca_mb_ber)
                         altitude_all = np.copy(sca_mb_altitude)
 
             start_date_datetime += time_delta
-
+        print(sca_mb_backscatter.shape)
+        print(beta_all.shape)
+        quit()
         altitude_all[altitude_all == -1] = np.nan
         sca_mb_backscatter[sca_mb_backscatter == -1.e6] = 0
-
         # Convert altitude values from meters to kilometers
         altitude_all = altitude_all * 1e-3
 
