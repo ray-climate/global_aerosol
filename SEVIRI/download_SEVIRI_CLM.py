@@ -43,12 +43,13 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     for product in products:
         logger.info('Product: %s' % product)
 
+    # use shutil.copyfileobj to download each product to a specific location
     for product in products:
-        with product.open() as fsrc, \
-                open(fsrc.name, mode='wb') as fdst:
-            print(fsrc, fdst)
+        with product.open() as fsrc, open(fsrc.name, mode='wb') as fdst:
+            print(fsrc, fsrc.name)
             # shutil.copyfileobj(fsrc, fdst)
             logger.info(f'Download of product {product} finished.')
+
     logger.info('All downloads are finished.')
 
 if __name__ == '__main__':
@@ -58,7 +59,7 @@ if __name__ == '__main__':
 
     # Define the start and end dates
     start_date = '202006200000'
-    end_date = '202006210000'
+    end_date = '202006210010'
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
