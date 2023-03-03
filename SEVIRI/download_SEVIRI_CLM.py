@@ -5,6 +5,8 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/03/2023 13:20
 
+import os
+
 def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=None):
     """Download MSG CLM data from the EUMETSAT server"""
 
@@ -87,3 +89,18 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     #     # Wait for 5 seconds
     #     time.sleep
 
+if __name__ == '__main__':
+
+    # Define the data directory
+    data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/'
+
+    # Define the start and end dates
+    start_date = '20211001'
+    end_date = '20211031'
+
+    # Create the output directory if it doesn't exist
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+
+    # Download the data
+    download_msg_clm(data_dir, start_date, end_date)
