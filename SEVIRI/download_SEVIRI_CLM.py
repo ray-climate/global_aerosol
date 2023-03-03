@@ -38,7 +38,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
 
     # Set sensing start and end time
     start = datetime.datetime(2020, 6, 14, 0, 0)
-    end = datetime.datetime(2020, 6, 24, 0, 0)
+    end = datetime.datetime(2020, 6, 14, 1, 0)
 
     # Retrieve datasets that match our filter
     products = selected_collection.search(
@@ -47,6 +47,13 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
 
     for product in products:
         print(str(product))
+
+    for product in products:
+        with product.open() as fsrc, \
+                open(fsrc.name, mode='wb') as fdst:
+            shutil.copyfileobj(fsrc, fdst)
+            print(f'Download of product {product} finished.')
+    print('All downloads are finished.')
 
     #
     #
