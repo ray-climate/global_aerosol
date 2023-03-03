@@ -47,6 +47,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     for product in products:
         with product.open() as fsrc, open(fsrc.name, mode='wb') as fdst:
             print(fsrc, fsrc.name)
+            print(fdst)
             # get YYYYMMDD from the file name of the product
             product_date = fsrc.name.split('-')[5][0:8]
             print(type(fsrc.name))
