@@ -47,6 +47,9 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     for product in products:
         with product.open() as fsrc, open(fsrc.name, mode='wb') as fdst:
             print(fsrc, fsrc.name)
+            # get YYYYMMDD from the file name of the product
+            product_date = fsrc.name.split('-')[5]
+            print(product_date)
             # shutil.copyfileobj(fsrc, fdst)
             logger.info(f'Download of product {product} finished.')
 
