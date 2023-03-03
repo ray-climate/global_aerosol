@@ -39,7 +39,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
         dtstart=start_date,
         dtend=end_date)
 
-    logger('Number of products found: %d' % len(products))
+    logger.info('Number of products found: %d' % len(products))
     for product in products:
         logger.info('Product: %s' % product)
 
