@@ -34,11 +34,11 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     token = eumdac.AccessToken(credentials)
 
     datastore = eumdac.DataStore(token)
-    selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:HRSEVIRI')
+    selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:CLM')
 
     # Set sensing start and end time
-    start = datetime.datetime(2021, 11, 10, 8, 0)
-    end = datetime.datetime(2021, 11, 10, 9, 0)
+    start = datetime.datetime(2020, 6, 14, 0, 0)
+    end = datetime.datetime(2020, 6, 24, 0, 0)
 
     # Retrieve datasets that match our filter
     products = selected_collection.search(
