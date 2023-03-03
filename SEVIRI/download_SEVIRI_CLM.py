@@ -26,8 +26,8 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
 
     # Insert your personal key and secret into the single quotes
 
-    consumer_key = 'YOUR_CONSUMER_KEY'
-    consumer_secret = 'YOUR_CONSUMER_SECRET'
+    consumer_key = 'Vp7lDb4mw790mYA0MQi3BtANP1sa'
+    consumer_secret = 'syFD75rwkGZVYOWJr5u7ad8yiO8a'
 
     credentials = (consumer_key, consumer_secret)
 
