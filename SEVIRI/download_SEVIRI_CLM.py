@@ -53,6 +53,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
             # create the directory if it doesn't exist in the data_location
             if not os.path.exists(os.path.join(data_location, product_date)):
                 os.makedirs(os.path.join(data_location, product_date))
+            print(os.path.join(data_location, product_date, fsrc.name))
             shutil.copyfileobj(fsrc, os.path.join(data_location, product_date, fsrc.name))
             logger.info(f'Download of product {product} finished.')
 
