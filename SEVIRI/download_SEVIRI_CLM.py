@@ -27,11 +27,11 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:CLM')
 
     try:
-        start_date = datetime.datetime.strptime(start_date, '%Y%m%d%M%S')
-        end_date = datetime.datetime.strptime(end_date, '%Y%m%d%M%S')
+        start_date = datetime.datetime.strptime(start_date, '%Y%m%d%H%M')
+        end_date = datetime.datetime.strptime(end_date, '%Y%m%d%H%M')
     except:
         logger.warning('Start and End cannot be converted to datetime object')
-        logger.warning('Please input the correct date format: YYYYMMDDHHMMSS')
+        logger.warning('Please input the correct date format: YYYYMMDDHHMM')
 
 
     # Retrieve datasets that match our filter
