@@ -64,14 +64,13 @@ if __name__ == '__main__':
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
 
-    # set a logger in Info level and save the logger file
+    # set a logger to the current directory
+    log_filename = f'{os.path.splitext(os.path.abspath(__file__))[0]}.log'
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                         filemode='w',
-                        filename=os.path.join(data_dir, 'download_SEVIRI_CLM.log'),
+                        filename=os.path.join(data_dir, log_filename),
                         level=logging.INFO)
-
     logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
 
     # Download the data
     download_msg_clm(data_dir, start_date, end_date, logger)
