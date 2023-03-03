@@ -48,9 +48,12 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
         with product.open() as fsrc, open(fsrc.name, mode='wb') as fdst:
             print(fsrc, fsrc.name)
             # get YYYYMMDD from the file name of the product
-            product_date = fsrc.name.split('-')[5]
-            print(product_date)
-            # shutil.copyfileobj(fsrc, fdst)
+            product_date = fsrc.name.split('-')[5][0:8]
+            # create the directory if it doesn't exist in the data_location
+            if not os.path.exists(os.path.join(data_location, product_date)):
+                os.makedirs(os.path.join(data_location, product_date))
+            # copy the product to the data_location
+            shutil.copyfileobj(fsrc, data_location, product_date, fsrc.name)
             logger.info(f'Download of product {product} finished.')
 
     logger.info('All downloads are finished.')
@@ -62,7 +65,7 @@ if __name__ == '__main__':
 
     # Define the start and end dates
     start_date = '202006200000'
-    end_date = '202006210010'
+    end_date =   '202006200100'
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
