@@ -5,14 +5,14 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/03/2023 13:20
 
+import datetime
+import logging
+import eumdac
+import shutil
 import os
 
 def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=None):
     """Download MSG CLM data from the EUMETSAT server"""
-
-    import eumdac
-    import datetime
-    import shutil
 
     # Insert your personal key and secret into the single quotes
 
@@ -57,12 +57,21 @@ if __name__ == '__main__':
     data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/'
 
     # Define the start and end dates
-    start_date = '20211001'
-    end_date = '20211031'
+    start_date = '20200620'
+    end_date = '20200621'
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
 
+    # set a logger in Info level and save the logger file
+    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
+                        filemode='w',
+                        filename=os.path.join(data_dir, 'download_SEVIRI_CLM.log'),
+                        level=logging.INFO)
+
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
     # Download the data
-    download_msg_clm(data_dir, start_date, end_date)
+    download_msg_clm(data_dir, start_date, end_date, logger)
