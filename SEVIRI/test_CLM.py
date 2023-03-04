@@ -17,8 +17,7 @@ def get_SEVIRI_CLM(file_path):
 
     # Print the variables
     for key, value in metadata.items():
-        if key.startswith('NETCDF_VAR'):
-            print(value)
+        print(key)
 
 
 
