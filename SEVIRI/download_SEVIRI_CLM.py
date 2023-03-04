@@ -27,11 +27,11 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:CLM')
 
     try:
-        start_date = datetime.datetime.strptime(start_date, '%Y%m%d%H%M')
-        end_date = datetime.datetime.strptime(end_date, '%Y%m%d%H%M')
+        start_date = datetime.datetime.strptime(start_date, '%Y%m%d-%H%M')
+        end_date = datetime.datetime.strptime(end_date, '%Y%m%d-%H%M')
     except:
         logger.warning('Start and End cannot be converted to datetime object')
-        logger.warning('Please input the correct date format: YYYYMMDDHHMM')
+        logger.warning('Please input the correct date format: YYYYMMDD-HHMM')
 
 
     # Retrieve datasets that match our filter
@@ -84,8 +84,8 @@ if __name__ == '__main__':
     data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/'
 
     # Define the start and end dates
-    start_date = '202006200000'
-    end_date =   '202006200100'
+    start_date = '20200614-0000'
+    end_date =   '20200627-0000'
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
