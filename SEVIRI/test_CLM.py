@@ -11,13 +11,12 @@ from osgeo import gdal
 def get_SEVIRI_CLM(file_path):
     """Read the SEVIRI CLM data from the downloaded file"""
     dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
+    # Read the first band of the dataset
+    band = dataset.GetRasterBand(1)
 
-    # Get the metadata dictionary
-    metadata = dataset.GetMetadata()
-
-    # Print the variables
-    for key, value in metadata.items():
-        print(key)
+    # Read the data from the band as a NumPy array
+    data = band.ReadAsArray()
+    print(data)
 
 
 
