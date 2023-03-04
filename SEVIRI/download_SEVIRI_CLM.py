@@ -64,7 +64,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
             logger.info(f'Unzip the downloaded zip file of product {product} finished.')
 
             # delete the downloaded zip file
-            os.remove(os.path.join(data_location, product_date, fsrc.name))
+            # os.remove(os.path.join(data_location, product_date, fsrc.name))
             logger.info(f'Delete the downloaded zip file of product {product} finished.')
 
     logger.info('All downloads are finished.')
