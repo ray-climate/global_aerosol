@@ -23,7 +23,7 @@ def get_SEVIRI_CLM(file_path):
     # print(geotransform)
     # print(projection)
 
-    scn = Scene(reader='seviri_l2_grib', filenames=[file_path])
+    scn = Scene(reader='grib_seviri_clm', filenames=[file_path])
 
 if __name__ == '__main__':
     get_SEVIRI_CLM(
