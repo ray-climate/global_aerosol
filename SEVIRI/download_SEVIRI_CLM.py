@@ -56,7 +56,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
         with product.open() as fsrc, \
                 open(os.path.join(data_location, fsrc.name.split('-')[5][0:8], fsrc.name), mode='wb') as fdst:
 
-            shutil.copyfileobj(fsrc, fdst)
+            # shutil.copyfileobj(fsrc, fdst)
             logger.info(f'Download of product {product} finished.')
             print(os.path.join(data_location, product_date, os.path.splitext(fsrc.name)[0]))
             if not os.path.exists(os.path.join(data_location, product_date, os.path.splitext(fsrc.name)[0])):
