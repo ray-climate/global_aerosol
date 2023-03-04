@@ -62,14 +62,19 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
         if not os.path.exists(os.path.join(data_location, product_date, os.path.splitext(fsrc.name)[0])):
             os.makedirs(os.path.join(data_location, product_date, os.path.splitext(fsrc.name)[0]))
 
-        # to os.system to unzip the downloaded file to a subdirectory with the same name as the product
+        # unzip the downloaded file to a subdirectory with the same name as the product
+        shutil.unpack_archive(os.path.join(data_location, fsrc.name.split('-')[5][0:8], fsrc.name),
+                                os.path.join(data_location, product_date, os.path.splitext(fsrc.name)[0]))
+        logger.info(f'Unzip the downloaded file of product {product} finished.')
+
+        # remove the downloaded zip file
+        os.remove(os.path.join(data_location, fsrc.name.split('-')[5][0:8], fsrc.name))
         # os.system('unzip -d %s %s'%((os.path.join(data_location, product_date, os.path.splitext(fsrc.name)[0]), os.path.join(data_location, product_date, fsrc.name))))
-        os.system('unzip %s' % (os.path.join(data_location, product_date, fsrc.name)))
-        logger.info(f'Unzip the downloaded zip file of product {product} finished.')
-        quit()
+        # os.system('unzip %s' % (os.path.join(data_location, product_date, fsrc.name)))
+        # logger.info(f'Unzip the downloaded zip file of product {product} finished.')
+        # quit()
         # delete the downloaded zip file
         # os.remove(os.path.join(data_location, product_date, fsrc.name))
-        logger.info(f'Delete the downloaded zip file of product {product} finished.')
 
     logger.info('All downloads are finished.')
 
