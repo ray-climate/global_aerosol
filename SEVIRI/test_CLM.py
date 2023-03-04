@@ -38,7 +38,7 @@ if __name__ == '__main__':
     dataset = rasterio.open(filename)
 
     # Convert the latitude and longitude coordinates to the dataset's CRS
-    lat, lon = 23. -9.  # Example coordinates
+    lat, lon = 23., -9.  # Example coordinates
     coords = transform_geom('EPSG:4326', dataset.crs, [{'type': 'Point', 'coordinates': (lon, lat)}])
 
     # Get the bounds of the pixel containing the given point
