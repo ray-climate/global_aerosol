@@ -45,16 +45,16 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
 
     # use shutil.copyfileobj to download each product to a specific location
     for product in products:
+
+        # get YYYYMMDD from the file name of the product
+        product_date = fsrc.name.split('-')[5][0:8]
+
+        # create the directory if it doesn't exist in the data_location
+        if not os.path.exists(os.path.join(data_location, product_date)):
+            os.makedirs(os.path.join(data_location, product_date))
+
         with product.open() as fsrc, \
                 open(os.path.join(data_location, fsrc.name.split('-')[5][0:8], fsrc.name), mode='wb') as fdst:
-
-            # get YYYYMMDD from the file name of the product
-            product_date = fsrc.name.split('-')[5][0:8]
-            print(product_date)
-            print(os.path.join(data_location, product_date))
-            # create the directory if it doesn't exist in the data_location
-            if not os.path.exists(os.path.join(data_location, product_date)):
-                os.makedirs(os.path.join(data_location, product_date))
 
             shutil.copyfileobj(fsrc, fdst)
             logger.info(f'Download of product {product} finished.')
