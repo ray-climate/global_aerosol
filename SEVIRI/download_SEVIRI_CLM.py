@@ -47,7 +47,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     for product in products:
 
         # get YYYYMMDD from the file name of the product
-        product_date = fsrc.name.split('-')[5][0:8]
+        product_date = product.split('-')[5][0:8]
 
         # create the directory if it doesn't exist in the data_location
         if not os.path.exists(os.path.join(data_location, product_date)):
