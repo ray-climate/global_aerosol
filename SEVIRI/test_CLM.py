@@ -15,5 +15,5 @@ def get_SEVIRI_CLM(file_path):
 
 if __name__ == '__main__':
     get_SEVIRI_CLM(
-        '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA')
+        '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/')
 
