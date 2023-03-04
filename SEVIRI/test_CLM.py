@@ -29,32 +29,39 @@ if __name__ == '__main__':
     # get_SEVIRI_CLM(
     #     '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA.grb')
 
-    import rasterio
-    from rasterio.transform import from_bounds
-    from rasterio.warp import transform_geom
+    from osgeo import gdal, osr
 
     # Open the GeoTIFF file using GDAL
     filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA.grb'
-    dataset = rasterio.open(filename)
+    dataset = gdal.Open(filename)
 
-    # Convert the latitude and longitude coordinates to the dataset's CRS
-    lat, lon = 23., -9.  # Example coordinates
-    coords = transform_geom('EPSG:4326', dataset.crs, [{'type': 'Point', 'coordinates': (lon, lat)}])
+    # Get the geotransform and projection information from the dataset
+    geotransform = dataset.GetGeoTransform()
+    projection = dataset.GetProjection()
 
-    # Get the bounds of the pixel containing the given point
-    x, y = coords['coordinates']
-    bounds = dataset.bounds
-    transform = from_bounds(*bounds, dataset.width, dataset.height)
-    col, row = ~transform * (x, y)
+    # Create a spatial reference object from the projection information
+    srs = osr.SpatialReference()
+    srs.ImportFromWkt(projection)
 
-    # Round the column and row values to integers
-    col = round(col)
-    row = round(row)
+    # Convert the latitude and longitude coordinates to the dataset's projection
+    lat, lon = -24.259016114751823, -3.9842388279769465  # Example coordinates
+    latlon = osr.SpatialReference()
+    latlon.ImportFromEPSG(4326)  # WGS84 coordinate system
+    transform = osr.CoordinateTransformation(latlon, srs)
+    x, y, _ = transform.TransformPoint(lon, lat)
+
+    # Convert the x and y coordinates to pixel coordinates
+    pixel_x = int((x - geotransform[0]) / geotransform[1])
+    pixel_y = int((y - geotransform[3]) / geotransform[5])
 
     # Get the pixel value at the closest location
-    band = dataset.read(1)
-    value = band[row, col]
+    band = dataset.GetRasterBand(1)
+    value = band.ReadAsArray(pixel_x, pixel_y, 1, 1)[0, 0]
+
+    # Close the dataset
+    dataset = None
 
     # Print the pixel location and value
-    print(f"Closest Pixel location: ({col}, {row})")
+    print(f"Closest Pixel location: ({pixel_x}, {pixel_y})")
     print(f"Pixel value: {value}")
+
