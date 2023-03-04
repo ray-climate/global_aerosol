@@ -16,7 +16,11 @@ def get_SEVIRI_CLM(file_path):
 
     # Read the data from the band as a NumPy array
     data = band.ReadAsArray()
+    geotransform = dataset.GetGeoTransform()
+    projection = dataset.GetProjection()
     print(data.shape)
+    print(geotransform)
+    print(projection)
 
 
 
