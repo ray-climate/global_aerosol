@@ -59,9 +59,12 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
             shutil.copyfileobj(fsrc, fdst)
             logger.info(f'Download of product {product} finished.')
 
+            if not os.path.exists(os.path.join(data_location, product_date, fsrc.name.split(".")[0])):
+                os.makedirs(os.path.join(data_location, product_date, fsrc.name.split(".")[0]))
+
             # to os.system to unzip the downloaded file to a subdirectory with the same name as the product
-            print(f'unzip -o {os.path.join(data_location, product_date, fsrc.name)} -d {os.path.join(data_location, product_date, fsrc.name.split(".")[0])}')
-            # os.system(f'unzip -o {os.path.join(data_location, product_date, fsrc.name)} -d {os.path.join(data_location, product_date, fsrc.name.split(".")[0])}')
+            # print(f'unzip -o {os.path.join(data_location, product_date, fsrc.name)} -d {os.path.join(data_location, product_date, fsrc.name.split(".")[0])}')
+            os.system(f'unzip -o {os.path.join(data_location, product_date, fsrc.name)} -d {os.path.join(data_location, product_date, fsrc.name.split(".")[0])}')
             logger.info(f'Unzip the downloaded zip file of product {product} finished.')
 
             # delete the downloaded zip file
