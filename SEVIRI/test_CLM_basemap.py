@@ -7,7 +7,6 @@
 
 from netCDF4 import Dataset
 import matplotlib as mpl
-mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import numpy as np
