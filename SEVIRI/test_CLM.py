@@ -29,7 +29,7 @@ def get_SEVIRI_CLM(file_path):
 
 if __name__ == '__main__':
     SEVIRI_CLM = get_SEVIRI_CLM(
-        '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA.grb')
+        '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20220305/MSG4-SEVI-MSGCLMK-0100-0100-20220305221500.000000000Z-NA/MSG4-SEVI-MSGCLMK-0100-0100-20220305221500.000000000Z-NA.grb')
 
     np.save('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy', SEVIRI_CLM)
 
@@ -72,5 +72,6 @@ if __name__ == '__main__':
     # Print the pixel location and value
     print(f"Closest Pixel location: ({pixel_x}, {pixel_y})")
     print(f"Pixel value: {value}")
+
 
 
