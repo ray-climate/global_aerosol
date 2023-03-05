@@ -52,7 +52,8 @@ if __name__ == '__main__':
     latlon.ImportFromEPSG(4326)  # WGS84 coordinate system
     transform = osr.CoordinateTransformation(latlon, srs)
     x, y, _ = transform.TransformPoint(lon, lat)
-
+    print(x)
+    print(y)
     # Convert the x and y coordinates to pixel coordinates
     pixel_x = int((x - geotransform[0]) / geotransform[1])
     pixel_y = int((y - geotransform[3]) / geotransform[5])
