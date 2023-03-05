@@ -22,7 +22,7 @@ CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 CLM_valid = np.zeros((CLM.shape))
 CLM_valid[:] = np.nan
 CLM_valid[CLM == 2] = 1
-
+print(CLM_valid)
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
