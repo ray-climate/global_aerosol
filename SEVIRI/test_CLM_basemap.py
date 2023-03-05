@@ -15,9 +15,9 @@ lon = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/
 lat = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
 CLM = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
 
-lon[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = np.nan
-lat[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = np.nan
-CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = np.nan
+lon[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
+lat[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
+CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 print(lon)
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
