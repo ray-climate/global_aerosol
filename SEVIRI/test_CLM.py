@@ -32,8 +32,7 @@ if __name__ == '__main__':
     from osgeo import gdal, osr
 
     # Open the GeoTIFF file using GDAL
-    # filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA.grb'
-    filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_Natural/20200614/MSG4-SEVI-MSG15-0100-NA-20200614001241.789000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200614001241.789000000Z-NA.nat'
+    filename = '/path/to/geotiff/file.tif'
     dataset = gdal.Open(filename)
 
     # Get the geotransform and projection information from the dataset
@@ -45,13 +44,12 @@ if __name__ == '__main__':
     srs.ImportFromWkt(projection)
 
     # Convert the latitude and longitude coordinates to the dataset's projection
-    # lat, lon = -3.9842388279769465, -24.259016114751823  # Example coordinates
     lon = -24.25901510256302
     lat = -3.9842386720243317
     latlon = osr.SpatialReference()
     latlon.ImportFromEPSG(4326)  # WGS84 coordinate system
     transform = osr.CoordinateTransformation(latlon, srs)
-    y, x, _ = transform.TransformPoint(lon, lat)
+    x, y, _ = transform.TransformPoint(lon, lat)
 
     # Convert the x and y coordinates to pixel coordinates
     pixel_x = int((x - geotransform[0]) / geotransform[1])
@@ -67,6 +65,7 @@ if __name__ == '__main__':
     # Print the pixel location and value
     print(f"Closest Pixel location: ({pixel_x}, {pixel_y})")
     print(f"Pixel value: {value}")
+
 
 
 
