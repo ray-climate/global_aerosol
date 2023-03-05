@@ -10,6 +10,10 @@ from satpy import Scene
 def get_SEVIRI_coordinates(file_path):
 
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
+    scn.load(["VIS006"])
+    lon, lat = scn['VIS006'].attrs['area'].get_lonlats()
+    print(lon.shape)
+    print(lat.shape)
 
 if __name__ == '__main__':
 
