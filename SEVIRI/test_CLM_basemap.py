@@ -38,7 +38,7 @@ m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
 
-m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), latlon=True, zorder=999)
+m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), latlon=True)
 
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
