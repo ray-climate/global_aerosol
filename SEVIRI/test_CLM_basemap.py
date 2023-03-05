@@ -31,10 +31,10 @@ ax.set_axis_off()
 m = Basemap(llcrnrlon=bbox[0],llcrnrlat=bbox[1],urcrnrlon=bbox[2],
             urcrnrlat=bbox[3],resolution='i', projection='cyl')
 
-m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
+# m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
 m.drawmapboundary(fill_color='#bdd5d5') # ocean color
 m.drawcoastlines()
-# m.drawcountries()
+m.drawcountries()
 states = m.drawstates() # draw state boundaries
 
 m.pcolormesh(lon, lat, CLM_valid, cmap='Greys_r', alpha=0.5, latlon=True, zorder=999, vmin=0, vmax=1)
