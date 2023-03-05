@@ -50,7 +50,7 @@ if __name__ == '__main__':
     latlon = osr.SpatialReference()
     latlon.ImportFromEPSG(4326)  # WGS84 coordinate system
     transform = osr.CoordinateTransformation(latlon, srs)
-    x, y, _ = transform.TransformPoint(lon, lat)
+    y, x, _ = transform.TransformPoint(lon, lat)
 
     # Convert the x and y coordinates to pixel coordinates
     pixel_x = int((x - geotransform[0]) / geotransform[1])
@@ -66,4 +66,6 @@ if __name__ == '__main__':
     # Print the pixel location and value
     print(f"Closest Pixel location: ({pixel_x}, {pixel_y})")
     print(f"Pixel value: {value}")
+
+
 
