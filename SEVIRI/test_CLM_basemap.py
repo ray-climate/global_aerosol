@@ -23,7 +23,7 @@ CLM_valid = np.zeros((CLM.shape))
 CLM_valid[CLM == 2] = 1
 mask = np.isnan(CLM_valid)
 
-bbox = [-70.,0.,30.,40.] # map boundaries
+bbox = [-60.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
 ax.set_axis_off()
