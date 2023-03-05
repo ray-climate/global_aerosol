@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import numpy as np
 
-bbox = [-72.,1.,31.,37.] # map boundaries
+bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
 ax.set_axis_off()
@@ -24,9 +24,10 @@ m.drawmapboundary(fill_color='#bdd5d5') # ocean color
 m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
-parallels = np.linspace(bbox[0],bbox[2],5) # longitude lines
-m.drawparallels(parallels,labels=[True,False,False,False])
-meridians = np.linspace(bbox[1],bbox[3],5)  # latitude lines
-m.drawmeridians(meridians,labels=[False,False,False,True])
+# draw parallels and meridians by every 5 degrees
+parallels = np.arange(bbox[0],bbox[2],5.)
+m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
+meridians = np.arange(bbox[1],bbox[3],5.)
+m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
 
 plt.savefig('test_CLM_basemap.png', dpi=200, bbox_inches='tight', pad_inches=0.0)
