@@ -14,7 +14,11 @@ import numpy as np
 lon = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
 lat = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
 CLM = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
-print(CLM.shape)
+
+# lon_flat = lon.flatten()
+# lat_flat = lat.flatten()
+# CLM_flat = CLM.flatten()
+
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
@@ -29,7 +33,7 @@ m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
 
-m.pcolormesh(lon.data, lat.data, CLM, latlon=True,zorder=999)
+m.pcolormesh(lon, lat, CLM, latlon=True,zorder=999)
 
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
