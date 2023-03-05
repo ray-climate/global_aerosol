@@ -10,7 +10,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import numpy as np
-import xarray as xr
 
 lon = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
 lat = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
@@ -21,8 +20,9 @@ lat[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 
 CLM_valid = np.zeros((CLM.shape))
+CLM_valid[:] = np.nan
 CLM_valid[CLM == 2] = 1
-CLM_valid = xr.where(CLM_valid < 0, np.NaN, CLM_valid)
+mask = np.ma.masked_not_equal(CLM_valid, 1)
 
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
@@ -38,7 +38,7 @@ m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
 
-m.pcolor(lon, lat, CLM_valid.to_masked_array(), latlon=True)
+m.pcolor(lon, lat, mask, latlon=True)
 
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
