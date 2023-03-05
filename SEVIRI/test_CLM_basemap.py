@@ -11,6 +11,10 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import numpy as np
 
+lon = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
+lat = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
+CLM = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
+
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
@@ -24,6 +28,9 @@ m.drawmapboundary(fill_color='#bdd5d5') # ocean color
 m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
+
+m.pcolormesh(lon.data, lat.data, CLM, latlon=True,zorder=999)
+
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
 m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
