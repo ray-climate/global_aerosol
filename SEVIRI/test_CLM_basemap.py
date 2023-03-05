@@ -25,9 +25,9 @@ m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
 # draw parallels and meridians by every 5 degrees
-parallels = np.arange(bbox[1],bbox[3],5.)
+parallels = np.arange(bbox[1],bbox[3],10.)
 m.drawparallels(parallels,labels=[1,0,0,0],fontsize=10)
-meridians = np.arange(bbox[0],bbox[2],5.)
+meridians = np.arange(bbox[0],bbox[2],10.)
 m.drawmeridians(meridians,labels=[0,0,0,1],fontsize=10)
 
 plt.savefig('test_CLM_basemap.png', dpi=200, bbox_inches='tight', pad_inches=0.0)
