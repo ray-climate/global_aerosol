@@ -14,6 +14,8 @@ def get_SEVIRI_coordinates(file_path):
     lon, lat = scn['VIS006'].attrs['area'].get_lonlats()
     print(lon.shape)
     print(lat.shape)
+    print(lat[1000,2000])
+    print(lon[1000, 2000])
 
 if __name__ == '__main__':
 
