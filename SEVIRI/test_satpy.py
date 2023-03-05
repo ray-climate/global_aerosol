@@ -11,10 +11,10 @@ def get_SEVIRI_coordinates(file_path):
 
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
     scn.load(["VIS006"])
-    lon, lat = scn['VIS006'].attrs['area'].get_lonlats()
+    lon, lat = scn['VIS006'].attrs['area'].get_lonlat_from_array_coordinates()
     print(lon.shape)
     print(lat.shape)
-    print(lat[1000,2000])
+    print(lat[1000, 2000])
     print(lon[1000, 2000])
 
 if __name__ == '__main__':
