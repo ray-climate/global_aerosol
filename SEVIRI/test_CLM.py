@@ -44,7 +44,9 @@ if __name__ == '__main__':
     srs.ImportFromWkt(projection)
 
     # Convert the latitude and longitude coordinates to the dataset's projection
-    lat, lon = -3.9842388279769465, -24.259016114751823  # Example coordinates
+    # lat, lon = -3.9842388279769465, -24.259016114751823  # Example coordinates
+    lon = -24.25901510256302
+    lat = -3.9842386720243317
     latlon = osr.SpatialReference()
     latlon.ImportFromEPSG(4326)  # WGS84 coordinate system
     transform = osr.CoordinateTransformation(latlon, srs)
