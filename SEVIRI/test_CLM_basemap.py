@@ -18,7 +18,7 @@ CLM = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/
 lon_valid = lon[(~np.isnan(lon)) & (~np.isnan(lat))]
 lat_valid = lat[(~np.isnan(lon)) & (~np.isnan(lat))]
 CLM_valid = CLM[(~np.isnan(lon)) & (~np.isnan(lat))]
-
+print(lon_valid)
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
