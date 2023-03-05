@@ -5,7 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        04/03/2023 15:05
 
-from satpy import Scene
+
 from osgeo import gdal
 import numpy as np
 
