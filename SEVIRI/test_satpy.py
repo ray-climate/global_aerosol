@@ -11,7 +11,8 @@ def get_SEVIRI_coordinates(file_path):
 
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
     scn.load(["IR_108"], upper_right_corner="NE")
-    res= scn['IR_108'].attrs['area'].get_lonlat_from_array_coordinates(1000,2000)
+    # res= scn['IR_108'].attrs['area'].get_lonlat_from_array_coordinates(1000,2000)
+    res= scn['IR_108'].attrs['area'].get_lonlats(1000,2000)
 
     print(res)
 
