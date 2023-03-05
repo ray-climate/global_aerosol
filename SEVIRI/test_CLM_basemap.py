@@ -15,20 +15,14 @@ lon = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/
 lat = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
 CLM = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
 
-# lon[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
-# lat[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
-# CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
-#
-# CLM_valid = np.zeros((CLM.shape))
-# CLM_valid[:] = np.nan
-# CLM_valid[CLM == 2] = 1
-# mask = np.isnan(CLM_valid)
-lon_valid = lon[CLM == 2]
-lat_valid = lat[CLM == 2]
-CLM_valid = lon[CLM == 2]
+lon[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
+lat[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
+CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 
-lon_grid, lat_grid = np.meshgrid(lon_valid, lat_valid)
-CLM_valid_grid = np.reshape(CLM_valid, lon_grid.shape)
+CLM_valid = np.zeros((CLM.shape))
+CLM_valid[:] = 0
+CLM_valid[CLM == 2] = 1
+mask = np.isnan(CLM_valid)
 
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
@@ -44,7 +38,7 @@ m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
 
-m.pcolormesh(lon_grid, lat_grid, CLM_valid_grid, cmap='jet', latlon=True)
+m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), cmap='jet', latlon=True)
 
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
