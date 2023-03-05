@@ -20,8 +20,9 @@ lat[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 
 CLM_valid = np.zeros((CLM.shape))
+CLM_valid[:] = np.nan
 CLM_valid[CLM == 2] = 1
-mask = np.isnan(CLM_valid)
+# mask = np.isnan(CLM_valid)
 
 bbox = [-60.,0.,30.,40.] # map boundaries
 # figure setup
@@ -41,7 +42,7 @@ states = m.drawstates() # draw state boundaries
 cmap = mpl.cm.gray
 cmap.set_bad(color='none')
 
-m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), cmap=cmap, latlon=True)
+m.pcolormesh(lon, lat, CLM_valid, cmap=cmap, latlon=True)
 
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
