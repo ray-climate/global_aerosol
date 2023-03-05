@@ -21,6 +21,7 @@ CLM[(np.isinf(lon)) | (np.isinf(lat)) | (np.isinf(CLM))] = 0
 
 CLM_valid = np.zeros((CLM.shape))
 CLM_valid[CLM == 1] =1
+
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
@@ -35,7 +36,7 @@ m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
 
-m.pcolormesh(lon, lat, CLM, latlon=True,zorder=999)
+m.pcolormesh(lon, lat, CLM_valid, latlon=True,zorder=999)
 
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
