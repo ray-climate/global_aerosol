@@ -7,7 +7,7 @@
 
 from satpy import Scene
 from osgeo import gdal
-
+import numpy as np
 
 def get_SEVIRI_CLM(file_path):
     """Read the SEVIRI CLM data from the downloaded file"""
@@ -19,6 +19,8 @@ def get_SEVIRI_CLM(file_path):
     data = band.ReadAsArray()
     geotransform = dataset.GetGeoTransform()
     projection = dataset.GetProjection()
+
+    return data
     print(data.shape)
     print(geotransform)
     # print(projection)
@@ -26,8 +28,10 @@ def get_SEVIRI_CLM(file_path):
     # scn = Scene(reader='seviri_l2_grib', filenames=[file_path])
 
 if __name__ == '__main__':
-    # get_SEVIRI_CLM(
-    #     '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA.grb')
+    SEVIRI_CLM = get_SEVIRI_CLM(
+        '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/20200622/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA/MSG4-SEVI-MSGCLMK-0100-0100-20200622181500.000000000Z-NA.grb')
+
+    np.save('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy', SEVIRI_CLM)
 
     from osgeo import gdal, osr
 
