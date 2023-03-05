@@ -27,6 +27,9 @@ lon_valid = lon[CLM == 2]
 lat_valid = lat[CLM == 2]
 CLM_valid = lon[CLM == 2]
 
+lon_grid, lat_grid = np.meshgrid(lon_valid, lat_valid)
+CLM_valid_grid = np.reshape(CLM_valid, lon_grid.shape)
+
 bbox = [-70.,0.,30.,40.] # map boundaries
 # figure setup
 fig,ax = plt.subplots(figsize=(9,4),dpi=200)
@@ -41,7 +44,7 @@ m.drawcoastlines()
 m.drawcountries()
 states = m.drawstates() # draw state boundaries
 
-m.pcolormesh(lon_valid, lat_valid, CLM_valid, cmap='jet', latlon=True)
+m.pcolormesh(lon_grid, lat_grid, CLM_valid_grid, cmap='jet', latlon=True)
 
 # draw parallels and meridians by every 5 degrees
 parallels = np.arange(bbox[1],bbox[3],10.)
