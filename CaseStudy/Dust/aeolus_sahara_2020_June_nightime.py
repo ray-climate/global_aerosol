@@ -155,6 +155,7 @@ for day in range(14, 27):
     lon_left = meridional_boundary[0]
     lon_right = meridional_boundary[1]
 
+    aeolus_time_all = []
     latitude_all = []
     longitude_all = []
     altitude_all = []
@@ -186,6 +187,7 @@ for day in range(14, 27):
                 spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                                         (longitude > lon_left) & (longitude < lon_right))[0]
 
+                time_i = footprint_time_aeolus[spatial_mask]
                 latitude_i = latitude[spatial_mask]
                 longitude_i = longitude[spatial_mask]
                 sca_mb_altitude = sca_mb_altitude[spatial_mask, :]
@@ -194,6 +196,7 @@ for day in range(14, 27):
 
                 latitude_all.extend(latitude_i)
                 longitude_all.extend(longitude_i)
+                aeolus_time_all.extend(time_i)
 
                 # plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
 
@@ -207,6 +210,8 @@ for day in range(14, 27):
                     altitude_all = np.copy(sca_mb_altitude)
         start_date_datetime += time_delta
 
+    print(aeolus_time_all)
+    quit()
     # Convert altitude values from meters to kilometers
     altitude_all[altitude_all == -1] = np.nan
     altitude_all = altitude_all * 1e-3
