@@ -5,7 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 16:14
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def get_SEVIRI_CLM_time(dt):
 
@@ -17,6 +17,10 @@ def get_SEVIRI_CLM_time(dt):
         rounded_minutes = minutes - remainder
     else:
         rounded_minutes = minutes + (15 - remainder)
+    # Handle cases where rounded_minutes is greater than 59
+    if rounded_minutes >= 60:
+        dt += timedelta(hours=1)
+        dt = dt.replace(minute=0)
     print(rounded_minutes)
     # Round the time object to the nearest 15-minute interval
     rounded = datetime(dt.year, dt.month, dt.day, dt.hour, rounded_minutes)
