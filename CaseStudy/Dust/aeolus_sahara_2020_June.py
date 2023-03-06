@@ -162,9 +162,9 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
 
     # add legend
     plt.legend(fontsize=10)
-
+    print(333)
     # save figure
-    plt.savefig(save_fig, dpi=200)
+    plt.savefig(save_fig)
 
 # implement SEVIRI data for CLM testing
 lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
