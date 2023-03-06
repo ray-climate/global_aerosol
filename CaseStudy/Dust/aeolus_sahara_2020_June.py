@@ -10,6 +10,7 @@ sys.path.append('../../')
 
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
+import matplotlib
 matplotlib.use('Agg')
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
