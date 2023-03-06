@@ -258,7 +258,7 @@ for day in range(14, 27):
             lon_ascending.extend(longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             time_ascending.extend(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
-    central_time = time_ascending[np.int(len(time_ascending)/2)]
+    central_time = time_ascending[int(len(time_ascending)/2)]
     SEVIRI_time_str = get_SEVIRI_CLM(central_time)
 
     for root, dirs, files in os.walk(SEVIRI_dir):
