@@ -7,7 +7,7 @@
 
 from datetime import datetime
 
-def get_SEVIRI_CLM(dt):
+def get_SEVIRI_CLM_time(dt):
 
     """Round a time object to the closest 15-minute interval."""
     minutes = dt.minute
@@ -26,7 +26,7 @@ def get_SEVIRI_CLM(dt):
 if __name__ == '__main__':
 
     now = datetime.now()
-    formatted = get_SEVIRI_CLM(now)
+    formatted = get_SEVIRI_CLM_time(now)
     print("Original datetime:", now)
     print("Formatted rounded datetime:", formatted)
 

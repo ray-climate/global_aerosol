@@ -259,20 +259,21 @@ for day in range(14, 27):
             time_ascending.extend(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
     central_time = time_ascending[int(len(time_ascending)/2)]
-    SEVIRI_time_str = get_SEVIRI_CLM(central_time)
+    SEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
 
     for root, dirs, files in os.walk(SEVIRI_dir):
         for file in files:
             if SEVIRI_time_str in file:
                 SEVIRI_CLM_file = os.path.join(root, file)
                 SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
-            else:
-                logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
                 CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
                 CLM_valid[:] = np.nan
                 CLM_valid[SEVIRI_CLM_data == 2] = 1
                 mask = np.isnan(CLM_valid)
                 CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
+            else:
+                logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
+
 
     plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
     quit()
