@@ -211,7 +211,7 @@ for day in range(14, 27):
                         altitude_all = np.copy(sca_mb_altitude)
 
             start_date_datetime += time_delta
-        print(latitude_all)
+        print(len(latitude_all))
         quit()
         altitude_all[altitude_all == -1] = np.nan
         beta_all[beta_all == -1.e6] = 0
