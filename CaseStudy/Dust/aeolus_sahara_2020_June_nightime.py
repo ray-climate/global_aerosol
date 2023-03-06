@@ -56,6 +56,7 @@ logger = logging.getLogger()
 ##############################################################
 # Define data directory
 AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
+SEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/'
 
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
@@ -255,7 +256,12 @@ for day in range(14, 27):
 
     central_time = time_ascending[np.int(len(time_ascending)/2)]
     SEVIRI_time_str = get_SEVIRI_CLM(central_time)
-    print(SEVIRI_time_str)
+
+    for root, dirs, files in os.walk(SEVIRI_dir):
+        for file in files:
+            if SEVIRI_time_str in file:
+                print(os.path.join(root, file))
+
     quit()
     plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
     quit()
