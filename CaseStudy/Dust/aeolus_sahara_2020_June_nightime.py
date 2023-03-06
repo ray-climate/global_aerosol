@@ -261,21 +261,21 @@ for day in range(14, 27):
     central_time = time_ascending[int(len(time_ascending)/2)]
     SEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     print('after: ', SEVIRI_time_str)
-    #
-    # for root, dirs, files in os.walk(SEVIRI_dir):
-    #     for file in files:
-    #         if SEVIRI_time_str in file:
-    #             SEVIRI_CLM_file = os.path.join(root, file)
-    #             SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
-    #             CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
-    #             CLM_valid[:] = np.nan
-    #             CLM_valid[SEVIRI_CLM_data == 2] = 1
-    #             mask = np.isnan(CLM_valid)
-    #             CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
-    #         else:
-    #             logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
-    #
-    # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
+
+    for root, dirs, files in os.walk(SEVIRI_dir):
+        for file in files:
+            if SEVIRI_time_str in file:
+                SEVIRI_CLM_file = os.path.join(root, file)
+                SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
+                CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
+                CLM_valid[:] = np.nan
+                CLM_valid[SEVIRI_CLM_data == 2] = 1
+                mask = np.isnan(CLM_valid)
+                CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
+            else:
+                logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
+
+    plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
 
     #
     # beta_volume_sum = np.sum(backscatter_resample, axis=1)
