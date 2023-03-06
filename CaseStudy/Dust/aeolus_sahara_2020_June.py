@@ -10,10 +10,6 @@ sys.path.append('../../')
 
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('Agg')
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
 from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
@@ -105,68 +101,36 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVIRI, save_fig):
 
 
-    # bbox = [-60., 0., 30., 40.]  # map boundaries
-    # fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
-    # # ax.set_axis_off()
-    # # set basemap boundaries, cylindrical projection, 'i' = intermediate resolution
-    # m = Basemap(llcrnrlon=bbox[0], llcrnrlat=bbox[1], urcrnrlon=bbox[2],
-    #             urcrnrlat=bbox[3], resolution='i', projection='cyl')
-    #
-    # x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
-    #
-    # # m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
-    # # m.drawmapboundary(fill_color='#bdd5d5') # ocean color
-    # m.drawcoastlines()
-    # m.drawcountries()
-    # states = m.drawstates()  # draw state boundaries
-    #
-    # # m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), cmap='gray', latlon=True)
-    #
-    # # draw parallels and meridians by every 5 degrees
-    # parallels = np.arange(bbox[1], bbox[3], 10.)
-    # m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
-    # meridians = np.arange(bbox[0], bbox[2], 10.)
-    # m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
-    #
-    # m.pcolormesh(lon_SEVIRI, lat_SEVIRI, np.ma.masked_array(CLM_SEVIRI, mask), cmap='gray', latlon=True)
-    #
-    # m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
-    # plt.legend(fontsize=10)
-    # plt.savefig(save_fig, dpi=200)
-
     bbox = [-60., 0., 30., 40.]  # map boundaries
-    fig = plt.figure(figsize=(9, 4), dpi=200)
-    ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree())
+    fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
+    # ax.set_axis_off()
+    # set basemap boundaries, cylindrical projection, 'i' = intermediate resolution
+    m = Basemap(llcrnrlon=bbox[0], llcrnrlat=bbox[1], urcrnrlon=bbox[2],
+                urcrnrlat=bbox[3], resolution='i', projection='cyl')
 
-    # set map boundaries
-    ax.set_extent(bbox)
+    x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
 
-    # add map features
-    ax.add_feature(cfeature.COASTLINE)
-    ax.add_feature(cfeature.BORDERS)
-    ax.add_feature(cfeature.STATES)
+    # m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
+    # m.drawmapboundary(fill_color='#bdd5d5') # ocean color
+    m.drawcoastlines()
+    m.drawcountries()
+    states = m.drawstates()  # draw state boundaries
+
+    # m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), cmap='gray', latlon=True)
 
     # draw parallels and meridians by every 5 degrees
-    parallels = range(int(bbox[1]), int(bbox[3]), 10)
-    ax.set_yticks(parallels, crs=ccrs.PlateCarree())
-    meridians = range(int(bbox[0]), int(bbox[2]), 10)
-    ax.set_xticks(meridians, crs=ccrs.PlateCarree())
-    ax.tick_params(axis='both', labelsize=10)
-    print(1111)
-    # overlay data
-    ax.pcolormesh(lon_SEVIRI, lat_SEVIRI, np.ma.masked_array(CLM_SEVIRI, mask), cmap='gray',
-                  transform=ccrs.PlateCarree())
-    print(2222)
-    # scatter points
-    x_aeolus, y_aeolus = ax.projection.transform_points(ccrs.PlateCarree(), lon_aeolus, lat_aeolus)[:, :2].T
-    ax.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
+    parallels = np.arange(bbox[1], bbox[3], 10.)
+    m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
+    meridians = np.arange(bbox[0], bbox[2], 10.)
+    m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
 
-    # add legend
+    m.pcolormesh(lon_SEVIRI, lat_SEVIRI, CLM_SEVIRI, cmap='gray', latlon=True)
+
+    m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
-    print(333)
-    # save figure
-    plt.savefig(save_fig, dpi=150, format='jpeg')
-    print(444)
+    plt.savefig(save_fig, dpi=200)
+
+
 # implement SEVIRI data for CLM testing
 lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
 lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
@@ -177,8 +141,10 @@ lat_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIR
 CLM_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
 
 CLM_valid = np.zeros((CLM_SEVIRI.shape))
+CLM_valid[:] = np.nan
 CLM_valid[CLM_SEVIRI == 2] = 1
 mask = np.isnan(CLM_valid)
+CLM_valid = np.ma.masked_array(CLM_SEVIRI, mask)
 
 # Extract relevant variables from the AEOLUS data
 ##############################################################
@@ -236,7 +202,7 @@ for day in range(14, 27):
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
 
-                    plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_SEVIRI, './test_fig.png')
+                    plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
                     quit()
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
