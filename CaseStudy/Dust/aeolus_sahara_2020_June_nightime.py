@@ -243,7 +243,7 @@ for day in range(14, 27):
     lat_ascending = []
     lon_ascending = []
     for m in range(len(lat_sublists)):
-        if lat_sublists[m][1]- lat_sublists[m][0] > 0:
+        if latitude_all[m][1]- latitude_all[m][0] > 0:
             print(lat_sublists[m])
             lat_ascending.extend(latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             lon_ascending.extend(longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
