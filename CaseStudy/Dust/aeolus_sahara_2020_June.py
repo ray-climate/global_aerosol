@@ -23,8 +23,8 @@ import os
 
 
 # Define the spatial bounds
-lat_up = 37.
-lat_down = 1.
+lat_up = 40.
+lat_down = 0.
 # lon_left = -72.
 # lon_right = 31.
 
@@ -124,7 +124,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, save_fig):
     m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
     meridians = np.arange(bbox[0], bbox[2], 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
-    m.scatter(x_aeolus, y_aeolus, marker='o', color='g', s=18, label='AEOLUS')
+    m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
     plt.savefig(save_fig, dpi=200)
 
