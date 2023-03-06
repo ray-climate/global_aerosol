@@ -8,6 +8,7 @@
 import sys
 sys.path.append('../../')
 
+from mpl_toolkits.basemap import Basemap
 from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
@@ -97,6 +98,30 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
+def plot_aeolus_basemap(save_fig):
+
+    bbox = [-60., 0., 30., 40.]  # map boundaries
+    fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
+    ax.set_axis_off()
+    # set basemap boundaries, cylindrical projection, 'i' = intermediate resolution
+    m = Basemap(llcrnrlon=bbox[0], llcrnrlat=bbox[1], urcrnrlon=bbox[2],
+                urcrnrlat=bbox[3], resolution='i', projection='cyl')
+
+    # m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
+    # m.drawmapboundary(fill_color='#bdd5d5') # ocean color
+    m.drawcoastlines()
+    m.drawcountries()
+    states = m.drawstates()  # draw state boundaries
+
+    # m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), cmap='gray', latlon=True)
+
+    # draw parallels and meridians by every 5 degrees
+    parallels = np.arange(bbox[1], bbox[3], 10.)
+    m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
+    meridians = np.arange(bbox[0], bbox[2], 10.)
+    m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
+
+    plt.savefig(save_fig, dpi=200, bbox_inches='tight', pad_inches=0.0)
 
 # Extract relevant variables from the AEOLUS data
 ##############################################################
@@ -154,6 +179,8 @@ for day in range(14, 27):
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
 
+                    plot_aeolus_basemap('./test_fig.png')
+                    quit()
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
                         ber_all = np.concatenate([ber_all, sca_mb_ber], axis=0)
@@ -173,7 +200,7 @@ for day in range(14, 27):
 
         # convert aeolus data with the given scaling factor: convert to km-1.sr-1
         beta_all = beta_all * 1.e-6 * 1.e3
-        print(ber_all)
+
         # Create empty array for resampled data, with same shape as alt_aeolus
         backscatter_resample = np.zeros((altitude_all.shape[0], np.size(alt_caliop)))
         # backscatter_resample[:] = np.nan
@@ -191,7 +218,7 @@ for day in range(14, 27):
         ber_all_mask = np.zeros((ber_all.shape))
         ber_all_mask[ber_all < BER_threshold] = 1.
         ber_volume_sum = np.sum(ber_all_mask, axis=1)
-        print(ber_volume_sum)
+
         beta_volume_sum = np.sum(backscatter_resample, axis=1)
 
         axk = fig.add_subplot(gs[0, k])
