@@ -257,7 +257,7 @@ for day in range(14, 27):
             lat_ascending.extend(latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             lon_ascending.extend(longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             time_ascending.extend(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-    print('before: ', int(len(time_ascending)/2))
+    print('before: ', time_ascending[int(len(time_ascending)/2)])
     central_time = time_ascending[int(len(time_ascending)/2)]
     SEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     print('after: ', central_time)

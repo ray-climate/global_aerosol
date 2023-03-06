@@ -21,7 +21,8 @@ def get_SEVIRI_CLM_time(dt):
     if rounded_minutes >= 60:
         dt += timedelta(hours=1)
         dt = dt.replace(minute=0)
-    print(rounded_minutes)
+        rounded_minutes -= 60
+
     # Round the time object to the nearest 15-minute interval
     rounded = dt.replace(minute=rounded_minutes, second=0, microsecond=0)
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M%S')
