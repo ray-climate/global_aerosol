@@ -100,7 +100,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 
 def plot_aeolus_basemap(lat_aeolus, lon_aeolus, save_fig):
 
-
+    print(lat_aeolus, lon_aeolus)
 
     bbox = [-60., 0., 30., 40.]  # map boundaries
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
@@ -126,7 +126,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, save_fig):
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
     m.scatter(x_aeolus, y_aeolus, marker='o', color='g', s=18, label='AEOLUS')
     plt.legend(fontsize=10)
-    plt.savefig(save_fig, dpi=200, bbox_inches='tight', pad_inches=0.0)
+    plt.savefig(save_fig, dpi=200)
 
 # Extract relevant variables from the AEOLUS data
 ##############################################################
