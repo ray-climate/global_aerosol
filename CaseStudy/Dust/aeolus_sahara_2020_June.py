@@ -10,13 +10,13 @@ sys.path.append('../../')
 
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
-import matplotlib.pyplot as plt
 from netCDF4 import Dataset
 import numpy as np
 import logging
@@ -164,7 +164,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
     plt.legend(fontsize=10)
     print(333)
     # save figure
-    plt.savefig(save_fig)
+    plt.savefig(save_fig, dpi=150, format='jpeg')
     print(444)
 # implement SEVIRI data for CLM testing
 lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
