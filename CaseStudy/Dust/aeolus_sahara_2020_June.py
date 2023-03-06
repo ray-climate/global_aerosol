@@ -184,7 +184,7 @@ for day in range(14, 27):
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
 
-                    plot_aeolus_basemap('./test_fig.png')
+                    plot_aeolus_basemap(latitude_i, longitude_i, './test_fig.png')
                     quit()
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
