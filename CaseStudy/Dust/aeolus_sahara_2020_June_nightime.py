@@ -275,8 +275,8 @@ for day in range(14, 27):
                 logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
 
 
-    plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
-    quit()
+    plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
+
     #
     # beta_volume_sum = np.sum(backscatter_resample, axis=1)
     #
