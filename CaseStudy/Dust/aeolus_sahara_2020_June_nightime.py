@@ -240,10 +240,14 @@ for day in range(14, 27):
             lat_sublists[-1].append(j)
         j += 1
 
-    print(lat_sublists)
-    print(len(latitude_all))
-    print(len(lat_sublists))
-    quit()
+    lat_ascending = []
+    lon_ascending = []
+    for m in range(len(lat_sublists)):
+        if lat_sublists[m][1]- lat_sublists[m][0] > 0:
+            lat_ascending.extend(latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            lon_ascending.extend(longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+
+    plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
     #
     # beta_volume_sum = np.sum(backscatter_resample, axis=1)
     #
