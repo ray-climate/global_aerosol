@@ -260,7 +260,7 @@ for day in range(14, 27):
     print('before: ', time_ascending[int(len(time_ascending)/2)])
     central_time = time_ascending[int(len(time_ascending)/2)]
     SEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
-    print('after: ', central_time)
+    print('after: ', SEVIRI_time_str)
     #
     # for root, dirs, files in os.walk(SEVIRI_dir):
     #     for file in files:
