@@ -98,7 +98,9 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
-def plot_aeolus_basemap(save_fig):
+def plot_aeolus_basemap(lat_aeolus, lon_aeolus, save_fig):
+
+
 
     bbox = [-60., 0., 30., 40.]  # map boundaries
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
@@ -106,6 +108,8 @@ def plot_aeolus_basemap(save_fig):
     # set basemap boundaries, cylindrical projection, 'i' = intermediate resolution
     m = Basemap(llcrnrlon=bbox[0], llcrnrlat=bbox[1], urcrnrlon=bbox[2],
                 urcrnrlat=bbox[3], resolution='i', projection='cyl')
+
+    x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
 
     # m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
     # m.drawmapboundary(fill_color='#bdd5d5') # ocean color
@@ -120,7 +124,8 @@ def plot_aeolus_basemap(save_fig):
     m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
     meridians = np.arange(bbox[0], bbox[2], 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
-
+    m.scatter(x_aeolus, y_aeolus, marker='o', color='g', s=18, label='AEOLUS')
+    plt.legend(fontsize=10)
     plt.savefig(save_fig, dpi=200, bbox_inches='tight', pad_inches=0.0)
 
 # Extract relevant variables from the AEOLUS data
