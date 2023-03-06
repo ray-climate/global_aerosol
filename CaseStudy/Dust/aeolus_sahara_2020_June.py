@@ -33,7 +33,7 @@ BER_threshold = 0.02
 # Set up time delta
 time_delta = timedelta(days = 1)
 ##############################################################
-meridional_boundary = [-90., -75., -60., -45., -30., -15., 0., 15., 30.]
+meridional_boundary = [-60., -45., -30., -15., 0., 15., 30.]
 ##############################################################
 
 # Define output directory
@@ -104,7 +104,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, save_fig):
 
     bbox = [-60., 0., 30., 40.]  # map boundaries
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
-    ax.set_axis_off()
+    # ax.set_axis_off()
     # set basemap boundaries, cylindrical projection, 'i' = intermediate resolution
     m = Basemap(llcrnrlon=bbox[0], llcrnrlat=bbox[1], urcrnrlon=bbox[2],
                 urcrnrlat=bbox[3], resolution='i', projection='cyl')
