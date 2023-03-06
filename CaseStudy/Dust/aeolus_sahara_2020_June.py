@@ -98,7 +98,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
-def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, save_fig):
+def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVIRI, save_fig):
 
 
     bbox = [-60., 0., 30., 40.]  # map boundaries
@@ -127,7 +127,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, save_fig
     # Convert latitude and longitude to x and y coordinates
     x_SEVIRI, y_SEVIRI = m(lon_SEVIRI, lat_SEVIRI)
     # Plot the values on the map
-    m.scatter(x_SEVIRI, y_SEVIRI, cmap='gray', edgecolor='none')
+    m.pcolormesh(x_SEVIRI, y_SEVIRI, CLM_SEVIRI, cmap='coolwarm', shading='flat')
 
     m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
@@ -197,7 +197,7 @@ for day in range(14, 27):
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
 
-                    plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, './test_fig.png')
+                    plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_SEVIRI, './test_fig.png')
                     quit()
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
