@@ -14,6 +14,7 @@ from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
+from SEVIRI.get_SEVIRI_CLM import *
 from netCDF4 import Dataset
 import numpy as np
 import logging
@@ -253,7 +254,8 @@ for day in range(14, 27):
             time_ascending.extend(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
     central_time = time_ascending[np.int(len(time_ascending)/2)]
-    print(central_time)
+    SEVIRI_time_str = get_SEVIRI_CLM(central_time)
+    print(SEVIRI_time_str)
     quit()
     plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
     quit()
