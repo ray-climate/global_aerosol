@@ -98,9 +98,8 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
-def plot_aeolus_basemap(lat_aeolus, lon_aeolus, save_fig):
+def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVIRI, save_fig):
 
-    print(lat_aeolus, lon_aeolus)
 
     bbox = [-60., 0., 30., 40.]  # map boundaries
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
@@ -124,9 +123,25 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, save_fig):
     m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
     meridians = np.arange(bbox[0], bbox[2], 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
+
+    m.pcolormesh(lon_SEVIRI, lat_SEVIRI, np.ma.masked_array(CLM_SEVIRI, mask), cmap='gray', latlon=True)
+
     m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
     plt.savefig(save_fig, dpi=200)
+
+# implement SEVIRI data for CLM testing
+lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
+lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
+CLM_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
+
+lon_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
+lat_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
+CLM_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
+
+CLM_valid = np.zeros((CLM_SEVIRI.shape))
+CLM_valid[CLM_SEVIRI == 2] = 1
+mask = np.isnan(CLM_valid)
 
 # Extract relevant variables from the AEOLUS data
 ##############################################################
@@ -184,7 +199,7 @@ for day in range(14, 27):
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
 
-                    plot_aeolus_basemap(latitude_i, longitude_i, './test_fig.png')
+                    plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_SEVIRI, './test_fig.png')
                     quit()
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
