@@ -16,6 +16,7 @@ from matplotlib.gridspec import GridSpec
 import matplotlib.colors as colors
 from SEVIRI.get_SEVIRI_CLM import *
 from netCDF4 import Dataset
+from osgeo import gdal
 import numpy as np
 import logging
 import pathlib
@@ -131,6 +132,15 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
     plt.legend(fontsize=10)
     plt.savefig(save_fig, dpi=200)
 
+def get_SEVIRI_CLM(file_path):
+    """Read the SEVIRI CLM data from the downloaded file"""
+    dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
+    # Read the first band of the dataset
+    band = dataset.GetRasterBand(1)
+    # Read the data from the band as a NumPy array
+    data = band.ReadAsArray()
+    return data
+
 # implement SEVIRI data for CLM testing
 lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
 lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
@@ -138,13 +148,7 @@ CLM_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/
 
 lon_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
 lat_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
-CLM_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
-
-CLM_valid = np.zeros((CLM_SEVIRI.shape))
-CLM_valid[:] = np.nan
-CLM_valid[CLM_SEVIRI == 2] = 1
-mask = np.isnan(CLM_valid)
-CLM_valid = np.ma.masked_array(CLM_SEVIRI, mask)
+# CLM_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
 
 # Extract relevant variables from the AEOLUS data
 ##############################################################
@@ -260,9 +264,16 @@ for day in range(14, 27):
     for root, dirs, files in os.walk(SEVIRI_dir):
         for file in files:
             if SEVIRI_time_str in file:
-                print(os.path.join(root, file))
+                SEVIRI_CLM_file = os.path.join(root, file)
+                SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
+            else:
+                logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
+                CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
+                CLM_valid[:] = np.nan
+                CLM_valid[SEVIRI_CLM_data == 2] = 1
+                mask = np.isnan(CLM_valid)
+                CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
 
-    quit()
     plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
     quit()
     #
