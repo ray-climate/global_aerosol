@@ -151,11 +151,11 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
     meridians = range(int(bbox[0]), int(bbox[2]), 10)
     ax.set_xticks(meridians, crs=ccrs.PlateCarree())
     ax.tick_params(axis='both', labelsize=10)
-
+    print(1111)
     # overlay data
     ax.pcolormesh(lon_SEVIRI, lat_SEVIRI, np.ma.masked_array(CLM_SEVIRI, mask), cmap='gray',
                   transform=ccrs.PlateCarree())
-
+    print(2222)
     # scatter points
     x_aeolus, y_aeolus = ax.projection.transform_points(ccrs.PlateCarree(), lon_aeolus, lat_aeolus)[:, :2].T
     ax.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
