@@ -124,7 +124,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
     meridians = np.arange(bbox[0], bbox[2], 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
 
-    m.pcolormesh(lon_SEVIRI, lat_SEVIRI, CLM_SEVIRI, cmap='gray', latlon=True)
+    m.pcolormesh(lon_SEVIRI, lat_SEVIRI, CLM_SEVIRI, cmap='gray', alpha = 0.7, latlon=True)
 
     m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
