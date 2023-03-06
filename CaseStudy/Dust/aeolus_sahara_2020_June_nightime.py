@@ -27,6 +27,7 @@ lat_up = 40.
 lat_down = 0.
 # lon_left = -72.
 # lon_right = 31.
+lat_jump_threshold = 3.0
 
 # Set up time delta
 time_delta = timedelta(days = 1)
@@ -204,17 +205,14 @@ for day in range(14, 27):
                     beta_all = np.copy(sca_mb_backscatter)
                     ber_all = np.copy(sca_mb_ber)
                     altitude_all = np.copy(sca_mb_altitude)
-
         start_date_datetime += time_delta
-    print(len(latitude_all))
-    quit()
-    altitude_all[altitude_all == -1] = np.nan
-    beta_all[beta_all == -1.e6] = 0
-    ber_all[ber_all < 0.] = np.nan
+
     # Convert altitude values from meters to kilometers
+    altitude_all[altitude_all == -1] = np.nan
     altitude_all = altitude_all * 1e-3
 
     # convert aeolus data with the given scaling factor: convert to km-1.sr-1
+    beta_all[beta_all == -1.e6] = 0
     beta_all = beta_all * 1.e-6 * 1.e3
 
     # Create empty array for resampled data, with same shape as alt_aeolus
@@ -231,38 +229,50 @@ for day in range(14, 27):
                     backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
                     beta_all[m, n]
 
-    ber_all_mask = np.zeros((ber_all.shape))
-    ber_all_mask[ber_all < BER_threshold] = 1.
-    ber_volume_sum = np.sum(ber_all_mask, axis=1)
+    lat_jump_threshold = 2.0
+    lat_sublists = [[0]]  # initialize with the index of the first value
 
-    beta_volume_sum = np.sum(backscatter_resample, axis=1)
-
-    axk = fig.add_subplot(gs[0, k])
-
-    figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum > 0, :], axis=0), alt_caliop, 'r-*', lw=2,
-                    label='no filter')
-    plt.plot(np.mean(backscatter_resample[(beta_volume_sum > 0) & (ber_volume_sum < 1), :], axis=0),
-             alt_caliop, 'b-*', lw=2, label='cloud removed')
-
-    if meridional_boundary[k] < 0:
-        if meridional_boundary[k+1] < 0:
-            axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+    j = 1
+    while j < len(latitude_all):
+        if abs(latitude_all[j] - latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
+            lat_sublists.append([j])
         else:
-            axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
-    else:
-        if meridional_boundary[k+1] < 0:
-            axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
-        else:
-            axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+            lat_sublists[-1].append(j)
+        j += 1
 
-    # axk.set_ylabel('Averaged photon counts', fontsize=15)
-    for tick in axk.xaxis.get_major_ticks():
-        tick.label.set_fontsize(15)
-    for tick in axk.yaxis.get_major_ticks():
-        tick.label.set_fontsize(15)
-    # axk.legend(loc='upper right', fontsize=15)
-    axk.set_xscale('log')
-    axk.set_xlim([1.e-4, 2.e-2])
-    axk.set_ylim([0., 8])
-    axk.grid()
-
+    print(lat_sublists)
+    print(len(latitude_all))
+    print(len(lat_sublists))
+    quit()
+    #
+    # beta_volume_sum = np.sum(backscatter_resample, axis=1)
+    #
+    # axk = fig.add_subplot(gs[0, k])
+    #
+    # figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum > 0, :], axis=0), alt_caliop, 'r-*', lw=2,
+    #                 label='no filter')
+    # plt.plot(np.mean(backscatter_resample[(beta_volume_sum > 0) & (ber_volume_sum < 1), :], axis=0),
+    #          alt_caliop, 'b-*', lw=2, label='cloud removed')
+    #
+    # if meridional_boundary[k] < 0:
+    #     if meridional_boundary[k+1] < 0:
+    #         axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+    #     else:
+    #         axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+    # else:
+    #     if meridional_boundary[k+1] < 0:
+    #         axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+    #     else:
+    #         axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
+    #
+    # # axk.set_ylabel('Averaged photon counts', fontsize=15)
+    # for tick in axk.xaxis.get_major_ticks():
+    #     tick.label.set_fontsize(15)
+    # for tick in axk.yaxis.get_major_ticks():
+    #     tick.label.set_fontsize(15)
+    # # axk.legend(loc='upper right', fontsize=15)
+    # axk.set_xscale('log')
+    # axk.set_xlim([1.e-4, 2.e-2])
+    # axk.set_ylim([0., 8])
+    # axk.grid()
+    #
