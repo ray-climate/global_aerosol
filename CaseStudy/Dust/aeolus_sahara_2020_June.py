@@ -202,8 +202,8 @@ for day in range(14, 27):
                     latitude_all.extend(latitude_i)
                     longitude_all.extend(longitude_i)
 
-                    plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
-                    quit()
+                    # plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
+
                     try:
                         beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
                         ber_all = np.concatenate([ber_all, sca_mb_ber], axis=0)
@@ -214,7 +214,8 @@ for day in range(14, 27):
                         altitude_all = np.copy(sca_mb_altitude)
 
             start_date_datetime += time_delta
-
+        print(latitude_all)
+        quit()
         altitude_all[altitude_all == -1] = np.nan
         beta_all[beta_all == -1.e6] = 0
         ber_all[ber_all < 0.] = np.nan
