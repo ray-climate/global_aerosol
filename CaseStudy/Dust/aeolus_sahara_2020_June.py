@@ -127,7 +127,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, save_fig
     # Convert latitude and longitude to x and y coordinates
     x_SEVIRI, y_SEVIRI = m(lon_SEVIRI, lat_SEVIRI)
     # Plot the values on the map
-    m.scatter(x_SEVIRI, y_SEVIRI, c=10, cmap='gray', edgecolor='none')
+    m.scatter(x_SEVIRI, y_SEVIRI, cmap='gray', edgecolor='none')
 
     m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
