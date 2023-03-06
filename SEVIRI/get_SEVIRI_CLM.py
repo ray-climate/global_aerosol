@@ -23,7 +23,7 @@ def get_SEVIRI_CLM_time(dt):
         dt = dt.replace(minute=0)
     print(rounded_minutes)
     # Round the time object to the nearest 15-minute interval
-    rounded = datetime(dt.year, dt.month, dt.day, dt.hour, rounded_minutes)
+    rounded = dt.replace(minute=rounded_minutes, second=0, microsecond=0)
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M%S')
     return formatted
 
