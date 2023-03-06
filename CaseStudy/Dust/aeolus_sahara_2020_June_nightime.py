@@ -252,7 +252,7 @@ for day in range(14, 27):
             lon_ascending.extend(longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             time_ascending.extend(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
-    central_time = time_ascending[np.round(len(time_ascending)/2)]
+    central_time = time_ascending[np.int(len(time_ascending)/2)]
     print(central_time)
     quit()
     plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
