@@ -85,8 +85,8 @@ if __name__ == '__main__':
     data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_Dust/'
 
     # Define the start and end dates
-    start_date = '20220305-2210'
-    end_date =   '20220305-2320'
+    start_date = '20210105-2210'
+    end_date =   '20220405-2320'
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
