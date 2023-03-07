@@ -132,6 +132,11 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
     plt.legend(fontsize=10)
     plt.savefig(save_fig, dpi=200)
 
+def plot_seviri(data, save_fig):
+    fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
+    plt.imshow(data)
+    plt.savefig(save_fig, dpi=200)
+
 def get_SEVIRI_CLM(file_path):
     """Read the SEVIRI CLM data from the downloaded file"""
     dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
@@ -275,8 +280,8 @@ for day in range(14, 27):
             else:
                 logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
 
-    plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
-
+    # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
+    plot_seviri(SEVIRI_CLM_data, './fulldisk_test_%s.png'%day)
     #
     # beta_volume_sum = np.sum(backscatter_resample, axis=1)
     #
