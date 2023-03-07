@@ -135,6 +135,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
 def plot_seviri(data, save_fig):
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
     plt.imshow(data)
+    plt.colorbar()
     plt.savefig(save_fig, dpi=200)
 
 def get_SEVIRI_CLM(file_path):
