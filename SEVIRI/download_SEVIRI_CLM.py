@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     # Define the start and end dates
     start_date = '20220305-2210'
-    end_date =   '20220305-2220'
+    end_date =   '20220305-2320'
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
