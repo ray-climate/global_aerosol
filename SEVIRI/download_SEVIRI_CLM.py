@@ -24,7 +24,8 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
     token = eumdac.AccessToken(credentials)
 
     datastore = eumdac.DataStore(token)
-    selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:CLM')
+    # selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:CLM')
+    selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:DUST')
 
     try:
         start_date = datetime.datetime.strptime(start_date, '%Y%m%d-%H%M')
@@ -81,7 +82,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
 if __name__ == '__main__':
 
     # Define the data directory
-    data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/'
+    data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_Dust/'
 
     # Define the start and end dates
     start_date = '20220305-2210'
