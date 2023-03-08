@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        05/03/2023 00:14
 
+from satpy.writers import get_enhanced_image
 from pyresample import create_area_def
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
@@ -39,7 +40,8 @@ def plot_SEVIRI_images(file_path):
     CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
     fig = plt.figure(figsize=(30, 25))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
-    new_scn[composite].plot.imshow(rgb='bands', transform=CRS, origin='upper')
+    img = get_enhanced_image(new_scn[composite])
+    img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
     # ax.add_feature(ccrs.cartopy.feature.STATES, linewidth=0.25)
 
     # Save plot
