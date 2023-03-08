@@ -134,7 +134,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
 
 def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dust_RGB, save_fig):
     dust_RGB = np.nan_to_num(dust_RGB)
-    print(dust_RGB.shape)
+    print(dust_RGB)
     bbox = [-60., 0., 30., 40.]  # map boundaries
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
     # ax.set_axis_off()
