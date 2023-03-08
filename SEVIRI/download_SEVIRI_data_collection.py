@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
     # Define the start and end dates
     start_date = '20200614-0000'
-    end_date =   '20200628-0000'
+    end_date =   '20200625-0615'
 
     product = 'HRSEVIRI'
 
