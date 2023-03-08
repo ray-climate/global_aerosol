@@ -183,7 +183,7 @@ def get_SEVIRI_CLM(file_path):
 lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
 lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
 CLM_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
-dust_SEVIRI = plt.imread('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/seviri_dust_rgb_20200626194243.png')
+dust_SEVIRI = plt.imread('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/seviri_dust_rgb.png')
 
 lon_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
 lat_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
