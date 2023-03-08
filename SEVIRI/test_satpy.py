@@ -16,5 +16,5 @@ def plot_SEVIRI_images(file_path):
 
 if __name__ == '__main__':
 
-    filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_data_collection/SEVIRI_HRSEVIRI/20200627/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA.nat'
+    filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/20200627/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA.nat'
     plot_SEVIRI_images(filename)
