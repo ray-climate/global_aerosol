@@ -133,7 +133,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
     plt.savefig(save_fig, dpi=200)
 
 def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dust_RGB, save_fig):
-
+    dust_RGB = np.nan_to_num(dust_RGB)
     print(dust_RGB.shape)
     bbox = [-60., 0., 30., 40.]  # map boundaries
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
@@ -158,7 +158,7 @@ def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dus
     meridians = np.arange(bbox[0], bbox[2], 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
 
-    m.imshow( dust_RGB)
+    m.imshow(lon_SEVIRI, lat_SEVIRI, dust_RGB)
 
     m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
