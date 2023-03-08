@@ -14,10 +14,12 @@ def plot_SEVIRI_images(file_path):
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
-    array = scn[composite].values
-    bnd1 = array[2, :, :]
+    # array = scn[composite].values
+    array = plt.imread('./seviri_dust_rgb.png')
+    print(array.shape)
+    bnd1 = array[0, :, :]
     bnd2 = array[1, :, :]
-    bnd3 = array[0, :, :]
+    bnd3 = array[2, :, :]
     img = np.dstack((bnd1, bnd2, bnd3))
     fig, ax = plt.subplots(figsize=(9, 9), dpi=200)
     plt.imshow(img)
