@@ -81,14 +81,14 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, product
 
 if __name__ == '__main__':
 
-    # Define the data directory
-    data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_Dust/'
-
     # Define the start and end dates
     start_date = '20200614-0000'
     end_date =   '20200628-0000'
 
     product = 'HRSEVIRI'
+
+    # Define the data directory
+    data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_%s/'
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
