@@ -7,7 +7,7 @@
 
 import matplotlib.pyplot as plt
 from satpy import Scene
-
+import numpy as np
 def plot_SEVIRI_images(file_path):
 
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
@@ -15,10 +15,12 @@ def plot_SEVIRI_images(file_path):
     scn.load([composite], upper_right_corner="NE")
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
     array = scn[composite].values
-    print(array.T[1000:1010, 1000:1010,:])
-    array = array.T
+    bnd1 = array[0, :, :]
+    bnd2 = array[1, :, :]
+    bnd3 = array[2, :, :]
+    img = np.dstack((bnd1, bnd2, bnd3))
     fig, ax = plt.subplots(figsize=(9, 9), dpi=200)
-    plt.imshow(array)
+    plt.imshow(np)
     plt.savefig('./seviri_dust_rgb_py.png')
 if __name__ == '__main__':
 
