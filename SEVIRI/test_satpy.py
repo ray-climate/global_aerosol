@@ -16,15 +16,10 @@ def plot_SEVIRI_images(file_path):
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
     # array = scn[composite].values
     array = plt.imread('./seviri_dust_rgb.png')
-    print(array.shape)
-    bnd1 = array[0, :, :]
-    bnd2 = array[1, :, :]
-    bnd3 = array[2, :, :]
-    img = np.dstack((bnd1, bnd2, bnd3))
     fig, ax = plt.subplots(figsize=(9, 9), dpi=200)
     plt.imshow(array)
-    plt.savefig('./seviri_dust_rgb_py.png')
+    plt.savefig('./seviri_dust_rgb_20200626194243.png')
 if __name__ == '__main__':
 
-    filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/20200627/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA.nat'
+    filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/20200626/MSG4-SEVI-MSG15-0100-NA-20200626194243.263000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200626194243.263000000Z-NA.nat'
     plot_SEVIRI_images(filename)
