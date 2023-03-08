@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    download_SEVIRI_CLM.py
+# @Filename:    download_SEVIRI_data_collection.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/03/2023 13:20
@@ -11,7 +11,7 @@ import eumdac
 import shutil
 import os
 
-def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=None):
+def download_msg_clm(data_location=None, start_date=None, end_date=None, product=None, logger=None):
     """Download MSG CLM data from the EUMETSAT server"""
 
     # Insert your personal key and secret into the single quotes
@@ -25,7 +25,7 @@ def download_msg_clm(data_location=None, start_date=None, end_date=None, logger=
 
     datastore = eumdac.DataStore(token)
     # selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:CLM')
-    selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:DUST')
+    selected_collection = datastore.get_collection('EO:EUM:DAT:MSG:%s' %product)
 
     try:
         start_date = datetime.datetime.strptime(start_date, '%Y%m%d-%H%M')
@@ -85,9 +85,10 @@ if __name__ == '__main__':
     data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_Dust/'
 
     # Define the start and end dates
-    start_date = '20210105-2210'
-    end_date =   '20220405-2320'
+    start_date = '20200614-0000'
+    end_date =   '20220628-0000'
 
+    product = 'HRSEVIRI'
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
@@ -101,4 +102,4 @@ if __name__ == '__main__':
     logger = logging.getLogger()
 
     # Download the data
-    download_msg_clm(data_dir, start_date, end_date, logger)
+    download_msg_clm(data_dir, start_date, end_date, product, logger)
