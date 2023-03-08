@@ -88,7 +88,7 @@ if __name__ == '__main__':
     product = 'HRSEVIRI'
 
     # Define the data directory
-    data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_%s/'
+    data_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_%s/'%product
     # Create the output directory if it doesn't exist
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
