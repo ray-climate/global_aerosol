@@ -57,7 +57,7 @@ logger = logging.getLogger()
 ##############################################################
 # Define data directory
 AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
-SEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_CLM/'
+SEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
 
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
