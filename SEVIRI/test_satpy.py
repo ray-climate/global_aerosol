@@ -22,7 +22,7 @@ def plot_SEVIRI_images(file_path):
     bnd3 = array[2, :, :]
     img = np.dstack((bnd1, bnd2, bnd3))
     fig, ax = plt.subplots(figsize=(9, 9), dpi=200)
-    plt.imshow(img)
+    plt.imshow(array)
     plt.savefig('./seviri_dust_rgb_py.png')
 if __name__ == '__main__':
 
