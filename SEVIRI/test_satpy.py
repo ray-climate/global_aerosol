@@ -35,23 +35,23 @@ def plot_SEVIRI_images(file_path):
     # Save without Cartopy
     new_scn.save_dataset(composite, filename='seviri_dust_rgb_local.png')
 
-    # # Plot composite
-    # CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
-    # fig = plt.figure(figsize=(30, 25))
-    # ax = fig.add_subplot(1, 1, 1, projection=CRS)
-    # new_scn[composite].plot.imshow(rgb='bands', transform=CRS, origin='upper')
+    # Plot composite
+    CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
+    fig = plt.figure(figsize=(30, 25))
+    ax = fig.add_subplot(1, 1, 1, projection=CRS)
+    new_scn[composite].plot.imshow(rgb='bands', transform=CRS, origin='upper')
     # ax.add_feature(ccrs.cartopy.feature.STATES, linewidth=0.25)
+
+    # Save plot
+    plt.savefig('seviri_dust_rgb_local_v2.png')
     #
-    # # Save plot
-    # plt.savefig('example.png')
-    #
-    data = scn[composite].values
-    print(data.shape)
-    crs = scn[composite].attrs['area'].to_cartopy_crs()
-    ax = plt.axes(projection=crs)
-    rgb_data =  np.dstack((scn[composite].values[0,:,:],scn[composite].values[1,:,:],scn[composite].values[2,:,:]))
-    plt.imshow(rgb_data, transform=crs, extent=crs.bounds, origin='upper')
-    plt.savefig('./seviri_dust_rgb_local_v2.png')
+    # data = scn[composite].values
+    # print(data.shape)
+    # crs = scn[composite].attrs['area'].to_cartopy_crs()
+    # ax = plt.axes(projection=crs)
+    # rgb_data =  np.dstack((scn[composite].values[0,:,:],scn[composite].values[1,:,:],scn[composite].values[2,:,:]))
+    # plt.imshow(rgb_data, transform=crs, extent=crs.bounds, origin='upper')
+    # plt.savefig('./seviri_dust_rgb_local_v2.png')
 
 
 if __name__ == '__main__':
