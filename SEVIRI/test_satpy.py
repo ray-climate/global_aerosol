@@ -6,8 +6,8 @@
 # @Time:        05/03/2023 00:14
 
 from pyresample import create_area_def
-import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
 from satpy import Scene
 import numpy as np
 def plot_SEVIRI_images(file_path):
@@ -19,8 +19,8 @@ def plot_SEVIRI_images(file_path):
 
     # Create area definition
     ext = [-60., 0., 30., 40.]
-    width = 3840
-    height = 2160
+    width = 4000
+    height = 2000
     area_def = create_area_def('TX/OK/NM',
                                {'proj': 'longlat', 'datum': 'WGS84'},
                                area_extent=ext,
@@ -45,10 +45,12 @@ def plot_SEVIRI_images(file_path):
     # # Save plot
     # plt.savefig('example.png')
     #
-    # crs = scn[composite].attrs['area'].to_cartopy_crs()
-    # ax = plt.axes(projection=crs)
-    # plt.imshow(scn[composite].attrs['area'].values, transform=crs, extent=crs.bounds, origin='upper')
-    # plt.savefig('./seviri_dust_rgb_local.png')
+    data = scn[composite].values
+    print(data.shape)
+    crs = scn[composite].attrs['area'].to_cartopy_crs()
+    ax = plt.axes(projection=crs)
+    plt.imshow(scn[composite].values, transform=crs, extent=crs.bounds, origin='upper')
+    plt.savefig('./seviri_dust_rgb_local_v2.png')
 
 
 if __name__ == '__main__':
