@@ -133,8 +133,7 @@ def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVI
     plt.savefig(save_fig, dpi=200)
 
 def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dust_RGB, save_fig):
-    dust_RGB = np.nan_to_num(dust_RGB)
-    print(dust_RGB)
+
     bbox = [-60., 0., 30., 40.]  # map boundaries
     fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
     # ax.set_axis_off()
@@ -149,7 +148,7 @@ def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dus
     m.drawcoastlines()
     m.drawcountries()
     states = m.drawstates()  # draw state boundaries
-
+    ax.plot([-60, -30], [0, 40], linewidth=4)
     # m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), cmap='gray', latlon=True)
 
     # draw parallels and meridians by every 5 degrees
@@ -158,7 +157,7 @@ def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dus
     meridians = np.arange(bbox[0], bbox[2], 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
 
-    m.imshow(dust_RGB, extent = [bbox[0], bbox[2], bbox[1], bbox[3]])
+    im = ax.imshow(dust_RGB, extent = [bbox[0], bbox[2], bbox[1], bbox[3]])
 
     m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
@@ -313,8 +312,7 @@ for day in range(14, 27):
                 CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
             else:
                 logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
-    print(lat_SEVIRI.shape, dust_SEVIRI.shape)
-    print(lat_SEVIRI)
+
     # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
     plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
     quit()
