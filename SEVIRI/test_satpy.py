@@ -17,7 +17,7 @@ def plot_SEVIRI_images(file_path):
 
     crs = scn[composite].attrs['area'].to_cartopy_crs()
     ax = plt.axes(projection=crs)
-    plt.imshow(scn.values, transform=crs, extent=crs.bounds, origin='upper')
+    plt.imshow(scn[composite].attrs['area'], transform=crs, extent=crs.bounds, origin='upper')
     plt.savefig('./seviri_dust_rgb_local.png')
 
 
