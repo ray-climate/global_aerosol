@@ -18,7 +18,7 @@ def plot_SEVIRI_images(file_path):
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
 
     # Create area definition
-    ext = [-110.629439, 31.594328, -95.933875, 37.384890]
+    ext = [-60., 0., 30., 40.]
     width = 3840
     height = 2160
     area_def = create_area_def('TX/OK/NM',
