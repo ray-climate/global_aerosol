@@ -15,9 +15,9 @@ def plot_SEVIRI_images(file_path):
     scn.load([composite], upper_right_corner="NE")
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
     array = scn[composite].values
-    bnd1 = array[0, :, :]
+    bnd1 = array[2, :, :]
     bnd2 = array[1, :, :]
-    bnd3 = array[2, :, :]
+    bnd3 = array[0, :, :]
     img = np.dstack((bnd1, bnd2, bnd3))
     fig, ax = plt.subplots(figsize=(9, 9), dpi=200)
     plt.imshow(img)
