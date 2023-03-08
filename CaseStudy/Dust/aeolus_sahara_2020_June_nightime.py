@@ -313,7 +313,8 @@ for day in range(14, 27):
                 CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
             else:
                 logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
-
+    print(lat_SEVIRI.shape, dust_SEVIRI.shape)
+    print(lat_SEVIRI)
     # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
     plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
     quit()
