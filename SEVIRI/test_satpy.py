@@ -7,22 +7,14 @@
 
 from satpy import Scene
 
-def get_SEVIRI_coordinates(file_path):
+def plot_SEVIRI_images(file_path):
 
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
-    scn.load(["IR_108"], upper_right_corner="NE")
-
-    # print(scn["IR_108"].attrs["area"].get_lonlat_from_array_coordinates(1000, 2000))
-    # res= scn['IR_108'].attrs['area'].get_lonlat_from_array_coordinates(1000,2000)
-    lon, lat= scn['IR_108'].attrs['area'].get_lonlats()
-    print(lon[0,0])
-    print(lon[1800,1800])
-    print(lon[3000, 3000])
-    print(lat[2000,1000])
-    print(lon[2000,1000])
-    # print()
+    composite = 'dust'
+    scn.load([composite], upper_right_corner="NE")
+    scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
 
 if __name__ == '__main__':
 
-    filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_Natural/20200614/MSG4-SEVI-MSG15-0100-NA-20200614001241.789000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200614001241.789000000Z-NA.nat'
-    get_SEVIRI_coordinates(filename)
+    filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_data_collection/SEVIRI_HRSEVIRI/20200627/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200627225743.071000000Z-NA.nat'
+    plot_SEVIRI_images(filename)
