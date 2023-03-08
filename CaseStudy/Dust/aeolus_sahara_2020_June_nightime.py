@@ -158,7 +158,7 @@ def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dus
     meridians = np.arange(bbox[0], bbox[2], 10.)
     m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
 
-    m.imshow(lon_SEVIRI, lat_SEVIRI, dust_RGB)
+    m.imshow(dust_RGB, extent = [bbox[0], bbox[2], bbox[1], bbox[3]])
 
     m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
     plt.legend(fontsize=10)
