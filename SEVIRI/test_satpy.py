@@ -14,11 +14,13 @@ def plot_SEVIRI_images(file_path):
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
-    # array = scn[composite].values
-    array = plt.imread('./seviri_dust_rgb.png')
-    fig, ax = plt.subplots(figsize=(9, 9), dpi=200)
-    plt.imshow(array)
-    plt.savefig('./seviri_dust_rgb_20200626194243.png')
+
+    crs = scn[composite].attrs['area'].to_cartopy_crs()
+    ax = plt.axes(projection=crs)
+    plt.imshow(scn.values, transform=crs, extent=crs.bounds, origin='upper')
+    plt.savefig('./seviri_dust_rgb_local.png')
+
+
 if __name__ == '__main__':
 
     filename = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/20200626/MSG4-SEVI-MSG15-0100-NA-20200626194243.263000000Z-NA/MSG4-SEVI-MSG15-0100-NA-20200626194243.263000000Z-NA.nat'
