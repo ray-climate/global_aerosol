@@ -15,7 +15,8 @@ def plot_SEVIRI_images(file_path):
     scn.load([composite], upper_right_corner="NE")
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
     array = scn[composite].values
-    array = array.T
+    print(array)
+    array = array.T * 255
     fig, ax = plt.subplots(figsize=(9, 9), dpi=200)
     plt.imshow(array, cmap='viridis')
     plt.savefig('./seviri_dust_rgb_py.png')
