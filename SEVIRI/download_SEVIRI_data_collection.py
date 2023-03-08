@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     # Define the start and end dates
     start_date = '20200614-0000'
-    end_date =   '20220628-0000'
+    end_date =   '20200628-0000'
 
     product = 'HRSEVIRI'
     # Create the output directory if it doesn't exist
