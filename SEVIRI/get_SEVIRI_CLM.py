@@ -11,6 +11,7 @@ from pyresample import create_area_def
 import matplotlib.pyplot as plt
 from satpy import Scene
 from osgeo import gdal
+import numpy as np
 
 def get_SEVIRI_CLM_time(dt):
 
@@ -149,16 +150,18 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     band = dataset.GetRasterBand(1)
     # Read the data from the band as a NumPy array
     data = band.ReadAsArray()
-
+    data_mask = np.zeros((data.shape))
+    data_mask[:] = 0
+    data_mask[data == 2] = 1
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
 
-    scn[composite][0, :, :] = data.T
-    scn[composite][1, :, :] = data.T
-    scn[composite][2, :, :] = data.T
+    scn[composite][0, :, :] = data_mask
+    scn[composite][1, :, :] = data_mask
+    scn[composite][2, :, :] = data_mask
     width = 4000
     height = 2000
 
