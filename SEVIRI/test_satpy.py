@@ -42,7 +42,8 @@ def plot_SEVIRI_images(file_path):
     fig = plt.figure(figsize=(30, 15))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
-    # img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
+    img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
+    ax.set_title("Seviri Dust RGB Local", fontsize=30)
     # ax.add_feature(ccrs.cartopy.feature.STATES, linewidth=0.25)
     gl = ax.gridlines(xlocs=range(-60, 31, 10), ylocs=range(0, 41, 10), color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
