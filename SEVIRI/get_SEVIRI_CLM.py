@@ -53,9 +53,43 @@ def get_HRSEVIRI_time(dt):
 
 if __name__ == '__main__':
 
-    # now = datetime.now()
-    now = datetime(2023, 3, 9, 12, 6, 30)
-    formatted = get_HRSEVIRI_time(now)
-    print("Original datetime:", now)
-    print("Formatted rounded datetime:", formatted)
+    def test_get_SEVIRI_CLM_time():
+        # Test the function with various time inputs and expected outputs
+        test_cases = [
+            {
+                'input': datetime(2023, 3, 9, 12, 6, 30),
+                'expected_output': '20230309120000'
+            },
+            {
+                'input': datetime(2023, 3, 9, 12, 13, 45),
+                'expected_output': '20230309121200'
+            },
+            {
+                'input': datetime(2023, 3, 9, 12, 32, 15),
+                'expected_output': '20230309132700'
+            },
+            {
+                'input': datetime(2023, 3, 9, 12, 49, 50),
+                'expected_output': '20230309145700'
+            },
+            {
+                'input': datetime(2023, 3, 9, 12, 55, 30),
+                'expected_output': '20230309155700'
+            },
+            {
+                'input': datetime(2023, 3, 9, 13, 0, 0),
+                'expected_output': '20230309160000'
+            }
+        ]
+        for test_case in test_cases:
+            input_time = test_case['input']
+            output = get_SEVIRI_CLM_time(input_time)
+            print("input", input_time)
+            print("output", output)
+    #
+    # # now = datetime.now()
+    # now = datetime(2023, 3, 9, 12, 6, 30)
+    # formatted = get_HRSEVIRI_time(now)
+    # print("Original datetime:", now)
+    # print("Formatted rounded datetime:", formatted)
 
