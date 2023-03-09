@@ -63,7 +63,7 @@ def get_SEVIRI_CLM_cartopy(file_path):
     data = band.ReadAsArray()
     return data
 
-def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str):
+def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus_lon):
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
@@ -90,6 +90,10 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str):
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10), ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
+
+    # Add the scatter plot
+    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=10, transform=CRS, zorder=200, label='AEOLUS')
+    plt.legend(fontsize=10)
     gl.top_labels = False
     gl.right_labels = False
     gl.bottom_labels = True
