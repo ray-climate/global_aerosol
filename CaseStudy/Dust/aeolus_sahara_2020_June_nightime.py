@@ -58,7 +58,7 @@ logger = logging.getLogger()
 AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
 CLMSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
 HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/'
-
+CMASEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/CMA-SEVIRI/'
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
 
@@ -307,6 +307,22 @@ for day in range(14, 27):
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
 
+    for root, dirs, files in os.walk(CMASEVIRI_dir):
+        for file in files:
+            if CLMSEVIRI_time_str in file:
+                SEVIRI_CMA_file = os.path.join(root, file)
+
+                get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
+                                       SEVIRI_CMA_file_path = SEVIRI_CMA_file,
+                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                       title='SEVIRI Cloud Mask %s' % CLMSEVIRI_time_str,
+                                       aeolus_lat=lat_ascending,
+                                       aeolus_lon=lon_ascending,
+                                       save_str='./test_satpy_builtin_CLM_%s.png' % HRSEVIRI_time_str)
+
+            else:
+                logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
+
     for root, dirs, files in os.walk(CLMSEVIRI_dir):
         for file in files:
             if CLMSEVIRI_time_str in file:
@@ -315,25 +331,14 @@ for day in range(14, 27):
                 get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
                                        SEVIRI_CLM_file_path = SEVIRI_CLM_file,
                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                       title='SEVIRI Cloud Mask %s' % HRSEVIRI_time_str,
+                                       title='SEVIRI Cloud Mask %s' % CLMSEVIRI_time_str,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
                                        save_str='./test_satpy_builtin_CLM_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
-                # SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
-                # CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
-                # CLM_valid[:] = np.nan
-                # CLM_valid[SEVIRI_CLM_data == 2] = 1
-                # mask = np.isnan(CLM_valid)
-                # CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
-            # elif HRSEVIRI_time_str in file:
-            #     SEVIRI_HR_file = os.path.join(root, file)
-            #
-            #     get_SEVIRI_HR_cartopy(SEVIRI_HR_file)
-            # else:
-            #     logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
+
     quit()
     # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
     # plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
