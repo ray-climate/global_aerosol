@@ -18,13 +18,13 @@ def plot_SEVIRI_images(file_path):
     scn.load([composite], upper_right_corner="NE")
     scn.save_dataset(composite, filename='./seviri_dust_rgb.png')
 
-    # Create area definition
-    ext = [-60., 0., 30., 40.]
+    ###### Create dust RGB using area definition and save from satpy ######
+    extent = [-60., 0., 30., 40.]
     width = 4000
     height = 2000
     area_def = create_area_def('TX/OK/NM',
                                {'proj': 'longlat', 'datum': 'WGS84'},
-                               area_extent=ext,
+                               area_extent=extent,
                                shape=(height, width),
                                units='degrees',
                                description='TX/OK/NM border')
@@ -35,10 +35,11 @@ def plot_SEVIRI_images(file_path):
 
     # Save without Cartopy
     new_scn.save_dataset(composite, filename='seviri_dust_rgb_local.png')
+    #########################################################################
 
-    # Plot composite
+    ################# Create dust RGB using cartopy #########################
     CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
-    fig = plt.figure(figsize=(40, 20))
+    fig = plt.figure(figsize=(30, 15))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
     img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
@@ -49,19 +50,10 @@ def plot_SEVIRI_images(file_path):
     gl.right_labels = False
     gl.bottom_labels = True
     gl.left_labels = True
-    gl.xlabel_style = {'size': 25, 'color': 'red'}
-    gl.ylabel_style = {'size': 25, 'color': 'red'}
-    # Save plot
+    gl.xlabel_style = {'size': 15, 'color': 'black'}
+    gl.ylabel_style = {'size': 15, 'color': 'black'}
     plt.savefig('seviri_dust_rgb_local_v2.png')
-    #
-    # data = scn[composite].values
-    # print(data.shape)
-    # crs = scn[composite].attrs['area'].to_cartopy_crs()
-    # ax = plt.axes(projection=crs)
-    # rgb_data =  np.dstack((scn[composite].values[0,:,:],scn[composite].values[1,:,:],scn[composite].values[2,:,:]))
-    # plt.imshow(rgb_data, transform=crs, extent=crs.bounds, origin='upper')
-    # plt.savefig('./seviri_dust_rgb_local_v2.png')
-
+    #########################################################################
 
 if __name__ == '__main__':
 

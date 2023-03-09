@@ -7,7 +7,7 @@
 
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    download_SEVIRI_CLM.py
+# @Filename:    download_SEVIRI_data_collection.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/03/2023 13:20
