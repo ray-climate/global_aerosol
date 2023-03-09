@@ -26,7 +26,7 @@ def get_SEVIRI_CLM_time(dt):
 
     # Round the time object to the nearest 15-minute interval
     rounded = dt.replace(minute=rounded_minutes, second=0, microsecond=0)
-    formatted = datetime.strftime(rounded, '%Y%m%d%H%M%S')
+    formatted = datetime.strftime(rounded, '%Y%m%d%H%M')
     return formatted
 
 def get_HRSEVIRI_time(dt):
@@ -47,7 +47,7 @@ def get_HRSEVIRI_time(dt):
         rounded_minutes = 57
 
     rounded = dt.replace(minute=rounded_minutes, second=0, microsecond=0)
-    formatted = datetime.strftime(rounded, '%Y%m%d%H%M%S')
+    formatted = datetime.strftime(rounded, '%Y%m%d%H%M')
     return formatted
 
 def get_SEVIRI_CLM_cartopy(file_path):
