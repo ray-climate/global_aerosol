@@ -164,7 +164,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     height = 2000
 
     fig = plt.figure(figsize=(15, 15))
-    plt.imshow(scn[composite].values[0, :, :])
+    plt.imshow(data.T)
     plt.savefig(save_str)
     quit()
 
