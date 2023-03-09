@@ -56,7 +56,8 @@ logger = logging.getLogger()
 ##############################################################
 # Define data directory
 AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
-SEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
+CLMSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
+HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/'
 
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
@@ -291,26 +292,33 @@ for day in range(14, 27):
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
 
-    for root, dirs, files in os.walk(SEVIRI_dir):
+    # for root, dirs, files in os.walk(CLMSEVIRI_dir):
+    #     for file in files:
+    #         if CLMSEVIRI_time_str in file:
+    #             SEVIRI_CLM_file = os.path.join(root, file)
+    #             # SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
+    #             # CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
+    #             # CLM_valid[:] = np.nan
+    #             # CLM_valid[SEVIRI_CLM_data == 2] = 1
+    #             # mask = np.isnan(CLM_valid)
+    #             # CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
+    #         elif HRSEVIRI_time_str in file:
+    #             SEVIRI_HR_file = os.path.join(root, file)
+    #
+    #             get_SEVIRI_HR_cartopy(SEVIRI_HR_file)
+    #         else:
+    #             logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
+
+    for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
-            if CLMSEVIRI_time_str in file:
-                SEVIRI_CLM_file = os.path.join(root, file)
-                # SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
-                # CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
-                # CLM_valid[:] = np.nan
-                # CLM_valid[SEVIRI_CLM_data == 2] = 1
-                # mask = np.isnan(CLM_valid)
-                # CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
-            elif HRSEVIRI_time_str in file:
-                SEVIRI_HR_file = os.path.join(root, file)
-                print(SEVIRI_HR_file)
-                quit()
-                get_SEVIRI_HR_cartopy(SEVIRI_HR_file)
+            if HRSEVIRI_time_str in file:
+                HRSEVIRI_file = os.path.join(root, file)
+                print(HRSEVIRI_file)
             else:
-                logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
+                logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
 
     # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
-    plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
+    # plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
     quit()
     # plot_seviri(SEVIRI_CLM_data, './fulldisk_test_%s.png'%day)
     #
