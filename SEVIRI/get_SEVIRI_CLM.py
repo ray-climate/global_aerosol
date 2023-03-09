@@ -92,8 +92,8 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus
                       zorder=100, draw_labels=True)
 
     # Add the scatter plot
-    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=10, transform=CRS, zorder=200, label='AEOLUS')
-    plt.legend(fontsize=10)
+    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+    plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False
     gl.bottom_labels = True
