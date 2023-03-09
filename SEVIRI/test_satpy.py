@@ -49,6 +49,8 @@ def plot_SEVIRI_images(file_path):
     gl.right_labels = False
     gl.bottom_labels = True
     gl.left_labels = True
+    gl.xlabel_style = {'size': 25, 'color': 'red'}
+    gl.ylabel_style = {'size': 25, 'color': 'red'}
     # Save plot
     plt.savefig('seviri_dust_rgb_local_v2.png')
     #
