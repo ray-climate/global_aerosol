@@ -319,14 +319,14 @@ for day in range(14, 27):
                                       title = 'SEVIRI Dust RGB %s'%HRSEVIRI_time_str,
                                       aeolus_lat=lat_ascending,
                                       aeolus_lon=lon_ascending,
-                                      save_str='./test_satpy_builtin.png')
+                                      save_str='./test_satpy_builtin_%s.png'%HRSEVIRI_time_str)
 
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
 
     # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
     # plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
-    quit()
+
     # plot_seviri(SEVIRI_CLM_data, './fulldisk_test_%s.png'%day)
     #
     # beta_volume_sum = np.sum(backscatter_resample, axis=1)
