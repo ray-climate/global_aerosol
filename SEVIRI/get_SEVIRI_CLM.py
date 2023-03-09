@@ -149,15 +149,16 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     # band = dataset.GetRasterBand(1)
     # # Read the data from the band as a NumPy array
     # data = band.ReadAsArray()
-    print(SEVIRI_CLM_file_path)
+
     """Read the SEVIRI HR data from the downloaded file using satpy"""
-    scn = Scene(reader='seviri_l2_grib', filenames=[SEVIRI_CLM_file_path])
-    composite = 'cloud_mask'
+    scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
+    composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
 
     width = 4000
     height = 2000
     print(scn)
+    quit()
     area_def = create_area_def('sahara',
                                {'proj': 'longlat', 'datum': 'WGS84'},
                                area_extent=extent,
