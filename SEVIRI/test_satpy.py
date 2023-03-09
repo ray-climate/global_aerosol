@@ -38,12 +38,17 @@ def plot_SEVIRI_images(file_path):
 
     # Plot composite
     CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
-    fig = plt.figure(figsize=(30, 25))
+    fig = plt.figure(figsize=(40, 20))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
     img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
     # ax.add_feature(ccrs.cartopy.feature.STATES, linewidth=0.25)
-
+    gl = ax.gridlines(xlocs=range(-60, 31, 10), ylocs=range(0, 41, 10), color='black', linestyle='dotted',
+                      zorder=100, draw_labels=True)
+    gl.top_labels = False
+    gl.right_labels = False
+    gl.bottom_labels = True
+    gl.left_labels = True
     # Save plot
     plt.savefig('seviri_dust_rgb_local_v2.png')
     #
