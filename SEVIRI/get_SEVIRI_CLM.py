@@ -5,7 +5,11 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 16:14
 
+from satpy.writers import get_enhanced_image
 from datetime import datetime, timedelta
+from pyresample import create_area_def
+import matplotlib.pyplot as plt
+from satpy import Scene
 from osgeo import gdal
 
 def get_SEVIRI_CLM_time(dt):
@@ -59,15 +63,41 @@ def get_SEVIRI_CLM_cartopy(file_path):
     data = band.ReadAsArray()
     return data
 
-def get_SEVIRI_HR_cartopy(file_path):
-    """Read the SEVIRI HR data from the downloaded file using satpy"""
-    dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
-    # Read the first band of the dataset
-    band = dataset.GetRasterBand(1)
-    # Read the data from the band as a NumPy array
-    data = band.ReadAsArray()
-    return data
+def get_SEVIRI_HR_cartopy(file_path, extent, save_str):
 
+    """Read the SEVIRI HR data from the downloaded file using satpy"""
+    scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
+    composite = 'dust'
+    scn.load([composite], upper_right_corner="NE")
+
+    width = 4000
+    height = 2000
+
+    area_def = create_area_def('sahara',
+                               {'proj': 'longlat', 'datum': 'WGS84'},
+                               area_extent=extent,
+                               shape=(height, width),
+                               units='degrees',
+                               description='sahara')
+
+    new_scn = scn.resample(area_def)
+    CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
+
+    fig = plt.figure(figsize=(30, 15))
+    ax = fig.add_subplot(1, 1, 1, projection=CRS)
+    img = get_enhanced_image(new_scn[composite])
+    img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
+    ax.set_title("Seviri Dust RGB Local", fontsize=30)
+    gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10), ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
+                      color='black', linestyle='dotted',
+                      zorder=100, draw_labels=True)
+    gl.top_labels = False
+    gl.right_labels = False
+    gl.bottom_labels = True
+    gl.left_labels = True
+    gl.xlabel_style = {'size': 25, 'color': 'black'}
+    gl.ylabel_style = {'size': 25, 'color': 'black'}
+    plt.savefig(save_str)
 
 if __name__ == '__main__':
 
