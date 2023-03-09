@@ -6,6 +6,7 @@
 # @Time:        06/03/2023 16:14
 
 from datetime import datetime, timedelta
+from osgeo import gdal
 
 def get_SEVIRI_CLM_time(dt):
 
@@ -49,6 +50,23 @@ def get_HRSEVIRI_time(dt):
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M%S')
     return formatted
 
+def get_SEVIRI_CLM_cartopy(file_path):
+    """Read the SEVIRI CLM data from the downloaded file"""
+    dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
+    # Read the first band of the dataset
+    band = dataset.GetRasterBand(1)
+    # Read the data from the band as a NumPy array
+    data = band.ReadAsArray()
+    return data
+
+def get_SEVIRI_HR_cartopy(file_path):
+    """Read the SEVIRI HR data from the downloaded file using satpy"""
+    dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
+    # Read the first band of the dataset
+    band = dataset.GetRasterBand(1)
+    # Read the data from the band as a NumPy array
+    data = band.ReadAsArray()
+    return data
 
 
 if __name__ == '__main__':
