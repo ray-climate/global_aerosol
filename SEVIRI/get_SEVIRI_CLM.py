@@ -169,7 +169,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
 
     fig = plt.figure(figsize=(30, 15))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
-    plt.imshow(new_scn[composite], transform=CRS, origin='upper', ax=ax)
+    plt.imshow(new_scn[composite], transform=CRS, origin='upper')
     ax.set_title(title, fontsize=35, y=1.05)
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10),
                       ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
