@@ -168,9 +168,6 @@ def plot_seviri(data, save_fig):
     plt.colorbar()
     plt.savefig(save_fig, dpi=200)
 
-
-
-
 # implement SEVIRI data for CLM testing
 lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
 lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
@@ -303,7 +300,7 @@ for day in range(14, 27):
                                       title = 'SEVIRI Dust RGB %s'%HRSEVIRI_time_str,
                                       aeolus_lat=lat_ascending,
                                       aeolus_lon=lon_ascending,
-                                      save_str='./test_satpy_builtin_%s.png'%HRSEVIRI_time_str)
+                                      save_str=output_dir + '/SEVIRI_dust_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
@@ -319,7 +316,7 @@ for day in range(14, 27):
                                        title='SEVIRI CMA %s' % CLMSEVIRI_time_str,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
-                                       save_str='./test_satpy_builtin_CMA_%s.png' % HRSEVIRI_time_str)
+                                       save_str=output_dir + '/SEVIRI_CMA_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
@@ -335,12 +332,12 @@ for day in range(14, 27):
                                        title='SEVIRI Cloud Mask %s' % CLMSEVIRI_time_str,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
-                                       save_str='./test_satpy_builtin_CLM_%s.png' % HRSEVIRI_time_str)
+                                       save_str=output_dir + '/SEVIRI_CLM_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
 
-    quit()
+
     # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
     # plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
 
