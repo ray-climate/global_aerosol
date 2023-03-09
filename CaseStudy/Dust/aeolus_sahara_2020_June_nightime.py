@@ -311,6 +311,7 @@ for day in range(14, 27):
 
     for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
+            print(file)
             if HRSEVIRI_time_str in file:
                 HRSEVIRI_file = os.path.join(root, file)
                 print(HRSEVIRI_file)
