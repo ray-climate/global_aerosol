@@ -82,7 +82,7 @@ if __name__ == '__main__':
     ]
     for test_case in test_cases:
         input_time = test_case['input']
-        output = get_SEVIRI_CLM_time(input_time)
+        output = get_HRSEVIRI_time(input_time)
         print("input", input_time)
         print("output", output)
 
