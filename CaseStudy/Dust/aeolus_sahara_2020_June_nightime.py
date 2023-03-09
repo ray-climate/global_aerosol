@@ -317,6 +317,8 @@ for day in range(14, 27):
                 get_SEVIRI_HR_cartopy(HRSEVIRI_file,
                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                       title = 'SEVIRI Dust RGB %s'%HRSEVIRI_time_str,
+                                      aeolus_lat=lat_ascending,
+                                      aeolus_lon=lon_ascending,
                                       save_str='./test_satpy_builtin.png')
 
             else:
