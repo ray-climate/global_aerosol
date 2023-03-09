@@ -79,7 +79,6 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str):
                                shape=(height, width),
                                units='degrees',
                                description='sahara')
-
     new_scn = scn.resample(area_def)
     CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
 
@@ -87,8 +86,8 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str):
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
     img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
-    title = ax.set_title(title, fontsize=35)
-    title.set_position([.5, 1.1])
+    get_title = ax.set_title(title, fontsize=35)
+    get_title.set_position([.5, 1.1])
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10), ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
