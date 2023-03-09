@@ -51,12 +51,10 @@ def get_HRSEVIRI_time(dt):
 
 
 
-
-
-
 if __name__ == '__main__':
 
-    now = datetime.now()
+    # now = datetime.now()
+    now = datetime(2023, 3, 9, 12, 6, 30)
     formatted = get_HRSEVIRI_time(now)
     print("Original datetime:", now)
     print("Formatted rounded datetime:", formatted)
