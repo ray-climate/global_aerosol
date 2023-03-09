@@ -314,7 +314,10 @@ for day in range(14, 27):
 
             if HRSEVIRI_time_str in file:
                 HRSEVIRI_file = os.path.join(root, file)
-                print(HRSEVIRI_file)
+                get_SEVIRI_HR_cartopy(HRSEVIRI_file,
+                                      extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                      save_str='./test_satpy_builtin.png')
+
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
 
