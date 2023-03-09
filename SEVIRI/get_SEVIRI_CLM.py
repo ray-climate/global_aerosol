@@ -150,10 +150,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     # Read the data from the band as a NumPy array
     data = band.ReadAsArray()
 
-    # fig = plt.figure(figsize=(15, 15))
-    # plt.imshow(data)
-    # plt.savefig(save_str)
-    # quit()
+
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
     composite = 'dust'
@@ -165,6 +162,11 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     scn[composite].values[2, :, :] = data.T
     width = 4000
     height = 2000
+
+    fig = plt.figure(figsize=(15, 15))
+    plt.imshow(scn[composite].values[0, :, :])
+    plt.savefig(save_str)
+    quit()
 
     area_def = create_area_def('sahara',
                                {'proj': 'longlat', 'datum': 'WGS84'},
