@@ -108,59 +108,48 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
     # open the netCDF file
     ds = xr.open_dataset(SEVIRI_CMA_file_path)
     # extract the variable array
-    var_array = ds['cma']
-    print(var_array.shape)
-    quit()
+    var_array = ds['cma'][0,:,:]
 
-    # dataset = gdal.Open(SEVIRI_CLM_file_path, gdal.GA_ReadOnly)
-    # # Read the first band of the dataset
-    # band = dataset.GetRasterBand(1)
-    # # Read the data from the band as a NumPy array
-    # data = band.ReadAsArray()
-    # data_mask = np.zeros((data.shape))
-    # data_mask[:] = np.nan
-    # data_mask[data == 2] = 1
-    #
-    # """Read the SEVIRI HR data from the downloaded file using satpy"""
-    # scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
-    # composite = 'dust'
-    # scn.load([composite], upper_right_corner="NE")
-    #
-    # scn[composite][0, :, :] = data_mask
-    # scn[composite][1, :, :] = data_mask
-    # scn[composite][2, :, :] = data_mask
-    # width = 4000
-    # height = 2000
-    #
-    # area_def = create_area_def('sahara',
-    #                            {'proj': 'longlat', 'datum': 'WGS84'},
-    #                            area_extent=extent,
-    #                            shape=(height, width),
-    #                            units='degrees',
-    #                            description='sahara')
-    # new_scn = scn.resample(area_def)
-    # CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
-    #
-    # fig = plt.figure(figsize=(30, 15))
-    # ax = fig.add_subplot(1, 1, 1, projection=CRS)
-    # img = get_enhanced_image(new_scn[composite])
-    # img.data.plot.imshow(cmap='gray',transform=CRS, origin='upper', ax=ax)
-    # ax.set_title(title, fontsize=35, y=1.05)
-    # gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10),
-    #                   ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
-    #                   color='black', linestyle='dotted',
-    #                   zorder=100, draw_labels=True)
-    #
-    # # Add the scatter plot
-    # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
-    # plt.legend(fontsize=35)
-    # gl.top_labels = False
-    # gl.right_labels = False
-    # gl.bottom_labels = True
-    # gl.left_labels = True
-    # gl.xlabel_style = {'size': 35, 'color': 'black'}
-    # gl.ylabel_style = {'size': 35, 'color': 'black'}
-    # plt.savefig(save_str)
+    """Read the SEVIRI HR data from the downloaded file using satpy"""
+    scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
+    composite = 'dust'
+    scn.load([composite], upper_right_corner="NE")
+
+    scn[composite][0, :, :] = var_array
+    scn[composite][1, :, :] = var_array
+    scn[composite][2, :, :] = var_array
+    width = 4000
+    height = 2000
+
+    area_def = create_area_def('sahara',
+                               {'proj': 'longlat', 'datum': 'WGS84'},
+                               area_extent=extent,
+                               shape=(height, width),
+                               units='degrees',
+                               description='sahara')
+    new_scn = scn.resample(area_def)
+    CRS = new_scn[composite].attrs['area'].to_cartopy_crs()
+
+    fig = plt.figure(figsize=(30, 15))
+    ax = fig.add_subplot(1, 1, 1, projection=CRS)
+    img = get_enhanced_image(new_scn[composite])
+    img.data.plot.imshow(cmap='gray',transform=CRS, origin='upper', ax=ax)
+    ax.set_title(title, fontsize=35, y=1.05)
+    gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10),
+                      ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
+                      color='black', linestyle='dotted',
+                      zorder=100, draw_labels=True)
+
+    # Add the scatter plot
+    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+    plt.legend(fontsize=35)
+    gl.top_labels = False
+    gl.right_labels = False
+    gl.bottom_labels = True
+    gl.left_labels = True
+    gl.xlabel_style = {'size': 35, 'color': 'black'}
+    gl.ylabel_style = {'size': 35, 'color': 'black'}
+    plt.savefig(save_str)
 
 
 def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, title, save_str, aeolus_lat, aeolus_lon):

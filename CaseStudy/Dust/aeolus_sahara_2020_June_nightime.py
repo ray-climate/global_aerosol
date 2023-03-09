@@ -59,6 +59,7 @@ AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/a
 CLMSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
 HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/'
 CMASEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/CMA-SEVIRI/'
+
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
 
@@ -315,10 +316,10 @@ for day in range(14, 27):
                 get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
                                        SEVIRI_CMA_file_path = SEVIRI_CMA_file,
                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                       title='SEVIRI Cloud Mask %s' % CLMSEVIRI_time_str,
+                                       title='SEVIRI CMA %s' % CLMSEVIRI_time_str,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
-                                       save_str='./test_satpy_builtin_CLM_%s.png' % HRSEVIRI_time_str)
+                                       save_str='./test_satpy_builtin_CMA_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
