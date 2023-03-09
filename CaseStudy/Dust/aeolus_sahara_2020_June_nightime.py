@@ -318,7 +318,7 @@ for day in range(14, 27):
                                        title='SEVIRI Cloud Mask %s' % HRSEVIRI_time_str,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
-                                       save_str='./test_satpy_builtin_%s.png' % HRSEVIRI_time_str)
+                                       save_str='./test_satpy_builtin_CLM_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
