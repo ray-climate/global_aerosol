@@ -109,15 +109,18 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
     ds = xr.open_dataset(SEVIRI_CMA_file_path)
     # extract the variable array
     var_array = ds['cma'][0,:,:]
+    cma_mask = np.zeros((var_array.shape))
+    cma_mask[:] = np.nan
+    cma_mask[var_array == 1] = 1
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
 
-    scn[composite][0, :, :] = var_array
-    scn[composite][1, :, :] = var_array
-    scn[composite][2, :, :] = var_array
+    scn[composite][0, :, :] = cma_mask
+    scn[composite][1, :, :] = cma_mask
+    scn[composite][2, :, :] = cma_mask
     width = 4000
     height = 2000
 
