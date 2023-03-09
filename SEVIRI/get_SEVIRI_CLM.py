@@ -63,7 +63,7 @@ def get_SEVIRI_CLM_cartopy(file_path):
     data = band.ReadAsArray()
     return data
 
-def get_SEVIRI_HR_cartopy(file_path, extent, save_str):
+def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str):
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
@@ -87,7 +87,7 @@ def get_SEVIRI_HR_cartopy(file_path, extent, save_str):
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
     img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
-    ax.set_title("Seviri Dust RGB Local", fontsize=30)
+    ax.set_title(title, fontsize=35)
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10), ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
@@ -95,8 +95,8 @@ def get_SEVIRI_HR_cartopy(file_path, extent, save_str):
     gl.right_labels = False
     gl.bottom_labels = True
     gl.left_labels = True
-    gl.xlabel_style = {'size': 25, 'color': 'black'}
-    gl.ylabel_style = {'size': 25, 'color': 'black'}
+    gl.xlabel_style = {'size': 35, 'color': 'black'}
+    gl.ylabel_style = {'size': 35, 'color': 'black'}
     plt.savefig(save_str)
 
 if __name__ == '__main__':
