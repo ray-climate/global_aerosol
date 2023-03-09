@@ -8,7 +8,6 @@
 import sys
 sys.path.append('../../')
 
-from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
@@ -167,14 +166,8 @@ def plot_seviri(data, save_fig):
     plt.colorbar()
     plt.savefig(save_fig, dpi=200)
 
-def get_SEVIRI_CLM(file_path):
-    """Read the SEVIRI CLM data from the downloaded file"""
-    dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
-    # Read the first band of the dataset
-    band = dataset.GetRasterBand(1)
-    # Read the data from the band as a NumPy array
-    data = band.ReadAsArray()
-    return data
+
+
 
 # implement SEVIRI data for CLM testing
 lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
@@ -293,25 +286,29 @@ for day in range(14, 27):
             lat_ascending.extend(latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             lon_ascending.extend(longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             time_ascending.extend(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-    print('before: ', time_ascending[int(len(time_ascending)/2)])
+
     central_time = time_ascending[int(len(time_ascending)/2)]
-    SEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
-    print('after: ', SEVIRI_time_str)
+    CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
+    HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
 
     for root, dirs, files in os.walk(SEVIRI_dir):
         for file in files:
-            if SEVIRI_time_str in file:
+            if CLMSEVIRI_time_str in file:
                 SEVIRI_CLM_file = os.path.join(root, file)
-                SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
-                CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
-                CLM_valid[:] = np.nan
-                CLM_valid[SEVIRI_CLM_data == 2] = 1
-                mask = np.isnan(CLM_valid)
-                CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
+                # SEVIRI_CLM_data = get_SEVIRI_CLM(SEVIRI_CLM_file)
+                # CLM_valid = np.zeros((SEVIRI_CLM_data.shape))
+                # CLM_valid[:] = np.nan
+                # CLM_valid[SEVIRI_CLM_data == 2] = 1
+                # mask = np.isnan(CLM_valid)
+                # CLM_valid = np.ma.masked_array(SEVIRI_CLM_data, mask)
+            elif HRSEVIRI_time_str in file:
+                SEVIRI_HR_file = os.path.join(root, file)
+                print(SEVIRI_HR_file)
+                quit()
+                get_SEVIRI_HR_cartopy(SEVIRI_HR_file)
             else:
                 logger.warning('No SEVIRI CLM file found for the given time: %s' % central_time)
-    print(lat_SEVIRI.shape, dust_SEVIRI.shape)
-    print(lat_SEVIRI)
+
     # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
     plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
     quit()
