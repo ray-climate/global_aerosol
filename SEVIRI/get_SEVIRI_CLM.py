@@ -150,10 +150,10 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     # Read the data from the band as a NumPy array
     data = band.ReadAsArray()
 
-    fig = plt.figure(figsize=(15, 15))
-    plt.imshow(data)
-    plt.savefig(save_str)
-    quit()
+    # fig = plt.figure(figsize=(15, 15))
+    # plt.imshow(data)
+    # plt.savefig(save_str)
+    # quit()
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
     composite = 'VIS006'
@@ -173,7 +173,8 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
 
     fig = plt.figure(figsize=(30, 15))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
-    plt.imshow(new_scn[composite], transform=CRS, origin='upper')
+    img = get_enhanced_image(new_scn[composite])
+    img.data.plot.imshow(transform=CRS, origin='upper', ax=ax)
     ax.set_title(title, fontsize=35, y=1.05)
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10),
                       ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
