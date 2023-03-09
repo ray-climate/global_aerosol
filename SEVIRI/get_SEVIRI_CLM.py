@@ -28,11 +28,9 @@ def get_SEVIRI_CLM_time(dt):
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M%S')
     return formatted
 
-def get_HRSEVIRI_time(dt, interval=15):
-    """
-    Round a datetime object to the closest minute interval
-    specified by the 'interval' parameter.
-    """
+def get_HRSEVIRI_time(dt):
+    """Round a time object to the closest 12, 27, 42, or 57-minute interval."""
+    interval = 15  # set the default interval to 15 minutes
     minutes = dt.minute
     # Calculate the number of minutes to add or subtract to get to the nearest interval
     remainder = minutes % interval
@@ -46,9 +44,17 @@ def get_HRSEVIRI_time(dt, interval=15):
         dt = dt.replace(minute=0)
         rounded_minutes -= 60
     # Round the datetime object to the nearest interval
+    while rounded_minutes not in [12, 27, 42, 57]:
+        if rounded_minutes < 12:
+            rounded_minutes += interval
+            dt -= timedelta(minutes=interval)
+        else:
+            rounded_minutes -= interval
+            dt += timedelta(minutes=interval)
     rounded = dt.replace(minute=rounded_minutes, second=0, microsecond=0)
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M%S')
     return formatted
+
 
 
 
