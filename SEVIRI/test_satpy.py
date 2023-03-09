@@ -42,7 +42,7 @@ def plot_SEVIRI_images(file_path):
     fig = plt.figure(figsize=(30, 15))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
-    img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
+    # img.data.plot.imshow(rgb='bands', transform=CRS, origin='upper', ax=ax)
     # ax.add_feature(ccrs.cartopy.feature.STATES, linewidth=0.25)
     gl = ax.gridlines(xlocs=range(-60, 31, 10), ylocs=range(0, 41, 10), color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
@@ -50,8 +50,8 @@ def plot_SEVIRI_images(file_path):
     gl.right_labels = False
     gl.bottom_labels = True
     gl.left_labels = True
-    gl.xlabel_style = {'size': 15, 'color': 'black'}
-    gl.ylabel_style = {'size': 15, 'color': 'black'}
+    gl.xlabel_style = {'size': 25, 'color': 'black'}
+    gl.ylabel_style = {'size': 25, 'color': 'black'}
     plt.savefig('seviri_dust_rgb_local_v2.png')
     #########################################################################
 
