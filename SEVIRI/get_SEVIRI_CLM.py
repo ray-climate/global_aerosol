@@ -155,18 +155,12 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
-    print(scn[composite].values[0,1000,1000])
-    print(type(scn[composite]))
+
     scn[composite][0, :, :] = data.T
-    scn[composite].values[1, :, :] = data.T
-    scn[composite].values[2, :, :] = data.T
+    scn[composite][1, :, :] = data.T
+    scn[composite][2, :, :] = data.T
     width = 4000
     height = 2000
-    print(scn[composite].values[0, 1000, 1000])
-    fig = plt.figure(figsize=(15, 15))
-    plt.imshow(data.T)
-    plt.savefig(save_str)
-    quit()
 
     area_def = create_area_def('sahara',
                                {'proj': 'longlat', 'datum': 'WGS84'},
