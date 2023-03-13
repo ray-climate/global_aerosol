@@ -312,7 +312,7 @@ for day in range(14, 27):
 
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
-    quit()
+
     for root, dirs, files in os.walk(CMASEVIRI_dir):
         for file in files:
             if CLMSEVIRI_time_str in file:
