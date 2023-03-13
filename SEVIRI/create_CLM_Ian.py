@@ -4,11 +4,24 @@
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        13/03/2023 10:31
-import os
+
 from datetime import datetime, timedelta
+from satpy import Scene
 import numpy as np
+import os
 
 # create SEVIRI cloud mask using modified method from Ian (https://doi.org/10.1029/2011JD016845)
+
+def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
+
+    scn = Scene(reader='seviri_l1b_native', filenames=[HRSEVIRI_file])
+    composite = ['IR_108', 'IR_087']
+    scn.load([composite], upper_right_corner="NE")
+    band108 = scn['IR_108']
+    band087 = scn['IR_087']
+    print(band087.shape)
+    print(band108.shape)
+
 
 def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir):
 
@@ -40,24 +53,8 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir
                         print('Both HRSEVIRI and CLMSEVIRI files exist for the current time: ')
                         print(os.path.basename(HRSEVIRI_file))
                         print(os.path.basename(CLMSEVIRI_file))
+                        cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file)
                         quit()
-        # check if CLMSEVIRI_exact_time_str exists in any subdirectory of CLMSEVIRI_dir
-
-
-
-                quit()
-
-        # current_HRSEVIRI_file = HRSEVIRI_dir + 'HRSEVIRI_' + current_date_str + '.nc'
-        # print('Reading HRSEVIRI file: ', current_HRSEVIRI_file)
-        # current_HRSEVIRI_data = xr.open_dataset(current_HRSEVIRI_file)
-        # current_108_087_ref = current_HRSEVIRI_data['108_087_ref'].values
-        # current_108_087_ref[current_108_087_ref == 0] = np.nan
-        # if current_date == start_date:
-        #     # create a new array to store the 108-087 BTD reference data
-        #     ref_108_087 = current_108_087_ref
-        # else:
-        #     # append the current 108-087 BTD reference data to the existing array
-        #     ref_108_087 = np.append(ref_108_087, current_108_087_ref, axis=0)
         current_date = current_date + timedelta(days=1)
 
 
