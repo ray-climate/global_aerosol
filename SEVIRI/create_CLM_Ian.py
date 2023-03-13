@@ -91,17 +91,12 @@ def combine_108_087_BTD(Output_dir):
 
     BTD_108_087 = []
 
-    index  = 0
     for file in os.listdir(Output_dir):
         if file.endswith('.npy'):
-            if index == 0:
-                BTD_108_087 = np.load(os.path.join(Output_dir, file))
-            else:
-                BTD_108_087 = np.stack([BTD_108_087, np.load(os.path.join(Output_dir, file))], axis=2)
-            index = index + 1
-            print(BTD_108_087.shape)
-
-    BTD_108_087 = np.vstack(BTD_108_087)
+            BTD_108_087.append(np.load(Output_dir + '/' + file))
+            print(file)
+    BTD_108_087_array = np.stack(BTD_108_087, axis=2)
+    print(BTD_108_087_array.shape)
 if __name__ == '__main__':
 
     HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI'
