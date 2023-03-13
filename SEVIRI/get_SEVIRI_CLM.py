@@ -224,15 +224,15 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
 
         dust_mask = np.zeros((band120.shape))
         dust_mask[:] = np.nan
-        dust_mask[(band108 >= threshold_1) & ((band120 - band108) >= threshold_2) & ((band108 - band087) <= threshold_3) & (((band108 - band087) - BTD_ref_data) < threshold_4)] = 1.
-        # dust_mask[(((band108 - band087) - BTD_ref_data) < threshold_4)] = 1.
-        # scn['dust'][0, :, :] = dust_mask
-        # scn['dust'][1, :, :] = dust_mask
-        # scn['dust'][2, :, :] = dust_mask
-        #
-        scn['dust'][0, :, :] = globe_land_mask
-        scn['dust'][1, :, :] = globe_land_mask
-        scn['dust'][2, :, :] = globe_land_mask
+
+        dust_mask_land = np.copy(dust_mask)
+        dust_mask_ocean = np.copy(dust_mask)
+        dust_mask_land[(band108 >= threshold_1) & ((band120 - band108) >= threshold_2) & ((band108 - band087) <= threshold_3) & (((band108 - band087) - BTD_ref_data) < threshold_4) & (globe_land_mask == True)] = 1.
+        dust_mask_ocean[(band108 >= threshold_1) & ((band120 - band108) >= threshold_2) & (globe_land_mask == False)] = 1.
+        dust_mask[(dust_mask_land == 1) | (dust_mask_ocean == 1)] = 1.
+        scn['dust'][0, :, :] = dust_mask
+        scn['dust'][1, :, :] = dust_mask
+        scn['dust'][2, :, :] = dust_mask
 
         width = 4000
         height = 2000
