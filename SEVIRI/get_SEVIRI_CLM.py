@@ -210,6 +210,8 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         band087 = scn['IR_087']
 
         lons, lats = scn['IR_120'].area.get_lonlats()
+        lats[lats==np.Inf] = 0
+        lons[lons == np.Inf] = 0
         globe_land_mask = globe.is_land(lats, lons)
         print(globe_land_mask)
         print(globe_land_mask.shape)
