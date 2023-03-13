@@ -37,10 +37,10 @@ def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
     print(data[data==2])
     data_mask = np.zeros((data.shape))
     data_mask[:] = np.nan
-    data_mask[data == 2] = 1
+    data_mask[data == 2.] = 1.
 
     fig = plt.figure(figsize=(15, 15))
-    plt.imshow(data_mask, cmap='Greys')
+    plt.imshow(data_mask, cmap='jet')
     plt.savefig('./CLM.png')
     plt.close()
 
