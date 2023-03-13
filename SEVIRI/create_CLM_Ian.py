@@ -87,6 +87,16 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir
                         cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file, Output_dir + '/BTD_ref_%s.npy'%HRSEVIRI_exact_time_str)
         current_date = current_date + timedelta(days=1)
 
+def combine_108_087_BTD(Output_dir):
+
+    BTD_108_087 = []
+
+    for file in os.listdir(Output_dir):
+        if file.endswith('.npy'):
+            BTD_108_087 = np.vstack(BTD_108_087, np.load(os.path.join(Output_dir, file)))
+            print(BTD_108_087.shape)
+
+    BTD_108_087 = np.vstack(BTD_108_087)
 if __name__ == '__main__':
 
     HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI'
@@ -94,5 +104,6 @@ if __name__ == '__main__':
     Output_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_Ian/BTD_ref'
     start_date_str = '20200614-0000'
     end_date_str = '20200627-2359'
-    create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir, Output_dir)
+    # create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir, Output_dir)
+    combine_108_087_BTD(Output_dir)
 
