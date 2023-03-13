@@ -4,7 +4,7 @@
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        13/03/2023 10:31
-
+import os
 from datetime import datetime, timedelta
 import numpy as np
 
@@ -24,7 +24,10 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir):
     current_date = start_date
     while current_date <= end_date:
         current_date_str = datetime.strftime(current_date, '%Y%m%d')
-        print(current_date_str)
+        for sub_dir in os.listdir(HRSEVIRI_dir + '/%s/'%current_date_str):
+            if sub_dir.endswith('-NA'):
+                SEVIRI_path = HRSEVIRI_dir + '/%s/%s'%(current_date_str, sub_dir)
+                print(SEVIRI_path)
         # current_HRSEVIRI_file = HRSEVIRI_dir + 'HRSEVIRI_' + current_date_str + '.nc'
         # print('Reading HRSEVIRI file: ', current_HRSEVIRI_file)
         # current_HRSEVIRI_data = xr.open_dataset(current_HRSEVIRI_file)
