@@ -15,8 +15,7 @@ import os
 def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
 
     scn = Scene(reader='seviri_l1b_native', filenames=[HRSEVIRI_file])
-    composite = ['IR_108', 'IR_087']
-    scn.load([composite], upper_right_corner="NE")
+    scn.load(['IR_108', 'IR_087'], upper_right_corner="NE")
     band108 = scn['IR_108']
     band087 = scn['IR_087']
     print(band087.shape)
