@@ -8,6 +8,7 @@
 from satpy.writers import get_enhanced_image
 from datetime import datetime, timedelta
 from pyresample import create_area_def
+from global_land_mask import globe
 import matplotlib.pyplot as plt
 from satpy import Scene
 from osgeo import gdal
@@ -208,6 +209,10 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         band108 = scn['IR_108']
         band087 = scn['IR_087']
 
+        lons, lats = scn['IR_120'].area.get_lonlats()
+        print(lons)
+        print(lons.shape)
+        quit()
         threshold_1 = 285.
         threshold_2 = 0.
         threshold_3 = 10.
