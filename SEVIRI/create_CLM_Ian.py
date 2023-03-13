@@ -48,7 +48,7 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir):
 
 if __name__ == '__main__':
 
-    HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/'
+    HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI'
     start_date_str = '20200614-0000'
     end_date_str = '20200627-2359'
     create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir)
