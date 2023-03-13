@@ -56,15 +56,6 @@ def get_HRSEVIRI_time(dt):
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M')
     return formatted
 
-def get_SEVIRI_CLM_cartopy(file_path):
-    """Read the SEVIRI CLM data from the downloaded file"""
-    dataset = gdal.Open(file_path, gdal.GA_ReadOnly)
-    # Read the first band of the dataset
-    band = dataset.GetRasterBand(1)
-    # Read the data from the band as a NumPy array
-    data = band.ReadAsArray()
-    return data
-
 def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus_lon):
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
@@ -154,7 +145,6 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
     gl.ylabel_style = {'size': 35, 'color': 'black'}
     plt.savefig(save_str)
 
-
 def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, title, save_str, aeolus_lat, aeolus_lon):
 
     dataset = gdal.Open(SEVIRI_CLM_file_path, gdal.GA_ReadOnly)
@@ -207,6 +197,61 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     gl.ylabel_style = {'size': 35, 'color': 'black'}
     plt.savefig(save_str)
 
+def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str, aeolus_lat, aeolus_lon):
+
+        BTD_ref_data = np.load(BTD_ref)
+        """Read the SEVIRI HR data from the downloaded file using satpy"""
+        scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
+        scn.load(['IR_120', 'IR_108', 'IR_087', 'dust'], upper_right_corner="NE")
+
+        band120 = scn['IR_120']
+        band108 = scn['IR_108']
+        band087 = scn['IR_087']
+
+        threshold_1 = 285.
+        threshold_2 = 0.
+        threshold_3 = 10.
+        threshold_4 = -2
+
+        dust_mask = np.zeros((band120.shape))
+        dust_mask[(band108 > threshold_1) & ((band120 - band108) > threshold_2) & ((band108 - band087) > threshold_3) & (((band108 - band087) - BTD_ref_data) < threshold_4)] = 1.
+
+        scn['dust'][0, :, :] = dust_mask
+        scn['dust'][1, :, :] = dust_mask
+        scn['dust'][2, :, :] = dust_mask
+
+        width = 4000
+        height = 2000
+
+        area_def = create_area_def('sahara',
+                                {'proj': 'longlat', 'datum': 'WGS84'},
+                                area_extent=extent,
+                                shape=(height, width),
+                                units='degrees',
+                                description='sahara')
+        new_scn = scn.resample(area_def)
+        CRS = new_scn['dust'].attrs['area'].to_cartopy_crs()
+
+        fig = plt.figure(figsize=(30, 15))
+        ax = fig.add_subplot(1, 1, 1, projection=CRS)
+        img = get_enhanced_image(new_scn['dust'])
+        img.data.plot.imshow(cmap='gray',transform=CRS, origin='upper', ax=ax)
+        ax.set_title(title, fontsize=35, y=1.05)
+        gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10),
+                        ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
+                        color='black', linestyle='dotted',
+                        zorder=100, draw_labels=True)
+
+        # Add the scatter plot
+        ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+        plt.legend(fontsize=35)
+        gl.top_labels = False
+        gl.right_labels = False
+        gl.bottom_labels = True
+        gl.left_labels = True
+        gl.xlabel_style = {'size': 35, 'color': 'black'}
+        gl.ylabel_style = {'size': 35, 'color': 'black'}
+        plt.savefig(save_str)
 
 if __name__ == '__main__':
 

@@ -169,13 +169,13 @@ def plot_seviri(data, save_fig):
     plt.savefig(save_fig, dpi=200)
 
 # implement SEVIRI data for CLM testing
-lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
-lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
-CLM_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
-dust_SEVIRI = plt.imread('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/seviri_dust_rgb.png')
-
-lon_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
-lat_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
+# lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
+# lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
+# CLM_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
+# dust_SEVIRI = plt.imread('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/seviri_dust_rgb.png')
+#
+# lon_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
+# lat_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
 # CLM_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
 
 # Extract relevant variables from the AEOLUS data
