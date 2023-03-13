@@ -36,8 +36,10 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir
                     if CLMSEVIRI_exact_time_str in sub_dir2:
                         CLMSEVIRI_path = CLMSEVIRI_dir + '/%s/%s' % (current_CLMSEVIRI_date_str, sub_dir2)
                         CLMSEVIRI_file = os.path.join(CLMSEVIRI_path, sub_dir2 + '.grb')
-                        print(HRSEVIRI_file)
-                        print(CLMSEVIRI_file)
+
+                        print('Both HRSEVIRI and CLMSEVIRI files exist for the current time: ')
+                        print(os.path.basename(HRSEVIRI_file))
+                        print(os.path.basename(CLMSEVIRI_file))
                         quit()
         # check if CLMSEVIRI_exact_time_str exists in any subdirectory of CLMSEVIRI_dir
 
