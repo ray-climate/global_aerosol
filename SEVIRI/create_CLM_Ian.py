@@ -36,9 +36,8 @@ def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
     data = band.ReadAsArray()
 
     data_mask = np.zeros((data.shape))
-    data_mask[:] = np.nan
-    data_mask[data == 2.] = 1.
-    print(data_mask[data_mask == 2])
+    data_mask[:] = 1
+    data_mask[data == 2.] = np.nan
     fig = plt.figure(figsize=(15, 15))
     plt.imshow(data_mask, cmap='jet')
     plt.savefig('./CLM.png')
