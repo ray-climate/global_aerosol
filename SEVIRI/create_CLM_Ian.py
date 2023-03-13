@@ -40,7 +40,7 @@ def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
 
     fig = plt.figure(figsize=(15, 15))
     plt.imshow(data_mask, cmap='Greys')
-    plt.savefig('./BTD.png')
+    plt.savefig('./CLM.png')
     plt.close()
 
 
