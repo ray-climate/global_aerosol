@@ -30,8 +30,9 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir):
                 HRSEVIRI_file = os.path.join(HRSEVIRI_path, sub_dir + '.nat')
 
                 HRSEVIRI_exact_time_str = sub_dir.split('-')[5][0:12]
-                print(HRSEVIRI_file)
+                CLMSEVIRI_exact_time_str = datetime.strftime(datetime.strptime(HRSEVIRI_exact_time_str, '%Y%m%d%H%M') + timedelta(minutes=3))
                 print(HRSEVIRI_exact_time_str)
+                print(CLMSEVIRI_exact_time_str)
                 quit()
 
         # current_HRSEVIRI_file = HRSEVIRI_dir + 'HRSEVIRI_' + current_date_str + '.nc'
