@@ -34,7 +34,7 @@ def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
     band = dataset.GetRasterBand(1)
     # Read the data from the band as a NumPy array
     data = band.ReadAsArray()
-    print(data[data>0])
+    print(data[data==2])
     data_mask = np.zeros((data.shape))
     data_mask[:] = np.nan
     data_mask[data == 2] = 1
