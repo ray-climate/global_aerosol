@@ -211,7 +211,7 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         threshold_1 = 285.
         threshold_2 = 0.
         threshold_3 = 10.
-        threshold_4 = -2
+        threshold_4 = -0.7
 
         dust_mask = np.zeros((band120.shape))
         dust_mask[:] = np.nan
