@@ -308,11 +308,11 @@ for day in range(14, 27):
                                        title='SEVIRI Dust Mask %s' % HRSEVIRI_time_str,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
-                                       save_str=output_dir + '/SEVIRI_Ian_dust_land_mask_%s.png' % HRSEVIRI_time_str)
+                                       save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
-    quit()
+
     for root, dirs, files in os.walk(CMASEVIRI_dir):
         for file in files:
             if CLMSEVIRI_time_str in file:
