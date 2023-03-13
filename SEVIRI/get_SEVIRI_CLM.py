@@ -211,19 +211,19 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         threshold_1 = 285.
         threshold_2 = 0.
         threshold_3 = 10.
-        threshold_4 = -0.7
+        threshold_4 = -2.
 
         dust_mask = np.zeros((band120.shape))
         dust_mask[:] = np.nan
-        # dust_mask[(band108 >= threshold_1) & ((band120 - band108) >= threshold_2) & ((band108 - band087) <= threshold_3) & (((band108 - band087) - BTD_ref_data) < threshold_4)] = 1.
-        dust_mask[(((band108 - band087) - BTD_ref_data) < threshold_4)] = 1.
-        scn['dust'][0, :, :] = dust_mask
-        scn['dust'][1, :, :] = dust_mask
-        scn['dust'][2, :, :] = dust_mask
+        dust_mask[(band108 >= threshold_1) & ((band120 - band108) >= threshold_2) & ((band108 - band087) <= threshold_3) & (((band108 - band087) - BTD_ref_data) < threshold_4)] = 1.
+        # dust_mask[(((band108 - band087) - BTD_ref_data) < threshold_4)] = 1.
+        # scn['dust'][0, :, :] = dust_mask
+        # scn['dust'][1, :, :] = dust_mask
+        # scn['dust'][2, :, :] = dust_mask
         #
-        # scn['dust'][0, :, :] = BTD_ref_data
-        # scn['dust'][1, :, :] = BTD_ref_data
-        # scn['dust'][2, :, :] = BTD_ref_data
+        scn['dust'][0, :, :] = BTD_ref_data
+        scn['dust'][1, :, :] = BTD_ref_data
+        scn['dust'][2, :, :] = BTD_ref_data
 
         width = 4000
         height = 2000
