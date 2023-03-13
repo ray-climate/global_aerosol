@@ -90,13 +90,37 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir
 def combine_108_087_BTD(Output_dir):
 
     BTD_108_087 = []
+    counter = 0
 
     for file in os.listdir(Output_dir):
         if file.endswith('.npy'):
-            BTD_108_087.append(np.load(Output_dir + '/' + file))
-            print(file)
-    BTD_108_087_array = np.stack(BTD_108_087, axis=2)
-    print(BTD_108_087_array.shape)
+            print('Processing file %s'%file)
+            BTD_108_087.append(np.load(os.path.join(Output_dir, file)))
+            counter += 1
+            if counter % 30 == 0:
+                BTD_108_087_array = np.stack(BTD_108_087, axis=2)
+                BTD_108_087_mean = np.nanmean(BTD_108_087_array, axis=2)
+                new_filename = f"averaged_{counter // 30}.npy"
+                np.save(os.path.join(Output_dir, new_filename), BTD_108_087_mean)
+                BTD_108_087 = []
+
+    if len(BTD_108_087) > 0:
+        BTD_108_087_array = np.stack(BTD_108_087, axis=2)
+        BTD_108_087_mean = np.nanmean(BTD_108_087_array, axis=2)
+        new_filename = f"averaged_{(counter // 30) + 1}.npy"
+        print('Saving final averaged file %s'%new_filename)
+        np.save(os.path.join(Output_dir, new_filename), BTD_108_087_mean)
+
+    all_averages = []
+    for file in os.listdir(Output_dir):
+        if file.startswith('averaged_') and file.endswith('.npy'):
+            print('Processing file %s'%file)
+            all_averages.append(np.load(os.path.join(Output_dir, file)))
+    all_averages_array = np.stack(all_averages, axis=2)
+    final_average = np.nanmean(all_averages_array, axis=2)
+
+    np.save(os.path.join(Output_dir, 'final_average.npy'), final_average)
+
 if __name__ == '__main__':
 
     HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI'
