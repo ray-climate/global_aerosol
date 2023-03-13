@@ -210,12 +210,13 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         band087 = scn['IR_087']
 
         lons, lats = scn['IR_120'].area.get_lonlats()
-        lats[lats==np.Inf] = 0
-        lons[lons == np.Inf] = 0
-        globe_land_mask = globe.is_land(lats, lons)
-        print(globe_land_mask)
-        print(globe_land_mask.shape)
-        quit()
+        lats_grid = np.cops(lats)
+        lons_grid = np.cops(lons)
+        lats_grid[lats == np.Inf] = 0
+        lons_grid[lons == np.Inf] = 0
+        globe_land_mask = globe.is_land(lats_grid, lons_grid)
+        globe_land_mask[lats == np.Inf] = np.nan
+
         threshold_1 = 285.
         threshold_2 = 0.
         threshold_3 = 10.
@@ -229,9 +230,9 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         # scn['dust'][1, :, :] = dust_mask
         # scn['dust'][2, :, :] = dust_mask
         #
-        scn['dust'][0, :, :] = BTD_ref_data
-        scn['dust'][1, :, :] = BTD_ref_data
-        scn['dust'][2, :, :] = BTD_ref_data
+        scn['dust'][0, :, :] = globe_land_mask
+        scn['dust'][1, :, :] = globe_land_mask
+        scn['dust'][2, :, :] = globe_land_mask
 
         width = 4000
         height = 2000
