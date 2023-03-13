@@ -14,7 +14,7 @@ import os
 
 # create SEVIRI cloud mask using modified method from Ian (https://doi.org/10.1029/2011JD016845)
 
-def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
+def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file, save_str):
 
     # interpret the SEVIRI 10.8um - 8.7um BTD from a single image
     scn = Scene(reader='seviri_l1b_native', filenames=[HRSEVIRI_file])
@@ -22,11 +22,6 @@ def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
     band108 = scn['IR_108']
     band087 = scn['IR_087']
     BTD = band108 - band087
-
-    fig = plt.figure(figsize=(15, 15))
-    plt.imshow(BTD, cmap='Greys')
-    plt.savefig('./BTD.png')
-    plt.close()
 
     # interpret cloud mask from a single CLM image
     dataset = gdal.Open(CLMSEVIRI_file, gdal.GA_ReadOnly)
@@ -38,20 +33,28 @@ def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
     data_mask = np.zeros((data.shape))
     data_mask[:] = 1
     data_mask[data == 2.] = np.nan
-    fig = plt.figure(figsize=(15, 15))
-    plt.imshow(data_mask, cmap='jet')
-    plt.savefig('./CLM.png')
-    plt.close()
 
-    fig = plt.figure(figsize=(15, 15))
-    plt.imshow(BTD * data_mask, cmap='jet')
-    plt.savefig('./BTD_CLM.png')
-    plt.close()
+    BTD_masked = BTD * data_mask
+    np.save(save_str, BTD_masked)
 
+    #
+    # fig = plt.figure(figsize=(15, 15))
+    # plt.imshow(BTD, cmap='Greys')
+    # plt.savefig('./BTD.png')
+    # plt.close()
+    #
+    #
+    # fig = plt.figure(figsize=(15, 15))
+    # plt.imshow(data_mask, cmap='jet')
+    # plt.savefig('./CLM.png')
+    # plt.close()
+    #
+    # fig = plt.figure(figsize=(15, 15))
+    # plt.imshow(BTD * data_mask, cmap='jet')
+    # plt.savefig('./BTD_CLM.png')
+    # plt.close()
 
-
-
-def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir):
+def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir, Output_dir):
 
     # create the 108-087 BTD reference image using cloud-free images from specified input time range
     # input: start_date_str, end_date_str (datetime string object)
@@ -81,7 +84,7 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir
                         print('Both HRSEVIRI and CLMSEVIRI files exist for the current time: ')
                         print(HRSEVIRI_file)
                         print(CLMSEVIRI_file)
-                        cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file)
+                        cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file, Output_dir + '/BTD_ref_%s.npy'%HRSEVIRI_exact_time_str)
                         quit()
         current_date = current_date + timedelta(days=1)
 
@@ -94,7 +97,8 @@ if __name__ == '__main__':
 
     HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI'
     CLMSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
+    Output_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_Ian/BTD_ref'
     start_date_str = '20200614-0000'
     end_date_str = '20200627-2359'
-    create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir)
+    create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir, Output_dir)
 
