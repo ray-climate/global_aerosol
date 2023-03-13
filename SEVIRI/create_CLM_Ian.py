@@ -81,17 +81,11 @@ def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir
                         CLMSEVIRI_path = CLMSEVIRI_dir + '/%s/%s' % (current_CLMSEVIRI_date_str, sub_dir2)
                         CLMSEVIRI_file = os.path.join(CLMSEVIRI_path, sub_dir2 + '.grb')
 
-                        print('Both HRSEVIRI and CLMSEVIRI files exist for the current time: ')
-                        print(HRSEVIRI_file)
-                        print(CLMSEVIRI_file)
+                        print('Both HRSEVIRI and CLMSEVIRI files exist for the current time.')
+                        # print(HRSEVIRI_file)
+                        # print(CLMSEVIRI_file)
                         cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file, Output_dir + '/BTD_ref_%s.npy'%HRSEVIRI_exact_time_str)
-                        quit()
         current_date = current_date + timedelta(days=1)
-
-
-
-
-
 
 if __name__ == '__main__':
 
