@@ -59,7 +59,7 @@ AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/a
 CLMSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
 HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/'
 CMASEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/CMA-SEVIRI/'
-
+IanSEVIRI_ref = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_Ian/BTD_ref/final_average.npy'
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
 
@@ -300,11 +300,19 @@ for day in range(14, 27):
                                       title = 'SEVIRI Dust RGB %s'%HRSEVIRI_time_str,
                                       aeolus_lat=lat_ascending,
                                       aeolus_lon=lon_ascending,
-                                      save_str=output_dir + '/SEVIRI_dust_%s.png' % HRSEVIRI_time_str)
+                                      save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % HRSEVIRI_time_str)
+
+                get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
+                                       BTD_ref = IanSEVIRI_ref,
+                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                       title='SEVIRI Dust Mask %s' % HRSEVIRI_time_str,
+                                       aeolus_lat=lat_ascending,
+                                       aeolus_lon=lon_ascending,
+                                       save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % HRSEVIRI_time_str)
 
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
-
+    quit()
     for root, dirs, files in os.walk(CMASEVIRI_dir):
         for file in files:
             if CLMSEVIRI_time_str in file:
