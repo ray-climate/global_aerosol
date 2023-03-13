@@ -6,7 +6,9 @@
 # @Time:        13/03/2023 10:31
 
 from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
 from satpy import Scene
+from osgeo import gdal
 import numpy as np
 import os
 
@@ -14,12 +16,34 @@ import os
 
 def cal_108_087_BTD_single_image(HRSEVIRI_file, CLMSEVIRI_file):
 
+    # interpret the SEVIRI 10.8um - 8.7um BTD from a single image
     scn = Scene(reader='seviri_l1b_native', filenames=[HRSEVIRI_file])
     scn.load(['IR_108', 'IR_087'], upper_right_corner="NE")
     band108 = scn['IR_108']
     band087 = scn['IR_087']
-    print(band087.shape)
-    print(band108.shape)
+    BTD = band108 - band087
+
+    fig = plt.figure(figsize=(15, 15))
+    plt.imshow(BTD, cmap='Greys')
+    plt.savefig('./BTD.png')
+    plt.close()
+
+    # interpret cloud mask from a single CLM image
+    dataset = gdal.Open(CLMSEVIRI_file, gdal.GA_ReadOnly)
+    # Read the first band of the dataset
+    band = dataset.GetRasterBand(1)
+    # Read the data from the band as a NumPy array
+    data = band.ReadAsArray()
+    data_mask = np.zeros((data.shape))
+    data_mask[:] = np.nan
+    data_mask[data == 2] = 1
+
+    fig = plt.figure(figsize=(15, 15))
+    plt.imshow(data_mask, cmap='Greys')
+    plt.savefig('./BTD.png')
+    plt.close()
+
+
 
 
 def create_108_087_ref(start_date_str, end_date_str, HRSEVIRI_dir, CLMSEVIRI_dir):
