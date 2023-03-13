@@ -93,7 +93,7 @@ def combine_108_087_BTD(Output_dir):
 
     for file in os.listdir(Output_dir):
         if file.endswith('.npy'):
-            BTD_108_087 = np.vstack(BTD_108_087, np.load(os.path.join(Output_dir, file)))
+            BTD_108_087 = np.vstack((BTD_108_087, np.load(os.path.join(Output_dir, file))))
             print(BTD_108_087.shape)
 
     BTD_108_087 = np.vstack(BTD_108_087)
