@@ -5,7 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        13/03/2023 10:31
 
-from datetime.datetime import datetime
+from datetime import datetime
 import numpy as np
 
 # create SEVIRI cloud mask using modified method from Ian (https://doi.org/10.1029/2011JD016845)
