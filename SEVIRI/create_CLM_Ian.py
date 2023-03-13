@@ -91,9 +91,15 @@ def combine_108_087_BTD(Output_dir):
 
     BTD_108_087 = []
 
+    index  = 0
     for file in os.listdir(Output_dir):
         if file.endswith('.npy'):
-            BTD_108_087 = np.vstack((BTD_108_087, np.load(os.path.join(Output_dir, file))))
+            if index == 0:
+                BTD_108_087 = np.load(os.path.join(Output_dir, file))
+                index = index + 1
+            else:
+                BTD_108_087 = np.vstack((BTD_108_087, np.load(os.path.join(Output_dir, file))))
+                index = index + 1
             print(BTD_108_087.shape)
 
     BTD_108_087 = np.vstack(BTD_108_087)
