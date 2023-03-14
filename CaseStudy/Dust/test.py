@@ -5,17 +5,17 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 15:17
 
-lat_data = [1.1, 1.2, 1.3, 1.4, 5.1, 5.2, 5.4, 9.1, 9.2, 9.3, 3.3, 3.2, 3.1]
+from global_land_mask import globe
+import matplotlib.pyplot as plt
+import numpy as np
 
-threshold = 2.0
-sublists = [[0]]  # initialize with the index of the first value
+# Lat/lon points to get
+lat = np.linspace(-20,50,100)
+lon = np.linspace(-130,-70,100)
 
-i = 1
-while i < len(lat_data):
-    if abs(lat_data[i] - lat_data[sublists[-1][-1]]) >= threshold:
-        sublists.append([i])
-    else:
-        sublists[-1].append(i)
-    i += 1
-
-print(sublists)
+# Make a grid
+lon_grid, lat_grid = np.meshgrid(lon,lat)
+globe_land_mask = globe.is_land(lat_grid, lon_grid)
+print(globe_land_mask)
+plt.imshow(globe_land_mask)
+plt.show()
