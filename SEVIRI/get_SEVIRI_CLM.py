@@ -218,6 +218,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     plt.savefig(save_str)
 
 def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str, aeolus_lat, aeolus_lon, aeolus_time,
+                           caliop_lat = None, caliop_lon = None, caliop_time = None,
                            aeolus_lat_highlight = None, aeolus_lon_highlight = None):
 
         BTD_ref_data = np.load(BTD_ref)
@@ -258,6 +259,10 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         aeolus_lon_array = list(itertools.chain(*aeolus_lon))
         aeolus_time_array = list(itertools.chain(*aeolus_time))
 
+        caliop_lat_array = list(itertools.chain(*caliop_lat))
+        caliop_lon_array = list(itertools.chain(*caliop_lon))
+        caliop_time_array = list(itertools.chain(*caliop_time))
+
         width = 4000
         height = 2000
 
@@ -282,6 +287,8 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
 
         # Add the scatter plot
         ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+        ax.scatter(caliop_lon_array, caliop_lat_array, marker='o', color='red', s=10, transform=CRS, zorder=200, label='CALIOP')
+
         if aeolus_lat_highlight is not None:
             ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=150, transform=CRS,
                        zorder=300)
@@ -300,6 +307,15 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
             text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='blue',
                                rotation=text_angle, rotation_mode='anchor',
                                transform=CRS, fontsize=25)
+
+        for j in range(len(caliop_time)):
+            text_str = caliop_time[j][int(len(caliop_time[j]) / 2)].strftime("%H:%M")
+            text_x, text_y = caliop_lon[j][int(len(caliop_time[j]) / 2)], caliop_lat[j][int(len(caliop_time[j]) / 2)]
+            text_x = text_x + 1.
+            text_angle = -78.
+            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='red',
+                                 rotation=text_angle, rotation_mode='anchor',
+                                    transform=CRS, fontsize=25)
 
         gl.xlabel_style = {'size': 35, 'color': 'black'}
         gl.ylabel_style = {'size': 35, 'color': 'black'}

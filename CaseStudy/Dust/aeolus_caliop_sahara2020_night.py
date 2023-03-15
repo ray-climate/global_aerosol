@@ -296,17 +296,17 @@ for i in range((end_date - start_date).days + 1):
             lat_sublists[-1].append(j)
         j += 1
 
-    lat_ascending = []
-    lon_ascending = []
-    time_ascending = []
+    aeolus_lat_ascending = []
+    aeolus_lon_ascending = []
+    aeolus_time_ascending = []
 
     for m in range(len(lat_sublists)):
         if aeolus_latitude_all[lat_sublists[m][1]]- aeolus_latitude_all[lat_sublists[m][0]] > 0:
-            lat_ascending.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            lon_ascending.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            time_ascending.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            aeolus_lat_ascending.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            aeolus_lon_ascending.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            aeolus_time_ascending.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
-    central_time = time_ascending[int(len(time_ascending)/2)][int(len(time_ascending[0])/2)]
+    central_time = aeolus_time_ascending[int(len(aeolus_time_ascending)/2)][int(len(aeolus_time_ascending[0])/2)]
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
     print('central_time: ', central_time)
@@ -339,8 +339,6 @@ for i in range((end_date - start_date).days + 1):
             print('Only one data point in this orbit, ignore it')
 
     ############# separate caliop data into different orbits ############################
-    print(caliop_lat_ascending)
-    quit()
 
     for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
@@ -355,18 +353,18 @@ for i in range((end_date - start_date).days + 1):
                 get_SEVIRI_HR_cartopy(HRSEVIRI_file,
                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                       title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
-                                      aeolus_lat=lat_ascending,
-                                      aeolus_lon=lon_ascending,
-                                      aeolus_time=time_ascending,
+                                      aeolus_lat=aeolus_lat_ascending,
+                                      aeolus_lon=aeolus_lon_ascending,
+                                      aeolus_time=aeolus_time_ascending,
                                       save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
 
                 get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
                                        BTD_ref = IanSEVIRI_ref,
                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                        title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
-                                       aeolus_lat=lat_ascending,
-                                       aeolus_lon=lon_ascending,
-                                       aeolus_time=time_ascending,
+                                       aeolus_lat=aeolus_lat_ascending,
+                                       aeolus_lon=aeolus_lon_ascending,
+                                       aeolus_time=aeolus_time_ascending,
                                        save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
 
             else:
