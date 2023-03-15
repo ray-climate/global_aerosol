@@ -9,6 +9,7 @@ import sys
 sys.path.append('../../')
 
 import matplotlib.pyplot as plt
+from Caliop.caliop import Caliop_hdf_reader
 from getColocationData.get_aeolus import *
 from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
@@ -68,6 +69,9 @@ CLMSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIR
 HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/'
 CMASEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/CMA-SEVIRI/'
 IanSEVIRI_ref = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_Ian/BTD_ref/final_average.npy'
+
+CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km/'
+
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
 
@@ -109,6 +113,40 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
+def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
+
+    caliop_request = Caliop_hdf_reader()
+
+    # Read data from Caliop file
+    caliop_utc = np.asarray(caliop_request._get_profile_UTC(caliop_file_path))
+    caliop_latitude = np.asarray(caliop_request._get_latitude(caliop_file_path))
+    caliop_longitude = np.asarray(caliop_request._get_longitude(caliop_file_path))
+    caliop_altitude = np.asarray(caliop_request.get_altitudes(caliop_file_path))
+    caliop_beta = np.asarray(
+        caliop_request._get_calipso_data(filename=caliop_file_path, variable='Total_Backscatter_Coefficient_532'))
+    caliop_alpha = np.asarray(
+        caliop_request._get_calipso_data(filename=caliop_file_path, variable='Extinction_Coefficient_532'))
+    (caliop_aerosol_type, caliop_feature_type) = caliop_request._get_feature_classification(filename=caliop_file_path,
+                                                                                            variable='Atmospheric_Volume_Description')
+    caliop_aerosol_type_mask = np.copy(caliop_aerosol_type)
+    caliop_aerosol_type_mask[caliop_feature_type != 3] = -1.
+    caliop_Depolarization_Ratio = np.asarray(caliop_request._get_calipso_data(filename=caliop_file_path,
+                                                                              variable='Particulate_Depolarization_Ratio_Profile_532'))
+
+    # Apply spatial mask
+    spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
+                            (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
+
+    if len(spatial_mask) > 0:
+
+        # logger.info('Data found within the spatial window: %s', caliop_file_path)
+        print('Data found within the spatial window: ', caliop_file_path)
+        return caliop_utc[spatial_mask], caliop_latitude[spatial_mask], \
+               caliop_longitude[spatial_mask], caliop_altitude, caliop_beta[:, spatial_mask], \
+               caliop_aerosol_type[:, spatial_mask], caliop_Depolarization_Ratio[:, spatial_mask]
+    else:
+        return None
+
 
 for i in range((end_date - start_date).days + 1):
 
@@ -126,6 +164,13 @@ for i in range((end_date - start_date).days + 1):
     aeolus_beta_all = []
     aeolus_ber_all = []
 
+    caliop_time_all = []
+    caliop_latitude_all = []
+    caliop_longitude_all = []
+    caliop_altitude = []
+    caliop_beta_all = []
+    caliop_aerosol_type_all = []
+
     # Parse start and end dates
     start_date_datetime = datetime.strptime(date_i_str, '%Y-%m-%d')
     end_date_datetime = datetime.strptime(date_i_str, '%Y-%m-%d')
@@ -138,7 +183,9 @@ for i in range((end_date - start_date).days + 1):
         day_i = '{:02d}'.format(start_date_datetime.day)
 
         aeolus_fetch_dir = os.path.join(AEOLUS_JASMIN_dir, f'{year_i}-{month_i}')
+        caliop_fetch_dir = os.path.join(CALIOP_JASMIN_dir, year_i, f'{year_i}_{month_i}_{day_i}')
 
+        # aeolus data fetch
         for aeolus_file_name in os.listdir(aeolus_fetch_dir):
             if aeolus_file_name.endswith('%s-%s-%s.nc'%(year_i,  month_i, day_i)):
 
@@ -173,8 +220,33 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_beta_all = np.copy(sca_mb_backscatter)
                     aeolus_ber_all = np.copy(sca_mb_ber)
                     aeolus_altitude_all = np.copy(sca_mb_altitude)
+
+        # caliop data fetch
+        for caliop_file_name in os.listdir(caliop_fetch_dir):
+            if caliop_file_name.endswith('hdf'):
+                caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
+                caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
+
+                if caliop_data:
+                    caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
+                    caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
+
+                    caliop_time_all.extend(caliop_utc)
+                    caliop_latitude_all.extend(caliop_latitude)
+                    caliop_longitude_all.extend(caliop_longitude)
+
+                    try:
+                        caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta], axis=1)
+                        caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type], axis=1)
+                    except:
+                        caliop_beta_all = np.copy(caliop_beta)
+                        caliop_aerosol_type_all = np.copy(caliop_aerosol_type)
+
         start_date_datetime += time_delta
 
+    print(caliop_time_all)
+    print(caliop_latitude_all)
+    quit()
 
     ############# aeolus tidy up ####################################################
     # Convert aeolus altitude values from meters to kilometers
@@ -228,6 +300,7 @@ for i in range((end_date - start_date).days + 1):
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
     print('central_time: ', central_time)
+
     for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
             if HRSEVIRI_time_str in file:
