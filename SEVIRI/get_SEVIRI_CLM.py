@@ -268,6 +268,15 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         gl.right_labels = False
         gl.bottom_labels = True
         gl.left_labels = True
+
+        # Add the text box
+        text_str = "Rotated Text Box"
+        text_x, text_y = -10, 20
+        text_angle = 45
+        text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='black',
+                           rotation=text_angle, rotation_mode='anchor', bbox=dict(facecolor='white', alpha=0.7),
+                           transform=CRS)
+
         gl.xlabel_style = {'size': 35, 'color': 'black'}
         gl.ylabel_style = {'size': 35, 'color': 'black'}
         plt.savefig(save_str)

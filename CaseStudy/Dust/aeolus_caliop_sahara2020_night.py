@@ -255,8 +255,6 @@ for i in range((end_date - start_date).days + 1):
                                        title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
                                        aeolus_lat=lat_ascending_array,
                                        aeolus_lon=lon_ascending_array,
-                                       aeolus_lat_highlight=lat_ascending[0],
-                                       aeolus_lon_highlight=lon_ascending[1],
                                        save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
 
             else:
