@@ -323,8 +323,7 @@ for i in range((end_date - start_date).days + 1):
         else:
             lat_sublists[-1].append(j)
         j += 1
-    print(lat_sublists)
-    print(len(lat_sublists))
+
     caliop_lat_ascending = []
     caliop_lon_ascending = []
     caliop_time_ascending = []
@@ -332,10 +331,13 @@ for i in range((end_date - start_date).days + 1):
     for m in range(len(lat_sublists)):
         print(caliop_latitude_all[lat_sublists[m][1]])
         print(caliop_latitude_all[lat_sublists[m][0]])
-        if caliop_latitude_all[lat_sublists[m][1]] - caliop_latitude_all[lat_sublists[m][0]] > 0:
-            caliop_lat_ascending.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            caliop_lon_ascending.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            caliop_time_ascending.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+        try:
+            if caliop_latitude_all[lat_sublists[m][1]] - caliop_latitude_all[lat_sublists[m][0]] > 0:
+                caliop_lat_ascending.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                caliop_lon_ascending.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                caliop_time_ascending.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+        except:
+            print('Only one data point in this orbit, ignore it')
 
     ############# separate caliop data into different orbits ############################
     print(caliop_lat_ascending)
