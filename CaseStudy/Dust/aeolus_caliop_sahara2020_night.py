@@ -278,10 +278,10 @@ for i in range((end_date - start_date).days + 1):
     sort_index = np.argsort(caliop_time_all)
 
     caliop_time_all = sorted(caliop_time_all)
-    caliop_beta_all = np.asarray(caliop_beta_all)[:,sort_index]
+    caliop_beta_all = np.asarray(caliop_beta_all)[sort_index]
     caliop_latitude_all = np.asarray(caliop_latitude_all)[sort_index]
     caliop_longitude_all = np.asarray(caliop_longitude_all)[sort_index]
-    print(caliop_latitude_all.shape)
+
     ############# caliop tidy up ####################################################
 
     ############# separate aeolus data into different orbits ############################
@@ -315,6 +315,7 @@ for i in range((end_date - start_date).days + 1):
     ############# separate caliop data into different orbits ############################
     lat_sublists = [[0]]  # initialize with the index of the first value
 
+    print(len(caliop_latitude_all))
     j = 1
     while j < len(caliop_latitude_all):
         if abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
