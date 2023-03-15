@@ -261,7 +261,7 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         # Add the scatter plot
         ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
         if aeolus_lat_highlight is not None:
-            ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=80, transform=CRS,
+            ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=150, transform=CRS,
                        zorder=300)
         plt.legend(fontsize=35)
         gl.top_labels = False

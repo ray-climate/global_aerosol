@@ -5,17 +5,25 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 15:17
 
-from global_land_mask import globe
-import matplotlib.pyplot as plt
-import numpy as np
+def test_lat_sublists():
+    # create test data
+    latitude_all = [10, 20, 30, 35, 40, 50, 55, 60, 70, 60, 50, 40]
+    lat_jump_threshold = 10
 
-# Lat/lon points to get
-lat = np.linspace(-20,50,100)
-lon = np.linspace(-130,-70,100)
+    # expected output
+    expected = [[0, 1, 2], [3], [4, 5], [6], [7, 8]]
 
-# Make a grid
-lon_grid, lat_grid = np.meshgrid(lon,lat)
-globe_land_mask = globe.is_land(lat_grid, lon_grid)
-print(globe_land_mask)
-plt.imshow(globe_land_mask)
-plt.show()
+    # run the function
+    lat_sublists = [[0]]
+    j = 1
+    while j < len(latitude_all):
+        if abs(latitude_all[j] - latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
+            lat_sublists.append([j])
+        else:
+            lat_sublists[-1].append(j)
+        j += 1
+
+    # compare the actual output to the expected output
+    print(lat_sublists)
+
+test_lat_sublists()
