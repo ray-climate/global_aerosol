@@ -64,9 +64,14 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
 
-    aeolus_lat_array = np.array(aeolus_lat).reshape(1, -1)
-    aeolus_lon_array = np.array(aeolus_lon).reshape(1, -1)
-    aeolus_time_array = np.array(aeolus_time).reshape(1, -1)
+    aeolus_lat_array_list = [np.array(seq) for seq in aeolus_lat]
+    aeolus_lat_array = np.stack(aeolus_lat_array_list)
+
+    aeolus_lon_array_list = [np.array(seq) for seq in aeolus_lon]
+    aeolus_lon_array = np.stack(aeolus_lon_array_list)
+
+    aeolus_time_array_list = [np.array(seq) for seq in aeolus_time]
+    aeolus_time_array = np.stack(aeolus_time_array_list)
 
     aeolus_lon_array = np.array(aeolus_lon).reshape(1, np.array(aeolus_lon).size)
     aeolus_time_array = np.array(aeolus_time).reshape(1, np.array(aeolus_time).size)
@@ -256,9 +261,14 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         scn['dust'][1, :, :] = dust_mask
         scn['dust'][2, :, :] = dust_mask
 
-        aeolus_lat_array = np.array(aeolus_lat).reshape(1, -1)
-        aeolus_lon_array = np.array(aeolus_lon).reshape(1, -1)
-        aeolus_time_array = np.array(aeolus_time).reshape(1, -1)
+        aeolus_lat_array_list = [np.array(seq) for seq in aeolus_lat]
+        aeolus_lat_array = np.stack(aeolus_lat_array_list)
+
+        aeolus_lon_array_list = [np.array(seq) for seq in aeolus_lon]
+        aeolus_lon_array = np.stack(aeolus_lon_array_list)
+
+        aeolus_time_array_list = [np.array(seq) for seq in aeolus_time]
+        aeolus_time_array = np.stack(aeolus_time_array_list)
 
         width = 4000
         height = 2000
