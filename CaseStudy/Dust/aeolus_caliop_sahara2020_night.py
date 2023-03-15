@@ -331,14 +331,14 @@ for i in range((end_date - start_date).days + 1):
     for m in range(len(lat_sublists)):
 
         try:
-            if caliop_latitude_all[lat_sublists[m][1]] - caliop_latitude_all[lat_sublists[m][0]] > 0:
+            if caliop_latitude_all[lat_sublists[m][10]] - caliop_latitude_all[lat_sublists[m][0]] > 0:
                 caliop_lat_ascending.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                 caliop_lon_ascending.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                 caliop_time_ascending.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
         except:
             print('Only one data point in this orbit, ignore it')
     print(caliop_lat_ascending)
-    quit()
+
     ############# separate caliop data into different orbits ############################
 
     for root, dirs, files in os.walk(HRSEVIRI_dir):
