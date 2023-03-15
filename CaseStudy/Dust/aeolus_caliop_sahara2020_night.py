@@ -365,6 +365,9 @@ for i in range((end_date - start_date).days + 1):
                                        aeolus_lat=aeolus_lat_ascending,
                                        aeolus_lon=aeolus_lon_ascending,
                                        aeolus_time=aeolus_time_ascending,
+                                       caliop_lat=caliop_lat_ascending,
+                                       caliop_lon=caliop_lon_ascending,
+                                       caliop_time=caliop_time_ascending,
                                        save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
 
             else:
