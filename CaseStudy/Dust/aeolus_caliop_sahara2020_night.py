@@ -224,7 +224,7 @@ for i in range((end_date - start_date).days + 1):
             lon_ascending.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             time_ascending.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
-    central_time = time_ascending[int(np.size(time_ascending)/2)][int(np.size(time_ascending[0])/2)]
+    central_time = time_ascending[int(len(time_ascending)/2)][int(len(time_ascending[0])/2)]
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
     print('central_time: ', central_time)
