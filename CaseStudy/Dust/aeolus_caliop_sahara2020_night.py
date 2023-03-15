@@ -227,7 +227,7 @@ for i in range((end_date - start_date).days + 1):
     central_time = time_ascending[int(np.size(time_ascending)/2)][int(np.size(time_ascending[0])/2)]
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
-
+    print('central_time: ', central_time)
     for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
             if HRSEVIRI_time_str in file:
