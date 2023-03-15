@@ -57,7 +57,7 @@ def get_HRSEVIRI_time(dt):
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M')
     return formatted
 
-def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus_lon):
+def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus_lon, aeolus_lat_highlight = None, aeolus_lon_highlight = None):
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
@@ -87,6 +87,8 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus
 
     # Add the scatter plot
     ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+    if aeolus_lat_highlight is not None:
+        ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=80, transform=CRS, zorder=300)
     plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False
