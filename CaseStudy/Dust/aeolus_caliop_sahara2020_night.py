@@ -175,37 +175,40 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_altitude_all = np.copy(sca_mb_altitude)
         start_date_datetime += time_delta
 
-    print(len(aeolus_latitude_all))
-    quit()
 
-    # Convert altitude values from meters to kilometers
-    altitude_all[altitude_all == -1] = np.nan
-    altitude_all = altitude_all * 1e-3
+    ############# aeolus tidy up ####################################################
+    # Convert aeolus altitude values from meters to kilometers
+    aeolus_altitude_all[aeolus_altitude_all == -1] = np.nan
+    aeolus_altitude_all = aeolus_altitude_all * 1e-3
 
     # convert aeolus data with the given scaling factor: convert to km-1.sr-1
-    beta_all[beta_all == -1.e6] = 0
-    beta_all = beta_all * 1.e-6 * 1.e3
+    aeolus_beta_all[aeolus_beta_all == -1.e6] = 0
+    aeolus_beta_all = aeolus_beta_all * 1.e-6 * 1.e3
 
     # Create empty array for resampled data, with same shape as alt_aeolus
-    backscatter_resample = np.zeros((altitude_all.shape[0], np.size(alt_caliop)))
+    backscatter_resample = np.zeros((aeolus_altitude_all.shape[0], np.size(alt_caliop)))
     # backscatter_resample[:] = np.nan
 
     # Iterate through rows and columns of alt_aeolus and data_aeolus
-    for m in range(altitude_all.shape[0]):
-        alt_aeolus_m = altitude_all[m, :]
+    for m in range(aeolus_altitude_all.shape[0]):
+        alt_aeolus_m = aeolus_altitude_all[m, :]
         for n in range(np.size(alt_aeolus_m)):
             if alt_aeolus_m[n] > 0:
                 if (n + 1) < len(alt_aeolus_m):
                     # Resample data based on nearest altitude value less than current value in alt_caliop
                     backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
-                    beta_all[m, n]
+                    aeolus_beta_all[m, n]
 
+    ############# aeolus tidy up ####################################################
+
+
+    ############# separate aeolus data into different orbits ############################
     lat_jump_threshold = 2.0
     lat_sublists = [[0]]  # initialize with the index of the first value
 
     j = 1
-    while j < len(latitude_all):
-        if abs(latitude_all[j] - latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
+    while j < len(aeolus_latitude_all):
+        if abs(aeolus_latitude_all[j] - aeolus_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
             lat_sublists.append([j])
         else:
             lat_sublists[-1].append(j)
@@ -216,11 +219,13 @@ for i in range((end_date - start_date).days + 1):
     time_ascending = []
 
     for m in range(len(lat_sublists)):
-        if latitude_all[lat_sublists[m][1]]- latitude_all[lat_sublists[m][0]] > 0:
-            lat_ascending.extend(latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            lon_ascending.extend(longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            time_ascending.extend(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+        if aeolus_latitude_all[lat_sublists[m][1]]- aeolus_latitude_all[lat_sublists[m][0]] > 0:
+            lat_ascending.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            lon_ascending.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            time_ascending.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
+    print(lat_ascending)
+    quit()
     central_time = time_ascending[int(len(time_ascending)/2)]
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
