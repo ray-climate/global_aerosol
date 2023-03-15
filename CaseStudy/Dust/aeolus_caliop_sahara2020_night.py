@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    aeolus_sahara_2020_June_nightime.py
+# @Filename:    aeolus_caliop_sahara2020_night.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        06/03/2023 15:35
+# @Time:        15/03/2023 13:45
 
 import sys
 sys.path.append('../../')
@@ -24,11 +24,19 @@ import os
 
 
 # Define the spatial bounds
-lat_up = 40.
-lat_down = 0.
+lat_up = 40. # degree
+lat_down = 0. # degree
 # lon_left = -72.
 # lon_right = 31.
-lat_jump_threshold = 3.0
+lat_jump_threshold = 3.0 # degree, lat_jump_threshold is the threshold to separate observations from different orbits
+
+# Define the time range
+datetime_start = "2020-06-14"
+datetime_end = "2020-06-24"
+
+# Convert strings to datetime objects
+start_date = datetime.strptime(datetime_start, "%Y-%m-%d")
+end_date = datetime.strptime(datetime_end, "%Y-%m-%d")
 
 # Set up time delta
 time_delta = timedelta(days = 1)
@@ -101,86 +109,12 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
-def plot_aeolus_basemap(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, CLM_SEVIRI, save_fig):
-
-
-    bbox = [-60., 0., 30., 40.]  # map boundaries
-    fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
-    # ax.set_axis_off()
-    # set basemap boundaries, cylindrical projection, 'i' = intermediate resolution
-    m = Basemap(llcrnrlon=bbox[0], llcrnrlat=bbox[1], urcrnrlon=bbox[2],
-                urcrnrlat=bbox[3], resolution='i', projection='cyl')
-
-    x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
-
-    # m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
-    # m.drawmapboundary(fill_color='#bdd5d5') # ocean color
-    m.drawcoastlines()
-    m.drawcountries()
-    states = m.drawstates()  # draw state boundaries
-
-    # m.pcolormesh(lon, lat, np.ma.masked_array(CLM_valid, mask), cmap='gray', latlon=True)
-
-    # draw parallels and meridians by every 5 degrees
-    parallels = np.arange(bbox[1], bbox[3], 10.)
-    m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
-    meridians = np.arange(bbox[0], bbox[2], 10.)
-    m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
-
-    m.pcolormesh(lon_SEVIRI, lat_SEVIRI, CLM_SEVIRI, cmap='gray', alpha = 0.7, latlon=True)
-
-    m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
-    plt.legend(fontsize=10)
-    plt.savefig(save_fig, dpi=200)
-
-def plot_aeolus_basemap_dust(lat_aeolus, lon_aeolus, lat_SEVIRI, lon_SEVIRI, dust_RGB, save_fig):
-
-    bbox = [-60., 0., 30., 40.]  # map boundaries
-    fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
-    # ax.set_axis_off()
-    # set basemap boundaries, cylindrical projection, 'i' = intermediate resolution
-    m = Basemap(llcrnrlon=bbox[0], llcrnrlat=bbox[1], urcrnrlon=bbox[2],
-                urcrnrlat=bbox[3], resolution='i', projection='cyl')
-
-    x_aeolus, y_aeolus = m(lon_aeolus, lat_aeolus)
-
-    # m.fillcontinents(color='#d9b38c',lake_color='#bdd5d5') # continent colors
-    # m.drawmapboundary(fill_color='#bdd5d5') # ocean color
-    m.drawcoastlines()
-    m.drawcountries()
-    states = m.drawstates()  # draw state boundaries
-
-    m.pcolormesh(lon_SEVIRI, lat_SEVIRI, CLM_SEVIRI, cmap='gray', alpha = 0.7, latlon=True)
-
-    # draw parallels and meridians by every 5 degrees
-    parallels = np.arange(bbox[1], bbox[3], 10.)
-    m.drawparallels(parallels, labels=[1, 0, 0, 0], fontsize=10)
-    meridians = np.arange(bbox[0], bbox[2], 10.)
-    m.drawmeridians(meridians, labels=[0, 0, 0, 1], fontsize=10)
-
-    m.scatter(x_aeolus, y_aeolus, marker='o', color='blue', s=10, label='AEOLUS')
-    plt.legend(fontsize=10)
-    plt.savefig(save_fig, dpi=200)
-
-def plot_seviri(data, save_fig):
-    fig, ax = plt.subplots(figsize=(9, 4), dpi=200)
-    plt.imshow(data)
-    plt.colorbar()
-    plt.savefig(save_fig, dpi=200)
-
-# implement SEVIRI data for CLM testing
-# lon_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lon.npy')
-# lat_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_lat.npy')
-# CLM_SEVIRI = np.load('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/SEVIRI_CLM.npy')
-# dust_SEVIRI = plt.imread('/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI/seviri_dust_rgb.png')
-#
-# lon_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
-# lat_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
-# CLM_SEVIRI[(np.isinf(lon_SEVIRI)) | (np.isinf(lat_SEVIRI)) | (np.isinf(CLM_SEVIRI))] = 0
-
-# Extract relevant variables from the AEOLUS data
-##############################################################
-# Define start and end dates
+for i in range((end_date - start_date).days + 1):
+    date = start_date + timedelta(days=i)
+    # Convert date back to string format
+    date_str = date.strftime("%Y-%m-%d")
+    print(date_str)
+quit()
 for day in range(14, 27):
 
     start_date = '2020-06-%d' % day
@@ -345,41 +279,3 @@ for day in range(14, 27):
 
             else:
                 logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
-
-
-    # plot_aeolus_basemap(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_%s.png'%day)
-    # plot_aeolus_basemap_dust(lat_ascending, lon_ascending, lat_SEVIRI, lon_SEVIRI, dust_SEVIRI, './dust_%s.png'%day)
-
-    # plot_seviri(SEVIRI_CLM_data, './fulldisk_test_%s.png'%day)
-    #
-    # beta_volume_sum = np.sum(backscatter_resample, axis=1)
-    #
-    # axk = fig.add_subplot(gs[0, k])
-    #
-    # figk = plt.plot(np.mean(backscatter_resample[beta_volume_sum > 0, :], axis=0), alt_caliop, 'r-*', lw=2,
-    #                 label='no filter')
-    # plt.plot(np.mean(backscatter_resample[(beta_volume_sum > 0) & (ber_volume_sum < 1), :], axis=0),
-    #          alt_caliop, 'b-*', lw=2, label='cloud removed')
-    #
-    # if meridional_boundary[k] < 0:
-    #     if meridional_boundary[k+1] < 0:
-    #         axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
-    #     else:
-    #         axk.set_xlabel('[%s$^{\circ}$ W - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
-    # else:
-    #     if meridional_boundary[k+1] < 0:
-    #         axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ W]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
-    #     else:
-    #         axk.set_xlabel('[%s$^{\circ}$ E - %s$^{\circ}$ E]' % (abs(meridional_boundary[k]), abs(meridional_boundary[k+1])), fontsize=15)
-    #
-    # # axk.set_ylabel('Averaged photon counts', fontsize=15)
-    # for tick in axk.xaxis.get_major_ticks():
-    #     tick.label.set_fontsize(15)
-    # for tick in axk.yaxis.get_major_ticks():
-    #     tick.label.set_fontsize(15)
-    # # axk.legend(loc='upper right', fontsize=15)
-    # axk.set_xscale('log')
-    # axk.set_xlim([1.e-4, 2.e-2])
-    # axk.set_ylim([0., 8])
-    # axk.grid()
-    #
