@@ -200,7 +200,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     gl.ylabel_style = {'size': 35, 'color': 'black'}
     plt.savefig(save_str)
 
-def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str, aeolus_lat, aeolus_lon):
+def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str, aeolus_lat, aeolus_lon, aeolus_lat_highlight = None, aeolus_lon_highlight = None):
 
         BTD_ref_data = np.load(BTD_ref)
         """Read the SEVIRI HR data from the downloaded file using satpy"""
@@ -260,6 +260,9 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
 
         # Add the scatter plot
         ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+        if aeolus_lat_highlight is not None:
+            ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=80, transform=CRS,
+                       zorder=300)
         plt.legend(fontsize=35)
         gl.top_labels = False
         gl.right_labels = False
