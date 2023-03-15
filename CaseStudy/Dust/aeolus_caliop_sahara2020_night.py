@@ -243,6 +243,7 @@ for i in range((end_date - start_date).days + 1):
                         print('copy')
                         caliop_beta_all = np.copy(caliop_beta)
                         caliop_aerosol_type_all = np.copy(caliop_aerosol_type)
+                    print(caliop_beta_all.shape)
 
         start_date_datetime += time_delta
 
