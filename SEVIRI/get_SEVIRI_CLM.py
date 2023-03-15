@@ -93,6 +93,17 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus
     ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
     if aeolus_lat_highlight is not None:
         ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=80, transform=CRS, zorder=300)
+
+        # Add the text box
+        for j in range(len(aeolus_time)):
+            text_str = aeolus_time[j][int(len(aeolus_time[j]) / 2)].strftime("%H:%M")
+            text_x, text_y = aeolus_lon[j][int(len(aeolus_time[j]) / 2)], aeolus_lat[j][int(len(aeolus_time[j]) / 2)]
+            text_x = text_x + 2.  # shift the text a bit to the right
+            text_angle = -74
+            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='blue',
+                               rotation=text_angle, rotation_mode='anchor',
+                               transform=CRS, fontsize=25)
+
     plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False
@@ -200,6 +211,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     gl.right_labels = False
     gl.bottom_labels = True
     gl.left_labels = True
+
     gl.xlabel_style = {'size': 35, 'color': 'black'}
     gl.ylabel_style = {'size': 35, 'color': 'black'}
     plt.savefig(save_str)
