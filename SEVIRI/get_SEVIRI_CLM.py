@@ -280,12 +280,12 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
 
         # Add the text box
         for j in range(len(aeolus_time)):
-            text_str = aeolus_time[j][int(len(aeolus_time[j]) / 2)]
+            text_str = aeolus_time[j][int(len(aeolus_time[j]) / 2)].strftime("%H:%M")
             text_x, text_y = aeolus_lon[j][int(len(aeolus_time[j]) / 2)], aeolus_lat[j][int(len(aeolus_time[j]) / 2)]
-            text_angle = -20
+            text_angle = -70
             text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='black',
                                rotation=text_angle, rotation_mode='anchor',
-                               transform=CRS, fontsize=35)
+                               transform=CRS, fontsize=25)
 
         gl.xlabel_style = {'size': 35, 'color': 'black'}
         gl.ylabel_style = {'size': 35, 'color': 'black'}
