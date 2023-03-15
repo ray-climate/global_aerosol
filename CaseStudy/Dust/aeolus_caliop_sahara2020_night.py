@@ -175,7 +175,7 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_altitude_all = np.copy(sca_mb_altitude)
         start_date_datetime += time_delta
 
-    print(aeolus_latitude_all.shape)
+    print(len(aeolus_latitude_all))
     quit()
 
     # Convert altitude values from meters to kilometers
