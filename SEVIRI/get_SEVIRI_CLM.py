@@ -57,12 +57,16 @@ def get_HRSEVIRI_time(dt):
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M')
     return formatted
 
-def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus_lon, aeolus_lat_highlight = None, aeolus_lon_highlight = None):
+def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus_lon, aeolus_time, aeolus_lat_highlight = None, aeolus_lon_highlight = None):
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
+
+    aeolus_lat_array = np.array(aeolus_lat).reshape(1, np.array(aeolus_lat).size)
+    aeolus_lon_array = np.array(aeolus_lon).reshape(1, np.array(aeolus_lon).size)
+    aeolus_time_array = np.array(aeolus_time).reshape(1, np.array(aeolus_time).size)
 
     width = 4000
     height = 2000
@@ -86,7 +90,7 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus
                       zorder=100, draw_labels=True)
 
     # Add the scatter plot
-    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+    ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
     if aeolus_lat_highlight is not None:
         ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=80, transform=CRS, zorder=300)
     plt.legend(fontsize=35)

@@ -246,6 +246,7 @@ for i in range((end_date - start_date).days + 1):
                                       title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
                                       aeolus_lat=lat_ascending,
                                       aeolus_lon=lon_ascending,
+                                      aeolus_time=time_ascending,
                                       save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
 
                 get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
@@ -254,6 +255,7 @@ for i in range((end_date - start_date).days + 1):
                                        title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
+                                       aeolus_time=time_ascending,
                                        save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
 
             else:
