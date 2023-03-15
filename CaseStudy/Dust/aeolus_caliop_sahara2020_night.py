@@ -281,7 +281,7 @@ for i in range((end_date - start_date).days + 1):
     caliop_beta_all = np.asarray(caliop_beta_all)[:,sort_index]
     caliop_latitude_all = np.asarray(caliop_latitude_all)[sort_index]
     caliop_longitude_all = np.asarray(caliop_longitude_all)[sort_index]
-
+    print(caliop_time_all.shape)
     ############# caliop tidy up ####################################################
 
     ############# separate aeolus data into different orbits ############################
