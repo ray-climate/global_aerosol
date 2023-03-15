@@ -64,7 +64,11 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
 
+    a = np.array(aeolus_lat).reshape(1, -1)
+    print(a)
     aeolus_lat_array = np.array(aeolus_lat).reshape(1, np.array(aeolus_lat).size)
+    print(aeolus_lat_array)
+    quit()
     aeolus_lon_array = np.array(aeolus_lon).reshape(1, np.array(aeolus_lon).size)
     aeolus_time_array = np.array(aeolus_time).reshape(1, np.array(aeolus_time).size)
 
