@@ -244,7 +244,7 @@ for i in range((end_date - start_date).days + 1):
                     except:
                         caliop_beta_all = np.copy(caliop_beta[:, spatial_mask])
                         caliop_aerosol_type_all = np.copy(caliop_aerosol_type[:, spatial_mask])
-                    print(len(shape))
+                    print(len(caliop_time_all))
                     print(caliop_beta_all.shape)
         start_date_datetime += time_delta
 
