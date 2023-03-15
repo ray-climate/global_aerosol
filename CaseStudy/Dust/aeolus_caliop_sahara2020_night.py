@@ -278,7 +278,7 @@ for i in range((end_date - start_date).days + 1):
     sort_index = np.argsort(caliop_time_all)
 
     caliop_time_all = sorted(caliop_time_all)
-    caliop_beta_all = np.asarray(caliop_beta_all)[sort_index]
+    caliop_beta_all = np.asarray(caliop_beta_all)[:,sort_index]
     caliop_latitude_all = np.asarray(caliop_latitude_all)[sort_index]
     caliop_longitude_all = np.asarray(caliop_longitude_all)[sort_index]
 
