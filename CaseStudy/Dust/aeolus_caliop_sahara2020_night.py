@@ -229,64 +229,36 @@ for i in range((end_date - start_date).days + 1):
     time_ascending_array = np.array(time_ascending).reshape(1, np.array(time_ascending).size)
 
     central_time = time_ascending_array[0, int(np.size(time_ascending_array)/2)]
-    print(central_time)
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
 
-    print(HRSEVIRI_time_str)
-    quit()
-
     for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
-
             if HRSEVIRI_time_str in file:
                 HRSEVIRI_file = os.path.join(root, file)
+
+                year_SEVIRI_background = HRSEVIRI_time_str[:4]
+                month_SEVIRI_background = HRSEVIRI_time_str[4:6]
+                day_SEVIRI_background = HRSEVIRI_time_str[6:8]
+                converted_SEVIRI_background_datetime = f"{year_SEVIRI_background}-{month_SEVIRI_background}-{day_SEVIRI_background}"
+
                 get_SEVIRI_HR_cartopy(HRSEVIRI_file,
                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                      title = 'SEVIRI Dust RGB %s'%HRSEVIRI_time_str,
+                                      title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
                                       aeolus_lat=lat_ascending,
                                       aeolus_lon=lon_ascending,
-                                      save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % HRSEVIRI_time_str)
+                                      save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
 
                 get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
                                        BTD_ref = IanSEVIRI_ref,
                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                       title='SEVIRI Dust Mask %s' % HRSEVIRI_time_str,
+                                       title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
                                        aeolus_lat=lat_ascending,
                                        aeolus_lon=lon_ascending,
-                                       save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % HRSEVIRI_time_str)
+                                       save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
 
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
 
-    for root, dirs, files in os.walk(CMASEVIRI_dir):
-        for file in files:
-            if CLMSEVIRI_time_str in file:
-                SEVIRI_CMA_file = os.path.join(root, file)
+    quit()
 
-                get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
-                                       SEVIRI_CMA_file_path = SEVIRI_CMA_file,
-                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                       title='SEVIRI CMA %s' % CLMSEVIRI_time_str,
-                                       aeolus_lat=lat_ascending,
-                                       aeolus_lon=lon_ascending,
-                                       save_str=output_dir + '/SEVIRI_CMA_%s.png' % HRSEVIRI_time_str)
-
-            else:
-                logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
-
-    for root, dirs, files in os.walk(CLMSEVIRI_dir):
-        for file in files:
-            if CLMSEVIRI_time_str in file:
-                SEVIRI_CLM_file = os.path.join(root, file)
-
-                get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
-                                       SEVIRI_CLM_file_path = SEVIRI_CLM_file,
-                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                       title='SEVIRI Cloud Mask %s' % CLMSEVIRI_time_str,
-                                       aeolus_lat=lat_ascending,
-                                       aeolus_lon=lon_ascending,
-                                       save_str=output_dir + '/SEVIRI_CLM_%s.png' % HRSEVIRI_time_str)
-
-            else:
-                logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
