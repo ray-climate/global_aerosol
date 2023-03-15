@@ -245,16 +245,16 @@ for i in range((end_date - start_date).days + 1):
                 get_SEVIRI_HR_cartopy(HRSEVIRI_file,
                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                       title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
-                                      aeolus_lat=lat_ascending,
-                                      aeolus_lon=lon_ascending,
+                                      aeolus_lat=lat_ascending_array,
+                                      aeolus_lon=lon_ascending_array,
                                       save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
 
                 get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
                                        BTD_ref = IanSEVIRI_ref,
                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                        title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
-                                       aeolus_lat=lat_ascending,
-                                       aeolus_lon=lon_ascending,
+                                       aeolus_lat=lat_ascending_array,
+                                       aeolus_lon=lon_ascending_array,
                                        save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
 
             else:
