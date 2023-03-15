@@ -271,7 +271,8 @@ for i in range((end_date - start_date).days + 1):
 
 
     ############# caliop tidy up ####################################################
-
+    print(len(caliop_time_all))
+    print(len(caliop_beta_all))
     sort_index = np.argsort(caliop_time_all)
 
     caliop_time_all = sorted(caliop_time_all)
