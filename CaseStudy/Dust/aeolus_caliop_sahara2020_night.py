@@ -323,7 +323,8 @@ for i in range((end_date - start_date).days + 1):
         else:
             lat_sublists[-1].append(j)
         j += 1
-
+    print(lat_sublists)
+    print(len(lat_sublists))
     caliop_lat_ascending = []
     caliop_lon_ascending = []
     caliop_time_ascending = []
