@@ -224,8 +224,7 @@ for i in range((end_date - start_date).days + 1):
             lon_ascending.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             time_ascending.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
-    lat_ascending_array = np.array(lat_ascending).reshape(1, np.array(lat_ascending).size)
-    lon_ascending_array = np.array(lon_ascending).reshape(1, np.array(lon_ascending).size)
+
     time_ascending_array = np.array(time_ascending).reshape(1, np.array(time_ascending).size)
 
     central_time = time_ascending_array[0, int(np.size(time_ascending_array)/2)]
@@ -245,16 +244,16 @@ for i in range((end_date - start_date).days + 1):
                 get_SEVIRI_HR_cartopy(HRSEVIRI_file,
                                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                       title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
-                                      aeolus_lat=lat_ascending_array,
-                                      aeolus_lon=lon_ascending_array,
+                                      aeolus_lat=lat_ascending,
+                                      aeolus_lon=lon_ascending,
                                       save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
 
                 get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
                                        BTD_ref = IanSEVIRI_ref,
                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                        title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
-                                       aeolus_lat=lat_ascending_array,
-                                       aeolus_lon=lon_ascending_array,
+                                       aeolus_lat=lat_ascending,
+                                       aeolus_lon=lon_ascending,
                                        save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
 
             else:
