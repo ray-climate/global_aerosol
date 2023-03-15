@@ -244,10 +244,6 @@ for i in range((end_date - start_date).days + 1):
 
         start_date_datetime += time_delta
 
-    print(caliop_time_all)
-    print(caliop_latitude_all)
-    quit()
-
     ############# aeolus tidy up ####################################################
     # Convert aeolus altitude values from meters to kilometers
     aeolus_altitude_all[aeolus_altitude_all == -1] = np.nan
@@ -273,6 +269,17 @@ for i in range((end_date - start_date).days + 1):
 
     ############# aeolus tidy up ####################################################
 
+
+    ############# caliop tidy up ####################################################
+
+    sort_index = np.argsort(caliop_time_all)
+
+    caliop_time_all = sorted(caliop_time_all)
+    caliop_beta_all = np.asarray(caliop_beta_all)[sort_index]
+    caliop_latitude_all = np.asarray(caliop_latitude_all)[sort_index]
+    caliop_longitude_all = np.asarray(caliop_longitude_all)[sort_index]
+
+    ############# caliop tidy up ####################################################
 
     ############# separate aeolus data into different orbits ############################
     lat_jump_threshold = 2.0
@@ -300,6 +307,32 @@ for i in range((end_date - start_date).days + 1):
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
     print('central_time: ', central_time)
+    ############# separate aeolus data into different orbits ############################
+
+    ############# separate caliop data into different orbits ############################
+    lat_sublists = [[0]]  # initialize with the index of the first value
+
+    j = 1
+    while j < len(caliop_latitude_all):
+        if abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
+            lat_sublists.append([j])
+        else:
+            lat_sublists[-1].append(j)
+        j += 1
+
+    caliop_lat_ascending = []
+    caliop_lon_ascending = []
+    caliop_time_ascending = []
+
+    for m in range(len(lat_sublists)):
+        if caliop_latitude_all[lat_sublists[m][1]] - caliop_latitude_all[lat_sublists[m][0]] > 0:
+            caliop_lat_ascending.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            caliop_lon_ascending.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+            caliop_time_ascending.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+
+    ############# separate caliop data into different orbits ############################
+    print(caliop_lat_ascending)
+    quit()
 
     for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
