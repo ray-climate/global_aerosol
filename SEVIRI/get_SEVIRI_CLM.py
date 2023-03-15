@@ -284,7 +284,7 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
             text_x, text_y = aeolus_lon[j][int(len(aeolus_time[j]) / 2)], aeolus_lat[j][int(len(aeolus_time[j]) / 2)]
             text_x = text_x + 2. # shift the text a bit to the right
             text_angle = -72
-            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='black',
+            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='blue',
                                rotation=text_angle, rotation_mode='anchor',
                                transform=CRS, fontsize=25)
 
