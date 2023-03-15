@@ -231,20 +231,21 @@ for i in range((end_date - start_date).days + 1):
                     caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
                     caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
 
-                    caliop_time_all.extend(caliop_utc)
-                    caliop_latitude_all.extend(caliop_latitude)
-                    caliop_longitude_all.extend(caliop_longitude)
+                    spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
+                                            (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
+
+                    caliop_time_all.extend(caliop_utc[spatial_mask])
+                    caliop_latitude_all.extend(caliop_latitude[spatial_mask])
+                    caliop_longitude_all.extend(caliop_longitude[spatial_mask])
 
                     try:
-                        print('concatenate')
-                        caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta], axis=1)
-                        caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type], axis=1)
+                        caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta[:, spatial_mask]], axis=1)
+                        caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type[:, spatial_mask]], axis=1)
                     except:
-                        print('copy')
-                        caliop_beta_all = np.copy(caliop_beta)
-                        caliop_aerosol_type_all = np.copy(caliop_aerosol_type)
+                        caliop_beta_all = np.copy(caliop_beta[:, spatial_mask])
+                        caliop_aerosol_type_all = np.copy(caliop_aerosol_type[:, spatial_mask])
+                    print(len(shape))
                     print(caliop_beta_all.shape)
-
         start_date_datetime += time_delta
 
     ############# aeolus tidy up ####################################################
