@@ -109,31 +109,28 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
-for i in range((end_date - start_date).days + 1):
-    date = start_date + timedelta(days=i)
-    # Convert date back to string format
-    date_str = date.strftime("%Y-%m-%d")
-    print(date_str)
-quit()
-for day in range(14, 27):
 
-    start_date = '2020-06-%d' % day
-    end_date = '2020-06-%d' % day
+for i in range((end_date - start_date).days + 1):
+
+    date_i = start_date + timedelta(days=i)
+    # Convert date back to string format
+    date_i_str = date_i.strftime("%Y-%m-%d")
 
     lon_left = meridional_boundary[0]
     lon_right = meridional_boundary[1]
 
     aeolus_time_all = []
-    latitude_all = []
-    longitude_all = []
-    altitude_all = []
-    beta_all = []
-    ber_all = []
+    aeolus_latitude_all = []
+    aeolus_longitude_all = []
+    aeolus_altitude_all = []
+    aeolus_beta_all = []
+    aeolus_ber_all = []
 
     # Parse start and end dates
-    start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
-    end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
+    start_date_datetime = datetime.strptime(date_i_str, '%Y-%m-%d')
+    end_date_datetime = datetime.strptime(date_i_str, '%Y-%m-%d')
 
+    # collect all Aeolus data from 1 day
     while start_date_datetime <= end_date_datetime:
 
         year_i = '{:04d}'.format(start_date_datetime.year)
@@ -162,21 +159,24 @@ for day in range(14, 27):
                 sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
                 sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
 
-                latitude_all.extend(latitude_i)
-                longitude_all.extend(longitude_i)
+                aeolus_latitude_all.extend(latitude_i)
+                aeolus_longitude_all.extend(longitude_i)
                 aeolus_time_all.extend(time_i)
 
                 # plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
 
                 try:
-                    beta_all = np.concatenate([beta_all, sca_mb_backscatter], axis=0)
-                    ber_all = np.concatenate([ber_all, sca_mb_ber], axis=0)
-                    altitude_all = np.concatenate([altitude_all, sca_mb_altitude], axis=0)
+                    aeolus_beta_all = np.concatenate([aeolus_beta_all, sca_mb_backscatter], axis=0)
+                    aeolus_ber_all = np.concatenate([aeolus_ber_all, sca_mb_ber], axis=0)
+                    aeolus_altitude_all = np.concatenate([aeolus_altitude_all, sca_mb_altitude], axis=0)
                 except:
-                    beta_all = np.copy(sca_mb_backscatter)
-                    ber_all = np.copy(sca_mb_ber)
-                    altitude_all = np.copy(sca_mb_altitude)
+                    aeolus_beta_all = np.copy(sca_mb_backscatter)
+                    aeolus_ber_all = np.copy(sca_mb_ber)
+                    aeolus_altitude_all = np.copy(sca_mb_altitude)
         start_date_datetime += time_delta
+
+    print(aeolus_latitude_all.shape)
+    quit()
 
     # Convert altitude values from meters to kilometers
     altitude_all[altitude_all == -1] = np.nan
