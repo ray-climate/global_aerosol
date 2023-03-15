@@ -217,13 +217,13 @@ for i in range((end_date - start_date).days + 1):
     lat_ascending = []
     lon_ascending = []
     time_ascending = []
-
+    print(aeolus_time_all)
     for m in range(len(lat_sublists)):
         if aeolus_latitude_all[lat_sublists[m][1]]- aeolus_latitude_all[lat_sublists[m][0]] > 0:
             lat_ascending.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             lon_ascending.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
             time_ascending.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-    print(time_ascending)
+
     time_ascending_array = np.array(time_ascending).reshape(1, np.array(time_ascending).size)
 
     central_time = time_ascending_array[0, int(np.size(time_ascending_array)/2)]
