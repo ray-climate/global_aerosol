@@ -228,7 +228,8 @@ for i in range((end_date - start_date).days + 1):
     lon_ascending_array = np.array(lon_ascending).reshape(1, np.array(lon_ascending).size)
     time_ascending_array = np.array(time_ascending).reshape(1, np.array(time_ascending).size)
 
-    central_time = time_ascending_array[int(len(time_ascending_array)/2)]
+    central_time = time_ascending_array[1, int(np.size(time_ascending_array)/2)]
+    print(central_time)
     CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
     HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
 
