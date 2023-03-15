@@ -279,12 +279,13 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         gl.left_labels = True
 
         # Add the text box
-        text_str = "Rotated Text Box"
-        text_x, text_y = -10, 20
-        text_angle = 45
-        text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='black',
-                           rotation=text_angle, rotation_mode='anchor', bbox=dict(facecolor='white', alpha=0.7),
-                           transform=CRS)
+        for j in range(len(aeolus_time)):
+            text_str = aeolus_time[j][int(len(aeolus_time[j]) / 2)]
+            text_x, text_y = aeolus_lon[j][int(len(aeolus_time[j]) / 2)], aeolus_lat[j][int(len(aeolus_time[j]) / 2)]
+            text_angle = -20
+            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='black',
+                               rotation=text_angle, rotation_mode='anchor',
+                               transform=CRS, fontsize=35)
 
         gl.xlabel_style = {'size': 35, 'color': 'black'}
         gl.ylabel_style = {'size': 35, 'color': 'black'}
