@@ -236,9 +236,11 @@ for i in range((end_date - start_date).days + 1):
                     caliop_longitude_all.extend(caliop_longitude)
 
                     try:
+                        print('concatenate')
                         caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta], axis=1)
                         caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type], axis=1)
                     except:
+                        print('copy')
                         caliop_beta_all = np.copy(caliop_beta)
                         caliop_aerosol_type_all = np.copy(caliop_aerosol_type)
 
