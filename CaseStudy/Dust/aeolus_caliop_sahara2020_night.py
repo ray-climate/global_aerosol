@@ -225,6 +225,7 @@ for i in range((end_date - start_date).days + 1):
                         aeolus_altitude_all = np.copy(sca_mb_altitude)
 
         if input_sat == 'Caliop':
+
             # caliop data fetch
             for caliop_file_name in os.listdir(caliop_fetch_dir):
                 if caliop_file_name.endswith('hdf'):
@@ -359,7 +360,8 @@ for i in range((end_date - start_date).days + 1):
                         caliop_time_asc_des.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                 except:
                     print('Only one data point in this orbit, ignore it')
-
+        print(caliop_lat_asc_des)
+        quit()
         central_time = caliop_time_asc_des[int(len(caliop_time_asc_des) / 2)][int(len(caliop_time_asc_des[int(len(caliop_time_asc_des) / 2)]) / 2)]
         CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
         HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
