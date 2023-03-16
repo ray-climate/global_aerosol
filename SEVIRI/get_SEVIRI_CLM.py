@@ -255,14 +255,6 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         scn['dust'][1, :, :] = dust_mask
         scn['dust'][2, :, :] = dust_mask
 
-        aeolus_lat_array = list(itertools.chain(*aeolus_lat))
-        aeolus_lon_array = list(itertools.chain(*aeolus_lon))
-        aeolus_time_array = list(itertools.chain(*aeolus_time))
-
-        caliop_lat_array = list(itertools.chain(*caliop_lat))
-        caliop_lon_array = list(itertools.chain(*caliop_lon))
-        caliop_time_array = list(itertools.chain(*caliop_time))
-
         width = 4000
         height = 2000
 
@@ -287,6 +279,11 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
 
         # Add the scatter plot
         if aeolus_lat is not None:
+
+            aeolus_lat_array = list(itertools.chain(*aeolus_lat))
+            aeolus_lon_array = list(itertools.chain(*aeolus_lon))
+            aeolus_time_array = list(itertools.chain(*aeolus_time))
+
             ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
 
             # Add the text box
@@ -301,6 +298,11 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
                                    transform=CRS, fontsize=25)
 
         else:
+
+            caliop_lat_array = list(itertools.chain(*caliop_lat))
+            caliop_lon_array = list(itertools.chain(*caliop_lon))
+            caliop_time_array = list(itertools.chain(*caliop_time))
+
             ax.scatter(caliop_lon_array, caliop_lat_array, marker='o', color='red', s=10, transform=CRS, zorder=200, label='CALIOP')
             for j in range(len(caliop_time)):
                 text_str = caliop_time[j][int(len(caliop_time[j]) / 2)].strftime("%H:%M")
