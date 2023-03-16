@@ -237,7 +237,9 @@ for i in range((end_date - start_date).days + 1):
                     caliop_time_all.extend(caliop_utc[spatial_mask])
                     caliop_latitude_all.extend(caliop_latitude[spatial_mask])
                     caliop_longitude_all.extend(caliop_longitude[spatial_mask])
-
+                    print(caliop_utc[spatial_mask])
+                    print(caliop_latitude[spatial_mask])
+                    quit()
                     try:
                         caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta[:, spatial_mask]], axis=1)
                         caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type[:, spatial_mask]], axis=1)
@@ -315,7 +317,6 @@ for i in range((end_date - start_date).days + 1):
     ############# separate caliop data into different orbits ############################
     lat_sublists = [[0]]  # initialize with the index of the first value
 
-    print(caliop_latitude_all[0:150])
     j = 1
     while j < len(caliop_latitude_all):
         if abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
@@ -323,7 +324,7 @@ for i in range((end_date - start_date).days + 1):
         else:
             lat_sublists[-1].append(j)
         j += 1
-    quit()
+
     caliop_lat_ascending = []
     caliop_lon_ascending = []
     caliop_time_ascending = []
