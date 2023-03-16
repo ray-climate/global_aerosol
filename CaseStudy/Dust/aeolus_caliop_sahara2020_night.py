@@ -134,7 +134,7 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
                                                                               variable='Particulate_Depolarization_Ratio_Profile_532'))
     print(caliop_file_path)
     print(caliop_utc[::60])
-    quit()
+
     # Apply spatial mask
     spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
                             (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
