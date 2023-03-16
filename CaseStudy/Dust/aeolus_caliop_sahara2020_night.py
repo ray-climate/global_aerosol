@@ -132,8 +132,8 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     caliop_aerosol_type_mask[caliop_feature_type != 3] = -1.
     caliop_Depolarization_Ratio = np.asarray(caliop_request._get_calipso_data(filename=caliop_file_path,
                                                                               variable='Particulate_Depolarization_Ratio_Profile_532'))
-    print(caliop_utc)
-    quit()
+    print(caliop_utc[0:100])
+
     # Apply spatial mask
     spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
                             (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
@@ -142,6 +142,8 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
 
         # logger.info('Data found within the spatial window: %s', caliop_file_path)
         print('Data found within the spatial window: ', caliop_file_path)
+        print(caliop_utc[spatial_mask][0:100])
+        quit()
         return caliop_utc[spatial_mask], caliop_latitude[spatial_mask], \
                caliop_longitude[spatial_mask], caliop_altitude, caliop_beta[:, spatial_mask], \
                caliop_aerosol_type[:, spatial_mask], caliop_Depolarization_Ratio[:, spatial_mask]
