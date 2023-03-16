@@ -320,8 +320,8 @@ for i in range((end_date - start_date).days + 1):
     while j < len(caliop_latitude_all):
         if (abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold):
             lat_sublists.append([j])
-        elif (caliop_latitude_all[j] - caliop_latitude_all[j - 1]) * (caliop_latitude_all[j - 1] - caliop_latitude_all[j - 2]) < 0:
-            print(caliop_latitude_all[j-2],caliop_latitude_all[j-1],caliop_latitude_all[j])
+        elif (caliop_latitude_all[j+5] - caliop_latitude_all[j - 1]) * (caliop_latitude_all[j - 1] - caliop_latitude_all[j - 5]) < 0:
+
             lat_sublists.append([j])
         else:
             lat_sublists[-1].append(j)
@@ -335,8 +335,8 @@ for i in range((end_date - start_date).days + 1):
     for m in range(len(lat_sublists)):
 
         try:
-            if caliop_latitude_all[lat_sublists[m][50]] - caliop_latitude_all[lat_sublists[m][0]] < 0:
-                print(caliop_latitude_all[lat_sublists[m][50]], caliop_latitude_all[lat_sublists[m][0]] )
+            if caliop_latitude_all[lat_sublists[m][10]] - caliop_latitude_all[lat_sublists[m][0]] < 0:
+                print(caliop_latitude_all[lat_sublists[m][10]], caliop_latitude_all[lat_sublists[m][0]] )
                 caliop_lat_ascending.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                 caliop_lon_ascending.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                 caliop_time_ascending.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
