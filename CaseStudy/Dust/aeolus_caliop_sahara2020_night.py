@@ -116,7 +116,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
 
     caliop_request = Caliop_hdf_reader()
-    print(caliop_file_path)
+
     # Read data from Caliop file
     caliop_utc = np.asarray(caliop_request._get_profile_UTC(caliop_file_path))
     caliop_latitude = np.asarray(caliop_request._get_latitude(caliop_file_path))
@@ -132,8 +132,6 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     caliop_aerosol_type_mask[caliop_feature_type != 3] = -1.
     caliop_Depolarization_Ratio = np.asarray(caliop_request._get_calipso_data(filename=caliop_file_path,
                                                                               variable='Particulate_Depolarization_Ratio_Profile_532'))
-
-    print(caliop_utc[::60])
 
     # Apply spatial mask
     spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
@@ -339,7 +337,6 @@ for i in range((end_date - start_date).days + 1):
                 caliop_time_ascending.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
         except:
             print('Only one data point in this orbit, ignore it')
-    print(caliop_lat_ascending)
 
     ############# separate caliop data into different orbits ############################
 
@@ -376,4 +373,5 @@ for i in range((end_date - start_date).days + 1):
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
 
+    quit()
 
