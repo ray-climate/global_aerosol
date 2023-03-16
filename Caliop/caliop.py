@@ -165,6 +165,8 @@ class Caliop_hdf_reader():
         sd = SD(filename)
         datasets = sd.select('Profile_UTC_Time')
         data = datasets.get()[:,0]
+        print(data)
+        quit()
         datetime_utc = np.zeros((data.shape))
         fraction_of_day = [ data_i % 1 for data_i in data]
         utc_hour = [int(np.floor(data_i * 24)) for data_i in fraction_of_day]
