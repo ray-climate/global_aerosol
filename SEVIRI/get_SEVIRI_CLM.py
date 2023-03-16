@@ -58,16 +58,14 @@ def get_HRSEVIRI_time(dt):
     formatted = datetime.strftime(rounded, '%Y%m%d%H%M')
     return formatted
 
-def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus_lon, aeolus_time, aeolus_lat_highlight = None, aeolus_lon_highlight = None):
+def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str,
+                          aeolus_lat = None, aeolus_lon = None, aeolus_time = None,
+                          caliop_lat = None, caliop_lon = None, caliop_time = None):
 
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[file_path])
     composite = 'dust'
     scn.load([composite], upper_right_corner="NE")
-
-    aeolus_lat_array = list(itertools.chain(*aeolus_lat))
-    aeolus_lon_array = list(itertools.chain(*aeolus_lon))
-    aeolus_time_array = list(itertools.chain(*aeolus_time))
 
     width = 4000
     height = 2000
@@ -91,19 +89,38 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str, aeolus_lat, aeolus
                       zorder=100, draw_labels=True)
 
     # Add the scatter plot
-    ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
-    if aeolus_lat_highlight is not None:
-        ax.scatter(aeolus_lon_highlight, aeolus_lat_highlight, marker='*', color='red', s=80, transform=CRS, zorder=300)
+    if aeolus_lat is not None:
+        aeolus_lat_array = list(itertools.chain(*aeolus_lat))
+        aeolus_lon_array = list(itertools.chain(*aeolus_lon))
+        aeolus_time_array = list(itertools.chain(*aeolus_time))
+        ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
 
-    # Add the text box
-    for j in range(len(aeolus_time)):
-        text_str = aeolus_time[j][int(len(aeolus_time[j]) / 2)].strftime("%H:%M")
-        text_x, text_y = aeolus_lon[j][int(len(aeolus_time[j]) / 2)], aeolus_lat[j][int(len(aeolus_time[j]) / 2)]
-        text_x = text_x + 1.  # shift the text a bit to the right
-        text_angle = -78.
-        text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='white',
-                           rotation=text_angle, rotation_mode='anchor',
-                           transform=CRS, fontsize=25)
+        # Add the text box
+        for j in range(len(aeolus_time)):
+            text_str = aeolus_time[j][int(len(aeolus_time[j]) / 2)].strftime("%H:%M")
+            text_x, text_y = aeolus_lon[j][int(len(aeolus_time[j]) / 2)], aeolus_lat[j][int(len(aeolus_time[j]) / 2)]
+            text_x = text_x + 1.  # shift the text a bit to the right
+            text_angle = -78.
+            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='white',
+                               rotation=text_angle, rotation_mode='anchor',
+                               transform=CRS, fontsize=25)
+    else:
+
+        caliop_lat_array = list(itertools.chain(*caliop_lat))
+        caliop_lon_array = list(itertools.chain(*caliop_lon))
+        caliop_time_array = list(itertools.chain(*caliop_time))
+
+        ax.scatter(caliop_lon_array, caliop_lat_array, marker='o', color='red', s=10, transform=CRS, zorder=200,
+                   label='CALIOP')
+        for j in range(len(caliop_time)):
+            text_str = caliop_time[j][int(len(caliop_time[j]) / 2)].strftime("%H:%M")
+            text_x, text_y = caliop_lon[j][int(len(caliop_time[j]) / 2)], caliop_lat[j][
+                int(len(caliop_time[j]) / 2)]
+            text_x = text_x + 1.
+            text_angle = -78.
+            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='red',
+                               rotation=text_angle, rotation_mode='anchor',
+                               transform=CRS, fontsize=25)
 
     plt.legend(fontsize=35)
     gl.top_labels = False
