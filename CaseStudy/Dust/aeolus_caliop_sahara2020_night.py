@@ -320,14 +320,12 @@ for i in range((end_date - start_date).days + 1):
     while j < len(caliop_latitude_all):
         if (abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold):
             lat_sublists.append([j])
-        elif (caliop_latitude_all[j+5] - caliop_latitude_all[j - 1]) * (caliop_latitude_all[j - 1] - caliop_latitude_all[j - 5]) < 0:
-
+        elif (caliop_time_all[j] - caliop_time_all[lat_sublists[-1][-1]]) > timedelta(minutes=10):
             lat_sublists.append([j])
         else:
             lat_sublists[-1].append(j)
         j += 1
-    print(lat_sublists)
-    quit()
+
     caliop_lat_ascending = []
     caliop_lon_ascending = []
     caliop_time_ascending = []
