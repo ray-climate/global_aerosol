@@ -236,13 +236,11 @@ for i in range((end_date - start_date).days + 1):
 
                     spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
                                             (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
-                    print(caliop_file_name)
+
                     caliop_time_all.extend(caliop_utc[spatial_mask])
                     caliop_latitude_all.extend(caliop_latitude[spatial_mask])
                     caliop_longitude_all.extend(caliop_longitude[spatial_mask])
-                    print(caliop_utc[spatial_mask])
-                    print(caliop_latitude[spatial_mask])
-                    quit()
+
                     try:
                         caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta[:, spatial_mask]], axis=1)
                         caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type[:, spatial_mask]], axis=1)
