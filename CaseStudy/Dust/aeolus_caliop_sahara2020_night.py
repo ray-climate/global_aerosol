@@ -319,8 +319,8 @@ for i in range((end_date - start_date).days + 1):
     j = 1
     while j < len(caliop_latitude_all):
         if (abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold) | \
-                ((caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) * (
-                        caliop_latitude_all[j] - caliop_latitude_all[j - 1]) < 0):
+                ((caliop_latitude_all[lat_sublists[-1][-1]] - caliop_latitude_all[j] ) * (
+                        caliop_latitude_all[lat_sublists[-1][-1]] - caliop_latitude_all[lat_sublists[-1][-2]]) > 0):
             lat_sublists.append([j])
         else:
             lat_sublists[-1].append(j)
