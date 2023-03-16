@@ -23,6 +23,8 @@ import pathlib
 import sys
 import os
 
+input_sat = str(sys.argv[1]) # input satellite, either 'aeolus' or 'caliop'
+input_mode = str(sys.argv[2]) # input mode, either 'ascending' or 'descending'
 
 # Define the spatial bounds
 lat_up = 40. # degree
@@ -148,7 +150,6 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     else:
         return None
 
-
 for i in range((end_date - start_date).days + 1):
 
     date_i = start_date + timedelta(days=i)
@@ -186,162 +187,185 @@ for i in range((end_date - start_date).days + 1):
         aeolus_fetch_dir = os.path.join(AEOLUS_JASMIN_dir, f'{year_i}-{month_i}')
         caliop_fetch_dir = os.path.join(CALIOP_JASMIN_dir, year_i, f'{year_i}_{month_i}_{day_i}')
 
-        # aeolus data fetch
-        for aeolus_file_name in os.listdir(aeolus_fetch_dir):
-            if aeolus_file_name.endswith('%s-%s-%s.nc'%(year_i,  month_i, day_i)):
+        if input_sat == 'Aeolus':
+            # aeolus data fetch
+            for aeolus_file_name in os.listdir(aeolus_fetch_dir):
+                if aeolus_file_name.endswith('%s-%s-%s.nc'%(year_i,  month_i, day_i)):
 
-                aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
+                    aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
 
-                (latitude, longitude, sca_mb_altitude,
-                 footprint_time_aeolus, sca_mb_backscatter, alpha_aeolus_mb,
-                 qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
-                    extract_variables_from_aeolus(aeolus_file_path, logger)
+                    (latitude, longitude, sca_mb_altitude,
+                     footprint_time_aeolus, sca_mb_backscatter, alpha_aeolus_mb,
+                     qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
+                        extract_variables_from_aeolus(aeolus_file_path, logger)
 
-                spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
-                                        (longitude > lon_left) & (longitude < lon_right))[0]
+                    spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
+                                            (longitude > lon_left) & (longitude < lon_right))[0]
 
-                time_i = footprint_time_aeolus[spatial_mask]
-                latitude_i = latitude[spatial_mask]
-                longitude_i = longitude[spatial_mask]
-                sca_mb_altitude = sca_mb_altitude[spatial_mask, :]
-                sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
-                sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
+                    time_i = footprint_time_aeolus[spatial_mask]
+                    latitude_i = latitude[spatial_mask]
+                    longitude_i = longitude[spatial_mask]
+                    sca_mb_altitude = sca_mb_altitude[spatial_mask, :]
+                    sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
+                    sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
 
-                aeolus_latitude_all.extend(latitude_i)
-                aeolus_longitude_all.extend(longitude_i)
-                aeolus_time_all.extend(time_i)
+                    aeolus_latitude_all.extend(latitude_i)
+                    aeolus_longitude_all.extend(longitude_i)
+                    aeolus_time_all.extend(time_i)
 
-                # plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
-
-                try:
-                    aeolus_beta_all = np.concatenate([aeolus_beta_all, sca_mb_backscatter], axis=0)
-                    aeolus_ber_all = np.concatenate([aeolus_ber_all, sca_mb_ber], axis=0)
-                    aeolus_altitude_all = np.concatenate([aeolus_altitude_all, sca_mb_altitude], axis=0)
-                except:
-                    aeolus_beta_all = np.copy(sca_mb_backscatter)
-                    aeolus_ber_all = np.copy(sca_mb_ber)
-                    aeolus_altitude_all = np.copy(sca_mb_altitude)
-
-        # caliop data fetch
-        for caliop_file_name in os.listdir(caliop_fetch_dir):
-            if caliop_file_name.endswith('hdf'):
-                caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
-                caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
-
-                if caliop_data:
-                    caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
-                    caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
-
-                    spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
-                                            (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
-
-                    caliop_time_all.extend(caliop_utc[spatial_mask])
-                    caliop_latitude_all.extend(caliop_latitude[spatial_mask])
-                    caliop_longitude_all.extend(caliop_longitude[spatial_mask])
+                    # plot_aeolus_basemap(latitude_i, longitude_i, lat_SEVIRI, lon_SEVIRI, CLM_valid, './test_fig.png')
 
                     try:
-                        caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta[:, spatial_mask]], axis=1)
-                        caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type[:, spatial_mask]], axis=1)
+                        aeolus_beta_all = np.concatenate([aeolus_beta_all, sca_mb_backscatter], axis=0)
+                        aeolus_ber_all = np.concatenate([aeolus_ber_all, sca_mb_ber], axis=0)
+                        aeolus_altitude_all = np.concatenate([aeolus_altitude_all, sca_mb_altitude], axis=0)
                     except:
-                        caliop_beta_all = np.copy(caliop_beta[:, spatial_mask])
-                        caliop_aerosol_type_all = np.copy(caliop_aerosol_type[:, spatial_mask])
+                        aeolus_beta_all = np.copy(sca_mb_backscatter)
+                        aeolus_ber_all = np.copy(sca_mb_ber)
+                        aeolus_altitude_all = np.copy(sca_mb_altitude)
+
+        if input_sat == 'Caliop':
+            # caliop data fetch
+            for caliop_file_name in os.listdir(caliop_fetch_dir):
+                if caliop_file_name.endswith('hdf'):
+                    caliop_file_path = os.path.join(caliop_fetch_dir, caliop_file_name)
+                    caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
+
+                    if caliop_data:
+                        caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
+                        caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
+
+                        spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
+                                                (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
+
+                        caliop_time_all.extend(caliop_utc[spatial_mask])
+                        caliop_latitude_all.extend(caliop_latitude[spatial_mask])
+                        caliop_longitude_all.extend(caliop_longitude[spatial_mask])
+
+                        try:
+                            caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta[:, spatial_mask]], axis=1)
+                            caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type[:, spatial_mask]], axis=1)
+                        except:
+                            caliop_beta_all = np.copy(caliop_beta[:, spatial_mask])
+                            caliop_aerosol_type_all = np.copy(caliop_aerosol_type[:, spatial_mask])
 
         start_date_datetime += time_delta
 
-    ############# aeolus tidy up ####################################################
-    # Convert aeolus altitude values from meters to kilometers
-    aeolus_altitude_all[aeolus_altitude_all == -1] = np.nan
-    aeolus_altitude_all = aeolus_altitude_all * 1e-3
+    if input_sat == 'Aeolus':
+        ############# aeolus tidy up ####################################################
+        # Convert aeolus altitude values from meters to kilometers
+        aeolus_altitude_all[aeolus_altitude_all == -1] = np.nan
+        aeolus_altitude_all = aeolus_altitude_all * 1e-3
 
-    # convert aeolus data with the given scaling factor: convert to km-1.sr-1
-    aeolus_beta_all[aeolus_beta_all == -1.e6] = 0
-    aeolus_beta_all = aeolus_beta_all * 1.e-6 * 1.e3
+        # convert aeolus data with the given scaling factor: convert to km-1.sr-1
+        aeolus_beta_all[aeolus_beta_all == -1.e6] = 0
+        aeolus_beta_all = aeolus_beta_all * 1.e-6 * 1.e3
 
-    # Create empty array for resampled data, with same shape as alt_aeolus
-    backscatter_resample = np.zeros((aeolus_altitude_all.shape[0], np.size(alt_caliop)))
-    # backscatter_resample[:] = np.nan
+        # Create empty array for resampled data, with same shape as alt_aeolus
+        backscatter_resample = np.zeros((aeolus_altitude_all.shape[0], np.size(alt_caliop)))
+        # backscatter_resample[:] = np.nan
 
-    # Iterate through rows and columns of alt_aeolus and data_aeolus
-    for m in range(aeolus_altitude_all.shape[0]):
-        alt_aeolus_m = aeolus_altitude_all[m, :]
-        for n in range(np.size(alt_aeolus_m)):
-            if alt_aeolus_m[n] > 0:
-                if (n + 1) < len(alt_aeolus_m):
-                    # Resample data based on nearest altitude value less than current value in alt_caliop
-                    backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
-                    aeolus_beta_all[m, n]
+        # Iterate through rows and columns of alt_aeolus and data_aeolus
+        for m in range(aeolus_altitude_all.shape[0]):
+            alt_aeolus_m = aeolus_altitude_all[m, :]
+            for n in range(np.size(alt_aeolus_m)):
+                if alt_aeolus_m[n] > 0:
+                    if (n + 1) < len(alt_aeolus_m):
+                        # Resample data based on nearest altitude value less than current value in alt_caliop
+                        backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
+                        aeolus_beta_all[m, n]
 
-    ############# aeolus tidy up ####################################################
+        ############# aeolus tidy up ####################################################
 
+        ############# separate aeolus data into different orbits ############################
+        lat_jump_threshold = 2.0
+        lat_sublists = [[0]]  # initialize with the index of the first value
 
-    ############# caliop tidy up ####################################################
+        j = 1
+        while j < len(aeolus_latitude_all):
+            if abs(aeolus_latitude_all[j] - aeolus_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
+                lat_sublists.append([j])
+            else:
+                lat_sublists[-1].append(j)
+            j += 1
 
-    sort_index = np.argsort(caliop_time_all)
+        aeolus_lat_asc_des = []
+        aeolus_lon_asc_des = []
+        aeolus_time_asc_des = []
 
-    caliop_time_all = sorted(caliop_time_all)
-    caliop_beta_all = np.asarray(caliop_beta_all)[:,sort_index]
-    caliop_latitude_all = np.asarray(caliop_latitude_all)[sort_index]
-    caliop_longitude_all = np.asarray(caliop_longitude_all)[sort_index]
-
-    ############# caliop tidy up ####################################################
-
-    ############# separate aeolus data into different orbits ############################
-    lat_jump_threshold = 2.0
-    lat_sublists = [[0]]  # initialize with the index of the first value
-
-    j = 1
-    while j < len(aeolus_latitude_all):
-        if abs(aeolus_latitude_all[j] - aeolus_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
-            lat_sublists.append([j])
+        if input_mode == 'ascending':
+            for m in range(len(lat_sublists)):
+                if aeolus_latitude_all[lat_sublists[m][1]] - aeolus_latitude_all[lat_sublists[m][0]] > 0:
+                    aeolus_lat_asc_des.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                    aeolus_lon_asc_des.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                    aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
         else:
-            lat_sublists[-1].append(j)
-        j += 1
+            for m in range(len(lat_sublists)):
+                if aeolus_latitude_all[lat_sublists[m][1]] - aeolus_latitude_all[lat_sublists[m][0]] < 0:
+                    aeolus_lat_asc_des.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                    aeolus_lon_asc_des.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                    aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
 
-    aeolus_lat_ascending = []
-    aeolus_lon_ascending = []
-    aeolus_time_ascending = []
+        central_time = aeolus_time_asc_des[int(len(aeolus_time_asc_des) / 2)][
+            int(len(aeolus_time_asc_des[0]) / 2)]
+        CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
+        HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
+        ############# separate aeolus data into different orbits ############################
 
-    for m in range(len(lat_sublists)):
-        if aeolus_latitude_all[lat_sublists[m][1]]- aeolus_latitude_all[lat_sublists[m][0]] > 0:
-            aeolus_lat_ascending.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            aeolus_lon_ascending.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-            aeolus_time_ascending.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+    if input_sat == 'Caliop':
+        ############# caliop tidy up ####################################################
 
-    central_time = aeolus_time_ascending[int(len(aeolus_time_ascending)/2)][int(len(aeolus_time_ascending[0])/2)]
-    CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
-    HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
-    print('central_time: ', central_time)
-    ############# separate aeolus data into different orbits ############################
+        sort_index = np.argsort(caliop_time_all)
 
-    ############# separate caliop data into different orbits ############################
-    lat_sublists = [[0]]  # initialize with the index of the first value
+        caliop_time_all = sorted(caliop_time_all)
+        caliop_beta_all = np.asarray(caliop_beta_all)[:,sort_index]
+        caliop_latitude_all = np.asarray(caliop_latitude_all)[sort_index]
+        caliop_longitude_all = np.asarray(caliop_longitude_all)[sort_index]
 
-    j = 1
-    while j < len(caliop_latitude_all):
-        if (abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold):
-            lat_sublists.append([j])
-        elif (caliop_time_all[j] - caliop_time_all[lat_sublists[-1][-1]]) > timedelta(minutes=10):
-            lat_sublists.append([j])
+        ############# caliop tidy up ####################################################
+
+        ############# separate caliop data into different orbits ############################
+        lat_sublists = [[0]]  # initialize with the index of the first value
+
+        j = 1
+        while j < len(caliop_latitude_all):
+            if (abs(caliop_latitude_all[j] - caliop_latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold):
+                lat_sublists.append([j])
+            elif (caliop_time_all[j] - caliop_time_all[lat_sublists[-1][-1]]) > timedelta(minutes=10):
+                lat_sublists.append([j])
+            else:
+                lat_sublists[-1].append(j)
+            j += 1
+
+        caliop_lat_asc_des = []
+        caliop_lon_asc_des = []
+        caliop_time_asc_des = []
+
+        if input_mode == 'ascending':
+            for m in range(len(lat_sublists)):
+                try:
+                    if caliop_latitude_all[lat_sublists[m][10]] - caliop_latitude_all[lat_sublists[m][0]] > 0:
+                        caliop_lat_asc_des.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_lon_asc_des.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_time_asc_des.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                except:
+                    print('Only one data point in this orbit, ignore it')
         else:
-            lat_sublists[-1].append(j)
-        j += 1
+            for m in range(len(lat_sublists)):
+                try:
+                    if caliop_latitude_all[lat_sublists[m][10]] - caliop_latitude_all[lat_sublists[m][0]] < 0:
+                        caliop_lat_asc_des.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_lon_asc_des.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_time_asc_des.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                except:
+                    print('Only one data point in this orbit, ignore it')
 
-    caliop_lat_ascending = []
-    caliop_lon_ascending = []
-    caliop_time_ascending = []
+        central_time = caliop_time_asc_des[int(len(caliop_time_asc_des) / 2)][
+            int(len(caliop_time_asc_des[0]) / 2)]
+        CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
+        HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
 
-    for m in range(len(lat_sublists)):
-
-        try:
-            if caliop_latitude_all[lat_sublists[m][10]] - caliop_latitude_all[lat_sublists[m][0]] < 0:
-                print(caliop_latitude_all[lat_sublists[m][10]], caliop_latitude_all[lat_sublists[m][0]] )
-                caliop_lat_ascending.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-                caliop_lon_ascending.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-                caliop_time_ascending.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-        except:
-            print('Only one data point in this orbit, ignore it')
-
-    ############# separate caliop data into different orbits ############################
+        ############# separate caliop data into different orbits ############################
 
     for root, dirs, files in os.walk(HRSEVIRI_dir):
         for file in files:
@@ -353,25 +377,32 @@ for i in range((end_date - start_date).days + 1):
                 day_SEVIRI_background = HRSEVIRI_time_str[6:8]
                 converted_SEVIRI_background_datetime = f"{year_SEVIRI_background}-{month_SEVIRI_background}-{day_SEVIRI_background}"
 
-                get_SEVIRI_HR_cartopy(HRSEVIRI_file,
-                                      extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                      title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
-                                      aeolus_lat=aeolus_lat_ascending,
-                                      aeolus_lon=aeolus_lon_ascending,
-                                      aeolus_time=aeolus_time_ascending,
-                                      save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
+                # get_SEVIRI_HR_cartopy(HRSEVIRI_file,
+                #                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                #                       title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
+                #                       aeolus_lat=aeolus_lat_ascending,
+                #                       aeolus_lon=aeolus_lon_ascending,
+                #                       aeolus_time=aeolus_time_ascending,
+                #                       save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
 
-                get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
+                if input_sat == 'Aeolus':
+                    get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
                                        BTD_ref = IanSEVIRI_ref,
                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                        title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
-                                       aeolus_lat=aeolus_lat_ascending,
-                                       aeolus_lon=aeolus_lon_ascending,
-                                       aeolus_time=aeolus_time_ascending,
-                                       caliop_lat=caliop_lat_ascending,
-                                       caliop_lon=caliop_lon_ascending,
-                                       caliop_time=caliop_time_ascending,
-                                       save_str=output_dir + '/SEVIRI_Ian_dust_%s.png' % converted_SEVIRI_background_datetime)
+                                       aeolus_lat=aeolus_lat_asc_des,
+                                       aeolus_lon=aeolus_lon_asc_des,
+                                       aeolus_time=aeolus_time_asc_des,
+                                       save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' % (input_sat, input_mode, converted_SEVIRI_background_datetime))
+                else:
+                    get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path = HRSEVIRI_file,
+                                           BTD_ref = IanSEVIRI_ref,
+                                           extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                           title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
+                                           caliop_lat=caliop_lat_asc_des,
+                                           caliop_lon=caliop_lon_asc_des,
+                                           caliop_time=caliop_time_asc_des,
+                                           save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' % (input_sat, input_mode, converted_SEVIRI_background_datetime))
 
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
