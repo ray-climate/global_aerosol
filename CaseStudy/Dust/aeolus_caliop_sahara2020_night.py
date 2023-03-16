@@ -233,7 +233,7 @@ for i in range((end_date - start_date).days + 1):
 
                     spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
                                             (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
-
+                    print(caliop_file_name)
                     caliop_time_all.extend(caliop_utc[spatial_mask])
                     caliop_latitude_all.extend(caliop_latitude[spatial_mask])
                     caliop_longitude_all.extend(caliop_longitude[spatial_mask])
