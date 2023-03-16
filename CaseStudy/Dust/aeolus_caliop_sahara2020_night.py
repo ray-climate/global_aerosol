@@ -361,8 +361,7 @@ for i in range((end_date - start_date).days + 1):
                     print('Only one data point in this orbit, ignore it')
         print(caliop_time_asc_des)
         print(len(caliop_time_asc_des))
-        central_time = caliop_time_asc_des[int(len(caliop_time_asc_des) / 2)][
-            int(len(caliop_time_asc_des[0]) / 2)]
+        central_time = caliop_time_asc_des[int(len(caliop_time_asc_des) / 2)][int(len(caliop_time_asc_des[int(len(caliop_time_asc_des) / 2)]) / 2)]
         CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
         HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
 
