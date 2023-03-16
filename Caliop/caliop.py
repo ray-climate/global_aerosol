@@ -169,6 +169,8 @@ class Caliop_hdf_reader():
 
         datetime_utc = np.zeros((data.shape))
         fraction_of_day = [ data_i % 1 for data_i in data]
+        print(fraction_of_day)
+        quit()
         utc_hour = [int(np.floor(data_i * 24)) for data_i in fraction_of_day]
         utc_minute = [int(np.floor((fraction_of_day[i] * 24 - utc_hour[i]) * 60))
                       for i in range(len(fraction_of_day))]
