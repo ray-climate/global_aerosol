@@ -132,6 +132,7 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     caliop_aerosol_type_mask[caliop_feature_type != 3] = -1.
     caliop_Depolarization_Ratio = np.asarray(caliop_request._get_calipso_data(filename=caliop_file_path,
                                                                               variable='Particulate_Depolarization_Ratio_Profile_532'))
+    print(caliop_file_path)
     print(caliop_utc[0:100])
 
     # Apply spatial mask
