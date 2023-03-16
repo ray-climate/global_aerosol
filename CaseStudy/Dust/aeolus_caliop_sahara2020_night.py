@@ -423,5 +423,3 @@ for i in range((end_date - start_date).days + 1):
             else:
                 logger.warning('No HRSEVIRI file found for the given time: %s' % central_time)
 
-    quit()
-
