@@ -165,21 +165,17 @@ class Caliop_hdf_reader():
         sd = SD(filename)
         datasets = sd.select('Profile_UTC_Time')
         data = datasets.get()[:,0]
-        print(data)
 
         datetime_utc = np.zeros((data.shape))
         fraction_of_day = [ data_i % 1 for data_i in data]
 
-        utc_hour = [int(np.floor(data_i * 24)) for data_i in fraction_of_day]
-
-        utc_minute = [int(np.floor((fraction_of_day[i] * 24 - utc_hour[i]) * 60))
+        utc_hour = ['{:02d}'.format(int(np.floor(data_i * 24))) for data_i in fraction_of_day]
+        utc_minute = ['{:02d}'.format(int(np.floor((fraction_of_day[i] * 24 - int(utc_hour[i])) * 60)))
                       for i in range(len(fraction_of_day))]
-        utc_second = [int(np.floor((fraction_of_day[i] * 24 * 60 - utc_hour[i] * 60 - utc_minute[i]) * 60))
+        utc_second = ['{:02d}'.format(
+            int(np.floor((fraction_of_day[i] * 24 * 60 - int(utc_hour[i]) * 60 - int(utc_minute[i])) * 60)))
                       for i in range(len(fraction_of_day))]
 
-        for i in range(len(data)):
-            print('20' + str(data[i])[0:6] + '%s%s%s'%(str(utc_hour[i]),str(utc_minute[i]),str(utc_second[i])))
-        quit()
         datetime_utc = [datetime.datetime.strptime('20' + str(data[i])[0:6] +
                                                    '%s%s%s'%(str(utc_hour[i]),str(utc_minute[i]),str(utc_second[i])),
                                                    '%Y%m%d%H%M%S') for i in range(len(data))]
