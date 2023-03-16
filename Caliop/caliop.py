@@ -177,6 +177,9 @@ class Caliop_hdf_reader():
         utc_second = [int(np.floor((fraction_of_day[i] * 24 * 60 - utc_hour[i] * 60 - utc_minute[i]) * 60))
                       for i in range(len(fraction_of_day))]
 
+        for i in range(len(data)):
+            print(str(utc_hour[i]), str(utc_minute[i]), str(utc_second[i]))
+        quit()
         datetime_utc = [datetime.datetime.strptime('20' + str(data[i])[0:6] +
                                                    '%s%s%s'%(str(utc_hour[i]),str(utc_minute[i]),str(utc_second[i])),
                                                    '%Y%m%d%H%M%S') for i in range(len(data))]
