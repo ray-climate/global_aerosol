@@ -321,7 +321,7 @@ for i in range((end_date - start_date).days + 1):
             print(HRSEVIRI_time_str_k)
             for root, dirs, files in os.walk(HRSEVIRI_dir):
                 for file in files:
-                    if HRSEVIRI_time_str in file:
+                    if HRSEVIRI_time_str_k in file:
                         HRSEVIRI_file = os.path.join(root, file)
                         year_SEVIRI_background = HRSEVIRI_time_str[:4]
                         month_SEVIRI_background = HRSEVIRI_time_str[4:6]
