@@ -8,6 +8,7 @@
 from satpy.writers import get_enhanced_image
 from pyresample import create_area_def
 from global_land_mask import globe
+from scipy.spatial import cKDTree
 import matplotlib.pyplot as plt
 from satpy import Scene
 import numpy as np
@@ -87,11 +88,20 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     aeolus_lat_list = np.linspace(aeolus_lat_midpoints[:-1], aeolus_lat_midpoints[1:], 100).reshape(-1, 1)
     aeolus_lon_list = np.linspace(aeolus_lon_midpoints[:-1], aeolus_lon_midpoints[1:], 100).reshape(-1, 1)
 
+    coords = np.stack((seviri_lats.ravel(), seviri_lons.ravel()), axis=-1)
+    tree = cKDTree(coords)
+    search_points = np.hstack((aeolus_lat_list, aeolus_lon_list))
+    distances, indices = tree.query(search_points)
+
+    closest_lat = seviri_lats.ravel()[indices]
+    closest_lon = seviri_lons.ravel()[indices]
+    print(closest_lat.shape)
+    quit()
+
     # Calculate differences between latitudes and longitudes
     lat_diff = np.abs(aeolus_lat_list - seviri_lats)
     lon_diff = np.abs(aeolus_lon_list - seviri_lons)
-    print(lat_diff.shape)
-    quit()
+
     lat_diff[lat_diff == np.Inf] = 1.e3
     lon_diff[lon_diff == np.Inf] = 1.e3
 

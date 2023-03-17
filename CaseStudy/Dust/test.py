@@ -5,25 +5,19 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 15:17
 
-def test_lat_sublists():
-    # create test data
-    latitude_all = [10, 20, 30, 35, 40, 50, 55, 60, 70, 60, 50, 40]
-    lat_jump_threshold = 10
+import numpy as np
+from scipy.spatial import cKDTree
 
-    # expected output
-    expected = [[0, 1, 2], [3], [4, 5], [6], [7, 8]]
+lat_grid = np.random.uniform(-90, 90, size=(5000, 5000))
+lon_grid = np.random.uniform(-180, 180, size=(5000, 5000))
 
-    # run the function
-    lat_sublists = [[0]]
-    j = 1
-    while j < len(latitude_all):
-        if abs(latitude_all[j] - latitude_all[lat_sublists[-1][-1]]) >= lat_jump_threshold:
-            lat_sublists.append([j])
-        else:
-            lat_sublists[-1].append(j)
-        j += 1
+lat_search = np.random.uniform(-90, 90, size=(1000, 1))
+lon_search = np.random.uniform(-180, 180, size=(1000, 1))
 
-    # compare the actual output to the expected output
-    print(lat_sublists)
+coords = np.stack((lat_grid.ravel(), lon_grid.ravel()), axis=-1)
+tree = cKDTree(coords)
 
-test_lat_sublists()
+search_points = np.hstack((lat_search, lon_search))
+distances, indices = tree.query(search_points)
+
+print(distances, indices)
