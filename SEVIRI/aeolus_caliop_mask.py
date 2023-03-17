@@ -95,7 +95,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
 
     aeolus_cm_values = dust_mask.ravel()[indices]
     aeolus_cm_values = aeolus_cm_values.reshape(len(aeolus_lat_midpoints)-1, 100)
-    print(np.sum(aeolus_cm_values, axis=1))
+    print(np.nansum(aeolus_cm_values, axis=1))
     quit()
 
     # Calculate differences between latitudes and longitudes
