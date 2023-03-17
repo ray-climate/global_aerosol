@@ -336,7 +336,7 @@ for i in range((end_date - start_date).days + 1):
                                         aeolus_lon=aeolus_lon_asc_des[k],
                                         aeolus_time=aeolus_time_asc_des[k],
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
-                                                 (input_sat, input_mode, converted_SEVIRI_background_datetime))
+                                                 (input_sat, input_mode, HRSEVIRI_time_str_k))
 
                         quit()
                         # get_SEVIRI_HR_cartopy(HRSEVIRI_file,
