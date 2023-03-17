@@ -314,8 +314,12 @@ for i in range((end_date - start_date).days + 1):
         ############# separate aeolus data into different orbits ############################
 
         for k in range(len(aeolus_lat_asc_des)):
-            print(aeolus_lat_asc_des)
-            print(aeolus_time_asc_des)
+            central_time_k = aeolus_time_asc_des[k][int(len(aeolus_time_asc_des[k]) / 2)]
+            CLMSEVIRI_time_str_k = get_SEVIRI_CLM_time(central_time_k)
+            HRSEVIRI_time_str_k = get_HRSEVIRI_time(central_time_k)
+            print(central_time_k)
+            print(CLMSEVIRI_time_str_k)
+            print(HRSEVIRI_time_str_k)
         quit()
 
     if input_sat == 'Caliop':
