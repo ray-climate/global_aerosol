@@ -331,12 +331,12 @@ for i in range((end_date - start_date).days + 1):
                         get_aeolus_mask(SEVIRI_HR_file_path=HRSEVIRI_file,
                                         BTD_ref=IanSEVIRI_ref,
                                         extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                        title='SEVIRI Dust Mask %s' % converted_SEVIRI_background_datetime,
+                                        title='SEVIRI Dust Mask %s' % HRSEVIRI_time_str_k,
                                         aeolus_lat=aeolus_lat_asc_des[k],
                                         aeolus_lon=aeolus_lon_asc_des[k],
                                         aeolus_time=aeolus_time_asc_des[k],
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
-                                                 (input_sat, input_mode, HRSEVIRI_time_str_k))
+                                                 (input_sat, input_mode, converted_SEVIRI_background_datetime))
 
                         quit()
                         # get_SEVIRI_HR_cartopy(HRSEVIRI_file,
