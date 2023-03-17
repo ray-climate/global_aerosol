@@ -75,6 +75,10 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     #         mask_m[n] = dust_mask[lat_diff_min_index, lon_diff_min_index]
     #         print(lat_diff_min_index, lon_diff_min_index, mask_m[n])
 
+    # Convert aeolus_lat and aeolus_lon to NumPy arrays
+    aeolus_lat = np.array(aeolus_lat)
+    aeolus_lon = np.array(aeolus_lon)
+
     # Calculate midpoints for latitudes and longitudes
     lat_midpoints = (aeolus_lat[:-1] + aeolus_lat[1:]) / 2.0
     lon_midpoints = (aeolus_lon[:-1] + aeolus_lon[1:]) / 2.0
