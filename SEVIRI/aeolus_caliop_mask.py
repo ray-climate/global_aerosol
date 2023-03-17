@@ -63,11 +63,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     # Calculate midpoints for latitudes and longitudes
     aeolus_lat_midpoints = (aeolus_lat[:-1] + aeolus_lat[1:]) / 2.0
     aeolus_lon_midpoints = (aeolus_lon[:-1] + aeolus_lon[1:]) / 2.0
-    print(aeolus_lat)
-    print(aeolus_lat_midpoints)
-    print(len(aeolus_lat))
-    print(len(aeolus_lat_midpoints))
-    quit()
+
     # Generate lists of latitudes and longitudes between the midpoints
     aeolus_lat_list = np.linspace(aeolus_lat_midpoints[:-1], aeolus_lat_midpoints[1:], 100).reshape(-1, 1)
     aeolus_lon_list = np.linspace(aeolus_lon_midpoints[:-1], aeolus_lon_midpoints[1:], 100).reshape(-1, 1)
@@ -79,7 +75,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
 
     aeolus_cm_values = dust_mask.ravel()[indices]
     aeolus_cm_values = aeolus_cm_values.reshape(len(aeolus_lat_midpoints) - 1, 100, order='F')
-    aeolus_mask[1:-2] = np.nansum(aeolus_cm_values, axis=1) / 100.
+    aeolus_mask[1:-1] = np.nansum(aeolus_cm_values, axis=1) / 100.
     print(aeolus_mask)
 
     quit()
