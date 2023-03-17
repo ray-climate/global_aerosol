@@ -316,7 +316,7 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
                                        transform=CRS, fontsize=25)
 
             except:
-                ax.scatter(aeolus_lat, aeolus_lon, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+                ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
         else:
 
             caliop_lat_array = list(itertools.chain(*caliop_lat))
