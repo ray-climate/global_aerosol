@@ -61,8 +61,10 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     aeolus_lon = np.array(aeolus_lon)
 
     # Calculate midpoints for latitudes and longitudes
-    aeolus_lat_midpoints = (aeolus_lat[:-1] + aeolus_lat[1:]) / 2.0
-    aeolus_lon_midpoints = (aeolus_lon[:-1] + aeolus_lon[1:]) / 2.0
+    aeolus_lat_midpoints = (aeolus_lat[:-2] + aeolus_lat[1:]) / 2.0
+    aeolus_lon_midpoints = (aeolus_lon[:-2] + aeolus_lon[1:]) / 2.0
+    print(aeolus_lat)
+    print(aeolus_lat_midpoints)
     print(len(aeolus_lat))
     print(len(aeolus_lat_midpoints))
     quit()
