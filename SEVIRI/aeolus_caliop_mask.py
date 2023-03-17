@@ -51,7 +51,30 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     scn['dust'][0, :, :] = dust_mask
     scn['dust'][1, :, :] = dust_mask
     scn['dust'][2, :, :] = dust_mask
+    ############################# complete mask generation #############################
 
+    for m in range(1,len(aeolus_lat)-1):
+        # generate a list of lats between aeolus_lat[m-1] and aeolus_lat[m+1]
+        lat_list = np.linspace(aeolus_lat[m-1], aeolus_lat[m+1], 100) # 100 is the number of points to ensure the interval is smaller is SEVIRI resolution
+        lon_list = np.linspace(aeolus_lon[m-1], aeolus_lon[m+1], 100)
+        mask_m = np.zeros((len(lat_list)))
+        for n in range(len(lat_list)):
+            lat_n = lat_list[n]
+            lon_n = lon_list[n]
+            # find the nearest point in SEVIRI data
+            lat_diff = np.abs(lats_grid - lat_n)
+            lon_diff = np.abs(lons_grid - lon_n)
+            lat_diff[lat_diff == np.Inf] = 0
+            lon_diff[lon_diff == np.Inf] = 0
+            lat_diff_min = np.nanmin(lat_diff)
+            lon_diff_min = np.nanmin(lon_diff)
+            lat_diff_min_index = np.where(lat_diff == lat_diff_min)
+            lon_diff_min_index = np.where(lon_diff == lon_diff_min)
+            lat_diff_min_index = lat_diff_min_index[0][0]
+            lon_diff_min_index = lon_diff_min_index[0][0]
+            mask_m[n] = dust_mask[lat_diff_min_index, lon_diff_min_index]
+            print(lat_diff_min_index, lon_diff_min_index, mask_m[n])
+    quit()
     width = 4000
     height = 2000
 
