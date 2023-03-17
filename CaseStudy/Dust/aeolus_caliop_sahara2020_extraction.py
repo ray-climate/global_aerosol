@@ -338,7 +338,6 @@ for i in range((end_date - start_date).days + 1):
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
-                        quit()
                         # get_SEVIRI_HR_cartopy(HRSEVIRI_file,
                         #                       extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                         #                       title='SEVIRI Dust RGB %s' % converted_SEVIRI_background_datetime,
@@ -349,7 +348,6 @@ for i in range((end_date - start_date).days + 1):
                         #                       input_sat, input_mode, converted_SEVIRI_background_datetime))
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
-        quit()
 
     if input_sat == 'Caliop':
         ############# caliop tidy up ####################################################
