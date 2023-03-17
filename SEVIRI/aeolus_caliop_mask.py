@@ -54,27 +54,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     scn['dust'][2, :, :] = dust_mask
     ############################# complete mask generation #############################
 
-    # for m in range(1,len(aeolus_lat)-1):
-    #     # generate a list of lats between aeolus_lat[m-1] and aeolus_lat[m+1]
-    #     lat_list = np.linspace((aeolus_lat[m-1] + aeolus_lat[m]) / 2., (aeolus_lat[m+1] + aeolus_lat[m]) / 2., 100) # 100 is the number of points to ensure the interval is smaller is SEVIRI resolution
-    #     lon_list = np.linspace((aeolus_lon[m-1] + aeolus_lon[m]) / 2., (aeolus_lon[m+1] + aeolus_lon[m]) / 2., 100)
-    #     mask_m = np.zeros((len(lat_list)))
-    #     for n in range(len(lat_list)):
-    #         lat_n = lat_list[n]
-    #         lon_n = lon_list[n]
-    #         # find the nearest point in SEVIRI data
-    #         lat_diff = np.abs(lats_grid - lat_n)
-    #         lon_diff = np.abs(lons_grid - lon_n)
-    #         lat_diff[lat_diff == np.Inf] = 0
-    #         lon_diff[lon_diff == np.Inf] = 0
-    #         lat_diff_min = np.nanmin(lat_diff)
-    #         lon_diff_min = np.nanmin(lon_diff)
-    #         lat_diff_min_index = np.where(lat_diff == lat_diff_min)
-    #         lon_diff_min_index = np.where(lon_diff == lon_diff_min)
-    #         lat_diff_min_index = lat_diff_min_index[0][0]
-    #         lon_diff_min_index = lon_diff_min_index[0][0]
-    #         mask_m[n] = dust_mask[lat_diff_min_index, lon_diff_min_index]
-    #         print(lat_diff_min_index, lon_diff_min_index, mask_m[n])
+    aeolus_mask = np.zeros((len(aeolus_lat)))
 
     # Convert aeolus_lat and aeolus_lon to NumPy arrays
     aeolus_lat = np.array(aeolus_lat)
@@ -94,9 +74,9 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     distances, indices = tree.query(search_points)
 
     aeolus_cm_values = dust_mask.ravel()[indices]
-    aeolus_cm_values = aeolus_cm_values.reshape(len(aeolus_lat_midpoints)-1, 100, order='F')
-    print(aeolus_cm_values[33, :])
-    print(aeolus_cm_values[34, :])
+    aeolus_cm_values = aeolus_cm_values.reshape(len(aeolus_lat_midpoints) - 1, 100, order='F')
+    aeolus_mask[1:-2] = np.nansum(aeolus_cm_values, axis=1) / 100.
+    print(aeolus_mask)
 
     quit()
 
