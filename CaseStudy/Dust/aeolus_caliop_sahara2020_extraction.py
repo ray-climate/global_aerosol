@@ -33,6 +33,7 @@ lat_down = 0. # degree
 # lon_left = -72.
 # lon_right = 31.
 lat_jump_threshold = 3.0 # degree, lat_jump_threshold is the threshold to separate observations from different orbits
+aeolus_CM_threshold = 0.8 # unitless, threshold for cloud mask
 
 # Define the time range
 datetime_start = "2020-06-14"
@@ -335,6 +336,7 @@ for i in range((end_date - start_date).days + 1):
                                         aeolus_lat=aeolus_lat_asc_des[k],
                                         aeolus_lon=aeolus_lon_asc_des[k],
                                         aeolus_time=aeolus_time_asc_des[k],
+                                        aeolus_CM_threshold = aeolus_CM_threshold,
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
