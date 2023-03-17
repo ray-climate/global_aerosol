@@ -87,14 +87,15 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     # Generate lists of latitudes and longitudes between the midpoints
     aeolus_lat_list = np.linspace(aeolus_lat_midpoints[:-1], aeolus_lat_midpoints[1:], 100).reshape(-1, 1)
     aeolus_lon_list = np.linspace(aeolus_lon_midpoints[:-1], aeolus_lon_midpoints[1:], 100).reshape(-1, 1)
-    print(aeolus_lat_list[0:200])
-    quit()
+
     coords = np.stack((seviri_lats.ravel(), seviri_lons.ravel()), axis=-1)
     tree = cKDTree(coords)
     search_points = np.hstack((aeolus_lat_list, aeolus_lon_list))
     distances, indices = tree.query(search_points)
 
     aeolus_cm_values = dust_mask.ravel()[indices]
+    print(aeolus_cm_values[0:200])
+    quit()
     aeolus_cm_values = aeolus_cm_values.reshape(len(aeolus_lat_midpoints)-1, 100)
     print(np.nansum(aeolus_cm_values, axis=1))
     quit()
