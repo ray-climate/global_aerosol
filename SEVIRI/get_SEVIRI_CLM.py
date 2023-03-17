@@ -339,6 +339,45 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
         gl.ylabel_style = {'size': 35, 'color': 'black'}
         plt.savefig(save_str)
 
+
+def get_SEVIRI_Ian_mask(SEVIRI_HR_file_path, BTD_ref, extent):
+
+    BTD_ref_data = np.load(BTD_ref)
+    """Read the SEVIRI HR data from the downloaded file using satpy"""
+    scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
+    scn.load(['IR_120', 'IR_108', 'IR_087', 'dust'], upper_right_corner="NE")
+
+    band120 = scn['IR_120']
+    band108 = scn['IR_108']
+    band087 = scn['IR_087']
+
+    lons, lats = scn['IR_120'].area.get_lonlats()
+    lats_grid = np.copy(lats)
+    lons_grid = np.copy(lons)
+    lats_grid[lats == np.Inf] = 0
+    lons_grid[lons == np.Inf] = 0
+    globe_land_mask = globe.is_land(lats_grid, lons_grid)
+    globe_land_mask[lats == np.Inf] = np.nan
+
+    threshold_1 = 285.
+    threshold_2 = 0.
+    threshold_3 = 10.
+    threshold_4 = -2.
+
+    dust_mask = np.zeros((band120.shape))
+    dust_mask[:] = np.nan
+
+    dust_mask_land = np.copy(dust_mask)
+    dust_mask_ocean = np.copy(dust_mask)
+    dust_mask_land[
+        (band108 >= threshold_1) & ((band120 - band108) >= threshold_2) & ((band108 - band087) <= threshold_3) & (
+                    ((band108 - band087) - BTD_ref_data) < threshold_4) & (globe_land_mask == True)] = 1.
+    dust_mask_ocean[(band108 >= threshold_1) & ((band120 - band108) >= threshold_2) & (globe_land_mask == False)] = 1.
+    dust_mask[(dust_mask_land == 1) | (dust_mask_ocean == 1)] = 1.
+
+    return lats_grid, lons_grid, dust_mask
+
+
 if __name__ == '__main__':
 
 

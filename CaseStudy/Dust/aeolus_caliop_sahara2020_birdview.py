@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    aeolus_caliop_sahara2020_night.py
+# @Filename:    aeolus_caliop_sahara2020_birdview.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        15/03/2023 13:45
