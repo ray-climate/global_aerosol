@@ -82,15 +82,17 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     # Calculate midpoints for latitudes and longitudes
     lat_midpoints = (aeolus_lat[:-1] + aeolus_lat[1:]) / 2.0
     lon_midpoints = (aeolus_lon[:-1] + aeolus_lon[1:]) / 2.0
-    print(lat_midpoints)
+
     # Generate lists of latitudes and longitudes between the midpoints
     lat_list = np.linspace(lat_midpoints[:-1, None], lat_midpoints[1:, None], 100).reshape(-1)
     lon_list = np.linspace(lon_midpoints[:-1, None], lon_midpoints[1:, None], 100).reshape(-1)
-    print(lat_list)
-    quit()
+
     # Calculate differences between latitudes and longitudes
     lat_diff = np.abs(lats_grid[:, None] - lat_list)
     lon_diff = np.abs(lons_grid[:, None] - lon_list)
+
+    lat_diff[lat_diff == np.Inf] = 1.e3
+    lon_diff[lon_diff == np.Inf] = 1.e3
 
     # Find the minimum differences and their indices
     lat_diff_min_index = np.nanargmin(lat_diff, axis=0)
@@ -98,7 +100,8 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
 
     # Get the mask values
     mask_m = dust_mask[lat_diff_min_index, lon_diff_min_index]
-
+    print(mask_m.shape)
+    quit()
     # Print the results
     for i, mask_value in enumerate(mask_m):
         print(lat_diff_min_index[i], lon_diff_min_index[i], mask_value)
