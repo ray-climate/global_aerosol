@@ -14,7 +14,7 @@ from satpy import Scene
 import numpy as np
 
 def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
-                    aeolus_lat=None, aeolus_lon=None, aeolus_time=None):
+                    aeolus_lat=None, aeolus_lon=None, aeolus_time=None, aeolus_CM_threshold=None):
 
     # filter cloud-free aeolus aerosol retrieval using SEVIRI cloud mask
     BTD_ref_data = np.load(BTD_ref)
@@ -76,30 +76,8 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     aeolus_cm_values = dust_mask.ravel()[indices]
     aeolus_cm_values = aeolus_cm_values.reshape(len(aeolus_lat_midpoints) - 1, 100, order='F')
     aeolus_mask[1:-1] = np.nansum(aeolus_cm_values, axis=1) / 100.
-    print(aeolus_mask)
+    aeolus_mask[aeolus_mask>= aeolus_CM_threshold] = 1.
 
-    quit()
-
-    # Calculate differences between latitudes and longitudes
-    lat_diff = np.abs(aeolus_lat_list - seviri_lats)
-    lon_diff = np.abs(aeolus_lon_list - seviri_lons)
-
-    lat_diff[lat_diff == np.Inf] = 1.e3
-    lon_diff[lon_diff == np.Inf] = 1.e3
-
-    # Find the minimum differences and their indices
-    lat_diff_min_index = np.nanargmin(lat_diff, axis=0)
-    lon_diff_min_index = np.nanargmin(lon_diff, axis=0)
-
-    # Get the mask values
-    mask_m = dust_mask[lat_diff_min_index, lon_diff_min_index]
-    print(mask_m.shape)
-    quit()
-    # Print the results
-    for i, mask_value in enumerate(mask_m):
-        print(lat_diff_min_index[i], lon_diff_min_index[i], mask_value)
-
-    quit()
     width = 4000
     height = 2000
 
@@ -125,7 +103,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
 
     ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200,
                label='AEOLUS')
-
+    ax.scatter(aeolus_lon[aeolus_mask==1.], aeolus_lat[aeolus_mask==1.], marker='o', color='red', s=60, transform=CRS, zorder=300)
 
     text_str = aeolus_time[int(len(aeolus_time) / 2)].strftime("%H:%M")
     text_x, text_y = aeolus_lon[int(len(aeolus_time) / 2)], aeolus_lat[int(len(aeolus_time) / 2)]
