@@ -86,7 +86,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     # Generate lists of latitudes and longitudes between the midpoints
     lat_list = np.linspace(lat_midpoints[:-1, None], lat_midpoints[1:, None], 100)
     lon_list = np.linspace(lon_midpoints[:-1, None], lon_midpoints[1:, None], 100)
-    print(lat_list)
+    print(lat_list.shape)
     quit()
     # Calculate differences between latitudes and longitudes
     lat_diff = np.abs(lats_grid[:, None] - lat_list)
