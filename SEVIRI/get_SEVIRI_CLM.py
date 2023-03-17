@@ -296,11 +296,14 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
 
         # Add the scatter plot
         if aeolus_lat is not None:
-            print(type(aeolus_lat))
-            print(aeolus_lat)
-            aeolus_lat_array = list(itertools.chain(*aeolus_lat))
-            aeolus_lon_array = list(itertools.chain(*aeolus_lon))
-            aeolus_time_array = list(itertools.chain(*aeolus_time))
+            try:
+                aeolus_lat_array = list(itertools.chain(*aeolus_lat))
+                aeolus_lon_array = list(itertools.chain(*aeolus_lon))
+                aeolus_time_array = list(itertools.chain(*aeolus_time))
+            except:
+                aeolus_lat_array = np.copy(aeolus_lat)
+                aeolus_lon_array = np.copy(aeolus_lon)
+                aeolus_time_array = np.copy(aeolus_time)
 
             ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
 
