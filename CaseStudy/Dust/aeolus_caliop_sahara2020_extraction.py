@@ -318,7 +318,7 @@ for i in range((end_date - start_date).days + 1):
             central_time_k = aeolus_time_asc_des[k][int(len(aeolus_time_asc_des[k]) / 2)]
             CLMSEVIRI_time_str_k = get_SEVIRI_CLM_time(central_time_k)
             HRSEVIRI_time_str_k = get_HRSEVIRI_time(central_time_k)
-
+            print(HRSEVIRI_time_str_k)
             for root, dirs, files in os.walk(HRSEVIRI_dir):
                 for file in files:
                     if HRSEVIRI_time_str in file:
