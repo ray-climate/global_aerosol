@@ -25,13 +25,13 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     band108 = scn['IR_108']
     band087 = scn['IR_087']
 
-    lons, lats = scn['IR_120'].area.get_lonlats()
-    lats_grid = np.copy(lats)
-    lons_grid = np.copy(lons)
-    lats_grid[lats == np.Inf] = 0
-    lons_grid[lons == np.Inf] = 0
-    globe_land_mask = globe.is_land(lats_grid, lons_grid)
-    globe_land_mask[lats == np.Inf] = np.nan
+    seviri_lons, seviri_lats = scn['IR_120'].area.get_lonlats()
+    seviri_lats_grid = np.copy(seviri_lats)
+    seviri_lons_grid = np.copy(seviri_lons)
+    seviri_lats_grid[seviri_lats == np.Inf] = 0
+    seviri_lons_grid[seviri_lons == np.Inf] = 0
+    globe_land_mask = globe.is_land(seviri_lats_grid, seviri_lons_grid)
+    globe_land_mask[seviri_lats == np.Inf] = np.nan
 
     threshold_1 = 285.
     threshold_2 = 0.
@@ -80,18 +80,18 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     aeolus_lon = np.array(aeolus_lon)
 
     # Calculate midpoints for latitudes and longitudes
-    lat_midpoints = (aeolus_lat[:-1] + aeolus_lat[1:]) / 2.0
-    lon_midpoints = (aeolus_lon[:-1] + aeolus_lon[1:]) / 2.0
+    aeolus_lat_midpoints = (aeolus_lat[:-1] + aeolus_lat[1:]) / 2.0
+    aeolus_lon_midpoints = (aeolus_lon[:-1] + aeolus_lon[1:]) / 2.0
 
     # Generate lists of latitudes and longitudes between the midpoints
-    lat_list = np.linspace(lat_midpoints[:-1], lat_midpoints[1:], 100).reshape(-1, 1)
-    lon_list = np.linspace(lon_midpoints[:-1, None], lon_midpoints[1:, None], 100)
-    print(lat_list.shape)
-    quit()
-    # Calculate differences between latitudes and longitudes
-    lat_diff = np.abs(lats_grid[:, None] - lat_list)
-    lon_diff = np.abs(lons_grid[:, None] - lon_list)
+    aeolus_lat_list = np.linspace(aeolus_lat_midpoints[:-1], aeolus_lat_midpoints[1:], 100).reshape(-1, 1)
+    aeolus_lon_list = np.linspace(aeolus_lon_midpoints[:-1], aeolus_lon_midpoints[1:], 100).reshape(-1, 1)
 
+    # Calculate differences between latitudes and longitudes
+    lat_diff = np.abs(aeolus_lat_list - seviri_lats)
+    lon_diff = np.abs(aeolus_lon_list - seviri_lons)
+    print(lat_diff.shape)
+    quit()
     lat_diff[lat_diff == np.Inf] = 1.e3
     lon_diff[lon_diff == np.Inf] = 1.e3
 
