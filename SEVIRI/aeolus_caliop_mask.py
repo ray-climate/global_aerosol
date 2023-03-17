@@ -93,9 +93,9 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     search_points = np.hstack((aeolus_lat_list, aeolus_lon_list))
     distances, indices = tree.query(search_points)
 
-    closest_lat = seviri_lats.ravel()[indices]
-    closest_lon = seviri_lons.ravel()[indices]
-    print(closest_lat.shape)
+    aeolus_cm_values = dust_mask.ravel()[indices]
+    aeolus_cm_values = aeolus_cm_values.reshape(aeolus_lat_midpoints[:-1], 100)
+    print(np.sum(aeolus_cm_values, axis=1))
     quit()
 
     # Calculate differences between latitudes and longitudes
