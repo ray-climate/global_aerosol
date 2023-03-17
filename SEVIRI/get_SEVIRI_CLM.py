@@ -314,6 +314,7 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
                     text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='blue',
                                        rotation=text_angle, rotation_mode='anchor',
                                        transform=CRS, fontsize=25)
+
             except:
                 ax.scatter(aeolus_lat, aeolus_lon, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
         else:
