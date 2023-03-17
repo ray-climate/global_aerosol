@@ -103,7 +103,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
 
     ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200,
                label='AEOLUS')
-    ax.scatter(aeolus_lon[aeolus_mask==1.], aeolus_lat[aeolus_mask==1.], marker='o', color='red', s=60, transform=CRS, zorder=300)
+    ax.scatter(aeolus_lon[aeolus_mask==1.], aeolus_lat[aeolus_mask==1.], marker='o', color='black', s=60, transform=CRS, zorder=300)
 
     text_str = aeolus_time[int(len(aeolus_time) / 2)].strftime("%H:%M")
     text_x, text_y = aeolus_lon[int(len(aeolus_time) / 2)], aeolus_lat[int(len(aeolus_time) / 2)]
