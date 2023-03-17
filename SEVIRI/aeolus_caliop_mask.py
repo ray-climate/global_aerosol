@@ -84,7 +84,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     lon_midpoints = (aeolus_lon[:-1] + aeolus_lon[1:]) / 2.0
 
     # Generate lists of latitudes and longitudes between the midpoints
-    lat_list = np.linspace(lat_midpoints[:-1], lat_midpoints[1:], 100)
+    lat_list = np.linspace(lat_midpoints[:-1], lat_midpoints[1:], 100).reshape(-1, 1)
     lon_list = np.linspace(lon_midpoints[:-1, None], lon_midpoints[1:, None], 100)
     print(lat_list.shape)
     quit()
