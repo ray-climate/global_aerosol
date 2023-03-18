@@ -441,7 +441,7 @@ for i in range((end_date - start_date).days + 1):
                         if len(caliop_mask[caliop_mask == 1.]) > 0:
 
                             getcaliop2Dbeta(caliop_lon_asc_des[k],
-                                            alt_caliop[k],
+                                            alt_caliop,
                                             caliop_beta_asc_des[k],
                                             caliop_mask,
                                             extent=[meridional_boundary[0], meridional_boundary[1], altitude_boundary[0], altitude_boundary[1]],
