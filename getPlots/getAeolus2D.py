@@ -43,7 +43,7 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
             except:
                 pass
 
-    fig, ax = plt.subplots(figsize=(30, 15))
+    fig, ax = plt.subplots(figsize=(35, 15))
     mappable = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2), cmap='viridis')
     # Create the colorbar
     cbar = plt.colorbar(mappable, extend='both', shrink=0.7)
