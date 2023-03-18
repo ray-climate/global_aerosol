@@ -12,7 +12,7 @@ import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 import numpy as np
 
-def getAeolus2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, vvmax=1.e-2):
+def getcaliop2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, vvmax=1.e-2):
 
     """
     This function is used to get the 2D beta field from the 1D beta field
