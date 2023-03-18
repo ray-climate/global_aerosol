@@ -390,10 +390,6 @@ for i in range((end_date - start_date).days + 1):
                 except:
                     print('Only one data point in this orbit, ignore it')
         print(caliop_time_asc_des)
-        central_time = caliop_time_asc_des[int(len(caliop_time_asc_des) / 2)][
-            int(len(caliop_time_asc_des[0]) / 2)]
-        CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
-        HRSEVIRI_time_str = get_HRSEVIRI_time(central_time)
 
         ############# separate caliop data into different orbits ############################
 
@@ -406,9 +402,9 @@ for i in range((end_date - start_date).days + 1):
                 for file in files:
                     if HRSEVIRI_time_str_k in file:
                         HRSEVIRI_file = os.path.join(root, file)
-                        year_SEVIRI_background = HRSEVIRI_time_str[:4]
-                        month_SEVIRI_background = HRSEVIRI_time_str[4:6]
-                        day_SEVIRI_background = HRSEVIRI_time_str[6:8]
+                        year_SEVIRI_background = HRSEVIRI_time_str_k[:4]
+                        month_SEVIRI_background = HRSEVIRI_time_str_k[4:6]
+                        day_SEVIRI_background = HRSEVIRI_time_str_k[6:8]
                         converted_SEVIRI_background_datetime = f"{year_SEVIRI_background}-{month_SEVIRI_background}-{day_SEVIRI_background}"
 
                         get_caliop_mask(SEVIRI_HR_file_path=HRSEVIRI_file,
