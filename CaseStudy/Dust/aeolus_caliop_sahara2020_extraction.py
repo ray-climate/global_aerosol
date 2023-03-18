@@ -166,6 +166,7 @@ for i in range((end_date - start_date).days + 1):
     aeolus_longitude_all = []
     aeolus_altitude_all = []
     aeolus_beta_all = []
+    aeolus_alpha_all = []
     aeolus_ber_all = []
 
     caliop_time_all = []
@@ -197,7 +198,7 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
 
                     (latitude, longitude, sca_mb_altitude,
-                     footprint_time_aeolus, sca_mb_backscatter, alpha_aeolus_mb,
+                     footprint_time_aeolus, sca_mb_backscatter, sca_mb_extinction,
                      qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
                         extract_variables_from_aeolus(aeolus_file_path, logger)
 
@@ -209,6 +210,7 @@ for i in range((end_date - start_date).days + 1):
                     longitude_i = longitude[spatial_mask]
                     sca_mb_altitude = sca_mb_altitude[spatial_mask, :]
                     sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
+                    sca_mb_extinction = sca_mb_extinction[spatial_mask, :]
                     sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
 
                     aeolus_latitude_all.extend(latitude_i)
@@ -219,10 +221,12 @@ for i in range((end_date - start_date).days + 1):
 
                     try:
                         aeolus_beta_all = np.concatenate([aeolus_beta_all, sca_mb_backscatter], axis=0)
+                        aeolus_alpha_all = np.concatenate([aeolus_alpha_all, sca_mb_extinction], axis=0)
                         aeolus_ber_all = np.concatenate([aeolus_ber_all, sca_mb_ber], axis=0)
                         aeolus_altitude_all = np.concatenate([aeolus_altitude_all, sca_mb_altitude], axis=0)
                     except:
                         aeolus_beta_all = np.copy(sca_mb_backscatter)
+                        aeolus_alpha_all = np.copy(sca_mb_extinction)
                         aeolus_ber_all = np.copy(sca_mb_ber)
                         aeolus_altitude_all = np.copy(sca_mb_altitude)
 
@@ -263,9 +267,7 @@ for i in range((end_date - start_date).days + 1):
         # convert aeolus data with the given scaling factor: convert to km-1.sr-1
         aeolus_beta_all[aeolus_beta_all == -1.e6] = 0
         aeolus_beta_all = aeolus_beta_all * 1.e-6 * 1.e3
-        print(len(aeolus_latitude_all))
-        print(aeolus_beta_all.shape)
-        quit()
+
         ############# aeolus tidy up ####################################################
 
         ############# separate aeolus data into different orbits ############################
@@ -282,7 +284,10 @@ for i in range((end_date - start_date).days + 1):
 
         aeolus_lat_asc_des = []
         aeolus_lon_asc_des = []
+        aeolus_alt_asc_des = []
         aeolus_time_asc_des = []
+        aeolus_beta_asc_des = []
+        aeolus_alpha_asc_des = []
 
         if input_mode == 'ascending':
             for m in range(len(lat_sublists)):
@@ -290,13 +295,18 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_lat_asc_des.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_lon_asc_des.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                    aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
         else:
             for m in range(len(lat_sublists)):
                 if aeolus_latitude_all[lat_sublists[m][1]] - aeolus_latitude_all[lat_sublists[m][0]] < 0:
                     aeolus_lat_asc_des.append(aeolus_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_lon_asc_des.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-
+                    aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+        print(len(aeolus_lat_asc_des))
+        print(len(aeolus_alt_asc_des))
+        print(aeolus_lat_asc_des)
+        quit()
         central_time = aeolus_time_asc_des[int(len(aeolus_time_asc_des) / 2)][
             int(len(aeolus_time_asc_des[0]) / 2)]
         CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
