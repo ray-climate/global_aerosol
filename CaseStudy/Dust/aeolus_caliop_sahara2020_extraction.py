@@ -339,12 +339,13 @@ for i in range((end_date - start_date).days + 1):
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
                         if len(aeolus_mask[aeolus_mask==1.]) > 0:
-                            print(np.where(aeolus_mask==1.)[0])
-                            print(np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]])
+
+                            print(np.asarray(aeolus_alt_asc_des[k])[np.where(aeolus_mask==1.)[0],:].shape)
+                            quit()
                             # Create a dictionary to store the parameters
-                            params = {'lat': aeolus_lat_asc_des[k][aeolus_mask==1.],
-                                      'lon': aeolus_lon_asc_des[k][aeolus_mask==1.],
-                                      'alt': aeolus_alt_asc_des[k][aeolus_mask==1.,:],
+                            params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],
+                                      'lon': np.asarray(aeolus_lon_asc_des[k])[np.where(aeolus_mask==1.)[0]],
+                                      'alt': np.asarray(aeolus_alt_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
                                       'beta': aeolus_beta_asc_des[k][aeolus_mask==1.,:]}
                             print( aeolus_lat_asc_des[k][aeolus_mask==1.].shape)
                             print(aeolus_beta_asc_des[k][aeolus_mask==1.,:].shape)
