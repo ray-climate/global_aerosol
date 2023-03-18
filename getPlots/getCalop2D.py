@@ -38,13 +38,12 @@ def getcaliop2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, 
     for i in range(len(index)):
         for j in range(1, len(alt)-1):
             try:
-                if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
-                    lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
-                    alt_range = (alt[j] + alt[j+1])/2., (alt[j] + alt[j-1])/2.
-                    print(lon_range)
-                    print(alt_range)
-                    quit()
-                    beta2D_proj[(altitude_grid_regular <= alt[index[i]][j]) & (altitude_grid_regular >= alt[index[i]][j+1]) & (longitude_grid_regular <= np.max(lon_range)) & (longitude_grid_regular >= np.min(lon_range))] = beta[index[i]][j]
+                lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
+                alt_range = (alt[j] + alt[j+1])/2., (alt[j] + alt[j-1])/2.
+                print(lon_range)
+                print(alt_range)
+                quit()
+                beta2D_proj[(altitude_grid_regular <= alt[index[i]][j]) & (altitude_grid_regular >= alt[index[i]][j+1]) & (longitude_grid_regular <= np.max(lon_range)) & (longitude_grid_regular >= np.min(lon_range))] = beta[index[i]][j]
             except:
                 pass
 
