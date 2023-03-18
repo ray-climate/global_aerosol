@@ -33,7 +33,7 @@ input_mode = str(sys.argv[2]) # input mode, either 'ascending' or 'descending'
 lat_up = 40. # degree
 lat_down = 0. # degree
 meridional_boundary = [-60., 30.] # degree
-altitude_boundary = [0., 10.] # km
+altitude_boundary = [0., 15.] # km
 lat_jump_threshold = 3.0 # degree, lat_jump_threshold is the threshold to separate observations from different orbits
 aeolus_CM_threshold = 0.8 # unitless, threshold for cloud mask
 
