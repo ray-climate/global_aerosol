@@ -340,8 +340,6 @@ for i in range((end_date - start_date).days + 1):
 
                         if len(aeolus_mask[aeolus_mask==1.]) > 0:
 
-                            print(np.asarray(aeolus_alt_asc_des[k])[np.where(aeolus_mask==1.)[0],:].shape)
-                            quit()
                             # Create a dictionary to store the parameters
                             params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],
                                       'lon': np.asarray(aeolus_lon_asc_des[k])[np.where(aeolus_mask==1.)[0]],
