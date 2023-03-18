@@ -455,6 +455,6 @@ for i in range((end_date - start_date).days + 1):
                                       'beta': np.asarray(caliop_beta_asc_des[k])[:, np.where(caliop_mask==1.)[0]]}
 
                             # Save the dictionary as an npz file
-                            np.savez(output_dir + '/aeolus_%s.npz'%HRSEVIRI_time_str_k, **params)
+                            np.savez(output_dir + '/caliop_%s.npz'%HRSEVIRI_time_str_k, **params)
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)

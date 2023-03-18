@@ -34,7 +34,7 @@ def getcaliop2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, 
     beta2D_proj = np.zeros((longitude_grid_regular.shape))
     beta2D_proj[:] = np.nan
     index = np.where(caliop_mask==1.)[0]
-
+    print(index)
     for i in range(len(index)):
         for j in range(1, len(alt)-1):
             try:
