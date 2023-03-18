@@ -338,13 +338,16 @@ for i in range((end_date - start_date).days + 1):
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
-                        print(aeolus_mask)
-                        # # Create a dictionary to store the parameters
-                        # params = {'lat': aeolus_lat_asc_des[k],
-                        #           'lon': lon,
-                        #           'alt': alt,
-                        #           'beta': beta}
+                        if len(aeolus_mask[aeolus_mask==1.]) > 0:
 
+                            # Create a dictionary to store the parameters
+                            params = {'lat': aeolus_lat_asc_des[k][aeolus_mask==1.],
+                                      'lon': aeolus_lon_asc_des[k][aeolus_mask==1.],
+                                      'alt': aeolus_alt_asc_des[k][aeolus_mask==1.,:],
+                                      'beta': aeolus_beta_asc_des[k][aeolus_mask==1.,:]}
+                            print( aeolus_lat_asc_des[k][aeolus_mask==1.].shape)
+                            print(aeolus_beta_asc_des[k][aeolus_mask==1.,:].shape)
+                            print(aeolus_alt_asc_des[k][aeolus_mask==1.,:].shape)
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
 
