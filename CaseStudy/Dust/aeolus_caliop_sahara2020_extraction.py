@@ -306,6 +306,7 @@ for i in range((end_date - start_date).days + 1):
         print(len(aeolus_lat_asc_des))
         print(len(aeolus_alt_asc_des))
         print(aeolus_lat_asc_des)
+        print(aeolus_alt_asc_des[0].shape)
         quit()
         central_time = aeolus_time_asc_des[int(len(aeolus_time_asc_des) / 2)][
             int(len(aeolus_time_asc_des[0]) / 2)]
