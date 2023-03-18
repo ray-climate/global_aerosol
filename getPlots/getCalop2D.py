@@ -41,6 +41,8 @@ def getAeolus2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, 
                 if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
                     lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
                     alt_range = (alt[index[i]-1] + alt[index[i]])/2., (alt[index[i]+1] + alt[index[i]])/2.
+                    print(lon_range)
+                    print(alt_range)
                     beta2D_proj[(altitude_grid_regular <= alt[index[i]][j]) & (altitude_grid_regular >= alt[index[i]][j+1]) & (longitude_grid_regular <= np.max(lon_range)) & (longitude_grid_regular >= np.min(lon_range))] = beta[index[i]][j]
             except:
                 pass

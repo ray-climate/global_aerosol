@@ -77,8 +77,7 @@ CALIOP_JASMIN_dir = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km
 
 # take caliop altitude for projection
 alt_caliop = np.load('./caliop_altitude.npy')
-print(alt_caliop)
-quit()
+
 ##############################################################
 def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 
