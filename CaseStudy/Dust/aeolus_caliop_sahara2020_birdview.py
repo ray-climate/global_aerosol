@@ -34,7 +34,7 @@ lat_down = 0. # degree
 lat_jump_threshold = 3.0 # degree, lat_jump_threshold is the threshold to separate observations from different orbits
 
 # Define the time range
-datetime_start = "2020-06-14"
+datetime_start = "2020-06-17"
 datetime_end = "2020-06-24"
 
 # Convert strings to datetime objects
