@@ -346,10 +346,11 @@ for i in range((end_date - start_date).days + 1):
                             params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],
                                       'lon': np.asarray(aeolus_lon_asc_des[k])[np.where(aeolus_mask==1.)[0]],
                                       'alt': np.asarray(aeolus_alt_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
-                                      'beta': aeolus_beta_asc_des[k][aeolus_mask==1.,:]}
-                            print( aeolus_lat_asc_des[k][aeolus_mask==1.].shape)
-                            print(aeolus_beta_asc_des[k][aeolus_mask==1.,:].shape)
-                            print(aeolus_alt_asc_des[k][aeolus_mask==1.,:].shape)
+                                      'beta': np.asarray(aeolus_beta_asc_des[k])[np.where(aeolus_mask==1.)[0],:]}
+
+                            # Save the dictionary as an npz file
+                            np.savez(output_dir + '/aeolus_%s.npz'%HRSEVIRI_time_str_k, **params)
+
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
 
