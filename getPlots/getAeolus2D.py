@@ -43,7 +43,7 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
                 pass
 
     fig, ax = plt.subplots()
-    plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2), cmap='viridis')
+    mappable = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2), cmap='viridis')
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax)
 
@@ -51,6 +51,8 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
     cax = divider.append_axes("right", size="1.5%", pad=0.1)
     # Create the colorbar
     cbar = plt.colorbar(fig, cax=cax, extend='both', shrink=0.6)
+    cbar = plt.colorbar(mappable, cax=cax, extend='both', shrink=0.6)
+
     # cbar = plt.colorbar( shrink=0.8, pad=0.002)
     cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
     cbar.ax.tick_params(labelsize=20)
