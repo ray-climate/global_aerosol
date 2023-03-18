@@ -296,6 +296,7 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_lon_asc_des.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+                    aeolus_beta_asc_des.append(aeolus_beta_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
         else:
             for m in range(len(lat_sublists)):
                 if aeolus_latitude_all[lat_sublists[m][1]] - aeolus_latitude_all[lat_sublists[m][0]] < 0:
@@ -303,11 +304,8 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_lon_asc_des.append(aeolus_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
-        print(len(aeolus_lat_asc_des))
-        print(len(aeolus_alt_asc_des))
-        print(aeolus_lat_asc_des)
-        print(aeolus_alt_asc_des[0].shape)
-        quit()
+                    aeolus_beta_asc_des.append(aeolus_beta_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+
         central_time = aeolus_time_asc_des[int(len(aeolus_time_asc_des) / 2)][
             int(len(aeolus_time_asc_des[0]) / 2)]
         CLMSEVIRI_time_str = get_SEVIRI_CLM_time(central_time)
@@ -340,6 +338,12 @@ for i in range((end_date - start_date).days + 1):
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
+                        print(aeolus_mask)
+                        # # Create a dictionary to store the parameters
+                        # params = {'lat': aeolus_lat_asc_des[k],
+                        #           'lon': lon,
+                        #           'alt': alt,
+                        #           'beta': beta}
 
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
