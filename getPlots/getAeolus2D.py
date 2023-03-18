@@ -11,7 +11,7 @@ import matplotlib.colors as colors
 import matplotlib.pyplot as plt
 import numpy as np
 
-def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
+def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str, vvmin=1.e-5, vvmax=1.e-2):
 
     """
     This function is used to get the 2D beta field from the 1D beta field
@@ -44,7 +44,7 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
                 pass
 
     fig, ax = plt.subplots(figsize=(35, 15))
-    mappable = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2), cmap='viridis')
+    mappable = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=vvmin, vmax=vvmax), cmap='jet')
     # Create the colorbar
     cbar = plt.colorbar(mappable, extend='both', shrink=0.7)
     cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=25, rotation=90)

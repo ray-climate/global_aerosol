@@ -31,8 +31,8 @@ input_mode = str(sys.argv[2]) # input mode, either 'ascending' or 'descending'
 # Define the spatial bounds
 lat_up = 40. # degree
 lat_down = 0. # degree
-# lon_left = -72.
-# lon_right = 31.
+meridional_boundary = [-60., 30.] # degree
+altitude_boundary = [0., 10.] # km
 lat_jump_threshold = 3.0 # degree, lat_jump_threshold is the threshold to separate observations from different orbits
 aeolus_CM_threshold = 0.8 # unitless, threshold for cloud mask
 
@@ -46,8 +46,6 @@ end_date = datetime.strptime(datetime_end, "%Y-%m-%d")
 
 # Set up time delta
 time_delta = timedelta(days = 1)
-##############################################################
-meridional_boundary = [-60., 30.]
 ##############################################################
 
 # Define output directory
@@ -345,8 +343,9 @@ for i in range((end_date - start_date).days + 1):
                                             aeolus_alt_asc_des[k],
                                             aeolus_beta_asc_des[k],
                                             aeolus_mask,
-                                            extent=[meridional_boundary[0], meridional_boundary[1], 0., 20.],
-                                            save_str = output_dir + '/test.png')
+                                            extent=[meridional_boundary[0], meridional_boundary[1], altitude_boundary[0], altitude_boundary[1]],
+                                            save_str = output_dir + '/proj_%s_%s_%s.png' %
+                                                 (input_sat, input_mode, HRSEVIRI_time_str_k))
 
                             # Create a dictionary to store the parameters
                             params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],
