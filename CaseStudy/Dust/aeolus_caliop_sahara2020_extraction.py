@@ -449,10 +449,10 @@ for i in range((end_date - start_date).days + 1):
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
                             # Create a dictionary to store the parameters
-                            params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],
-                                      'lon': np.asarray(aeolus_lon_asc_des[k])[np.where(aeolus_mask==1.)[0]],
-                                      'alt': np.asarray(aeolus_alt_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
-                                      'beta': np.asarray(aeolus_beta_asc_des[k])[np.where(aeolus_mask==1.)[0],:]}
+                            params = {'lat': np.asarray(caliop_lat_asc_des[k])[np.where(caliop_mask==1.)[0]],
+                                      'lon': np.asarray(caliop_lon_asc_des[k])[np.where(caliop_mask==1.)[0]],
+                                      'alt': np.asarray(alt_caliop),
+                                      'beta': np.asarray(caliop_beta_asc_des[k])[np.where(caliop_mask==1.)[0],:]}
 
                             # Save the dictionary as an npz file
                             np.savez(output_dir + '/aeolus_%s.npz'%HRSEVIRI_time_str_k, **params)
