@@ -38,15 +38,14 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
             try:
                 if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
                     lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
-                    print(lon_range)
-                    # beta2D_proj[(altitude_grid_regular <= alt[index[i]][j]) & (altitude_grid_regular >= alt[index[i]][j+1]), (longitude_grid_regular <=)]   = beta[index[i]][j]
 
+                    beta2D_proj[(altitude_grid_regular <= alt[index[i]][j]) & (altitude_grid_regular >= alt[index[i]][j+1]), (longitude_grid_regular <= np.max(lon_range)) & (longitude_grid_regular >= np.min(lon_range))] = beta[index[i]][j]
 
                     # beta2D_proj[index[i], np.where((altitude_grid_regular[index[i], :] <= alt[index[i]][j]) & (
                     #             altitude_grid_regular[index[i], :] >= alt[index[i]][j+1]))] = beta[index[i]][j]
             except:
                 pass
-    quit()
+
     fig, ax = plt.subplots(figsize=(30, 15))
     mappable = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2), cmap='viridis')
     # Create an axes divider for the main plot
