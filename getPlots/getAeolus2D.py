@@ -36,7 +36,7 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
 
     for i in range(len(index)):
         for j in range(len(alt[index[i]])-1):
-            try:
+            # try:
                 if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
                     lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
                     print(beta[index[i]][j])
@@ -45,8 +45,8 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
 
                     # beta2D_proj[index[i], np.where((altitude_grid_regular[index[i], :] <= alt[index[i]][j]) & (
                     #             altitude_grid_regular[index[i], :] >= alt[index[i]][j+1]))] = beta[index[i]][j]
-            except:
-                pass
+            # except:
+            #     pass
 
     fig, ax = plt.subplots(figsize=(30, 15))
     mappable = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2), cmap='viridis')
