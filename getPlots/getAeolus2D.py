@@ -22,7 +22,7 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent):
 
     # Create the regular size altitude-latitude grid
     longitude_step = 0.1
-    altitude_step = 100
+    altitude_step = 0.1
     longitude_range = np.arange(extent[0], extent[1] + longitude_step, longitude_step)
     altitude_range = np.arange(extent[2], extent[3] + altitude_step, altitude_step)
     longitude_grid_regular, altitude_grid_regular = np.meshgrid(longitude_range, altitude_range)
@@ -30,21 +30,18 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent):
     print(altitude_grid_regular)
     print(altitude_grid_regular.shape)
     # get the 2D beta field
-    beta2D = np.zeros((longitude_grid_regular.shape))
-    beta2D[:] = np.nan
+    beta2D_proj = np.zeros((longitude_grid_regular.shape))
+    beta2D_proj[:] = np.nan
     index = np.where(aeolus_mask==1.)[0]
 
     for i in range(len(index)):
         for j in range(len(alt[index[i]])-1):
             try:
                 if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
-                    print(1)
-                    print(alt[index[i]][j], alt[index[i]][j+1])
-                    # beta2D[:, np.where((longitude_grid_regular[:] >= lon[index[i]][j]) & (
-                    #             latitude_grid_regular[0, :] <= lon[index[i]][j + 1]))] = np.nanmean(
-                    #     beta[index[i]][j:j + 2])
+                    beta2D_proj[index[i], np.where((altitude_grid_regular[index[i], :] <= alt[index[i]][j]) & (
+                                altitude_grid_regular[index[i], :] >= alt[index[i]][j+1]))] = beta[index[i]][j]
             except:
                 pass
-            # if alt[]
     quit()
+    print(beta2D_proj)
     # return beta2D
