@@ -36,7 +36,7 @@ def getAeolus2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, 
     index = np.where(caliop_mask==1.)[0]
 
     for i in range(len(index)):
-        for j in range(len(alt[index[i]])-1):
+        for j in range(len(alt)-1):
             try:
                 if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
                     lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
