@@ -164,6 +164,9 @@ def get_caliop_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     scn['dust'][2, :, :] = dust_mask
     ############################# complete mask generation #############################
 
+    caliop_lat = np.array(caliop_lat)
+    caliop_lon = np.array(caliop_lon)
+
     caliop_mask = np.zeros((len(caliop_lat)))
 
     coords = np.stack((seviri_lats.ravel(), seviri_lons.ravel()), axis=-1)
