@@ -50,7 +50,6 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
     # Add the colorbar to the divider
     cax = divider.append_axes("right", size="1.5%", pad=0.1)
     # Create the colorbar
-    cbar = plt.colorbar(fig, cax=cax, extend='both', shrink=0.6)
     cbar = plt.colorbar(mappable, cax=cax, extend='both', shrink=0.6)
 
     # cbar = plt.colorbar( shrink=0.8, pad=0.002)
