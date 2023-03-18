@@ -122,6 +122,7 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     gl.ylabel_style = {'size': 35, 'color': 'black'}
     plt.savefig(save_str, dpi=300)
 
+    return aeolus_mask
 
 def get_caliop_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
                     caliop_lat=None, caliop_lon=None, caliop_time=None):

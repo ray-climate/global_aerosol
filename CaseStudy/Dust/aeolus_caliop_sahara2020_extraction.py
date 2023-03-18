@@ -263,21 +263,9 @@ for i in range((end_date - start_date).days + 1):
         # convert aeolus data with the given scaling factor: convert to km-1.sr-1
         aeolus_beta_all[aeolus_beta_all == -1.e6] = 0
         aeolus_beta_all = aeolus_beta_all * 1.e-6 * 1.e3
-
-        # Create empty array for resampled data, with same shape as alt_aeolus
-        backscatter_resample = np.zeros((aeolus_altitude_all.shape[0], np.size(alt_caliop)))
-        # backscatter_resample[:] = np.nan
-
-        # Iterate through rows and columns of alt_aeolus and data_aeolus
-        for m in range(aeolus_altitude_all.shape[0]):
-            alt_aeolus_m = aeolus_altitude_all[m, :]
-            for n in range(np.size(alt_aeolus_m)):
-                if alt_aeolus_m[n] > 0:
-                    if (n + 1) < len(alt_aeolus_m):
-                        # Resample data based on nearest altitude value less than current value in alt_caliop
-                        backscatter_resample[m, (alt_caliop < alt_aeolus_m[n]) & (alt_caliop > alt_aeolus_m[n + 1])] = \
-                        aeolus_beta_all[m, n]
-
+        print(len(aeolus_latitude_all))
+        print(aeolus_beta_all.shape)
+        quit()
         ############# aeolus tidy up ####################################################
 
         ############# separate aeolus data into different orbits ############################
@@ -329,6 +317,7 @@ for i in range((end_date - start_date).days + 1):
                         day_SEVIRI_background = HRSEVIRI_time_str[6:8]
                         converted_SEVIRI_background_datetime = f"{year_SEVIRI_background}-{month_SEVIRI_background}-{day_SEVIRI_background}"
 
+                        aeolus_mask = \
                         get_aeolus_mask(SEVIRI_HR_file_path=HRSEVIRI_file,
                                         BTD_ref=IanSEVIRI_ref,
                                         extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
@@ -339,6 +328,8 @@ for i in range((end_date - start_date).days + 1):
                                         aeolus_CM_threshold = aeolus_CM_threshold,
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
+
+
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
 
