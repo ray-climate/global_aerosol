@@ -444,8 +444,8 @@ for i in range((end_date - start_date).days + 1):
                                             alt_caliop,
                                             caliop_beta_asc_des[k],
                                             caliop_mask,
-                                            # extent=[meridional_boundary[0], meridional_boundary[1], altitude_boundary[0], altitude_boundary[1]],
-                                            extent=[1.,6., altitude_boundary[0], altitude_boundary[1]],
+                                            extent=[meridional_boundary[0], meridional_boundary[1], altitude_boundary[0], altitude_boundary[1]],
+                                            # extent=[1.,6., altitude_boundary[0], altitude_boundary[1]],
                                             save_str = output_dir + '/proj_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
