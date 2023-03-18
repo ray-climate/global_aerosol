@@ -341,7 +341,7 @@ for i in range((end_date - start_date).days + 1):
                         if len(aeolus_mask[aeolus_mask==1.]) > 0:
                             print(aeolus_mask==1.)
                             print(aeolus_lat_asc_des[k])
-                            print(aeolus_lat_asc_des[k][aeolus_mask==1.])
+                            print(aeolus_lat_asc_des[k][np.where(aeolus_mask==1.)[0]])
                             # Create a dictionary to store the parameters
                             params = {'lat': aeolus_lat_asc_des[k][aeolus_mask==1.],
                                       'lon': aeolus_lon_asc_des[k][aeolus_mask==1.],
