@@ -60,4 +60,4 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
         tick.label.set_fontsize(25)
     for tick in ax.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
-    plt.savefig(save_str, dpi=300)
+    plt.savefig(save_str, dpi=300, bbox_inches='tight')
