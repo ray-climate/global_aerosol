@@ -389,8 +389,7 @@ for i in range((end_date - start_date).days + 1):
         caliop_lon_asc_des = []
         caliop_time_asc_des = []
         caliop_beta_asc_des = []
-        print(caliop_beta_all.shape)
-        quit()
+
         if input_mode == 'ascending':
             for m in range(len(lat_sublists)):
                 try:
