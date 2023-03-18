@@ -28,6 +28,9 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
     longitude_range = np.arange(extent[0], extent[1] + longitude_step, longitude_step)
     altitude_range = np.arange(extent[2], extent[3] + altitude_step, altitude_step)
     longitude_grid_regular, altitude_grid_regular = np.meshgrid(longitude_range, altitude_range)
+    print(longitude_grid_regular)
+    print(altitude_grid_regular)
+    quit()
     # get the 2D beta field
     beta2D_proj = np.zeros((longitude_grid_regular.shape))
     beta2D_proj[:] = np.nan
