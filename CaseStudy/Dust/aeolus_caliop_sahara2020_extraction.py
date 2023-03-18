@@ -398,7 +398,7 @@ for i in range((end_date - start_date).days + 1):
                         caliop_lat_asc_des.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_lon_asc_des.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_time_asc_des.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
-                        caliop_beta_asc_des.append(caliop_beta_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+                        caliop_beta_asc_des.append(caliop_beta_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
                 except:
                     print('Only one data point in this orbit, ignore it')
         else:
@@ -408,6 +408,7 @@ for i in range((end_date - start_date).days + 1):
                         caliop_lat_asc_des.append(caliop_latitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_lon_asc_des.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_time_asc_des.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_beta_asc_des.append(caliop_beta_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
                 except:
                     print('Only one data point in this orbit, ignore it')
 
