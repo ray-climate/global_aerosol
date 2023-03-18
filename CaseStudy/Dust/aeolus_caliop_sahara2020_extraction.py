@@ -341,9 +341,12 @@ for i in range((end_date - start_date).days + 1):
 
                         if len(aeolus_mask[aeolus_mask == 1.]) > 0:
 
-                            getAeolus2Dbeta(aeolus_lon_asc_des[k], aeolus_alt_asc_des[k], aeolus_beta_asc_des[k], aeolus_mask, extent=[meridional_boundary[0], meridional_boundary[1], 0., 20.])
-
-
+                            getAeolus2Dbeta(aeolus_lon_asc_des[k],
+                                            aeolus_alt_asc_des[k],
+                                            aeolus_beta_asc_des[k],
+                                            aeolus_mask,
+                                            extent=[meridional_boundary[0], meridional_boundary[1], 0., 20.],
+                                            save_str = output_dir + '/test.png')
 
                             # Create a dictionary to store the parameters
                             params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],

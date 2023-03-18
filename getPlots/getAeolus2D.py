@@ -9,7 +9,7 @@ from scipy.interpolate import griddata
 import matplotlib.pyplot as plt
 import numpy as np
 
-def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent):
+def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
 
     """
     This function is used to get the 2D beta field from the 1D beta field
@@ -26,9 +26,6 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent):
     longitude_range = np.arange(extent[0], extent[1] + longitude_step, longitude_step)
     altitude_range = np.arange(extent[2], extent[3] + altitude_step, altitude_step)
     longitude_grid_regular, altitude_grid_regular = np.meshgrid(longitude_range, altitude_range)
-    print(longitude_grid_regular)
-    print(altitude_grid_regular)
-    print(altitude_grid_regular.shape)
     # get the 2D beta field
     beta2D_proj = np.zeros((longitude_grid_regular.shape))
     beta2D_proj[:] = np.nan
@@ -42,6 +39,30 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent):
                                 altitude_grid_regular[index[i], :] >= alt[index[i]][j+1]))] = beta[index[i]][j]
             except:
                 pass
-    quit()
+
+    fig, ax = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
+                          cmap='viridis')
+    # Create an axes divider for the main plot
+    divider = make_axes_locatable(ax)
+
+    # Add the colorbar to the divider
+    cax = divider.append_axes("right", size="1.5%", pad=0.1)
+    # Create the colorbar
+    cbar = plt.colorbar(fig, cax=cax, extend='both', shrink=0.6)
+    # cbar = plt.colorbar( shrink=0.8, pad=0.002)
+    cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=30, rotation=90)
+    cbar.ax.tick_params(labelsize=20)
+
+    ax.set_xlabel('Longitude', fontsize=30)
+    ax.set_ylabel('Height [km]', fontsize=30)
+
+    # ax3.set_xlim([np.min(lat_caliop), np.max(lat_caliop)])
+    # ax3.set_ylim([0., 25.])
+    # ax3.set_title('AEOLUS L2 Backscatter coeff.', fontsize=30)
+    # for tick in ax3.xaxis.get_major_ticks():
+    #     tick.label.set_fontsize(25)
+    # for tick in ax3.yaxis.get_major_ticks():
+    #     tick.label.set_fontsize(25)
+    plt.savefig(save_str, dpi=300, bbox_inches='tight')
     print(beta2D_proj)
     # return beta2D
