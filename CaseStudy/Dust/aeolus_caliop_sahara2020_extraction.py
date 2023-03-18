@@ -439,8 +439,7 @@ for i in range((end_date - start_date).days + 1):
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
                         if len(caliop_mask[caliop_mask == 1.]) > 0:
-                            print(caliop_beta_asc_des[k].shape)
-                            quit()
+
                             getcaliop2Dbeta(caliop_lon_asc_des[k],
                                             alt_caliop,
                                             caliop_beta_asc_des[k],
