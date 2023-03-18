@@ -37,7 +37,8 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
         for j in range(len(alt[index[i]])-1):
             try:
                 if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
-                    print(lon[index[i]-1], lon[index[i]+1])
+                    lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
+                    print(lon_range)
                     # beta2D_proj[(altitude_grid_regular <= alt[index[i]][j]) & (altitude_grid_regular >= alt[index[i]][j+1]), (longitude_grid_regular <=)]   = beta[index[i]][j]
 
 
