@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
 from SEVIRI.aeolus_caliop_mask import *
 from SEVIRI.get_SEVIRI_CLM import *
+from getPlots.getAeolus2D import *
 import matplotlib.colors as colors
 from netCDF4 import Dataset
 from osgeo import gdal
@@ -338,7 +339,11 @@ for i in range((end_date - start_date).days + 1):
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
-                        if len(aeolus_mask[aeolus_mask==1.]) > 0:
+                        if len(aeolus_mask[aeolus_mask == 1.]) > 0:
+
+                            getAeolus2Dbeta(aeolus_lon_asc_des[k], aeolus_alt_asc_des[k], aeolus_beta_asc_des[k], aeolus_mask, extent=[meridional_boundary[0], meridional_boundary[1], 0., 20000.])
+
+
 
                             # Create a dictionary to store the parameters
                             params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],
