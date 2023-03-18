@@ -42,11 +42,8 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str):
             except:
                 pass
 
-    print(longitude_grid_regular.shape)
-    print(altitude_grid_regular.shape)
-    print(beta2D_proj.shape)
-    fig, ax = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2),
-                          cmap='viridis')
+    fig, ax = plt.subplots()
+    plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj, norm=colors.LogNorm(vmin=1.e-5, vmax=1.e-2), cmap='viridis')
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax)
 
