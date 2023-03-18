@@ -24,7 +24,7 @@ def getcaliop2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, 
     """
 
     # Create the regular size altitude-latitude grid
-    longitude_step = 0.1
+    longitude_step = 0.01
     altitude_step = 0.05
     longitude_range = np.arange(extent[0], extent[1] + longitude_step, longitude_step)
     altitude_range = np.arange(extent[2], extent[3] + altitude_step, altitude_step)
@@ -34,12 +34,13 @@ def getcaliop2Dbeta(lon, alt, beta, caliop_mask, extent, save_str, vvmin=1.e-5, 
     beta2D_proj = np.zeros((longitude_grid_regular.shape))
     beta2D_proj[:] = np.nan
     index = np.where(caliop_mask==1.)[0]
-    print(index)
+
     for i in range(len(index)):
         for j in range(1, len(alt)-1):
             try:
                 lon_range = (lon[index[i]-1] + lon[index[i]])/2., (lon[index[i]+1] + lon[index[i]])/2.
                 alt_range = (alt[j] + alt[j+1])/2., (alt[j] + alt[j-1])/2.
+                print(lon_range, alt_range, beta[index[i]][j])
                 beta2D_proj[(altitude_grid_regular <= np.max(alt_range)) & (altitude_grid_regular >= np.min(alt_range)) & (longitude_grid_regular <= np.max(lon_range)) & (longitude_grid_regular >= np.min(lon_range))] = beta[index[i]][j]
             except:
                 pass
