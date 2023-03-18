@@ -38,10 +38,13 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent):
         for j in range(len(alt[index[i]])-1):
             try:
                 if (np.isnan(alt[index[i]][j]) == False) & (np.isnan(alt[index[i]][j+1]) == False):
+                    print(1)
                     print(alt[index[i]][j], alt[index[i]][j+1])
                     # beta2D[:, np.where((longitude_grid_regular[:] >= lon[index[i]][j]) & (
                     #             latitude_grid_regular[0, :] <= lon[index[i]][j + 1]))] = np.nanmean(
                     #     beta[index[i]][j:j + 2])
+            except:
+                pass
             # if alt[]
     quit()
     # return beta2D
