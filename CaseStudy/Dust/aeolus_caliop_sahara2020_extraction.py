@@ -418,12 +418,12 @@ for i in range((end_date - start_date).days + 1):
             CLMSEVIRI_time_str_k = get_SEVIRI_CLM_time(central_time_k)
             HRSEVIRI_time_str_k = get_HRSEVIRI_time(central_time_k)
 
-            if '202006141512' in HRSEVIRI_time_str_k:
-                print(caliop_beta_asc_des[k].shape)
-                fig, ax = plt.subplots(figsize=(35, 15))
-                plt.imshow(caliop_beta_asc_des[k])
-                plt.savefig(output_dir + '/cliop_test.png')
-                quit()
+            # if '202006141512' in HRSEVIRI_time_str_k:
+            #     print(caliop_beta_asc_des[k].shape)
+            #     fig, ax = plt.subplots(figsize=(35, 15))
+            #     plt.imshow(caliop_beta_asc_des[k])
+            #     plt.savefig(output_dir + '/cliop_test.png')
+            #     quit()
             for root, dirs, files in os.walk(HRSEVIRI_dir):
                 for file in files:
                     if HRSEVIRI_time_str_k in file:
