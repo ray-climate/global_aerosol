@@ -71,7 +71,7 @@ plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Retrieval numbers', fontsize=16)
 # Set title
-plt.title(f'Retrieval numbers over the Sahara \n 14^{"TH"} - 24^{"TH"} 2020', fontsize=18, y=1.05)
+plt.title(f'Retrieval numbers over the Sahara \n $14^{"th"}$ - $24^{"th"}$ 2020', fontsize=18, y=1.05)
 
 
 # Set x-axis and y-axis ticks
