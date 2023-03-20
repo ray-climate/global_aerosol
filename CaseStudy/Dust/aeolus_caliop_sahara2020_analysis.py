@@ -46,7 +46,7 @@ for npz_file in os.listdir(input_path):
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 
 retrieval_numbers_caliop_all = np.sum(beta_caliop_mask, axis=1)
-retrieval_numbers_aeolus_all = np.sum(beta_aeolus_all, axis=1)
+retrieval_numbers_aeolus_all = np.sum(beta_aeolus_all, axis=0)
 
 # Set font parameters
 font = {'family': 'serif',
