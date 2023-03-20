@@ -32,7 +32,7 @@ beta_caliop_mask = np.zeros((beta_caliop_all.shape))
 beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('aeolus' in npz_file):
+    if npz_file.endswith('.npz') & ('aeolus_ascending' in npz_file):
         # print the file name and variables in the file
 
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -60,6 +60,8 @@ plt.plot(retrieval_numbers_caliop_all / np.max(retrieval_numbers_caliop_all), al
 retrieval_numbers_aeolus_all_norm = retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all)
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
     plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+    plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 # set x to log scale
 plt.xscale('log')
 # Set x, y-axis label
