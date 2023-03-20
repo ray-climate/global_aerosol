@@ -38,18 +38,20 @@ font = {'family': 'serif',
         'weight': 'normal',
         'size': 14}
 plt.rc('font', **font)
-plt.figure(figsize=(6, 10))
+plt.figure(figsize=(8, 12))
 plt.plot(retrieval_numbers_all, alt, 'k', label='Retrieval numbers')
 
 # Set x, y-axis label
-plt.xlabel('Altitude (km)', fontsize=16)
-plt.ylabel('Retrieval numbers', fontsize=16)
+plt.ylabel('Altitude (km)', fontsize=16)
+plt.xlabel('Retrieval numbers', fontsize=16)
 # Set title
-plt.title(f'Retrieval numbers of {input_sat} over the Sahara in 2020', fontsize=18)
+plt.title(f'Retrieval numbers of {input_sat} over the Sahara in 2020', fontsize=18, y=1.05)
 
 # Set x-axis and y-axis ticks
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
+
+plt.ylim([0.,20.])
 # Display legend
 plt.legend(loc='best', fontsize=14)
 
