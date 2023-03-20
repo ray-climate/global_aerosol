@@ -61,9 +61,10 @@ plt.plot(retrieval_numbers_caliop_all / np.max(retrieval_numbers_caliop_all), al
 # plt.plot(retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all), alt_aeolus_mean, 'k', label='Aeolus Retrieval numbers')
 retrieval_numbers_aeolus_all_norm = retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all)
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-    plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k', label='Aeolus Profiles (%d)'%retrieval_numbers_aeolus_all.shape[0])
+    plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
     plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+plt.plot([], [], 'k', label='Aeolus Profiles (%d)'%beta_aeolus_all.shape[0])
 # set x to log scale
 plt.xscale('log')
 # Set x, y-axis label
