@@ -23,11 +23,12 @@ for npz_file in os.listdir(input_path):
         print(npz_file)
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        print(beta)
         try:
             beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
         except:
             beta_caliop_all = np.copy(beta)
-
+quit()
 beta_caliop_mask = np.zeros((beta_caliop_all.shape))
 beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 
