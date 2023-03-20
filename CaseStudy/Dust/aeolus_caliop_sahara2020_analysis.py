@@ -55,8 +55,8 @@ font = {'family': 'serif',
         'size': 14}
 plt.rc('font', **font)
 plt.figure(figsize=(8, 12))
-plt.plot(retrieval_numbers_caliop_all / np.sum(retrieval_numbers_caliop_all), alt_caliop, 'k', label='Caliop Retrieval numbers')
-plt.plot(retrieval_numbers_aeolus_all / np.sum(retrieval_numbers_aeolus_all), alt_aeolus_mean, 'k', label='Aeolus Retrieval numbers')
+plt.plot(retrieval_numbers_caliop_all / np.max(retrieval_numbers_caliop_all), alt_caliop, 'r', label='Caliop Retrieval numbers')
+plt.plot(retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all), alt_aeolus_mean, 'k', label='Aeolus Retrieval numbers')
 # set x to log scale
 # plt.xscale('log')
 # Set x, y-axis label
