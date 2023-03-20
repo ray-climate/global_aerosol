@@ -8,11 +8,15 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 # this code uses pre-processed, cloud-filtered Aeolus and Caliop L2 data over the Sahara in 2020 to do the analysis
+
+input_sat = str(sys.argv[1]) # input satellite, either 'aeolus' or 'caliop'
+# input_mode = str(sys.argv[2]) # input mode, either 'ascending' or 'descending'
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz'):
+    if npz_file.endswith('.npz') & (input_sat in npz_file):
         print(npz_file)
