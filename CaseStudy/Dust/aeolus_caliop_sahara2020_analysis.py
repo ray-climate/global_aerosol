@@ -34,7 +34,7 @@ beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('ing' in npz_file):
         # print the file name and variables in the file
-
+        print(npz_file)
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
         try:
