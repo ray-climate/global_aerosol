@@ -103,6 +103,7 @@ beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
 beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
 conversion_factor = (dp_caliop_mean * 0.82 * 2) / (1. - dp_caliop_mean * 0.82)
+print(conversion_factor)
 plt.figure(figsize=(8, 12))
 plt.plot(beta_caliop_mean, alt_caliop, 'b', label='Caliop')
 plt.plot(beta_caliop_mean * conversion_factor, alt_caliop, 'r', label='Aeolus-like Caliop')
