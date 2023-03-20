@@ -26,4 +26,4 @@ for npz_file in os.listdir(input_path):
         beta_all = np.append(beta_all, beta)
         print(beta.shape)
 beta_all = np.asarray(beta_all)
-print(beta_all).shape
+print(beta_all.shape)
