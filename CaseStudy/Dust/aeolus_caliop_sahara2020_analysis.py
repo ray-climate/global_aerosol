@@ -40,7 +40,8 @@ font = {'family': 'serif',
 plt.rc('font', **font)
 plt.figure(figsize=(8, 12))
 plt.plot(retrieval_numbers_all / np.sum(retrieval_numbers_all), alt, 'k', label='Retrieval numbers')
-
+# set x to log scale
+plt.xscale('log')
 # Set x, y-axis label
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Retrieval numbers', fontsize=16)
