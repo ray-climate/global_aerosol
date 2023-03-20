@@ -46,8 +46,7 @@ for npz_file in os.listdir(input_path):
             alt_aeolus_all = np.copy(alt)
             beta_aeolus_all = np.copy(beta)
 beta_aeolus_all[beta_aeolus_all <= 0.0] = np.nan
-print(beta_aeolus_all)
-quit()
+
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 
@@ -93,16 +92,16 @@ plt.close()
 ############# backscatter plot #############
 beta_caliop_all[beta_caliop_all<0] = np.nan
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
+beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
 plt.figure(figsize=(8, 12))
 plt.plot(beta_caliop_mean, alt_caliop, 'r', label='Caliop')
-# plt.plot(retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all), alt_aeolus_mean, 'k', label='Aeolus Retrieval numbers')
-# retrieval_numbers_aeolus_all_norm = retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all)
-# for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-#     plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
-# for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-#     plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
-# plt.plot([], [], 'k', label='Aeolus Profiles (%d)'%beta_aeolus_all.shape[0])
+
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+plt.plot([], [], 'k', label='Aeolus '%beta_aeolus_all.shape[0])
 # set x to log scale
 plt.xscale('log')
 # Set x, y-axis label
