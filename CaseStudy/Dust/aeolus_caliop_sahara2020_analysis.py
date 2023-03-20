@@ -44,7 +44,7 @@ for npz_file in os.listdir(input_path):
         except:
             alt_aeolus_all = np.copy(alt)
             beta_aeolus_all = np.copy(beta)
-print(alt_aeolus_all.shape)
+
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 
@@ -57,11 +57,11 @@ font = {'family': 'serif',
         'size': 14}
 plt.rc('font', **font)
 plt.figure(figsize=(8, 12))
-plt.plot(retrieval_numbers_caliop_all / np.max(retrieval_numbers_caliop_all), alt_caliop, 'r', label='Caliop Retrieval numbers')
+plt.plot(retrieval_numbers_caliop_all / np.max(retrieval_numbers_caliop_all), alt_caliop, 'r', label='Caliop Profiles (%d)'%beta_caliop_mask.shape[1])
 # plt.plot(retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all), alt_aeolus_mean, 'k', label='Aeolus Retrieval numbers')
 retrieval_numbers_aeolus_all_norm = retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all)
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-    plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+    plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k', label='Aeolus Profiles (%d)'%retrieval_numbers_aeolus_all.shape[0])
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
     plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 # set x to log scale
