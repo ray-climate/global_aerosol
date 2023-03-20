@@ -32,19 +32,18 @@ beta_caliop_mask = np.zeros((beta_caliop_all.shape))
 beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('ing' in npz_file):
+    if npz_file.endswith('.npz') & ('ing' in npz_file) & ('aeolus' in npz_file):
         # print the file name and variables in the file
         print(npz_file)
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
-        alt_aeolus_all = np.copy(alt)
-        print(alt_aeolus_all.shape)
-        # try:
-        #     alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
-        #     beta_aeolus_all = np.concatenate((beta_aeolus_all, beta), axis=0)
-        # except:
-        #     alt_aeolus_all = np.copy(alt)
-        #     beta_aeolus_all = np.copy(beta)
+
+        try:
+            alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
+            beta_aeolus_all = np.concatenate((beta_aeolus_all, beta), axis=0)
+        except:
+            alt_aeolus_all = np.copy(alt)
+            beta_aeolus_all = np.copy(beta)
 print(alt_aeolus_all.shape)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
