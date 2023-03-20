@@ -22,4 +22,5 @@ for npz_file in os.listdir(input_path):
         # print the file name and variables in the file
         print(npz_file)
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
-        print(alt)
+        beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        print(beta.size)
