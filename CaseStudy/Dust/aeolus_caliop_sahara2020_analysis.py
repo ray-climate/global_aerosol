@@ -44,6 +44,7 @@ for npz_file in os.listdir(input_path):
             alt_aeolus_all = np.copy(alt)
             beta_aeolus_all = np.copy(beta)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
+alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 
 retrieval_numbers_caliop_all = np.sum(beta_caliop_mask, axis=1)
 retrieval_numbers_aeolus_all = np.sum(beta_aeolus_all, axis=0)
