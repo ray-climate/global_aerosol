@@ -38,14 +38,14 @@ for npz_file in os.listdir(input_path):
         print(npz_file)
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
-
+        print(beta)
         try:
             alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
             beta_aeolus_all = np.concatenate((beta_aeolus_all, beta), axis=0)
         except:
             alt_aeolus_all = np.copy(alt)
             beta_aeolus_all = np.copy(beta)
-
+quit()
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 
