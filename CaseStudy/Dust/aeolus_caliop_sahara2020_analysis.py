@@ -14,6 +14,9 @@ import sys
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 beta_caliop_all = []
+beta_aeolus_all = []
+alt_aeolus_all = []
+
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_2020' in npz_file):
         # print the file name and variables in the file
@@ -31,20 +34,20 @@ beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus' in npz_file):
         # print the file name and variables in the file
-        print(npz_file)
+
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
-        print(beta.shape)
-        # try:
-        #     beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
-        # except:
-        #     beta_caliop_all = np.copy(beta)
+        try:
+            alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
+            beta_aeolus_all = np.concatenate((beta_aeolus_all, beta), axis=0)
+        except:
+            alt_aeolus_all = np.copy(alt)
+            beta_aeolus_all = np.copy(beta)
+alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
+print(alt_aeolus_mean)
 quit()
-
-
-
-
-retrieval_numbers_all = np.sum(beta_caliop_mask, axis=1)
+retrieval_numbers_caliop_all = np.sum(beta_caliop_mask, axis=1)
+retrieval_numbers_aeolus_all = np.sum(beta_aeolus_all, axis=1)
 
 # Set font parameters
 font = {'family': 'serif',
@@ -52,7 +55,7 @@ font = {'family': 'serif',
         'size': 14}
 plt.rc('font', **font)
 plt.figure(figsize=(8, 12))
-plt.plot(retrieval_numbers_all / np.sum(retrieval_numbers_all), alt, 'k', label='Retrieval numbers')
+plt.plot(retrieval_numbers_caliop_all / np.sum(retrieval_numbers_caliop_all), alt, 'k', label='Retrieval numbers')
 # set x to log scale
 # plt.xscale('log')
 # Set x, y-axis label
