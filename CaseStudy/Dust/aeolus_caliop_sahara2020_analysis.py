@@ -19,4 +19,7 @@ input_path = './aeolus_caliop_sahara2020_extraction_output/'
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & (input_sat in npz_file):
+        # print the file name and variables in the file
         print(npz_file)
+        # print variables in the npz files
+        print(np.load(input_path + npz_file, allow_pickle=True).files)
