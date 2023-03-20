@@ -147,8 +147,8 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
         print('Data found within the spatial window: ', caliop_file_path)
 
         return caliop_utc[spatial_mask], caliop_latitude[spatial_mask], \
-               caliop_longitude[spatial_mask], caliop_altitude, caliop_beta[:, spatial_mask], \
-               caliop_aerosol_type[:, spatial_mask], caliop_Depolarization_Ratio[:, spatial_mask]
+               caliop_longitude[spatial_mask], caliop_altitude, caliop_beta[:, spatial_mask], caliop_alpha[:, spatial_mask], \
+               caliop_aerosol_type[:, spatial_mask], caliop_feature_type[:, spatial_mask], caliop_Depolarization_Ratio[:, spatial_mask]
     else:
         return None
 
@@ -174,7 +174,10 @@ for i in range((end_date - start_date).days + 1):
     caliop_longitude_all = []
     caliop_altitude = []
     caliop_beta_all = []
+    caliop_alpha_all = []
     caliop_aerosol_type_all = []
+    caliop_feature_type_all = []
+    caliop_Depolarization_Ratio_all = []
 
     # Parse start and end dates
     start_date_datetime = datetime.strptime(date_i_str, '%Y-%m-%d')
@@ -239,8 +242,8 @@ for i in range((end_date - start_date).days + 1):
                     caliop_data = read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right)
 
                     if caliop_data:
-                        caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, \
-                        caliop_aerosol_type, caliop_Depolarization_Ratio = caliop_data
+                        caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, caliop_alpha,\
+                        caliop_aerosol_type, caliop_feature_type, caliop_Depolarization_Ratio = caliop_data
 
                         spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) &
                                                 (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
@@ -251,10 +254,17 @@ for i in range((end_date - start_date).days + 1):
 
                         try:
                             caliop_beta_all = np.concatenate([caliop_beta_all, caliop_beta[:, spatial_mask]], axis=1)
+                            caliop_alpha_all = np.concatenate([caliop_alpha_all, caliop_alpha[:, spatial_mask]], axis=1)
                             caliop_aerosol_type_all = np.concatenate([caliop_aerosol_type_all, caliop_aerosol_type[:, spatial_mask]], axis=1)
+                            caliop_feature_type_all = np.concatenate([caliop_feature_type_all, caliop_feature_type[:, spatial_mask]], axis=1)
+                            caliop_Depolarization_Ratio_all = np.concatenate([caliop_Depolarization_Ratio_all, caliop_Depolarization_Ratio[:, spatial_mask]], axis=1)
+
                         except:
                             caliop_beta_all = np.copy(caliop_beta[:, spatial_mask])
+                            caliop_alpha_all = np.copy(caliop_alpha[:, spatial_mask])
                             caliop_aerosol_type_all = np.copy(caliop_aerosol_type[:, spatial_mask])
+                            caliop_feature_type_all = np.copy(caliop_feature_type[:, spatial_mask])
+                            caliop_Depolarization_Ratio_all = np.copy(caliop_Depolarization_Ratio[:, spatial_mask])
 
         start_date_datetime += time_delta
 
@@ -367,6 +377,10 @@ for i in range((end_date - start_date).days + 1):
 
         caliop_time_all = sorted(caliop_time_all)
         caliop_beta_all = np.asarray(caliop_beta_all)[:,sort_index]
+        caliop_alpha_all = np.asarray(caliop_alpha_all)[:,sort_index]
+        caliop_aerosol_type_all = np.asarray(caliop_aerosol_type_all)[:,sort_index]
+        caliop_feature_type_all = np.asarray(caliop_feature_type_all)[:,sort_index]
+        caliop_Depolarization_Ratio_all = np.asarray(caliop_Depolarization_Ratio_all)[:,sort_index]
         caliop_latitude_all = np.asarray(caliop_latitude_all)[sort_index]
         caliop_longitude_all = np.asarray(caliop_longitude_all)[sort_index]
 
@@ -389,6 +403,8 @@ for i in range((end_date - start_date).days + 1):
         caliop_lon_asc_des = []
         caliop_time_asc_des = []
         caliop_beta_asc_des = []
+        caliop_alpha_asc_des = []
+        caliop_dp_asc_des = []
 
         if input_mode == 'ascending':
             for m in range(len(lat_sublists)):
@@ -398,6 +414,9 @@ for i in range((end_date - start_date).days + 1):
                         caliop_lon_asc_des.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_time_asc_des.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_beta_asc_des.append(caliop_beta_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_alpha_asc_des.append(caliop_alpha_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_dp_asc_des.append(caliop_Depolarization_Ratio_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
+
                 except:
                     print('Only one data point in this orbit, ignore it')
         else:
@@ -408,6 +427,8 @@ for i in range((end_date - start_date).days + 1):
                         caliop_lon_asc_des.append(caliop_longitude_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_time_asc_des.append(caliop_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                         caliop_beta_asc_des.append(caliop_beta_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_alpha_asc_des.append(caliop_alpha_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
+                        caliop_dp_asc_des.append(caliop_Depolarization_Ratio_all[:, lat_sublists[m][0]:lat_sublists[m][-1]])
                 except:
                     print('Only one data point in this orbit, ignore it')
 
@@ -453,10 +474,12 @@ for i in range((end_date - start_date).days + 1):
                             params = {'lat': np.asarray(caliop_lat_asc_des[k])[np.where(caliop_mask==1.)[0]],
                                       'lon': np.asarray(caliop_lon_asc_des[k])[np.where(caliop_mask==1.)[0]],
                                       'alt': np.asarray(alt_caliop),
-                                      'beta': np.asarray(caliop_beta_asc_des[k])[:, np.where(caliop_mask==1.)[0]]}
+                                      'beta': np.asarray(caliop_beta_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
+                                      'alpha': np.asarray(caliop_alpha_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
+                                      'dp': np.asarray(caliop_dp_asc_des[k])[:, np.where(caliop_mask==1.)[0]]}
 
 
                             # Save the dictionary as an npz file
-                            np.savez(output_dir + '/caliop_%s_%s.npz'%(input_mode, HRSEVIRI_time_str_k), **params)
+                            np.savez(output_dir + '/caliop_dbd_%s_%s.npz'%(input_mode, HRSEVIRI_time_str_k), **params)
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
