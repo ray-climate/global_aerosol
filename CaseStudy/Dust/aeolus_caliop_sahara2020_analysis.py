@@ -73,7 +73,7 @@ plt.ylim([0.,20.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 
 # Save the figure
-output_path = input_path + f'retrieval_numbers_{input_sat}.png'
+output_path = input_path + f'retrieval_numbers.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
 
