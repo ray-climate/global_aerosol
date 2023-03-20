@@ -463,6 +463,6 @@ for i in range((end_date - start_date).days + 1):
 
 
                             # Save the dictionary as an npz file
-                            np.savez(output_dir + '/caliop_%s.npz'%HRSEVIRI_time_str_k, **params)
+                            np.savez(output_dir + '/caliop_%s_%s.npz'%(input_mode, HRSEVIRI_time_str_k), **params)
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
