@@ -12,11 +12,8 @@ import sys
 
 # this code uses pre-processed, cloud-filtered Aeolus and Caliop L2 data over the Sahara in 2020 to do the analysis
 
-input_sat = str(sys.argv[1]) # input satellite, either 'aeolus' or 'caliop'
-# input_mode = str(sys.argv[2]) # input mode, either 'ascending' or 'descending'
-
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
-beta_all = []
+beta_caliop_all = []
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_2020' in npz_file):
         # print the file name and variables in the file
@@ -24,14 +21,20 @@ for npz_file in os.listdir(input_path):
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
         try:
-            beta_all = np.concatenate((beta_all, beta), axis=1)
+            beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
         except:
-            beta_all = np.copy(beta)
+            beta_caliop_all = np.copy(beta)
 
-beta_mask = np.zeros((beta_all.shape))
-beta_mask[beta_all > 0.0] = 1.0
+beta_caliop_mask = np.zeros((beta_caliop_all.shape))
+beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 
-retrieval_numbers_all = np.sum(beta_mask, axis=1)
+
+
+
+
+
+
+retrieval_numbers_all = np.sum(beta_caliop_mask, axis=1)
 
 # Set font parameters
 font = {'family': 'serif',

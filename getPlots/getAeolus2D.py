@@ -61,3 +61,26 @@ def getAeolus2Dbeta(lon, alt, beta, aeolus_mask, extent, save_str, vvmin=1.e-5, 
     for tick in ax.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
     plt.savefig(save_str, dpi=300, bbox_inches='tight')
+    plt.close()
+
+    # create a zoom plot
+    fig, ax = plt.subplots(figsize=(35, 15))
+    mappable = plt.pcolormesh(longitude_grid_regular, altitude_grid_regular, beta2D_proj,
+                              norm=colors.LogNorm(vmin=vvmin, vmax=vvmax), cmap='jet')
+    # Create the colorbar
+    cbar = plt.colorbar(mappable, extend='both', shrink=0.7)
+    cbar.set_label('[km$^{-1}$sr$^{-1}$]', fontsize=25, rotation=90)
+    cbar.ax.tick_params(labelsize=20)
+
+    ax.set_xlabel('Longitude', fontsize=25)
+    ax.set_ylabel('Height [km]', fontsize=25)
+
+    ax.set_xlim([np.min(lon) -1., np.max(lon) + 1.])
+    ax.set_ylim([np.min(altitude_range), np.max(altitude_range)])
+    ax.set_title('AEOLUS L2 Backscatter coeff.', fontsize=30)
+    for tick in ax.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    plt.savefig(save_str[:-4] + "_zoom.png", dpi=300, bbox_inches='tight')
+    plt.close()
