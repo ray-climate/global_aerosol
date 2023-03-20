@@ -33,12 +33,28 @@ beta_mask[beta_all > 0.0] = 1.0
 
 retrieval_numbers_all = np.sum(beta_mask, axis=1)
 
-# plot the retrieval numbers
-plt.figure()
-plt.plot(alt, retrieval_numbers_all, 'k')
-plt.xlabel('Altitude (km)')
-plt.ylabel('Retrieval numbers')
-plt.title('Retrieval numbers of ' + input_sat + ' over the Sahara in 2020')
-plt.savefig('./aeolus_caliop_sahara2020_analysis_output/retrieval_numbers_' + input_sat + '.png', dpi=300)
+# Set font parameters
+font = {'family': 'serif',
+        'weight': 'normal',
+        'size': 14}
+plt.rc('font', **font)
+plt.figure(figsize=(10, 6))
+plt.plot(alt, retrieval_numbers_all, 'k', label='Retrieval numbers')
+
+# Set x, y-axis label
+plt.xlabel('Altitude (km)', fontsize=16)
+plt.ylabel('Retrieval numbers', fontsize=16)
+# Set title
+plt.title(f'Retrieval numbers of {input_sat} over the Sahara in 2020', fontsize=18)
+
+# Set x-axis and y-axis ticks
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+# Display legend
+plt.legend(loc='best', fontsize=14)
+
+# Save the figure
+output_path = input_path + f'retrieval_numbers_{input_sat}.png'
+plt.savefig(output_path, dpi=300)
 plt.close()
 
