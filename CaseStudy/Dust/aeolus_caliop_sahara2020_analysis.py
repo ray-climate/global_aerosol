@@ -39,7 +39,7 @@ font = {'family': 'serif',
         'size': 14}
 plt.rc('font', **font)
 plt.figure(figsize=(8, 12))
-plt.plot(retrieval_numbers_all, alt, 'k', label='Retrieval numbers')
+plt.plot(retrieval_numbers_all / np.sum(retrieval_numbers_all), alt, 'k', label='Retrieval numbers')
 
 # Set x, y-axis label
 plt.ylabel('Altitude (km)', fontsize=16)
@@ -53,7 +53,7 @@ plt.yticks(fontsize=14)
 
 plt.ylim([0.,20.])
 # Display legend
-plt.legend(loc='best', fontsize=14)
+plt.legend(loc='best', fontsize=14, frameon=False)
 
 # Save the figure
 output_path = input_path + f'retrieval_numbers_{input_sat}.png'
