@@ -104,18 +104,16 @@ beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = conversion_factor / (1. + conversion_factor)
-print(conversion_factor)
+
 plt.figure(figsize=(8, 12))
-print(beta_caliop_mean[-50:])
-print(beta_caliop_mean[-50:] * conversion_factor)
 plt.plot(beta_caliop_mean, alt_caliop, 'b', label='Caliop')
 plt.plot(beta_caliop_mean * conversion_factor, alt_caliop, 'r', label='Aeolus-like Caliop')
 
-for i in range(len(beta_aeolus_mean)-1):
-    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
-for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
-plt.plot([], [], 'k', label='Aeolus')
+# for i in range(len(beta_aeolus_mean)-1):
+#     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+# for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+#     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+# plt.plot([], [], 'k', label='Aeolus')
 # set x to log scale
 plt.xscale('log')
 # Set x, y-axis label
