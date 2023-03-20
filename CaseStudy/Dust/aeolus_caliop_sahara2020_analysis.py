@@ -58,7 +58,7 @@ plt.figure(figsize=(8, 12))
 plt.plot(retrieval_numbers_caliop_all / np.max(retrieval_numbers_caliop_all), alt_caliop, 'r', label='Caliop Retrieval numbers')
 plt.plot(retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all), alt_aeolus_mean, 'k', label='Aeolus Retrieval numbers')
 # set x to log scale
-# plt.xscale('log')
+plt.xscale('log')
 # Set x, y-axis label
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Retrieval numbers', fontsize=16)
