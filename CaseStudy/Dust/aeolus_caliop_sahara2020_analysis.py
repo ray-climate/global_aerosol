@@ -96,6 +96,7 @@ plt.close()
 ############# backscatter plot #############
 beta_caliop_all[beta_caliop_all<0] = np.nan
 dp_caliop_all[dp_caliop_all<0] = np.nan
+dp_caliop_all[dp_caliop_all>1.] = np.nan
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
