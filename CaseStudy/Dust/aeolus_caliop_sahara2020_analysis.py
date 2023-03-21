@@ -18,6 +18,7 @@ alpha_caliop_all = []
 dp_caliop_all = []
 
 beta_aeolus_all = []
+alpha_aeolus_all = []
 alt_aeolus_all = []
 
 for npz_file in os.listdir(input_path):
@@ -46,13 +47,16 @@ for npz_file in os.listdir(input_path):
         print(npz_file)
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
-
+        aeolus = np.load(input_path + npz_file, allow_pickle=True)['aeolus']
         try:
             alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
             beta_aeolus_all = np.concatenate((beta_aeolus_all, beta), axis=0)
+            alpha_aeolus_all = np.concatenate((alpha_aeolus_all, aeolus), axis=0)
         except:
             alt_aeolus_all = np.copy(alt)
             beta_aeolus_all = np.copy(beta)
+            alpha_aeolus_all = np.copy(aeolus)
+
 beta_aeolus_all[beta_aeolus_all <= 0.0] = np.nan
 
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
@@ -171,19 +175,17 @@ plt.close()
 
 ############# extinction plot #############
 alpha_caliop_all[alpha_caliop_all<0] = np.nan
-
-print(alpha_caliop_all.shape)
 alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
-print(alpha_caliop_mean.shape)
+alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
 plt.figure(figsize=(8, 12))
 plt.plot(alpha_caliop_mean, alt_caliop, 'b', label='Caliop')
 
-# for i in range(len(beta_aeolus_mean)-1):
-#     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
-# for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-#     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
-# plt.plot([], [], 'k', label='Aeolus')
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+    plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+plt.plot([], [], 'k', label='Aeolus')
 # set x to log scale
 plt.xscale('log')
 # Set x, y-axis label
