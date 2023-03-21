@@ -172,8 +172,9 @@ plt.close()
 ############# extinction plot #############
 alpha_caliop_all[alpha_caliop_all<0] = np.nan
 
+print(alpha_caliop_all.shape)
 alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
-
+print(alpha_caliop_mean.shape)
 
 plt.figure(figsize=(8, 12))
 plt.plot(alpha_caliop_all, alt_caliop, 'b', label='Caliop')
