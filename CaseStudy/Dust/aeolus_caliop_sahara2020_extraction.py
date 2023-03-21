@@ -276,7 +276,9 @@ for i in range((end_date - start_date).days + 1):
 
         # convert aeolus data with the given scaling factor: convert to km-1.sr-1
         aeolus_beta_all[aeolus_beta_all == -1.e6] = 0
+        aeolus_alpha_all[aeolus_alpha_all == -1.e6] = 0
         aeolus_beta_all = aeolus_beta_all * 1.e-6 * 1.e3
+        aeolus_alpha_all = aeolus_alpha_all * 1.e-6 * 1.e3
 
         ############# aeolus tidy up ####################################################
 
@@ -307,6 +309,7 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
                     aeolus_beta_asc_des.append(aeolus_beta_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+                    aeolus_alpha_asc_des.append(aeolus_alpha_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
         else:
             for m in range(len(lat_sublists)):
                 if aeolus_latitude_all[lat_sublists[m][1]] - aeolus_latitude_all[lat_sublists[m][0]] < 0:
@@ -315,6 +318,7 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_time_asc_des.append(aeolus_time_all[lat_sublists[m][0]:lat_sublists[m][-1]])
                     aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
                     aeolus_beta_asc_des.append(aeolus_beta_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+                    aeolus_alpha_asc_des.append(aeolus_alpha_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
 
         central_time = aeolus_time_asc_des[int(len(aeolus_time_asc_des) / 2)][
             int(len(aeolus_time_asc_des[0]) / 2)]
@@ -362,7 +366,8 @@ for i in range((end_date - start_date).days + 1):
                             params = {'lat': np.asarray(aeolus_lat_asc_des[k])[np.where(aeolus_mask==1.)[0]],
                                       'lon': np.asarray(aeolus_lon_asc_des[k])[np.where(aeolus_mask==1.)[0]],
                                       'alt': np.asarray(aeolus_alt_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
-                                      'beta': np.asarray(aeolus_beta_asc_des[k])[np.where(aeolus_mask==1.)[0],:]}
+                                      'beta': np.asarray(aeolus_beta_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
+                                      'alpha': np.asarray(aeolus_alpha_asc_des[k])[np.where(aeolus_mask==1.)[0],:]}
 
                             # Save the dictionary as an npz file
                             np.savez(output_dir + '/aeolus_%s_%s.npz' % (input_mode, HRSEVIRI_time_str_k), **params)
