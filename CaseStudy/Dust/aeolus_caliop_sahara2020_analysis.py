@@ -177,7 +177,7 @@ alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
 print(alpha_caliop_mean.shape)
 
 plt.figure(figsize=(8, 12))
-plt.plot(alpha_caliop_all, alt_caliop, 'b', label='Caliop')
+plt.plot(alpha_caliop_mean, alt_caliop, 'b', label='Caliop')
 
 # for i in range(len(beta_aeolus_mean)-1):
 #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
