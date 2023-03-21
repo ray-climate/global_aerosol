@@ -185,7 +185,7 @@ plt.plot(alpha_caliop_mean, alt_caliop, 'b', label='Caliop')
 #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 # plt.plot([], [], 'k', label='Aeolus')
 # set x to log scale
-# plt.xscale('log')
+plt.xscale('log')
 # Set x, y-axis label
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
