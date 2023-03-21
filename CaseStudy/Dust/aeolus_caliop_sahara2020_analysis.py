@@ -14,6 +14,7 @@ import sys
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 beta_caliop_all = []
+alpha_caliop_all = []
 dp_caliop_all = []
 
 beta_aeolus_all = []
@@ -25,12 +26,15 @@ for npz_file in os.listdir(input_path):
         print(npz_file)
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp = np.load(input_path + npz_file, allow_pickle=True)['dp']
         try:
             beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
+            alpha_caliop_all = np.concatenate((alpha_caliop_all, alpha), axis=1)
             dp_caliop_all = np.concatenate((dp_caliop_all, dp), axis=1)
         except:
             beta_caliop_all = np.copy(beta)
+            alpha_caliop_all = np.copy(alpha)
             dp_caliop_all = np.copy(dp)
 
 beta_caliop_mask = np.zeros((beta_caliop_all.shape))
@@ -162,5 +166,40 @@ plt.legend(loc='best', fontsize=14, frameon=False)
 
 # Save the figure
 output_path = input_path + f'retrieval_depolarisation.png'
+plt.savefig(output_path, dpi=300)
+plt.close()
+
+############# extinction plot #############
+alpha_caliop_all[alpha_caliop_all<0] = np.nan
+
+alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
+
+
+plt.figure(figsize=(8, 12))
+plt.plot(alpha_caliop_all, alt_caliop, 'b', label='Caliop')
+
+# for i in range(len(beta_aeolus_mean)-1):
+#     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+# for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+#     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+# plt.plot([], [], 'k', label='Aeolus')
+# set x to log scale
+# plt.xscale('log')
+# Set x, y-axis label
+plt.ylabel('Altitude (km)', fontsize=16)
+plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
+# Set title
+plt.title(f'Aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+
+# Set x-axis and y-axis ticks
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+plt.ylim([0.,20.])
+# Display legend
+plt.legend(loc='best', fontsize=14, frameon=False)
+
+# Save the figure
+output_path = input_path + f'retrieval_extinction.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
