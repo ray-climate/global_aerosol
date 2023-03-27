@@ -8,6 +8,7 @@
 from satpy.writers import get_enhanced_image
 from datetime import datetime, timedelta
 from pyresample import create_area_def
+import cartopy.feature as cfeature
 from global_land_mask import globe
 import matplotlib.pyplot as plt
 from satpy import Scene
@@ -87,7 +88,8 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str,
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10), ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
-
+    coast = cfeature.COASTLINE
+    ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Add the scatter plot
     # if aeolus_lat is not None:
     #     aeolus_lat_array = list(itertools.chain(*aeolus_lat))
@@ -163,13 +165,14 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
     fig = plt.figure(figsize=(30, 15))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
-    img.data.plot.imshow(cmap='gray',transform=CRS, origin='upper', ax=ax)
+    img.data.plot.imshow(cmap='Greens',transform=CRS, origin='upper', ax=ax)
     ax.set_title(title, fontsize=35, y=1.05)
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10),
                       ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
-
+    coast = cfeature.COASTLINE
+    ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Add the scatter plot
     # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
     plt.legend(fontsize=35)
@@ -215,15 +218,16 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     fig = plt.figure(figsize=(30, 15))
     ax = fig.add_subplot(1, 1, 1, projection=CRS)
     img = get_enhanced_image(new_scn[composite])
-    img.data.plot.imshow(cmap='gray',transform=CRS, origin='upper', ax=ax)
+    img.data.plot.imshow(cmap='Greens',transform=CRS, origin='upper', ax=ax)
     ax.set_title(title, fontsize=35, y=1.05)
     gl = ax.gridlines(xlocs=range(int(extent[0]), int(extent[2]) + 1, 10),
                       ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
-
+    coast = cfeature.COASTLINE
+    ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Add the scatter plot
-    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+    # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
     plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False
