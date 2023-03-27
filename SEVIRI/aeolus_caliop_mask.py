@@ -8,6 +8,7 @@
 from satpy.writers import get_enhanced_image
 from pyresample import create_area_def
 from global_land_mask import globe
+import cartopy.feature as cfeature
 from scipy.spatial import cKDTree
 import matplotlib.pyplot as plt
 from satpy import Scene
@@ -100,6 +101,9 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
 
+    # Add coastlines
+    coast = cfeature.COASTLINE
+    ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
 
     # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200,
     #            label='AEOLUS')
@@ -109,9 +113,9 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     text_x, text_y = aeolus_lon[int(len(aeolus_time) / 2)], aeolus_lat[int(len(aeolus_time) / 2)]
     text_x = text_x + 1.  # shift the text a bit to the right
     text_angle = -78.
-    text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='blue',
-                       rotation=text_angle, rotation_mode='anchor',
-                       transform=CRS, fontsize=25)
+    # text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='blue',
+    #                    rotation=text_angle, rotation_mode='anchor',
+    #                    transform=CRS, fontsize=25)
 
     plt.legend(fontsize=35)
     gl.top_labels = False
