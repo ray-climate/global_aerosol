@@ -149,7 +149,7 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
 
     scn[composite][0, :, :] = cma_mask
     scn[composite][1, :, :] = cma_mask
-    scn[composite][2, :, :] = cma_mask
+    scn[composite][2, :, :] = 0
     width = 4000
     height = 2000
 
@@ -206,7 +206,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
 
     scn[composite][0, :, :] = data_mask
     scn[composite][1, :, :] = data_mask
-    scn[composite][2, :, :] = data_mask
+    scn[composite][2, :, :] = 0
     width = 4000
     height = 2000
 

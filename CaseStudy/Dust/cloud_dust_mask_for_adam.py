@@ -346,7 +346,7 @@ for i in range((end_date - start_date).days + 1):
                                               aeolus_lat=aeolus_lat_asc_des[k],
                                               aeolus_lon=aeolus_lon_asc_des[k],
                                               aeolus_time=aeolus_time_asc_des[k],
-                                              save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
+                                              save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % HRSEVIRI_time_str_k)
 
                         aeolus_mask = \
                         get_aeolus_mask(SEVIRI_HR_file_path=HRSEVIRI_file,
