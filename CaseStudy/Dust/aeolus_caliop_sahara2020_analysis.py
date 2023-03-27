@@ -37,7 +37,7 @@ for npz_file in os.listdir(input_path):
             beta_caliop_all = np.copy(beta)
             alpha_caliop_all = np.copy(alpha)
             dp_caliop_all = np.copy(dp)
-
+# test
 beta_caliop_mask = np.zeros((beta_caliop_all.shape))
 beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 
