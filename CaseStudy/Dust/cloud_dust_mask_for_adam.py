@@ -330,7 +330,7 @@ for i in range((end_date - start_date).days + 1):
             central_time_k = aeolus_time_asc_des[k][int(len(aeolus_time_asc_des[k]) / 2)]
             CLMSEVIRI_time_str_k = get_SEVIRI_CLM_time(central_time_k)
             HRSEVIRI_time_str_k = get_HRSEVIRI_time(central_time_k)
-            print(HRSEVIRI_time_str_k)
+
             for root, dirs, files in os.walk(HRSEVIRI_dir):
                 for file in files:
                     if HRSEVIRI_time_str_k in file:
@@ -347,21 +347,6 @@ for i in range((end_date - start_date).days + 1):
                                               aeolus_lon=aeolus_lon_asc_des[k],
                                               aeolus_time=aeolus_time_asc_des[k],
                                               save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
-
-                        get_SEVIRI_CLM_cartopy(HRSEVIRI_file,
-                                              extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                              title='SEVIRI Cloud Mask %s' % converted_SEVIRI_background_datetime,
-                                              aeolus_lat=aeolus_lat_asc_des[k],
-                                              aeolus_lon=aeolus_lon_asc_des[k],
-                                              save_str=output_dir + '/SEVIRI_CLM_RGB_%s.png' % converted_SEVIRI_background_datetime)
-
-                        get_SEVIRI_CMA_cartopy(HRSEVIRI_file,
-                                               extent=[meridional_boundary[0], lat_down, meridional_boundary[1],
-                                                       lat_up],
-                                               title='SEVIRI Cloud Mask (ML) %s' % converted_SEVIRI_background_datetime,
-                                               aeolus_lat=aeolus_lat_asc_des[k],
-                                               aeolus_lon=aeolus_lon_asc_des[k],
-                                               save_str=output_dir + '/SEVIRI_CMA_RGB_%s.png' % converted_SEVIRI_background_datetime)
 
                         aeolus_mask = \
                         get_aeolus_mask(SEVIRI_HR_file_path=HRSEVIRI_file,
@@ -398,6 +383,36 @@ for i in range((end_date - start_date).days + 1):
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
 
+            for root, dirs, files in os.walk(CMASEVIRI_dir):
+                for file in files:
+                    if CLMSEVIRI_time_str in file:
+                        SEVIRI_CMA_file = os.path.join(root, file)
+
+                        get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path=HRSEVIRI_file,
+                                               SEVIRI_CMA_file_path=SEVIRI_CMA_file,
+                                               extent=[meridional_boundary[0], lat_down, meridional_boundary[1],
+                                                       lat_up],
+                                               title='SEVIRI CMA %s' % CLMSEVIRI_time_str,
+                                               aeolus_lat=aeolus_lat_asc_des[k],
+                                               aeolus_lon=aeolus_lon_asc_des[k],
+                                               save_str=output_dir + '/SEVIRI_CMA_%s.png' % HRSEVIRI_time_str)
+
+                    else:
+                        logger.warning('No SEVIRI CMA file found for the given time: %s' % central_time)
+
+            for root, dirs, files in os.walk(CLMSEVIRI_dir):
+                for file in files:
+                    if CLMSEVIRI_time_str in file:
+                        SEVIRI_CLM_file = os.path.join(root, file)
+
+                        get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path=HRSEVIRI_file,
+                                               SEVIRI_CLM_file_path=SEVIRI_CLM_file,
+                                               extent=[meridional_boundary[0], lat_down, meridional_boundary[1],
+                                                       lat_up],
+                                               title='SEVIRI Cloud Mask %s' % CLMSEVIRI_time_str,
+                                               aeolus_lat=aeolus_lat_asc_des[k],
+                                               aeolus_lon=aeolus_lon_asc_des[k],
+                                               save_str=output_dir + '/SEVIRI_CLM_%s.png' % HRSEVIRI_time_str)
     if input_sat == 'Caliop':
         ############# caliop tidy up ####################################################
 
