@@ -93,7 +93,7 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str,
         aeolus_lat_array = list(itertools.chain(*aeolus_lat))
         aeolus_lon_array = list(itertools.chain(*aeolus_lon))
         aeolus_time_array = list(itertools.chain(*aeolus_time))
-        ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+        # ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
 
         # Add the text box
         for j in range(len(aeolus_time)):
@@ -101,9 +101,9 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str,
             text_x, text_y = aeolus_lon[j][int(len(aeolus_time[j]) / 2)], aeolus_lat[j][int(len(aeolus_time[j]) / 2)]
             text_x = text_x + 1.  # shift the text a bit to the right
             text_angle = -78.
-            text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='white',
-                               rotation=text_angle, rotation_mode='anchor',
-                               transform=CRS, fontsize=25)
+            # text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='white',
+            #                    rotation=text_angle, rotation_mode='anchor',
+            #                    transform=CRS, fontsize=25)
     else:
 
         caliop_lat_array = list(itertools.chain(*caliop_lat))
@@ -171,7 +171,7 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
                       zorder=100, draw_labels=True)
 
     # Add the scatter plot
-    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
+    # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
     plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False

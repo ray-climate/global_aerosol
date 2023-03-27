@@ -340,6 +340,29 @@ for i in range((end_date - start_date).days + 1):
                         day_SEVIRI_background = HRSEVIRI_time_str[6:8]
                         converted_SEVIRI_background_datetime = f"{year_SEVIRI_background}-{month_SEVIRI_background}-{day_SEVIRI_background}"
 
+                        get_SEVIRI_HR_cartopy(HRSEVIRI_file,
+                                              extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                              title = 'SEVIRI Dust RGB %s'%converted_SEVIRI_background_datetime,
+                                              aeolus_lat=aeolus_lat_asc_des[k],
+                                              aeolus_lon=aeolus_lon_asc_des[k],
+                                              aeolus_time=aeolus_time_asc_des[k],
+                                              save_str=output_dir + '/SEVIRI_dust_RGB_%s.png' % converted_SEVIRI_background_datetime)
+
+                        get_SEVIRI_CLM_cartopy(HRSEVIRI_file,
+                                              extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                              title='SEVIRI Cloud Mask %s' % converted_SEVIRI_background_datetime,
+                                              aeolus_lat=aeolus_lat_asc_des[k],
+                                              aeolus_lon=aeolus_lon_asc_des[k],
+                                              save_str=output_dir + '/SEVIRI_CLM_RGB_%s.png' % converted_SEVIRI_background_datetime)
+
+                        get_SEVIRI_CMA_cartopy(HRSEVIRI_file,
+                                               extent=[meridional_boundary[0], lat_down, meridional_boundary[1],
+                                                       lat_up],
+                                               title='SEVIRI Cloud Mask (ML) %s' % converted_SEVIRI_background_datetime,
+                                               aeolus_lat=aeolus_lat_asc_des[k],
+                                               aeolus_lon=aeolus_lon_asc_des[k],
+                                               save_str=output_dir + '/SEVIRI_CMA_RGB_%s.png' % converted_SEVIRI_background_datetime)
+
                         aeolus_mask = \
                         get_aeolus_mask(SEVIRI_HR_file_path=HRSEVIRI_file,
                                         BTD_ref=IanSEVIRI_ref,
