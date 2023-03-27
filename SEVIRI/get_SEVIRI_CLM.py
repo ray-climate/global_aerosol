@@ -198,7 +198,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     data_mask = np.zeros((data.shape))
     data_mask[:] = np.nan
     data_mask[data == 2] = 1
-
+    #
     """Read the SEVIRI HR data from the downloaded file using satpy"""
     scn = Scene(reader='seviri_l1b_native', filenames=[SEVIRI_HR_file_path])
     composite = 'dust'
