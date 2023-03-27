@@ -190,7 +190,8 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
 
 def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, title, save_str, aeolus_lat, aeolus_lon):
     #
-    # change
+    # change test
+    a =1
     dataset = gdal.Open(SEVIRI_CLM_file_path, gdal.GA_ReadOnly)
     # Read the first band of the dataset
     band = dataset.GetRasterBand(1)
