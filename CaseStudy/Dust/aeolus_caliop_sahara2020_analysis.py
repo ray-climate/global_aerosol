@@ -194,7 +194,7 @@ ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
 ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
 
 ax.set_xlim(np.log([1.e-6, 1]))
-plt.xlim([1.e-6, 1])
+
 plt.ylim([0.,20.])
 # Display legend
 # plt.legend(loc='best', fontsize=14, frameon=False)
