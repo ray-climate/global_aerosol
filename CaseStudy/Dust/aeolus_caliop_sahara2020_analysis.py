@@ -162,7 +162,7 @@ long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude',
 
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
-sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blue', fill=True)
+sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
 
 # Customize the plot
 plt.ylabel('Altitude (km)', fontsize=16)
