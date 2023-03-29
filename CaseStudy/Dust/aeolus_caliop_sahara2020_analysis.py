@@ -59,7 +59,7 @@ for npz_file in os.listdir(input_path):
             beta_aeolus_all = np.copy(beta)
             alpha_aeolus_all = np.copy(aeolus)
 
-beta_aeolus_all[beta_aeolus_all <= 1.e-6] = np.nan
+beta_aeolus_all[beta_aeolus_all <= 0.0] = np.nan
 
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
@@ -150,12 +150,13 @@ plt.close()
 
 ############# backscatter plot showing density of observation #############
 # Convert the 2D profiles arrays to long-form DataFrames
+beta_aeolus_all_clean = np.nan_to_num(beta_aeolus_all)
 long_form_data_caliop = []
 long_form_data_aeolus = []
 for i in range(beta_caliop_all.shape[1]):
     long_form_data_caliop.extend(zip(alt_caliop, beta_caliop_all[:, i] * conversion_factor))
-for i in range(beta_aeolus_all.shape[0]):
-    long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all[i, :]))
+for i in range(beta_aeolus_all_clean.shape[0]):
+    long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all_clean[i, :]))
 
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
 long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude', 'beta_aeolus'])
