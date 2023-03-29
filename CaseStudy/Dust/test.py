@@ -5,22 +5,17 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 15:17
 
-import matplotlib.pyplot as plt
+import numpy as np
 
-# Sample data
-temperatures = [15, 14, 12, 10, 8, 6, 5, 3, 15, 20, 25, 27, 30, 33, 35, 38, 40, 42, 45, 48, 50, 52, 55, 58, 60]
-heights = [0, 200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400, 3600, 3800, 4000, 4200, 4400, 4600, 4800, 5000]
+# Create a base temperature profile
+altitudes = np.linspace(0, 30, 301)  # Altitudes from 0 to 30 km, assuming 100m intervals
+base_profile = 15 + 10 * np.sin((np.pi * altitudes) / 30)  # This is just an example function for the base profile
 
-# Calculate height intervals
-height_intervals = [heights[i+1] - heights[i] for i in range(len(heights)-1)]
+# Generate 200 random profiles by adding random variations to the base profile
+np.random.seed(42)  # Set the random seed for reproducibility
+profiles = np.zeros((301, 200))  # Initialize the data array
+for i in range(200):
+    random_variation = np.random.normal(loc=0, scale=2, size=301)
+    profiles[:, i] = base_profile + random_variation
 
-# Create a bar chart
-fig, ax = plt.subplots()
-ax.barh(heights[:-1], temperatures, height_intervals, align='edge', edgecolor='black', linewidth=1, facecolor='none')
-
-# Label the axes
-ax.set_xlabel('Temperature')
-ax.set_ylabel('Height')
-
-# Show the plot
-plt.show()
+print(profiles.shape)
