@@ -150,17 +150,19 @@ plt.close()
 
 ############# backscatter plot showing density of observation #############
 # Convert the 2D profiles arrays to long-form DataFrames
-beta_aeolus_all_clean = np.copy(beta_aeolus_all)
+
 long_form_data_caliop = []
 long_form_data_aeolus = []
 for i in range(beta_caliop_all.shape[1]):
     long_form_data_caliop.extend(zip(alt_caliop, beta_caliop_all[:, i] * conversion_factor))
-for i in range(beta_aeolus_all_clean.shape[0]):
-    print(beta_aeolus_all_clean[i, :])
-    long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all_clean[i, :]))
+for i in range(beta_aeolus_all.shape[0]):
+    print(beta_aeolus_all[i, :])
+    long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all[i, :]))
 
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
 long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude', 'beta_aeolus'])
+
+long_form_data_aeolus.dropna(inplace=True)
 
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
