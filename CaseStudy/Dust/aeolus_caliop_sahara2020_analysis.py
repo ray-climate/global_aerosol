@@ -156,7 +156,7 @@ long_form_data_aeolus = []
 for i in range(beta_caliop_all.shape[1]):
     long_form_data_caliop.extend(zip(alt_caliop, beta_caliop_all[:, i] * conversion_factor))
 for i in range(beta_aeolus_all.shape[0]):
-    print(np.min(beta_aeolus_all[i, :]))
+    print(np.nanmin(beta_aeolus_all[i, :]))
     long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all[i, :]))
 
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
