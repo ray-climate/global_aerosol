@@ -6,6 +6,7 @@
 # @Time:        20/03/2023 11:01
 import os
 
+import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -182,6 +183,11 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 # Set x-axis and y-axis ticks
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
+
+# Change xticks to proper log scale
+ax = plt.gca()
+ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: '{:0.1e}'.format(np.exp(x))))
+ax.xaxis.set_major_locator(ticker.AutoLocator())
 
 # plt.xlim([1.e-7, 0.02])
 plt.ylim([0.,20.])
