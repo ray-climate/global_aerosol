@@ -158,7 +158,6 @@ beta_aeolus_all_test = np.copy(beta_aeolus_all)
 for i in range(beta_caliop_all.shape[1]):
     long_form_data_caliop.extend(zip(alt_caliop, beta_caliop_all[:, i] * conversion_factor))
 for i in range(beta_aeolus_all.shape[0]):
-    print(np.nanmin(beta_aeolus_all_test[i, :]))
     long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all_test[i, :]))
 
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
@@ -175,7 +174,7 @@ for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 
 # Set the x-axis to log scale
-plt.gca().set_xscale('log')
+# plt.gca().set_xscale('log')
 # Customize the plot
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
