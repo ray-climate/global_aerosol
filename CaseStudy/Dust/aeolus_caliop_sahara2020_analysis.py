@@ -171,12 +171,12 @@ plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
 # sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Reds', fill=True)
 
-plt.plot(np.log(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
-for i in range(len(beta_aeolus_mean)-1):
-    plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
-for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-    plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
-plt.plot([], [], 'k', label='Aeolus')
+# plt.plot(np.log(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
+# for i in range(len(beta_aeolus_mean)-1):
+#     plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+# for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+#     plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+# plt.plot([], [], 'k', label='Aeolus')
 
 # Set the x-axis to log scale
 # plt.gca().set_xscale('log')
