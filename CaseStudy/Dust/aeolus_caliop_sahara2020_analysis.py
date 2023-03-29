@@ -117,9 +117,10 @@ conversion_factor = conversion_factor / (1. + conversion_factor)
 plt.figure(figsize=(8, 12))
 plt.plot(beta_caliop_mean, alt_caliop, 'b', label='Caliop')
 plt.plot(beta_caliop_mean * conversion_factor, alt_caliop, 'r', label='Aeolus-like Caliop')
-plt.fill_betweenx((beta_caliop_mean - beta_caliop_all_std) * conversion_factor, (beta_caliop_mean + beta_caliop_all_std) * conversion_factor, alt_caliop, color='r', alpha=0.2)
-print(beta_caliop_mean)
-print(beta_caliop_all_std)
+# plt.fill_betweenx((beta_caliop_mean - beta_caliop_all_std) * conversion_factor, (beta_caliop_mean + beta_caliop_all_std) * conversion_factor, alt_caliop, color='r', alpha=0.2)
+
+for k in range(beta_aeolus_all.shape[0]):
+    plt.plot(beta_aeolus_all[k, :], alt_aeolus_mean, 'k', alpha=0.1)
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
