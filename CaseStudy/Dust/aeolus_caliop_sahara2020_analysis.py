@@ -153,11 +153,14 @@ plt.close()
 
 long_form_data_caliop = []
 long_form_data_aeolus = []
+beta_aeolus_all_test = np.copy(beta_aeolus_all)
+beta_aeolus_all_test[:] = 1.e-2
+
 for i in range(beta_caliop_all.shape[1]):
     long_form_data_caliop.extend(zip(alt_caliop, beta_caliop_all[:, i] * conversion_factor))
 for i in range(beta_aeolus_all.shape[0]):
-    print(np.nanmin(beta_aeolus_all[i, :]))
-    long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all[i, :]))
+    print(np.nanmin(beta_aeolus_all_test[i, :]))
+    long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all_test[i, :]))
 
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
 long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude', 'beta_aeolus'])
@@ -167,7 +170,7 @@ long_form_data_aeolus.fillna(long_form_data_aeolus['beta_aeolus'].mean(), inplac
 
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
-sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=None)
+sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
