@@ -201,7 +201,7 @@ def exp_formatter(x, pos):
 ax = plt.gca()
 ax.xaxis.set_major_formatter(ticker.FuncFormatter(exp_formatter))
 ax.xaxis.set_major_locator(ticker.FixedLocator(np.log(10.0 ** np.arange(-6.0, 1.0))))
-
+ax.set_xlim(np.log([1.e-6, 1]))
 # plt.xlim([1.e-6, 1])
 plt.ylim([0.,20.])
 # Display legend
