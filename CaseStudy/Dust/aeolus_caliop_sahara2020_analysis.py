@@ -156,7 +156,6 @@ long_form_data_aeolus = []
 for i in range(beta_caliop_all.shape[1]):
     long_form_data_caliop.extend(zip(alt_caliop, beta_caliop_all[:, i] * conversion_factor))
 for i in range(beta_aeolus_all.shape[0]):
-    print(beta_aeolus_all[i, :])
     long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all[i, :]))
 
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
@@ -181,7 +180,7 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-# plt.xlim([0, 0.02])
+plt.xlim([1.e-6, 0.02])
 plt.ylim([0.,20.])
 # Display legend
 # plt.legend(loc='best', fontsize=14, frameon=False)
