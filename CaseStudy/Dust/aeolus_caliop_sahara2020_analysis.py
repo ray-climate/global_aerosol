@@ -196,7 +196,8 @@ def exp_formatter(x, pos):
 # Set the xticks with a base of 10 and exponent values ranging from -6 to 0
 ax = plt.gca()
 ax.xaxis.set_major_formatter(ticker.FuncFormatter(exp_formatter))
-log_ticks = np.log(10.0 ** np.arange(-6.0, 1.0))
+log_ticks = np.arange(-6.0, 1.0)
+print(log_ticks)
 ax.set_xticks(log_ticks)
 
 # ax.set_xlim(np.log([1.e-6, 1]))
