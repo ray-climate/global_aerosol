@@ -147,18 +147,23 @@ plt.legend(loc='best', fontsize=14, frameon=False)
 output_path = input_path + f'retrieval_backscatter.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
-print(111)
+
 ############# backscatter plot showing density of observation #############
 # Convert the 2D profiles arrays to long-form DataFrames
-long_form_data1 = []
+long_form_data_caliop = []
+long_form_data_aeolus = []
 for i in range(beta_caliop_all.shape[1]):
-    long_form_data1.extend(zip(alt_caliop, beta_caliop_all[:, i]))
-long_form_df = pd.DataFrame(long_form_data1, columns=['Altitude', 'beta_caliop'])
-print(222)
+    long_form_data_caliop.extend(zip(alt_caliop, beta_caliop_all[:, i] * conversion_factor))
+for i in range(beta_aeolus_all.shape[0]):
+    long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all[i, :]))
+
+long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
+long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude', 'beta_aeolus'])
+
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
-sns.kdeplot(data=long_form_df, x='beta_caliop', y='Altitude', cmap='Reds', fill=True)
-print(333)
+sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blue', fill=True)
+
 # Customize the plot
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
