@@ -150,7 +150,7 @@ plt.close()
 
 ############# backscatter plot showing density of observation #############
 # Convert the 2D profiles arrays to long-form DataFrames
-beta_aeolus_all_clean = np.nan_to_num(beta_aeolus_all)
+beta_aeolus_all_clean = np.copy(beta_aeolus_all)
 long_form_data_caliop = []
 long_form_data_aeolus = []
 for i in range(beta_caliop_all.shape[1]):
@@ -169,7 +169,7 @@ for i in range(len(beta_aeolus_mean)-1):
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 
-plt.xscale('log')
+# plt.xscale('log')
 # Customize the plot
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
@@ -178,7 +178,7 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-plt.xlim([1e-8, 3e-1])
+plt.xlim([0, 0.2])
 plt.ylim([0.,20.])
 # Display legend
 # plt.legend(loc='best', fontsize=14, frameon=False)
