@@ -154,11 +154,11 @@ long_form_data1 = []
 for i in range(beta_caliop_all.shape[1]):
     long_form_data1.extend(zip(alt_caliop, beta_caliop_all[:, i]))
 long_form_df = pd.DataFrame(long_form_data1, columns=['Altitude', 'beta_caliop'])
-
+print(222)
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_df, x='beta_caliop', y='Altitude', cmap='Reds', fill=True)
-
+print(333)
 # Customize the plot
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
