@@ -167,7 +167,7 @@ long_form_data_aeolus.fillna(long_form_data_aeolus['beta_aeolus'].mean(), inplac
 
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
-sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
+sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=None)
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
