@@ -25,7 +25,7 @@ import logging
 import pathlib
 import sys
 import os
-
+#
 input_sat = str(sys.argv[1]) # input satellite, either 'aeolus' or 'caliop'
 input_mode = str(sys.argv[2]) # input mode, either 'ascending' or 'descending'
 
