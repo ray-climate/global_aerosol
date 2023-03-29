@@ -169,7 +169,7 @@ long_form_data_aeolus['beta_aeolus_log'] = np.log(long_form_data_aeolus['beta_ae
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
-sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Reds', fill=True)
+# sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Reds', fill=True)
 
 plt.plot(np.log(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
 for i in range(len(beta_aeolus_mean)-1):
