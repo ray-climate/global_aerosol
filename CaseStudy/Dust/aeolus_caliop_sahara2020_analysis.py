@@ -169,9 +169,9 @@ long_form_data_aeolus['beta_aeolus_log'] = np.log(long_form_data_aeolus['long_fo
 plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
 for i in range(len(beta_aeolus_mean)-1):
-    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+    plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+    plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 
 # Set the x-axis to log scale
 # plt.gca().set_xscale('log')
