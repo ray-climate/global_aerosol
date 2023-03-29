@@ -7,6 +7,8 @@
 import os
 
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 import numpy as np
 import sys
 
@@ -117,10 +119,8 @@ conversion_factor = conversion_factor / (1. + conversion_factor)
 plt.figure(figsize=(8, 12))
 plt.plot(beta_caliop_mean, alt_caliop, 'b', label='Caliop')
 plt.plot(beta_caliop_mean * conversion_factor, alt_caliop, 'r', label='Aeolus-like Caliop')
-# plt.fill_betweenx((beta_caliop_mean - beta_caliop_all_std) * conversion_factor, (beta_caliop_mean + beta_caliop_all_std) * conversion_factor, alt_caliop, color='r', alpha=0.2)
-
-for k in range(beta_caliop_all.shape[1]):
-    plt.plot(beta_caliop_all[:, k], alt_caliop, 'k', alpha=0.1)
+# for k in range(beta_caliop_all.shape[1]):
+#     plt.plot(beta_caliop_all[:, k], alt_caliop, 'k', alpha=0.1)
 
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
@@ -147,6 +147,38 @@ plt.legend(loc='best', fontsize=14, frameon=False)
 output_path = input_path + f'retrieval_backscatter.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
+
+############# backscatter plot showing density of observation #############
+# Convert the 2D profiles arrays to long-form DataFrames
+long_form_data1 = []
+for i in range(beta_caliop_all.shape[1]):
+    long_form_data1.extend(zip(alt_caliop, beta_caliop_all[:, i]))
+long_form_df = pd.DataFrame(long_form_data1, columns=['Altitude', 'beta_caliop'])
+
+# Plot the KDE density plot and the curve plot
+plt.figure(figsize=(8, 12))
+sns.kdeplot(data=long_form_df, x='beta_caliop', y='Altitude', cmap='Reds', fill=True)
+
+# Customize the plot
+plt.ylabel('Altitude (km)', fontsize=16)
+plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
+plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+# Set x-axis and y-axis ticks
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+plt.ylim([0.,20.])
+# Display legend
+# plt.legend(loc='best', fontsize=14, frameon=False)
+
+# Save the figure
+output_path = input_path + f'retrieval_backscatter_density.png'
+plt.savefig(output_path, dpi=300)
+plt.close()
+
+
+
+
 
 ############# depolarization ratio plot #############
 plt.figure(figsize=(8, 12))
