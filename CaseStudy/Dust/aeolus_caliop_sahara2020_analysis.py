@@ -162,11 +162,13 @@ for i in range(beta_aeolus_all.shape[0]):
     long_form_data_aeolus.extend(zip(alt_aeolus_mean, beta_aeolus_all_test[i, :]))
 
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
-long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude', 'beta_aeolus'])
+long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude', 'long_form_data_aeolus'])
+
+long_form_data_aeolus['beta_aeolus_log'] = np.log(long_form_data_aeolus['long_form_data_aeolus'])
 
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
-sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
+sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
@@ -182,7 +184,7 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-plt.xlim([1.e-7, 0.02])
+# plt.xlim([1.e-7, 0.02])
 plt.ylim([0.,20.])
 # Display legend
 # plt.legend(loc='best', fontsize=14, frameon=False)
