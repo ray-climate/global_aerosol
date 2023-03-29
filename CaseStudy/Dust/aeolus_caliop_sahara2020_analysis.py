@@ -163,7 +163,12 @@ long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude',
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 
+plt.xscale('log')
 # Customize the plot
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
