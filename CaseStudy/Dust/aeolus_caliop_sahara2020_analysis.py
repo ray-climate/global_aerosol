@@ -176,6 +176,7 @@ for i in range(len(beta_aeolus_mean)-1):
     plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
     plt.plot([np.log(beta_aeolus_mean[i]), np.log(beta_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+plt.plot([], [], 'k', label='Aeolus')
 
 # Set the x-axis to log scale
 # plt.gca().set_xscale('log')
@@ -187,9 +188,15 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-# Change xticks to proper log scale with uppercase exponential notation
+# Custom formatter function for xticks
+def exp_formatter(x, pos):
+    exp_val = int(np.log10(np.exp(x)))
+    base_val = np.exp(x) / (10 ** exp_val)
+    return r'${:.1f} \times 10^{{{}}}$'.format(base_val, exp_val)
+
+# Change xticks to proper log scale with superscript exponential notation
 ax = plt.gca()
-ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: '{:0.1E}'.format(np.exp(x))))
+ax.xaxis.set_major_formatter(ticker.FuncFormatter(exp_formatter))
 ax.xaxis.set_major_locator(ticker.AutoLocator())
 
 # plt.xlim([1.e-7, 0.02])
