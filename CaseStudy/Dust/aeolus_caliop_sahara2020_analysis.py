@@ -165,9 +165,6 @@ for i in range(beta_aeolus_all.shape[0]):
 long_form_data_caliop = pd.DataFrame(long_form_data_caliop, columns=['Altitude', 'beta_caliop'])
 long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude', 'beta_aeolus'])
 
-# long_form_data_aeolus.dropna(inplace=True)
-long_form_data_aeolus.fillna(long_form_data_aeolus['beta_aeolus'].mean(), inplace=True)
-
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
