@@ -62,7 +62,7 @@ plt.figure(figsize=(8, 6))
 sns.kdeplot(data=long_form_df, x='Temperature', y='Altitude', hue='Group', cmap='Reds', fill=True)
 plt.plot(mean_profile1, altitudes, color='black', linestyle='-', linewidth=2, label='Group 1')
 plt.plot(mean_profile2, altitudes, color='blue', linestyle='-', linewidth=2, label='Group 2')
-
+plt.xscale('log')
 # Customize the plot
 plt.xlabel('Temperature')
 plt.ylabel('Altitude (km)')
