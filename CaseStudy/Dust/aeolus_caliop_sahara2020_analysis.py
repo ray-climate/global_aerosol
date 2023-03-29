@@ -178,7 +178,7 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-plt.xlim([0, 0.2])
+plt.xlim([0, 0.05])
 plt.ylim([0.,20.])
 # Display legend
 # plt.legend(loc='best', fontsize=14, frameon=False)
