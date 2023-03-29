@@ -59,7 +59,7 @@ mean_profile2 = np.mean(profiles2, axis=1)
 
 # Plot the KDE density plot and the curve plots for each group
 plt.figure(figsize=(8, 6))
-sns.kdeplot(data=long_form_df, x='Temperature', y='Altitude', hue='Group', cmap='Reds', fill=True)
+sns.kdeplot(data=long_form_df, x='Temperature', y='Altitude', hue='Group', cmap='Reds', fill=None)
 plt.plot(mean_profile1, altitudes, color='black', linestyle='-', linewidth=2, label='Group 1')
 plt.plot(mean_profile2, altitudes, color='blue', linestyle='-', linewidth=2, label='Group 2')
 plt.xscale('log')
