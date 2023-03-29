@@ -188,17 +188,12 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-# Custom formatter function for xticks
-def exp_formatter(x, pos):
-    exp_val = int(x)
-    return r'$10^{{{}}}$'.format(exp_val)
 
-# Set the xticks with a base of 10 and exponent values ranging from -6 to 0
 ax = plt.gca()
-ax.xaxis.set_major_formatter(ticker.FuncFormatter(exp_formatter))
-log_ticks = np.arange(-6.0, 1.0)
-print(log_ticks)
-ax.set_xticks(log_ticks)
+# Set the x-axis scale and ticks
+ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
+ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
+
 
 # ax.set_xlim(np.log([1.e-6, 1]))
 # plt.xlim([1.e-6, 1])
