@@ -192,18 +192,13 @@ plt.yticks(fontsize=14)
 def exp_formatter(x, pos):
     exp_val = int(np.log10(np.exp(x)))
     base_val = np.exp(x) / (10 ** exp_val)
-    return r'${:.1f} \times 10^{{{}}}$'.format(base_val, exp_val)
-
-# Custom formatter function for xticks
-def exp_formatter(x, pos):
-    exp_val = int(np.log10(np.exp(x)))
-    base_val = np.exp(x) / (10 ** exp_val)
     return r'${:.0f} \times 10^{{{}}}$'.format(base_val, exp_val)
 
 # Set the xticks with a base of 10 and exponent values ranging from -6 to 0
 ax = plt.gca()
 ax.xaxis.set_major_formatter(ticker.FuncFormatter(exp_formatter))
-ax.xaxis.set_major_locator(ticker.FixedLocator(np.log(10 ** np.arange(-6, 1))))
+ax.xaxis.set_major_locator(ticker.FixedLocator(np.log(10.0 ** np.arange(-6.0, 1.0))))
+
 
 # plt.xlim([1.e-7, 0.02])
 plt.ylim([0.,20.])
