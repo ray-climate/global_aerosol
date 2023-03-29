@@ -169,7 +169,7 @@ long_form_data_aeolus['beta_aeolus_log'] = np.log(long_form_data_aeolus['beta_ae
 # Plot the KDE density plot and the curve plot
 plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
-sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Reds', fill=True)
+# sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Reds', fill=True)
 
 plt.plot(np.log(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
 for i in range(len(beta_aeolus_mean)-1):
@@ -192,7 +192,8 @@ plt.yticks(fontsize=14)
 def exp_formatter(x, pos):
     exp_val = int(np.log10(np.exp(x)))
     base_val = np.exp(x) / (10 ** exp_val)
-    return r'${:.0f} \times 10^{{{}}}$'.format(base_val, exp_val)
+    return r'$10^{{{}}}$'.format(exp_val)
+
 
 # Set the xticks with a base of 10 and exponent values ranging from -6 to 0
 ax = plt.gca()
