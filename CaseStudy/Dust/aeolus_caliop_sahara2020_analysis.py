@@ -171,12 +171,12 @@ plt.figure(figsize=(8, 12))
 sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
 # sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Reds', fill=True)
 
-plt.plot(np.log10(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
-for i in range(len(beta_aeolus_mean)-1):
-    plt.plot([np.log10(beta_aeolus_mean[i]), np.log10(beta_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
-for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-    plt.plot([np.log10(beta_aeolus_mean[i]), np.log10(beta_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
-plt.plot([], [], 'k', label='Aeolus')
+# plt.plot(np.log10(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
+# for i in range(len(beta_aeolus_mean)-1):
+#     plt.plot([np.log10(beta_aeolus_mean[i]), np.log10(beta_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+# for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+#     plt.plot([np.log10(beta_aeolus_mean[i]), np.log10(beta_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+# plt.plot([], [], 'k', label='Aeolus')
 
 # Set the x-axis to log scale
 # plt.gca().set_xscale('log')
@@ -188,12 +188,11 @@ plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $2
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 
-ax = plt.gca()
-# Set the x-axis scale and ticks
-ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
-ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-
-ax.set_xlim(np.log([1.e-6, 1]))
+# ax = plt.gca()
+# # Set the x-axis scale and ticks
+# ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
+# ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
+# ax.set_xlim(np.log([1.e-6, 1]))
 
 plt.ylim([0.,20.])
 # Display legend
