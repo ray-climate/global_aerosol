@@ -105,6 +105,7 @@ plt.savefig(output_path, dpi=300)
 plt.close()
 
 ############# backscatter plot #############
+ang_coef = (355. / 532.) ** (-0.55)
 beta_caliop_all[beta_caliop_all<0] = np.nan
 dp_caliop_all[dp_caliop_all<0] = np.nan
 dp_caliop_all[dp_caliop_all>1.] = np.nan
@@ -118,7 +119,7 @@ conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(d
 conversion_factor = 1 / (1. + conversion_factor)
 plt.figure(figsize=(8, 12))
 plt.plot(beta_caliop_mean, alt_caliop, 'b', label='Caliop')
-plt.plot(beta_caliop_mean * conversion_factor, alt_caliop, 'r', label='Aeolus-like Caliop')
+plt.plot(beta_caliop_mean * conversion_factor * ang_coef, alt_caliop, 'r', label='Aeolus-like Caliop')
 # for k in range(beta_caliop_all.shape[1]):
 #     plt.plot(beta_caliop_all[:, k], alt_caliop, 'k', alpha=0.1)
 
@@ -274,15 +275,15 @@ plt.savefig(output_path, dpi=300)
 plt.close()
 
 ############# extinction plot #############
-ext_coef = (355. / 532.) ** (-0.55)
-print('ext_coef = ', ext_coef)
+
+print('ang_coef = ', ang_coef)
 alpha_caliop_all[alpha_caliop_all<0] = np.nan
 alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
 plt.figure(figsize=(8, 12))
 plt.plot(alpha_caliop_mean, alt_caliop, 'b', label='Caliop')
-plt.plot(alpha_caliop_mean / ext_coef, alt_caliop, 'r', label='Aeolus-like Caliop')
+plt.plot(alpha_caliop_mean * ang_coef, alt_caliop, 'r', label='Aeolus-like Caliop')
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
