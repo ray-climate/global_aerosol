@@ -315,6 +315,7 @@ plt.close()
 caliop_aod_532 = np.zeros((alpha_caliop_all.shape[1]))
 for i in range(alpha_caliop_all.shape[1]):
     caliop_aod_532[i] = np.trapz(alpha_caliop_all[:,i], alt_caliop)
+    print(np.trapz(alpha_caliop_all[:,i], alt_caliop))
 
 caliop_aod_532_masked = caliop_aod_532[~np.isnan(caliop_aod_532)]
 # generate a histogram of caliop_aod_532
