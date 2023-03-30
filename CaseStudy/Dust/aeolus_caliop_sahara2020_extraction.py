@@ -122,15 +122,14 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     caliop_request = Caliop_hdf_reader()
 
     # Read data from Caliop file
-    caliop_request.get_variable_names(caliop_file_path)
-    quit()
+    # caliop_request.get_variable_names(caliop_file_path)
     caliop_utc = np.asarray(caliop_request._get_profile_UTC(caliop_file_path))
     caliop_latitude = np.asarray(caliop_request._get_latitude(caliop_file_path))
     caliop_longitude = np.asarray(caliop_request._get_longitude(caliop_file_path))
     caliop_altitude = np.asarray(caliop_request.get_altitudes(caliop_file_path))
-    caliop_AOD_532 = np.asarray(caliop_request._get_Column_Optical_Depth_Aerosols_532(caliop_file_path))
-    print(caliop_AOD_532)
-    print(caliop_AOD_532.shape)
+    caliop_AOD_532_trop = np.asarray(caliop_request._get_aod(caliop_file_path, 'Column_Optical_Depth_Tropospheric_Aerosols_532'))
+    print(caliop_AOD_532_trop)
+    print(caliop_AOD_532_trop.shape)
     quit()
     caliop_beta = np.asarray(
         caliop_request._get_calipso_data(filename=caliop_file_path, variable='Total_Backscatter_Coefficient_532'))

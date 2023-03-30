@@ -51,7 +51,6 @@ class Caliop_hdf_reader():
             if var_info[1] == valid_shape:
                 variables.add(var_name)
 
-
     def _get_calipso_data(self, filename, variable):
 
         """
@@ -140,6 +139,14 @@ class Caliop_hdf_reader():
 
         sd = SD(filename)
         datasets = sd.select('Latitude')
+        data = datasets.get()[:,0]
+
+        return data
+
+    def _get_aod(self, filename, variable):
+
+        sd = SD(filename)
+        datasets = sd.select(variable)
         data = datasets.get()[:,0]
 
         return data
