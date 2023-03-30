@@ -5,28 +5,39 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 15:17
 
-import math
-from pyproj import Proj, Transformer
+import os
+from osgeo import osr, ogr, gdal
+import numpy as np
+from pyproj import Proj, transform
 
-def lat_lon_to_modis_tile(lat, lon):
-    # Constants
-    R = 6371007.181  # Earth radius (meters)
-    T = 1111950  # Tile size (meters)
+'''
+This is a function used for the calculation of MODIS
+tile names from lat and lon coordinates. get_raster_hv 
+is used for the calculation of MODIS hv from a raster 
+file and get_vector_hv form a raster file
+'''
 
-    # Convert latitude and longitude to MODIS sinusoidal projection coordinates
-    modis_proj = Proj(f'+proj=sinu +R={R} +nadgrids=@null +wktext')
-    transformer = Transformer.from_crs("EPSG:4326", modis_proj)
-    x, y = transformer.transform(lat, lon)
+x_step = -463.31271653
+y_step = 463.31271653
+# m_y0, m_x0 = -20015109.354, 10007554.677
 
-    # Calculate horizontal (h) and vertical (v) tile indices
-    h = math.floor((x + R * math.pi) / T)
-    v = math.floor((R * math.pi - y) / T)
+tile_width = 1111950.5196666666
+# m_x0, m_y0 = -20015109.35579742, -10007554.677898709
+m_x0, m_y0 = -20015109.35579742, -10007554.677898709
 
+
+def mtile_cal(lat, lon):
+    outProj = Proj('+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs')
+    inProj = Proj(init='epsg:4326')
+    ho, vo = transform(inProj, outProj, np.array(lon).ravel(), np.array(lat).ravel())
+    h = ((ho - m_x0) / tile_width).astype(int)
+    v = 17 - ((vo - m_y0) / tile_width).astype(int)
     return h, v
 
+
 # Example usage
-lat, lon = 40.7128, -74.0060
-h, v = lat_lon_to_modis_tile(lat, lon)
+lat, lon = 38.9072,-77.0369
+h, v = mtile_cal(lat, lon)
 print("MODIS Tile: h{}v{}".format(h, v))
 
 
