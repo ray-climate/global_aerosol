@@ -49,6 +49,7 @@ class Caliop_hdf_reader():
         for var_name, var_info in sd.datasets().items():
             if var_info[1] == valid_shape:
                 variables.add(var_name)
+                print(var_name)
 
     def _get_calipso_data(self, filename, variable):
 
