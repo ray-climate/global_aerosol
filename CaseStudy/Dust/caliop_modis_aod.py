@@ -15,9 +15,9 @@ MCD19A2_base_path = "/neodc/modis/data/MCD19A2/collection6"
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
 
-        year_i = npz_file[-18:-14]
-        month_i = npz_file[-14:-12]
-        day_i = npz_file[-12:-10]
+        year_i = npz_file[-16:-12]
+        month_i = npz_file[-12:-10]
+        day_i = npz_file[-10:-8]
 
         MCD19A2_directory = os.path.join(MCD19A2_base_path, year_i, month_i, day_i)
         print(MCD19A2_directory)
