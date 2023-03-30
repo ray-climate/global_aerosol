@@ -9,15 +9,23 @@ import numpy as np
 import os
 
 "/neodc/modis/data/MCD19A2/collection6/2020/06/14/"
-input_path = './aeolus_caliop_sahara2020_extraction_output/'
+CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
+MCD19A2_base_path = "/neodc/modis/data/MCD19A2/collection6"
 
-for npz_file in os.listdir(input_path):
+for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
-        # print the file name and variables in the file
 
-        lat = np.load(input_path + npz_file, allow_pickle=True)['lat']
-        lon = np.load(input_path + npz_file, allow_pickle=True)['lon']
-        aod = np.load(input_path + npz_file, allow_pickle=True)['aod']
+        year_i = npz_file[-18:-14]
+        month_i = npz_file[-14:-12]
+        day_i = npz_file[-12:-10]
+
+        MCD19A2_directory = os.path.join(MCD19A2_base_path, year_i, month_i, day_i)
+        print(MCD19A2_directory)
+        quit()
+
+        lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
+        lon = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
+        aod = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
         print(npz_file)
         quit()
