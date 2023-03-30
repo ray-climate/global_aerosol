@@ -282,7 +282,7 @@ alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
 plt.figure(figsize=(8, 12))
 plt.plot(alpha_caliop_mean, alt_caliop, 'b', label='Caliop')
-plt.plot(alpha_caliop_mean * ext_coef, alt_caliop, 'r', label='Aeolus-like Caliop')
+plt.plot(alpha_caliop_mean / ext_coef, alt_caliop, 'r', label='Aeolus-like Caliop')
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
