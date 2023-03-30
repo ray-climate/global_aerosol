@@ -8,6 +8,7 @@
 import numpy as np
 import os
 
+"/neodc/modis/data/MCD19A2/collection6/2020/06/14/"
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 
 for npz_file in os.listdir(input_path):
