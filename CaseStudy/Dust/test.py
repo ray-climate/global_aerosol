@@ -5,28 +5,28 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 15:17
 
-from osgeo import osr
+import math
+from pyproj import Proj, Transformer
 
-def mtile_cal(lat, lon):
-    m_y0, m_x0 = -20015109.354, 10007554.677
-    x_step = -463.31271653
-    y_step = 463.31271653
-    wgs84 = osr.SpatialReference( )
-    wgs84.ImportFromEPSG( 4326 )
-    modis_sinu = osr.SpatialReference()
-    sinu = "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs"
-    modis_sinu.ImportFromProj4 (sinu)
-    tx = osr.CoordinateTransformation( wgs84, modis_sinu)# from wgs84 to modis
-    ho,vo,z = tx.TransformPoint(lon, lat)# still use the function instead of using the equation....
-    h = int((ho-m_y0)/(2400*y_step))
-    v = int((vo-m_x0)/(2400*x_step))
-    return h,v
+def lat_lon_to_modis_tile(lat, lon):
+    # Constants
+    R = 6371007.181  # Earth radius (meters)
+    T = 1111950  # Tile size (meters)
 
-# Example: latitude and longitude
-latitude = 40.7128
-longitude = -74.0060
+    # Convert latitude and longitude to MODIS sinusoidal projection coordinates
+    modis_proj = Proj(f'+proj=sinu +R={R} +nadgrids=@null +wktext')
+    transformer = Transformer.from_crs("EPSG:4326", modis_proj)
+    x, y = transformer.transform(lat, lon)
 
-h_tile, v_tile = mtile_cal(latitude, longitude)
+    # Calculate horizontal (h) and vertical (v) tile indices
+    h = math.floor((x + R * math.pi) / T)
+    v = math.floor((R * math.pi - y) / T)
 
-print(f"MODIS Sinusoidal Tile Numbers: h={h_tile}, v={v_tile}")
+    return h, v
+
+# Example usage
+lat, lon = 40.7128, -74.0060
+h, v = lat_lon_to_modis_tile(lat, lon)
+print("MODIS Tile: h{}v{}".format(h, v))
+
 
