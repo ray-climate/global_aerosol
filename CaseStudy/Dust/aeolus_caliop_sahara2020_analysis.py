@@ -309,3 +309,22 @@ plt.legend(loc='best', fontsize=14, frameon=False)
 output_path = input_path + f'retrieval_extinction.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
+
+
+############# caliop AOD analysis #############
+caliop_aod_532 = np.zeros((alpha_caliop_all.shape[1]))
+for i in range(alpha_caliop_all.shape[1]):
+    caliop_aod_532[i] = np.trapz(alpha_caliop_all[:,i], alt_caliop)
+
+# generate a histogram of caliop_aod_532
+plt.figure(figsize=(8, 6))
+plt.hist(caliop_aod_532, bins=20)
+plt.xlabel('AOD at 532 nm', fontsize=16)
+plt.ylabel('Number of profiles', fontsize=16)
+plt.title(f'AOD at 532 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.grid()
+# Save the figure
+output_path = input_path + f'caliop_aod_532_distribution.png'
+plt.savefig(output_path, dpi=300)

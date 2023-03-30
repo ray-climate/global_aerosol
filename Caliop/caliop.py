@@ -47,7 +47,6 @@ class Caliop_hdf_reader():
         valid_shape = (len_x, len_y)
 
         for var_name, var_info in sd.datasets().items():
-            print(var_name)
             if var_info[1] == valid_shape:
                 variables.add(var_name)
 
@@ -157,14 +156,6 @@ class Caliop_hdf_reader():
         sd = SD(filename)
         datasets = sd.select('Longitude')
         data = datasets.get()[:, 0]
-
-        return data
-
-    def _get_Column_Optical_Depth_Aerosols_532(self, filename):
-
-        sd = SD(filename)
-        datasets = sd.select('Column_Optical_Depth_Aerosols_532')
-        data = datasets.get()[:,0]
 
         return data
 
