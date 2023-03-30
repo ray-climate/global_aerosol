@@ -133,6 +133,7 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     print(caliop_AOD_532_total)
     print(caliop_AOD_532_total.shape)
     print(np.max(caliop_AOD_532_total))
+    print(np.max(caliop_AOD_532_stra))
     quit()
     caliop_beta = np.asarray(
         caliop_request._get_calipso_data(filename=caliop_file_path, variable='Total_Backscatter_Coefficient_532'))
@@ -140,7 +141,7 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
         caliop_request._get_calipso_data(filename=caliop_file_path, variable='Extinction_Coefficient_532'))
     (caliop_aerosol_type, caliop_feature_type) = caliop_request._get_feature_classification(filename=caliop_file_path,
                                                                                             variable='Atmospheric_Volume_Description')
-    c
+
     caliop_aerosol_type_mask = np.copy(caliop_aerosol_type)
     caliop_aerosol_type_mask[caliop_feature_type != 3] = -1.
     caliop_Depolarization_Ratio = np.asarray(caliop_request._get_calipso_data(filename=caliop_file_path,
