@@ -5,7 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        06/03/2023 15:17
 
-import osr
+from osgeo import osr
 
 def mtile_cal(lat, lon):
     m_y0, m_x0 = -20015109.354, 10007554.677
