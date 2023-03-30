@@ -316,6 +316,8 @@ caliop_aod_532 = np.zeros((alpha_caliop_all.shape[1]))
 for i in range(alpha_caliop_all.shape[1]):
     alpha_i = alpha_caliop_all[:,i]
     alpha_i[np.isnan(alpha_i)] = 0
+    print(alpha_i)
+    print(alt_caliop)
     caliop_aod_532[i] = np.trapz(alpha_i, alt_caliop)
     print(caliop_aod_532[i])
 
