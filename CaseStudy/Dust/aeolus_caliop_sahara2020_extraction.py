@@ -126,12 +126,17 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     caliop_latitude = np.asarray(caliop_request._get_latitude(caliop_file_path))
     caliop_longitude = np.asarray(caliop_request._get_longitude(caliop_file_path))
     caliop_altitude = np.asarray(caliop_request.get_altitudes(caliop_file_path))
+    caliop_AOD_532 = np.asarray(caliop_request._get_Column_Optical_Depth_Aerosols_532(caliop_file_path))
+    print(caliop_AOD_532)
+    print(caliop_AOD_532.shape)
+    quit()
     caliop_beta = np.asarray(
         caliop_request._get_calipso_data(filename=caliop_file_path, variable='Total_Backscatter_Coefficient_532'))
     caliop_alpha = np.asarray(
         caliop_request._get_calipso_data(filename=caliop_file_path, variable='Extinction_Coefficient_532'))
     (caliop_aerosol_type, caliop_feature_type) = caliop_request._get_feature_classification(filename=caliop_file_path,
                                                                                             variable='Atmospheric_Volume_Description')
+    c
     caliop_aerosol_type_mask = np.copy(caliop_aerosol_type)
     caliop_aerosol_type_mask[caliop_feature_type != 3] = -1.
     caliop_Depolarization_Ratio = np.asarray(caliop_request._get_calipso_data(filename=caliop_file_path,

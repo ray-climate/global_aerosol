@@ -158,6 +158,14 @@ class Caliop_hdf_reader():
 
         return data
 
+    def _get_Column_Optical_Depth_Aerosols_532(self, filename):
+
+        sd = SD(filename)
+        datasets = sd.select('Column_Optical_Depth_Aerosols_532')
+        data = datasets.get()[:,0]
+
+        return data
+
     def _get_profile_UTC(self, filename):
 
         import datetime
