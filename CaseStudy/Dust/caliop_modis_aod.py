@@ -19,4 +19,5 @@ for npz_file in os.listdir(input_path):
         lon = np.load(input_path + npz_file, allow_pickle=True)['lon']
         aod = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
-        print(lat, lon, aod)
+        print(npz_file)
+        quit()
