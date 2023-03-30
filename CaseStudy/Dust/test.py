@@ -36,7 +36,7 @@ def mtile_cal(lat, lon):
 
 
 # Example usage
-lat, lon = 38.9072,-77.0369
+lat, lon = 0.02,-100.982
 h, v = mtile_cal(lat, lon)
 print("MODIS Tile: h{}v{}".format(h, v))
 
