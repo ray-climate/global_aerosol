@@ -130,6 +130,7 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     caliop_AOD_532_trop = np.asarray(caliop_request._get_aod(caliop_file_path, 'Column_Optical_Depth_Tropospheric_Aerosols_532'))
     print(caliop_AOD_532_trop)
     print(caliop_AOD_532_trop.shape)
+    print(np.max(caliop_AOD_532_trop))
     quit()
     caliop_beta = np.asarray(
         caliop_request._get_calipso_data(filename=caliop_file_path, variable='Total_Backscatter_Coefficient_532'))
