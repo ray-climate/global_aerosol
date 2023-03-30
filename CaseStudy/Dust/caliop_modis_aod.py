@@ -20,12 +20,8 @@ for npz_file in os.listdir(CALIOP_path):
         day_i = npz_file[-10:-8]
 
         MCD19A2_directory = os.path.join(MCD19A2_base_path, year_i, month_i, day_i)
-        print(MCD19A2_directory)
-        quit()
 
         lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
         aod = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
-        print(npz_file)
-        quit()
