@@ -122,7 +122,7 @@ def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
     caliop_request = Caliop_hdf_reader()
 
     # Read data from Caliop file
-    caliop_request.get_variable_names()
+    caliop_request.get_variable_names(caliop_file_path)
     caliop_utc = np.asarray(caliop_request._get_profile_UTC(caliop_file_path))
     caliop_latitude = np.asarray(caliop_request._get_latitude(caliop_file_path))
     caliop_longitude = np.asarray(caliop_request._get_longitude(caliop_file_path))
