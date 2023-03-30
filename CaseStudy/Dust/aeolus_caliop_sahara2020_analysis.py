@@ -236,7 +236,7 @@ if True:
     plt.ylim([0.,20.])
     # Display legend
     # plt.legend(loc='best', fontsize=14, frameon=False)
-    
+    #
     # Save the figure
     output_path = input_path + f'retrieval_backscatter_density_caliop.png'
     plt.savefig(output_path, dpi=300)
@@ -246,7 +246,7 @@ if True:
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
 """
-
+#
 # for i in range(len(beta_aeolus_mean)-1):
 #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 # for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
