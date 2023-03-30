@@ -120,7 +120,7 @@ def read_aeolus_data(aeolus_ncFile, lat_down, lat_up, lon_left, lon_right):
 def read_caliop_data(caliop_file_path, lat_down, lat_up, lon_left, lon_right):
 
     caliop_request = Caliop_hdf_reader()
-
+    print(caliop_file_path)
     # Read data from Caliop file
     caliop_request.get_variable_names(caliop_file_path)
     caliop_utc = np.asarray(caliop_request._get_profile_UTC(caliop_file_path))
