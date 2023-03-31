@@ -5,16 +5,16 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        30/03/2023 19:11
 
-from pyproj import Proj, transform
-from osgeo import osr, gdal
+from osgeo import gdal
 import numpy as np
 import glob
 import h5py
 import os
+import re
 
 "/neodc/modis/data/MCD19A2/collection6/2020/06/14/"
 CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
-MCD19A2_base_path = "/neodc/modis/data/MCD19A2/collection6"
+MYD04_base_path = "/neodc/modis/data/MYD04_L2/collection61"
 
 def mtile_cal(lat, lon):
 
@@ -34,19 +34,34 @@ def mtile_cal(lat, lon):
     print(h[0], v[0])
     return f"{h[0]:02}", f"{v[0]:02}"
 
+def round_to_nearest_5_minutes(hour, minute):
+    total_minutes = int(hour) * 60 + int(minute)
+    rounded_minutes = round(total_minutes / 5) * 5
+    rounded_hour = rounded_minutes // 60
+    rounded_minute = rounded_minutes % 60
+    return f"{rounded_hour:02}", f"{rounded_minute:02}"
+
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
 
         year_i = npz_file[-16:-12]
         month_i = npz_file[-12:-10]
         day_i = npz_file[-10:-8]
+        hour_i = npz_file[-8:-6]
+        minute_i = npz_file[-6:-4]
 
-        MCD19A2_directory = os.path.join(MCD19A2_base_path, year_i, month_i, day_i)
+        MYD04_directory = os.path.join(MYD04_base_path, year_i, month_i, day_i)
+
+        print(hour_i, minute_i)
+        print(round_to_nearest_5_minutes(hour_i, minute_i))
+        quit()
 
         lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
         aod = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
+        """ 
+        #tile number searching for MCD19A2 products not neeeded anymore
         tile_h1, tile_v1 = mtile_cal(lat[0], lon[0])
         print("MODIS Tile: ", tile_h1, tile_v1)
         tile_h2, tile_v2 = mtile_cal(lat[-1], lon[-1])
@@ -67,14 +82,14 @@ for npz_file in os.listdir(CALIOP_path):
         if os.path.exists(MCD19A2_file2):
             print("%s file found." % MCD19A2_file2)
 
-        modis_aod_file = 'HDF4_EOS:EOS_GRID:"%s":grid1km:Optical_Depth_055' % MCD19A2_file1
+        modis_aod_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Optical_Depth_Land_And_Ocean' % MCD19A2_file1
+        """
 
-
-        ds = gdal.Open(modis_aod_file)
-        print(ds)
-        modis_aod = ds.ReadAsArray()
-
-        print(np.max(modis_aod))
+        # ds = gdal.Open(modis_aod_file)
+        # print(ds)
+        # modis_aod = ds.ReadAsArray()
+        #
+        # print(np.max(modis_aod))
 
         quit()
 
