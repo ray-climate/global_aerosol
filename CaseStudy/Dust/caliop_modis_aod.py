@@ -9,6 +9,7 @@ from pyproj import Proj, transform
 from osgeo import osr
 import numpy as np
 import glob
+import h5py
 import os
 
 "/neodc/modis/data/MCD19A2/collection6/2020/06/14/"
@@ -61,11 +62,16 @@ for npz_file in os.listdir(CALIOP_path):
 
         # check if MCD19A2_file1 exists
         if os.path.exists(MCD19A2_file1):
-            print("%s file exists." % MCD19A2_file1)
+            print("%s file found." % MCD19A2_file1)
         # check if MCD19A2_file2 exists
         if os.path.exists(MCD19A2_file2):
-            print("%s file exists." % MCD19A2_file2)
+            print("%s file found." % MCD19A2_file2)
 
+        with h5py.File(MCD19A2_file1, "r") as hdf_file:
+            # Read the AOD dataset
+            aod_data = hdf_file["/Optical_Depth_055"][:]
+
+        print(aod_data.shape)
 
         quit()
 
