@@ -22,8 +22,8 @@ def mtile_cal(lat, lon):
     outProj = Proj('+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs')
     inProj = Proj(init='epsg:4326')
     ho, vo = transform(inProj, outProj, np.array(lon).ravel(), np.array(lat).ravel())
-    h = ((ho - m_x0) / tile_width).astype(int)
-    v = 17 - ((vo - m_y0) / tile_width).astype(int)
+    h = (ho - m_x0) / tile_width
+    v = 17 - (vo - m_y0) / tile_width
     print(h, v)
     return f"{h:02}", f"{v:02}"
 
