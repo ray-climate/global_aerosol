@@ -46,13 +46,26 @@ for npz_file in os.listdir(CALIOP_path):
         lon = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
         aod = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
-        tile_h, tile_v = mtile_cal(lat[0], lon[0])
-        print("MODIS Tile: ", tile_h, tile_v)
-        tile_h, tile_v = mtile_cal(lat[-1], lon[-1])
-        print("MODIS Tile: ", tile_h, tile_v)
+        tile_h1, tile_v1 = mtile_cal(lat[0], lon[0])
+        print("MODIS Tile: ", tile_h1, tile_v1)
+        tile_h2, tile_v2 = mtile_cal(lat[-1], lon[-1])
+        print("MODIS Tile: ", tile_h1, tile_v1)
         # use glob to find "*h{tile_h}v{tile_v}*.hdf" in MCD19A2_directory
-        MCD19A2_file = glob.glob(MCD19A2_directory + f"/*h{tile_h}v{tile_v}*.hdf")
-        print(MCD19A2_file)
+        MCD19A2_file1 = glob.glob(MCD19A2_directory + f"/*h{tile_h1}v{tile_v1}*.hdf")[0]
+        MCD19A2_file2 = glob.glob(MCD19A2_directory + f"/*h{tile_h2}v{tile_v2}*.hdf")[0]
+
+        # check if the two files are the same, and delete one of them if they are the same
+        if MCD19A2_file1 == MCD19A2_file2:
+            os.remove(MCD19A2_file2)
+            print("The two files are the same, and the second file is deleted.")
+
+        # check if MCD19A2_file1 exists
+        if os.path.exists(MCD19A2_file1):
+            print("%s file exists." % MCD19A2_file1)
+        # check if MCD19A2_file2 exists
+        if os.path.exists(MCD19A2_file2):
+            print("%s file exists." % MCD19A2_file2)
+
 
         quit()
 
