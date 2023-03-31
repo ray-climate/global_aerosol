@@ -25,11 +25,11 @@ def mtile_cal(lat, lon):
     h = ((ho - m_x0) / tile_width).astype(int)
     v = 17 - ((vo - m_y0) / tile_width).astype(int)
 
-    return f"h{h:02d}v{v:02d}"
+    return f"{h:02}", f"{v:02}"
 
 # Example usage
 lat, lon = 0.02,-100.982
-tile = mtile_cal(lat, lon)
-print("MODIS Tile: ", tile)
+tile_h, tile_v = mtile_cal(lat, lon)
+print("MODIS Tile: ", tile_h, tile_v)
 
 
