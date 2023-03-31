@@ -74,10 +74,8 @@ for npz_file in os.listdir(CALIOP_path):
         print(ds)
         modis_aod = ds.ReadAsArray()
 
-        print(modis_aod.shape)
-        print(modis_aod[0,200,600])
-        print(modis_aod[1, 200, 600])
-        print(modis_aod[2, 200, 600])
+        print(np.max(modis_aod))
+
         quit()
 
 
