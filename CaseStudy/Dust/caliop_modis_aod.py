@@ -71,6 +71,7 @@ for npz_file in os.listdir(CALIOP_path):
 
 
         ds = gdal.Open(modis_aod_file)
+        print(ds)
         modis_aod = ds.ReadAsArray()
 
         print(modis_aod.shape)
