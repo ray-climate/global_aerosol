@@ -6,7 +6,7 @@
 # @Time:        30/03/2023 19:11
 
 from pyproj import Proj, transform
-from osgeo import osr
+from osgeo import osr, gdal
 import numpy as np
 import glob
 import h5py
@@ -67,12 +67,13 @@ for npz_file in os.listdir(CALIOP_path):
         if os.path.exists(MCD19A2_file2):
             print("%s file found." % MCD19A2_file2)
 
-        with h5py.File(MCD19A2_file1, "r") as hdf_file:
-            # Read the AOD dataset
-            aod_data = hdf_file["/Optical_Depth_055"][:]
+        modis_aod_file = 'HDF4_EOS:EOS_GRID:"%s":grid1km:Optical_Depth_055' % MCD19A2_file1
 
-        print(aod_data.shape)
 
+        ds = gdal.Open(modis_aod_file)
+        modis_aod = ds.ReadAsArray()
+
+        print(modis_aod.shape)
         quit()
 
 
