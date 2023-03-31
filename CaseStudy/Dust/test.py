@@ -24,7 +24,7 @@ def mtile_cal(lat, lon):
     ho, vo = transform(inProj, outProj, np.array(lon).ravel(), np.array(lat).ravel())
     h = ((ho - m_x0) / tile_width).astype(int)
     v = 17 - ((vo - m_y0) / tile_width).astype(int)
-
+    print(h, v)
     return f"{h:02}", f"{v:02}"
 
 # Example usage
