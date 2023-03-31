@@ -8,6 +8,7 @@
 from pyproj import Proj, transform
 from osgeo import osr
 import numpy as np
+import glob
 import os
 
 "/neodc/modis/data/MCD19A2/collection6/2020/06/14/"
@@ -49,5 +50,11 @@ for npz_file in os.listdir(CALIOP_path):
         print("MODIS Tile: ", tile_h, tile_v)
         tile_h, tile_v = mtile_cal(lat[-1], lon[-1])
         print("MODIS Tile: ", tile_h, tile_v)
+        # use glob to find "*h{tile_h}v{tile_v}*.hdf" in MCD19A2_directory
+        MCD19A2_file = glob.glob(MCD19A2_directory + f"/*h{tile_h}v{tile_v}*.hdf")
+        print(MCD19A2_file)
+
         quit()
+
+
 
