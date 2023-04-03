@@ -55,7 +55,9 @@ for npz_file in os.listdir(CALIOP_path):
         for file in os.listdir(MYD04_directory):
             matching_MYD04_file = os.path.join(MYD04_directory, file)
             MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
-            print(MYD04_latitude_file)
+            MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
+            MYD04_latitude = MYD04_latitude_data.ReadAsArray()
+            print(MYD04_latitude)
 
         # MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
         # MYD04_minute = str(int(MYD04_minute) + 5)
