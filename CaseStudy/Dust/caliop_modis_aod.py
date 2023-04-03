@@ -57,8 +57,18 @@ for npz_file in os.listdir(CALIOP_path):
         matching_MYD04_file = glob.glob(MYD04_directory + f"/*{MYD04_hour}{MYD04_minute}*.hdf")[0]
 
         if os.path.exists(matching_MYD04_file):
-            MYD04_latitude = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
-            os.system('gdalinfo %s' % MYD04_latitude)
+            MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
+            MYD04_longitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % matching_MYD04_file
+
+            MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
+            MYD04_longitude_data = gdal.Open(MYD04_longitude_file)
+
+            MYD04_latitude = MYD04_latitude_data.ReadAsArray()
+            MYD04_longitude = MYD04_longitude_data.ReadAsArray()
+
+            print("MYD04 file found: ", matching_MYD04_file)
+            print("MYD04 latitude", MYD04_latitude)
+            print("MYD04 longitude", MYD04_longitude)
 
         quit()
 
