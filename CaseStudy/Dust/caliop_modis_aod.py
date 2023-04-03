@@ -59,7 +59,7 @@ for npz_file in os.listdir(CALIOP_path):
             hour_aqua = file[-26:-24]
             minute_aqua = file[-24:-22]
 
-            if abs(int(hour_i) * 60 + int(minute_i) - caliop_aqua_hour_diff * 60) < caliop_aqua_hour_diff * 60:
+            if abs(int(hour_i) * 60 + int(minute_i) - int(hour_aqua) * 60 - int(minute_aqua)) < caliop_aqua_hour_diff * 60:
                 print(file)
 
         quit()
