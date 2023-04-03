@@ -12,7 +12,7 @@ import h5py
 import os
 import re
 
-"/neodc/modis/data/MCD19A2/collection6/2020/06/14/"
+"/neodc/modis/data/MYD04_L2/collection61/2020/06/14/"
 CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
 MYD04_base_path = "/neodc/modis/data/MYD04_L2/collection61"
 
@@ -53,7 +53,7 @@ for npz_file in os.listdir(CALIOP_path):
         MYD04_directory = os.path.join(MYD04_base_path, year_i, month_i, day_i)
 
         print(hour_i, minute_i)
-        print(round_to_nearest_5_minutes(hour_i, minute_i)[0])
+        print(round_to_nearest_5_minutes(hour_i, minute_i)[0], round_to_nearest_5_minutes(hour_i, minute_i)[1])
         quit()
 
         lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
