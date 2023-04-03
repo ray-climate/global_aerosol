@@ -66,9 +66,16 @@ for npz_file in os.listdir(CALIOP_path):
             if abs(int(hour_i) * 60 + int(minute_i) - int(hour_aqua) * 60 - int(minute_aqua)) < caliop_aqua_hour_diff * 60:
 
                 MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
+                MYD04_longitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % matching_MYD04_file
+
                 MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
+                MYD04_longitude_data = gdal.Open(MYD04_longitude_file)
+
                 MYD04_latitude = MYD04_latitude_data.ReadAsArray()
+                MYD04_longitude = MYD04_longitude_data.ReadAsArray()
+
                 print(MYD04_latitude)
+                print(MYD04_longitude)
                 quit()
 
 
