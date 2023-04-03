@@ -47,7 +47,9 @@ for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
 
         lat_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
         print(lat_caliop)
+        print(lon_caliop)
         quit()
 
         year_i = npz_file[-16:-12]
