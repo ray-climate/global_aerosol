@@ -57,16 +57,18 @@ for npz_file in os.listdir(CALIOP_path):
         matching_files = glob.glob(MYD04_directory + f"/*{MYD04_hour}{MYD04_minute}*.hdf")
         print(matching_files[0])
 
-        # Open the HDF file in read mode
-        with h5py.File(matching_files[0], 'r') as hdf_file:
-            # Define a function to print the names of all datasets (variables) in the file
-            def print_dataset_name(name, obj):
-                if isinstance(obj, h5py.Dataset):
-                    print(name)
+        # Open the HDF file
+        hdf_file = gdal.Open(matching_files[0])
 
+        # Get the number of subdatasets (variables) in the file
+        subdatasets = hdf_file.GetSubDatasets()
 
-            # Iterate over all objects in the HDF file and print dataset names
-            hdf_file.visititems(print_dataset_name)
+        # Iterate over the subdatasets and print their names
+        for idx, (subdataset_path, subdataset_desc) in enumerate(subdatasets, start=1):
+            print(f"Subdataset {idx}: {subdataset_desc}")
+
+        # Close the HDF file
+        hdf_file = None
 
         quit()
 
