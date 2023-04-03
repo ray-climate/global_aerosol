@@ -52,8 +52,8 @@ for npz_file in os.listdir(CALIOP_path):
 
         MYD04_directory = os.path.join(MYD04_base_path, year_i, month_i, day_i)
 
-        print(hour_i, minute_i)
-        print(round_to_nearest_5_minutes(hour_i, minute_i)[0], round_to_nearest_5_minutes(hour_i, minute_i)[1])
+        MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
+        print(MYD04_hour, MYD04_minute)
         quit()
 
         lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
