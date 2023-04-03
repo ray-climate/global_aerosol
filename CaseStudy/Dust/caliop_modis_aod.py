@@ -43,7 +43,7 @@ def round_to_nearest_5_minutes(hour, minute):
 
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
-
+        print(npz_file)
         year_i = npz_file[-16:-12]
         month_i = npz_file[-12:-10]
         day_i = npz_file[-10:-8]
