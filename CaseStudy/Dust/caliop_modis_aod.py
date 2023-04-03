@@ -52,25 +52,30 @@ for npz_file in os.listdir(CALIOP_path):
 
         MYD04_directory = os.path.join(MYD04_base_path, year_i, month_i, day_i)
 
-        MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
-        MYD04_minute = str(int(MYD04_minute) + 5)
-        matching_MYD04_file = glob.glob(MYD04_directory + f"/*.{MYD04_hour}{MYD04_minute}.*.hdf")[0]
-        matching_MYD04_file = '/neodc/modis/data/MYD04_L2/collection61/2020/06/24/MYD04_L2.A2020176.1435.061.2020177153249.hdf'
-        print(matching_MYD04_file)
-        if os.path.exists(matching_MYD04_file):
+        for file in os.listdir(MYD04_directory):
+            matching_MYD04_file = os.path.join(MYD04_directory, file)
             MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
-            MYD04_longitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % matching_MYD04_file
+            print(MYD04_latitude_file)
 
-            MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
-            MYD04_longitude_data = gdal.Open(MYD04_longitude_file)
-
-            MYD04_latitude = MYD04_latitude_data.ReadAsArray()
-            MYD04_longitude = MYD04_longitude_data.ReadAsArray()
-
-            print("MYD04 file found: ", matching_MYD04_file)
-            print("MYD04 latitude", MYD04_latitude)
-            print("MYD04 longitude", MYD04_longitude)
-            print("MYD04 latitude", MYD04_latitude[:,0])
+        # MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
+        # MYD04_minute = str(int(MYD04_minute) + 5)
+        # matching_MYD04_file = glob.glob(MYD04_directory + f"/*.{MYD04_hour}{MYD04_minute}.*.hdf")[0]
+        # matching_MYD04_file = '/neodc/modis/data/MYD04_L2/collection61/2020/06/24/MYD04_L2.A2020176.1435.061.2020177153249.hdf'
+        # print(matching_MYD04_file)
+        # if os.path.exists(matching_MYD04_file):
+        #     MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
+        #     MYD04_longitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % matching_MYD04_file
+        #
+        #     MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
+        #     MYD04_longitude_data = gdal.Open(MYD04_longitude_file)
+        #
+        #     MYD04_latitude = MYD04_latitude_data.ReadAsArray()
+        #     MYD04_longitude = MYD04_longitude_data.ReadAsArray()
+        #
+        #     print("MYD04 file found: ", matching_MYD04_file)
+        #     print("MYD04 latitude", MYD04_latitude)
+        #     print("MYD04 longitude", MYD04_longitude)
+        #     print("MYD04 latitude", MYD04_latitude[:,0])
 
         quit()
 
