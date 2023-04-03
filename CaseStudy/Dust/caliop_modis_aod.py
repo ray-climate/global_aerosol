@@ -54,21 +54,11 @@ for npz_file in os.listdir(CALIOP_path):
 
         MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
 
-        matching_files = glob.glob(MYD04_directory + f"/*{MYD04_hour}{MYD04_minute}*.hdf")
-        print(matching_files[0])
+        matching_MYD04_file = glob.glob(MYD04_directory + f"/*{MYD04_hour}{MYD04_minute}*.hdf")[0]
 
-        # Open the HDF file
-        hdf_file = gdal.Open(matching_files[0])
-
-        # Get the number of subdatasets (variables) in the file
-        subdatasets = hdf_file.GetSubDatasets()
-
-        # Iterate over the subdatasets and print their names
-        for idx, (subdataset_path, subdataset_desc) in enumerate(subdatasets, start=1):
-            print(f"Subdataset {idx}: {subdataset_desc}")
-
-        # Close the HDF file
-        hdf_file = None
+        if os.path.exists(matching_MYD04_file):
+            MYD04_latitude = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
+            os.system('gdalinfo %s' % MYD04_latitude)
 
         quit()
 
