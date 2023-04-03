@@ -74,8 +74,16 @@ for npz_file in os.listdir(CALIOP_path):
                 MYD04_latitude = MYD04_latitude_data.ReadAsArray()
                 MYD04_longitude = MYD04_longitude_data.ReadAsArray()
 
-                print(MYD04_latitude)
-                print(MYD04_longitude)
+                MYD04_latitude[MYD04_latitude == -999.] = np.nan
+                MYD04_longitude[MYD04_longitude == -999.] = np.nan
+
+                MYD04_lat_min = np.nanmin(MYD04_latitude)
+                MYD04_lat_max = np.nanmax(MYD04_latitude)
+                MYD04_lon_min = np.nanmin(MYD04_longitude)
+                MYD04_lon_max = np.nanmax(MYD04_longitude)
+
+                print(MYD04_lat_min, MYD04_lat_max, MYD04_lon_min, MYD04_lon_max)
+
                 quit()
 
 
