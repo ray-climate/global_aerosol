@@ -53,9 +53,9 @@ for npz_file in os.listdir(CALIOP_path):
         MYD04_directory = os.path.join(MYD04_base_path, year_i, month_i, day_i)
 
         MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
-        MYD04_minute = str(int(MYD04_minute) + 10)
+        # MYD04_minute = str(int(MYD04_minute) + 10)
         matching_MYD04_file = glob.glob(MYD04_directory + f"/*{MYD04_hour}{MYD04_minute}*.hdf")[0]
-
+        print(MYD04_hour, MYD04_minute)
         if os.path.exists(matching_MYD04_file):
             MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
             MYD04_longitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % matching_MYD04_file
