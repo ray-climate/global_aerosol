@@ -57,6 +57,17 @@ for npz_file in os.listdir(CALIOP_path):
         matching_files = glob.glob(MYD04_directory + f"/*{MYD04_hour}{MYD04_minute}*.hdf")
         print(matching_files[0])
 
+        # Open the HDF file in read mode
+        with h5py.File(matching_files[0], 'r') as hdf_file:
+            # Define a function to print the names of all datasets (variables) in the file
+            def print_dataset_name(name, obj):
+                if isinstance(obj, h5py.Dataset):
+                    print(name)
+
+
+            # Iterate over all objects in the HDF file and print dataset names
+            hdf_file.visititems(print_dataset_name)
+
         quit()
 
         lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
