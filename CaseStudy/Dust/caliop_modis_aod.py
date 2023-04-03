@@ -69,7 +69,7 @@ for npz_file in os.listdir(CALIOP_path):
             print("MYD04 file found: ", matching_MYD04_file)
             print("MYD04 latitude", MYD04_latitude)
             print("MYD04 longitude", MYD04_longitude)
-            print("MYD04 latitude", MYD04_latitude.shape)
+            print("MYD04 latitude", MYD04_latitude[:,0])
 
         quit()
 
