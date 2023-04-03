@@ -55,7 +55,7 @@ for npz_file in os.listdir(CALIOP_path):
         MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
 
         matching_files = glob.glob(MYD04_directory + f"/*{MYD04_hour}{MYD04_minute}*.hdf")
-        print(matching_files)
+        print(matching_files[0])
 
         quit()
 
