@@ -41,6 +41,7 @@ def round_to_nearest_5_minutes(hour, minute):
     rounded_minute = rounded_minutes % 60
     return f"{rounded_hour:02}", f"{rounded_minute:02}"
 
+
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
         print(npz_file)
@@ -54,6 +55,11 @@ for npz_file in os.listdir(CALIOP_path):
 
         for file in os.listdir(MYD04_directory):
             matching_MYD04_file = os.path.join(MYD04_directory, file)
+            hour_aqua = file[-26:-24]
+            minute_aqua = file[-24:-22]
+            print(file)
+            print(hour_aqua, minute_aqua)
+            quit()
             MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
             MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
             MYD04_latitude = MYD04_latitude_data.ReadAsArray()
