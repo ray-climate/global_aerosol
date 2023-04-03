@@ -57,6 +57,8 @@ for npz_file in os.listdir(CALIOP_path):
 
         MYD04_directory = os.path.join(MYD04_base_path, year_i, month_i, day_i)
 
+        MODY04_colocation_file = []
+
         for file in os.listdir(MYD04_directory):
 
             matching_MYD04_file = os.path.join(MYD04_directory, file)
@@ -82,11 +84,11 @@ for npz_file in os.listdir(CALIOP_path):
                 MYD04_lon_min = np.nanmin(MYD04_longitude)
                 MYD04_lon_max = np.nanmax(MYD04_longitude)
 
-                print(MYD04_lat_min, MYD04_lat_max, MYD04_lon_min, MYD04_lon_max)
+                if (np.nanmin(lat_caliop) > MYD04_lat_min) & (np.nanmax(lat_caliop) < MYD04_lat_max) & \
+                        (np.nanmin(lon_caliop) > MYD04_lon_min) & (np.nanmax(lon_caliop) < MYD04_lon_max):
+                    MODY04_colocation_file.append(matching_MYD04_file)
 
-                quit()
-
-
+        print(MODY04_colocation_file)
         quit()
 
         MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
