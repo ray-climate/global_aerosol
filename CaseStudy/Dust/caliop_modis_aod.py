@@ -84,7 +84,7 @@ for npz_file in os.listdir(CALIOP_path):
                 MYD04_lon_min = np.nanmin(MYD04_longitude)
                 MYD04_lon_max = np.nanmax(MYD04_longitude)
 
-                if (lat_caliop[0] > MYD04_lat_min) & (lat_caliop[0] < MYD04_lat_max) & (lon_caliop[0] > MYD04_lon_min) & (lon_caliop[0] < MYD04_lon_max) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
+                if (lat_caliop[0] > MYD04_lat_min) & (lat_caliop[0] < MYD04_lat_max) & (lon_caliop[0] > np.nanmin(MYD04_longitude[:,-1])) & (lon_caliop[0] < np.nanmin(MYD04_longitude[:,0])) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
                     print(lat_caliop)
                     print(MYD04_latitude)
@@ -92,7 +92,7 @@ for npz_file in os.listdir(CALIOP_path):
                     print(MYD04_longitude)
                     print(matching_MYD04_file)
 
-                if (lat_caliop[-1] > MYD04_lat_min) & (lat_caliop[-1] < MYD04_lat_max) & (lon_caliop[-1] > MYD04_lon_min) & (lon_caliop[-1] < MYD04_lon_max) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
+                if (lat_caliop[-1] > MYD04_lat_min) & (lat_caliop[-1] < MYD04_lat_max) & (lon_caliop[-1] > np.nanmin(MYD04_longitude[:,-1])) & (lon_caliop[-1] < np.nanmin(MYD04_longitude[:,0])) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
                     print(lat_caliop)
                     print(MYD04_latitude)
