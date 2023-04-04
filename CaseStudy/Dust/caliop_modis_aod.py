@@ -45,7 +45,7 @@ caliop_aqua_hour_diff = 1. # 1 hour difference limit between CALIOP and Aqua
 
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
-
+        print(npz_file)
         lat_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
 
