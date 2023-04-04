@@ -41,7 +41,7 @@ def round_to_nearest_5_minutes(hour, minute):
     rounded_minute = rounded_minutes % 60
     return f"{rounded_hour:02}", f"{rounded_minute:02}"
 
-caliop_aqua_hour_diff = 1. # 1 hour difference limit between CALIOP and Aqua
+caliop_aqua_hour_diff = .5 # 0.5 hour difference limit between CALIOP and Aqua
 
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
