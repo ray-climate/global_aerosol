@@ -93,12 +93,12 @@ for npz_file in os.listdir(CALIOP_path):
                     MODY04_colocation_file.append(matching_MYD04_file)
 
         print(MODY04_colocation_file)
-        quit()
-
-        MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
-        MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
-        MYD04_latitude = MYD04_latitude_data.ReadAsArray()
-        print(MYD04_latitude)
+        # quit()
+        #
+        # MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
+        # MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
+        # MYD04_latitude = MYD04_latitude_data.ReadAsArray()
+        # print(MYD04_latitude)
 
         # MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
         # MYD04_minute = str(int(MYD04_minute) + 5)
@@ -120,11 +120,11 @@ for npz_file in os.listdir(CALIOP_path):
         #     print("MYD04 longitude", MYD04_longitude)
         #     print("MYD04 latitude", MYD04_latitude[:,0])
 
-        quit()
-
-        lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
-        lon = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
-        aod = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
+        # quit()
+        #
+        # lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
+        # lon = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
+        # aod = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
         """ 
         #tile number searching for MCD19A2 products not neeeded anymore
