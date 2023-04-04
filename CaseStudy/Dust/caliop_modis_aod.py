@@ -157,7 +157,5 @@ for npz_file in os.listdir(CALIOP_path):
         #
         # print(np.max(modis_aod))
 
-        quit()
-
 
 
