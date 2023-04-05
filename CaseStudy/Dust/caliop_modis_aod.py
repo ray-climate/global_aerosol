@@ -80,7 +80,7 @@ modis_aod_all = []
 distance_all = []
 
 for npz_file in os.listdir(CALIOP_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_ascending' in npz_file):
+    if npz_file.endswith('caliop_dbd_ascending_202006171527.npz') & ('caliop_dbd_ascending' in npz_file):
         print(npz_file)
         lat_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
@@ -176,7 +176,7 @@ for npz_file in os.listdir(CALIOP_path):
 
 # save npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001 in a csv file
 
-with open(CALIOP_path + 'caliop_modis_aod.csv', 'w', newline='') as csvfile:
+with open(CALIOP_path + 'caliop_modis_aod_crs.csv', 'w', newline='') as csvfile:
     csv_writer = csv.writer(csvfile)
     # Write the header
     csv_writer.writerow(['caliop_npz_file', 'lat_caliop', 'lon_caliop', 'distance', 'aod_caliop', 'aod_modis'])
