@@ -67,7 +67,6 @@ for npz_file in os.listdir(AEOLUS_path):
         alt_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['alt']
         lat_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['lat']
         lon_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['lon']
-        aod_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['aod']
 
         year_i = npz_file[-16:-12]
         month_i = npz_file[-12:-10]
@@ -135,7 +134,6 @@ for npz_file in os.listdir(AEOLUS_path):
             lat_m = lat_aeolus[m]
             lon_m = lon_aeolus[m]
             alt_m = alt_aeolus[m]
-            aod_m = aod_aeolus[m]
 
             closest_point_index_list = []
             min_distance_list = []
