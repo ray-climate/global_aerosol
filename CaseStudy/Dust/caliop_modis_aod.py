@@ -115,7 +115,7 @@ for npz_file in os.listdir(CALIOP_path):
         print(lat_0, lon_0)
 
         minimum_index = np.where(np.argmin(abs((MYD04_lat_1 - lat_0)) + abs((MYD04_lon_1 - lon_0))))
-        print(minimum_index)
+        print(minimum_index[0])
         # abs((MYD04_lat_1 - lat_0)) + abs((MYD04_lon_1 - lon_0))
         quit()
 
