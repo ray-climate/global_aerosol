@@ -135,7 +135,7 @@ for npz_file in os.listdir(AEOLUS_path):
             lat_m = lat_aeolus[m]
             lon_m = lon_aeolus[m]
             alt_m = alt_aeolus[m]
-            alpha_m = alpha_aeolus[m]
+            alpha_m = (alpha_aeolus[m][1:] + alpha_aeolus[m][:-1]) / 2.0
 
             closest_point_index_list = []
             min_distance_list = []
