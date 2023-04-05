@@ -31,7 +31,7 @@ for npz_file in os.listdir(CALIOP_path):
 
         # plt aod_caliop
         plt.figure(figsize=(16,8))
-        plt.plot(lon_caliop, aod_caliop, 'ro-')
+        plt.plot(lat_caliop, aod_caliop, 'ro-')
         plt.xlabel('Longitude')
         plt.ylabel('AOD 532 nm')
         plt.title('CALIOP AOD 532 nm')
