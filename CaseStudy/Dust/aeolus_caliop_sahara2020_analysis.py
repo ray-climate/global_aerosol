@@ -40,7 +40,7 @@ for npz_file in os.listdir(input_path):
             beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
             alpha_caliop_all = np.concatenate((alpha_caliop_all, alpha), axis=1)
             dp_caliop_all = np.concatenate((dp_caliop_all, dp), axis=1)
-            aod_caliop_all = np.concatenate((aod_caliop_all, aod), axis=1)
+            aod_caliop_all = np.concatenate((aod_caliop_all, aod))
 
         except:
             beta_caliop_all = np.copy(beta)
