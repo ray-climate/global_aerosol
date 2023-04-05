@@ -8,7 +8,7 @@
 from osgeo import gdal
 import numpy as np
 import glob
-import h5py
+import csv
 import os
 import re
 
@@ -75,6 +75,7 @@ caliop_aqua_dis_threshold = 40. # 40 km distance threshold between CALIOP and Aq
 caliop_filename = []
 caliop_lat_all = []
 caliop_lon_all = []
+caliop_aod_all = []
 modis_aod_all = []
 
 for npz_file in os.listdir(CALIOP_path):
@@ -82,6 +83,7 @@ for npz_file in os.listdir(CALIOP_path):
         print(npz_file)
         lat_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
+        aod_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
         year_i = npz_file[-16:-12]
         month_i = npz_file[-12:-10]
@@ -148,6 +150,7 @@ for npz_file in os.listdir(CALIOP_path):
 
             lat_m = lat_caliop[m]
             lon_m = lon_caliop[m]
+            aod_m = aod_caliop[m]
 
             closest_point_index_list = []
             min_distance_list = []
@@ -165,35 +168,42 @@ for npz_file in os.listdir(CALIOP_path):
                 caliop_filename.append(npz_file)
                 caliop_lat_all.append(lat_m)
                 caliop_lon_all.append(lon_m)
+                caliop_aod_all.append(aod_m)
                 modis_aod_all.append(modis_aod * 0.001)
-                print(npz_file, lat_m, lon_m, modis_aod * 0.001)
+                print(npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001)
 
+# save npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001 in a csv file
 
+with open(CALIOP_path + 'caliop_modis_aod.csv', 'w', newline='') as csvfile:
+    csv_writer = csv.writer(csvfile)
+    # Write the header
+    csv_writer.writerow(['caliop_npz_file', 'lat_caliop', 'lon_caliop', 'aod_caliop', 'aod_modis'])
+    for k in range(len(caliop_filename)):
+        csv_writer.writerow([caliop_filename[k], caliop_lat_all[k], caliop_lon_all[k], caliop_aod_all[k], modis_aod_all[k]])
 
+""" 
+#tile number searching for MCD19A2 products not neeeded anymore
+tile_h1, tile_v1 = mtile_cal(lat[0], lon[0])
+print("MODIS Tile: ", tile_h1, tile_v1)
+tile_h2, tile_v2 = mtile_cal(lat[-1], lon[-1])
+print("MODIS Tile: ", tile_h1, tile_v1)
+# use glob to find "*h{tile_h}v{tile_v}*.hdf" in MCD19A2_directory
+MCD19A2_file1 = glob.glob(MCD19A2_directory + f"/*h{tile_h1}v{tile_v1}*.hdf")[0]
+MCD19A2_file2 = glob.glob(MCD19A2_directory + f"/*h{tile_h2}v{tile_v2}*.hdf")[0]
 
-        """ 
-        #tile number searching for MCD19A2 products not neeeded anymore
-        tile_h1, tile_v1 = mtile_cal(lat[0], lon[0])
-        print("MODIS Tile: ", tile_h1, tile_v1)
-        tile_h2, tile_v2 = mtile_cal(lat[-1], lon[-1])
-        print("MODIS Tile: ", tile_h1, tile_v1)
-        # use glob to find "*h{tile_h}v{tile_v}*.hdf" in MCD19A2_directory
-        MCD19A2_file1 = glob.glob(MCD19A2_directory + f"/*h{tile_h1}v{tile_v1}*.hdf")[0]
-        MCD19A2_file2 = glob.glob(MCD19A2_directory + f"/*h{tile_h2}v{tile_v2}*.hdf")[0]
+# check if the two files are the same, and delete one of them if they are the same
+if MCD19A2_file1 == MCD19A2_file2:
+    os.remove(MCD19A2_file2)
+    print("The two files are the same, and the second file is deleted.")
 
-        # check if the two files are the same, and delete one of them if they are the same
-        if MCD19A2_file1 == MCD19A2_file2:
-            os.remove(MCD19A2_file2)
-            print("The two files are the same, and the second file is deleted.")
+# check if MCD19A2_file1 exists
+if os.path.exists(MCD19A2_file1):
+    print("%s file found." % MCD19A2_file1)
+# check if MCD19A2_file2 exists
+if os.path.exists(MCD19A2_file2):
+    print("%s file found." % MCD19A2_file2)
 
-        # check if MCD19A2_file1 exists
-        if os.path.exists(MCD19A2_file1):
-            print("%s file found." % MCD19A2_file1)
-        # check if MCD19A2_file2 exists
-        if os.path.exists(MCD19A2_file2):
-            print("%s file found." % MCD19A2_file2)
-
-        modis_aod_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Optical_Depth_Land_And_Ocean' % MCD19A2_file1
-        """
+modis_aod_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Optical_Depth_Land_And_Ocean' % MCD19A2_file1
+"""
 
 
