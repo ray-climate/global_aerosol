@@ -19,6 +19,7 @@ input_path = './aeolus_caliop_sahara2020_extraction_output/'
 beta_caliop_all = []
 alpha_caliop_all = []
 dp_caliop_all = []
+aod_caliop_all = []
 
 beta_aeolus_all = []
 alpha_aeolus_all = []
@@ -32,14 +33,19 @@ for npz_file in os.listdir(input_path):
         beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp = np.load(input_path + npz_file, allow_pickle=True)['dp']
+        aod = np.load(input_path + npz_file, allow_pickle=True)['aod']
+
         try:
             beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
             alpha_caliop_all = np.concatenate((alpha_caliop_all, alpha), axis=1)
             dp_caliop_all = np.concatenate((dp_caliop_all, dp), axis=1)
+            aod_caliop_all = np.concatenate((aod_caliop_all, aod), axis=1)
+
         except:
             beta_caliop_all = np.copy(beta)
             alpha_caliop_all = np.copy(alpha)
             dp_caliop_all = np.copy(dp)
+            aod_caliop_all = np.copy(aod)
 
 beta_caliop_mask = np.zeros((beta_caliop_all.shape))
 beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
@@ -329,5 +335,17 @@ plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.grid()
 # Save the figure
-output_path = input_path + f'caliop_aod_532_distribution.png'
+output_path = input_path + f'retrieval_caliop_aod_532_distribution.png'
+plt.savefig(output_path, dpi=300)
+
+plt.figure(figsize=(8, 6))
+plt.hist(aod_caliop_all, bins=20)
+plt.xlabel('AOD at 532 nm', fontsize=16)
+plt.ylabel('Number of profiles', fontsize=16)
+plt.title(f'AOD at 532 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.grid()
+# Save the figure
+output_path = input_path + f'retrieval_caliop_aod_532_distribution_fromL2.png'
 plt.savefig(output_path, dpi=300)
