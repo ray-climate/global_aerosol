@@ -337,7 +337,7 @@ plt.grid()
 # Save the figure
 output_path = input_path + f'retrieval_caliop_aod_532_distribution.png'
 plt.savefig(output_path, dpi=300)
-
+print(caliop_aod_532_masked)
 plt.figure(figsize=(8, 6))
 plt.hist(aod_caliop_all, bins=20)
 plt.xlabel('AOD at 532 nm', fontsize=16)
@@ -349,3 +349,4 @@ plt.grid()
 # Save the figure
 output_path = input_path + f'retrieval_caliop_aod_532_distribution_fromL2.png'
 plt.savefig(output_path, dpi=300)
+print(aod_caliop_all)
