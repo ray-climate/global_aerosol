@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        30/03/2023 19:11
 
+import matplotlib.pyplot as plt
 from osgeo import gdal
 import numpy as np
 import glob
@@ -182,6 +183,17 @@ with open(CALIOP_path + 'caliop_modis_aod_crs.csv', 'w', newline='') as csvfile:
     csv_writer.writerow(['caliop_npz_file', 'lat_caliop', 'lon_caliop', 'distance', 'aod_caliop', 'aod_modis'])
     for k in range(len(caliop_filename)):
         csv_writer.writerow([caliop_filename[k], caliop_lat_all[k], caliop_lon_all[k], distance_all[k], caliop_aod_all[k], modis_aod_all[k]])
+
+# create a 2D scatter plot of CALIOP AOD vs MODIS AOD
+
+plt.figure(figsize=(8,8))
+plt.scatter(modis_aod_all, caliop_aod_all, s=1, c='k')
+plt.xlabel('MODIS AOD')
+plt.ylabel('CALIOP AOD')
+plt.title('CALIOP vs MODIS AOD')
+plt.xlim(0, 1)
+plt.ylim(0, 1)
+plt.savefig(CALIOP_path + 'caliop_modis_aod_crs.png', dpi=300)
 
 """ 
 #tile number searching for MCD19A2 products not neeeded anymore
