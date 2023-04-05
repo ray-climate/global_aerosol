@@ -146,6 +146,7 @@ for npz_file in os.listdir(CALIOP_path):
             closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_data[j], MYD04_lon_data[j], lat_0, lon_0)
             print("Closest point index:", closest_point_index)
             print("Minimum distance:", min_distance)
+            print(MYD04_aod_data[j][closest_point_index])
 
 
 
