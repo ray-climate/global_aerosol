@@ -77,6 +77,7 @@ caliop_lat_all = []
 caliop_lon_all = []
 caliop_aod_all = []
 modis_aod_all = []
+distance_all = []
 
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending' in npz_file):
@@ -169,6 +170,7 @@ for npz_file in os.listdir(CALIOP_path):
                 caliop_lat_all.append(lat_m)
                 caliop_lon_all.append(lon_m)
                 caliop_aod_all.append(aod_m)
+                distance_all.append(min_distance)
                 modis_aod_all.append(modis_aod * 0.001)
                 print(npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001)
 
@@ -177,9 +179,9 @@ for npz_file in os.listdir(CALIOP_path):
 with open(CALIOP_path + 'caliop_modis_aod.csv', 'w', newline='') as csvfile:
     csv_writer = csv.writer(csvfile)
     # Write the header
-    csv_writer.writerow(['caliop_npz_file', 'lat_caliop', 'lon_caliop', 'aod_caliop', 'aod_modis'])
+    csv_writer.writerow(['caliop_npz_file', 'lat_caliop', 'lon_caliop', 'distance', 'aod_caliop', 'aod_modis'])
     for k in range(len(caliop_filename)):
-        csv_writer.writerow([caliop_filename[k], caliop_lat_all[k], caliop_lon_all[k], caliop_aod_all[k], modis_aod_all[k]])
+        csv_writer.writerow([caliop_filename[k], caliop_lat_all[k], caliop_lon_all[k], distance_all[k], caliop_aod_all[k], modis_aod_all[k]])
 
 """ 
 #tile number searching for MCD19A2 products not neeeded anymore
