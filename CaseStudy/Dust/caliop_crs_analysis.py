@@ -35,12 +35,12 @@ for npz_file in os.listdir(CALIOP_path):
         lon_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
         aod_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
-    # plt aod_caliop
-    plt.figure(figsize=(16,8))
-    plt.plot(lat_caliop_1, aod_caliop_1, 'ro-', legend='CALIOP Descending')
-    plt.plot(lat_caliop_2, aod_caliop_2, 'bo-', legend='CALIOP Ascending')
-    plt.xlabel('Latitude')
-    plt.ylabel('AOD 532 nm')
-    plt.title('CALIOP AOD 532 nm')
-    plt.savefig(CALIOP_path + 'caliop_aod_532nm_crs1.png', dpi=300)
+# plt aod_caliop
+plt.figure(figsize=(16,8))
+plt.plot(lat_caliop_1, aod_caliop_1, 'ro-', legend='CALIOP Descending')
+plt.plot(lat_caliop_2, aod_caliop_2, 'bo-', legend='CALIOP Ascending')
+plt.xlabel('Latitude')
+plt.ylabel('AOD 532 nm')
+plt.title('CALIOP AOD 532 nm')
+plt.savefig(CALIOP_path + 'caliop_aod_532nm_crs1.png', dpi=300)
 
