@@ -52,7 +52,7 @@ beta_caliop_mask = np.zeros((beta_caliop_all.shape))
 beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('ing' in npz_file) & ('aeolus' in npz_file):
+    if npz_file.endswith('aeolus_ascending_202006181927.npz') & ('ing' in npz_file) & ('aeolus' in npz_file):
         # print the file name and variables in the file
         print(npz_file)
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -75,6 +75,8 @@ alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 retrieval_numbers_caliop_all = np.sum(beta_caliop_mask, axis=1)
 retrieval_numbers_aeolus_all = np.sum(beta_aeolus_all, axis=0)
 
+
+"""
 ############# retrieval number #############
 # Set font parameters
 font = {'family': 'serif',
@@ -339,7 +341,7 @@ plt.grid()
 output_path = input_path + f'retrieval_caliop_aod_532_distribution.png'
 plt.savefig(output_path, dpi=300)
 
-
+"""
 # generate a histogoram of aeolus aod
 aeolus_aod_355 = np.zeros((alpha_aeolus_all.shape[0]))
 for i in range(alpha_aeolus_all.shape[0]):
