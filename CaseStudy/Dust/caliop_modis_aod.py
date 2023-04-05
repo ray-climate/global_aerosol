@@ -105,8 +105,8 @@ for npz_file in os.listdir(CALIOP_path):
                 MYD04_lon_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[1])
 
         print(lat_caliop[0], lon_caliop[0])
-        print(MYD04_lat_1)
-        print(MYD04_lon_1)
+        print(MYD04_lat_1.ReadAsArray())
+        print(MYD04_lon_1.ReadAsArray())
         quit()
 
 
