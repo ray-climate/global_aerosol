@@ -144,6 +144,7 @@ for npz_file in os.listdir(AEOLUS_path):
             alpha_m_valid = alpha_m[alt_m>0]
             alpha_m_valid[alpha_m_valid<0] = 0
             aod_m = np.trapz(alpha_m_valid[::-1], alt_m_valid[::-1])
+            print(lat_m, lon_m)
             print(aod_m)
             # quit()
             # for n in range(len(MODY04_colocation_file)):
