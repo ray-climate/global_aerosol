@@ -69,7 +69,7 @@ def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
 
     return closest_point_index, min_distance
 
-caliop_aqua_hour_diff = 1.5 # 0.5 hour difference limit between CALIOP and Aqua
+caliop_aqua_hour_diff = .5 # 0.5 hour difference limit between CALIOP and Aqua
 
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending' in npz_file):
@@ -112,10 +112,10 @@ for npz_file in os.listdir(CALIOP_path):
                 MYD04_lon_min = np.nanmin(MYD04_longitude)
                 MYD04_lon_max = np.nanmax(MYD04_longitude)
 
-                if (lat_caliop[0] > MYD04_lat_min) & (lat_caliop[0] < MYD04_lat_max) & (lon_caliop[0] > np.nanmin(MYD04_longitude[:,-1])) & (lon_caliop[0] < np.nanmin(MYD04_longitude[:,0])) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
+                if (lat_caliop[0] > MYD04_lat_min) & (lat_caliop[0] < MYD04_lat_max) & (lon_caliop[0] > MYD04_lon_min) & (lon_caliop[0] < MYD04_lon_max) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
 
-                if (lat_caliop[-1] > MYD04_lat_min) & (lat_caliop[-1] < MYD04_lat_max) & (lon_caliop[-1] > np.nanmin(MYD04_longitude[:,-1])) & (lon_caliop[-1] < np.nanmin(MYD04_longitude[:,0])) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
+                if (lat_caliop[-1] > MYD04_lat_min) & (lat_caliop[-1] < MYD04_lat_max) & (lon_caliop[-1] > MYD04_lon_min) & (lon_caliop[-1] < MYD04_lon_max) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
 
         MODY04_colocation_file = list(set(MODY04_colocation_file))
