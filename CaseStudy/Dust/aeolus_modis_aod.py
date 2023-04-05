@@ -67,6 +67,7 @@ for npz_file in os.listdir(AEOLUS_path):
         alt_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['alt']
         lat_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['lat']
         lon_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['lon']
+        alpha_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['alpha']
 
         year_i = npz_file[-16:-12]
         month_i = npz_file[-12:-10]
@@ -134,11 +135,14 @@ for npz_file in os.listdir(AEOLUS_path):
             lat_m = lat_aeolus[m]
             lon_m = lon_aeolus[m]
             alt_m = alt_aeolus[m]
+            alpha_m = alpha_aeolus[m]
 
             closest_point_index_list = []
             min_distance_list = []
             print(lat_m, lon_m)
             print(alt_m)
+            print(alpha_m)
+            quit()
             for n in range(len(MODY04_colocation_file)):
                 closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
                 closest_point_index_list.append(closest_point_index_n)
