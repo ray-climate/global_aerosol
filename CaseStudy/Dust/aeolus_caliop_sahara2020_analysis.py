@@ -338,7 +338,19 @@ plt.grid()
 # Save the figure
 output_path = input_path + f'retrieval_caliop_aod_532_distribution.png'
 plt.savefig(output_path, dpi=300)
-print(caliop_aod_532_masked)
+
+# generate a histogoram of aeolus aod
+aeolus_aod_355 = np.zeros((alpha_aeolus_all.shape[0]))
+for i in range(alpha_aeolus_all.shape[0]):
+    alpha_i = alpha_aeolus_all[i,:]
+    alpha_i[np.isnan(alpha_i)] = 0
+    aeolus_aod_355[i] = np.trapz(alpha_i[::-1], alt_aeolus_mean[::-1])
+    print(alt_aeolus_mean[::-1])
+quit()
+aeolus_aod_355_masked = aeolus_aod_355[~np.isnan(aeolus_aod_355)]
+
+
+
 plt.figure(figsize=(8, 6))
 plt.hist(aod_caliop_all, bins=20)
 plt.xlabel('AOD at 532 nm', fontsize=16)
