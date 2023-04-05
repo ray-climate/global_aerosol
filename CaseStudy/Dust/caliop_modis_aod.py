@@ -91,8 +91,25 @@ for npz_file in os.listdir(CALIOP_path):
                     MODY04_colocation_file.append(matching_MYD04_file)
 
         MODY04_colocation_file = list(set(MODY04_colocation_file))
-        print(MODY04_colocation_file)
-        print(len(MODY04_colocation_file))
+
+        if len(MODY04_colocation_file) == 0:
+            print('No colocation found')
+            continue
+
+        if len(MODY04_colocation_file) > 1:
+            MYD04_lat_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[0])
+            MYD04_lon_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[0])
+
+            if len(MODY04_colocation_file) == 2:
+                MYD04_lat_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[1])
+                MYD04_lon_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[1])
+
+        print(lat_caliop[0], lon_caliop[0])
+        print(MYD04_lat_1)
+        print(MYD04_lon_1)
+        quit()
+
+
         # quit()
         #
         # MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
