@@ -17,6 +17,8 @@ CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
 specific_filename_1 = 'caliop_dbd_descending_202006180342'
 specific_filename_2 = 'caliop_dbd_ascending_202006171527'
 
+sepcific_filename_3 = 'aeolus_descending_202006180757'
+
 caliop_filename = []
 caliop_lat_all = []
 caliop_lon_all = []
@@ -34,6 +36,17 @@ for npz_file in os.listdir(CALIOP_path):
         lat_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
         aod_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
+
+    if npz_file.endswith('%s.npz'%sepcific_filename_3) & ('aeolus_' in npz_file):
+
+        lat_aeolus_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
+        lon_aeolus_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
+        alt_aeolus_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['alt']
+        alpha_aeolus_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['alpha']
+
+        print(alt_aeolus_1.shape)
+        quit()
+
 
 # plt aod_caliop
 plt.figure(figsize=(16,8))
