@@ -138,15 +138,25 @@ for npz_file in os.listdir(CALIOP_path):
             MYD04_lon_data.append(MYD04_lon_data_j.ReadAsArray())
             MYD04_aod_data.append(MYD04_aod_data_j.ReadAsArray())
 
-        lat_0 = lat_caliop[0]
-        lon_0 = lon_caliop[0]
-        print(lat_0, lon_0)
+        for m in range(len(lat_caliop)):
 
-        for j in range(len(MODY04_colocation_file)):
-            closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_data[j], MYD04_lon_data[j], lat_0, lon_0)
-            print("Closest point index:", closest_point_index)
-            print("Minimum distance:", min_distance)
-            print(MYD04_aod_data[j][closest_point_index])
+            lat_m = lat_caliop[m]
+            lon_m = lon_caliop[m]
+
+            closest_point_index_list = []
+            min_distance_list = []
+
+            for n in range(len(MODY04_colocation_file)):
+                closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_0, lon_0)
+                closest_point_index_list.append(closest_point_index_n)
+                min_distance_list.append(min_distance_n)
+
+            closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
+            min_distance = min_distance_list[np.argmin(min_distance_list)]
+
+            print(lat_m, lon_m, min_distance)
+
+
 
 
 
