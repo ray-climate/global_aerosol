@@ -147,7 +147,7 @@ for npz_file in os.listdir(CALIOP_path):
             min_distance_list = []
 
             for n in range(len(MODY04_colocation_file)):
-                closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_0, lon_0)
+                closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
                 closest_point_index_list.append(closest_point_index_n)
                 min_distance_list.append(min_distance_n)
 
