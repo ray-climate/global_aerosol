@@ -172,7 +172,7 @@ for npz_file in os.listdir(CALIOP_path):
                 caliop_aod_all.append(aod_m)
                 distance_all.append(min_distance)
                 modis_aod_all.append(modis_aod * 0.001)
-                print(npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001)
+                print(npz_file, lat_m, lon_m, min_distance, aod_m, modis_aod * 0.001)
 
 # save npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001 in a csv file
 
