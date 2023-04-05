@@ -18,6 +18,7 @@ specific_filename_1 = 'caliop_dbd_descending_202006180342'
 specific_filename_2 = 'caliop_dbd_ascending_202006171527'
 
 sepcific_filename_3 = 'aeolus_descending_202006180757'
+specific_filename_4 = 'aeolus_ascending_202006171527'
 
 caliop_filename = []
 caliop_lat_all = []
@@ -55,11 +56,30 @@ for npz_file in os.listdir(CALIOP_path):
             aod_m = np.trapz(alpha_m_valid[::-1], alt_m_valid[::-1])
             aod_aeolus_1[m] = aod_m
 
+    if npz_file.endswith('%s.npz'%specific_filename_4) & ('aeolus_' in npz_file):
+
+        lat_aeolus_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
+        lon_aeolus_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
+        alt_aeolus_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['alt']
+        alpha_aeolus_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['alpha']
+
+        aod_aeolus_2 = np.zeros(lat_aeolus_2.shape[0])
+        for m in range(alt_aeolus_2.shape[0]):
+            alt_m = (alt_aeolus_2[m][1:] + alt_aeolus_2[m][:-1]) / 2.0
+            alpha_m = alpha_aeolus_2[m]
+
+            alt_m_valid = alt_m[alt_m > 0]
+            alpha_m_valid = alpha_m[alt_m > 0]
+            alpha_m_valid[alpha_m_valid < 0] = 0
+            aod_m = np.trapz(alpha_m_valid[::-1], alt_m_valid[::-1])
+            aod_aeolus_2[m] = aod_m
+
 # plt aod_caliop
 plt.figure(figsize=(16,8))
 plt.plot(lat_caliop_1, aod_caliop_1, 'ro-', label='CALIOP Descending')
 plt.plot(lat_caliop_2, aod_caliop_2, 'bo-', label='CALIOP Ascending')
 plt.plot(lat_aeolus_1, aod_aeolus_1, 'go-', label='AEOLUS Descending')
+plt.plot(lat_aeolus_2, aod_aeolus_2, 'yo-', label='AEOLUS Ascending')
 plt.xlabel('Latitude')
 plt.ylabel('AOD 532 nm')
 plt.title('CALIOP AOD 532 nm')
