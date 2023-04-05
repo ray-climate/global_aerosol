@@ -328,7 +328,7 @@ for i in range(alpha_caliop_all.shape[1]):
 caliop_aod_532_masked = caliop_aod_532[~np.isnan(caliop_aod_532)]
 # generate a histogram of caliop_aod_532
 plt.figure(figsize=(8, 6))
-plt.hist(caliop_aod_532_masked, bins=20)
+plt.hist(caliop_aod_532_masked, bins=100)
 plt.xlabel('AOD at 532 nm', fontsize=16)
 plt.ylabel('Number of profiles', fontsize=16)
 plt.title(f'AOD at 532 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
@@ -352,7 +352,7 @@ for i in range(alpha_aeolus_all.shape[0]):
 aeolus_aod_355_masked = aeolus_aod_355[~np.isnan(aeolus_aod_355)]
 # generate a histogram of aeolus_aod_355
 plt.figure(figsize=(8, 6))
-plt.hist(aeolus_aod_355_masked, bins=20)
+plt.hist(aeolus_aod_355_masked, bins=100)
 plt.xlabel('AOD at 355 nm', fontsize=16)
 plt.ylabel('Number of profiles', fontsize=16)
 plt.title(f'AOD at 355 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
@@ -366,7 +366,7 @@ plt.savefig(output_path, dpi=300)
 
 
 plt.figure(figsize=(8, 6))
-plt.hist(aod_caliop_all, bins=20)
+plt.hist(aod_caliop_all, bins=100)
 plt.xlabel('AOD at 532 nm', fontsize=16)
 plt.ylabel('Number of profiles', fontsize=16)
 plt.title(f'AOD at 532 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
