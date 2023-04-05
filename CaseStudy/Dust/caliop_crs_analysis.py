@@ -14,8 +14,8 @@ import os
 import re
 
 CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
-specific_filename = 'caliop_dbd_descending_202006180342'
-
+specific_filename_1 = 'caliop_dbd_descending_202006180342'
+specific_filename_2 = 'caliop_dbd_ascending_202006171527'
 
 caliop_filename = []
 caliop_lat_all = []
@@ -23,17 +23,24 @@ caliop_lon_all = []
 caliop_aod_all = []
 
 for npz_file in os.listdir(CALIOP_path):
-    if npz_file.endswith('%s.npz'%specific_filename) & ('caliop_dbd_' in npz_file):
+    if npz_file.endswith('%s.npz'%specific_filename_1) & ('caliop_dbd_' in npz_file):
 
-        lat_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
-        lon_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
-        aod_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
+        lat_caliop_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
+        aod_caliop_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
-        # plt aod_caliop
-        plt.figure(figsize=(16,8))
-        plt.plot(lat_caliop, aod_caliop, 'ro-')
-        plt.xlabel('Longitude')
-        plt.ylabel('AOD 532 nm')
-        plt.title('CALIOP AOD 532 nm')
-        plt.savefig(CALIOP_path + 'caliop_aod_532nm_%s.png'%specific_filename, dpi=300)
+    if npz_file.endswith('%s.npz'%specific_filename_2) & ('caliop_dbd_' in npz_file):
+
+        lat_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
+        aod_caliop_2 = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
+
+    # plt aod_caliop
+    plt.figure(figsize=(16,8))
+    plt.plot(lat_caliop_1, aod_caliop_1, 'ro-', legend='CALIOP Descending')
+    plt.plot(lat_caliop_2, aod_caliop_2, 'bo-', legend='CALIOP Ascending')
+    plt.xlabel('Latitude')
+    plt.ylabel('AOD 532 nm')
+    plt.title('CALIOP AOD 532 nm')
+    plt.savefig(CALIOP_path + 'caliop_aod_532nm_crs1.png', dpi=300)
 
