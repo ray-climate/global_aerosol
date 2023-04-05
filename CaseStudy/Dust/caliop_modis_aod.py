@@ -111,11 +111,7 @@ for npz_file in os.listdir(CALIOP_path):
                 MYD04_lat_max = np.nanmax(MYD04_latitude)
                 MYD04_lon_min = np.nanmin(MYD04_longitude)
                 MYD04_lon_max = np.nanmax(MYD04_longitude)
-                # print(lat_caliop[0],lon_caliop[0])
-                # print(lat_caliop[-1],lon_caliop[-1])
-                # print(matching_MYD04_file)
-                # print(MYD04_longitude)
-                # print(MYD04_lat_min, MYD04_lat_max, MYD04_lon_min, MYD04_lon_max)
+
                 if (lat_caliop[0] > MYD04_lat_min) & (lat_caliop[0] < MYD04_lat_max) & (lon_caliop[0] > MYD04_lon_min) & (lon_caliop[0] < MYD04_lon_max) & (np.nanmin(MYD04_longitude[:,0]) > np.nanmin(MYD04_longitude[:,-1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
 
@@ -130,13 +126,17 @@ for npz_file in os.listdir(CALIOP_path):
 
         MYD04_lat_data = []
         MYD04_lon_data = []
+        MYD04_aod_data = []
 
         for j in range(len(MODY04_colocation_file)):
 
             MYD04_lat_data_j = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[j])
             MYD04_lon_data_j = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[j])
+            MYD04_aod_data_j = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Optical_Depth_Land_And_Ocean' % MODY04_colocation_file[j])
+
             MYD04_lat_data.append(MYD04_lat_data_j.ReadAsArray())
             MYD04_lon_data.append(MYD04_lon_data_j.ReadAsArray())
+            MYD04_aod_data.append(MYD04_aod_data_j.ReadAsArray())
 
         lat_0 = lat_caliop[0]
         lon_0 = lon_caliop[0]
@@ -144,6 +144,7 @@ for npz_file in os.listdir(CALIOP_path):
 
         for j in range(len(MODY04_colocation_file)):
             closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_data[j], MYD04_lon_data[j], lat_0, lon_0)
+            print("Closest point index:", closest_point_index)
             print("Minimum distance:", min_distance)
 
 
