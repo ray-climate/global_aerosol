@@ -41,6 +41,34 @@ def round_to_nearest_5_minutes(hour, minute):
     rounded_minute = rounded_minutes % 60
     return f"{rounded_hour:02}", f"{rounded_minute:02}"
 
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371  # Earth's radius in kilometers
+
+    # Convert latitudes and longitudes to radians
+    lat1, lon1, lat2, lon2 = np.radians([lat1, lon1, lat2, lon2])
+
+    # Calculate differences
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    # Apply Haversine formula
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
+
+    return R * c  # Return distance in kilometers
+
+def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
+    distances = np.empty_like(lat_data, dtype=float)
+
+    for i in range(lat_data.shape[0]):
+        for j in range(lat_data.shape[1]):
+            distances[i, j] = haversine(point_lat, point_lon, lat_data[i, j], lon_data[i, j])
+
+    min_distance = np.min(distances)
+    closest_point_index = np.unravel_index(np.argmin(distances), distances.shape)
+
+    return closest_point_index, min_distance
+
 caliop_aqua_hour_diff = 1.5 # 0.5 hour difference limit between CALIOP and Aqua
 
 for npz_file in os.listdir(CALIOP_path):
@@ -114,9 +142,9 @@ for npz_file in os.listdir(CALIOP_path):
         lon_0 = lon_caliop[0]
         print(lat_0, lon_0)
 
-        minimum_index = np.where(np.argmin(abs((MYD04_lat_1 - lat_0)) + abs((MYD04_lon_1 - lon_0))))
-        print(minimum_index[0])
-        # abs((MYD04_lat_1 - lat_0)) + abs((MYD04_lon_1 - lon_0))
+        closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_1, MYD04_lon_1, lat_0, lon_0)
+        print("Closest point index:", closest_point_index)
+
         quit()
 
 
