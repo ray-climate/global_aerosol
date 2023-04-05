@@ -34,6 +34,7 @@ for npz_file in os.listdir(input_path):
         alpha = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod = np.load(input_path + npz_file, allow_pickle=True)['aod']
+        print(aod)
 
         try:
             beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
