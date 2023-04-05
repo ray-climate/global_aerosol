@@ -69,7 +69,7 @@ def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
 
     return closest_point_index, min_distance
 
-caliop_aqua_hour_diff = .5 # 0.5 hour difference limit between CALIOP and Aqua
+caliop_aqua_hour_diff = 1.5 # 0.5 hour difference limit between CALIOP and Aqua
 
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending' in npz_file):
