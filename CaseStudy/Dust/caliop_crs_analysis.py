@@ -18,7 +18,7 @@ specific_filename_1 = 'caliop_dbd_descending_202006180342'
 specific_filename_2 = 'caliop_dbd_ascending_202006171527'
 
 sepcific_filename_3 = 'aeolus_descending_202006180757'
-specific_filename_4 = 'aeolus_ascending_202006171527'
+specific_filename_4 = 'aeolus_ascending_202006171912'
 
 caliop_filename = []
 caliop_lat_all = []
