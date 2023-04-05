@@ -75,8 +75,6 @@ alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 retrieval_numbers_caliop_all = np.sum(beta_caliop_mask, axis=1)
 retrieval_numbers_aeolus_all = np.sum(beta_aeolus_all, axis=0)
 
-
-"""
 ############# retrieval number #############
 # Set font parameters
 font = {'family': 'serif',
@@ -175,7 +173,7 @@ long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude',
 long_form_data_caliop['beta_caliop_log'] = np.log10(long_form_data_caliop['beta_caliop'])
 long_form_data_aeolus['beta_aeolus_log'] = np.log10(long_form_data_aeolus['beta_aeolus'])
 
-"""
+
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
