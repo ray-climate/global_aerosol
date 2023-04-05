@@ -168,13 +168,17 @@ for npz_file in os.listdir(CALIOP_path):
             modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
 
             if (min_distance < caliop_aqua_dis_threshold) & (modis_aod > 0.):
-                caliop_filename.append(npz_file)
-                caliop_lat_all.append(lat_m)
-                caliop_lon_all.append(lon_m)
-                caliop_aod_all.append(aod_m)
-                distance_all.append(min_distance)
-                modis_aod_all.append(modis_aod * 0.001)
-                print(npz_file, lat_m, lon_m, min_distance, aod_m, modis_aod * 0.001)
+                modis_aod_m = modis_aod * 0.001
+            else:
+                modis_aod_m = np.nan
+
+            caliop_filename.append(npz_file)
+            caliop_lat_all.append(lat_m)
+            caliop_lon_all.append(lon_m)
+            caliop_aod_all.append(aod_m)
+            distance_all.append(min_distance)
+            modis_aod_all.append(modis_aod_m)
+            print(npz_file, lat_m, lon_m, min_distance, aod_m, modis_aod_m)
 
 # save npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001 in a csv file
 
