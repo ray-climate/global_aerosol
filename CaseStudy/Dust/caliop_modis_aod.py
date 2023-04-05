@@ -97,16 +97,26 @@ for npz_file in os.listdir(CALIOP_path):
             continue
 
         if len(MODY04_colocation_file) >= 1:
-            MYD04_lat_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[0])
-            MYD04_lon_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[0])
+            MYD04_lat_data_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[0])
+            MYD04_lon_data_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[0])
+
+            MYD04_lat_1 = MYD04_lat_data_1.ReadAsArray()
+            MYD04_lon_1 = MYD04_lon_data_1.ReadAsArray()
 
             if len(MODY04_colocation_file) == 2:
-                MYD04_lat_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[1])
-                MYD04_lon_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[1])
+                MYD04_lat_data_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[1])
+                MYD04_lon_data_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[1])
 
-        print(lat_caliop[0], lon_caliop[0])
-        print(MYD04_lat_1.ReadAsArray())
-        print(MYD04_lon_1.ReadAsArray())
+                MYD04_lat_2 = MYD04_lat_data_2.ReadAsArray()
+                MYD04_lon_2 = MYD04_lon_data_2.ReadAsArray()
+
+        lat_0 = lat_caliop[0]
+        lon_0 = lon_caliop[0]
+        print(lat_0, lon_0)
+
+        minimum_index = np.where(np.argmin(abs((MYD04_lat_1 - lat_0)) + abs((MYD04_lon_1 - lon_0))))
+        print(minimum_index)
+        # abs((MYD04_lat_1 - lat_0)) + abs((MYD04_lon_1 - lon_0))
         quit()
 
 
