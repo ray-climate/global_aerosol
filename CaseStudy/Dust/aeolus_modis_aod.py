@@ -142,24 +142,24 @@ for npz_file in os.listdir(AEOLUS_path):
             print(lat_m, lon_m)
             print(alt_m)
             print(alpha_m)
-            quit()
-            for n in range(len(MODY04_colocation_file)):
-                closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
-                closest_point_index_list.append(closest_point_index_n)
-                min_distance_list.append(min_distance_n)
-
-            closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
-            min_distance = min_distance_list[np.argmin(min_distance_list)]
-            modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
-
-            if (min_distance < caliop_aqua_dis_threshold) & (modis_aod > 0.):
-                aeolus_filename.append(npz_file)
-                aeolus_lat_all.append(lat_m)
-                aeolus_lon_all.append(lon_m)
-                aeolus_aod_all.append(aod_m)
-                distance_all.append(min_distance)
-                modis_aod_all.append(modis_aod * 0.001)
-                print(npz_file, lat_m, lon_m, min_distance, aod_m, modis_aod * 0.001)
+            # quit()
+            # for n in range(len(MODY04_colocation_file)):
+            #     closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
+            #     closest_point_index_list.append(closest_point_index_n)
+            #     min_distance_list.append(min_distance_n)
+            #
+            # closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
+            # min_distance = min_distance_list[np.argmin(min_distance_list)]
+            # modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
+            #
+            # if (min_distance < caliop_aqua_dis_threshold) & (modis_aod > 0.):
+            #     aeolus_filename.append(npz_file)
+            #     aeolus_lat_all.append(lat_m)
+            #     aeolus_lon_all.append(lon_m)
+            #     aeolus_aod_all.append(aod_m)
+            #     distance_all.append(min_distance)
+            #     modis_aod_all.append(modis_aod * 0.001)
+            #     print(npz_file, lat_m, lon_m, min_distance, aod_m, modis_aod * 0.001)
 
 # save npz_file, lat_m, lon_m, aod_m, modis_aod * 0.001 in a csv file
 
