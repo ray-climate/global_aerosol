@@ -16,7 +16,7 @@ import re
 "/neodc/modis/data/MYD04_L2/collection61/2020/06/14/"
 CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
 MYD04_base_path = "/neodc/modis/data/MYD04_L2/collection61"
-specific_filename = 'caliop_dbd_ascending_202006171527'
+specific_filename = 'caliop_dbd_descending_202006180342'
 
 def mtile_cal(lat, lon):
 
