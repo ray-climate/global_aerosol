@@ -352,7 +352,7 @@ for i in range(alpha_aeolus_all.shape[0]):
 aeolus_aod_355_masked = aeolus_aod_355[~np.isnan(aeolus_aod_355)]
 # generate a histogram of aeolus_aod_355
 plt.figure(figsize=(8, 6))
-plt.hist(aeolus_aod_355_masked, bins=100)
+plt.hist(aeolus_aod_355_masked, bins=500)
 plt.xlabel('AOD at 355 nm', fontsize=16)
 plt.ylabel('Number of profiles', fontsize=16)
 plt.title(f'AOD at 355 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
