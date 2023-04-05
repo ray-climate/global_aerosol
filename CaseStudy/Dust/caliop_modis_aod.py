@@ -151,6 +151,18 @@ for npz_file in os.listdir(CALIOP_path):
         print(MYD04_lat_1[closest_point_index], MYD04_lon_1[closest_point_index])
         print("Minimum distance:", min_distance)
 
+        if len(MODY04_colocation_file) == 2:
+            print('updating.....')
+
+            lat_0 = lat_caliop[0]
+            lon_0 = lon_caliop[0]
+            print(lat_0, lon_0)
+
+            closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_2, MYD04_lon_2, lat_0, lon_0)
+            print("Closest point index:", closest_point_index)
+            print(MYD04_lat_2[closest_point_index], MYD04_lon_2[closest_point_index])
+            print("Minimum distance:", min_distance)
+
 
 
         # quit()
