@@ -343,13 +343,23 @@ plt.savefig(output_path, dpi=300)
 aeolus_aod_355 = np.zeros((alpha_aeolus_all.shape[0]))
 for i in range(alpha_aeolus_all.shape[0]):
     alpha_i = alpha_aeolus_all[i,:]
+    alpha_i[alpha_i<0] = np.nan
     alpha_i[np.isnan(alpha_i)] = 0
-    aeolus_aod_355[i] = np.trapz(alpha_i[0:-2], alt_aeolus_mean[0:-2])
-    print(alpha_i)
-    print(alt_aeolus_mean)
+    aeolus_aod_355[i] = np.trapz(alpha_i[::-1][0:-1], alt_aeolus_mean[::-1][0:-1])
+    print(aeolus_aod_355[i])
 aeolus_aod_355_masked = aeolus_aod_355[~np.isnan(aeolus_aod_355)]
 # generate a histogram of aeolus_aod_355
-
+plt.figure(figsize=(8, 6))
+plt.hist(caliop_aod_532_masked, bins=20)
+plt.xlabel('AOD at 532 nm', fontsize=16)
+plt.ylabel('Number of profiles', fontsize=16)
+plt.title(f'AOD at 532 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.grid()
+# Save the figure
+output_path = input_path + f'retrieval_caliop_aod_532_distribution.png'
+plt.savefig(output_path, dpi=300)
 
 
 
