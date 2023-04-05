@@ -44,7 +44,7 @@ def round_to_nearest_5_minutes(hour, minute):
 caliop_aqua_hour_diff = 1.5 # 0.5 hour difference limit between CALIOP and Aqua
 
 for npz_file in os.listdir(CALIOP_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_ascending' in npz_file):
         print(npz_file)
         lat_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
@@ -92,6 +92,7 @@ for npz_file in os.listdir(CALIOP_path):
 
         MODY04_colocation_file = list(set(MODY04_colocation_file))
         print(MODY04_colocation_file)
+        print(len(MODY04_colocation_file))
         # quit()
         #
         # MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
