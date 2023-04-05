@@ -44,14 +44,22 @@ for npz_file in os.listdir(CALIOP_path):
         alt_aeolus_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['alt']
         alpha_aeolus_1 = np.load(CALIOP_path + npz_file, allow_pickle=True)['alpha']
 
-        print(alt_aeolus_1.shape)
-        quit()
+        aod_aeolus_1 = np.zeros(lat_aeolus_1.shape[0])
+        for m in range(alt_aeolus_1.shape[0]):
+            alt_m = (alt_aeolus_1[m][1:] + alt_aeolus_1[m][:-1]) / 2.0
+            alpha_m = alpha_aeolus_1[m]
 
+            alt_m_valid = alt_m[alt_m > 0]
+            alpha_m_valid = alpha_m[alt_m > 0]
+            alpha_m_valid[alpha_m_valid < 0] = 0
+            aod_m = np.trapz(alpha_m_valid[::-1], alt_m_valid[::-1])
+            aod_aeolus_1[m] = aod_m
 
 # plt aod_caliop
 plt.figure(figsize=(16,8))
 plt.plot(lat_caliop_1, aod_caliop_1, 'ro-', label='CALIOP Descending')
 plt.plot(lat_caliop_2, aod_caliop_2, 'bo-', label='CALIOP Ascending')
+plt.plot(lat_aeolus_1, aod_aeolus_1, 'go-', label='AEOLUS Descending')
 plt.xlabel('Latitude')
 plt.ylabel('AOD 532 nm')
 plt.title('CALIOP AOD 532 nm')
