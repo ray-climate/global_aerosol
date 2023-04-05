@@ -137,7 +137,7 @@ for npz_file in os.listdir(CALIOP_path):
 
                 MYD04_lat_2 = MYD04_lat_data_2.ReadAsArray()
                 MYD04_lon_2 = MYD04_lon_data_2.ReadAsArray()
-
+        print(MODY04_colocation_file)
         lat_0 = lat_caliop[0]
         lon_0 = lon_caliop[0]
         print(lat_0, lon_0)
