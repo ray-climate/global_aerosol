@@ -20,6 +20,7 @@ with open(CALIOP_path + 'caliop_modis_aod_crs.csv', 'r') as csvfile:
     for row in csv_reader:
         caliop_aod.append(float(row[4]))
         modis_aod.append(float(row[5]))
+        print(row[4], row[5])
 
 plt.figure(figsize=(8,8))
 plt.scatter(modis_aod, caliop_aod, s=1, c='k')
