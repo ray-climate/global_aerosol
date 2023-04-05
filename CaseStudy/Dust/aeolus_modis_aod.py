@@ -62,8 +62,8 @@ modis_aod_all = []
 distance_all = []
 
 for npz_file in os.listdir(AEOLUS_path):
-    if npz_file.startswith('aeolus_') & ('ing' in npz_file) & npz_file.endswith('.npz'):
-
+    # if npz_file.startswith('aeolus_') & ('ing' in npz_file) & npz_file.endswith('.npz'):
+    if npz_file.startswith('aeolus_ascending_202006171912.npz'):
         alt_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['alt']
         lat_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['lat']
         lon_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['lon']
@@ -139,9 +139,12 @@ for npz_file in os.listdir(AEOLUS_path):
 
             closest_point_index_list = []
             min_distance_list = []
-            print(lat_m, lon_m)
-            print(alt_m)
-            print(alpha_m)
+
+            alt_m_valid = alt_m[alt_m>0]
+            alpha_m_valid = alpha_m[alt_m>0]
+            alpha_m_valid[alpha_m_valid<0] = 0
+            aod_m = np.trapz(alpha_m_valid[::-1], alt_m_valid[::-1])
+            print(aod_m)
             # quit()
             # for n in range(len(MODY04_colocation_file)):
             #     closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
