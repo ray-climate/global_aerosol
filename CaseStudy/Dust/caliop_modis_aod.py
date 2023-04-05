@@ -128,39 +128,22 @@ for npz_file in os.listdir(CALIOP_path):
             print('No colocation found')
             continue
 
-        if len(MODY04_colocation_file) >= 1:
-            MYD04_lat_data_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[0])
-            MYD04_lon_data_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[0])
+        MYD04_lat_data = []
+        MYD04_lon_data = []
 
-            MYD04_lat_1 = MYD04_lat_data_1.ReadAsArray()
-            MYD04_lon_1 = MYD04_lon_data_1.ReadAsArray()
+        for j in range(len(MODY04_colocation_file)):
 
-            if len(MODY04_colocation_file) == 2:
-                MYD04_lat_data_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[1])
-                MYD04_lon_data_2 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[1])
+            MYD04_lat_data_j = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[j])
+            MYD04_lon_data_j = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[j])
+            MYD04_lat_data.append(MYD04_lat_data_j.ReadAsArray())
+            MYD04_lon_data.append(MYD04_lon_data_j.ReadAsArray())
 
-                MYD04_lat_2 = MYD04_lat_data_2.ReadAsArray()
-                MYD04_lon_2 = MYD04_lon_data_2.ReadAsArray()
-        print(MODY04_colocation_file)
         lat_0 = lat_caliop[0]
         lon_0 = lon_caliop[0]
         print(lat_0, lon_0)
 
-        closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_1, MYD04_lon_1, lat_0, lon_0)
-        print("Closest point index:", closest_point_index)
-        print(MYD04_lat_1[closest_point_index], MYD04_lon_1[closest_point_index])
-        print("Minimum distance:", min_distance)
-
-        if len(MODY04_colocation_file) == 2:
-            print('updating.....')
-
-            lat_0 = lat_caliop[0]
-            lon_0 = lon_caliop[0]
-            print(lat_0, lon_0)
-
-            closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_2, MYD04_lon_2, lat_0, lon_0)
-            print("Closest point index:", closest_point_index)
-            print(MYD04_lat_2[closest_point_index], MYD04_lon_2[closest_point_index])
+        for j in range(len(MODY04_colocation_file)):
+            closest_point_index, min_distance = find_closest_point_and_distance(MYD04_lat_data[j], MYD04_lon_data[j], lat_0, lon_0)
             print("Minimum distance:", min_distance)
 
 
