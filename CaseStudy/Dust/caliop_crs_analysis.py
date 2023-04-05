@@ -30,7 +30,7 @@ for npz_file in os.listdir(CALIOP_path):
         aod_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
         # plt aod_caliop
-        plt.figure(figsize=(8,12))
+        plt.figure(figsize=(16,8))
         plt.plot(lon_caliop, aod_caliop, 'ro-')
         plt.xlabel('Longitude')
         plt.ylabel('AOD 532 nm')
