@@ -70,6 +70,12 @@ def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
     return closest_point_index, min_distance
 
 caliop_aqua_hour_diff = 1.5 # 0.5 hour difference limit between CALIOP and Aqua
+caliop_aqua_dis_threshold = 40. # 40 km distance threshold between CALIOP and Aqua
+
+caliop_filename = []
+caliop_lat_all = []
+caliop_lon_all = []
+modis_aod_all = []
 
 for npz_file in os.listdir(CALIOP_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending' in npz_file):
@@ -153,45 +159,17 @@ for npz_file in os.listdir(CALIOP_path):
 
             closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
             min_distance = min_distance_list[np.argmin(min_distance_list)]
+            modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
 
-            print(lat_m, lon_m, min_distance)
+            if (min_distance < caliop_aqua_dis_threshold) & (modis_aod > 0.):
+                caliop_filename.append(npz_file)
+                caliop_lat_all.append(lat_m)
+                caliop_lon_all.append(lon_m)
+                modis_aod_all.append(modis_aod * 0.001)
+                print(npz_file, lat_m, lon_m, modis_aod * 0.001)
 
 
 
-
-
-        # quit()
-        #
-        # MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
-        # MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
-        # MYD04_latitude = MYD04_latitude_data.ReadAsArray()
-        # print(MYD04_latitude)
-
-        # MYD04_hour, MYD04_minute = round_to_nearest_5_minutes(hour_i, minute_i)
-        # MYD04_minute = str(int(MYD04_minute) + 5)
-        # matching_MYD04_file = glob.glob(MYD04_directory + f"/*.{MYD04_hour}{MYD04_minute}.*.hdf")[0]
-        # matching_MYD04_file = '/neodc/modis/data/MYD04_L2/collection61/2020/06/24/MYD04_L2.A2020176.1435.061.2020177153249.hdf'
-        # print(matching_MYD04_file)
-        # if os.path.exists(matching_MYD04_file):
-        #     MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
-        #     MYD04_longitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % matching_MYD04_file
-        #
-        #     MYD04_latitude_data = gdal.Open(MYD04_latitude_file)
-        #     MYD04_longitude_data = gdal.Open(MYD04_longitude_file)
-        #
-        #     MYD04_latitude = MYD04_latitude_data.ReadAsArray()
-        #     MYD04_longitude = MYD04_longitude_data.ReadAsArray()
-        #
-        #     print("MYD04 file found: ", matching_MYD04_file)
-        #     print("MYD04 latitude", MYD04_latitude)
-        #     print("MYD04 longitude", MYD04_longitude)
-        #     print("MYD04 latitude", MYD04_latitude[:,0])
-
-        # quit()
-        #
-        # lat = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
-        # lon = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
-        # aod = np.load(CALIOP_path + npz_file, allow_pickle=True)['aod']
 
         """ 
         #tile number searching for MCD19A2 products not neeeded anymore
@@ -217,12 +195,5 @@ for npz_file in os.listdir(CALIOP_path):
 
         modis_aod_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Optical_Depth_Land_And_Ocean' % MCD19A2_file1
         """
-
-        # ds = gdal.Open(modis_aod_file)
-        # print(ds)
-        # modis_aod = ds.ReadAsArray()
-        #
-        # print(np.max(modis_aod))
-
 
 
