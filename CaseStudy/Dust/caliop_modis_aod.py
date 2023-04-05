@@ -96,7 +96,7 @@ for npz_file in os.listdir(CALIOP_path):
             print('No colocation found')
             continue
 
-        if len(MODY04_colocation_file) > 1:
+        if len(MODY04_colocation_file) >= 1:
             MYD04_lat_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[0])
             MYD04_lon_1 = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[0])
 
