@@ -23,10 +23,10 @@ with open(CALIOP_path + 'caliop_modis_aod_crs.csv', 'r') as csvfile:
         print(row[4], row[5])
 
 plt.figure(figsize=(8,8))
-plt.scatter(modis_aod, caliop_aod, s=1, c='k')
+plt.scatter(modis_aod, caliop_aod, s=30, c='k')
 plt.xlabel('MODIS AOD')
 plt.ylabel('CALIOP AOD')
 plt.title('CALIOP vs MODIS AOD')
-# plt.xlim(0, 1)
-# plt.ylim(0, 1)
+plt.xlim(0, 3.5)
+plt.ylim(0, 3.5)
 plt.savefig(CALIOP_path + 'caliop_modis_aod_crs.png', dpi=300)
