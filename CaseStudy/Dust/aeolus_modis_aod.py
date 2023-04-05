@@ -62,7 +62,7 @@ modis_aod_all = []
 distance_all = []
 
 for npz_file in os.listdir(AEOLUS_path):
-    if npz_file.endswith('aeolus_ascending_202006181927.npz') & ('aeolus' in npz_file):
+    if npz_file.startswith('aeolus_') & ('ing' in npz_file) & npz_file.endswith('.npz'):
 
         alt_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['alt']
         lat_aeolus = np.load(AEOLUS_path + npz_file, allow_pickle=True)['lat']
