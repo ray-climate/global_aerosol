@@ -173,7 +173,7 @@ long_form_data_aeolus = pd.DataFrame(long_form_data_aeolus, columns=['Altitude',
 long_form_data_caliop['beta_caliop_log'] = np.log10(long_form_data_caliop['beta_caliop'])
 long_form_data_aeolus['beta_aeolus_log'] = np.log10(long_form_data_aeolus['beta_aeolus'])
 
-
+"""
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
@@ -253,7 +253,7 @@ if True:
     ############# depolarization ratio plot #############
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
-
+"""
 #
 # for i in range(len(beta_aeolus_mean)-1):
 #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
