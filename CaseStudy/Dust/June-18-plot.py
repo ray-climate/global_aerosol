@@ -91,7 +91,7 @@ plt.close()
 ####
 
 alpha_caliop[beta_caliop < 1.e-4] = np.nan
-alpha_aeolus[beta_aeolus< 1.e-4] = np.nan
+alpha_aeolus[alpha_aeolus< 1.e-4] = np.nan
 
 plt.figure(figsize=(8, 12))
 # for k in range(beta_caliop.shape[1]):
