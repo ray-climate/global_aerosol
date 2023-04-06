@@ -361,7 +361,7 @@ plt.ylabel('Number of profiles', fontsize=16)
 plt.title(f'AOD at 355 nm distribution over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.xlim([0, 4.])
+# plt.xlim([0, 4.])
 plt.grid()
 # Save the figure
 output_path = input_path + f'retrieval_aeolus_aod_355_distribution.png'
