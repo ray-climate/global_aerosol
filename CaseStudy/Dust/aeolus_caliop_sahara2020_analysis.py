@@ -379,3 +379,22 @@ plt.grid()
 # Save the figure
 output_path = input_path + f'retrieval_caliop_aod_532_distribution_fromL2.png'
 plt.savefig(output_path, dpi=300)
+
+# plot lidar ratio
+plt.figure(figsize=(8, 6))
+plt.plot(alpha_caliop_mean / beta_caliop_mean, alt_caliop, 'b', label='Caliop')
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([alpha_aeolus_mean[i]/beta_aeolus_mean[i], alpha_aeolus_mean[i]/beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+    plt.plot([alpha_aeolus_mean[i]/beta_aeolus_mean[i], alpha_aeolus_mean[i+1]/beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+plt.plot([], [], 'k', label='Aeolus')
+plt.ylabel('Altitude (km)', fontsize=16)
+plt.xlabel('Lidar ratio', fontsize=16)
+plt.title(f'Aerosol retrievals over the Sahara [lidar ratio] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.ylim([0.,20.])
+plt.legend(loc='best', fontsize=14, frameon=False)
+# Save the figure
+output_path = input_path + f'retrieval_lidar_ratio.png'
+plt.savefig(output_path, dpi=300)
