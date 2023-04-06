@@ -27,8 +27,8 @@ for npz_file in os.listdir(input_path):
         dp = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
+beta[beta < 0] = np.nan
 plt.figure(figsize=(8, 12))
-
 for k in range(beta.shape[1]):
     plt.plot(beta[:, k], alt_caliop, 'k', alpha=0.1)
 plt.plot([], [], 'k', label='Caliop')
