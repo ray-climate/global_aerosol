@@ -73,7 +73,7 @@ for npz_file in os.listdir(CALIOP_path):
             alpha_m_valid[alpha_m_valid < 0] = 0
             aod_m = np.trapz(alpha_m_valid[::-1], alt_m_valid[::-1])
             aod_aeolus_2[m] = aod_m
-        aod_aeolus_2[aod_aeolus_2>4.0] = np.nan
+        # aod_aeolus_2[aod_aeolus_2>4.0] = np.nan
 # plt aod_caliop
 plt.figure(figsize=(16,8))
 plt.plot(lat_caliop_1, aod_caliop_1, 'ro-', label='CALIOP Descending')
