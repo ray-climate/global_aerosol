@@ -349,7 +349,7 @@ for i in range(alpha_aeolus_all.shape[0]):
     alpha_i[np.isnan(alpha_i)] = 0
     print(alpha_i)
     print(alt_aeolus_mean)
-    aeolus_aod_355[i] = np.trapz(alpha_i[::-1][0:-1], alt_aeolus_mean[::-1][0:-1])
+    aeolus_aod_355[i] = np.trapz(alpha_i[::-1][2:-1], alt_aeolus_mean[::-1][2:-1])
 
 
 aeolus_aod_355_masked = aeolus_aod_355[~np.isnan(aeolus_aod_355)]
