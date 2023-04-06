@@ -90,18 +90,18 @@ plt.close()
 
 ####
 
-# alpha_caliop[beta_caliop < 1.e-4] = np.nan
-# beta_aeolus[beta_aeolus< 1.e-4] = np.nan
+alpha_caliop[beta_caliop < 1.e-4] = np.nan
+alpha_aeolus[beta_aeolus< 1.e-4] = np.nan
 
 plt.figure(figsize=(8, 12))
-for k in range(beta_caliop.shape[1]):
-    plt.plot(alpha_caliop[:, k], alt_caliop, 'k', alpha=0.1)
-plt.plot([], [], 'k', label='Caliop')
-# plt.plot(np.nanmean(beta_caliop, axis=1), alt_caliop, 'k', label='Caliop')
+# for k in range(beta_caliop.shape[1]):
+#     plt.plot(alpha_caliop[:, k], alt_caliop, 'k', alpha=0.1)
+# plt.plot([], [], 'k', label='Caliop')
+plt.plot(np.nanmean(beta_caliop, axis=1), alt_caliop, 'k', label='Caliop')
 # for k in range(beta_aeolus.shape[0]):
 #     plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
 # plt.plot([], [], 'k', label='Aeolus')
-# plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, 'r', label='Aeolus')
+plt.plot(np.nanmean(alpha_aeolus, axis=0), alt_aeolus_mean, 'r', label='Aeolus')
 
 plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=16)
