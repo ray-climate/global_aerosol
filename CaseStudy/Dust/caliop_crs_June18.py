@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    caliop_crs_analysis.py
+# @Filename:    caliop_crs_June18.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        06/04/2023 00:06
+# @Time:        06/04/2023 12:13
 
 import matplotlib.pyplot as plt
 from osgeo import gdal
@@ -15,10 +15,10 @@ import re
 
 CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
 specific_filename_1 = 'caliop_dbd_descending_202006180342'
-specific_filename_2 = 'caliop_dbd_ascending_202006171527'
+specific_filename_2 = 'caliop_dbd_ascending_202006181612'
 
 sepcific_filename_3 = 'aeolus_descending_202006180757'
-specific_filename_4 = 'aeolus_ascending_202006171912'
+specific_filename_4 = 'aeolus_ascending_202006181927'
 
 caliop_filename = []
 caliop_lat_all = []
@@ -84,5 +84,5 @@ plt.xlabel('Latitude')
 plt.ylabel('AOD 532 nm')
 plt.title('CALIOP AOD 532 nm')
 plt.legend(loc='best')
-plt.savefig(CALIOP_path + 'caliop_aod_532nm_crs2.png', dpi=300)
+plt.savefig(CALIOP_path + 'caliop_aod_532nm_crs1.png', dpi=300)
 

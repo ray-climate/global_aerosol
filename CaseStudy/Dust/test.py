@@ -8,5 +8,5 @@
 
 import numpy as np
 
-print(np.exp(-3.3))
+print(np.exp(-6))
 
