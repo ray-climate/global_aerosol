@@ -37,7 +37,8 @@ for npz_file in os.listdir(input_path):
 
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
-conversion_factor = (np.nanmean(dp_caliop) * 0.82 * 2) / (1. - np.nanmean(dp_caliop) * 0.82)
+k_factor = 0.7
+conversion_factor = (np.nanmean(dp_caliop) * k_factor * 2) / (1. - np.nanmean(dp_caliop) * k_factor)
 conversion_factor = 1 / (1. + conversion_factor)
 print(np.nanmean(dp_caliop))
 print(conversion_factor)
