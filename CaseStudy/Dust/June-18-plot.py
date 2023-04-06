@@ -28,7 +28,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('ascending_202006181927' in npz_file):
+    if npz_file.endswith('.npz') & ('descending_202006190812' in npz_file):
         # print the file name and variables in the file
         print(npz_file)
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -61,7 +61,7 @@ plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, '
 plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
-plt.title(f'CALIOP backscatter \n $17^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.title(f'CALIOP backscatter \n $18^{{th}}$ June 2020', fontsize=18, y=1.05)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.ylim([0.,20.])
@@ -78,7 +78,7 @@ plt.plot([], [], 'k', label='Caliop')
 
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Depolarisation ratio', fontsize=16)
-plt.title(f'CALIOP Depolarisation \n $17^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.title(f'CALIOP Depolarisation \n $18^{{th}}$ June 2020', fontsize=18, y=1.05)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.xlim([0.,1.])
