@@ -74,7 +74,6 @@ for k in range(beta_caliop.shape[1]):
     plt.plot(dp_caliop[:, k], alt_caliop, 'k', alpha=0.1)
 plt.plot([], [], 'k', label='Caliop')
 
-plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Depolarisation ratio', fontsize=16)
 plt.title(f'CALIOP Depolarisation \n $17^{{th}}$ June 2020', fontsize=18, y=1.05)
