@@ -393,7 +393,8 @@ plt.xlabel('Lidar ratio', fontsize=16)
 plt.title(f'Aerosol retrievals over the Sahara [lidar ratio] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.ylim([0.,20.])
+plt.ylim([0.,10.])
+plt.xlim([0., 200.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 # Save the figure
 output_path = input_path + f'retrieval_lidar_ratio.png'
