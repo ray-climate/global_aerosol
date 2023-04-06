@@ -28,7 +28,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 print(aod_caliop)
-quit()
+
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('ascending_202006171912' in npz_file):
         # print the file name and variables in the file
@@ -117,3 +117,15 @@ plt.legend(loc='best', fontsize=14, frameon=False)
 output_path = save_path + f'caliop_extinction.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
+
+
+# generate a histogoram of aeolus aod
+aeolus_aod_355 = np.zeros((alpha_aeolus.shape[0]))
+for i in range(alpha_aeolus.shape[0]):
+    alpha_i = alpha_aeolus[i,:]
+    alpha_i[alpha_i<0] = np.nan
+    alpha_i[np.isnan(alpha_i)] = 0
+    print(alpha_i)
+    print(alt_aeolus_mean)
+    aeolus_aod_355[i] = np.trapz(alpha_i[::-1][2:-1], alt_aeolus_mean[::-1][2:-1])
+print(aeolus_aod_355)
