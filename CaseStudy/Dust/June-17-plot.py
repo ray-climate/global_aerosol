@@ -36,7 +36,8 @@ for npz_file in os.listdir(input_path):
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
-
+alpha_aeolus[2, :] = np.nan
+alpha_aeolus[-2, :] = np.nan
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
