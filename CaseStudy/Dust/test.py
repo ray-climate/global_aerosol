@@ -8,5 +8,5 @@
 
 import numpy as np
 
-print(np.exp(-0.1))
+print((355. / 532.) ** (-0.07))
 
