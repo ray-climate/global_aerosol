@@ -384,9 +384,9 @@ plt.savefig(output_path, dpi=300)
 plt.figure(figsize=(8, 12))
 plt.plot(alpha_caliop_mean / beta_caliop_mean, alt_caliop, 'b', label='Caliop')
 for i in range(len(beta_aeolus_mean)-1):
-    plt.plot([alpha_aeolus_mean[i]/beta_aeolus_mean[i], alpha_aeolus_mean[i]/beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+    plt.plot([alpha_aeolus_mean[i]/beta_aeolus_mean[i] * conversion_factor, alpha_aeolus_mean[i]/beta_aeolus_mean[i] * conversion_factor], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
 for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-    plt.plot([alpha_aeolus_mean[i]/beta_aeolus_mean[i], alpha_aeolus_mean[i+1]/beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+    plt.plot([alpha_aeolus_mean[i]/beta_aeolus_mean[i] * conversion_factor, alpha_aeolus_mean[i+1]/beta_aeolus_mean[i+1] * conversion_factor], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
 plt.plot([], [], 'k', label='Aeolus')
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Lidar ratio', fontsize=16)
