@@ -112,7 +112,7 @@ plt.savefig(output_path, dpi=300)
 plt.close()
 
 ############# backscatter plot #############
-ang_coef = (355. / 532.) ** (-0.55)
+ang_coef = (355. / 532.) ** (-0.1)
 beta_caliop_all[beta_caliop_all<0] = np.nan
 dp_caliop_all[dp_caliop_all<0] = np.nan
 dp_caliop_all[dp_caliop_all>1.] = np.nan
@@ -253,7 +253,7 @@ if True:
     ############# depolarization ratio plot #############
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
-"""
+
 #
 # for i in range(len(beta_aeolus_mean)-1):
 #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
@@ -339,7 +339,7 @@ plt.grid()
 output_path = input_path + f'retrieval_caliop_aod_532_distribution.png'
 plt.savefig(output_path, dpi=300)
 
-"""
+
 # generate a histogoram of aeolus aod
 aeolus_aod_355 = np.zeros((alpha_aeolus_all.shape[0]))
 for i in range(alpha_aeolus_all.shape[0]):
