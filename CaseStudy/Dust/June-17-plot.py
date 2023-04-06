@@ -35,9 +35,11 @@ for npz_file in os.listdir(input_path):
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
 
+
 conversion_factor = (np.nanmean(dp_caliop) * 0.82 * 2) / (1. - np.nanmean(dp_caliop) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
-
+print(np.nanmean(dp_caliop))
+print(conversion_factor)
 beta_caliop[beta_caliop < 1.e-4] = np.nan
 
 alt_aeolus_mean = np.nanmean(alt_aeolus, axis=0)
