@@ -35,7 +35,8 @@ for npz_file in os.listdir(input_path):
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
 
-dp_caliop[dp_caliop < 0.01] = np.nan
+dp_caliop[dp_caliop < 0] = np.nan
+dp_caliop[dp_caliop > 1] = np.nan
 conversion_factor = (np.nanmean(dp_caliop) * 0.82 * 2) / (1. - np.nanmean(dp_caliop) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
 print(np.nanmean(dp_caliop))
@@ -79,7 +80,7 @@ plt.xlabel('Depolarisation ratio', fontsize=16)
 plt.title(f'CALIOP Depolarisation \n $17^{{th}}$ June 2020', fontsize=18, y=1.05)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-# plt.ylim([0.,20.])
+plt.xlim([0.,1.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 # Save the figure
 output_path = save_path + f'caliop_depolarisation.png'
