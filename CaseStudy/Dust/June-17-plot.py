@@ -35,11 +35,11 @@ for npz_file in os.listdir(input_path):
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
 
-beta_caliop[beta_caliop < 0] = np.nan
+beta_caliop[beta_caliop < 1.e-4] = np.nan
 
 alt_aeolus_mean = np.nanmean(alt_aeolus, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
-beta_aeolus[beta_aeolus<0] = np.nan
+beta_aeolus[beta_aeolus< 1.e-4] = np.nan
 
 plt.figure(figsize=(8, 12))
 for k in range(beta_caliop.shape[1]):
