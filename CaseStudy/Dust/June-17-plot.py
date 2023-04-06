@@ -42,6 +42,6 @@ plt.yticks(fontsize=14)
 plt.ylim([0.,20.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 # Save the figure
-output_path = input_path + f'caliop_backscatter.png'
+output_path = save_path + f'caliop_backscatter.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
