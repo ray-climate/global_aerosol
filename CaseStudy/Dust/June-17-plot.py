@@ -47,7 +47,7 @@ for k in range(beta_caliop.shape[1]):
 plt.plot([], [], 'k', label='Caliop')
 
 for k in range(beta_aeolus.shape[0]):
-    plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.1)
+    plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
 plt.plot([], [], 'k', label='Aeolus')
 
 plt.xscale('log')
