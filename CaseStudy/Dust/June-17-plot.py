@@ -126,6 +126,6 @@ for i in range(alpha_aeolus.shape[0]):
     alpha_i[alpha_i<0] = np.nan
     alpha_i[np.isnan(alpha_i)] = 0
     print(alpha_i)
-    print(alt_aeolus_mean)
+
     aeolus_aod_355[i] = np.trapz(alpha_i[::-1][2:-1], alt_aeolus_mean[::-1][2:-1])
 print(aeolus_aod_355)
