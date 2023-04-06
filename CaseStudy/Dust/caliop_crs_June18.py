@@ -84,5 +84,5 @@ plt.xlabel('Latitude')
 plt.ylabel('AOD 532 nm')
 plt.title('CALIOP AOD 532 nm')
 plt.legend(loc='best')
-plt.savefig(CALIOP_path + 'caliop_aod_532nm_crs1.png', dpi=300)
+plt.savefig(CALIOP_path + 'caliop_aod_532nm_crs2.png', dpi=300)
 
