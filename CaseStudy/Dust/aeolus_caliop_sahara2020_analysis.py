@@ -52,7 +52,7 @@ beta_caliop_mask = np.zeros((beta_caliop_all.shape))
 beta_caliop_mask[beta_caliop_all > 0.0] = 1.0
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('ing' in npz_file) & ('aeolus' in npz_file) & (('aeolus_descending_202006180757' in npz_file) | ('aeolus_ascending_202006171912' in npz_file)):
+    if npz_file.endswith('.npz') & ('ing' in npz_file) & ('aeolus' in npz_file) & (('aeolus_descending_202006180757' in npz_file) | ('aeolus_descending_202006180757' in npz_file)):
         # print the file name and variables in the file
         print(npz_file)
         alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -381,7 +381,7 @@ output_path = input_path + f'retrieval_caliop_aod_532_distribution_fromL2.png'
 plt.savefig(output_path, dpi=300)
 
 # plot lidar ratio
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(8, 12))
 plt.plot(alpha_caliop_mean / beta_caliop_mean, alt_caliop, 'b', label='Caliop')
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([alpha_aeolus_mean[i]/beta_aeolus_mean[i], alpha_aeolus_mean[i]/beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
