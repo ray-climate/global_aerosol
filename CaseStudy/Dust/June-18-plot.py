@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    June-17-plot.py
+# @Filename:    June-18-plot.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        06/04/2023 18:20
+# @Time:        06/04/2023 19:03
 
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
@@ -14,12 +14,12 @@ import sys
 import os
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
-save_path = './June-17-plot/'
+save_path = './June-18-plot/'
 if not os.path.exists(save_path):
     os.makedirs(save_path)
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006171527' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
@@ -28,7 +28,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('ascending_202006171912' in npz_file):
+    if npz_file.endswith('.npz') & ('ascending_202006181927' in npz_file):
         # print the file name and variables in the file
         print(npz_file)
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
