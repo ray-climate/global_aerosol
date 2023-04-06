@@ -46,9 +46,10 @@ for k in range(beta_caliop.shape[1]):
     plt.plot(beta_caliop[:, k], alt_caliop, 'k', alpha=0.1)
 plt.plot([], [], 'k', label='Caliop')
 
-for k in range(beta_aeolus.shape[0]):
-    plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
-plt.plot([], [], 'k', label='Aeolus')
+# for k in range(beta_aeolus.shape[0]):
+#     plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
+# plt.plot([], [], 'k', label='Aeolus')
+plt.plot(np.nanmean(beta_aeolus, axis=0), alt_aeolus_mean, 'r', label='Aeolus')
 
 plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=16)
