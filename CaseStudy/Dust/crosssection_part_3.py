@@ -32,6 +32,9 @@ lat = data[1:, 1]
 caliop_aod = data[1:, 4]
 modis_aod = data[1:, 5]
 
+print(lat)
+print(caliop_aod)
+print(modis_aod)
 # plt aod_caliop
 plt.figure(figsize=(16,8))
 plt.plot(lat, caliop_aod, 'ro-', label='CALIOP AOD')
