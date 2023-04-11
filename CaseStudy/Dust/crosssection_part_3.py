@@ -27,7 +27,6 @@ with open(input_path + aod_file, 'r') as f:
     data = list(reader)
 
 data = np.array(data)
-data = data.astype(np.float)
 
 lat = data[1:, 1]
 caliop_aod = data[1:, 4]
