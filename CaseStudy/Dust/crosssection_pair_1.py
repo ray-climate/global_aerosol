@@ -60,14 +60,15 @@ plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, '
 plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
-plt.title(f'CALIOP backscatter \n $18^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.title(f'Aerosol backscatter coefficients over Sahara dust', fontsize=18, y=1.05)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.ylim([0.,20.])
+plt.ylim([0.,15.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 # Save the figure
 output_path = save_path + f'caliop_backscatter.png'
 plt.savefig(output_path, dpi=300)
+plt.grid()
 plt.close()
 
 plt.figure(figsize=(8, 12))
