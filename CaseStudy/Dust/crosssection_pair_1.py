@@ -19,7 +19,7 @@ if not os.path.exists(save_path):
     os.makedirs(save_path)
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('aeolus_ascending_202006191812' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
 
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
@@ -28,7 +28,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
+    if npz_file.endswith('.npz') & ('aeolus_ascending_202006191812' in npz_file):
         # print the file name and variables in the file
         print(npz_file)
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
