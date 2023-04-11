@@ -27,9 +27,22 @@ with open(input_path + aod_file, 'r') as f:
     data = list(reader)
 
 data = np.array(data)
-print(data)
-data = data[1:, 1:]
 data = data.astype(np.float)
+
+lat = data[1:, 1]
+caliop_aod = data[1:, 4]
+modis_aod = data[1:, 5]
+
+# plt aod_caliop
+plt.figure(figsize=(16,8))
+plt.plot(lat, caliop_aod, 'ro-', label='CALIOP AOD')
+plt.plot(lat, modis_aod, 'bo-', label='MODIS AOD')
+plt.xlabel('Latitude')
+plt.ylabel('AOD 532 nm')
+plt.title('CALIOP/MODIS AOD 532 nm')
+plt.legend(loc='best')
+plt.savefig(save_path + 'caliop_aod_532nm.png', dpi=300)
+
 
 
 
