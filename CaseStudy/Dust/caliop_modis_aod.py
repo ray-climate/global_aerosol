@@ -16,7 +16,7 @@ import re
 "/neodc/modis/data/MYD04_L2/collection61/2020/06/14/"
 CALIOP_path = './aeolus_caliop_sahara2020_extraction_output/'
 MYD04_base_path = "/neodc/modis/data/MYD04_L2/collection61"
-specific_filename = 'caliop_dbd_descending_202006180342'
+specific_filename = 'caliop_dbd_ascending_202006201727'
 
 def mtile_cal(lat, lon):
 
@@ -82,7 +82,7 @@ modis_aod_all = []
 distance_all = []
 
 for npz_file in os.listdir(CALIOP_path):
-    if npz_file.endswith('%s.npz'%specific_filename) & ('caliop_dbd_' in npz_file):
+    if npz_file.endswith('%s.npz'%specific_filename):
         print(npz_file)
         lat_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(CALIOP_path + npz_file, allow_pickle=True)['lon']
