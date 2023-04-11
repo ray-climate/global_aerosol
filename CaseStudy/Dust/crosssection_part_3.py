@@ -44,7 +44,7 @@ plt.ylabel('AOD 532 nm' , fontsize=16)
 plt.title('CALIOP/MODIS AOD 532 nm', fontsize=16)
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
-plt.legend(loc='best')
+plt.legend(loc='best', fontsize=16)
 plt.savefig(save_path + 'caliop_aod_532nm.png', dpi=300)
 
 
