@@ -27,11 +27,13 @@ with open(input_path + aod_file, 'r') as f:
     data = list(reader)
 
 data = np.array(data)
-data = data.astype(float)
 
 lat = data[1:, 1]
 caliop_aod = data[1:, 4]
 modis_aod = data[1:, 5]
+lat = lat.astype(float)
+caliop_aod = caliop_aod.astype(float)
+modis_aod = modis_aod.astype(float)
 
 print(lat)
 print(caliop_aod)
