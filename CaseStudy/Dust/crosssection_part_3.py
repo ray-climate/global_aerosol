@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    crosssection_pari_3.py
+# @Filename:    crosssection_part_3.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        11/04/2023 16:07
