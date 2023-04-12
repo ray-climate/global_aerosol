@@ -71,9 +71,7 @@ for npz_file in os.listdir(input_path):
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
-print(lat_aeolus.shape)
-print(alt_aeolus.shape)
-print(alpha_aeolus.shape)
+
 for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
     alt_value = (alt_aeolus[k, max_index] + alt_aeolus[k, max_index+1]) / 2.
@@ -82,12 +80,12 @@ for k in range(beta_aeolus.shape[0]):
 # integrate the alpha_aeolus to get the aod_aeolus
 
 aeolus_aod = np.zeros(lat_aeolus.shape)
-print(aeolus_aod.shape)
+
 for k in range(alpha_aeolus.shape[0]):
     for kk in range(alpha_aeolus.shape[1]):
         if (alpha_aeolus[k, kk] > 0) & (alt_aeolus[k, kk] > 0) & (alt_aeolus[k, kk+1] > 0):
             aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
-print(aeolus_aod.shape)
+
 fontsize = 18
 # plt aod_caliop
 plt.figure(figsize=(16,8))
@@ -101,7 +99,7 @@ plt.xticks(fontsize=fontsize)
 plt.yticks(fontsize=fontsize)
 plt.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + 'caliop_modis_aeolus_aod.png', dpi=300)
-quit()
+
 
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
@@ -175,8 +173,8 @@ plt.figure(figsize=(8, 12))
 # plt.plot([], [], 'k', label='Caliop')
 plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='Caliop')
 
-# for k in range(beta_aeolus.shape[0]):
-#     plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
+for k in range(beta_aeolus.shape[0]):
+    plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'pink', alpha=0.5)
 # plt.plot([], [], 'k', label='Aeolus')
 # plt.plot(np.nanmean(alpha_aeolus, axis=0), alt_aeolus_mean, 'r', label='Aeolus')
 for i in range(len(alpha_aeolus_mean)-1):
