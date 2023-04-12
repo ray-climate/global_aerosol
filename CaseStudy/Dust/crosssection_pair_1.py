@@ -26,8 +26,7 @@ for npz_file in os.listdir(input_path):
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
-print(alpha_caliop)
-quit()
+
 # Create a list to store the columns to keep
 columns_to_keep = []
 
@@ -35,9 +34,10 @@ for k in range(beta_caliop.shape[1]):
     max_index = np.nanargmax(beta_caliop[:, k])
     alt_value = alt_caliop[max_index]
     print('Caliop dust peak height is: ', alt_value, 'km')
+    print(alpha_caliop[:,k])
     if alt_value >= 2:
         columns_to_keep.append(k)
-
+quit()
 # Create a new array with only the columns we want to keep
 beta_caliop = beta_caliop[:, columns_to_keep]
 alpha_caliop = alpha_caliop[:, columns_to_keep]
