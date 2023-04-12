@@ -89,6 +89,12 @@ for k in range(beta_aeolus.shape[0]):
     alt_value = (alt_aeolus[k, max_index] + alt_aeolus[k, max_index+1]) / 2.
     print('Aeolus dust peak height is: ', alt_value, 'km')
 
+# integrate the alpha_aeolus to get the aod_aeolus
+
+for k in range(alpha_aeolus.shape[0]):
+    print(alt_aeolus[k, :])
+quit()
+
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
@@ -113,7 +119,6 @@ plt.plot(np.nanmean(beta_caliop, axis=1), alt_caliop, 'k', label='Caliop')
 # plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, 'b', label='Aeolus')
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_avg[i], alt_aeolus_avg[i+1]], 'r')
-    print(beta_aeolus_mean[i])
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_avg[i+1], alt_aeolus_avg[i+1]], 'r')
 plt.plot([], [], 'r', label='Aeolus')
@@ -155,6 +160,7 @@ plt.close()
 alpha_caliop[alpha_caliop < 1.e-4] = np.nan
 alpha_aeolus[alpha_aeolus< 1.e-4] = np.nan
 alpha_aeolus_mean = np.nanmean(alpha_aeolus, axis=0)
+
 plt.figure(figsize=(8, 12))
 # for k in range(beta_caliop.shape[1]):
 #     plt.plot(alpha_caliop[:, k], alt_caliop, 'k', alpha=0.1)
