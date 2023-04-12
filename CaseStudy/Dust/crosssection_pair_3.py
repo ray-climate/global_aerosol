@@ -81,7 +81,7 @@ for k in range(beta_aeolus.shape[0]):
 
 # integrate the alpha_aeolus to get the aod_aeolus
 
-aeolus_aod = np.zeros(alpha_aeolus.shape[0])
+aeolus_aod = np.zeros(lat_aeolus.shape)
 print(aeolus_aod.shape)
 for k in range(alpha_aeolus.shape[0]):
     for kk in range(alpha_aeolus.shape[1]):
