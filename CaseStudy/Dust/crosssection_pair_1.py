@@ -38,8 +38,11 @@ for npz_file in os.listdir(input_path):
 for k in range(beta_caliop.shape[1]):
 
     max_index = np.nanargmax(beta_caliop[:, k])
-    print('Dust peak height is: ', alt_caliop[max_index], 'km')
+    print('Caliop dust peak height is: ', alt_caliop[max_index], 'km')
 
+for k in range(beta_aeolus.shape[0]):
+    max_index = np.nanargmax(beta_aeolus[k, :])
+    print('Aeolus dust peak height is: ', alt_aeolus[k, max_index], 'km')
 
 quit()
 
