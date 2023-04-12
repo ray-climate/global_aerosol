@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    crosssection_part_3.py
+# @Filename:    crossection_part_3.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        11/04/2023 16:07
@@ -51,11 +51,31 @@ plt.savefig(save_path + 'caliop_aod_532nm.png', dpi=300)
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
+        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
+
+# Create a list to store the columns to keep
+columns_to_keep = []
+
+for k in range(beta_caliop.shape[1]):
+    max_index = np.nanargmax(beta_caliop[:, k])
+    alt_value = alt_caliop[max_index]
+    print('Caliop dust peak height is: ', alt_value, 'km')
+
+    if alt_value >= 2:
+        columns_to_keep.append(k)
+
+# Create a new array with only the columns we want to keep
+beta_caliop = beta_caliop[:, columns_to_keep]
+alpha_caliop = alpha_caliop[:, columns_to_keep]
+dp_caliop = dp_caliop[:, columns_to_keep]
+aod_caliop = aod_caliop[columns_to_keep]
+lat_caliop = lat_caliop[columns_to_keep]
+print('mean of aod is', np.nanmean(aod_caliop))
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_descending_202006190812' in npz_file):
@@ -121,14 +141,15 @@ plt.close()
 
 ####
 
-alpha_caliop[beta_caliop < 1.e-4] = np.nan
+alpha_caliop[alpha_caliop < 1.e-4] = np.nan
 alpha_aeolus[alpha_aeolus< 1.e-4] = np.nan
 
 plt.figure(figsize=(8, 12))
 # for k in range(beta_caliop.shape[1]):
 #     plt.plot(alpha_caliop[:, k], alt_caliop, 'k', alpha=0.1)
 # plt.plot([], [], 'k', label='Caliop')
-plt.plot(np.nanmean(beta_caliop, axis=1), alt_caliop, 'k', label='Caliop')
+plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='Caliop')
+print(np.nanmean(alpha_caliop, axis=1))
 # for k in range(beta_aeolus.shape[0]):
 #     plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
 # plt.plot([], [], 'k', label='Aeolus')
@@ -147,7 +168,6 @@ output_path = save_path + f'caliop_extinction.png'
 plt.grid()
 plt.savefig(output_path, dpi=300)
 plt.close()
-
 
 
 
