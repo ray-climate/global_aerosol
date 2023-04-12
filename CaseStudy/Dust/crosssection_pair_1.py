@@ -118,6 +118,7 @@ for k in range(beta_caliop.shape[1]):
     plt.plot(alpha_caliop[:, k], alt_caliop, 'k', alpha=0.1)
 plt.plot([], [], 'k', label='Caliop')
 plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='Caliop')
+print(np.nanmean(alpha_caliop, axis=1))
 # for k in range(beta_aeolus.shape[0]):
 #     plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
 # plt.plot([], [], 'k', label='Aeolus')
