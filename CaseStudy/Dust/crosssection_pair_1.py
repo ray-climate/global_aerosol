@@ -20,12 +20,29 @@ if not os.path.exists(save_path):
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
-
+        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
+
+# Create a list to store the columns to keep
+columns_to_keep = []
+
+for k in range(beta_caliop.shape[1]):
+    max_index = np.nanargmax(beta_caliop[:, k])
+    alt_value = alt_caliop[max_index]
+    print('Caliop dust peak height is: ', alt_value, 'km')
+    if alt_value >= 2:
+        columns_to_keep.append(k)
+
+# Create a new array with only the columns we want to keep
+beta_caliop = beta_caliop[:, columns_to_keep]
+alpha_caliop = alpha_caliop[:, columns_to_keep]
+dp_caliop = dp_caliop[:, columns_to_keep]
+aod_caliop = aod_caliop[:, columns_to_keep]
+lat_caliop = lat_caliop[columns_to_keep]
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_descending_202006190812' in npz_file):
@@ -35,18 +52,6 @@ for npz_file in os.listdir(input_path):
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
 
-
-for k in range(beta_caliop.shape[1]):
-
-    max_index = np.nanargmax(beta_caliop[:, k])
-    print('Caliop dust peak height is: ', alt_caliop[max_index], 'km')
-
-for k in range(beta_aeolus.shape[0]):
-    max_index = np.nanargmax(beta_aeolus[k, :])
-    print('Aeolus dust peak height is: ', (alt_aeolus[k, max_index] + alt_aeolus[k, max_index + 1])/2., 'km')
-
-print(np.nanmean(alt_aeolus, axis=0))
-quit()
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
