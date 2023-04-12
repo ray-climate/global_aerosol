@@ -86,6 +86,7 @@ for k in range(alpha_aeolus.shape[0]):
         if (alpha_aeolus[k, kk] > 0) & (alt_aeolus[k, kk] > 0) & (alt_aeolus[k, kk+1] > 0):
             aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
 
+print(aeolus_aod)
 rows_to_keep_aeolus = []
 for k in range(len(aeolus_aod)):
     if aeolus_aod[k] <= 6.:
