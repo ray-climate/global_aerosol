@@ -87,7 +87,7 @@ for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
     alt_value = (alt_aeolus[k, max_index] + alt_aeolus[k, max_index+1]) / 2.
     print('Aeolus dust peak height is: ', alt_value, 'km')
-quit()
+
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
@@ -99,6 +99,7 @@ beta_caliop[beta_caliop < 1.e-4] = np.nan
 alt_aeolus_mean = np.nanmean(alt_aeolus, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 beta_aeolus[beta_aeolus< 1.e-4] = np.nan
+beta_aeolus_mean = np.nanmean(beta_aeolus, axis=0)
 
 plt.figure(figsize=(8, 12))
 # for k in range(beta_caliop.shape[1]):
@@ -108,7 +109,12 @@ plt.plot(np.nanmean(beta_caliop, axis=1), alt_caliop, 'k', label='Caliop')
 # for k in range(beta_aeolus.shape[0]):
 #     plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
 # plt.plot([], [], 'k', label='Aeolus')
-plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, 'r', label='Aeolus')
+# plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, 'r', label='Aeolus')
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r')
+plt.plot([], [], 'r', label='Aeolus')
 
 plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=16)
