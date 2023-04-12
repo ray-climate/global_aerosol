@@ -41,7 +41,7 @@ for k in range(beta_caliop.shape[1]):
 beta_caliop = beta_caliop[:, columns_to_keep]
 alpha_caliop = alpha_caliop[:, columns_to_keep]
 dp_caliop = dp_caliop[:, columns_to_keep]
-aod_caliop = aod_caliop[:, columns_to_keep]
+aod_caliop = aod_caliop[columns_to_keep]
 lat_caliop = lat_caliop[columns_to_keep]
 
 for npz_file in os.listdir(input_path):
