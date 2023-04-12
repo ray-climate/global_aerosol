@@ -44,9 +44,6 @@ for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
     print('Aeolus dust peak height is: ', alt_aeolus[k, max_index], 'km')
 
-quit()
-
-quit()
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
