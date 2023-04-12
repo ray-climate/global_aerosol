@@ -52,7 +52,7 @@ for k in range(beta_caliop.shape[1]):
     max_index = np.nanargmax(beta_caliop[:, k])
     alt_value = alt_caliop[max_index]
     print('Caliop dust peak height is: ', alt_value, 'km')
-    if alt_value >= 2:
+    if alt_value >= 1:
         columns_to_keep.append(k)
 
 # Create a new array with only the columns we want to keep
@@ -85,6 +85,16 @@ for k in range(alpha_aeolus.shape[0]):
     for kk in range(alpha_aeolus.shape[1]):
         if (alpha_aeolus[k, kk] > 0) & (alt_aeolus[k, kk] > 0) & (alt_aeolus[k, kk+1] > 0):
             aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
+
+rows_to_keep_aeolus = []
+for k in range(len(aeolus_aod)):
+    if aeolus_aod[k] <= 6.:
+        rows_to_keep_aeolus.append(k)
+
+beta_aeolus = beta_aeolus[rows_to_keep_aeolus, :]
+alpha_aeolus = alpha_aeolus[rows_to_keep_aeolus, :]
+lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
+aeolus_aod = aeolus_aod[rows_to_keep_aeolus]
 
 fontsize = 18
 # plt aod_caliop
