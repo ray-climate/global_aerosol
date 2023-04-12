@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    crossection_part_3.py
+# @Filename:    crosssection_pair_3.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        11/04/2023 16:07
@@ -47,7 +47,6 @@ plt.yticks(fontsize=16)
 plt.legend(loc='best', fontsize=16)
 plt.savefig(save_path + 'caliop_aod_532nm.png', dpi=300)
 
-
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
@@ -65,7 +64,6 @@ for k in range(beta_caliop.shape[1]):
     max_index = np.nanargmax(beta_caliop[:, k])
     alt_value = alt_caliop[max_index]
     print('Caliop dust peak height is: ', alt_value, 'km')
-
     if alt_value >= 2:
         columns_to_keep.append(k)
 
@@ -85,6 +83,11 @@ for npz_file in os.listdir(input_path):
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
 
+for k in range(beta_aeolus.shape[0]):
+    max_index = np.nanargmax(beta_aeolus[k, :])
+    alt_value = alt_aeolus[max_index]
+    print('Aeolus dust peak height is: ', alt_value, 'km')
+quit()
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
