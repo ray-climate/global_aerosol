@@ -85,7 +85,7 @@ for npz_file in os.listdir(input_path):
 
 for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
-    alt_value = alt_aeolus[max_index]
+    alt_value = (alt_aeolus[k, max_index] + alt_aeolus[k, max_index+1]) / 2.
     print('Aeolus dust peak height is: ', alt_value, 'km')
 quit()
 dp_caliop[dp_caliop < 0] = np.nan
