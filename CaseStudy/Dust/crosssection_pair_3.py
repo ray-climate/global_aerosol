@@ -35,19 +35,6 @@ lat = lat.astype(float)
 caliop_aod = caliop_aod.astype(float)
 modis_aod = modis_aod.astype(float)
 
-fontsize = 18
-# plt aod_caliop
-plt.figure(figsize=(16,8))
-plt.plot(lat, caliop_aod, 'ro-', label='CALIOP AOD')
-plt.plot(lat, modis_aod, 'bo-', label='MODIS AOD')
-plt.xlabel('Latitude', fontsize=fontsize)
-plt.ylabel('AOD 532 nm' , fontsize=fontsize)
-plt.title('CALIOP/MODIS AOD 532 nm', fontsize=fontsize)
-plt.xticks(fontsize=fontsize)
-plt.yticks(fontsize=fontsize)
-plt.legend(loc='best', fontsize=fontsize)
-plt.savefig(save_path + 'caliop_aod_532nm.png', dpi=300)
-
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
@@ -84,8 +71,7 @@ for npz_file in os.listdir(input_path):
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
-print(lat_aeolus.shape)
-quit()
+
 for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
     alt_value = (alt_aeolus[k, max_index] + alt_aeolus[k, max_index+1]) / 2.
@@ -98,6 +84,21 @@ for k in range(alpha_aeolus.shape[0]):
     for kk in range(alpha_aeolus.shape[1]):
         if (alpha_aeolus[k, kk] > 0) & (alt_aeolus[k, kk] > 0) & (alt_aeolus[k, kk+1] > 0):
             aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
+
+fontsize = 18
+# plt aod_caliop
+plt.figure(figsize=(16,8))
+plt.plot(lat, caliop_aod, 'ro-', label='CALIOP AOD')
+plt.plot(lat, modis_aod, 'bo-', label='MODIS AOD')
+plt.plot(lat_aeolus, aeolus_aod, 'go-', label='AEOLUS AOD')
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('AOD 532 nm' , fontsize=fontsize)
+plt.title('CALIOP/AEOLUS/MODIS AOD', fontsize=fontsize)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
+plt.savefig(save_path + 'caliop_modis_aeolus_aod.png', dpi=300)
+quit()
 
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
