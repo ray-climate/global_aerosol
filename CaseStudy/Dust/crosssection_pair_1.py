@@ -34,10 +34,10 @@ for k in range(beta_caliop.shape[1]):
     max_index = np.nanargmax(beta_caliop[:, k])
     alt_value = alt_caliop[max_index]
     print('Caliop dust peak height is: ', alt_value, 'km')
-    print(alpha_caliop[:,k])
+
     if alt_value >= 2:
         columns_to_keep.append(k)
-quit()
+
 # Create a new array with only the columns we want to keep
 beta_caliop = beta_caliop[:, columns_to_keep]
 alpha_caliop = alpha_caliop[:, columns_to_keep]
