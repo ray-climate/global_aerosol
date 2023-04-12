@@ -109,7 +109,7 @@ plt.plot(np.nanmean(beta_caliop, axis=1), alt_caliop, 'k', label='Caliop')
 # for k in range(beta_aeolus.shape[0]):
 #     plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
 # plt.plot([], [], 'k', label='Aeolus')
-# plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, 'r', label='Aeolus')
+plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, 'r', label='Aeolus')
 for i in range(len(beta_aeolus_mean)-1):
     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
     print(beta_aeolus_mean[i])
