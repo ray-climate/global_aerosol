@@ -35,6 +35,9 @@ for npz_file in os.listdir(input_path):
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
 
+print(beta_aeolus.shape)
+print(alpha_aeolus.shape)
+quit()
 for k in range(beta_caliop.shape[1]):
 
     max_index = np.nanargmax(beta_caliop[:, k])
@@ -44,6 +47,7 @@ for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
     print('Aeolus dust peak height is: ', alt_aeolus[k, max_index], 'km')
 
+quit()
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
