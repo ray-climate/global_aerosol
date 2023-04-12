@@ -36,7 +36,7 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
 
 print(beta_aeolus.shape)
-print(alpha_aeolus.shape)
+print(alt_aeolus.shape)
 quit()
 for k in range(beta_caliop.shape[1]):
 
