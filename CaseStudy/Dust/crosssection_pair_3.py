@@ -35,16 +35,17 @@ lat = lat.astype(float)
 caliop_aod = caliop_aod.astype(float)
 modis_aod = modis_aod.astype(float)
 
+fontsize = 18
 # plt aod_caliop
 plt.figure(figsize=(16,8))
 plt.plot(lat, caliop_aod, 'ro-', label='CALIOP AOD')
 plt.plot(lat, modis_aod, 'bo-', label='MODIS AOD')
-plt.xlabel('Latitude', fontsize=16)
-plt.ylabel('AOD 532 nm' , fontsize=16)
-plt.title('CALIOP/MODIS AOD 532 nm', fontsize=16)
-plt.xticks(fontsize=16)
-plt.yticks(fontsize=16)
-plt.legend(loc='best', fontsize=16)
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('AOD 532 nm' , fontsize=fontsize)
+plt.title('CALIOP/MODIS AOD 532 nm', fontsize=fontsize)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + 'caliop_aod_532nm.png', dpi=300)
 
 for npz_file in os.listdir(input_path):
@@ -118,13 +119,13 @@ for i in range(len(beta_aeolus_mean)-1):
 plt.plot([], [], 'r', label='Aeolus')
 
 plt.xscale('log')
-plt.ylabel('Altitude (km)', fontsize=16)
-plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
+plt.ylabel('Altitude (km)', fontsize=fontsize)
+plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=fontsize)
 # plt.title(f'Aerosol backscatter coefficients over Sahara dust', fontsize=18, y=1.05)
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
 plt.ylim([0.,15.])
-plt.legend(loc='best', fontsize=18, frameon=False)
+plt.legend(loc='best', fontsize=fontsize, frameon=False)
 # Save the figure
 output_path = save_path + f'caliop_backscatter.png'
 plt.grid()
@@ -171,11 +172,11 @@ for i in range(len(alpha_aeolus_mean)-1):
 plt.plot([], [], 'r', label='Aeolus')
 
 plt.xscale('log')
-plt.ylabel('Altitude (km)', fontsize=16)
-plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
+plt.ylabel('Altitude (km)', fontsize=fontsize)
+plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=fontsize)
 # plt.title(f'Aerosol retrievals over the Sahara [extinction] \n $18^{{th}}$ June 2020', fontsize=18, y=1.05)
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
 plt.ylim([0.,15.])
 plt.legend(loc='best', fontsize=18, frameon=False)
 # Save the figure
