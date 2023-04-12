@@ -124,7 +124,7 @@ plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.ylim([0.,15.])
-plt.legend(loc='best', fontsize=14, frameon=False)
+plt.legend(loc='best', fontsize=18, frameon=False)
 # Save the figure
 output_path = save_path + f'caliop_backscatter.png'
 plt.grid()
@@ -177,7 +177,7 @@ plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.ylim([0.,15.])
-plt.legend(loc='best', fontsize=14, frameon=False)
+plt.legend(loc='best', fontsize=18, frameon=False)
 # Save the figure
 output_path = save_path + f'caliop_extinction.png'
 plt.grid()
