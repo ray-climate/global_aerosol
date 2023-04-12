@@ -44,7 +44,7 @@ dp_caliop = dp_caliop[:, columns_to_keep]
 aod_caliop = aod_caliop[columns_to_keep]
 lat_caliop = lat_caliop[columns_to_keep]
 print('mean of aod is', np.nanmean(aod_caliop))
-quit()
+
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_descending_202006190812' in npz_file):
         # print the file name and variables in the file
