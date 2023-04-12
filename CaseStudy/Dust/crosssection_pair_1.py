@@ -37,7 +37,8 @@ for npz_file in os.listdir(input_path):
 
 for k in range(beta_caliop.shape[1]):
 
-    print(alt_caliop[:, k])
+    print(alt_caliop)
+    print(beta_caliop[:, k])
 
 
 quit()
