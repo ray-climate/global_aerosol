@@ -71,6 +71,8 @@ for npz_file in os.listdir(input_path):
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
+print(lat_aeolus.shape)
+print(alt_aeolus.shape)
 
 for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
@@ -84,7 +86,7 @@ for k in range(alpha_aeolus.shape[0]):
     for kk in range(alpha_aeolus.shape[1]):
         if (alpha_aeolus[k, kk] > 0) & (alt_aeolus[k, kk] > 0) & (alt_aeolus[k, kk+1] > 0):
             aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
-
+print(aeolus_aod.shape)
 fontsize = 18
 # plt aod_caliop
 plt.figure(figsize=(16,8))
