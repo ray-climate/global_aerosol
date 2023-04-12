@@ -26,7 +26,8 @@ for npz_file in os.listdir(input_path):
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
-
+print(alpha_caliop)
+quit()
 # Create a list to store the columns to keep
 columns_to_keep = []
 
