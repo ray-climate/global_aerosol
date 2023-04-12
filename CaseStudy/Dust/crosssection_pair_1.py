@@ -37,8 +37,8 @@ for npz_file in os.listdir(input_path):
 
 for k in range(beta_caliop.shape[1]):
 
-    print(alt_caliop)
-    print(beta_caliop[:, k])
+    max_index = np.nanargmax(beta_caliop[:, k])
+    print('Dust peak height is: ', alt_caliop[max_index], 'km')
 
 
 quit()
