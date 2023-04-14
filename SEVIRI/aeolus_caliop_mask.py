@@ -105,9 +105,9 @@ def get_aeolus_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
     coast = cfeature.COASTLINE
     ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
 
-    # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200,
-    #            label='AEOLUS')
-    # ax.scatter(aeolus_lon[aeolus_mask==1.], aeolus_lat[aeolus_mask==1.], marker='P', color='green', s=150, transform=CRS, zorder=300)
+    ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200,
+               label='AEOLUS')
+    ax.scatter(aeolus_lon[aeolus_mask==1.], aeolus_lat[aeolus_mask==1.], marker='P', color='green', s=150, transform=CRS, zorder=300)
 
     text_str = aeolus_time[int(len(aeolus_time) / 2)].strftime("%H:%M")
     text_x, text_y = aeolus_lon[int(len(aeolus_time) / 2)], aeolus_lat[int(len(aeolus_time) / 2)]
