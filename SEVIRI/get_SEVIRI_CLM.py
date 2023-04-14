@@ -124,7 +124,7 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str,
     #                            rotation=text_angle, rotation_mode='anchor',
     #                            transform=CRS, fontsize=25)
 
-    plt.legend(fontsize=35)
+    # plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False
     gl.bottom_labels = True
