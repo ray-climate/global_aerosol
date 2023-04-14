@@ -212,6 +212,8 @@ for i in range((end_date - start_date).days + 1):
                      qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
                         extract_variables_from_aeolus(aeolus_file_path, logger)
 
+                    print(qc_aeolus_mb)
+                    quit()
                     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                                             (longitude > lon_left) & (longitude < lon_right))[0]
 
