@@ -200,7 +200,8 @@ def get_caliop_mask(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str,
                       ylocs=range(int(extent[1]), int(extent[3]) + 1, 10),
                       color='black', linestyle='dotted',
                       zorder=100, draw_labels=True)
-
+    coast = cfeature.COASTLINE
+    ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
 
     ax.scatter(caliop_lon, caliop_lat, marker='o', color='red', s=10, transform=CRS, zorder=200,
                label='Caliop')

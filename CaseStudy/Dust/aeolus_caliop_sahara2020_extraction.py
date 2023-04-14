@@ -174,6 +174,7 @@ for i in range((end_date - start_date).days + 1):
     aeolus_beta_all = []
     aeolus_alpha_all = []
     aeolus_ber_all = []
+    aeolus_qc_all = []
 
     caliop_time_all = []
     caliop_latitude_all = []
@@ -212,8 +213,6 @@ for i in range((end_date - start_date).days + 1):
                      qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
                         extract_variables_from_aeolus(aeolus_file_path, logger)
 
-                    print(qc_aeolus_mb)
-                    quit()
                     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                                             (longitude > lon_left) & (longitude < lon_right))[0]
 
@@ -224,6 +223,7 @@ for i in range((end_date - start_date).days + 1):
                     sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
                     sca_mb_extinction = sca_mb_extinction[spatial_mask, :]
                     sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
+                    sca_mb_qc = qc_aeolus_mb[spatial_mask, :]
 
                     aeolus_latitude_all.extend(latitude_i)
                     aeolus_longitude_all.extend(longitude_i)
@@ -236,11 +236,13 @@ for i in range((end_date - start_date).days + 1):
                         aeolus_alpha_all = np.concatenate([aeolus_alpha_all, sca_mb_extinction], axis=0)
                         aeolus_ber_all = np.concatenate([aeolus_ber_all, sca_mb_ber], axis=0)
                         aeolus_altitude_all = np.concatenate([aeolus_altitude_all, sca_mb_altitude], axis=0)
+                        aeolus_qc_all = np.concatenate([aeolus_qc_all, sca_mb_qc], axis=0)
                     except:
                         aeolus_beta_all = np.copy(sca_mb_backscatter)
                         aeolus_alpha_all = np.copy(sca_mb_extinction)
                         aeolus_ber_all = np.copy(sca_mb_ber)
                         aeolus_altitude_all = np.copy(sca_mb_altitude)
+                        aeolus_qc_all = np.copy(sca_mb_qc)
 
         if input_sat == 'Caliop':
 
@@ -310,6 +312,7 @@ for i in range((end_date - start_date).days + 1):
         aeolus_time_asc_des = []
         aeolus_beta_asc_des = []
         aeolus_alpha_asc_des = []
+        aeolus_qc_asc_des = []
 
         if input_mode == 'ascending':
             for m in range(len(lat_sublists)):
@@ -320,6 +323,7 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
                     aeolus_beta_asc_des.append(aeolus_beta_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
                     aeolus_alpha_asc_des.append(aeolus_alpha_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+                    aeolus_qc_asc_des.append(aeolus_qc_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
         else:
             for m in range(len(lat_sublists)):
                 if aeolus_latitude_all[lat_sublists[m][1]] - aeolus_latitude_all[lat_sublists[m][0]] < 0:
@@ -329,6 +333,7 @@ for i in range((end_date - start_date).days + 1):
                     aeolus_alt_asc_des.append(aeolus_altitude_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
                     aeolus_beta_asc_des.append(aeolus_beta_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
                     aeolus_alpha_asc_des.append(aeolus_alpha_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
+                    aeolus_qc_asc_des.append(aeolus_qc_all[lat_sublists[m][0]:lat_sublists[m][-1], :])
 
         central_time = aeolus_time_asc_des[int(len(aeolus_time_asc_des) / 2)][
             int(len(aeolus_time_asc_des[0]) / 2)]
@@ -362,6 +367,15 @@ for i in range((end_date - start_date).days + 1):
                                         save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
                                                  (input_sat, input_mode, HRSEVIRI_time_str_k))
 
+                        get_SEVIRI_HR_cartopy(HRSEVIRI_file,
+                                              extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                              title='SEVIRI Dust RGB %s' % converted_SEVIRI_background_datetime,
+                                              aeolus_lat=aeolus_lat_asc_des[k],
+                                              aeolus_lon=aeolus_lon_asc_des[k],
+                                              aeolus_time=aeolus_time_asc_des[k],
+                                              save_str=output_dir + '/SEVIRI_dust_RGB_%s_%s_%s.png' % (
+                                              input_sat, input_mode, HRSEVIRI_time_str_k))
+
                         if len(aeolus_mask[aeolus_mask == 1.]) > 0:
 
                             getAeolus2Dbeta(aeolus_lon_asc_des[k],
@@ -377,10 +391,11 @@ for i in range((end_date - start_date).days + 1):
                                       'lon': np.asarray(aeolus_lon_asc_des[k])[np.where(aeolus_mask==1.)[0]],
                                       'alt': np.asarray(aeolus_alt_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
                                       'beta': np.asarray(aeolus_beta_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
-                                      'alpha': np.asarray(aeolus_alpha_asc_des[k])[np.where(aeolus_mask==1.)[0],:]}
+                                      'alpha': np.asarray(aeolus_alpha_asc_des[k])[np.where(aeolus_mask==1.)[0],:],
+                                      'qc': np.asarray(aeolus_qc_asc_des[k])[np.where(aeolus_mask==1.)[0],:],}
 
                             # Save the dictionary as an npz file
-                            np.savez(output_dir + '/aeolus_%s_%s.npz' % (input_mode, HRSEVIRI_time_str_k), **params)
+                            np.savez(output_dir + '/aeolus_qc_%s_%s.npz' % (input_mode, HRSEVIRI_time_str_k), **params)
 
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
