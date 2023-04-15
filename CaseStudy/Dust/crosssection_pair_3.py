@@ -90,7 +90,8 @@ qc_bits = qc_to_bits(qc_aeolus)
 second_bit = qc_bits[:, :, 1]
 # Create a boolean mask where the second bit equals 1 (valid data)
 valid_mask_backscatter = second_bit == 1
-beta_aeolus_qc = np.ma.masked_where(~valid_mask_backscatter, beta_aeolus)
+# set invalid data to nan
+beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
 print(beta_aeolus_qc)
 
 for k in range(len(lat_aeolus)):
