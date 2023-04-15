@@ -90,16 +90,16 @@ qc_bits = qc_to_bits(qc_aeolus)
 first_bit = qc_bits[:, :, -1]
 second_bit = qc_bits[:, :, -2]
 # Create a boolean mask where the second bit equals 1 (valid data)
-valid_mask_extinction = first_bit == 1
-valid_mask_backscatter = second_bit == 1
+valid_mask_extinction = first_bit == 0
+valid_mask_backscatter = second_bit == 0
 # set invalid data to nan
 alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
 beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
 
 for k in range(len(lat_aeolus)):
     print(lat_aeolus[k])
-    print(qc_bits[k, :])
-    print(first_bit[k, :])
+    print(alpha_aeolus_qc[k, :])
+
 quit()
 
 for k in range(beta_aeolus.shape[0]):
