@@ -74,7 +74,7 @@ for npz_file in os.listdir(input_path):
         qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
 
 for k in range(len(lat_aeolus)):
-    print(alt_aeolus[k, :])
+    print(lat_aeolus[k])
     print(beta_aeolus[k, :])
 quit()
 
