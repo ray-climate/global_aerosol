@@ -90,7 +90,7 @@ qc_bits = qc_to_bits(qc_aeolus)
 second_bit = qc_bits[:, :, 1]
 # Create a boolean mask where the second bit equals 1 (valid data)
 valid_mask_backscatter = second_bit == 1
-print(valid_mask_backscatter.shape)
+print(valid_mask_backscatter)
 # Apply the mask to the beta_aeolus data
 print(beta_aeolus.shape)
 valid_beta_aeolus = beta_aeolus[valid_mask_backscatter]
