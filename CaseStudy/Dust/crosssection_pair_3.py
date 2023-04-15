@@ -69,7 +69,7 @@ for npz_file in os.listdir(input_path):
         print(npz_file)
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
-        beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta'][0:-1, :]
+        beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
         qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc'][0:-1, :]
         print('beta_aeolus shape is', beta_aeolus.shape)
