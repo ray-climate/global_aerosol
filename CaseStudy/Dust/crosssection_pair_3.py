@@ -72,6 +72,22 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
 
+# convert qc_aeolus to bits and check the quality of the data
+def qc_to_bits(qc_array):
+    # Convert the quality control array to uint8
+    qc_uint8 = qc_array.astype(np.uint8)
+
+    # Unpack the uint8 array to bits
+    qc_bits = np.unpackbits(qc_uint8, axis=1)
+
+    # Reshape the bits array to match the original shape
+    qc_bits = qc_bits.reshape(*qc_array.shape, -1)
+
+    return qc_bits
+# Convert the quality control data to 8 bits
+qc_bits = qc_to_bits(qc_aeolus)
+print(qc_bits)
+quit()
 for k in range(len(lat_aeolus)):
     print(qc_aeolus[k, :])
 quit()
