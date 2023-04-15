@@ -87,14 +87,15 @@ def qc_to_bits(qc_array):
 # Convert the quality control data to 8 bits
 qc_bits = qc_to_bits(qc_aeolus)
 
-print(qc_bits)
-quit()
-for k in range(len(lat_aeolus)):
-    print(qc_aeolus[k, :])
-quit()
+second_bit = qc_bits[:, :, 1]
+# Create a boolean mask where the second bit equals 1 (valid data)
+valid_mask_backscatter = second_bit == 1
+# Apply the mask to the beta_aeolus data
+valid_beta_aeolus = beta_aeolus[valid_mask_backscatter]
+
 for k in range(len(lat_aeolus)):
     print(lat_aeolus[k])
-    print(beta_aeolus[k, :])
+    print(valid_beta_aeolus[k, :])
 quit()
 
 for k in range(beta_aeolus.shape[0]):
