@@ -70,12 +70,13 @@ for npz_file in os.listdir(input_path):
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta']
-        alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha'][0:-1, :]
-        qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc'][0:-1, :]
-        print('beta_aeolus shape is', beta_aeolus.shape)
-        print('lat_aeolus shape is', lat_aeolus.shape)
-        print('qc_aeolus shape is', qc_aeolus.shape)
-        quit()
+        alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
+
+for k in range(len(lat_aeolus)):
+    print(alt_aeolus[k, :])
+    print(beta_aeolus[k, :])
+quit()
 
 for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
