@@ -96,13 +96,6 @@ valid_mask_backscatter = second_bit == 1
 alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
 beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
 
-for k in range(len(lat_aeolus)):
-    print(lat_aeolus[k])
-    print(alpha_aeolus_qc[k, :])
-    print(beta_aeolus_qc[k, :])
-
-quit()
-
 for k in range(beta_aeolus.shape[0]):
     max_index = np.nanargmax(beta_aeolus[k, :])
     alt_value = (alt_aeolus[k, max_index] + alt_aeolus[k, max_index+1]) / 2.
@@ -112,10 +105,10 @@ for k in range(beta_aeolus.shape[0]):
 
 aeolus_aod = np.zeros(len(lat_aeolus)-1)
 
-for k in range(alpha_aeolus.shape[0]):
-    for kk in range(alpha_aeolus.shape[1]):
-        if (alpha_aeolus[k, kk] > 0) & (alt_aeolus[k, kk] > 0) & (alt_aeolus[k, kk+1] > 0):
-            aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
+for k in range(alpha_aeolus_qc.shape[0]):
+    for kk in range(alpha_aeolus_qc.shape[1]):
+        if (alpha_aeolus_qc[k, kk] > 0) & (alt_aeolus[k, kk] > 0) & (alt_aeolus[k, kk+1] > 0):
+            aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
 
 print(aeolus_aod)
 rows_to_keep_aeolus = []
@@ -123,8 +116,8 @@ for k in range(len(aeolus_aod)):
     if aeolus_aod[k] <= 6.:
         rows_to_keep_aeolus.append(k)
 
-beta_aeolus = beta_aeolus[rows_to_keep_aeolus, :]
-alpha_aeolus = alpha_aeolus[rows_to_keep_aeolus, :]
+beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
+alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 aeolus_aod = aeolus_aod[rows_to_keep_aeolus]
 
@@ -206,8 +199,8 @@ plt.close()
 ####
 
 alpha_caliop[alpha_caliop < 1.e-4] = np.nan
-alpha_aeolus[alpha_aeolus< 1.e-4] = np.nan
-alpha_aeolus_mean = np.nanmean(alpha_aeolus, axis=0)
+alpha_aeolus_qc[alpha_aeolus_qc< 1.e-4] = np.nan
+alpha_aeolus_mean = np.nanmean(alpha_aeolus_qc, axis=0)
 
 plt.figure(figsize=(8, 12))
 # for k in range(beta_caliop.shape[1]):
@@ -215,8 +208,8 @@ plt.figure(figsize=(8, 12))
 # plt.plot([], [], 'k', label='Caliop')
 plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='Caliop')
 
-for k in range(beta_aeolus.shape[0]):
-    plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'pink', alpha=0.5)
+# for k in range(beta_aeolus.shape[0]):
+#     plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'pink', alpha=0.5)
 # plt.plot([], [], 'k', label='Aeolus')
 # plt.plot(np.nanmean(alpha_aeolus, axis=0), alt_aeolus_mean, 'r', label='Aeolus')
 for i in range(len(alpha_aeolus_mean)-1):
