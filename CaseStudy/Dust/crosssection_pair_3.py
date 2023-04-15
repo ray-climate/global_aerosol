@@ -86,6 +86,7 @@ def qc_to_bits(qc_array):
     return qc_bits
 # Convert the quality control data to 8 bits
 qc_bits = qc_to_bits(qc_aeolus)
+
 print(qc_bits)
 quit()
 for k in range(len(lat_aeolus)):
