@@ -146,8 +146,8 @@ beta_caliop[beta_caliop < 1.e-4] = np.nan
 
 alt_aeolus_avg = np.nanmean(alt_aeolus, axis=0)
 alt_aeolus_mean = (alt_aeolus_avg[1:] + alt_aeolus_avg[:-1]) / 2.0
-beta_aeolus[beta_aeolus< 1.e-4] = np.nan
-beta_aeolus_mean = np.nanmean(beta_aeolus, axis=0) / conversion_factor
+beta_aeolus_qc[beta_aeolus_qc< 1.e-4] = np.nan
+beta_aeolus_mean = np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor
 
 plt.figure(figsize=(8, 12))
 # for k in range(beta_caliop.shape[1]):
