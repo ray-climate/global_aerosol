@@ -98,7 +98,7 @@ beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
 
 for k in range(len(lat_aeolus)):
     print(lat_aeolus[k])
-    print(alpha_aeolus_qc[k, :])
+    print(qc_bits[k, :])
 quit()
 
 for k in range(beta_aeolus.shape[0]):
