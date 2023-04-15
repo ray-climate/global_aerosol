@@ -152,6 +152,10 @@ plt.close()
 
 ####
 
+for i in range(alpha_aeolus_qc.shape[0]):
+    print(lat_aeolus[i])
+    print(alpha_aeolus_qc[i, :])
+
 alpha_caliop[alpha_caliop < 1.e-4] = np.nan
 alpha_aeolus_qc[alpha_aeolus_qc< 1.e-4] = np.nan
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_qc, axis=0)
