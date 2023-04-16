@@ -108,16 +108,16 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str,
                                transform=CRS, fontsize=25)
     else:
 
-        caliop_lat_array = list(itertools.chain(*caliop_lat))
-        caliop_lon_array = list(itertools.chain(*caliop_lon))
-        caliop_time_array = list(itertools.chain(*caliop_time))
+        caliop_lat_array = np.asarray(caliop_lat)
+        caliop_lon_array = np.asarray(caliop_lon)
+        caliop_time_array = np.asarray(caliop_time)
 
         ax.scatter(caliop_lon_array, caliop_lat_array, marker='o', color='red', s=10, transform=CRS, zorder=200,
                    label='CALIOP')
         for j in range(len(caliop_time)):
-            text_str = caliop_time[j][int(len(caliop_time[j]) / 2)].strftime("%H:%M")
-            text_x, text_y = caliop_lon[j][int(len(caliop_time[j]) / 2)], caliop_lat[j][
-                int(len(caliop_time[j]) / 2)]
+            text_str = caliop_time[int(len(caliop_time) / 2)].strftime("%H:%M")
+            text_x, text_y = caliop_lon[int(len(caliop_time) / 2)], caliop_lat[int(len(caliop_time) / 2)]
+
             text_x = text_x + 1.
             text_angle = -78.
             text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='red',
