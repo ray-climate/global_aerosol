@@ -424,39 +424,27 @@ for i in range((end_date - start_date).days + 1):
                         day_SEVIRI_background = HRSEVIRI_time_str_k[6:8]
                         converted_SEVIRI_background_datetime = f"{year_SEVIRI_background}-{month_SEVIRI_background}-{day_SEVIRI_background}"
 
-                        caliop_mask = \
-                        get_caliop_mask(SEVIRI_HR_file_path=HRSEVIRI_file,
-                                        BTD_ref=IanSEVIRI_ref,
-                                        extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
-                                        title='SEVIRI Dust Mask %s' % HRSEVIRI_time_str_k,
-                                        caliop_lat=caliop_lat_asc_des[k],
-                                        caliop_lon=caliop_lon_asc_des[k],
-                                        caliop_time=caliop_time_asc_des[k],
-                                        save_str=output_dir + '/SEVIRI_dust_%s_%s_%s.png' %
-                                                 (input_sat, input_mode, HRSEVIRI_time_str_k))
+                        caliop_mask = np.ones((len(caliop_lat_asc_des[k])))
 
-                        if len(caliop_mask[caliop_mask == 1.]) > 0:
+                        get_SEVIRI_HR_cartopy(HRSEVIRI_file,
+                                              extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
+                                              title='SEVIRI Dust RGB %s' % HRSEVIRI_time_str_k,
+                                              caliop_lat=caliop_lat_asc_des[k],
+                                              caliop_lon=caliop_lon_asc_des[k],
+                                              caliop_time=caliop_time_asc_des[k],
+                                              save_str=output_dir + '/SEVIRI_dust_RGB_%s_%s_%s.png' % (
+                                                  input_sat, input_mode, HRSEVIRI_time_str_k))
 
-                            getcaliop2Dbeta(caliop_lon_asc_des[k],
-                                            alt_caliop,
-                                            caliop_beta_asc_des[k],
-                                            caliop_mask,
-                                            extent=[meridional_boundary[0], meridional_boundary[1], altitude_boundary[0], altitude_boundary[1]],
-                                            # extent=[1.,6., altitude_boundary[0], altitude_boundary[1]],
-                                            save_str = output_dir + '/proj_%s_%s_%s.png' %
-                                                 (input_sat, input_mode, HRSEVIRI_time_str_k))
+                        # Create a dictionary to store the parameters
+                        params = {'lat': np.asarray(caliop_lat_asc_des[k])[np.where(caliop_mask==1.)[0]],
+                                  'lon': np.asarray(caliop_lon_asc_des[k])[np.where(caliop_mask==1.)[0]],
+                                  'alt': np.asarray(alt_caliop),
+                                  'beta': np.asarray(caliop_beta_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
+                                  'alpha': np.asarray(caliop_alpha_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
+                                  'dp': np.asarray(caliop_dp_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
+                                  'aod': np.asarray(caliop_aod_asc_des[k])[np.where(caliop_mask==1.)[0]]}
 
-                            # Create a dictionary to store the parameters
-                            params = {'lat': np.asarray(caliop_lat_asc_des[k])[np.where(caliop_mask==1.)[0]],
-                                      'lon': np.asarray(caliop_lon_asc_des[k])[np.where(caliop_mask==1.)[0]],
-                                      'alt': np.asarray(alt_caliop),
-                                      'beta': np.asarray(caliop_beta_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
-                                      'alpha': np.asarray(caliop_alpha_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
-                                      'dp': np.asarray(caliop_dp_asc_des[k])[:, np.where(caliop_mask==1.)[0]],
-                                      'aod': np.asarray(caliop_aod_asc_des[k])[np.where(caliop_mask==1.)[0]]}
-
-
-                            # Save the dictionary as an npz file
-                            np.savez(output_dir + '/caliop_dbd_%s_%s.npz'%(input_mode, HRSEVIRI_time_str_k), **params)
+                        # Save the dictionary as an npz file
+                        np.savez(output_dir + '/caliop_dbd_%s_%s.npz'%(input_mode, HRSEVIRI_time_str_k), **params)
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
