@@ -92,9 +92,9 @@ def get_SEVIRI_HR_cartopy(file_path, extent, title, save_str,
     ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Add the scatter plot
     if aeolus_lat is not None:
-        aeolus_lat_array = list(itertools.chain(*aeolus_lat))
-        aeolus_lon_array = list(itertools.chain(*aeolus_lon))
-        aeolus_time_array = list(itertools.chain(*aeolus_time))
+        aeolus_lat_array = np.asarray(aeolus_lat)
+        aeolus_lon_array = np.asarray(aeolus_lon)
+        aeolus_time_array = np.asarray(aeolus_time)
         ax.scatter(aeolus_lon_array, aeolus_lat_array, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
 
         # Add the text box
