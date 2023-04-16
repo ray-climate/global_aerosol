@@ -318,8 +318,7 @@ for i in range((end_date - start_date).days + 1):
                         converted_SEVIRI_background_datetime = f"{year_SEVIRI_background}-{month_SEVIRI_background}-{day_SEVIRI_background}"
 
                         aeolus_mask = np.ones((len(aeolus_lat_asc_des[k])))
-                        print(aeolus_time_asc_des[k])
-                        quit()
+
                         get_SEVIRI_HR_cartopy(HRSEVIRI_file,
                                               extent=[meridional_boundary[0], lat_down, meridional_boundary[1], lat_up],
                                               title='SEVIRI Dust RGB %s' % HRSEVIRI_time_str_k,
