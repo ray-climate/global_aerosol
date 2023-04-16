@@ -319,6 +319,7 @@ def get_SEVIRI_Ian_cartopy(SEVIRI_HR_file_path, BTD_ref, extent, title, save_str
             for j in range(len(aeolus_time)):
                 text_str = aeolus_time[int(len(aeolus_time) / 2)].strftime("%H:%M")
                 text_x, text_y = aeolus_lon[int(len(aeolus_time) / 2)], aeolus_lat[int(len(aeolus_time) / 2)]
+
                 text_x = text_x + 1.  # shift the text a bit to the right
                 text_angle = -78.
                 text_box = ax.text(text_x, text_y, text_str, ha='center', va='center', color='blue',
