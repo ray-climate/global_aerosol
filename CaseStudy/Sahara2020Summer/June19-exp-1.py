@@ -20,7 +20,7 @@ lat1_aeolus = 10.
 lat2_aeolus = 20.
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
-save_path = './crosssection_pair_2/'
+save_path = './figures/'
 if not os.path.exists(save_path):
     os.makedirs(save_path)
 
@@ -76,14 +76,16 @@ beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
 alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
-print(beta_caliop.shape)
-print(lat_caliop.shape)
-quit()
-rows_to_keep_caliop = []
+
+cols_to_keep_caliop = []
 for k in range(len(lat_caliop)):
     if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
-        rows_to_keep_caliop.append(k)
+        cols_to_keep_caliop.append(k)
 
+beta_caliop = beta_caliop[:, cols_to_keep_caliop]
+alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
+lat_caliop = lat_caliop[cols_to_keep_caliop]
+dp_caliop = dp_caliop[cols_to_keep_caliop]
 
 fontsize = 18
 
