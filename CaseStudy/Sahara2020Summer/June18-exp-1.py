@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    June24-exp-1.py
+# @Filename:    June18-exp-1.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        17/04/2023 22:55
+# @Time:        18/04/2023 00:02
 
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
@@ -27,7 +27,7 @@ save_path = f'{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006191642' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -37,7 +37,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('aeolus_qc_ascending_202006192112' in npz_file):
+    if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
         # print the file name and variables in the file
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -202,5 +202,6 @@ output_path = save_path + f'caliop_extinction.png'
 plt.grid()
 plt.savefig(output_path, dpi=300)
 plt.close()
+
 
 
