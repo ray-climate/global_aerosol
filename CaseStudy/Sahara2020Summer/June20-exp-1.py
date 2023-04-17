@@ -151,8 +151,6 @@ plt.savefig(output_path, dpi=300)
 plt.close()
 
 
-####
-
 for i in range(alpha_aeolus_qc.shape[0]):
     print(lat_aeolus[i])
     print(alpha_aeolus_qc[i, :])
@@ -160,12 +158,18 @@ for i in range(alpha_aeolus_qc.shape[0]):
 alpha_caliop[alpha_caliop < 1.e-4] = np.nan
 alpha_aeolus_qc[alpha_aeolus_qc< 1.e-4] = np.nan
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_qc, axis=0)
+alpha_caliop_mean = np.nanmean(alpha_caliop, axis=1)
+
+alpha_aeolus_like_caliop = np.zeros(len(alpha_aeolus_mean))
+for i in range(len(alpha_aeolus_mean)):
+    alpha_aeolus_like_caliop[i] = alpha_caliop_mean[(alt_caliop > alt_aeolus_mean[i]) & (alt_caliop < alt_aeolus_mean[i+1])]
+alpha_aeolus_like_caliop[alpha_aeolus_like_caliop <= 0] = np.nan
 
 plt.figure(figsize=(8, 12))
 # for k in range(beta_caliop.shape[1]):
 #     plt.plot(alpha_caliop[:, k], alt_caliop, 'k', alpha=0.1)
 # plt.plot([], [], 'k', label='Caliop')
-plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='Caliop')
+plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='CALIPSO')
 
 # for k in range(beta_aeolus.shape[0]):
 #     plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'pink', alpha=0.5)
@@ -173,9 +177,12 @@ plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='Caliop')
 # plt.plot(np.nanmean(alpha_aeolus, axis=0), alt_aeolus_mean, 'r', label='Aeolus')
 for i in range(len(alpha_aeolus_mean)-1):
     plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i]], [alt_aeolus_avg[i], alt_aeolus_avg[i+1]], 'r')
+    plt.plot([alpha_aeolus_like_caliop[i], alpha_aeolus_like_caliop[i]], [alt_aeolus_avg[i], alt_aeolus_avg[i+1]], 'g')
 for i in range(len(alpha_aeolus_mean)-1):
     plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i+1]], [alt_aeolus_avg[i+1], alt_aeolus_avg[i+1]], 'r')
-plt.plot([], [], 'r', label='Aeolus')
+    plt.plot([alpha_aeolus_like_caliop[i], alpha_aeolus_like_caliop[i+1]], [alt_aeolus_avg[i+1], alt_aeolus_avg[i+1]], 'g')
+plt.plot([], [], 'r', label='AEOLUS')
+plt.plot([], [], 'g', label='CALIPSO (AEOLUS-like)')
 
 plt.xscale('log')
 plt.ylabel('Altitude (km)', fontsize=fontsize)
