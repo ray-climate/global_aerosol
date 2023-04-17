@@ -99,11 +99,8 @@ conversion_factor = 1 / (1. + conversion_factor)
 
 beta_caliop[beta_caliop < 1.e-4] = np.nan
 
-for i in range(alt_aeolus.shape[0]):
-    print(i, lat_aeolus[i])
-    print(i, alt_aeolus[i, :])
-quit()
 alt_aeolus_avg = np.nanmean(alt_aeolus, axis=0)
+
 alt_aeolus_mean = (alt_aeolus_avg[1:] + alt_aeolus_avg[:-1]) / 2.0
 beta_aeolus_qc[beta_aeolus_qc< 1.e-4] = np.nan
 beta_aeolus_mean = np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor
@@ -167,10 +164,10 @@ alpha_caliop_mean = np.nanmean(alpha_caliop, axis=1)
 alpha_aeolus_like_caliop = np.zeros(len(alpha_aeolus_mean))
 for i in range(len(alpha_aeolus_mean)):
 
-    print(alt_aeolus_mean[i], alt_aeolus_mean[i+1])
+    print(alt_aeolus_avg[i], alt_aeolus_avg[i+1])
 
     try:
-        alpha_aeolus_like_caliop[i] = np.nanmean(alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean[i]) & (alt_caliop >= alt_aeolus_mean[i+1])])
+        alpha_aeolus_like_caliop[i] = np.nanmean(alpha_caliop_mean[(alt_caliop <= alt_aeolus_avg[i]) & (alt_caliop >= alt_aeolus_avg[i+1])])
     except:
         alpha_aeolus_like_caliop[i] = np.nan
 alpha_aeolus_like_caliop[alpha_aeolus_like_caliop <= 0] = np.nan
