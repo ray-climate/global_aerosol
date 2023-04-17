@@ -14,9 +14,9 @@ import sys
 import csv
 import os
 
-lat1_caliop = 10.
+lat1_caliop = 12.
 lat2_caliop = 20.
-lat1_aeolus = 10.
+lat1_aeolus = 12.
 lat2_aeolus = 20.
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
@@ -25,7 +25,7 @@ if not os.path.exists(save_path):
     os.makedirs(save_path)
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006191642' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006201542' in npz_file):
 
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -35,7 +35,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('aeolus_qc_ascending_202006192112' in npz_file):
+    if npz_file.endswith('.npz') & ('aeolus_qc_ascending_202006201957' in npz_file):
         # print the file name and variables in the file
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
