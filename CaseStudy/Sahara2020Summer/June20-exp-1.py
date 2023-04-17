@@ -17,7 +17,7 @@ import os
 
 lat1_caliop = 10.
 lat2_caliop = 16.
-lat1_aeolus = 16.
+lat1_aeolus = 10.
 lat2_aeolus = 16.
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
