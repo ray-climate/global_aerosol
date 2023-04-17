@@ -162,7 +162,7 @@ alpha_caliop_mean = np.nanmean(alpha_caliop, axis=1)
 
 alpha_aeolus_like_caliop = np.zeros(len(alpha_aeolus_mean))
 for i in range(len(alpha_aeolus_mean)):
-    alpha_aeolus_like_caliop[i] = alpha_caliop_mean[(alt_caliop > alt_aeolus_mean[i]) & (alt_caliop < alt_aeolus_mean[i+1])]
+    alpha_aeolus_like_caliop[i] = alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean[i]) & (alt_caliop >= alt_aeolus_mean[i+1])]
 alpha_aeolus_like_caliop[alpha_aeolus_like_caliop <= 0] = np.nan
 
 plt.figure(figsize=(8, 12))
