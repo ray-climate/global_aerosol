@@ -35,7 +35,8 @@ for npz_file in os.listdir(input_path):
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
-
+print(alt_caliop)
+quit()
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
         # print the file name and variables in the file
