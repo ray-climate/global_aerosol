@@ -165,7 +165,10 @@ for i in range(len(alpha_aeolus_mean)):
     print(alt_caliop)
     print(alt_aeolus_mean[i])
     print(alt_caliop <= alt_aeolus_mean[i])
-    alpha_aeolus_like_caliop[i] = alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean[i]) & (alt_caliop >= alt_aeolus_mean[i+1])]
+    try:
+        alpha_aeolus_like_caliop[i] = alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean[i]) & (alt_caliop >= alt_aeolus_mean[i+1])]
+    except:
+        alpha_aeolus_like_caliop[i] = np.nan
 alpha_aeolus_like_caliop[alpha_aeolus_like_caliop <= 0] = np.nan
 
 plt.figure(figsize=(8, 12))
