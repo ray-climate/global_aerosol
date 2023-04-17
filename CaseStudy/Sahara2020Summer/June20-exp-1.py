@@ -23,7 +23,7 @@ lat2_aeolus = 16.
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 # Define output directory
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
-save_path = f'{script_name}_output'
+save_path = f'{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
 for npz_file in os.listdir(input_path):
