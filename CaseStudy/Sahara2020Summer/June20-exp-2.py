@@ -15,7 +15,7 @@ import sys
 import csv
 import os
 
-lat1_caliop = 16.
+lat1_caliop = 17.
 lat2_caliop = 20.
 lat1_aeolus = 16.
 lat2_aeolus = 20.
@@ -163,8 +163,6 @@ alpha_caliop_mean = np.nanmean(alpha_caliop, axis=1)
 
 alpha_aeolus_like_caliop = np.zeros(len(alpha_aeolus_mean))
 for i in range(len(alpha_aeolus_mean)):
-
-    print(alt_aeolus_avg[i], alt_aeolus_avg[i+1])
 
     try:
         alpha_aeolus_like_caliop[i] = np.nanmean(alpha_caliop_mean[(alt_caliop <= alt_aeolus_avg[i]) & (alt_caliop >= alt_aeolus_avg[i+1])])
