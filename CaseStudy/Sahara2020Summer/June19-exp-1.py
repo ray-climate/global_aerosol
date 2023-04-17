@@ -85,7 +85,7 @@ for k in range(len(lat_caliop)):
 beta_caliop = beta_caliop[:, cols_to_keep_caliop]
 alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
 lat_caliop = lat_caliop[cols_to_keep_caliop]
-dp_caliop = dp_caliop[cols_to_keep_caliop]
+dp_caliop = dp_caliop[:, cols_to_keep_caliop]
 
 fontsize = 18
 
