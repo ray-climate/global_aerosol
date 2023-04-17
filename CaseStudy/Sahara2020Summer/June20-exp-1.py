@@ -136,7 +136,7 @@ plt.close()
 plt.figure(figsize=(8, 12))
 for k in range(beta_caliop.shape[1]):
     plt.plot(dp_caliop[:, k], alt_caliop, 'k', alpha=0.1)
-plt.plot([], [], 'k', label='Caliop')
+plt.plot([], [], 'k', label='CALIPSO')
 
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Depolarisation ratio', fontsize=16)
@@ -166,7 +166,7 @@ for i in range(len(alpha_aeolus_mean)):
     print(alt_aeolus_mean[i])
     print(alt_caliop <= alt_aeolus_mean[i])
     try:
-        alpha_aeolus_like_caliop[i] = alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean[i]) & (alt_caliop >= alt_aeolus_mean[i+1])]
+        alpha_aeolus_like_caliop[i] = np.nanmean(alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean[i]) & (alt_caliop >= alt_aeolus_mean[i+1])])
     except:
         alpha_aeolus_like_caliop[i] = np.nan
 alpha_aeolus_like_caliop[alpha_aeolus_like_caliop <= 0] = np.nan
