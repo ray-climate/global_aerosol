@@ -15,8 +15,8 @@ import sys
 import csv
 import os
 
-lat1_caliop = 17.
-lat2_caliop = 20.
+lat1_caliop = 17.2
+lat2_caliop = 20.5
 lat1_aeolus = 16.
 lat2_aeolus = 20.
 
