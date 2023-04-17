@@ -99,6 +99,10 @@ conversion_factor = 1 / (1. + conversion_factor)
 
 beta_caliop[beta_caliop < 1.e-4] = np.nan
 
+for i in range(alt_aeolus.shape[0]):
+    print(i, lat_aeolus[i])
+    print(i, alt_aeolus[i, :])
+quit()
 alt_aeolus_avg = np.nanmean(alt_aeolus, axis=0)
 alt_aeolus_mean = (alt_aeolus_avg[1:] + alt_aeolus_avg[:-1]) / 2.0
 beta_aeolus_qc[beta_aeolus_qc< 1.e-4] = np.nan
