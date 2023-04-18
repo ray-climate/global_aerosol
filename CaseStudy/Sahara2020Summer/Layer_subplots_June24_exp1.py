@@ -97,7 +97,7 @@ for npz_file in os.listdir(input_path):
         beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
         lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
-quit()
+
 fontsize = 22
 
 def plot_aerosol_layer(ax, layer, layer_index):
