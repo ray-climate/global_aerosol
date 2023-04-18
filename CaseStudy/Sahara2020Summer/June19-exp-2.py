@@ -20,7 +20,7 @@ aeolus_lat_shift= 1.
 
 lat1_caliop = 11.
 lat2_caliop = 20.
-lat1_aeolus = 5. + aeolus_lat_shift
+lat1_aeolus = 6. + aeolus_lat_shift
 lat2_aeolus = 23. + aeolus_lat_shift
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
