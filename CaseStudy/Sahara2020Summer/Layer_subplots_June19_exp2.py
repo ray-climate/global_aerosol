@@ -109,7 +109,7 @@ def plot_aerosol_layer(ax, layer, layer_index):
     ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction', fontsize=fontsize)
-    ax.setylim(1e-2, 2e0)
+    ax.set_ylim(1e-2, 2e0)
     ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
