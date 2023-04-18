@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Filename:    June24-exp-1.py
+# @Author:      Dr. Rui Song
+# @Email:       rui.song@physics.ox.ac.uk
+# @Time:        17/04/2023 22:55
 
-# @Filename:    June19-exp-2.py
-# Author:      Dr. Rui Song
-# Email:       rui.song@physics.ox.ac.uk
-# Time:        17/04/2023 22:55
 
-import os
+import matplotlib.ticker as ticker
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+import pathlib
 import sys
 import csv
-import pathlib
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
+import os
 
 aeolus_lat_shift= 1.
 
@@ -23,82 +23,269 @@ lat2_caliop = 23.
 lat1_aeolus = 5.5 + aeolus_lat_shift
 lat2_aeolus = 23. + aeolus_lat_shift
 
-layer1_index, layer1 = -7, [4.42, 5.43]
-layer2_index, layer2 = -6, [3.42, 4.42]
-layer3_index, layer3 = -5, [2.42, 3.42]
+layer1_index = -7
+layer1 = [4.42, 5.43]
+
+layer2_index = -6
+layer2 = [3.42, 4.42]
+
+layer3_index = -5
+layer3 = [2.42, 3.42]
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
-
 # Define output directory
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
 save_path = f'{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
-caliop_data, aeolus_data = {}, {}
+for npz_file in os.listdir(input_path):
+    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
 
-def load_data(npz_file, data_dict):
-    data = np.load(input_path + npz_file, allow_pickle=True)
-    for key in data:
-        data_dict[key] = data[key]
+        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
+        aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
-def get_caliop_files():
-    return [file for file in os.listdir(input_path)
-            if file.endswith('.npz') and 'caliop_dbd_descending_202006190412' in file]
+for npz_file in os.listdir(input_path):
+    if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
+        # print the file name and variables in the file
+        lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
 
-def get_aeolus_files():
-    return [file for file in os.listdir(input_path)
-            if file.endswith('.npz') and 'aeolus_qc_descending_202006190812' in file]
-
-for npz_file in get_caliop_files():
-    load_data(npz_file, caliop_data)
-
-for npz_file in get_aeolus_files():
-    load_data(npz_file, aeolus_data)
-
+# convert qc_aeolus to bits and check the quality of the data
 def qc_to_bits(qc_array):
+    # Convert the quality control array to uint8
     qc_uint8 = qc_array.astype(np.uint8)
+
+    # Unpack the uint8 array to bits
     qc_bits = np.unpackbits(qc_uint8, axis=1)
+
+    # Reshape the bits array to match the original shape
     qc_bits = qc_bits.reshape(*qc_array.shape, -1)
+
     return qc_bits
+# Convert the quality control data to 8 bits
+qc_bits = qc_to_bits(qc_aeolus)
 
-qc_bits = qc_to_bits(aeolus_data['qc'])
-first_bit, second_bit = qc_bits[:, :, -1], qc_bits[:, :, -2]
-valid_mask_extinction, valid_mask_backscatter = first_bit == 1, second_bit == 1
-aeolus_data['alpha_qc'] = np.where(valid_mask_extinction, aeolus_data['alpha'], np.nan)
-aeolus_data['beta_qc'] = np.where(valid_mask_backscatter, aeolus_data['beta'], np.nan)
+first_bit = qc_bits[:, :, -1]
+second_bit = qc_bits[:, :, -2]
+# Create a boolean mask where the second bit equals 1 (valid data)
+valid_mask_extinction = first_bit == 1
+valid_mask_backscatter = second_bit == 1
+# set invalid data to nan
+alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
+beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
 
-rows_to_keep_aeolus = [k for k in range(len(aeolus_data['lat']))
-                       if lat1_aeolus < aeolus_data['lat'][k] < lat2_aeolus]
+rows_to_keep_aeolus = []
+for k in range(len(lat_aeolus)):
+    if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
+        rows_to_keep_aeolus.append(k)
+        print(lat_aeolus[k])
+        print(alpha_aeolus_qc[k, :])
 
-for key in ['beta_qc', 'alpha_qc', 'lat']:
-    aeolus_data[key] = aeolus_data[key][rows_to_keep_aeolus]
+beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
+alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
+lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
-cols_to_keep_caliop = [k for k in range(len(caliop_data['lat']))
-                       if lat1_caliop < caliop_data['lat'][k] < lat2_caliop]
+cols_to_keep_caliop = []
+for k in range(len(lat_caliop)):
+    if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
+        cols_to_keep_caliop.append(k)
 
-for key in ['beta', 'alpha', 'lat']:
-    caliop_data[key] = caliop_data[key][cols_to_keep_caliop]
+beta_caliop = beta_caliop[:, cols_to_keep_caliop]
+alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
+lat_caliop = lat_caliop[cols_to_keep_caliop]
+dp_caliop = dp_caliop[:, cols_to_keep_caliop]
 
-def plot_data(aeolus_data, caliop_data, layer, layer_index, save_path):
-    fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(12, 6), dpi=100, sharex=True)
+fontsize = 18
 
-    sns.heatmap(np.flipud(aeolus_data['beta_qc']), ax=axes[0], cmap='jet',
-                vmin=0, vmax=2, cbar_kws={"label": "Aeolus Backscatter [sr^-1]"})
-    sns.heatmap(np.flipud(caliop_data['beta']), ax=axes[1], cmap='jet',
-                vmin=0, vmax=2, cbar_kws={"label": "CALIOP Backscatter [sr^-1]"})
+# plot aerosol layer 1
+alpha_caliop_layer1 = np.zeros(len(lat_caliop))
 
-    axes[0].set_title(f"Aeolus Backscatter in Layer {layer_index}")
-    axes[1].set_title(f"CALIOP Backscatter in Layer {layer_index}")
+for k in range(len(lat_caliop)):
+    alt_k = alt_caliop[::-1]
+    alpha_k = alpha_caliop[::-1, k]
+    alpha_k[np.isnan(alpha_k)] = 0
+    alpha_caliop_layer1[k] = np.trapz(alpha_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])], alt_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])])
+    alpha_caliop_layer1[k] = alpha_caliop_layer1[k] / (layer1[1] - layer1[0])
 
-    for ax in axes:
-        ax.set_yticks(np.arange(0, len(aeolus_data['lat']), 1))
-        ax.set_yticklabels(np.flip(aeolus_data['lat']), fontsize=9)
+alpha_caliop_layer1[alpha_caliop_layer1<=0] = np.nan
 
-    axes[1].set_xlabel('Time')
+plt.figure(figsize=(16,8))
+plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer1_index], 'ro-', label='AEOLUS layer')
+plt.plot(lat_caliop, alpha_caliop_layer1, 'bo-', label='CALIOP layer')
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('Extinction' , fontsize=fontsize)
+plt.title('Aerosol extinction: layer between %.1f km - %.1f km'%(layer1[0], layer1[1]), fontsize=fontsize)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
+plt.yscale('log')
+plt.savefig(save_path + 'aeolus_caliop_alpha_layer1.png', dpi=300)
 
-    plt.savefig(save_path + f"layer{layer_index}_backscatter_comparison.png")
-    plt.close()
+# plot aerosol layer 2
+alpha_caliop_layer2 = np.zeros(len(lat_caliop))
 
-plot_data(aeolus_data, caliop_data, layer1, layer1_index, save_path)
-plot_data(aeolus_data, caliop_data, layer2, layer2_index, save_path)
-plot_data(aeolus_data, caliop_data, layer3, layer3_index, save_path)
+for k in range(len(lat_caliop)):
+    alt_k = alt_caliop[::-1]
+    alpha_k = alpha_caliop[::-1, k]
+    alpha_k[np.isnan(alpha_k)] = 0
+    alpha_caliop_layer2[k] = np.trapz(alpha_k[(alt_k >= layer2[0]) & (alt_k <= layer2[1])], alt_k[(alt_k >= layer2[0]) & (alt_k <= layer2[1])])
+    alpha_caliop_layer2[k] = alpha_caliop_layer2[k] / (layer2[1] - layer2[0])
+
+alpha_caliop_layer2[alpha_caliop_layer2<=0] = np.nan
+
+plt.figure(figsize=(16,8))
+plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer2_index], 'ro-', label='AEOLUS layer')
+plt.plot(lat_caliop, alpha_caliop_layer2, 'bo-', label='CALIOP layer')
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('Extinction' , fontsize=fontsize)
+plt.title('Aerosol extinction: layer between %.1f km - %.1f km'%(layer2[0], layer2[1]), fontsize=fontsize)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
+plt.yscale('log')
+plt.savefig(save_path + 'aeolus_caliop_alpha_layer2.png', dpi=300)
+
+# plot aerosol layer 3
+alpha_caliop_layer3 = np.zeros(len(lat_caliop))
+
+for k in range(len(lat_caliop)):
+    alt_k = alt_caliop[::-1]
+    alpha_k = alpha_caliop[::-1, k]
+    alpha_k[np.isnan(alpha_k)] = 0
+    alpha_caliop_layer3[k] = np.trapz(alpha_k[(alt_k >= layer3[0]) & (alt_k <= layer3[1])], alt_k[(alt_k >= layer3[0]) & (alt_k <= layer3[1])])
+    alpha_caliop_layer3[k] = alpha_caliop_layer3[k] / (layer3[1] - layer3[0])
+
+alpha_caliop_layer3[alpha_caliop_layer3<=0] = np.nan
+
+plt.figure(figsize=(16,8))
+plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer3_index], 'ro-', label='AEOLUS layer')
+plt.plot(lat_caliop, alpha_caliop_layer3, 'bo-', label='CALIOP layer')
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('Extinction' , fontsize=fontsize)
+plt.title('Aerosol extinction: layer between %.1f km - %.1f km'%(layer3[0], layer3[1]), fontsize=fontsize)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
+plt.yscale('log')
+plt.savefig(save_path + 'aeolus_caliop_alpha_layer3.png', dpi=300)
+quit()
+
+
+dp_caliop[dp_caliop < 0] = np.nan
+dp_caliop[dp_caliop > 1] = np.nan
+k_factor = 0.82
+conversion_factor = (np.nanmean(dp_caliop) * k_factor * 2) / (1. - np.nanmean(dp_caliop) * k_factor)
+conversion_factor = 1 / (1. + conversion_factor)
+
+beta_caliop[beta_caliop < 1.e-4] = np.nan
+
+alt_aeolus_avg = np.nanmean(alt_aeolus, axis=0)
+
+alt_aeolus_mean = (alt_aeolus_avg[1:] + alt_aeolus_avg[:-1]) / 2.0
+beta_aeolus_qc[beta_aeolus_qc< 1.e-4] = np.nan
+beta_aeolus_mean = np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor
+
+plt.figure(figsize=(8, 12))
+# for k in range(beta_caliop.shape[1]):
+#     plt.plot(beta_caliop[:, k], alt_caliop, 'k', alpha=0.1)
+# plt.plot([], [], 'k', label='Caliop')
+plt.plot(np.nanmean(beta_caliop, axis=1), alt_caliop, 'k', label='Caliop')
+# for k in range(beta_aeolus.shape[0]):
+#     plt.plot(beta_aeolus[k, :], alt_aeolus_mean, 'r', alpha=0.5)
+# plt.plot([], [], 'k', label='Aeolus')
+# plt.plot(np.nanmean(beta_aeolus, axis=0) / conversion_factor, alt_aeolus_mean, 'b', label='Aeolus')
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_avg[i], alt_aeolus_avg[i+1]], 'r')
+for i in range(len(beta_aeolus_mean)-1):
+    plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_avg[i+1], alt_aeolus_avg[i+1]], 'r')
+plt.plot([], [], 'r', label='Aeolus')
+
+plt.xscale('log')
+plt.ylabel('Altitude (km)', fontsize=fontsize)
+plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=fontsize)
+# plt.title(f'Aerosol backscatter coefficients over Sahara dust', fontsize=18, y=1.05)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.ylim([0.,15.])
+plt.legend(loc='best', fontsize=fontsize, frameon=False)
+# Save the figure
+output_path = save_path + f'caliop_backscatter.png'
+plt.grid()
+plt.savefig(output_path, dpi=300)
+plt.close()
+
+plt.figure(figsize=(8, 12))
+for k in range(beta_caliop.shape[1]):
+    plt.plot(dp_caliop[:, k], alt_caliop, 'k', alpha=0.1)
+plt.plot([], [], 'k', label='CALIPSO')
+
+plt.ylabel('Altitude (km)', fontsize=16)
+plt.xlabel('Depolarisation ratio', fontsize=16)
+plt.title(f'CALIOP Depolarisation \n $18^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.xlim([0.,1.])
+plt.legend(loc='best', fontsize=14, frameon=False)
+# Save the figure
+output_path = save_path + f'caliop_depolarisation.png'
+plt.savefig(output_path, dpi=300)
+plt.close()
+
+
+for i in range(alpha_aeolus_qc.shape[0]):
+    print(lat_aeolus[i])
+    print(alpha_aeolus_qc[i, :])
+
+alpha_caliop[alpha_caliop < 1.e-4] = np.nan
+alpha_aeolus_qc[alpha_aeolus_qc< 1.e-4] = np.nan
+alpha_aeolus_mean = np.nanmean(alpha_aeolus_qc, axis=0)
+alpha_caliop_mean = np.nanmean(alpha_caliop, axis=1)
+
+alpha_aeolus_like_caliop = np.zeros(len(alpha_aeolus_mean))
+for i in range(len(alpha_aeolus_mean)):
+
+    try:
+        alpha_aeolus_like_caliop[i] = np.nanmean(alpha_caliop_mean[(alt_caliop <= alt_aeolus_avg[i]) & (alt_caliop >= alt_aeolus_avg[i+1])])
+    except:
+        alpha_aeolus_like_caliop[i] = np.nan
+alpha_aeolus_like_caliop[alpha_aeolus_like_caliop <= 0] = np.nan
+
+plt.figure(figsize=(8, 12))
+# for k in range(beta_caliop.shape[1]):
+#     plt.plot(alpha_caliop[:, k], alt_caliop, 'k', alpha=0.1)
+# plt.plot([], [], 'k', label='Caliop')
+plt.plot(np.nanmean(alpha_caliop, axis=1), alt_caliop, 'k', label='CALIPSO')
+
+# for k in range(beta_aeolus.shape[0]):
+#     plt.plot(alpha_aeolus[k, :], alt_aeolus_mean, 'pink', alpha=0.5)
+# plt.plot([], [], 'k', label='Aeolus')
+# plt.plot(np.nanmean(alpha_aeolus, axis=0), alt_aeolus_mean, 'r', label='Aeolus')
+for i in range(len(alpha_aeolus_mean)-1):
+    plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i]], [alt_aeolus_avg[i], alt_aeolus_avg[i+1]], 'r')
+    plt.plot([alpha_aeolus_like_caliop[i], alpha_aeolus_like_caliop[i]], [alt_aeolus_avg[i], alt_aeolus_avg[i+1]], 'g')
+for i in range(len(alpha_aeolus_mean)-1):
+    plt.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i+1]], [alt_aeolus_avg[i+1], alt_aeolus_avg[i+1]], 'r')
+    plt.plot([alpha_aeolus_like_caliop[i], alpha_aeolus_like_caliop[i+1]], [alt_aeolus_avg[i+1], alt_aeolus_avg[i+1]], 'g')
+plt.plot([], [], 'r', label='AEOLUS')
+plt.plot([], [], 'g', label='CALIPSO (AEOLUS-like)')
+
+plt.xscale('log')
+plt.ylabel('Altitude (km)', fontsize=fontsize)
+plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=fontsize)
+# plt.title(f'Aerosol retrievals over the Sahara [extinction] \n $18^{{th}}$ June 2020', fontsize=18, y=1.05)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.ylim([0.,15.])
+plt.legend(loc='best', fontsize=18, frameon=False)
+# Save the figure
+output_path = save_path + f'caliop_extinction.png'
+plt.grid()
+plt.savefig(output_path, dpi=300)
+plt.close()
