@@ -101,7 +101,7 @@ fontsize = 18
 
 # plot aerosol layer 1
 plt.figure(figsize=(16,8))
-plt.plot(lat_aeolus, alpha_aeolus[layer1_index], 'ro-', label='AEOLUS layer')
+plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer1_index], 'ro-', label='AEOLUS layer')
 plt.xlabel('Latitude', fontsize=fontsize)
 plt.ylabel('Extinction' , fontsize=fontsize)
 plt.title('Aerosol extinction: layer between %.1f - %.1f'%(layer1[0], layer1[1]), fontsize=fontsize)
