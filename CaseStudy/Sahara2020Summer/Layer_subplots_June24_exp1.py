@@ -23,7 +23,7 @@ import sys
 import csv
 import os
 
-aeolus_lat_shift= -0.2
+aeolus_lat_shift= 0
 
 lat1_caliop = 8.25
 lat2_caliop = 19.
