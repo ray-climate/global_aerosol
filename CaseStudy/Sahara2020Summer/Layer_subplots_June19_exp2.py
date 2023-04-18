@@ -81,6 +81,7 @@ def plot_aerosol_layers(caliop_data, aeolus_data, layer, save_path):
         plt.savefig(save_path + f'aeolus_caliop_alpha_layer{layer["index"]}.png', dpi=300)
         plt.close()
 
+
         for layer in layer_info:
             plot_aerosol_layers(caliop_data, aeolus_data, layer, save_path)
 
