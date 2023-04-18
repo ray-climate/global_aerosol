@@ -27,7 +27,7 @@ aeolus_lat_shift= 0.
 
 lat1_caliop = 8.25
 lat2_caliop = 19.
-lat1_aeolus = 12. + aeolus_lat_shift
+lat1_aeolus = 8.4 + aeolus_lat_shift
 lat2_aeolus = 19. + aeolus_lat_shift
 
 layer1_index = -7
