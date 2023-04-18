@@ -108,6 +108,7 @@ plt.title('Aerosol extinction: layer between %.1f - %.1f'%(layer1[0], layer1[1])
 plt.xticks(fontsize=fontsize)
 plt.yticks(fontsize=fontsize)
 plt.legend(loc='best', fontsize=fontsize)
+plt.yscale('log')
 plt.savefig(save_path + 'aeolus_caliop_alpha_layer1.png', dpi=300)
 quit()
 
