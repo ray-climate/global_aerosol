@@ -18,8 +18,8 @@ import os
 
 aeolus_lat_shift= 1.
 
-lat1_caliop = 11.
-lat2_caliop = 20.
+lat1_caliop = 5.5
+lat2_caliop = 23.
 lat1_aeolus = 5.5 + aeolus_lat_shift
 lat2_aeolus = 23. + aeolus_lat_shift
 
@@ -107,6 +107,7 @@ for k in range(len(lat_caliop)):
     alpha_k[np.isnan(alpha_k)] = 0
     alpha_caliop_layer1[k] = np.trapz(alpha_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])], alt_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])])
     alpha_caliop_layer1[k] = alpha_caliop_layer1[k] / (layer1[1] - layer1[0])
+
 alpha_caliop_layer1[alpha_caliop_layer1<=0] = np.nan
 
 plt.figure(figsize=(16,8))
