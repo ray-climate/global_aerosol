@@ -16,10 +16,12 @@ import sys
 import csv
 import os
 
+aeolus_lat_shift= 0.
+
 lat1_caliop = 11.
 lat2_caliop = 20.
-lat1_aeolus = 11.
-lat2_aeolus = 22.
+lat1_aeolus = 11. + aeolus_lat_shift
+lat2_aeolus = 22. + aeolus_lat_shift
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 # Define output directory
@@ -74,7 +76,10 @@ rows_to_keep_aeolus = []
 for k in range(len(lat_aeolus)):
     if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
         rows_to_keep_aeolus.append(k)
+        print(lat_aeolus[k])
+        print(alpha_aeolus_qc[k, :])
 
+quit()
 beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
 alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
