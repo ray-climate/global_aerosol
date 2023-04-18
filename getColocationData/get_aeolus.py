@@ -28,8 +28,8 @@ def extract_variables_from_aeolus(nc_file, logger):
         sca_middle_bin_backscatter = nc_data['sca']['SCA_middle_bin_backscatter'][:]
         sca_middle_bin_extinction = nc_data['sca']['SCA_middle_bin_extinction'][:]
         sca_middle_bin_qc = nc_data['sca']['SCA_middle_bin_processing_qc_flag'][:]
-        sca_middle_bin_ber = nc_data['sca']['SCA_middle_bin_BER'][:]
-        sca_middle_bin_lod = nc_data['sca']['SCA_middle_bin_LOD'][:]
+        # sca_middle_bin_ber = nc_data['sca']['SCA_middle_bin_BER'][:]
+        # sca_middle_bin_lod = nc_data['sca']['SCA_middle_bin_LOD'][:]
 
     # latitude_of_DEM_intersection_obs[1:] = latitude_of_DEM_intersection_obs[0:len(latitude_of_DEM_intersection_obs) - 1]
     # longitude_of_DEM_intersection_obs[1:] = longitude_of_DEM_intersection_obs[0:len(latitude_of_DEM_intersection_obs) - 1]
@@ -66,8 +66,8 @@ def extract_variables_from_aeolus(nc_file, logger):
         sca_middle_bin_backscatter_list.append(backscatter)
         sca_middle_bin_extinction_list.append(extinction)
         sca_middle_bin_qc_list.append(qc)
-        sca_middle_bin_ber_list.append(ber)
-        sca_middle_bin_lod_list.append(lod)
+        # sca_middle_bin_ber_list.append(ber)
+        # sca_middle_bin_lod_list.append(lod)
         print(time)
         print(lat)
         print(extinction)
