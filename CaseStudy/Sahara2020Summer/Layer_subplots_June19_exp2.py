@@ -109,7 +109,8 @@ def plot_aerosol_layer(ax, layer, layer_index):
     ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction', fontsize=fontsize)
-    ax.set_title(f'aerosol extinction: layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize)
+    ax.setylim(1e-2, 2e0)
+    ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
     ax.set_yscale('log')
@@ -122,7 +123,7 @@ fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
     plot_aerosol_layer(axs[i], layer, layer_index)
 
+fig.suptitle('Comparison of AEOLUS and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=0.92)
 plt.tight_layout()
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
-
 
