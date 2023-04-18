@@ -68,7 +68,7 @@ def extract_variables_from_aeolus(nc_file, logger):
         sca_middle_bin_qc_list.append(qc)
         sca_middle_bin_ber_list.append(ber)
         sca_middle_bin_lod_list.append(lod)
-        print(sca_observation_time_list)
+        print(time)
         print(lat)
         print(extinction)
 
