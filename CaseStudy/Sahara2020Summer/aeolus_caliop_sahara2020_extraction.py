@@ -173,8 +173,7 @@ for i in range((end_date - start_date).days + 1):
                     print('start')
                     (latitude, longitude, sca_mb_altitude,
                      footprint_time_aeolus, sca_mb_backscatter, sca_mb_extinction,
-                     qc_aeolus_mb, ber_aeolus_mb, lod_aeolus_mb) = \
-                        extract_variables_from_aeolus(aeolus_file_path, logger)
+                     qc_aeolus_mb) =  extract_variables_from_aeolus(aeolus_file_path, logger)
                     print('end')
                     spatial_mask = np.where((latitude > lat_down) & (latitude < lat_up) &
                                             (longitude > lon_left) & (longitude < lon_right))[0]
