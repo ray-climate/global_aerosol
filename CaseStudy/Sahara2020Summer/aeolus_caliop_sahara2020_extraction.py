@@ -68,7 +68,7 @@ logger = logging.getLogger()
 
 ##############################################################
 # Define data directory
-AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/aeolus_archive/'
+AEOLUS_JASMIN_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/vires_archive/'
 CLMSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_CLM/'
 HRSEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/SEVIRI_HRSEVIRI/'
 CMASEVIRI_dir = '/gws/pw/j07/nceo_aerosolfire/rsong/project/global_aerosol/SEVIRI_data_collection/CMA-SEVIRI/'
@@ -166,7 +166,7 @@ for i in range((end_date - start_date).days + 1):
         if input_sat == 'Aeolus':
             # aeolus data fetch
             for aeolus_file_name in os.listdir(aeolus_fetch_dir):
-                if aeolus_file_name.endswith('%s-%s-%s.nc'%(year_i,  month_i, day_i)):
+                if aeolus_file_name.startswith('AE_OPER_ALD_U_N_2A_%s%s%s.nc'%(year_i, month_i, day_i)):
 
                     aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
                     print('start')
