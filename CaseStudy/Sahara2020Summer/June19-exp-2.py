@@ -26,6 +26,9 @@ lat2_aeolus = 23. + aeolus_lat_shift
 layer1_index = -7
 layer1 = [4.42, 5.43]
 
+layer2_index = -6
+layer2 = [3.42, 4.42]
+
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 # Define output directory
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
@@ -115,12 +118,36 @@ plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer1_index], 'ro-', label='AEOLUS laye
 plt.plot(lat_caliop, alpha_caliop_layer1, 'bo-', label='CALIOP layer')
 plt.xlabel('Latitude', fontsize=fontsize)
 plt.ylabel('Extinction' , fontsize=fontsize)
-plt.title('Aerosol extinction: layer between %.1f - %.1f'%(layer1[0], layer1[1]), fontsize=fontsize)
+plt.title('Aerosol extinction: layer between %.1f km - %.1f km'%(layer1[0], layer1[1]), fontsize=fontsize)
 plt.xticks(fontsize=fontsize)
 plt.yticks(fontsize=fontsize)
 plt.legend(loc='best', fontsize=fontsize)
 plt.yscale('log')
 plt.savefig(save_path + 'aeolus_caliop_alpha_layer1.png', dpi=300)
+
+# plot aerosol layer 2
+alpha_caliop_layer2 = np.zeros(len(lat_caliop))
+
+for k in range(len(lat_caliop)):
+    alt_k = alt_caliop[::-1]
+    alpha_k = alpha_caliop[::-1, k]
+    alpha_k[np.isnan(alpha_k)] = 0
+    alpha_caliop_layer2[k] = np.trapz(alpha_k[(alt_k >= layer2[0]) & (alt_k <= layer2[1])], alt_k[(alt_k >= layer2[0]) & (alt_k <= layer2[1])])
+    alpha_caliop_layer2[k] = alpha_caliop_layer2[k] / (layer2[1] - layer2[0])
+
+alpha_caliop_layer2[alpha_caliop_layer2<=0] = np.nan
+
+plt.figure(figsize=(16,8))
+plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer2_index], 'ro-', label='AEOLUS layer')
+plt.plot(lat_caliop, alpha_caliop_layer2, 'bo-', label='CALIOP layer')
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('Extinction' , fontsize=fontsize)
+plt.title('Aerosol extinction: layer between %.1f km - %.1f km'%(layer2[0], layer2[1]), fontsize=fontsize)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
+plt.yscale('log')
+plt.savefig(save_path + 'aeolus_caliop_alpha_layer2.png', dpi=300)
 quit()
 
 
