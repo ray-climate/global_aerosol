@@ -38,7 +38,7 @@ lat_jump_threshold = 3.0 # degree, lat_jump_threshold is the threshold to separa
 aeolus_CM_threshold = 0.8 # unitless, threshold for cloud mask
 
 # Define the time range
-datetime_start = "2020-06-14"
+datetime_start = "2020-06-18"
 datetime_end = "2020-06-24"
 
 # Convert strings to datetime objects
@@ -337,7 +337,7 @@ for i in range((end_date - start_date).days + 1):
                                   'qc': np.asarray(aeolus_qc_asc_des[k])[np.where(aeolus_mask==1.)[0],:],}
 
                         # Save the dictionary as an npz file
-                        np.savez(output_dir + '/aeolus_qc_%s_%s.npz' % (input_mode, HRSEVIRI_time_str_k), **params)
+                        np.savez(output_dir + '/aeolus_qcv2_%s_%s.npz' % (input_mode, HRSEVIRI_time_str_k), **params)
 
                     else:
                         logger.warning('No HRSEVIRI file found for the given time: %s' % central_time_k)
