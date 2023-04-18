@@ -86,7 +86,6 @@ beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
 alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
-
 cols_to_keep_caliop = []
 for k in range(len(lat_caliop)):
     if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
@@ -100,8 +99,18 @@ dp_caliop = dp_caliop[:, cols_to_keep_caliop]
 fontsize = 18
 
 # plot aerosol layer 1
+alpha_caliop_layer1 = np.zeros(len(lat_caliop))
+
+for k in range(len(lat_caliop)):
+    alt_k = alt_caliop[::-1]
+    alpha_k = alpha_caliop[::-1, k]
+    alpha_k[np.isnan(alpha_k)] = 0
+    alpha_caliop_layer1[k] = np.trapz(alpha_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])], alt_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])])
+alpha_caliop_layer1[alpha_caliop_layer1<=0] = np.nan
+
 plt.figure(figsize=(16,8))
 plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer1_index], 'ro-', label='AEOLUS layer')
+plt.plot(lat_caliop, alpha_caliop_layer1, 'bo-', label='CALIOP layer')
 plt.xlabel('Latitude', fontsize=fontsize)
 plt.ylabel('Extinction' , fontsize=fontsize)
 plt.title('Aerosol extinction: layer between %.1f - %.1f'%(layer1[0], layer1[1]), fontsize=fontsize)
