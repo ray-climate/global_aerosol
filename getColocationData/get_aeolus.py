@@ -19,7 +19,7 @@ def extract_variables_from_aeolus(nc_file, logger):
 
         # Extract relevant variables from the AEOLUS data
 
-        L1B_start_time_obs = list(map(int, nc_data['observations']['L1B_start_time_obs'][:]))
+        # L1B_start_time_obs = list(map(int, nc_data['observations']['L1B_start_time_obs'][:]))
         latitude_of_DEM_intersection_obs = nc_data['observations']['latitude_of_DEM_intersection_obs'][:]
         longitude_of_DEM_intersection_obs = nc_data['observations']['longitude_of_DEM_intersection_obs'][:]
         sca_observation_time = list(map(int, nc_data['sca']['SCA_time_obs'][:]))
@@ -37,8 +37,8 @@ def extract_variables_from_aeolus(nc_file, logger):
     # Convert time variables to datetime objects
     sca_observation_time_dt = num2date(sca_observation_time, units="s since 2000-01-01",
                                        only_use_cftime_datetimes=False)
-    L1B_start_time_obs_dt = num2date(L1B_start_time_obs, units="s since 2000-01-01",
-                                     only_use_cftime_datetimes=False)
+    # L1B_start_time_obs_dt = num2date(L1B_start_time_obs, units="s since 2000-01-01",
+    #                                  only_use_cftime_datetimes=False)
 
     # Initialize lists to store selected AEOLUS data
     sca_observation_time_list = []
