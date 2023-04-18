@@ -185,7 +185,7 @@ for i in range((end_date - start_date).days + 1):
                     sca_mb_altitude = sca_mb_altitude[spatial_mask, :]
                     sca_mb_backscatter = sca_mb_backscatter[spatial_mask, :]
                     sca_mb_extinction = sca_mb_extinction[spatial_mask, :]
-                    sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
+                    # sca_mb_ber = ber_aeolus_mb[spatial_mask, :]
                     sca_mb_qc = qc_aeolus_mb[spatial_mask, :]
 
                     aeolus_latitude_all.extend(latitude_i)
@@ -197,13 +197,13 @@ for i in range((end_date - start_date).days + 1):
                     try:
                         aeolus_beta_all = np.concatenate([aeolus_beta_all, sca_mb_backscatter], axis=0)
                         aeolus_alpha_all = np.concatenate([aeolus_alpha_all, sca_mb_extinction], axis=0)
-                        aeolus_ber_all = np.concatenate([aeolus_ber_all, sca_mb_ber], axis=0)
+                        # aeolus_ber_all = np.concatenate([aeolus_ber_all, sca_mb_ber], axis=0)
                         aeolus_altitude_all = np.concatenate([aeolus_altitude_all, sca_mb_altitude], axis=0)
                         aeolus_qc_all = np.concatenate([aeolus_qc_all, sca_mb_qc], axis=0)
                     except:
                         aeolus_beta_all = np.copy(sca_mb_backscatter)
                         aeolus_alpha_all = np.copy(sca_mb_extinction)
-                        aeolus_ber_all = np.copy(sca_mb_ber)
+                        # aeolus_ber_all = np.copy(sca_mb_ber)
                         aeolus_altitude_all = np.copy(sca_mb_altitude)
                         aeolus_qc_all = np.copy(sca_mb_qc)
 

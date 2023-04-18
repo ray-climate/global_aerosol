@@ -85,8 +85,8 @@ def extract_variables_from_aeolus(nc_file, logger):
     sca_middle_bin_backscatter_array = np.asarray(sca_middle_bin_backscatter_list)
     sca_middle_bin_extinction_array = np.asarray(sca_middle_bin_extinction_list)
     sca_middle_bin_qc_array = np.asarray(sca_middle_bin_qc_list)
-    sca_middle_bin_ber_array = np.asarray(sca_middle_bin_ber_list)
-    sca_middle_bin_lod_array = np.asarray(sca_middle_bin_lod_list)
+    # sca_middle_bin_ber_array = np.asarray(sca_middle_bin_ber_list)
+    # sca_middle_bin_lod_array = np.asarray(sca_middle_bin_lod_list)
 
     # Update longitude values
     sca_lon_obs_array[sca_lon_obs_array > 180.] -= 360.
@@ -94,7 +94,11 @@ def extract_variables_from_aeolus(nc_file, logger):
     # Log a message indicating that the data has been extracted
     logger.info("Extracted data from AEOLUS file")
 
+    # return sca_lat_obs_array, sca_lon_obs_array, sca_alt_obs_array, \
+    #        sca_observation_time_array, sca_middle_bin_backscatter_array, sca_middle_bin_extinction_array, \
+    #        sca_middle_bin_qc_array, sca_middle_bin_ber_array, sca_middle_bin_lod_array
+
     return sca_lat_obs_array, sca_lon_obs_array, sca_alt_obs_array, \
            sca_observation_time_array, sca_middle_bin_backscatter_array, sca_middle_bin_extinction_array, \
-           sca_middle_bin_qc_array, sca_middle_bin_ber_array, sca_middle_bin_lod_array
+           sca_middle_bin_qc_array
 
