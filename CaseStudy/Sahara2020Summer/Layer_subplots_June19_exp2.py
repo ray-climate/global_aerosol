@@ -1,87 +1,125 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+# @Filename:    June24-exp-1.py
+# @Author:      Dr. Rui Song
+# @Email:       rui.song@physics.ox.ac.uk
+# @Time:        17/04/2023 22:55
 
+import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 import numpy as np
-import os
 import pathlib
+import sys
+import csv
+import os
 
-aeolus_lat_shift = 1.
+aeolus_lat_shift= 1.
+
 lat1_caliop = 5.5
 lat2_caliop = 23.
 lat1_aeolus = 5.5 + aeolus_lat_shift
 lat2_aeolus = 23. + aeolus_lat_shift
 
-layer_info = [
-    {'index': -7, 'range': [4.42, 5.43]},
-    {'index': -6, 'range': [3.42, 4.42]},
-    {'index': -5, 'range': [2.42, 3.42]}
-]
+layer1_index = -7
+layer1 = [4.42, 5.43]
+
+layer2_index = -6
+layer2 = [3.42, 4.42]
+
+layer3_index = -5
+layer3 = [2.42, 3.42]
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
 save_path = f'{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
-def load_npz_data(filename):
-    return {key: np.load(filename, allow_pickle=True)[key] for key in ['lat', 'alt', 'beta', 'alpha']}
-
-caliop_data, aeolus_data = None, None
-for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz'):
-        if 'caliop_dbd_descending_202006190412' in npz_file:
-            caliop_data = load_npz_data(input_path + npz_file)
-        elif 'aeolus_qc_descending_202006190812' in npz_file:
-            aeolus_data = load_npz_data(input_path + npz_file)
-            aeolus_data['qc'] = np.load(input_path + npz_file, allow_pickle=True)['qc']
-
+# convert qc_aeolus to bits and check the quality of the data
 def qc_to_bits(qc_array):
     qc_uint8 = qc_array.astype(np.uint8)
     qc_bits = np.unpackbits(qc_uint8, axis=1)
     qc_bits = qc_bits.reshape(*qc_array.shape, -1)
     return qc_bits
 
-qc_bits = qc_to_bits(aeolus_data['qc'])
-valid_mask_extinction = qc_bits[:, :, -1] == 1
-valid_mask_backscatter = qc_bits[:, :, -2] == 1
-aeolus_data['alpha_qc'] = np.where(valid_mask_extinction, aeolus_data['alpha'], np.nan)
-aeolus_data['beta_qc'] = np.where(valid_mask_backscatter, aeolus_data['beta'], np.nan)
+for npz_file in os.listdir(input_path):
+    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
+        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
 
-def filter_latitudes(data, lat1, lat2):
-    mask = (data['lat'] > lat1) & (data['lat'] < lat2)
-    return {key: value[mask] if len(value.shape) == 1 else value[:, mask] for key, value in data.items()}
+        cols_to_keep_caliop = []
+        for k in range(len(lat_caliop)):
+            if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
+                cols_to_keep_caliop.append(k)
 
-caliop_data = filter_latitudes(caliop_data, lat1_caliop, lat2_caliop)
-aeolus_data = filter_latitudes(aeolus_data, lat1_aeolus, lat2_aeolus)
+        beta_caliop = beta_caliop[:, cols_to_keep_caliop]
+        alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
+        lat_caliop = lat_caliop[cols_to_keep_caliop]
+
+for npz_file in os.listdir(input_path):
+    if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
+        # print the file name and variables in the file
+        lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
+
+        qc_bits = qc_to_bits(qc_aeolus)
+        first_bit = qc_bits[:, :, -1]
+        second_bit = qc_bits[:, :, -2]
+
+        # Create a boolean mask where the second bit equals 1 (valid data)
+        valid_mask_extinction = first_bit == 1
+        valid_mask_backscatter = second_bit == 1
+        # set invalid data to nan
+        alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
+        beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
+
+        rows_to_keep_aeolus = []
+        for k in range(len(lat_aeolus)):
+            if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
+                rows_to_keep_aeolus.append(k)
+                print(lat_aeolus[k])
+                print(alpha_aeolus_qc[k, :])
+
+        beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
+        alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
+        lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
+
 
 fontsize = 18
 
-def plot_aerosol_layers(caliop_data, aeolus_data, layer, save_path):
-    alpha_caliop_layer = np.zeros(len(caliop_data['lat']))
-    for k in range(len(caliop_data['lat'])):
-        alt_k = caliop_data['alt'][::-1]
-        alpha_k = caliop_data['alpha'][::-1, k]
+def plot_aerosol_layer(layer, layer_index, save_name):
+    alpha_caliop_layer = np.zeros(len(lat_caliop))
+
+    for k in range(len(lat_caliop)):
+        alt_k = alt_caliop[::-1]
+        alpha_k = alpha_caliop[::-1, k]
         alpha_k[np.isnan(alpha_k)] = 0
-        alt_range = (alt_k >= layer['range'][0]) & (alt_k <= layer['range'][1])
-        alpha_caliop_layer[k] = np.trapz(alpha_k[alt_range], alt_k[alt_range]) / (layer['range'][1] - layer['range'][0])
+        mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
+        alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
 
-        alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+    alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 
-        plt.figure(figsize=(16, 8))
-        plt.plot(aeolus_data['lat'], aeolus_data['alpha_qc'][:, layer['index']], 'ro-', label='AEOLUS layer')
-        plt.plot(caliop_data['lat'], alpha_caliop_layer, 'bo-', label='CALIOP layer')
-        plt.xlabel('Latitude', fontsize=fontsize)
-        plt.ylabel('Extinction', fontsize=fontsize)
-        plt.title(f'Aerosol extinction: layer between {layer["range"][0]:.1f} km - {layer["range"][1]:.1f} km',
-                  fontsize=fontsize)
-        plt.xticks(fontsize=fontsize)
-        plt.yticks(fontsize=fontsize)
-        plt.legend(loc='best', fontsize=fontsize)
-        plt.yscale('log')
-        plt.savefig(save_path + f'aeolus_caliop_alpha_layer{layer["index"]}.png', dpi=300)
-        plt.close()
+    plt.figure(figsize=(16, 8))
+    plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro-', label='AEOLUS layer')
+    plt.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
+    plt.xlabel('Latitude', fontsize=fontsize)
+    plt.ylabel('Extinction', fontsize=fontsize)
+    plt.title(f'Aerosol extinction: layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize)
+    plt.xticks(fontsize=fontsize)
+    plt.yticks(fontsize=fontsize)
+    plt.legend(loc='best', fontsize=fontsize)
+    plt.yscale('log')
+    plt.savefig(save_path + save_name, dpi=300)
+
+plot_aerosol_layer(layer1, layer1_index, 'aeolus_caliop_alpha_layer1.png')
+plot_aerosol_layer(layer2, layer2_index, 'aeolus_caliop_alpha_layer2.png')
+plot_aerosol_layer(layer3, layer3_index, 'aeolus_caliop_alpha_layer3.png')
 
 
-        for layer in layer_info:
-            plot_aerosol_layers(caliop_data, aeolus_data, layer, save_path)
 
