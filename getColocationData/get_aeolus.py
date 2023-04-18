@@ -58,19 +58,19 @@ def extract_variables_from_aeolus(nc_file, logger):
                                                                           sca_middle_bin_backscatter, sca_middle_bin_extinction,
                                                                           sca_middle_bin_qc, sca_middle_bin_ber, sca_middle_bin_lod):
 
-        # if time in L1B_start_time_obs_dt:
-        sca_observation_time_list.append(time)
-        sca_lat_obs_list.append(lat)
-        sca_lon_obs_list.append(lon)
-        sca_alt_obs_list.append(alt)
-        sca_middle_bin_backscatter_list.append(backscatter)
-        sca_middle_bin_extinction_list.append(extinction)
-        sca_middle_bin_qc_list.append(qc)
-        sca_middle_bin_ber_list.append(ber)
-        sca_middle_bin_lod_list.append(lod)
-        print(time)
-        print(lat)
-        print(extinction)
+        if time in L1B_start_time_obs_dt:
+            sca_observation_time_list.append(time)
+            sca_lat_obs_list.append(lat)
+            sca_lon_obs_list.append(lon)
+            sca_alt_obs_list.append(alt)
+            sca_middle_bin_backscatter_list.append(backscatter)
+            sca_middle_bin_extinction_list.append(extinction)
+            sca_middle_bin_qc_list.append(qc)
+            sca_middle_bin_ber_list.append(ber)
+            sca_middle_bin_lod_list.append(lod)
+            print(time)
+            print(lat)
+            print(extinction)
 
             # if lat == 11.794943:
             #     print(lat)
