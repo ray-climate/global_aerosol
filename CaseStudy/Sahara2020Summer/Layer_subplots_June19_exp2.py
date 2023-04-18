@@ -91,7 +91,7 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
         lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
-fontsize = 18
+fontsize = 22
 
 def plot_aerosol_layer(ax, layer, layer_index):
     alpha_caliop_layer = np.zeros(len(lat_caliop))
@@ -123,7 +123,7 @@ fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
     plot_aerosol_layer(axs[i], layer, layer_index)
 
-fig.suptitle('Comparison of AEOLUS and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=0.92)
+fig.suptitle('Comparison of AEOLUS and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.tight_layout()
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
 
