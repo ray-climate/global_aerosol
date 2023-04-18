@@ -23,6 +23,9 @@ lat2_caliop = 20.
 lat1_aeolus = 5.5 + aeolus_lat_shift
 lat2_aeolus = 23. + aeolus_lat_shift
 
+layer1_index = 6
+layer1 = [4.42, 5.43]
+
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 # Define output directory
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
@@ -79,7 +82,6 @@ for k in range(len(lat_aeolus)):
         print(lat_aeolus[k])
         print(alpha_aeolus_qc[k, :])
 
-quit()
 beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
 alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
@@ -96,6 +98,19 @@ lat_caliop = lat_caliop[cols_to_keep_caliop]
 dp_caliop = dp_caliop[:, cols_to_keep_caliop]
 
 fontsize = 18
+
+# plot aerosol layer 1
+plt.figure(figsize=(16,8))
+plt.plot(lat_aeolus, alpha_aeolus[layer1_index], 'ro-', label='AEOLUS layer')
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('Extinction' , fontsize=fontsize)
+plt.title('Aerosol extinction: layer between %.1f - %.1f'%(layer1[0], layer1[1]), fontsize=fontsize)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
+plt.savefig(save_path + 'aeolus_caliop_alpha_layer1.png', dpi=300)
+quit()
+
 
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
