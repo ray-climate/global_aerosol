@@ -106,6 +106,7 @@ for k in range(len(lat_caliop)):
     alpha_k = alpha_caliop[::-1, k]
     alpha_k[np.isnan(alpha_k)] = 0
     alpha_caliop_layer1[k] = np.trapz(alpha_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])], alt_k[(alt_k >= layer1[0]) & (alt_k <= layer1[1])])
+    alpha_caliop_layer1[k] = alpha_caliop_layer1[k] / (layer1[1] - layer1[0])
 alpha_caliop_layer1[alpha_caliop_layer1<=0] = np.nan
 
 plt.figure(figsize=(16,8))
