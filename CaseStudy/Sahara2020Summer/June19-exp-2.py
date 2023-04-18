@@ -23,7 +23,7 @@ lat2_caliop = 20.
 lat1_aeolus = 5.5 + aeolus_lat_shift
 lat2_aeolus = 23. + aeolus_lat_shift
 
-layer1_index = 6
+layer1_index = -6
 layer1 = [4.42, 5.43]
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
