@@ -37,7 +37,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('aeolus_qc_ascending_202006181927' in npz_file):
+    if npz_file.endswith('.npz') & ('aeolus_qcv2_ascending_202006181927' in npz_file):
         # print the file name and variables in the file
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
