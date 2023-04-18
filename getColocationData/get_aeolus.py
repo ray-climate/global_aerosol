@@ -53,10 +53,10 @@ def extract_variables_from_aeolus(nc_file, logger):
 
     # Iterate through the AEOLUS data, selecting only data points that have a corresponding L1B_start_time_obs value
 
-    for time, lat, lon, alt, backscatter, extinction, qc, ber, lod in zip(sca_observation_time_dt, latitude_of_DEM_intersection_obs,
+    for time, lat, lon, alt, backscatter, extinction, qc, in zip(sca_observation_time_dt, latitude_of_DEM_intersection_obs,
                                                                           longitude_of_DEM_intersection_obs, sca_middle_bin_altitude_obs,
                                                                           sca_middle_bin_backscatter, sca_middle_bin_extinction,
-                                                                          sca_middle_bin_qc, sca_middle_bin_ber, sca_middle_bin_lod):
+                                                                          sca_middle_bin_qc):
 
         # if time in L1B_start_time_obs_dt:
         sca_observation_time_list.append(time)
