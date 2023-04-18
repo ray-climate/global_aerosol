@@ -23,12 +23,12 @@ import sys
 import csv
 import os
 
-aeolus_lat_shift= 0.6
+aeolus_lat_shift= 0.
 
 lat1_caliop = 8.25
 lat2_caliop = 19.
 lat1_aeolus = 11. + aeolus_lat_shift
-lat2_aeolus = 19. + aeolus_lat_shift
+lat2_aeolus = 18.5 + aeolus_lat_shift
 
 layer1_index = -7
 layer1 = [4.42, 5.43]
