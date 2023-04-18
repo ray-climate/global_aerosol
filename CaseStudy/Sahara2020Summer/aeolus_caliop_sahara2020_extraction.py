@@ -166,8 +166,8 @@ for i in range((end_date - start_date).days + 1):
         if input_sat == 'Aeolus':
             # aeolus data fetch
             for aeolus_file_name in os.listdir(aeolus_fetch_dir):
-                print(aeolus_file_name)
-                if aeolus_file_name.startswith('AE_OPER_ALD_U_N_2A_%s%s%s.nc'%(year_i, month_i, day_i)):
+
+                if aeolus_file_name.startswith('AE_OPER_ALD_U_N_2A_%s%s%s'%(year_i, month_i, day_i)):
 
                     aeolus_file_path = os.path.join(aeolus_fetch_dir, aeolus_file_name)
                     print('start')
