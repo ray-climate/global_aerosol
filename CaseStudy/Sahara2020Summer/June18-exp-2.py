@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    June18-exp-1.py
+# @Filename:    June18-exp-2.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        18/04/2023 00:02
+# @Time:        18/04/2023 12:01
 
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
@@ -15,9 +15,9 @@ import sys
 import csv
 import os
 
-lat1_caliop = 12.
+lat1_caliop = 11.
 lat2_caliop = 20.
-lat1_aeolus = 12.
+lat1_aeolus = 11.
 lat2_aeolus = 20.
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
@@ -37,7 +37,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
+    if npz_file.endswith('.npz') & ('aeolus_qc_ascending_202006181927' in npz_file):
         # print the file name and variables in the file
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -202,6 +202,3 @@ output_path = save_path + f'caliop_extinction.png'
 plt.grid()
 plt.savefig(output_path, dpi=300)
 plt.close()
-
-
-
