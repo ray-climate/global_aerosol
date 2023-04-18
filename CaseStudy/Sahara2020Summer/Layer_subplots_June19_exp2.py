@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    June24-exp-1.py
+
+# @Filename:    June19-exp-2.pyls
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        17/04/2023 22:55
@@ -90,10 +91,9 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
         lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
-
 fontsize = 18
 
-def plot_aerosol_layer(layer, layer_index, save_name):
+def plot_aerosol_layer(ax, layer, layer_index):
     alpha_caliop_layer = np.zeros(len(lat_caliop))
 
     for k in range(len(lat_caliop)):
@@ -105,21 +105,24 @@ def plot_aerosol_layer(layer, layer_index, save_name):
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 
-    plt.figure(figsize=(16, 8))
-    plt.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro-', label='AEOLUS layer')
-    plt.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
-    plt.xlabel('Latitude', fontsize=fontsize)
-    plt.ylabel('Extinction', fontsize=fontsize)
-    plt.title(f'Aerosol extinction: layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize)
-    plt.xticks(fontsize=fontsize)
-    plt.yticks(fontsize=fontsize)
-    plt.legend(loc='best', fontsize=fontsize)
-    plt.yscale('log')
-    plt.savefig(save_path + save_name, dpi=300)
+    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro-', label='AEOLUS layer')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
+    ax.set_xlabel('Latitude', fontsize=fontsize)
+    ax.set_ylabel('Extinction', fontsize=fontsize)
+    ax.set_title(f'aerosol extinction: layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize)
+    ax.tick_params(axis='both', labelsize=fontsize)
+    ax.legend(loc='best', fontsize=fontsize)
+    ax.set_yscale('log')
 
-plot_aerosol_layer(layer1, layer1_index, 'aeolus_caliop_alpha_layer1.png')
-plot_aerosol_layer(layer2, layer2_index, 'aeolus_caliop_alpha_layer2.png')
-plot_aerosol_layer(layer3, layer3_index, 'aeolus_caliop_alpha_layer3.png')
+layers = [layer1, layer2, layer3]
+layer_indices = [layer1_index, layer2_index, layer3_index]
 
+fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
+
+for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
+    plot_aerosol_layer(axs[i], layer, layer_index)
+
+plt.tight_layout()
+plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
 
 
