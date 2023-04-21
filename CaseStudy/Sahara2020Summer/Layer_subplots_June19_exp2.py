@@ -121,15 +121,22 @@ def plot_aerosol_layer(ax, layer, layer_index):
 
 def plot_aerosol_layer_nonQC(ax, layer, layer_index):
     alpha_caliop_layer = np.zeros(len(lat_caliop))
+    beta_caliop_layer = np.zeros(len(lat_caliop))
 
     for k in range(len(lat_caliop)):
         alt_k = alt_caliop[::-1]
         alpha_k = alpha_caliop[::-1, k]
+        beta_k = beta_caliop[::-1, k]
+
         alpha_k[np.isnan(alpha_k)] = 0
+        beta_k[np.isnan(beta_k)] = 0
+
         mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+        beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer[1] - layer[0])
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+    beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
 
     ax.plot(lat_aeolus, alpha_aeolus[:, layer_index], 'ro-', label='AEOLUS layer')
     ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
@@ -163,10 +170,28 @@ for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
 fig.suptitle('Comparison of AEOLUS (non-QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers_nonQC.png', dpi=300)
 
+alpha_caliop_layer = np.zeros(len(lat_caliop))
+beta_caliop_layer = np.zeros(len(lat_caliop))
+
+for k in range(len(lat_caliop)):
+    alt_k = alt_caliop[::-1]
+    alpha_k = alpha_caliop[::-1, k]
+    beta_k = beta_caliop[::-1, k]
+
+    alpha_k[np.isnan(alpha_k)] = 0
+    beta_k[np.isnan(beta_k)] = 0
+
+    mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
+    alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+    beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+
+alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
+
 # plot first layer alpha/beta ratio
 fig, ax = plt.subplots(1, 1, figsize=(16, 8))
 ax.plot(lat_aeolus, alpha_aeolus[:, layer1_index] / beta_aeolus[:, layer1_index], 'ro-', label='AEOLUS layer')
-# ax.plot(lat_caliop, alpha_caliop_layer / beta_caliop_layer, 'bo-', label='CALIOP layer')
+ax.plot(lat_caliop, alpha_caliop_layer / beta_caliop_layer, 'bo-', label='CALIOP layer')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Lidar Ratio', fontsize=fontsize)
 ax.set_xlim(5., 23.)
