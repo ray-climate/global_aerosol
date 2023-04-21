@@ -88,7 +88,7 @@ for npz_file in os.listdir(input_path):
             if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
                 rows_to_keep_aeolus.append(k)
                 print(lat_aeolus[k])
-                print(alpha_aeolus[k, :])
+                print(beta_aeolus_qc[k, :])
 
         beta_aeolus = beta_aeolus[rows_to_keep_aeolus, :]
         alpha_aeolus = alpha_aeolus[rows_to_keep_aeolus, :]
