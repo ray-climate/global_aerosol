@@ -51,6 +51,7 @@ for npz_file in os.listdir(input_path):
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
+        aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
         cols_to_keep_caliop = []
         for k in range(len(lat_caliop)):
@@ -60,6 +61,8 @@ for npz_file in os.listdir(input_path):
         beta_caliop = beta_caliop[:, cols_to_keep_caliop]
         alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
         lat_caliop = lat_caliop[cols_to_keep_caliop]
+        dp_caliop = dp_caliop[:, cols_to_keep_caliop]
+        aod_caliop = aod_caliop[cols_to_keep_caliop]
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
@@ -235,3 +238,17 @@ ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 # ax.set_yscale('log')
 plt.savefig(save_path + 'aeolus_caliop_lidar_ratio_layer1.png', dpi=300)
+
+fontsize = 18
+# plt aod_caliop
+plt.figure(figsize=(16,8))
+plt.plot(lat_caliop, aod_caliop, 'ro-', label='CALIOP AOD')
+# plt.plot(lat_aeolus, aeolus_aod, 'go-', label='AEOLUS AOD')
+plt.xlabel('Latitude', fontsize=fontsize)
+plt.ylabel('AOD 532 nm' , fontsize=fontsize)
+plt.title('CALIOP/AEOLUS/MODIS AOD', fontsize=fontsize)
+ax.set_xlim(5., 23.)
+plt.xticks(fontsize=fontsize)
+plt.yticks(fontsize=fontsize)
+plt.legend(loc='best', fontsize=fontsize)
+plt.savefig(save_path + 'caliop_modis_aod.png', dpi=300)
