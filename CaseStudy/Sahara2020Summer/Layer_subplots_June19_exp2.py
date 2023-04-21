@@ -200,7 +200,7 @@ plt.savefig(save_path + 'aeolus_caliop_beta_layers.png', dpi=300)
 
 alpha_caliop_layer = np.zeros(len(lat_caliop))
 beta_caliop_layer = np.zeros(len(lat_caliop))
-
+print(layer)
 for k in range(len(lat_caliop)):
     alt_k = alt_caliop[::-1]
     alpha_k = alpha_caliop[::-1, k]
