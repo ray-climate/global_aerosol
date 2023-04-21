@@ -73,23 +73,23 @@ for npz_file in os.listdir(input_path):
         first_bit = qc_bits[:, :, -1]
         second_bit = qc_bits[:, :, -2]
 
+        rows_to_keep_aeolus = []
+        for k in range(len(lat_aeolus)):
+            if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
+                rows_to_keep_aeolus.append(k)
+                print(lat_aeolus[k])
+                print(alpha_aeolus[k, :])
+
+        beta_aeolus = beta_aeolus[rows_to_keep_aeolus, :]
+        alpha_aeolus = alpha_aeolus[rows_to_keep_aeolus, :]
+        lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
+
         # Create a boolean mask where the second bit equals 1 (valid data)
         valid_mask_extinction = first_bit == 1
         valid_mask_backscatter = second_bit == 1
         # set invalid data to nan
         alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
-
-        rows_to_keep_aeolus = []
-        for k in range(len(lat_aeolus)):
-            if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
-                rows_to_keep_aeolus.append(k)
-                print(lat_aeolus[k])
-                print(alpha_aeolus_qc[k, :])
-
-        beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
-        alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
-        lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
 fontsize = 22
 
