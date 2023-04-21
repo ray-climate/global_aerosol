@@ -90,6 +90,7 @@ for npz_file in os.listdir(input_path):
                 print(lat_aeolus[k])
                 print(beta_aeolus_qc[k, :])
 
+
         beta_aeolus = beta_aeolus[rows_to_keep_aeolus, :]
         alpha_aeolus = alpha_aeolus[rows_to_keep_aeolus, :]
         lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
