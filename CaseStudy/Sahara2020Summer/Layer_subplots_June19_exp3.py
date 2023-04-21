@@ -45,11 +45,12 @@ def qc_to_bits(qc_array):
     return qc_bits
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
 
         cols_to_keep_caliop = []
         for k in range(len(lat_caliop)):
@@ -85,15 +86,24 @@ for npz_file in os.listdir(input_path):
             if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
                 rows_to_keep_aeolus.append(k)
                 print(lat_aeolus[k])
-                print(alpha_aeolus_qc[k, :])
+                print(alpha_aeolus[k, :])
+
+        beta_aeolus = beta_aeolus[rows_to_keep_aeolus, :]
+        alpha_aeolus = alpha_aeolus[rows_to_keep_aeolus, :]
+        lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
         beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
-        lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
+
+dp_caliop[dp_caliop < 0] = np.nan
+dp_caliop[dp_caliop > 1] = np.nan
+k_factor = 0.82
+conversion_factor = (np.nanmean(dp_caliop) * k_factor * 2) / (1. - np.nanmean(dp_caliop) * k_factor)
+conversion_factor = 1 / (1. + conversion_factor)
 
 fontsize = 22
 
-def plot_aerosol_layer(ax, layer, layer_index):
+def plot_aerosol_layer_alpha_qc(ax, layer, layer_index):
     alpha_caliop_layer = np.zeros(len(lat_caliop))
 
     for k in range(len(lat_caliop)):
@@ -116,15 +126,111 @@ def plot_aerosol_layer(ax, layer, layer_index):
     ax.legend(loc='best', fontsize=fontsize)
     ax.set_yscale('log')
 
+def plot_aerosol_layer_beta_qc(ax, layer, layer_index):
+
+    beta_caliop_layer = np.zeros(len(lat_caliop))
+
+    for k in range(len(lat_caliop)):
+        alt_k = alt_caliop[::-1]
+        beta_k = beta_caliop[::-1, k]
+        beta_k[np.isnan(beta_k)] = 0
+        mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
+        beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+
+    beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
+    print(beta_aeolus_qc[:, layer_index])
+    ax.plot(lat_aeolus, beta_aeolus_qc[:, layer_index] / conversion_factor, 'ro-', label='AEOLUS layer')
+    ax.plot(lat_caliop, beta_caliop_layer, 'bo-', label='CALIOP layer')
+    ax.set_xlabel('Latitude', fontsize=fontsize)
+    ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
+    ax.set_xlim(5., 23.)
+    ax.set_ylim(1e-3, 1.e-1)
+    ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
+    ax.tick_params(axis='both', labelsize=fontsize)
+    ax.legend(loc='best', fontsize=fontsize)
+    ax.set_yscale('log')
+
+def plot_aerosol_layer_alpha(ax, layer, layer_index):
+    alpha_caliop_layer = np.zeros(len(lat_caliop))
+    beta_caliop_layer = np.zeros(len(lat_caliop))
+
+    for k in range(len(lat_caliop)):
+        alt_k = alt_caliop[::-1]
+        alpha_k = alpha_caliop[::-1, k]
+        alpha_k[np.isnan(alpha_k)] = 0
+
+        mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
+        alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+
+    alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+    ax.plot(lat_aeolus, alpha_aeolus[:, layer_index], 'ro-', label='AEOLUS layer')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
+    ax.set_xlabel('Latitude', fontsize=fontsize)
+    ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
+    ax.set_xlim(5., 23.)
+    ax.set_ylim(1e-2, 3e0)
+    ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
+    ax.tick_params(axis='both', labelsize=fontsize)
+    ax.legend(loc='best', fontsize=fontsize)
+    ax.set_yscale('log')
+
 layers = [layer1, layer2, layer3]
 layer_indices = [layer1_index, layer2_index, layer3_index]
 
+# generate alpha plot for QC data
 fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
-
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
-    plot_aerosol_layer(axs[i], layer, layer_index)
-
-fig.suptitle('Comparison of AEOLUS and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
+    plot_aerosol_layer_alpha_qc(axs[i], layer, layer_index)
+fig.suptitle('Comparison of AEOLUS (QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
 
+# generate plot for non-QC data
+fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
+for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
+    plot_aerosol_layer_alpha(axs[i], layer, layer_index)
+fig.suptitle('Comparison of AEOLUS (non-QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
+plt.savefig(save_path + 'aeolus_caliop_alpha_layers_nonQC.png', dpi=300)
+
+# generate beta plot for QC data
+fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
+for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
+    plot_aerosol_layer_beta_qc(axs[i], layer, layer_index)
+fig.suptitle('Comparison of AEOLUS (QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
+plt.savefig(save_path + 'aeolus_caliop_beta_layers.png', dpi=300)
+
+alpha_caliop_layer = np.zeros(len(lat_caliop))
+beta_caliop_layer = np.zeros(len(lat_caliop))
+
+for k in range(len(lat_caliop)):
+    alt_k = alt_caliop[::-1]
+    alpha_k = alpha_caliop[::-1, k]
+    beta_k = beta_caliop[::-1, k]
+
+    alpha_k[np.isnan(alpha_k)] = 0
+    beta_k[np.isnan(beta_k)] = 0
+
+    mask = (alt_k >= layer2[0]) & (alt_k <= layer2[1])
+    alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer2[1] - layer2[0])
+    beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer2[1] - layer2[0])
+
+alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
+
+
+beta_aeolus = beta_aeolus / conversion_factor
+beta_aeolus_qc = beta_aeolus_qc / conversion_factor
+
+# plot first layer alpha/beta ratio
+fig, ax = plt.subplots(1, 1, figsize=(16, 8))
+ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer2_index] / beta_aeolus_qc[:, layer2_index], 'ro-', label='AEOLUS layer')
+ax.plot(lat_caliop, alpha_caliop_layer / beta_caliop_layer, 'bo-', label='CALIOP layer')
+ax.set_xlabel('Latitude', fontsize=fontsize)
+ax.set_ylabel('Lidar Ratio', fontsize=fontsize)
+ax.set_xlim(5., 23.)
+# ax.set_ylim(1e-2, 3e0)
+ax.set_title(f'layer between {layer1[0]:.1f} km - {layer1[1]:.1f} km', fontsize=fontsize, loc='left')
+ax.tick_params(axis='both', labelsize=fontsize)
+ax.legend(loc='best', fontsize=fontsize)
+# ax.set_yscale('log')
+plt.savefig(save_path + 'aeolus_caliop_lidar_ratio_layer1.png', dpi=300)
 
