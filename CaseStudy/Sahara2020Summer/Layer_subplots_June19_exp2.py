@@ -124,7 +124,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer, layer_index):
     ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
-    ax.set_yscale('log')
+    # ax.set_yscale('log')
 
 def plot_aerosol_layer_beta_qc(ax, layer, layer_index):
 
@@ -172,7 +172,7 @@ def plot_aerosol_layer_alpha(ax, layer, layer_index):
     ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
-    ax.set_yscale('log')
+    # ax.set_yscale('log')
 
 layers = [layer1, layer2, layer3]
 layer_indices = [layer1_index, layer2_index, layer3_index]
