@@ -50,6 +50,7 @@ for npz_file in os.listdir(input_path):
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
 
         cols_to_keep_caliop = []
         for k in range(len(lat_caliop)):
@@ -187,6 +188,13 @@ for k in range(len(lat_caliop)):
 
 alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
+
+dp_caliop[dp_caliop < 0] = np.nan
+dp_caliop[dp_caliop > 1] = np.nan
+k_factor = 0.82
+conversion_factor = (np.nanmean(dp_caliop) * k_factor * 2) / (1. - np.nanmean(dp_caliop) * k_factor)
+conversion_factor = 1 / (1. + conversion_factor)
+beta_aeolus = beta_aeolus / conversion_factor
 
 # plot first layer alpha/beta ratio
 fig, ax = plt.subplots(1, 1, figsize=(16, 8))
