@@ -200,7 +200,7 @@ plt.savefig(save_path + 'aeolus_caliop_beta_layers.png', dpi=300)
 
 alpha_caliop_layer = np.zeros(len(lat_caliop))
 beta_caliop_layer = np.zeros(len(lat_caliop))
-print(layer)
+
 for k in range(len(lat_caliop)):
     alt_k = alt_caliop[::-1]
     alpha_k = alpha_caliop[::-1, k]
@@ -209,9 +209,9 @@ for k in range(len(lat_caliop)):
     alpha_k[np.isnan(alpha_k)] = 0
     beta_k[np.isnan(beta_k)] = 0
 
-    mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
-    alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
-    beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+    mask = (alt_k >= layer2[0]) & (alt_k <= layer2[1])
+    alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer2[1] - layer2[0])
+    beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer2[1] - layer2[0])
 
 alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
@@ -223,7 +223,7 @@ beta_aeolus_qc = beta_aeolus_qc / conversion_factor
 # plot first layer alpha/beta ratio
 fig, ax = plt.subplots(1, 1, figsize=(16, 8))
 ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer2_index] / beta_aeolus_qc[:, layer2_index], 'ro-', label='AEOLUS layer')
-ax.plot(lat_caliop, alpha_caliop_layer[:, layer2_index] / beta_caliop_layer[:, layer2_index], 'bo-', label='CALIOP layer')
+ax.plot(lat_caliop, alpha_caliop_layer / beta_caliop_layer, 'bo-', label='CALIOP layer')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Lidar Ratio', fontsize=fontsize)
 ax.set_xlim(5., 23.)
