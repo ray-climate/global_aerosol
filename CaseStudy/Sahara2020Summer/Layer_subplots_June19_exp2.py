@@ -162,3 +162,17 @@ for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
 
 fig.suptitle('Comparison of AEOLUS (non-QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers_nonQC.png', dpi=300)
+
+# plot first layer alpha/beta ratio
+fig, ax = plt.subplots(1, 1, figsize=(16, 8))
+ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer1_index] / beta_aeolus_qc[:, layer1_index], 'ro-', label='AEOLUS layer')
+# ax.plot(lat_caliop, alpha_caliop_layer / beta_caliop_layer, 'bo-', label='CALIOP layer')
+ax.set_xlabel('Latitude', fontsize=fontsize)
+ax.set_ylabel('Lidar Ratio', fontsize=fontsize)
+ax.set_xlim(5., 23.)
+# ax.set_ylim(1e-2, 3e0)
+ax.set_title(f'layer between {layer1[0]:.1f} km - {layer1[1]:.1f} km', fontsize=fontsize, loc='left')
+ax.tick_params(axis='both', labelsize=fontsize)
+ax.legend(loc='best', fontsize=fontsize)
+# ax.set_yscale('log')
+plt.savefig(save_path + 'aeolus_caliop_lidar_ratio_layer1.png', dpi=300)
