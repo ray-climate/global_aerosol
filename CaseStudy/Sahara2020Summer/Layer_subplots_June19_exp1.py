@@ -15,11 +15,11 @@ import sys
 import csv
 import os
 
-aeolus_lat_shift= 1.
+aeolus_lat_shift= 3.
 
-lat1_caliop = 10
+lat1_caliop = 9.5
 lat2_caliop = 20.
-lat1_aeolus = 10 + aeolus_lat_shift
+lat1_aeolus = 9.5 + aeolus_lat_shift
 lat2_aeolus = 20. + aeolus_lat_shift
 
 layer1_index = -7
