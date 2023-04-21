@@ -165,7 +165,7 @@ plt.savefig(save_path + 'aeolus_caliop_alpha_layers_nonQC.png', dpi=300)
 
 # plot first layer alpha/beta ratio
 fig, ax = plt.subplots(1, 1, figsize=(16, 8))
-ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer1_index] / beta_aeolus_qc[:, layer1_index], 'ro-', label='AEOLUS layer')
+ax.plot(lat_aeolus, alpha_aeolus[:, layer1_index] / beta_aeolus[:, layer1_index], 'ro-', label='AEOLUS layer')
 # ax.plot(lat_caliop, alpha_caliop_layer / beta_caliop_layer, 'bo-', label='CALIOP layer')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Lidar Ratio', fontsize=fontsize)
