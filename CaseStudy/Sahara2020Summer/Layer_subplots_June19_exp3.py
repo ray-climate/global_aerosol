@@ -45,7 +45,7 @@ def qc_to_bits(qc_array):
     return qc_bits
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
