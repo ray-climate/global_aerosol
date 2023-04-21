@@ -135,16 +135,16 @@ def plot_aerosol_layer_beta_qc(ax, layer, layer_index):
         beta_k = beta_caliop[::-1, k]
         beta_k[np.isnan(beta_k)] = 0
         mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
-        beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer[1] - layer[0]) / conversion_factor
+        beta_caliop_layer[k] = np.trapz(beta_k[mask], alt_k[mask]) / (layer[1] - layer[0])
 
     beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
-
-    ax.plot(lat_aeolus, beta_aeolus_qc[:, layer_index], 'ro-', label='AEOLUS layer')
+    print(beta_aeolus_qc[:, layer_index])
+    ax.plot(lat_aeolus, beta_aeolus_qc[:, layer_index] / conversion_factor, 'ro-', label='AEOLUS layer')
     ax.plot(lat_caliop, beta_caliop_layer, 'bo-', label='CALIOP layer')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5., 23.)
-    ax.set_ylim(1e-2, 3e0)
+    ax.set_ylim(1e-3, 1.e0)
     ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
