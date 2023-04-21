@@ -195,10 +195,11 @@ k_factor = 0.82
 conversion_factor = (np.nanmean(dp_caliop) * k_factor * 2) / (1. - np.nanmean(dp_caliop) * k_factor)
 conversion_factor = 1 / (1. + conversion_factor)
 beta_aeolus = beta_aeolus / conversion_factor
+beta_aeolus_qc = beta_aeolus_qc / conversion_factor
 
 # plot first layer alpha/beta ratio
 fig, ax = plt.subplots(1, 1, figsize=(16, 8))
-ax.plot(lat_aeolus, alpha_aeolus[:, layer1_index] / beta_aeolus[:, layer1_index], 'ro-', label='AEOLUS layer')
+ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer1_index] / beta_aeolus_qc[:, layer1_index], 'ro-', label='AEOLUS layer')
 ax.plot(lat_caliop, alpha_caliop_layer / beta_caliop_layer, 'bo-', label='CALIOP layer')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Lidar Ratio', fontsize=fontsize)
