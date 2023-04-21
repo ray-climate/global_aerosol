@@ -62,7 +62,7 @@ for npz_file in os.listdir(input_path):
         alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
         lat_caliop = lat_caliop[cols_to_keep_caliop]
         dp_caliop = dp_caliop[:, cols_to_keep_caliop]
-        aod_caliop = aod_caliop[:, cols_to_keep_caliop]
+        aod_caliop = aod_caliop[cols_to_keep_caliop]
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
