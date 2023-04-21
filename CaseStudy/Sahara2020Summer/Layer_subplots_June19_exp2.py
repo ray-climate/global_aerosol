@@ -116,14 +116,46 @@ def plot_aerosol_layer(ax, layer, layer_index):
     ax.legend(loc='best', fontsize=fontsize)
     ax.set_yscale('log')
 
+def plot_aerosol_layer_nonQC(ax, layer, layer_index):
+    alpha_caliop_layer = np.zeros(len(lat_caliop))
+
+    for k in range(len(lat_caliop)):
+        alt_k = alt_caliop[::-1]
+        alpha_k = alpha_caliop[::-1, k]
+        alpha_k[np.isnan(alpha_k)] = 0
+        mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
+        alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+
+    alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+
+    ax.plot(lat_aeolus, alpha_aeolus[:, layer_index], 'ro-', label='AEOLUS layer')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
+    ax.set_xlabel('Latitude', fontsize=fontsize)
+    ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
+    ax.set_xlim(5., 23.)
+    ax.set_ylim(1e-2, 3e0)
+    ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
+    ax.tick_params(axis='both', labelsize=fontsize)
+    ax.legend(loc='best', fontsize=fontsize)
+    ax.set_yscale('log')
+
 layers = [layer1, layer2, layer3]
 layer_indices = [layer1_index, layer2_index, layer3_index]
 
+# generate plot for QC data
 fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
 
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
     plot_aerosol_layer(axs[i], layer, layer_index)
 
-fig.suptitle('Comparison of AEOLUS and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
+fig.suptitle('Comparison of AEOLUS (QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
 
+# generate plot for non-QC data
+fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
+
+for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
+    plot_aerosol_layer_nonQC(axs[i], layer, layer_index)
+
+fig.suptitle('Comparison of AEOLUS (non-QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
+plt.savefig(save_path + 'aeolus_caliop_alpha_layers_nonQC.png', dpi=300)
