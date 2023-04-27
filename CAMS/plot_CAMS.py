@@ -42,7 +42,7 @@ for i in range(88):
     fig, ax = plt.subplots(subplot_kw={'projection': projection}, figsize=(16, 5))
     ax.add_feature(coastline)
     cs = ax.pcolormesh(lons, lats, aod[i,:,:], cmap='jet', vmin=0, vmax=3.)
-    plt.colorbar(cs, label='Aerosol Optical Depth', fontsize=14, shrink=0.5, extend='both')
+    plt.colorbar(cs, label='Aerosol Optical Depth', shrink=0.5, extend='both')
     plt.title(f'Time: {times[i]}', fontsize=16)
     plt.xlabel('Longitude', fontsize=14)
     plt.ylabel('Latitude', fontsize=14)
