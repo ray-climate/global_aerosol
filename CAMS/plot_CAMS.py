@@ -5,11 +5,12 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        27/04/2023 15:48
 
-import os
+from netCDF4 import Dataset, num2date
+import cartopy.feature as cfeature
+import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
-import matplotlib.pyplot as plt
-from netCDF4 import Dataset, num2date
+import os
 
 # Read the NetCDF file
 filename = 'CAMS_550AOD_20200614_20200624.nc'
@@ -34,13 +35,14 @@ if not os.path.exists(tmp_dir):
 # Iterate through the 88 bands and create a plot for each
 image_files = []
 for i in range(88):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(16, 8))
     cs = ax.pcolormesh(lons, lats, aod[i,:,:], cmap='jet', vmin=0, vmax=3.)
     plt.colorbar(cs, label='Aerosol Optical Depth')
     plt.title(f'Time: {times[i]}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
-
+    coast = cfeature.COASTLINE
+    ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Save the plot as an image file
     image_file = os.path.join(tmp_dir, f'band_{i + 1}.png')
     plt.savefig(image_file)
