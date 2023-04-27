@@ -8,6 +8,7 @@
 from netCDF4 import Dataset, num2date
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
 from PIL import Image
 import numpy as np
 import os
@@ -31,16 +32,22 @@ tmp_dir = 'tmp_images'
 if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
 
+# Define the Cartopy projection and coastlines
+projection = ccrs.PlateCarree()
+coastline = cfeature.GSHHSFeature(scale='auto', edgecolor='k', facecolor='none')
 
 # Iterate through the 88 bands and create a plot for each
 image_files = []
 for i in range(88):
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(subplot_kw={'projection': projection}, figsize=(16, 5))
+    ax.add_feature(coastline)
     cs = ax.pcolormesh(lons, lats, aod[i,:,:], cmap='jet', vmin=0, vmax=3.)
-    plt.colorbar(cs, label='Aerosol Optical Depth')
-    plt.title(f'Time: {times[i]}')
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
+    plt.colorbar(cs, label='Aerosol Optical Depth', fontsize=14, shrink=0.5, extend='both')
+    plt.title(f'Time: {times[i]}', fontsize=16)
+    plt.xlabel('Longitude', fontsize=14)
+    plt.ylabel('Latitude', fontsize=14)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     # Save the plot as an image file
     image_file = os.path.join(tmp_dir, f'band_{i + 1}.png')
     plt.savefig(image_file)
@@ -52,7 +59,6 @@ for i in range(88):
 gif_filename = 'aod_animated.gif'
 images = [Image.open(image_file) for image_file in image_files]
 images[0].save(gif_filename, save_all=True, append_images=images[1:], optimize=False, duration=500, loop=0)
-
 
 # Clean up the temporary image files and directory
 # for image_file in image_files:
