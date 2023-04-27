@@ -6,7 +6,7 @@
 # @Time:        27/04/2023 15:48
 
 import os
-import imageio
+from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 from netCDF4 import Dataset
@@ -43,10 +43,9 @@ for i in range(88):
 
 # Create an animated GIF from the image files
 gif_filename = 'aod_animated.gif'
-with imageio.get_writer(gif_filename, mode='I', duration=5) as writer:
-    for image_file in image_files:
-        image = imageio.imread(image_file)
-        writer.append_data(image)
+images = [Image.open(image_file) for image_file in image_files]
+images[0].save(gif_filename, save_all=True, append_images=images[1:], optimize=False, duration=500, loop=0)
+
 
 # Clean up the temporary image files and directory
 # for image_file in image_files:
