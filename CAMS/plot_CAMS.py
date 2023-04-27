@@ -17,7 +17,9 @@ nc_file = Dataset(filename, 'r')
 
 # Extract the variable to plot (assuming 'aod' is the variable name)
 aod = nc_file.variables['aod550'][:]
-
+lat = nc_file.variables['latitude'][:]
+print(lat)
+quit()
 # Create a directory to temporarily store the images
 tmp_dir = 'tmp_images'
 if not os.path.exists(tmp_dir):
