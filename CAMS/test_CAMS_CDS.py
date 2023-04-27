@@ -7,15 +7,23 @@
 
 #!/usr/bin/env python
 import cdsapi
+
 c = cdsapi.Client()
-c.retrieve("reanalysis-era5-pressure-levels",
-{
-"variable": "temperature",
-"pressure_level": "1000",
-"product_type": "reanalysis",
-"year": "2008",
-"month": "01",
-"day": "01",
-"time": "12:00",
-"format": "grib"
-}, "download.grib")
+
+c.retrieve(
+    'cams-global-reanalysis-eac4',
+    {
+        'date': '2020-06-14/2020-06-24',
+        'format': 'netcdf',
+        'variable': 'total_aerosol_optical_depth_550nm',
+        'time': [
+            '00:00', '03:00', '06:00',
+            '09:00', '12:00', '15:00',
+            '18:00', '21:00',
+        ],
+        'area': [
+            40, -60, 0,
+            30,
+        ],
+    },
+    'download.nc')
