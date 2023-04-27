@@ -8,7 +8,6 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-import imageio
 from netCDF4 import Dataset
 
 # Read the NetCDF file
