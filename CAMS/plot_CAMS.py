@@ -41,8 +41,6 @@ for i in range(88):
     plt.title(f'Time: {times[i]}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
-    coast = cfeature.COASTLINE
-    ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Save the plot as an image file
     image_file = os.path.join(tmp_dir, f'band_{i + 1}.png')
     plt.savefig(image_file)
