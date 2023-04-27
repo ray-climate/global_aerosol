@@ -27,7 +27,7 @@ save_path = f'{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006191642' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006150327' in npz_file):
 
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(input_path + npz_file, allow_pickle=True)['lon']
