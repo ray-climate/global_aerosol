@@ -43,7 +43,7 @@ for i in range(88):
 
 # Create an animated GIF from the image files
 gif_filename = 'aod_animated.gif'
-with imageio.get_writer(gif_filename, mode='I', duration=0.5) as writer:
+with imageio.get_writer(gif_filename, mode='I', duration=5) as writer:
     for image_file in image_files:
         image = imageio.imread(image_file)
         writer.append_data(image)
