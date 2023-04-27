@@ -49,8 +49,8 @@ with imageio.get_writer(gif_filename, mode='I', duration=0.5) as writer:
         writer.append_data(image)
 
 # Clean up the temporary image files and directory
-for image_file in image_files:
-    os.remove(image_file)
-os.rmdir(tmp_dir)
+# for image_file in image_files:
+#     os.remove(image_file)
+# os.rmdir(tmp_dir)
 
 print(f"Animated GIF created: {gif_filename}")
