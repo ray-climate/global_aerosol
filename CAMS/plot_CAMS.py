@@ -39,15 +39,19 @@ coastline = cfeature.GSHHSFeature(scale='auto', edgecolor='k', facecolor='none')
 # Iterate through the 88 bands and create a plot for each
 image_files = []
 for i in range(88):
-    fig, ax = plt.subplots(subplot_kw={'projection': projection}, figsize=(16, 5))
+
+    fig, ax = plt.subplots(subplot_kw={'projection': projection}, figsize=(16, 8))
     ax.add_feature(coastline)
-    cs = ax.pcolormesh(lons, lats, aod[i,:,:], cmap='jet', vmin=0, vmax=3.)
-    plt.colorbar(cs, label='Aerosol Optical Depth', shrink=0.5, extend='both')
-    plt.title(f'Time: {times[i]}', fontsize=16)
+    cs = ax.pcolormesh(lons, lats, aod[i], cmap='viridis', transform=projection, vmin=0, vmax=3.)
+    cbar = plt.colorbar(cs, label='Aerosol Optical Depth', fontsize=14)
+    cbar.ax.tick_params(labelsize=12)
+    plt.title(f'Band {i + 1} - Time: {times[i]}', fontsize=16)
     plt.xlabel('Longitude', fontsize=14)
     plt.ylabel('Latitude', fontsize=14)
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
+    ax.set_extent([longitudes.min(), longitudes.max(), latitudes.min(), latitudes.max()])
+
     # Save the plot as an image file
     image_file = os.path.join(tmp_dir, f'band_{i + 1}.png')
     plt.savefig(image_file)
