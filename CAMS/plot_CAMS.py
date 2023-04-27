@@ -17,9 +17,12 @@ nc_file = Dataset(filename, 'r')
 
 # Extract the variable to plot (assuming 'aod' is the variable name)
 aod = nc_file.variables['aod550'][:]
-lat = nc_file.variables['latitude'][:]
-print(lat)
-quit()
+latitudes = nc_file.variables['latitude'][:]
+longitudes = nc_file.variables['longitude'][:]
+
+# Create a meshgrid of latitude and longitude values
+lons, lats = np.meshgrid(longitudes, latitudes)
+
 # Create a directory to temporarily store the images
 tmp_dir = 'tmp_images'
 if not os.path.exists(tmp_dir):
@@ -30,7 +33,8 @@ print(aod.shape)
 image_files = []
 for i in range(88):
     fig, ax = plt.subplots()
-    plt.imshow(aod[i,:,:], cmap='jet', origin='lower')
+    cs = ax.pcolormesh(lons, lats, aod[i], cmap='jet', vmin=0, vmax=3.)
+    plt.colorbar(cs, label='Aerosol Optical Depth')
     plt.colorbar(label='Aerosol Optical Depth')
     plt.title(f'Band {i + 1}')
     plt.xlabel('Longitude')
