@@ -33,9 +33,8 @@ print(aod.shape)
 image_files = []
 for i in range(88):
     fig, ax = plt.subplots()
-    cs = ax.pcolormesh(lons, lats, aod[i], cmap='jet', vmin=0, vmax=3.)
+    cs = ax.pcolormesh(lons, lats, aod[i,:,:], cmap='jet', vmin=0, vmax=3.)
     plt.colorbar(cs, label='Aerosol Optical Depth')
-    plt.colorbar(label='Aerosol Optical Depth')
     plt.title(f'Band {i + 1}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
