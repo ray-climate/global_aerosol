@@ -43,8 +43,9 @@ for i in range(88):
     fig, ax = plt.subplots(subplot_kw={'projection': projection}, figsize=(16, 8))
     ax.add_feature(coastline)
     cs = ax.pcolormesh(lons, lats, aod[i], cmap='viridis', transform=projection, vmin=0, vmax=3.)
-    cbar = plt.colorbar(cs, label='Aerosol Optical Depth', fontsize=14)
-    cbar.ax.tick_params(labelsize=12)
+    cbar = plt.colorbar(cs, label='Aerosol Optical Depth')
+    cbar.set_label('Aerosol Optical Depth', fontsize=14)  # Change the font size of the colorbar label
+    cbar.ax.tick_params(labelsize=12)  # Change the font size of the colorbar tick labels
     plt.title(f'Band {i + 1} - Time: {times[i]}', fontsize=16)
     plt.xlabel('Longitude', fontsize=14)
     plt.ylabel('Latitude', fontsize=14)
