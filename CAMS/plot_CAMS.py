@@ -15,6 +15,6 @@ filename = 'CAMS_550AOD_20200614_20200624.nc'
 nc_file = Dataset(filename, 'r')
 
 # Extract the variable to plot (assuming 'aod' is the variable name)
-aod = nc_file.variables['83'][:]
+aod = nc_file.variables['aod550'][:]
 
 print(aod.shape)
