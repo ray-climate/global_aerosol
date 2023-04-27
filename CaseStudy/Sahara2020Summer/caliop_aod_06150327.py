@@ -15,8 +15,10 @@ import sys
 import csv
 import os
 
-lat1_caliop = 12.
+lat1_caliop = 13.
 lat2_caliop = 20.
+lon1_caliop = -26.
+lon2_caliop = -20.
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 # Define output directory
@@ -28,6 +30,7 @@ for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006191642' in npz_file):
 
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop = np.load(input_path + npz_file, allow_pickle=True)['lon']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
@@ -36,13 +39,13 @@ for npz_file in os.listdir(input_path):
 
 cols_to_keep_caliop = []
 for k in range(len(lat_caliop)):
-    if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
+    if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop and lon_caliop[k] > lon1_caliop and lon_caliop[k] < lon2_caliop:
         cols_to_keep_caliop.append(k)
 
 beta_caliop = beta_caliop[:, cols_to_keep_caliop]
 alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
 lat_caliop = lat_caliop[cols_to_keep_caliop]
 dp_caliop = dp_caliop[:, cols_to_keep_caliop]
-aod_caliop = aod_caliop[:, cols_to_keep_caliop]
+aod_caliop = aod_caliop[cols_to_keep_caliop]
 
 print(aod_caliop)
