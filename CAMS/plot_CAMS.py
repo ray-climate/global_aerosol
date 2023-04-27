@@ -28,7 +28,7 @@ print(aod.shape)
 image_files = []
 for i in range(88):
     fig, ax = plt.subplots()
-    plt.imshow(aod[:,:,i], cmap='jet', origin='lower')
+    plt.imshow(aod[i,:,:], cmap='jet', origin='lower')
     plt.colorbar(label='Aerosol Optical Depth')
     plt.title(f'Band {i + 1}')
     plt.xlabel('Longitude')
