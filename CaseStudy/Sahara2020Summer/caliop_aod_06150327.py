@@ -37,6 +37,8 @@ for npz_file in os.listdir(input_path):
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
+print(lat_caliop)
+print(lon_caliop)
 cols_to_keep_caliop = []
 for k in range(len(lat_caliop)):
     if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop and lon_caliop[k] > lon1_caliop and lon_caliop[k] < lon2_caliop:
