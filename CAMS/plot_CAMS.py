@@ -9,7 +9,7 @@ import os
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
-from netCDF4 import Dataset
+from netCDF4 import Dataset, num2date
 
 # Read the NetCDF file
 filename = 'CAMS_550AOD_20200614_20200624.nc'
@@ -19,6 +19,8 @@ nc_file = Dataset(filename, 'r')
 aod = nc_file.variables['aod550'][:]
 latitudes = nc_file.variables['latitude'][:]
 longitudes = nc_file.variables['longitude'][:]
+time_var = nc_file.variables['time']
+times = num2date(time_var[:], time_var.units)
 
 # Create a meshgrid of latitude and longitude values
 lons, lats = np.meshgrid(longitudes, latitudes)
@@ -28,14 +30,14 @@ tmp_dir = 'tmp_images'
 if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
 
-print(aod.shape)
+
 # Iterate through the 88 bands and create a plot for each
 image_files = []
 for i in range(88):
     fig, ax = plt.subplots()
     cs = ax.pcolormesh(lons, lats, aod[i,:,:], cmap='jet', vmin=0, vmax=3.)
     plt.colorbar(cs, label='Aerosol Optical Depth')
-    plt.title(f'Band {i + 1}')
+    plt.title(f'Time: {times[i]}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
 
