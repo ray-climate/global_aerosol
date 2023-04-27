@@ -23,6 +23,7 @@ tmp_dir = 'tmp_images'
 if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
 
+print(aod.shape)
 # Iterate through the 88 bands and create a plot for each
 image_files = []
 for i in range(88):
