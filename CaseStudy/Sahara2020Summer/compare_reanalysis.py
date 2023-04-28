@@ -24,12 +24,15 @@ times = num2date(time_var[:], time_var.units)
 # Create a dictionary mapping the datetime objects to the corresponding AOD data
 time_aod_dict = {times[i]: aod[i] for i in range(88)}
 
-# Example: Access AOD data for a specific time
-time_to_find = datetime.datetime(2020, 6, 14, 12, 0)
-aod_data = time_aod_dict.get(time_to_find)
+def find_closest_time(target_time, time_dict):
+    closest_time = min(time_dict.keys(), key=lambda t: abs(target_time - t))
+    return closest_time
 
-if aod_data is not None:
-    print(f"AOD data found for time {time_to_find}:")
-    print(aod_data)
-else:
-    print(f"No AOD data found for time {time_to_find}")
+# Example: Access AOD data for the closest time
+time_to_find = datetime.datetime(2020, 6, 14, 12, 30)
+closest_time = find_closest_time(time_to_find, time_aod_dict)
+aod_data = time_aod_dict[closest_time]
+
+print(f"Closest time found: {closest_time}")
+print(f"AOD data for the closest time:")
+print(aod_data)
