@@ -164,12 +164,12 @@ for i in range(len(aod_min)):
     # Add R-squared value and the number of data points to the plot
     num_data = len(x)
     text = f"Nr: {num_data}"
-    ax.text(0.05, 0.95, text, fontsize=12, transform=ax.transAxes, verticalalignment='top', color = 'black')
+    ax.text(0.05, 0.95, text, fontsize=18, transform=ax.transAxes, verticalalignment='top', color = 'black')
 
     # Add the fitted line
     x_line = np.linspace(0, 2.5, 100)
     y_line = slope * x_line + intercept
-    ax.plot(x_line, y_line, 'r-', linewidth=2)
+    # ax.plot(x_line, y_line, 'r-', linewidth=2)
 
     # Display the plot
     plt.savefig(save_path + 'cams_vs_caliop_aod_density_%s_%s.png'%(aod_min[i], aod_max[i]), dpi=300, bbox_inches='tight')
