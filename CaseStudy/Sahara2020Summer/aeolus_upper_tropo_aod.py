@@ -98,21 +98,21 @@ for npz_file in os.listdir(input_path):
         dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
-    cols_to_keep_caliop = []
-    for k in range(len(lat_caliop)):
-        if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
-            cols_to_keep_caliop.append(k)
+        cols_to_keep_caliop = []
+        for k in range(len(lat_caliop)):
+            if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
+                cols_to_keep_caliop.append(k)
 
-    beta_caliop = beta_caliop[:, cols_to_keep_caliop]
-    alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
-    lat_caliop = lat_caliop[cols_to_keep_caliop]
-    dp_caliop = dp_caliop[:, cols_to_keep_caliop]
-    aod_caliop = aod_caliop[cols_to_keep_caliop]
+        beta_caliop = beta_caliop[:, cols_to_keep_caliop]
+        alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
+        lat_caliop = lat_caliop[cols_to_keep_caliop]
+        dp_caliop = dp_caliop[:, cols_to_keep_caliop]
+        aod_caliop = aod_caliop[cols_to_keep_caliop]
 
-    caliop_aod = np.zeros(len(lat_caliop))
-    print(alt_caliop)
-    for k in range(alpha_caliop.shape[0]):
-        for kk in range(alpha_caliop.shape[1]):
-            if (alpha_caliop[k, kk] > 0) & (alt_caliop[k, kk] > alt_threshold) & (alt_caliop[k, kk+1] > alt_threshold) & (alpha_caliop[k, kk] < ext_threshold):
-                caliop_aod[k] = caliop_aod[k] + alpha_caliop[k, kk] * (alt_caliop[k, kk] - alt_caliop[k, kk+1])
+        caliop_aod = np.zeros(len(lat_caliop))
+        print(alt_caliop)
+        for k in range(alpha_caliop.shape[0]):
+            for kk in range(alpha_caliop.shape[1]):
+                if (alpha_caliop[k, kk] > 0) & (alt_caliop[k, kk] > alt_threshold) & (alt_caliop[k, kk+1] > alt_threshold) & (alpha_caliop[k, kk] < ext_threshold):
+                    caliop_aod[k] = caliop_aod[k] + alpha_caliop[k, kk] * (alt_caliop[k, kk] - alt_caliop[k, kk+1])
 
