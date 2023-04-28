@@ -8,6 +8,7 @@
 from netCDF4 import Dataset, num2date
 import matplotlib.pyplot as plt
 from scipy.stats import kde
+import scipy.stats
 import numpy as np
 import datetime
 import pathlib
@@ -125,11 +126,15 @@ for npz_file in os.listdir(caliop_path):
 # # Display the plot
 # plt.savefig(save_path + 'cams_vs_caliop_aod.png', dpi=300, bbox_inches='tight')
 
-
 # Create the hexbin density plot
 nbins = 1000
 x = np.asarray(all_cams_aod_values)
 y = np.asarray(all_caliop_aod_values)
+print(np.mean(x[(x>0) & (y>0)]) - np.mean(y[(x>0) & (y>0)]))
+# Calculate R-squared value
+slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(x, y)
+r_squared = r_value**2
+
 k = kde.gaussian_kde([x, y])
 xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
@@ -141,9 +146,15 @@ ax.set_xlabel('CAMS AOD', fontsize=14)
 ax.set_ylabel('CALIOP AOD', fontsize=14)
 ax.set_title('CAMS vs CALIOP AOD Density', fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=12)
+ax.plot([0, 2.5], [0, 2.5], 'k--', linewidth=2)
 
-ax.set_xlim([0, 3.])
-ax.set_ylim([0, 3.])
+ax.set_xlim([0, 2.5])
+ax.set_ylim([0, 2.5])
+
+# Add R-squared value and the number of data points to the plot
+num_data = len(x)
+text = f"R-squared: {r_squared:.2f}\nN: {num_data}"
+ax.text(0.05, 0.95, text, fontsize=12, transform=ax.transAxes, verticalalignment='top')
 
 # Display the plot
 plt.savefig(save_path + 'cams_vs_caliop_aod_density.png', dpi=300, bbox_inches='tight')
