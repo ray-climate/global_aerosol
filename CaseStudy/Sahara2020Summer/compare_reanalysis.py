@@ -110,7 +110,7 @@ for npz_file in os.listdir(caliop_path):
 
 # Create the scatter plot using all_cams_aod_values and all_caliop_aod_values
 fig, ax = plt.subplots(figsize=(10, 10))
-ax.scatter(all_cams_aod_values, all_caliop_aod_values, marker='o', alpha=0.8)
+ax.scatter(all_cams_aod_values, all_caliop_aod_values, marker='o', color='red', alpha=0.8)
 
 # Set plot settings
 ax.set_xlabel('CAMS AOD', fontsize=14)
