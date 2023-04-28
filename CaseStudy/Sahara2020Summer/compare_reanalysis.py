@@ -51,7 +51,7 @@ def haversine(lat1, lon1, lat2, lon2):
     return R * c
 
 def find_closest_aod(lat, lon, aod_data, lats, lons):
-    distances = haversine(lat, lon, lats[:, None], lons)
+    distances = haversine(lat, lon, lats[:, np.newaxis], lons[np.newaxis, :])
     closest_idx = np.unravel_index(np.argmin(distances, axis=None), distances.shape)
     return aod_data[closest_idx]
 
