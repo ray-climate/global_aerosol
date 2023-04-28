@@ -41,7 +41,7 @@ def get_caliop_datetime(filename):
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  # Earth's radius in km
-    lat1, lon1, lat2, lon2 = np.radians([lat1, lon1, lat2, lon2])
+    lat1, lon1, lat2, lon2 = np.radians(lat1), np.radians(lon1), np.radians(lat2), np.radians(lon2)
 
     dlat = lat2 - lat1
     dlon = lon2 - lon1
