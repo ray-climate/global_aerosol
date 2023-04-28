@@ -164,7 +164,7 @@ for i in range(len(aod_min)):
     # Add R-squared value and the number of data points to the plot
     num_data = len(x)
     text = f"Nr: {num_data}"
-    ax.text(0.05, 0.95, text, fontsize=12, transform=ax.transAxes, verticalalignment='top', colors = 'white')
+    ax.text(0.05, 0.95, text, fontsize=12, transform=ax.transAxes, verticalalignment='top', color = 'white')
 
     # Add the fitted line
     x_line = np.linspace(0, 2.5, 100)
