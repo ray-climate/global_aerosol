@@ -108,19 +108,36 @@ for npz_file in os.listdir(caliop_path):
         all_cams_aod_values.extend(list(closest_cams_aod.values()))
         all_caliop_aod_values.extend(list(averaged_caliop_aod.values()))
 
-# Create the scatter plot using all_cams_aod_values and all_caliop_aod_values
+# # Create the scatter plot using all_cams_aod_values and all_caliop_aod_values
+# fig, ax = plt.subplots(figsize=(10, 10))
+# ax.scatter(all_cams_aod_values, all_caliop_aod_values, marker='o', color='red', alpha=0.8)
+#
+# # Set plot settings
+# ax.set_xlabel('CAMS AOD', fontsize=14)
+# ax.set_ylabel('CALIOP AOD', fontsize=14)
+# ax.set_title('CAMS vs CALIOP AOD', fontsize=16)
+# ax.tick_params(axis='both', which='major', labelsize=12)
+# ax.set_xlim([0, 3.])
+# ax.set_ylim([0, 3.])
+#
+# #
+# # Display the plot
+# plt.savefig(save_path + 'cams_vs_caliop_aod.png', dpi=300, bbox_inches='tight')
+
+
+# Create the hexbin density plot
 fig, ax = plt.subplots(figsize=(10, 10))
-ax.scatter(all_cams_aod_values, all_caliop_aod_values, marker='o', color='red', alpha=0.8)
+hb = ax.hexbin(all_cams_aod_values, all_caliop_aod_values, gridsize=50, cmap='inferno', mincnt=1)
 
 # Set plot settings
 ax.set_xlabel('CAMS AOD', fontsize=14)
 ax.set_ylabel('CALIOP AOD', fontsize=14)
-ax.set_title('CAMS vs CALIOP AOD', fontsize=16)
+ax.set_title('CAMS vs CALIOP AOD Density', fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=12)
-ax.set_xlim([0, 3.])
-ax.set_ylim([0, 3.])
 
-#
+# Add a colorbar to the plot
+cb = plt.colorbar(hb, ax=ax)
+cb.set_label('Density', fontsize=14)
+
 # Display the plot
-plt.savefig(save_path + 'cams_vs_caliop_aod.png', dpi=300, bbox_inches='tight')
-
+plt.savefig(save_path + 'cams_vs_caliop_aod_density.png', dpi=300, bbox_inches='tight')
