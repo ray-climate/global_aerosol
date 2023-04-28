@@ -126,46 +126,50 @@ for npz_file in os.listdir(caliop_path):
 # # Display the plot
 # plt.savefig(save_path + 'cams_vs_caliop_aod.png', dpi=300, bbox_inches='tight')
 
+aod_min = [0.1, 0.5, 1.0]
+aod_max = [0.5, 1.0, 2.0]
 # Create the hexbin density plot
 nbins = 1000
 all_cams_aod_values = np.asarray(all_cams_aod_values)
 all_caliop_aod_values = np.asarray(all_caliop_aod_values)
-x = all_cams_aod_values[(all_cams_aod_values>1) & (all_caliop_aod_values>1) & (all_cams_aod_values<2) & (all_caliop_aod_values<2)]
-y = all_caliop_aod_values[(all_cams_aod_values>1) & (all_caliop_aod_values>1) & (all_cams_aod_values<2) & (all_caliop_aod_values<2)]
 
-print(np.mean(x) - np.mean(y))
-print(np.mean(x))
-print(np.mean(y))
+for i in range(len(aod_min)):
+    x = all_cams_aod_values[(all_cams_aod_values > aod_min[i]) & (all_caliop_aod_values > aod_min[i]) & (all_cams_aod_values < aod_max[i]) & (all_caliop_aod_values < aod_max[i])]
+    y = all_caliop_aod_values[(all_cams_aod_values > aod_min[i]) & (all_caliop_aod_values > aod_min[i]) & (all_cams_aod_values < aod_max[i]) & (all_caliop_aod_values < aod_max[i])]
 
-# Calculate R-squared value
-slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(x, y)
-r_squared = r_value**2
+    print(np.mean(x) - np.mean(y))
+    print(np.mean(x))
+    print(np.mean(y))
 
-k = kde.gaussian_kde([x, y])
-xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
-zi = k(np.vstack([xi.flatten(), yi.flatten()]))
+    # Calculate R-squared value
+    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(x, y)
+    r_squared = r_value**2
 
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlBu_r')
-# Set plot settings
-ax.set_xlabel('CAMS AOD', fontsize=14)
-ax.set_ylabel('CALIOP AOD', fontsize=14)
-ax.set_title('CAMS vs CALIOP AOD Density', fontsize=16)
-ax.tick_params(axis='both', which='major', labelsize=12)
-ax.plot([0, 2.5], [0, 2.5], 'k--', linewidth=2)
+    k = kde.gaussian_kde([x, y])
+    xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
+    zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
-ax.set_xlim([1, 2.])
-ax.set_ylim([1, 2.])
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlBu_r')
+    # Set plot settings
+    ax.set_xlabel('CAMS AOD', fontsize=14)
+    ax.set_ylabel('CALIOP AOD', fontsize=14)
+    ax.set_title('CAMS vs CALIOP AOD Density', fontsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.plot([0, 2.5], [0, 2.5], 'k--', linewidth=2)
 
-# Add R-squared value and the number of data points to the plot
-num_data = len(x)
-text = f"R-squared: {r_squared:.2f}\nN: {num_data}"
-ax.text(0.05, 0.95, text, fontsize=12, transform=ax.transAxes, verticalalignment='top')
+    ax.set_xlim([aod_min[i], aod_max[i]])
+    ax.set_ylim([aod_min[i], aod_max[i]])
 
-# Add the fitted line
-x_line = np.linspace(0, 2.5, 100)
-y_line = slope * x_line + intercept
-ax.plot(x_line, y_line, 'r-', linewidth=2)
+    # Add R-squared value and the number of data points to the plot
+    num_data = len(x)
+    text = f"Nr: {num_data}"
+    ax.text(0.05, 0.95, text, fontsize=12, transform=ax.transAxes, verticalalignment='top', colors = 'white')
 
-# Display the plot
-plt.savefig(save_path + 'cams_vs_caliop_aod_density_1.png', dpi=300, bbox_inches='tight')
+    # Add the fitted line
+    x_line = np.linspace(0, 2.5, 100)
+    y_line = slope * x_line + intercept
+    ax.plot(x_line, y_line, 'r-', linewidth=2)
+
+    # Display the plot
+    plt.savefig(save_path + 'cams_vs_caliop_aod_density_%s_%s.png'%(aod_min[i], aod_max[i]), dpi=300, bbox_inches='tight')
