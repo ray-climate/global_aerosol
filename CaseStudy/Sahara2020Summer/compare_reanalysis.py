@@ -6,6 +6,7 @@
 # @Time:        28/04/2023 10:44
 
 from netCDF4 import Dataset, num2date
+import matplotlib.pyplot as plt
 import numpy as np
 import datetime
 import pathlib
@@ -98,4 +99,21 @@ for npz_file in os.listdir(caliop_path):
 
         print("Closest CAMS AOD data:")
         print(closest_cams_aod)
+
+# Extract the unique CAMS and corresponding averaged CALIOP AOD values
+cams_aod_values = list(closest_cams_aod.values())
+caliop_aod_values = list(averaged_caliop_aod.values())
+
+# Create the scatter plot
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.scatter(cams_aod_values, caliop_aod_values, marker='o', alpha=0.5)
+
+# Set plot settings
+ax.set_xlabel('CAMS AOD', fontsize=14)
+ax.set_ylabel('CALIOP AOD', fontsize=14)
+ax.set_title('CAMS vs CALIOP AOD', fontsize=16)
+ax.tick_params(axis='both', which='major', labelsize=12)
+
+# Display the plot
+plt.savefig(save_path + 'cams_vs_caliop_aod.png', dpi=300, bbox_inches='tight')
 
