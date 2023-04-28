@@ -130,8 +130,8 @@ for npz_file in os.listdir(caliop_path):
 nbins = 1000
 all_cams_aod_values = np.asarray(all_cams_aod_values)
 all_caliop_aod_values = np.asarray(all_caliop_aod_values)
-x = all_cams_aod_values[(all_cams_aod_values>0.5) & (all_caliop_aod_values>0.5) & (all_cams_aod_values<1.0) & (all_caliop_aod_values<1.0)]
-y = all_caliop_aod_values[(all_cams_aod_values>0.5) & (all_caliop_aod_values>0.5) & (all_cams_aod_values<1.0) & (all_caliop_aod_values<1.0)]
+x = all_cams_aod_values[(all_cams_aod_values>1) & (all_caliop_aod_values>1) & (all_cams_aod_values<2) & (all_caliop_aod_values<2)]
+y = all_caliop_aod_values[(all_cams_aod_values>1) & (all_caliop_aod_values>1) & (all_cams_aod_values<2) & (all_caliop_aod_values<2)]
 
 print(np.mean(x) - np.mean(y))
 print(np.mean(x))
@@ -154,8 +154,8 @@ ax.set_title('CAMS vs CALIOP AOD Density', fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=12)
 ax.plot([0, 2.5], [0, 2.5], 'k--', linewidth=2)
 
-ax.set_xlim([0.5, 1.])
-ax.set_ylim([0.5, 1.])
+ax.set_xlim([1, 2.])
+ax.set_ylim([1, 2.])
 
 # Add R-squared value and the number of data points to the plot
 num_data = len(x)
