@@ -110,7 +110,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop = aod_caliop[cols_to_keep_caliop]
 
         caliop_aod = np.zeros(len(lat_caliop))
-        print(alt_caliop)
+        print(alpha_caliop.shape)
         for k in range(alpha_caliop.shape[0]):
             for kk in range(alpha_caliop.shape[1]):
                 if (alpha_caliop[kk, k] > 0) & (alt_caliop[kk] > alt_threshold) & (alt_caliop[kk+1] > alt_threshold) & (alpha_caliop[kk, k] < ext_threshold):
