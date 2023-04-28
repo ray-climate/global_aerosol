@@ -35,18 +35,25 @@ def find_closest_time(target_time, time_dict):
     closest_time = min(time_dict.keys(), key=lambda t: abs(target_time - t))
     return closest_time
 
-# Example: Access AOD data for the closest time
-time_to_find = datetime.datetime(2020, 6, 14, 12, 33)
-closest_time = find_closest_time(time_to_find, time_aod_dict)
-aod_data = time_aod_dict[closest_time]
-
-print(f"Closest time found: {closest_time}")
-print(f"AOD data for the closest time:")
-print(aod_data)
-
 def get_caliop_datetime(filename):
     datetime_str = filename[-16:-4]
     return datetime.datetime.strptime(datetime_str, "%Y%m%d%H%M%S")
+
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371  # Earth's radius in km
+    lat1, lon1, lat2, lon2 = np.radians([lat1, lon1, lat2, lon2])
+
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = np.sin(dlat / 2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2)**2
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
+
+    return R * c
+
+def find_closest_aod(lat, lon, aod_data, lats, lons):
+    distances = haversine(lat, lon, lats[:, None], lons)
+    closest_idx = np.unravel_index(np.argmin(distances, axis=None), distances.shape)
+    return aod_data[closest_idx]
 
 for npz_file in os.listdir(caliop_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006150327' in npz_file):
@@ -56,6 +63,7 @@ for npz_file in os.listdir(caliop_path):
 
         # Find the closest AOD data from CAMS
         closest_time = find_closest_time(caliop_datetime, time_aod_dict)
+        aod_data = time_aod_dict[closest_time]
 
         print(f"CALIOP datetime: {caliop_datetime}")
         print(f"Closest time found: {closest_time}")
@@ -68,3 +76,9 @@ for npz_file in os.listdir(caliop_path):
         alpha_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['alpha']
         dp_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['aod']
+
+        # Find the closest AOD data from CAMS for each AOD data point from CALIOP
+        closest_cams_aod = np.array([
+            find_closest_aod(lat, lon, aod_data, latitudes, longitudes)
+            for lat, lon in zip(lat_caliop, lon_caliop)
+        ])
