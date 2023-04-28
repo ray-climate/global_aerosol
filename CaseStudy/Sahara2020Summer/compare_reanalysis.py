@@ -128,9 +128,15 @@ for npz_file in os.listdir(caliop_path):
 
 # Create the hexbin density plot
 nbins = 1000
-x = np.asarray(all_cams_aod_values)
-y = np.asarray(all_caliop_aod_values)
-print(np.mean(x[(x>0.1) & (y>0.1) & (x<0.5) & (y<0.5)]) - np.mean(y[(x>0.1) & (y>0.1) & (x<0.5) & (y<0.5)]))
+all_cams_aod_values = np.asarray(all_cams_aod_values)
+all_caliop_aod_values = np.asarray(all_caliop_aod_values)
+x = all_cams_aod_values[(all_cams_aod_values>0.1) & (all_caliop_aod_values>0.1) & (all_cams_aod_values<0.5) & (all_caliop_aod_values<0.5)]
+y = all_caliop_aod_values[(all_cams_aod_values>0.1) & (all_caliop_aod_values>0.1) & (all_cams_aod_values<0.5) & (all_caliop_aod_values<0.5)]
+
+print(np.mean(x) - np.mean(y))
+print(np.mean(x))
+print(np.mean(y))
+
 # Calculate R-squared value
 slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(x, y)
 r_squared = r_value**2
