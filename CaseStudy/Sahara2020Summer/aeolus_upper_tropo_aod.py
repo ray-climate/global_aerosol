@@ -113,6 +113,7 @@ for npz_file in os.listdir(input_path):
         print(alt_caliop)
         for k in range(alpha_caliop.shape[0]):
             for kk in range(alpha_caliop.shape[1]):
-                if (alpha_caliop[k, kk] > 0) & (alt_caliop[k, kk] > alt_threshold) & (alt_caliop[k, kk+1] > alt_threshold) & (alpha_caliop[k, kk] < ext_threshold):
-                    caliop_aod[k] = caliop_aod[k] + alpha_caliop[k, kk] * (alt_caliop[k, kk] - alt_caliop[k, kk+1])
+                if (alpha_caliop[kk, k] > 0) & (alt_caliop[kk] > alt_threshold) & (alt_caliop[kk+1] > alt_threshold) & (alpha_caliop[kk, k] < ext_threshold):
+                    caliop_aod[k] = caliop_aod[k] + alpha_caliop[kk, k] * (alt_caliop[kk] - alt_caliop[kk+1])
 
+        print(caliop_aod)
