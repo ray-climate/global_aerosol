@@ -29,7 +29,7 @@ def find_closest_time(target_time, time_dict):
     return closest_time
 
 # Example: Access AOD data for the closest time
-time_to_find = datetime.datetime(2020, 6, 14, 12, 30)
+time_to_find = datetime.datetime(2020, 6, 14, 12, 33)
 closest_time = find_closest_time(time_to_find, time_aod_dict)
 aod_data = time_aod_dict[closest_time]
 
