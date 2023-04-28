@@ -110,10 +110,18 @@ for npz_file in os.listdir(input_path):
         aod_caliop = aod_caliop[cols_to_keep_caliop]
 
         caliop_aod = np.zeros(len(lat_caliop))
-        print(alpha_caliop.shape)
+
         for k in range(alpha_caliop.shape[1]):
             for kk in range(alpha_caliop.shape[0]-1):
                 if (alpha_caliop[kk, k] > 0) & (alt_caliop[kk] > alt_threshold) & (alt_caliop[kk+1] > alt_threshold) & (alpha_caliop[kk, k] < ext_threshold):
                     caliop_aod[k] = caliop_aod[k] + alpha_caliop[kk, k] * (alt_caliop[kk] - alt_caliop[kk+1])
 
-        print(caliop_aod)
+        caliop_upper_trop_aod_all.extend(caliop_aod)
+
+fig, ax = plt.subplots(figsize=(10, 10))
+plt.hist(caliop_upper_trop_aod_all, bins=50, edgecolor='black')
+plt.xlabel('CALIOP Upper Tropospheric AOD', fontsize=20)
+plt.ylabel('Frequency', fontsize=20)
+plt.xlim(0, 0.5)
+ax.tick_params(axis='both', which='major', labelsize=20)
+plt.savefig('./compare_reanalysis_output/caliop_upper_trop_aod.png', dpi=300)
