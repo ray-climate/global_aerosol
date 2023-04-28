@@ -27,6 +27,10 @@ def haversine(lat1, lon1, lat2, lon2):
 
     return R * c
 
+def get_caliop_datetime(filename):
+    datetime_str = filename[-16:-4]
+    return datetime.datetime.strptime(datetime_str, "%Y%m%d%H%M%S")
+
 def find_closest_aod_index(lat, lon, lats, lons):
     distances = haversine(lat, lon, lats[:, np.newaxis], lons[np.newaxis, :])
     return np.unravel_index(np.argmin(distances, axis=None), distances.shape)
@@ -55,17 +59,18 @@ times = num2date(time_var[:], time_var.units)
 # Create a dictionary mapping the datetime objects to the corresponding AOD data
 time_aod_dict = {times[i]: aod[i] for i in range(88)}
 
-# Example: Access AOD data for the closest time
-time_to_find = datetime.datetime(2020, 6, 14, 12, 33)
-closest_time = find_closest_time(time_to_find, time_aod_dict)
-aod_data = time_aod_dict[closest_time]
-
-print(f"Closest time found: {closest_time}")
-print(f"AOD data for the closest time:")
-print(aod_data)
+# Create lists to store all CAMS and CALIOP AOD values
+all_cams_aod_values = []
+all_caliop_aod_values = []
 
 for npz_file in os.listdir(caliop_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006150327' in npz_file):
+    if npz_file.endswith('.npz') & ('dbd_descending' in npz_file):
+
+        print('Processing file: ', npz_file, '...')
+        caliop_datetime = get_caliop_datetime(npz_file)
+        # Find the closest AOD data from CAMS
+        closest_time = find_closest_time(caliop_datetime, time_aod_dict)
+        aod_data = time_aod_dict[closest_time]
 
         lat_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['lon']
@@ -94,19 +99,13 @@ for npz_file in os.listdir(caliop_path):
             i, j = index_tuple
             closest_cams_aod[index_tuple] = aod_data[i, j]
 
-        print("Averaged CALIOP AOD data:")
-        print(averaged_caliop_aod)
+        # Append the CAMS and CALIOP AOD values for this file to the lists
+        all_cams_aod_values.extend(list(closest_cams_aod.values()))
+        all_caliop_aod_values.extend(list(averaged_caliop_aod.values()))
 
-        print("Closest CAMS AOD data:")
-        print(closest_cams_aod)
-
-# Extract the unique CAMS and corresponding averaged CALIOP AOD values
-cams_aod_values = list(closest_cams_aod.values())
-caliop_aod_values = list(averaged_caliop_aod.values())
-
-# Create the scatter plot
+# Create the scatter plot using all_cams_aod_values and all_caliop_aod_values
 fig, ax = plt.subplots(figsize=(10, 10))
-ax.scatter(cams_aod_values, caliop_aod_values, marker='o', alpha=0.5)
+ax.scatter(all_cams_aod_values, all_caliop_aod_values, marker='o', alpha=0.5)
 
 # Set plot settings
 ax.set_xlabel('CAMS AOD', fontsize=14)
