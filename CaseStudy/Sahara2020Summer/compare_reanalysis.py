@@ -10,7 +10,7 @@ import numpy as np
 import os
 
 # Read the NetCDF file
-filename = './CAMS_data/CAMS_550AOD_20200614_20200624.nc'
+filename = './CAMS_data/CAMS_AOD550_20200614-20200624.nc'
 nc_file = Dataset(filename, 'r')
 
 # Extract the variable to plot (assuming 'aod' is the variable name)
