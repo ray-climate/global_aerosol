@@ -7,6 +7,7 @@
 
 from netCDF4 import Dataset, num2date
 import matplotlib.pyplot as plt
+from scipy.stats import kde
 import numpy as np
 import datetime
 import pathlib
@@ -126,18 +127,23 @@ for npz_file in os.listdir(caliop_path):
 
 
 # Create the hexbin density plot
-fig, ax = plt.subplots(figsize=(10, 10))
-hb = ax.hexbin(all_cams_aod_values, all_caliop_aod_values, gridsize=50, cmap='inferno', mincnt=1)
+nbins = 1000
+x = all_cams_aod_values
+y = all_caliop_aod_values
+k = kde.gaussian_kde([x, y])
+xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
+zi = k(np.vstack([xi.flatten(), yi.flatten()]))
 
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='RdYlBu_r')
 # Set plot settings
 ax.set_xlabel('CAMS AOD', fontsize=14)
 ax.set_ylabel('CALIOP AOD', fontsize=14)
 ax.set_title('CAMS vs CALIOP AOD Density', fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=12)
 
-# Add a colorbar to the plot
-cb = plt.colorbar(hb, ax=ax)
-cb.set_label('Density', fontsize=14)
+ax.set_xlim([0, 3.])
+ax.set_ylim([0, 3.])
 
 # Display the plot
 plt.savefig(save_path + 'cams_vs_caliop_aod_density.png', dpi=300, bbox_inches='tight')
