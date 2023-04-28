@@ -120,6 +120,7 @@ ax.tick_params(axis='both', which='major', labelsize=12)
 ax.set_xlim([0, 3.])
 ax.set_ylim([0, 3.])
 
+#
 # Display the plot
 plt.savefig(save_path + 'cams_vs_caliop_aod.png', dpi=300, bbox_inches='tight')
 
