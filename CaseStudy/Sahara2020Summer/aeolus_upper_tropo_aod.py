@@ -34,6 +34,8 @@ ext_threshold = 0.1
 aeolus_upper_trop_aod_all = []
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc_descending' in npz_file):
+
+        print('processing file: ' + npz_file + '...')
         # print the file name and variables in the file
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
@@ -65,6 +67,6 @@ for npz_file in os.listdir(input_path):
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist(aeolus_upper_trop_aod_all, bins=50, edgecolor='black')
 plt.xlabel('Upper Tropospheric AOD', fontsize=20)
-plt.savefig('./compare_reanalysis/aeolus_upper_trop_aod.png', dpi=300)
+plt.savefig('./compare_reanalysis_output/aeolus_upper_trop_aod.png', dpi=300)
 
 
