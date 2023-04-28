@@ -128,8 +128,8 @@ for npz_file in os.listdir(caliop_path):
 
 # Create the hexbin density plot
 nbins = 1000
-x = all_cams_aod_values
-y = all_caliop_aod_values
+x = np.asarray(all_cams_aod_values)
+y = np.asarray(all_caliop_aod_values)
 k = kde.gaussian_kde([x, y])
 xi, yi = np.mgrid[x.min():x.max():nbins * 1j, y.min():y.max():nbins * 1j]
 zi = k(np.vstack([xi.flatten(), yi.flatten()]))
