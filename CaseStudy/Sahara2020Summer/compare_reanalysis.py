@@ -154,8 +154,8 @@ ax.set_title('CAMS vs CALIOP AOD Density', fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=12)
 ax.plot([0, 2.5], [0, 2.5], 'k--', linewidth=2)
 
-ax.set_xlim([0, 2.5])
-ax.set_ylim([0, 2.5])
+ax.set_xlim([0, 0.5])
+ax.set_ylim([0, 0.5])
 
 # Add R-squared value and the number of data points to the plot
 num_data = len(x)
