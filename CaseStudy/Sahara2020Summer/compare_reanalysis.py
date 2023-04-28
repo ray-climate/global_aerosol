@@ -82,3 +82,5 @@ for npz_file in os.listdir(caliop_path):
             find_closest_aod(lat, lon, aod_data, latitudes, longitudes)
             for lat, lon in zip(lat_caliop, lon_caliop)
         ])
+
+        print(closest_cams_aod)
