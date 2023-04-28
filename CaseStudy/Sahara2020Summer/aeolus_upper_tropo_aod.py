@@ -66,7 +66,9 @@ for npz_file in os.listdir(input_path):
 
 fig, ax = plt.subplots(figsize=(10, 10))
 plt.hist(aeolus_upper_trop_aod_all, bins=50, edgecolor='black')
-plt.xlabel('Upper Tropospheric AOD', fontsize=20)
+plt.xlabel('AEOLUS Upper Tropospheric AOD', fontsize=20)
+plt.ylabel('Frequency', fontsize=20)
+ax.tick_params(axis='both', which='major', labelsize=20)
 plt.savefig('./compare_reanalysis_output/aeolus_upper_trop_aod.png', dpi=300)
 
 
