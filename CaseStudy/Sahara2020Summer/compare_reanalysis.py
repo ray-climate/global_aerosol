@@ -156,5 +156,10 @@ num_data = len(x)
 text = f"R-squared: {r_squared:.2f}\nN: {num_data}"
 ax.text(0.05, 0.95, text, fontsize=12, transform=ax.transAxes, verticalalignment='top')
 
+# Add the fitted line
+x_line = np.linspace(0, 2.5, 100)
+y_line = slope * x_line + intercept
+ax.plot(x_line, y_line, 'r-', linewidth=2)
+
 # Display the plot
 plt.savefig(save_path + 'cams_vs_caliop_aod_density.png', dpi=300, bbox_inches='tight')
