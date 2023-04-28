@@ -74,29 +74,28 @@ for npz_file in os.listdir(caliop_path):
         dp_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['dp']
         aod_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['aod']
 
-        # Find the closest CAMS AOD data for each CALIOP AOD data point
-        closest_cams_aod_indices = np.array([
-            find_closest_aod_index(lat, lon, latitudes, longitudes)
-            for lat, lon in zip(lat_caliop, lon_caliop)
-        ])
+        # Create a dictionary to store the unique CAMS AOD indices and corresponding averaged CALIOP AOD values
+        unique_cams_caliop_aod = {}
+        for lat, lon, caliop_aod_value in zip(lat_caliop, lon_caliop, aod_caliop):
+            index = find_closest_aod_index(lat, lon, latitudes, longitudes)
+            index_tuple = tuple(index)
+            if index_tuple not in unique_cams_caliop_aod:
+                unique_cams_caliop_aod[index_tuple] = [caliop_aod_value]
+            else:
+                unique_cams_caliop_aod[index_tuple].append(caliop_aod_value)
 
-        # Average the CALIOP AOD data points that correspond to the same CAMS AOD data point
-        unique_indices, unique_counts = np.unique(closest_cams_aod_indices, axis=0, return_counts=True)
-        averaged_caliop_aod = np.array([
-            np.mean(aod_caliop[np.all(closest_cams_aod_indices == index, axis=1)])
-            for index in unique_indices
-        ])
+        # Calculate the averaged CALIOP AOD values for each unique CAMS AOD index
+        averaged_caliop_aod = {k: np.mean(v) for k, v in unique_cams_caliop_aod.items()}
 
-        # Find the corresponding CAMS AOD data for the averaged CALIOP AOD data points
-        closest_cams_aod = np.array([
-            find_closest_aod(lat, lon, aod_data, latitudes, longitudes)
-            for lat, lon in zip(lat_caliop, lon_caliop)
-        ])
+        # Find the corresponding CAMS AOD data for the unique indices
+        closest_cams_aod = {}
+        for index_tuple, avg_caliop_aod in averaged_caliop_aod.items():
+            i, j = index_tuple
+            closest_cams_aod[index_tuple] = aod_data[i, j]
 
         print("Averaged CALIOP AOD data:")
         print(averaged_caliop_aod)
 
         print("Closest CAMS AOD data:")
         print(closest_cams_aod)
-
 
