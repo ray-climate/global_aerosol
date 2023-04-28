@@ -66,52 +66,59 @@ all_caliop_aod_values = []
 for npz_file in os.listdir(caliop_path):
     if npz_file.endswith('.npz') & ('dbd_descending' in npz_file):
 
-        print('Processing file: ', npz_file, '...')
         caliop_datetime = get_caliop_datetime(npz_file)
-        # Find the closest AOD data from CAMS
-        closest_time = find_closest_time(caliop_datetime, time_aod_dict)
-        aod_data = time_aod_dict[closest_time]
+        five_am = caliop_datetime.replace(hour=5, minute=0, second=0, microsecond=0)
+        eight_pm = caliop_datetime.replace(hour=20, minute=0, second=0, microsecond=0)
 
-        lat_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['lat']
-        lon_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['lon']
-        alt_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['alt']
-        beta_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['beta']
-        alpha_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['alpha']
-        dp_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['dp']
-        aod_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['aod']
+        if five_am <= caliop_datetime <= eight_pm:
+            print('Processing file: ', npz_file, '...')
 
-        # Create a dictionary to store the unique CAMS AOD indices and corresponding averaged CALIOP AOD values
-        unique_cams_caliop_aod = {}
-        for lat, lon, caliop_aod_value in zip(lat_caliop, lon_caliop, aod_caliop):
-            index = find_closest_aod_index(lat, lon, latitudes, longitudes)
-            index_tuple = tuple(index)
-            if index_tuple not in unique_cams_caliop_aod:
-                unique_cams_caliop_aod[index_tuple] = [caliop_aod_value]
-            else:
-                unique_cams_caliop_aod[index_tuple].append(caliop_aod_value)
+            # Find the closest AOD data from CAMS
+            closest_time = find_closest_time(caliop_datetime, time_aod_dict)
+            aod_data = time_aod_dict[closest_time]
 
-        # Calculate the averaged CALIOP AOD values for each unique CAMS AOD index
-        averaged_caliop_aod = {k: np.mean(v) for k, v in unique_cams_caliop_aod.items()}
+            lat_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['lat']
+            lon_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['lon']
+            alt_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['alt']
+            beta_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['beta']
+            alpha_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['alpha']
+            dp_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['dp']
+            aod_caliop = np.load(caliop_path + npz_file, allow_pickle=True)['aod']
 
-        # Find the corresponding CAMS AOD data for the unique indices
-        closest_cams_aod = {}
-        for index_tuple, avg_caliop_aod in averaged_caliop_aod.items():
-            i, j = index_tuple
-            closest_cams_aod[index_tuple] = aod_data[i, j]
+            # Create a dictionary to store the unique CAMS AOD indices and corresponding averaged CALIOP AOD values
+            unique_cams_caliop_aod = {}
+            for lat, lon, caliop_aod_value in zip(lat_caliop, lon_caliop, aod_caliop):
+                index = find_closest_aod_index(lat, lon, latitudes, longitudes)
+                index_tuple = tuple(index)
+                if index_tuple not in unique_cams_caliop_aod:
+                    unique_cams_caliop_aod[index_tuple] = [caliop_aod_value]
+                else:
+                    unique_cams_caliop_aod[index_tuple].append(caliop_aod_value)
 
-        # Append the CAMS and CALIOP AOD values for this file to the lists
-        all_cams_aod_values.extend(list(closest_cams_aod.values()))
-        all_caliop_aod_values.extend(list(averaged_caliop_aod.values()))
+            # Calculate the averaged CALIOP AOD values for each unique CAMS AOD index
+            averaged_caliop_aod = {k: np.mean(v) for k, v in unique_cams_caliop_aod.items()}
+
+            # Find the corresponding CAMS AOD data for the unique indices
+            closest_cams_aod = {}
+            for index_tuple, avg_caliop_aod in averaged_caliop_aod.items():
+                i, j = index_tuple
+                closest_cams_aod[index_tuple] = aod_data[i, j]
+
+            # Append the CAMS and CALIOP AOD values for this file to the lists
+            all_cams_aod_values.extend(list(closest_cams_aod.values()))
+            all_caliop_aod_values.extend(list(averaged_caliop_aod.values()))
 
 # Create the scatter plot using all_cams_aod_values and all_caliop_aod_values
 fig, ax = plt.subplots(figsize=(10, 10))
-ax.scatter(all_cams_aod_values, all_caliop_aod_values, marker='o', alpha=0.5)
+ax.scatter(all_cams_aod_values, all_caliop_aod_values, marker='o', alpha=0.8)
 
 # Set plot settings
 ax.set_xlabel('CAMS AOD', fontsize=14)
 ax.set_ylabel('CALIOP AOD', fontsize=14)
 ax.set_title('CAMS vs CALIOP AOD', fontsize=16)
 ax.tick_params(axis='both', which='major', labelsize=12)
+ax.set_xlim([0, 3.])
+ax.set_ylim([0, 3.])
 
 # Display the plot
 plt.savefig(save_path + 'cams_vs_caliop_aod.png', dpi=300, bbox_inches='tight')
