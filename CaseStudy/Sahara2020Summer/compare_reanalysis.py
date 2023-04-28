@@ -130,8 +130,8 @@ for npz_file in os.listdir(caliop_path):
 nbins = 1000
 all_cams_aod_values = np.asarray(all_cams_aod_values)
 all_caliop_aod_values = np.asarray(all_caliop_aod_values)
-x = all_cams_aod_values[(all_cams_aod_values>0.1) & (all_caliop_aod_values>0.1) & (all_cams_aod_values<0.5) & (all_caliop_aod_values<0.5)]
-y = all_caliop_aod_values[(all_cams_aod_values>0.1) & (all_caliop_aod_values>0.1) & (all_cams_aod_values<0.5) & (all_caliop_aod_values<0.5)]
+x = all_cams_aod_values[(all_cams_aod_values>0.5) & (all_caliop_aod_values>0.5) & (all_cams_aod_values<1.0) & (all_caliop_aod_values<1.0)]
+y = all_caliop_aod_values[(all_cams_aod_values>0.5) & (all_caliop_aod_values>0.5) & (all_cams_aod_values<1.0) & (all_caliop_aod_values<1.0)]
 
 print(np.mean(x) - np.mean(y))
 print(np.mean(x))
@@ -168,4 +168,4 @@ y_line = slope * x_line + intercept
 ax.plot(x_line, y_line, 'r-', linewidth=2)
 
 # Display the plot
-plt.savefig(save_path + 'cams_vs_caliop_aod_density.png', dpi=300, bbox_inches='tight')
+plt.savefig(save_path + 'cams_vs_caliop_aod_density_1.png', dpi=300, bbox_inches='tight')
