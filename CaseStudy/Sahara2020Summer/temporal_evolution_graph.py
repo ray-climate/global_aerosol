@@ -75,7 +75,7 @@ for k in range(len(caliop_layer_aod_all)):
 
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
-mesh = ax.pcolormesh(lat_grid, np.arange(len(caliop_layer_aod_all)), aod_grid, cmap='jet')
+mesh = ax.pcolormesh(lat_grid, np.arange(len(caliop_layer_aod_all)), aod_grid, cmap='jet', vmin=0, vmax=0.5)
 fig.colorbar(mesh, ax=ax, label='AOD')
 
 ax.set_xlabel('Latitude')
