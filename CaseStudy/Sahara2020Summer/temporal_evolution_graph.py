@@ -68,18 +68,15 @@ for npz_file in npz_files:
         caliop_layer_lat_all.append(lat_caliop)
 
 lat_grid = np.arange(lat1, lat2, 0.01)
-print(lat_grid)
 
 # Create a 2D grid for AOD values using the lat_grid
 aod_grid = np.zeros((len(lat_grid), len(caliop_layer_aod_all)))
 
 for k in range(len(caliop_layer_aod_all)):
-    print(np.size(caliop_layer_aod_all[k]))
     if np.size(caliop_layer_aod_all[k]) > 0:
         lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
         for kk in range(len(lat_centre)-1):
             aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk+1])) & (lat_grid < max(lat_centre[kk], lat_centre[kk+1])), k] = caliop_layer_aod_all[k][kk]
-        print(np.mean(aod_grid[k, :]))
 
 # only keep rows with mean AOD larger than 0
 cols_to_keep = []
@@ -89,6 +86,7 @@ for k in range(aod_grid.shape[1]):
 
 aod_grid = aod_grid[:, cols_to_keep]
 caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in cols_to_keep]
+timestamps = [timestamps[k] for k in cols_to_keep]
 
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
