@@ -63,6 +63,7 @@ for npz_file in os.listdir(input_path):
         caliop_layer_lat_all.append(lat_caliop)
 
 print(caliop_layer_aod_all)
+
 caliop_layer_lat_all_np = [np.array(lat_caliop) for lat_caliop in caliop_layer_lat_all]
 caliop_layer_aod_all_np = [np.array(caliop_layer_aod) for caliop_layer_aod in caliop_layer_aod_all]
 
