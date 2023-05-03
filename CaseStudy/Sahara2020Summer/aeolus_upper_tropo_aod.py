@@ -74,7 +74,7 @@ for npz_file in os.listdir(input_path):
 
         for k in range(alpha_aeolus_qc.shape[0]):
             for kk in range(alpha_aeolus_qc.shape[1]):
-                if (alpha_aeolus_qc[k, kk] > 0) & (alt_aeolus[k, kk] > alt_threshold) & (alt_aeolus[k, kk+1] > alt_threshold) & (alpha_aeolus_qc[k, kk] < ext_threshold):
+                if (alt_aeolus[k, kk] > alt_threshold) & (alt_aeolus[k, kk+1] > alt_threshold) & (alpha_aeolus_qc[k, kk] < ext_threshold):
                     aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk+1])
 
         aeolus_upper_trop_aod_all.extend(aeolus_aod)
