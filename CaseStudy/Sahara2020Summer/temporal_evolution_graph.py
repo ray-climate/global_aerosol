@@ -73,8 +73,9 @@ for k in range(len(caliop_layer_aod_all)):
         lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
         for kk in range(len(lat_centre)):
             aod_grid[k, (lat_grid > lat_centre[kk]) & (lat_grid < lat_centre[kk])] = caliop_layer_aod_all[k][kk]
-        print(aod_grid[k, :])
+        print(np.mean(aod_grid[k, :]))
 print(aod_grid)
+
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 mesh = ax.pcolormesh(lat_grid, np.arange(len(caliop_layer_aod_all)), aod_grid, cmap='jet', vmin=0, vmax=0.5)
