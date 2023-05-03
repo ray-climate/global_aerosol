@@ -20,7 +20,7 @@ lat2 = 30.
 lon1 = -40.
 lon2 = -20.
 
-alt_1 = 4.4
+alt_1 = 4.5
 alt_2 = 6.5
 
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
@@ -142,8 +142,8 @@ if True:
             for k in range(alpha_aeolus_qc.shape[0]):
                 for kk in range(alpha_aeolus_qc.shape[1]):
 
-                    if (alt_aeolus[k, kk] < alt_2) & (alt_aeolus[k, kk + 1] > alt_1):
-                        print(lat_aeolus[k], alt_aeolus[k, kk], alt_aeolus[k, kk + 1], alpha_aeolus_qc[k, kk])
+                    if (alt_aeolus[k, kk] < np.ceil(alt_2)) & (alt_aeolus[k, kk + 1] > np.floor(alt_1)):
+                        print(lat_aeolus[k], alt_aeolus[k, kk], alt_aeolus[k, kk + 1], alpha_aeolus_qc[k, kk], np.ceil(alt_2), np.floor(alt_1))
                         aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk + 1])
 
             print(aeolus_aod)
