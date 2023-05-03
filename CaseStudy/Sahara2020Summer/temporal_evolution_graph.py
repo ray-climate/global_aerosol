@@ -20,7 +20,7 @@ import os
 
 lat1 = 10.
 lat2 = 30.
-lon1 = -30.
+lon1 = -40.
 lon2 = -20.
 
 alt_1 = 5.
