@@ -63,6 +63,7 @@ for npz_file in os.listdir(input_path):
         caliop_layer_lat_all.append(lat_caliop)
 
 lat_grid = np.arange(lat1, lat2, 0.01)
+print(lat_grid)
 
 # create a 2D grid for AOD values using the lat_grid
 aod_grid = np.zeros((len(caliop_layer_aod_all), len(lat_grid)))
@@ -71,6 +72,7 @@ for k in range(len(caliop_layer_aod_all)):
     print(np.size(caliop_layer_aod_all[k]))
     if np.size(caliop_layer_aod_all[k]) > 0:
         lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
+        print(lat_centre)
         for kk in range(len(lat_centre)):
             aod_grid[k, (lat_grid > lat_centre[kk]) & (lat_grid < lat_centre[kk])] = caliop_layer_aod_all[k][kk]
         print(np.mean(aod_grid[k, :]))
