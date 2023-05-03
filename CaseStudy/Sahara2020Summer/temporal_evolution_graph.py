@@ -140,12 +140,18 @@ if True:
             aeolus_aod = np.zeros(len(lat_aeolus))
 
             for k in range(alpha_aeolus_qc.shape[0]):
+
+                alt_top = []
+                alt_bot = []
                 for kk in range(alpha_aeolus_qc.shape[1]):
 
                     if (alt_aeolus[k, kk] < np.ceil(alt_2)) & (alt_aeolus[k, kk + 1] > np.floor(alt_1)):
                         print(lat_aeolus[k], alt_aeolus[k, kk], alt_aeolus[k, kk + 1], alpha_aeolus_qc[k, kk], np.ceil(alt_2), np.floor(alt_1))
+                        alt_top.append(alt_aeolus[k, kk])
+                        alt_bot.append(alt_aeolus[k, kk + 1])
                         aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk + 1])
-
+                print(alt_top[0], alt_bot[-1])
+                # aeolus_aod[k] = aeolus_aod[k] / ()
             print(aeolus_aod)
 quit()
 
