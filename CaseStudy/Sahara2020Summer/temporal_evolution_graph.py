@@ -77,7 +77,7 @@ print(concat_caliop_layer_aod)
 # Create the meshgrid and plot
 X, Y = np.meshgrid(concat_lat_caliop, np.arange(concat_caliop_layer_aod.shape[0]))
 fig, ax = plt.subplots(figsize=(10, 6))
-pcm = ax.pcolormesh(X, Y, concat_caliop_layer_aod, shading='auto', cmap='viridis')
+pcm = ax.pcolormesh(X, Y, concat_caliop_layer_aod, shading='auto', cmap='viridis', vmin=0, vmax=0.5)
 
 ax.set_title('AOD vs Latitude')
 ax.set_xlabel('Latitude')
