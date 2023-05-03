@@ -82,7 +82,7 @@ for k in range(len(caliop_layer_aod_all)):
 # only keep rows with mean AOD larger than 0
 cols_to_keep = []
 for k in range(aod_grid.shape[1]):
-    if np.mean(aod_grid[:,k]) > 0:
+    if np.nanmean(aod_grid[:,k]) > 0:
         cols_to_keep.append(k)
 
 aod_grid = aod_grid[:, cols_to_keep]
