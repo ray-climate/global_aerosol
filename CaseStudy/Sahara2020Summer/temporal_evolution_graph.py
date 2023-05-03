@@ -108,7 +108,7 @@ cbar.ax.tick_params(labelsize=12)
 cbar.set_label('AOD', fontsize=14)
 
 # Format the x-axis to display dates
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 fig.autofmt_xdate()
 # Set x-tick font size and rotation
 plt.xticks(fontsize=10, rotation=90)
