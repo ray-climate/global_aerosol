@@ -68,9 +68,10 @@ lat_grid = np.arange(lat1, lat2, 0.01)
 aod_grid = np.zeros((len(caliop_layer_aod_all), len(lat_grid)))
 
 for k in range(len(caliop_layer_aod_all)):
-    lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
-    for kk in range(len(lat_grid)):
-        aod_grid[k, (lat_grid > lat_centre[kk] & (lat_grid < lat_centre[kk]))] = caliop_layer_aod_all[k][kk]
+    if len(caliop_layer_aod_all[k]) > 0:
+        lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
+        for kk in range(len(lat_grid)):
+            aod_grid[k, (lat_grid > lat_centre[kk] & (lat_grid < lat_centre[kk]))] = caliop_layer_aod_all[k][kk]
 
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
