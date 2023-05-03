@@ -73,7 +73,7 @@ concat_caliop_layer_aod = np.concatenate(caliop_layer_aod_all_np)
 
 # Ensure the AOD array is 2D
 concat_caliop_layer_aod = concat_caliop_layer_aod.reshape(-1, concat_caliop_layer_aod.size)
-
+print(concat_caliop_layer_aod)
 # Create the meshgrid and plot
 X, Y = np.meshgrid(concat_lat_caliop, np.arange(concat_caliop_layer_aod.shape[0]))
 fig, ax = plt.subplots(figsize=(10, 6))
