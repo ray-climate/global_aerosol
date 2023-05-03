@@ -77,20 +77,25 @@ fig, axs = plt.subplots(nrows, ncols, figsize=(4 * ncols, 4 * nrows), sharey=Tru
 axs = axs.ravel()
 
 # Create the subplots
+subplot_index = 0
 for i, (lat_caliop, caliop_layer_aod) in enumerate(zip(caliop_layer_lat_all_np, caliop_layer_aod_all_np)):
+    # Skip empty arrays
+    if caliop_layer_aod.size == 0:
+        continue
+
     # Make sure caliop_layer_aod is a 2D array
     caliop_layer_aod = caliop_layer_aod.reshape(-1, caliop_layer_aod.size)
 
     X, Y = np.meshgrid(lat_caliop, np.arange(caliop_layer_aod.shape[0]))
-    pcm = axs[i].pcolormesh(X, Y, caliop_layer_aod, shading='auto', cmap='viridis')
-    axs[i].set_title(f'Layer {i+1}')
-    axs[i].set_xlabel('Latitude')
-    if i % ncols == 0:
-        axs[i].set_ylabel('CALIOP Layer')
-
+    pcm = axs[subplot_index].pcolormesh(X, Y, caliop_layer_aod, shading='auto', cmap='viridis')
+    axs[subplot_index].set_title(f'Layer {subplot_index + 1}')
+    axs[subplot_index].set_xlabel('Latitude')
+    if subplot_index % ncols == 0:
+        axs[subplot_index].set_ylabel('CALIOP Layer')
+    subplot_index += 1
 
 # Remove any unused subplots
-for i in range(n, nrows * ncols):
+for i in range(subplot_index, nrows * ncols):
     axs[i].axis('off')
 
 # Add a colorbar for the entire figure
