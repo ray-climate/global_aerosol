@@ -142,12 +142,11 @@ if True:
             for k in range(alpha_aeolus_qc.shape[0]):
                 for kk in range(alpha_aeolus_qc.shape[1]):
                     print(alt_aeolus[k, kk],alt_aeolus[k, kk + 1])
-            #         if (alt_aeolus[k, kk] > alt_threshold) & (alt_aeolus[k, kk + 1] > alt_threshold) & (
-            #                 alpha_aeolus_qc[k, kk] < ext_threshold):
-            #             aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (
-            #                         alt_aeolus[k, kk] - alt_aeolus[k, kk + 1])
-            #
-            # aeolus_upper_trop_aod_all.extend(aeolus_aod)
+                    if (alt_aeolus[k, kk] < alt_2) & (alt_aeolus[k, kk + 1] > alt_1):
+                        aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk + 1])
+
+            print(aeolus_aod)
+quit()
 
 
 # Create the 2D pcolormesh plot
