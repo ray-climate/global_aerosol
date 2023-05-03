@@ -109,7 +109,7 @@ cbar.set_label('AOD', fontsize=14)
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
 fig.autofmt_xdate()
 # Set x-tick font size and rotation
-plt.xticks(fontsize=10, rotation=180)
+plt.xticks(fontsize=10, rotation=90)
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod.png', dpi=300, bbox_inches='tight')
