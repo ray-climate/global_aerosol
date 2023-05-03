@@ -74,7 +74,7 @@ for k in range(len(caliop_layer_aod_all)):
         lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
         print(lat_centre)
         for kk in range(len(lat_centre)):
-            aod_grid[k, (lat_grid > lat_centre[kk]) & (lat_grid < lat_centre[kk])] = caliop_layer_aod_all[k][kk]
+            aod_grid[k, (lat_grid > np.min(lat_centre[kk], lat_centre[kk+1])) & (lat_grid <  np.max(lat_centre[kk], lat_centre[kk+1]))] = caliop_layer_aod_all[k][kk]
         print(np.mean(aod_grid[k, :]))
 print(aod_grid)
 
