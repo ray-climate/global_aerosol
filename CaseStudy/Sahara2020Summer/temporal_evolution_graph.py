@@ -5,9 +5,8 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/05/2023 12:20
 
-# this route generates the temporal evolution of dust layer using combined CALIOP and Aeolus data
-
 import matplotlib.ticker as ticker
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
 import seaborn as sns
@@ -16,6 +15,8 @@ import numpy as np
 import sys
 import csv
 import os
+
+# this route generates the temporal evolution of dust layer using combined CALIOP and Aeolus data
 
 lat1 = 10.
 lat2 = 30.
@@ -32,6 +33,7 @@ caliop_layer_lat_all = []
 
 # Sort the npz_file list based on date and time
 npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'caliop_dbd_descending_' in f], key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
+timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
 
 for npz_file in npz_files:
 
@@ -91,15 +93,22 @@ caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in cols_to_keep]
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
-mesh = ax.pcolormesh(np.arange(len(caliop_layer_aod_all)), lat_grid, aod_grid, cmap='jet', vmin=0, vmax=0.5)
+mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='viridis', vmin=0, vmax=0.5)
 
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(12, 6)
 plt.rc('font', size=12)
-ax.set_xlabel('File Index', fontsize=14)
+ax.set_xlabel('Timestamp', fontsize=14)
 ax.set_ylabel('Latitude', fontsize=14)
-ax.set_title('AOD vs Latitude', fontsize=16)
+# ax.set_title('AOD vs Latitude', fontsize=16)
 ax.tick_params(axis='both', labelsize=12)
+cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=0.02, shrink=0.8, extend='both')
+cbar.ax.tick_params(labelsize=12)
+cbar.set_label('AOD layer [%s - %s km]'%(alt_1, alt_2), fontsize=14)
+
+# Format the x-axis to display dates
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
+fig.autofmt_xdate()
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod.png', dpi=300, bbox_inches='tight')
