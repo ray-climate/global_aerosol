@@ -62,29 +62,24 @@ for npz_file in os.listdir(input_path):
         caliop_layer_aod_all.append(caliop_layer_aod)
         caliop_layer_lat_all.append(lat_caliop)
 
-print(caliop_layer_aod_all)
+lat_grid = np.arange(lat1, lat2, 0.01)
 
-caliop_layer_lat_all_np = [np.array(lat_caliop) for lat_caliop in caliop_layer_lat_all]
-caliop_layer_aod_all_np = [np.array(caliop_layer_aod) for caliop_layer_aod in caliop_layer_aod_all]
+# create a 2D grid for AOD values using the lat_grid
+aod_grid = np.zeros((len(caliop_layer_aod_all), len(lat_grid)))
 
-# Concatenate latitude and AOD arrays along the x-axis
-concat_lat_caliop = np.concatenate(caliop_layer_lat_all_np)
-concat_caliop_layer_aod = np.concatenate(caliop_layer_aod_all_np)
+for k in range(len(caliop_layer_aod_all)):
+    lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
+    for kk in range(len(lat_grid)):
+        aod_grid[k, (lat_grid > lat_centre[kk] & (lat_grid < lat_centre[kk]))] = caliop_layer_aod_all[k][kk]
 
-# Ensure the AOD array is 2D
-concat_caliop_layer_aod = concat_caliop_layer_aod.reshape(-1, concat_caliop_layer_aod.size)
-print(concat_caliop_layer_aod)
-# Create the meshgrid and plot
-X, Y = np.meshgrid(concat_lat_caliop, np.arange(concat_caliop_layer_aod.shape[0]))
-fig, ax = plt.subplots(figsize=(10, 6))
-pcm = ax.pcolormesh(X, Y, concat_caliop_layer_aod, shading='auto', cmap='viridis', vmin=0, vmax=0.5)
+# Create the 2D pcolormesh plot
+fig, ax = plt.subplots()
+mesh = ax.pcolormesh(lat_grid, np.arange(len(caliop_layer_aod_all)), aod_grid, cmap='jet')
+fig.colorbar(mesh, ax=ax, label='AOD')
 
-ax.set_title('AOD vs Latitude')
 ax.set_xlabel('Latitude')
-ax.set_ylabel('CALIOP Layer')
+ax.set_ylabel('File Index')
+ax.set_title('AOD vs Latitude')
 
-# Add a colorbar
-fig.colorbar(pcm, ax=ax, label='AOD')
-
-plt.savefig('./figures/temporal_evolution.png', dpi=300)
+plt.savefig('./figures/temporal_evolution_aod.png')
 
