@@ -18,6 +18,8 @@ import os
 
 lat1 = 10.
 lat2 = 30.
+lon1 = -40.
+lon2 = -20.
 
 alt_1 = 5.
 alt_2 = 6.
@@ -25,6 +27,8 @@ alt_2 = 6.
 input_path = './aeolus_caliop_sahara2020_extraction_output/'
 
 caliop_layer_aod_all = []
+caliop_layer_lat_all = []
+
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_descending_' in npz_file):
 
@@ -39,7 +43,7 @@ for npz_file in os.listdir(input_path):
 
         cols_to_keep_caliop = []
         for k in range(len(lat_caliop)):
-            if lat_caliop[k] > lat1 and lat_caliop[k] < lat2:
+            if lat_caliop[k] > lat1 and lat_caliop[k] < lat2 and lon_caliop[k] > lon1 and lon_caliop[k] < lon2:
                 cols_to_keep_caliop.append(k)
 
         beta_caliop = beta_caliop[:, cols_to_keep_caliop]
@@ -56,5 +60,37 @@ for npz_file in os.listdir(input_path):
                     caliop_layer_aod[k] = caliop_layer_aod[k] + alpha_caliop[kk, k] * (alt_caliop[kk] - alt_caliop[kk+1])
 
         caliop_layer_aod_all.append(caliop_layer_aod)
+        caliop_layer_lat_all.append(lat_caliop)
 
 print(caliop_layer_aod_all)
+caliop_layer_lat_all_np = [np.array(lat_caliop) for lat_caliop in caliop_layer_lat_all]
+caliop_layer_aod_all_np = [np.array(caliop_layer_aod) for caliop_layer_aod in caliop_layer_aod_all]
+
+# Determine the number of subplots and their layout
+n = len(caliop_layer_lat_all_np)
+ncols = int(np.ceil(np.sqrt(n)))
+nrows = int(np.ceil(n / ncols))
+
+# Set up the figure and axes
+fig, axs = plt.subplots(nrows, ncols, figsize=(4 * ncols, 4 * nrows), sharey=True)
+axs = axs.ravel()
+
+# Create the subplots
+for i, (lat_caliop, caliop_layer_aod) in enumerate(zip(caliop_layer_lat_all_np, caliop_layer_aod_all_np)):
+    X, Y = np.meshgrid(lat_caliop, np.arange(caliop_layer_aod.shape[0]))
+    pcm = axs[i].pcolormesh(X, Y, caliop_layer_aod, shading='auto', cmap='viridis')
+    axs[i].set_title(f'Layer {i+1}')
+    axs[i].set_xlabel('Latitude')
+    if i % ncols == 0:
+        axs[i].set_ylabel('CALIOP Layer')
+
+# Remove any unused subplots
+for i in range(n, nrows * ncols):
+    axs[i].axis('off')
+
+# Add a colorbar for the entire figure
+fig.subplots_adjust(right=0.8)
+cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
+fig.colorbar(pcm, cax=cbar_ax, label='AOD')
+plt.savefig('./figures/temporal_evolution.png', dpi=300)
+
