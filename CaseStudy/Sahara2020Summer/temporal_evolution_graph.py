@@ -78,12 +78,16 @@ axs = axs.ravel()
 
 # Create the subplots
 for i, (lat_caliop, caliop_layer_aod) in enumerate(zip(caliop_layer_lat_all_np, caliop_layer_aod_all_np)):
+    # Make sure caliop_layer_aod is a 2D array
+    caliop_layer_aod = caliop_layer_aod.reshape(-1, caliop_layer_aod.size)
+
     X, Y = np.meshgrid(lat_caliop, np.arange(caliop_layer_aod.shape[0]))
     pcm = axs[i].pcolormesh(X, Y, caliop_layer_aod, shading='auto', cmap='viridis')
     axs[i].set_title(f'Layer {i+1}')
     axs[i].set_xlabel('Latitude')
     if i % ncols == 0:
         axs[i].set_ylabel('CALIOP Layer')
+
 
 # Remove any unused subplots
 for i in range(n, nrows * ncols):
