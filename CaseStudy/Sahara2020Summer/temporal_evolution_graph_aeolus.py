@@ -139,8 +139,8 @@ if True:
 
 layer_lat_all = []
 layer_aod_all = []
-layer_aod_all.append(aeolus_layer_aod_all)
-layer_lat_all.append(aeolus_layer_lat_all)
+layer_aod_all = aeolus_layer_aod_all
+layer_lat_all = aeolus_layer_lat_all
 
 lat_grid = np.arange(lat1, lat2, 0.01)
 
