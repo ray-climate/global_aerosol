@@ -77,8 +77,8 @@ aod_grid[:] = np.nan
 for k in range(len(caliop_layer_aod_all)):
     if np.size(caliop_layer_aod_all[k]) > 0:
         lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
-        for kk in range(len(lat_centre)-1):
-            aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk+1])) & (lat_grid < max(lat_centre[kk], lat_centre[kk+1])), k] = caliop_layer_aod_all[k][kk]
+        for kk in range(len(lat_centre)-2):
+            aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk+1])) & (lat_grid < max(lat_centre[kk], lat_centre[kk+1])), k] = caliop_layer_aod_all[k][kk+1]
 
 # only keep rows with mean AOD larger than 0
 cols_to_keep = []
