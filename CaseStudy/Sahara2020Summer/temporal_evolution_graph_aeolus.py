@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    temporal_evolution_graph.py
+# @Filename:    temporal_evolution_graph_aeolus.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        03/05/2023 12:20
+# @Time:        03/05/2023 16:51
 
 import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
@@ -137,15 +137,21 @@ if True:
             aeolus_layer_aod_all.append(aeolus_aod)
             aeolus_layer_lat_all.append(lat_aeolus)
 
+layer_lat_all = []
+layer_aod_all = []
+layer_aod_all.append(aeolus_layer_aod_all)
+layer_lat_all.append(aeolus_layer_lat_all)
+
 lat_grid = np.arange(lat1, lat2, 0.01)
 
 # Create a 2D grid for AOD values using the lat_grid
-aod_grid = np.zeros((len(lat_grid), len(caliop_layer_aod_all)))
+aod_grid = np.zeros((len(lat_grid), len(layer_aod_all)))
 aod_grid[:] = np.nan
 
-for k in range(len(caliop_layer_aod_all)):
-    if np.size(caliop_layer_aod_all[k]) > 0:
-        lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
+for k in range(len(layer_aod_all)):
+    if np.size(layer_aod_all[k]) > 0:
+        print(layer_lat_all[k])
+        lat_centre = (layer_lat_all[k][1:] + layer_lat_all[k][0:-1]) / 2.
         for kk in range(len(lat_centre) - 2):
             aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
                         lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k] = caliop_layer_aod_all[k][kk + 1]
