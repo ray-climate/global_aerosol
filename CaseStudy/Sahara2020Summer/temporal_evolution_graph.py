@@ -34,7 +34,8 @@ caliop_layer_lat_all = []
 # Sort the npz_file list based on date and time
 npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'caliop_dbd_descending_' in f], key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
 timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
-
+print('timestamps: ', timestamps)
+quit()
 for npz_file in npz_files:
 
         print('processing file: ' + npz_file + '...')
