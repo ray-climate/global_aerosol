@@ -67,40 +67,24 @@ print(caliop_layer_aod_all)
 caliop_layer_lat_all_np = [np.array(lat_caliop) for lat_caliop in caliop_layer_lat_all]
 caliop_layer_aod_all_np = [np.array(caliop_layer_aod) for caliop_layer_aod in caliop_layer_aod_all]
 
-# Determine the number of subplots and their layout
-n = len(caliop_layer_lat_all_np)
-ncols = int(np.ceil(np.sqrt(n)))
-nrows = int(np.ceil(n / ncols))
+# Concatenate latitude and AOD arrays along the x-axis
+concat_lat_caliop = np.concatenate(caliop_layer_lat_all_np)
+concat_caliop_layer_aod = np.concatenate(caliop_layer_aod_all_np)
 
-# Set up the figure and axes
-fig, axs = plt.subplots(nrows, ncols, figsize=(4 * ncols, 4 * nrows), sharey=True)
-axs = axs.ravel()
+# Ensure the AOD array is 2D
+concat_caliop_layer_aod = concat_caliop_layer_aod.reshape(-1, concat_caliop_layer_aod.size)
 
-# Create the subplots
-subplot_index = 0
-for i, (lat_caliop, caliop_layer_aod) in enumerate(zip(caliop_layer_lat_all_np, caliop_layer_aod_all_np)):
-    # Skip empty arrays
-    if caliop_layer_aod.size == 0:
-        continue
+# Create the meshgrid and plot
+X, Y = np.meshgrid(concat_lat_caliop, np.arange(concat_caliop_layer_aod.shape[0]))
+fig, ax = plt.subplots(figsize=(10, 6))
+pcm = ax.pcolormesh(X, Y, concat_caliop_layer_aod, shading='auto', cmap='viridis')
 
-    # Make sure caliop_layer_aod is a 2D array
-    caliop_layer_aod = caliop_layer_aod.reshape(-1, caliop_layer_aod.size)
+ax.set_title('AOD vs Latitude')
+ax.set_xlabel('Latitude')
+ax.set_ylabel('CALIOP Layer')
 
-    X, Y = np.meshgrid(lat_caliop, np.arange(caliop_layer_aod.shape[0]))
-    pcm = axs[subplot_index].pcolormesh(X, Y, caliop_layer_aod, shading='auto', cmap='viridis')
-    axs[subplot_index].set_title(f'Layer {subplot_index + 1}')
-    axs[subplot_index].set_xlabel('Latitude')
-    if subplot_index % ncols == 0:
-        axs[subplot_index].set_ylabel('CALIOP Layer')
-    subplot_index += 1
+# Add a colorbar
+fig.colorbar(pcm, ax=ax, label='AOD')
 
-# Remove any unused subplots
-for i in range(subplot_index, nrows * ncols):
-    axs[i].axis('off')
-
-# Add a colorbar for the entire figure
-fig.subplots_adjust(right=0.8)
-cbar_ax = fig.add_axes([0.85, 0.15, 0.05, 0.7])
-fig.colorbar(pcm, cax=cbar_ax, label='AOD')
 plt.savefig('./figures/temporal_evolution.png', dpi=300)
 
