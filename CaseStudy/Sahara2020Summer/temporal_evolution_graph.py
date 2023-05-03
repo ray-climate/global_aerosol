@@ -34,8 +34,8 @@ caliop_layer_lat_all = []
 # Sort the npz_file list based on date and time
 npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'caliop_dbd_descending_' in f], key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
 timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
-print('timestamps: ', timestamps)
-quit()
+# print('timestamps: ', timestamps)
+
 for npz_file in npz_files:
 
         print('processing file: ' + npz_file + '...')
@@ -85,6 +85,7 @@ cols_to_keep = []
 for k in range(aod_grid.shape[1]):
     if np.nanmean(aod_grid[:,k]) > 0:
         cols_to_keep.append(k)
+        print(timestamps[k], np.nanmean(aod_grid[:,k]))
 
 aod_grid = aod_grid[:, cols_to_keep]
 caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in cols_to_keep]
