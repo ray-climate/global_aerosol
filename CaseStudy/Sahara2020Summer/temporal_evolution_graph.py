@@ -9,6 +9,7 @@
 
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
+from datetime import datetime
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -29,8 +30,10 @@ input_path = './aeolus_caliop_sahara2020_extraction_output/'
 caliop_layer_aod_all = []
 caliop_layer_lat_all = []
 
-for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_descending_' in npz_file):
+# Sort the npz_file list based on date and time
+npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'caliop_dbd_descending_' in f], key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
+
+for npz_file in npz_files:
 
         print('processing file: ' + npz_file + '...')
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
@@ -65,35 +68,38 @@ for npz_file in os.listdir(input_path):
 lat_grid = np.arange(lat1, lat2, 0.01)
 print(lat_grid)
 
-# create a 2D grid for AOD values using the lat_grid
-aod_grid = np.zeros((len(caliop_layer_aod_all), len(lat_grid)))
+# Create a 2D grid for AOD values using the lat_grid
+aod_grid = np.zeros((len(lat_grid), len(caliop_layer_aod_all)))
 
 for k in range(len(caliop_layer_aod_all)):
     print(np.size(caliop_layer_aod_all[k]))
     if np.size(caliop_layer_aod_all[k]) > 0:
         lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
-        print(lat_centre)
         for kk in range(len(lat_centre)-1):
-            aod_grid[k, (lat_grid > min(lat_centre[kk], lat_centre[kk+1])) & (lat_grid < max(lat_centre[kk], lat_centre[kk+1]))] = caliop_layer_aod_all[k][kk]
+            aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk+1])) & (lat_grid < max(lat_centre[kk], lat_centre[kk+1])), k] = caliop_layer_aod_all[k][kk]
         print(np.mean(aod_grid[k, :]))
 
 # only keep rows with mean AOD larger than 0
-rows_to_keep = []
+cols_to_keep = []
 for k in range(aod_grid.shape[0]):
     if np.mean(aod_grid[k, :]) > 0:
-        rows_to_keep.append(k)
+        cols_to_keep.append(k)
 
-aod_grid = aod_grid[rows_to_keep, :]
-caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in rows_to_keep]
+aod_grid = aod_grid[:, cols_to_keep]
+caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in cols_to_keep]
 
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
-mesh = ax.pcolormesh(lat_grid, np.arange(len(caliop_layer_aod_all)), aod_grid, cmap='jet', vmin=0, vmax=0.5)
-fig.colorbar(mesh, ax=ax, label='AOD')
 
-ax.set_xlabel('Latitude')
-ax.set_ylabel('File Index')
-ax.set_title('AOD vs Latitude')
+mesh = ax.pcolormesh(np.arange(len(caliop_layer_aod_all)), lat_grid, aod_grid, cmap='jet', vmin=0, vmax=0.5)
 
-plt.savefig('./figures/temporal_evolution_aod.png')
+# Adjust figure size, font size, label, and tick size
+fig.set_size_inches(12, 6)
+plt.rc('font', size=12)
+ax.set_xlabel('File Index', fontsize=14)
+ax.set_ylabel('Latitude', fontsize=14)
+ax.set_title('AOD vs Latitude', fontsize=16)
+ax.tick_params(axis='both', labelsize=12)
 
+# Save the figure with an appropriate size
+plt.savefig('./figures/temporal_evolution_aod.png', dpi=300, bbox_inches='tight')
