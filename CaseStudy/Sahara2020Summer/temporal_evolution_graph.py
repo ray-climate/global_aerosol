@@ -143,7 +143,7 @@ if True:
                 for kk in range(alpha_aeolus_qc.shape[1]):
 
                     if (alt_aeolus[k, kk] < alt_2) & (alt_aeolus[k, kk + 1] > alt_1):
-                        print(alt_aeolus[k, kk], alt_aeolus[k, kk + 1], alpha_aeolus_qc[k, kk])
+                        print(lat_aeolus[k], alt_aeolus[k, kk], alt_aeolus[k, kk + 1], alpha_aeolus_qc[k, kk])
                         aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk + 1])
 
             print(aeolus_aod)
