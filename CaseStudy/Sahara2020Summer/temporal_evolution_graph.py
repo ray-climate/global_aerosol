@@ -92,22 +92,24 @@ timestamps = [timestamps[k] for k in cols_to_keep]
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
-mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0.05, vmax=0.2)
+mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
 
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(12, 6)
 plt.rc('font', size=12)
 ax.set_xlabel('Timestamp', fontsize=14)
 ax.set_ylabel('Latitude', fontsize=14)
-# ax.set_title('AOD vs Latitude', fontsize=16)
+ax.set_title('AOD layer [%s - %s km]'%(alt_1, alt_2), fontsize=16)
 ax.tick_params(axis='both', labelsize=12)
 cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=0.02, shrink=0.8, extend='both')
 cbar.ax.tick_params(labelsize=12)
-cbar.set_label('AOD layer [%s - %s km]'%(alt_1, alt_2), fontsize=14)
+cbar.set_label('AOD', fontsize=14)
 
 # Format the x-axis to display dates
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
 fig.autofmt_xdate()
+# Set x-tick font size and rotation
+plt.xticks(fontsize=10, rotation=180)
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod.png', dpi=300, bbox_inches='tight')
