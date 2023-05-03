@@ -71,6 +71,7 @@ lat_grid = np.arange(lat1, lat2, 0.01)
 
 # Create a 2D grid for AOD values using the lat_grid
 aod_grid = np.zeros((len(lat_grid), len(caliop_layer_aod_all)))
+aod_grid[:] = np.nan
 
 for k in range(len(caliop_layer_aod_all)):
     if np.size(caliop_layer_aod_all[k]) > 0:
@@ -91,7 +92,7 @@ timestamps = [timestamps[k] for k in cols_to_keep]
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
-mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='viridis', vmin=0, vmax=0.5)
+mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0.05, vmax=0.2)
 
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(12, 6)
