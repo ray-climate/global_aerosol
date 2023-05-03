@@ -57,7 +57,8 @@ for npz_file in os.listdir(input_path):
         valid_mask_extinction = first_bit == 1
         valid_mask_backscatter = second_bit == 1
         # set invalid data to nan
-        alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
+        # alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
+        alpha_aeolus_qc = np.copy(alpha_aeolus)
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
 
         rows_to_keep_aeolus = []
