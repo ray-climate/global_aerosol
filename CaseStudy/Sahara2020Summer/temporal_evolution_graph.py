@@ -76,7 +76,15 @@ for k in range(len(caliop_layer_aod_all)):
         for kk in range(len(lat_centre)-1):
             aod_grid[k, (lat_grid > min(lat_centre[kk], lat_centre[kk+1])) & (lat_grid < max(lat_centre[kk], lat_centre[kk+1]))] = caliop_layer_aod_all[k][kk]
         print(np.mean(aod_grid[k, :]))
-print(aod_grid)
+
+# only keep rows with mean AOD larger than 0
+rows_to_keep = []
+for k in range(aod_grid.shape[0]):
+    if np.mean(aod_grid[k, :]) > 0:
+        rows_to_keep.append(k)
+
+aod_grid = aod_grid[rows_to_keep, :]
+caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in rows_to_keep]
 
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
