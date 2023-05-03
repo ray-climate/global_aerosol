@@ -72,6 +72,11 @@ if mode == 'caliop':
 
 ############ extract aeolus ################
 
+# Sort the npz_file list based on date and time
+npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'aeolus_qc_descending' in f],
+                   key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
+timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
+
 if True:
 
     def qc_to_bits(qc_array):
@@ -150,19 +155,18 @@ aod_grid[:] = np.nan
 
 for k in range(len(layer_aod_all)):
     if np.size(layer_aod_all[k]) > 0:
-
         lat_centre = (layer_lat_all[k][1:] + layer_lat_all[k][0:-1]) / 2.
         print(lat_centre)
         for kk in range(len(lat_centre) - 2):
             print(lat_centre[kk], lat_centre[kk + 1])
             aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
-                        lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k] = caliop_layer_aod_all[k][kk + 1]
+                        lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k] = layer_aod_all[k][kk + 1]
 
 # Only keep columns with mean AOD larger than 0
 cols_to_keep = [k for k in range(aod_grid.shape[1]) if np.nanmean(aod_grid[:, k]) > 0]
 
 aod_grid = aod_grid[:, cols_to_keep]
-caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in cols_to_keep]
+layer_aod_all = [layer_aod_all[k] for k in cols_to_keep]
 timestamps = [timestamps[k] for k in cols_to_keep]
 
 # Create the 2D pcolormesh plot
@@ -188,5 +192,5 @@ fig.autofmt_xdate()
 plt.xticks(fontsize=10, rotation=60)
 
 # Save the figure with an appropriate size
-plt.savefig('./figures/temporal_evolution_aod.png', dpi=300, bbox_inches='tight')
+plt.savefig('./figures/temporal_evolution_aod_aeolus.png', dpi=300, bbox_inches='tight')
 
