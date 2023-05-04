@@ -225,24 +225,21 @@ data_sources = np.zeros(len(timestamps))
 data_sources[:len(caliop_timestamps)] = 0  # CALIOP data
 data_sources[len(caliop_timestamps):] = 1  # AEOLUS data
 
-# ... (previous code)
+# Create the data source DataFrame
+data_source_df = pd.DataFrame({'Timestamp': pd.to_datetime(timestamps), 'data_source': data_sources})
+data_source_df = data_source_df.set_index('Timestamp')
 
-# Create a boolean mask for the original data_sources array
-mask = pd.Series(data_sources).isin([1])
+# Resample the data source DataFrame
+resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(method='nearest')
+resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 
-# Create a DataFrame with the mask and original timestamps
-mask_df = pd.DataFrame({'Timestamp': pd.to_datetime(timestamps), 'Mask': mask})
-mask_df = mask_df.set_index('Timestamp')
-
-# Resample the mask DataFrame
-resampled_mask_df = mask_df.resample('6H').mean().interpolate()
-
-# Create the resampled_data_sources array based on the resampled mask
-resampled_data_sources = np.where(resampled_mask_df['Mask'] >= 0.5, 1, 0)
+# Create a colormap for the data source array
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
 ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
+print(resampled_timestamps)
+print(resampled_data_sources)
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, shading='auto', vmin=0, vmax=1)
 ax2.set_yticks([])
 ax2.set_xticks(np.arange(0, len(resampled_timestamps), 6))
