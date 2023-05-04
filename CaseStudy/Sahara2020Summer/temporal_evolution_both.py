@@ -253,7 +253,7 @@ plt.xticks(fontsize=10, rotation=60)
 # Set the colorbar labels
 
 # Create an additional Axes object for the colorbar
-cax2 = fig.add_axes([0.75, 0.05, 0.02, 0.03])
+cax2 = fig.add_axes([0.76, 0.05, 0.02, 0.03])
 # Set the colorbar labels
 cbar = fig.colorbar(cm.ScalarMappable(cmap='cool_r', norm=mcolors.Normalize(vmin=0, vmax=1)), cax=cax2, orientation='vertical', ticks=[0, 1])
 cbar.ax.set_yticklabels(['CALIOP', 'AEOLUS'])
