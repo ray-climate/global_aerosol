@@ -179,8 +179,6 @@ aod_grid = np.concatenate((aod_grid_caliop, aod_grid_aeolus), axis=1)
 # combine caliop_timestamps and aeolus_timestamps
 timestamps = caliop_timestamps + aeolus_timestamps
 
-print(timestamps)
-quit()
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
@@ -204,5 +202,5 @@ fig.autofmt_xdate()
 plt.xticks(fontsize=10, rotation=60)
 
 # Save the figure with an appropriate size
-plt.savefig('./figures/temporal_evolution_caliop_aod.png', dpi=300, bbox_inches='tight')
+plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
 
