@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/05/2023 12:20
 
+from scipy.ndimage import gaussian_filter
 import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
@@ -188,11 +189,16 @@ resampled_df = df.resample('6H').mean().interpolate()
 resampled_timestamps = resampled_df.index.to_list()
 resampled_aod_data = resampled_df.to_numpy().T
 
+# Apply Gaussian filter to the resampled AOD data
+smoothed_aod_data = np.zeros_like(resampled_aod_data)
+for i in range(len(resampled_timestamps)):
+    smoothed_aod_data[:, i] = gaussian_filter(resampled_aod_data[:, i], sigma=1)
+
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
-mesh = ax.pcolormesh(resampled_timestamps, lat_grid, resampled_aod_data, cmap='jet', vmin=0., vmax=0.3)
+mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.3)
 
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(12, 6)
