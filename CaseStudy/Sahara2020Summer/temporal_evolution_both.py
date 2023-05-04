@@ -220,9 +220,9 @@ ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
 ax1.xaxis.set_major_locator(mdates.DayLocator(interval=1))
 
 # Create a 2D array for data_sources to match the size of resampled_aod_data
-data_sources_2d = np.zeros(resampled_aod_data.shape)
-data_sources_2d[:, :len(caliop_timestamps)] = 0  # CALIOP data
-data_sources_2d[:, len(caliop_timestamps):] = 1  # AEOLUS data
+data_sources = np.zeros(len(resampled_timestamps))
+data_sources[:len(caliop_timestamps)] = 0  # CALIOP data
+data_sources[len(caliop_timestamps):] = 1  # AEOLUS data
 
 # Create an additional horizontal plot for the data source array
 ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
@@ -234,7 +234,6 @@ ax2.set_xticklabels([t.strftime('%Y-%m-%d %H:%M') for t in np.array(resampled_ti
 # Set the colorbar labels
 cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
-
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
