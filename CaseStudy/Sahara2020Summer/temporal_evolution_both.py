@@ -186,7 +186,7 @@ df['Timestamp'] = pd.to_datetime(timestamps)  # Convert Timestamp column to date
 df = df.set_index('Timestamp')
 resampled_df = df.resample('6H').mean().interpolate()
 resampled_timestamps = resampled_df.index.to_list()
-resampled_aod_data = np.array(resampled_df['aod_data'].to_list()).T
+resampled_aod_data = resampled_df.to_numpy().T
 
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
