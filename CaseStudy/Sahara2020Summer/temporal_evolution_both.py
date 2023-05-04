@@ -10,6 +10,9 @@ import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
+import matplotlib.colors as mcolors
+import matplotlib.dates as mdates
+import matplotlib.cm as cm
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -217,6 +220,25 @@ ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 fig.autofmt_xdate()
 # Set x-tick font size and rotation
 plt.xticks(fontsize=10, rotation=60)
+
+# Data source array
+data_sources = np.zeros(len(timestamps))
+data_sources[:len(caliop_timestamps)] = 0  # CALIOP data
+data_sources[len(caliop_timestamps):] = 1  # AEOLUS data
+
+# Create a colormap for the data source array
+cmap = mcolors.ListedColormap(['red', 'blue'])
+
+# Create an additional horizontal plot for the data source array
+ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
+ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, shading='auto')
+ax2.set_yticks([])
+ax2.set_xticks(np.arange(0, len(resampled_timestamps), 6))
+ax2.set_xticklabels([t.strftime('%Y-%m-%d %H:%M') for t in np.array(resampled_timestamps)[::6]], rotation=45)
+
+# Set the colorbar labels
+cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap), ax=ax2, orientation='horizontal', ticks=[0, 1])
+cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
