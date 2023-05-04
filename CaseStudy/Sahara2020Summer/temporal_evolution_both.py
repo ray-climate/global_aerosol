@@ -206,7 +206,8 @@ for i in range(len(resampled_timestamps)):
     smoothed_aod_data[:, i] = gaussian_filter(resampled_aod_data[:, i], sigma=25)
 
 # Create the 2D pcolormesh plot
-fig, ax1 = plt.subplots(12, 6)
+fig, ax1 = plt.subplots()
+fig.set_size_inches(12, 6)
 cax = ax1.pcolormesh(resampled_timestamps, lat_grid, resampled_aod_data, shading='auto', cmap='jet', vmin=0., vmax=0.4)
 fig.colorbar(cax, ax=ax1, label='AOD Value')
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
