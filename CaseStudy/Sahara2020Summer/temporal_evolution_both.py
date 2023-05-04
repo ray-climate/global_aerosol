@@ -224,7 +224,7 @@ data_sources_2d[:, :len(caliop_timestamps)] = 0  # CALIOP data
 data_sources_2d[:, len(caliop_timestamps):] = 1  # AEOLUS data
 
 # Create an additional horizontal plot for the data source array
-ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
+ax2 = fig.add_axes([-0.15, -0.1, 0.7, 0.05])
 ax2.pcolormesh(resampled_timestamps, lat_grid, data_sources_2d, cmap=cmap, shading='auto')
 ax2.set_yticks([])
 ax2.set_xticks(np.arange(0, len(timestamps), 6))
