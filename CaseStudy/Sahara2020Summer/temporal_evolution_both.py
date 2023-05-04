@@ -241,7 +241,7 @@ resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
-ax2 = fig.add_axes([0.11, 0.05, 0.7, 0.04])
+ax2 = fig.add_axes([0.115, 0.05, 0.69, 0.04])
 
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, vmin=0, vmax=1)
 ax2.set_yticks([])
@@ -249,8 +249,16 @@ ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 fig.autofmt_xdate()
 plt.xticks(fontsize=10, rotation=60)
 # Set the colorbar labels
+
 cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
+
+# Adjust the position of the colorbar
+cax = fig.add_axes([0.115, 0.07, 0.69, 0.04])
+cax.set_title('Data source', fontsize=14)
+cax.tick_params(axis='both', which='both', length=0)
+cax.axis('off')
+fig.colorbar(mesh2, cax=cax, orientation='horizontal', ticks=[0, 1])
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
