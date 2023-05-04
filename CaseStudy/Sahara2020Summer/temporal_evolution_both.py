@@ -136,7 +136,8 @@ for npz_file in os.listdir(AEOLUS_input_path):
 
         aeolus_layer_aod_all.append(aeolus_aod)
         aeolus_layer_lat_all.append(lat_aeolus)
-
+print(len(aeolus_layer_aod_all))
+print(len(aeolus_layer_lat_all))
 lat_grid = np.arange(lat1, lat2, 0.01)
 
 #################### clean for caliop aod data
