@@ -203,7 +203,7 @@ for i in range(len(resampled_timestamps)):
 fig, ax = plt.subplots()
 
 # Create an additional horizontal plot for the data source array
-colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
+colorbar_pad = 0.03  # Set the padding between ax1 and the colorbar
 
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
 mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.4)
@@ -216,7 +216,7 @@ ax.set_ylabel('Latitude', fontsize=14)
 ax.set_title('AOD at aerosol layer [%s - %s km]' % (alt_1, alt_2), fontsize=16, pad=20)
 ax.tick_params(axis='both', labelsize=12)
 ax.set_xticks([])
-cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=colorbar_pad, shrink=0.6, extend='both', pad=0.02)
+cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=colorbar_pad, shrink=0.6, extend='both')
 cbar.ax.tick_params(labelsize=12)
 cbar.set_label('AOD', fontsize=14)
 
