@@ -136,8 +136,7 @@ for npz_file in os.listdir(AEOLUS_input_path):
 
         aeolus_layer_aod_all.append(aeolus_aod)
         aeolus_layer_lat_all.append(lat_aeolus)
-print(len(aeolus_layer_aod_all))
-print(len(aeolus_layer_lat_all))
+
 lat_grid = np.arange(lat1, lat2, 0.01)
 
 #################### clean for caliop aod data
@@ -163,7 +162,7 @@ caliop_timestamps = [caliop_timestamps[k] for k in cols_to_keep]
 aod_grid_aeolus = np.zeros((len(lat_grid), len(aeolus_layer_lat_all)))
 aod_grid_aeolus[:] = np.nan
 
-for k in range(len(aod_grid_aeolus)):
+for k in range(len(aeolus_layer_aod_all)):
     if np.size(aod_grid_aeolus[k]) > 0:
         lat_centre = aeolus_layer_lat_all[k]
         for kk in range(len(lat_centre)):
