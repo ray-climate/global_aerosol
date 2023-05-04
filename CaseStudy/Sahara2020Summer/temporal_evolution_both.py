@@ -219,7 +219,7 @@ cbar.set_label('AOD', fontsize=14)
 # ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 # fig.autofmt_xdate()
 # Set x-tick font size and rotation
-plt.xticks(fontsize=10, rotation=60)
+# plt.xticks(fontsize=10, rotation=60)
 
 # Data source array
 data_sources = np.zeros(len(timestamps))
@@ -244,6 +244,7 @@ mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_so
 ax2.set_yticks([])
 ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 fig.autofmt_xdate()
+plt.xticks(fontsize=10, rotation=60)
 # Set the colorbar labels
 cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
