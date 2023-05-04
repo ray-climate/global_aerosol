@@ -10,6 +10,7 @@ import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
+import matplotlib.gridspec as gridspec
 import matplotlib.colors as mcolors
 import matplotlib.dates as mdates
 import matplotlib.cm as cm
