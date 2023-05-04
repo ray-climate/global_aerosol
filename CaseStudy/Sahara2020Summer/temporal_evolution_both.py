@@ -241,7 +241,7 @@ ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
 
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, vmin=0, vmax=1)
 ax2.set_yticks([])
-# ax2.set_xticks(np.arange(0, len(resampled_timestamps), 6))
+ax2.set_xticks(np.arange(0, len(resampled_timestamps), 6))
 # ax2.set_xticklabels([t.strftime('%Y-%m-%d %H:%M') for t in np.array(resampled_timestamps)[::6]], rotation=45)
 #
 # Set the colorbar labels
