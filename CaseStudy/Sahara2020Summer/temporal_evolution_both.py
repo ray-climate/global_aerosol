@@ -198,11 +198,11 @@ for i in range(len(resampled_timestamps)):
     smoothed_aod_data[:, i] = gaussian_filter(resampled_aod_data[:, i], sigma=25)
 
 # Create the 2D pcolormesh plot
+# Create a gridspec with two rows and one column
 fig, ax = plt.subplots()
-
-# Create an additional horizontal plot for the data source array
-colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
-
+gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[0.9, 0.1], hspace=0.05)
+# Create the first subplot (ax1)
+ax1 = fig.add_subplot(gs[0])
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
 mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.4)
 
@@ -241,8 +241,8 @@ resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
-ax2 = fig.add_axes([0.117, 0.05, 0.66, 0.03])
-
+# ax2 = fig.add_axes([0.117, 0.05, 0.66, 0.03])
+ax2 = fig.add_subplot(gs[1])
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, vmin=0, vmax=1)
 ax2.set_yticks([])
 ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
