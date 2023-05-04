@@ -10,6 +10,8 @@ import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
+import matplotlib.colors as mcolors
+import matplotlib.cm as cm
 import seaborn as sns
 import pandas as pd
 import numpy as np
