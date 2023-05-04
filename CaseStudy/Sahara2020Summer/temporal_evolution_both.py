@@ -205,9 +205,10 @@ smoothed_aod_data = np.zeros_like(resampled_aod_data)
 for i in range(len(resampled_timestamps)):
     smoothed_aod_data[:, i] = gaussian_filter(resampled_aod_data[:, i], sigma=25)
 
-# Create the 2D pcolormesh plot
+
+
 # Create a 2D array for data_sources to match the size of resampled_aod_data
-data_sources = np.zeros(len(resampled_timestamps))
+data_sources = np.zeros(len(timestamps))
 data_sources[:len(caliop_timestamps)] = 0  # CALIOP data
 data_sources[len(caliop_timestamps):] = 1  # AEOLUS data
 
@@ -234,6 +235,9 @@ ax2.set_xticklabels([t.strftime('%Y-%m-%d %H:%M') for t in np.array(resampled_ti
 # Set the colorbar labels
 cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
+
+plt.show()
+
 
 
 # Save the figure with an appropriate size
