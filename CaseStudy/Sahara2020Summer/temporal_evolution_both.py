@@ -225,15 +225,20 @@ data_sources = np.zeros(len(timestamps))
 data_sources[:len(caliop_timestamps)] = 0  # CALIOP data
 data_sources[len(caliop_timestamps):] = 1  # AEOLUS data
 
-# Create the data source DataFrame
-data_source_df = pd.DataFrame({'Timestamp': pd.to_datetime(timestamps), 'data_source': data_sources})
-data_source_df = data_source_df.set_index('Timestamp')
+# ... (previous code)
 
-# Resample the data source DataFrame
-resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(method='nearest')
-resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
+# Create a boolean mask for the original data_sources array
+mask = pd.Series(data_sources).isin([1])
 
-# Create a colormap for the data source array
+# Create a DataFrame with the mask and original timestamps
+mask_df = pd.DataFrame({'Timestamp': pd.to_datetime(timestamps), 'Mask': mask})
+mask_df = mask_df.set_index('Timestamp')
+
+# Resample the mask DataFrame
+resampled_mask_df = mask_df.resample('6H').mean().interpolate()
+
+# Create the resampled_data_sources array based on the resampled mask
+resampled_data_sources = np.where(resampled_mask_df['Mask'] >= 0.5, 1, 0)
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
