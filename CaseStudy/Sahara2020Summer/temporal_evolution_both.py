@@ -203,10 +203,10 @@ for i in range(len(resampled_timestamps)):
 fig, ax = plt.subplots()
 
 # Create an additional horizontal plot for the data source array
-colorbar_pad = 0.03  # Set the padding between ax1 and the colorbar
+colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
 
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
-mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.4)
+mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='Spectral', vmin=0., vmax=0.4)
 
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(15, 6)
