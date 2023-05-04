@@ -73,7 +73,7 @@ if mode == 'caliop':
 ############ extract aeolus ################
 
 # Sort the npz_file list based on date and time
-npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'aeolus_qc_' in f],
+npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'aeolus_qc_descending' in f],
                    key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
 timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
 
