@@ -243,7 +243,7 @@ resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
-ax2 = fig.add_axes([0.125, 0.05, 0.66, 0.03])
+ax2 = fig.add_axes([0.125, 0.05, 0.65, 0.03])
 
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, vmin=0, vmax=1)
 ax2.set_yticks([])
