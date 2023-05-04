@@ -10,6 +10,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
 import seaborn as sns
+import pandas as pd
 import numpy as np
 import os
 
@@ -179,10 +180,18 @@ aod_grid = np.concatenate((aod_grid_caliop, aod_grid_aeolus), axis=1)
 # combine caliop_timestamps and aeolus_timestamps
 timestamps = caliop_timestamps + aeolus_timestamps
 
+combined_data = list(zip(timestamps, aod_grid.T))
+df = pd.DataFrame(combined_data, columns=['timestamps', 'aod_data'])
+df.set_index('timestamps', inplace=True)
+resampled_df = df.resample('6H').mean().interpolate()
+resampled_timestamps = resampled_df.index.to_list()
+resampled_aod_data = np.array(resampled_df['aod_data'].to_list()).T
+
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
-mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
+# mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
+mesh = ax.pcolormesh(resampled_timestamps, lat_grid, resampled_aod_data, cmap='jet', vmin=0., vmax=0.3)
 
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(12, 6)
