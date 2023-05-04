@@ -240,7 +240,7 @@ resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(meth
 resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 
 # Create a colormap for the data source array
-cmap = mcolors.ListedColormap(['red', 'blue'])
+cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', ['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
 ax2 = fig.add_axes([0.126, 0.05, 0.645, 0.03])
