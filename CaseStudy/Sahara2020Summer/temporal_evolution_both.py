@@ -164,7 +164,7 @@ aod_grid_aeolus[:] = np.nan
 
 for k in range(len(aod_grid_aeolus)):
     if np.size(aod_grid_aeolus[k]) > 0:
-        lat_centre = aeolus_layer_aod_all[k]
+        lat_centre = aeolus_layer_lat_all[k]
         for kk in range(len(lat_centre)):
             aod_grid_aeolus[(lat_grid > (lat_centre[kk] - 0.4)) & (lat_grid < (lat_centre[kk] + 0.4)), k] = aeolus_layer_aod_all[k][kk]
 
