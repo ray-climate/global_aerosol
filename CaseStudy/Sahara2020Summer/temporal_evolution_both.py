@@ -206,7 +206,7 @@ fig, ax = plt.subplots()
 colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
 
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
-mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='Spectral_r', vmin=0., vmax=0.7)
+mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='rainbow', vmin=0., vmax=0.7)
 
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(15, 6)
@@ -240,7 +240,7 @@ resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(meth
 resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 
 # Create a colormap for the data source array
-cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', ['red', 'green'])
+cmap = mcolors.LinearSegmentedColormap.from_list('my_cmap', ['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
 ax2 = fig.add_axes([0.125, 0.05, 0.645, 0.03])
