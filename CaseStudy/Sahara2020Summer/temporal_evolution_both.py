@@ -252,10 +252,10 @@ fig.autofmt_xdate()
 plt.xticks(fontsize=10, rotation=60)
 # Set the colorbar labels
 
-cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='vertical', ticks=[0, 1])
-cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
-cbar.ax.xaxis.set_label_position('right')
-cbar.ax.xaxis.set_ticks_position('right')
+cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='vertical', pad=colorbar_pad)
+cbar.ax.tick_params(labelsize=12)
+cbar.set_label('CALIOP', 'AEOLUS', fontsize=14)
+
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
 
