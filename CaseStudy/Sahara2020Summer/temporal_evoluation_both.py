@@ -24,6 +24,7 @@ alt_1 = 4.5
 alt_2 = 6.5
 
 CALIOP_input_path = '../Dust/aeolus_caliop_sahara2020_extraction_output/'
+AEOLUS_input_path = '../Dust/aeolus_caliop_sahara2020_extraction_output/'
 
 caliop_layer_aod_all = []
 caliop_layer_lat_all = []

@@ -23,7 +23,7 @@ lon2 = -20.
 alt_1 = 4.5
 alt_2 = 6.5
 
-input_path = '../Dust/aeolus_caliop_sahara2020_extraction_output/'
+AEOLUS_input_path = '../Dust/aeolus_caliop_sahara2020_extraction_output/'
 
 caliop_layer_aod_all = []
 caliop_layer_lat_all = []
@@ -31,7 +31,7 @@ aeolus_layer_aod_all = []
 aeolus_layer_lat_all = []
 
 # Sort the npz_file list based on date and time
-npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'caliop_dbd_' in f],
+npz_files = sorted([f for f in os.listdir(AEOLUS_input_path) if f.endswith('.npz') and 'caliop_dbd_' in f],
                    key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
 timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
 
@@ -41,13 +41,13 @@ if mode == 'caliop':
     for npz_file in npz_files:
 
         print('processing file: ' + npz_file + '...')
-        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
-        lon_caliop = np.load(input_path + npz_file, allow_pickle=True)['lon']
-        alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
-        beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
-        alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
-        dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
-        aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
+        lat_caliop = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['lon']
+        alt_caliop = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['alt']
+        beta_caliop = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['beta']
+        alpha_caliop = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['dp']
+        aod_caliop = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['aod']
 
         cols_to_keep_caliop = [k for k in range(len(lat_caliop)) if
                                lat1 < lat_caliop[k] < lat2 and lon1 < lon_caliop[k] < lon2]
@@ -73,7 +73,7 @@ if mode == 'caliop':
 ############ extract aeolus ################
 
 # Sort the npz_file list based on date and time
-npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'aeolus_qc_' in f],
+npz_files = sorted([f for f in os.listdir(AEOLUS_input_path) if f.endswith('.npz') and 'aeolus_qc_' in f],
                    key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
 timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
 
@@ -91,17 +91,17 @@ if True:
 
         return qc_bits
 
-    for npz_file in os.listdir(input_path):
+    for npz_file in os.listdir(AEOLUS_input_path):
         if npz_file.endswith('.npz') & ('aeolus_qc_' in npz_file):
 
             print('processing file: ' + npz_file + '...')
             # print the file name and variables in the file
-            lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
-            lon_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lon']
-            alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
-            beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta']
-            alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
-            qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
+            lat_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['lat']
+            lon_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['lon']
+            alt_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['alt']
+            beta_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['beta']
+            alpha_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['alpha']
+            qc_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['qc']
 
             # Convert the quality control data to 8 bits
             qc_bits = qc_to_bits(qc_aeolus)
