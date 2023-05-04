@@ -243,12 +243,7 @@ resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
-colorbar_width = 0.02  # Set the width of the colorbar
-colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
-ax1_width = 0.7  # Set the width of ax1
-
-ax2_width = ax1_width - colorbar_width - colorbar_pad  # Calculate the width of ax2
-ax2 = fig.add_axes([0.15, 0.1, ax2_width, 0.05])  # Adjust the position and width of ax2 to match ax1
+ax2 = fig.add_axes([0.15, 0.1, 0.68, 0.05])
 
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, vmin=0, vmax=1)
 ax2.set_yticks([])
