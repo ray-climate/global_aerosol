@@ -253,13 +253,6 @@ plt.xticks(fontsize=10, rotation=60)
 cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
 
-# Adjust the position of the colorbar
-cax = fig.add_axes([0.115, 0.07, 0.69, 0.04])
-cax.set_title('Data source', fontsize=14)
-cax.tick_params(axis='both', which='both', length=0)
-cax.axis('off')
-fig.colorbar(mesh2, cax=cax, orientation='horizontal', ticks=[0, 1])
-
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
 
