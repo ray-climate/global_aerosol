@@ -73,7 +73,7 @@ if mode == 'caliop':
 ############ extract aeolus ################
 
 # Sort the npz_file list based on date and time
-npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'aeolus_qc_descending' in f],
+npz_files = sorted([f for f in os.listdir(input_path) if f.endswith('.npz') and 'aeolus_qc_' in f],
                    key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
 timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
 
@@ -92,7 +92,7 @@ if True:
         return qc_bits
 
     for npz_file in os.listdir(input_path):
-        if npz_file.endswith('.npz') & ('aeolus_qc_descending' in npz_file):
+        if npz_file.endswith('.npz') & ('aeolus_qc_' in npz_file):
 
             print('processing file: ' + npz_file + '...')
             # print the file name and variables in the file
@@ -160,8 +160,7 @@ for k in range(len(layer_aod_all)):
         for kk in range(len(lat_centre) - 2):
             aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
                         lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k] = layer_aod_all[k][kk + 1]
-        print(aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
-                        lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k])
+
 # Only keep columns with mean AOD larger than 0
 cols_to_keep = [k for k in range(aod_grid.shape[1]) if np.nanmean(aod_grid[:, k]) > 0]
 
