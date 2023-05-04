@@ -220,7 +220,8 @@ ax1.xaxis.set_major_locator(mdates.DayLocator(interval=1))
 
 # Create an additional horizontal plot for the data source array
 ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
-ax2.pcolormesh(resampled_timestamps, [0, 1], data_sources[np.newaxis, :], cmap=cmap, shading='auto')
+repeated_data_sources = np.tile(data_sources, (2, 1))
+ax2.pcolormesh(resampled_timestamps, [0, 1], repeated_data_sources, cmap=cmap, shading='auto')
 ax2.set_yticks([])
 ax2.set_xticks(np.arange(0, len(timestamps), 6))
 ax2.set_xticklabels([t.strftime('%Y-%m-%d %H:%M') for t in np.array(timestamps)[::6]], rotation=45)
