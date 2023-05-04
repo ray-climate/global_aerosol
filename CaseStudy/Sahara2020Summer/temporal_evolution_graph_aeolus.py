@@ -160,7 +160,8 @@ for k in range(len(layer_aod_all)):
         for kk in range(len(lat_centre) - 2):
             aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
                         lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k] = layer_aod_all[k][kk + 1]
-
+        print(aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
+                        lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k])
 # Only keep columns with mean AOD larger than 0
 cols_to_keep = [k for k in range(aod_grid.shape[1]) if np.nanmean(aod_grid[:, k]) > 0]
 
