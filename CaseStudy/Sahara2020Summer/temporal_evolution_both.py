@@ -254,8 +254,8 @@ plt.xticks(fontsize=10, rotation=60)
 
 cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
-cbar.ax.xaxis.set_label_position('top')
-cbar.ax.xaxis.set_ticks_position('top')
+cbar.ax.xaxis.set_label_position('right')
+cbar.ax.xaxis.set_ticks_position('right')
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
 
