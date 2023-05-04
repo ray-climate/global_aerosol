@@ -215,30 +215,16 @@ cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=0.02, shrink=0.8, e
 cbar.ax.tick_params(labelsize=12)
 cbar.set_label('AOD', fontsize=14)
 
-# Format the x-axis to display dates
-# ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-# fig.autofmt_xdate()
-# Set x-tick font size and rotation
-# plt.xticks(fontsize=10, rotation=60)
-
-# Data source array
-data_sources = np.zeros(len(timestamps))
-data_sources[:len(caliop_timestamps)] = 0  # CALIOP data
-data_sources[len(caliop_timestamps):] = 1  # AEOLUS data
-
-# Create the data source DataFrame
-data_source_df = pd.DataFrame({'Timestamp': pd.to_datetime(timestamps), 'data_source': data_sources})
-data_source_df = data_source_df.set_index('Timestamp')
-
-# Resample the data source DataFrame
-resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(method='nearest')
-resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
-
 # Create a colormap for the data source array
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
-ax2 = fig.add_axes([0.15, 0.1, 0.68, 0.05])
+colorbar_width = 0.02  # Set the width of the colorbar
+colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
+ax1_width = 0.7  # Set the width of ax1
+
+ax2_width = ax1_width - colorbar_width - colorbar_pad  # Calculate the width of ax2
+ax2 = fig.add_axes([0.15, 0.1, ax2_width, 0.05])  # Adjust the position and width of ax2 to match ax1
 
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, vmin=0, vmax=1)
 ax2.set_yticks([])
@@ -251,4 +237,3 @@ cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
-
