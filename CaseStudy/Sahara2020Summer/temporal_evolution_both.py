@@ -200,6 +200,11 @@ for i in range(len(resampled_timestamps)):
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
+# Create an additional horizontal plot for the data source array
+colorbar_width = 0.02  # Set the width of the colorbar
+colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
+ax1_width = 0.7  # Set the width of ax1
+
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
 mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.4)
 
@@ -211,9 +216,28 @@ ax.set_ylabel('Latitude', fontsize=14)
 ax.set_title('AOD layer [%s - %s km]' % (alt_1, alt_2), fontsize=16)
 ax.tick_params(axis='both', labelsize=12)
 ax.set_xticks([])
-cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=0.02, shrink=0.8, extend='both')
+cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=colorbar_pad, shrink=0.8, extend='both', width=colorbar_width)
 cbar.ax.tick_params(labelsize=12)
 cbar.set_label('AOD', fontsize=14)
+
+# Format the x-axis to display dates
+# ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+# fig.autofmt_xdate()
+# Set x-tick font size and rotation
+# plt.xticks(fontsize=10, rotation=60)
+
+# Data source array
+data_sources = np.zeros(len(timestamps))
+data_sources[:len(caliop_timestamps)] = 0  # CALIOP data
+data_sources[len(caliop_timestamps):] = 1  # AEOLUS data
+
+# Create the data source DataFrame
+data_source_df = pd.DataFrame({'Timestamp': pd.to_datetime(timestamps), 'data_source': data_sources})
+data_source_df = data_source_df.set_index('Timestamp')
+
+# Resample the data source DataFrame
+resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(method='nearest')
+resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 
 # Create a colormap for the data source array
 cmap = mcolors.ListedColormap(['red', 'blue'])
@@ -237,3 +261,4 @@ cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
+
