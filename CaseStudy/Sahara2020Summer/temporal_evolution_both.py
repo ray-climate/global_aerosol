@@ -181,8 +181,9 @@ aod_grid = np.concatenate((aod_grid_caliop, aod_grid_aeolus), axis=1)
 timestamps = caliop_timestamps + aeolus_timestamps
 
 combined_data = list(zip(timestamps, aod_grid.T))
-df = pd.DataFrame(combined_data, columns=['timestamps', 'aod_data'])
-df.set_index('timestamps', inplace=True)
+df = pd.DataFrame(aod_grid.T, columns=lat_grid)
+df['Timestamp'] = pd.to_datetime(timestamps)  # Convert Timestamp column to datetime type
+df = df.set_index('Timestamp')
 resampled_df = df.resample('6H').mean().interpolate()
 resampled_timestamps = resampled_df.index.to_list()
 resampled_aod_data = np.array(resampled_df['aod_data'].to_list()).T
