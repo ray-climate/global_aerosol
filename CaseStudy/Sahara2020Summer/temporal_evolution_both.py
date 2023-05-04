@@ -201,6 +201,7 @@ for i in range(len(resampled_timestamps)):
 # Create the 2D pcolormesh plot
 # Create a gridspec with two rows and one column
 fig, ax = plt.subplots()
+colorbar_pad = 0.02
 gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[0.9, 0.1], hspace=0.05)
 # Create the first subplot (ax1)
 ax1 = fig.add_subplot(gs[0])
