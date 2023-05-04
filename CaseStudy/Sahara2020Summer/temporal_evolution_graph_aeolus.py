@@ -156,9 +156,8 @@ aod_grid[:] = np.nan
 for k in range(len(layer_aod_all)):
     if np.size(layer_aod_all[k]) > 0:
         lat_centre = (layer_lat_all[k][1:] + layer_lat_all[k][0:-1]) / 2.
-        print(lat_centre)
+        print(timestamps[k], lat_centre)
         for kk in range(len(lat_centre) - 2):
-            print(lat_centre[kk], lat_centre[kk + 1])
             aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
                         lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k] = layer_aod_all[k][kk + 1]
 
