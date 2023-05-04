@@ -10,8 +10,6 @@ import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
-import matplotlib.colors as mcolors
-import matplotlib.cm as cm
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -183,14 +181,6 @@ aod_grid = np.concatenate((aod_grid_caliop, aod_grid_aeolus), axis=1)
 # combine caliop_timestamps and aeolus_timestamps
 timestamps = caliop_timestamps + aeolus_timestamps
 
-# Create a new array for data source information
-data_sources = np.zeros(len(timestamps))
-data_sources[len(caliop_timestamps):] = 1
-
-# Create a custom colormap for the data sources
-colors = ['blue', 'red']  # Blue for CALIOP, Red for AEOLUS
-cmap = mcolors.LinearSegmentedColormap.from_list('custom_cmap', colors)
-
 
 combined_data = list(zip(timestamps, aod_grid.T))
 df = pd.DataFrame(aod_grid.T, columns=lat_grid)
@@ -206,28 +196,27 @@ for i in range(len(resampled_timestamps)):
     smoothed_aod_data[:, i] = gaussian_filter(resampled_aod_data[:, i], sigma=25)
 
 # Create the 2D pcolormesh plot
-fig, ax1 = plt.subplots()
-cax = ax1.pcolormesh(resampled_timestamps, lat_grid, resampled_aod_data, shading='auto', cmap='jet', vmin=0., vmax=0.4)
-fig.colorbar(cax, ax=ax1, label='AOD Value')
+fig, ax = plt.subplots()
+
 # mesh = ax.pcolormesh(timestamps, lat_grid, aod_grid, cmap='jet', vmin=0., vmax=0.3)
-# mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.4)
+mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.4)
 
-ax1.set_title('AOD Data')
-ax1.set_ylabel('Latitude')
-ax1.set_xlabel('Timestamp')
-ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
-ax1.xaxis.set_major_locator(mdates.DayLocator(interval=1))
+# Adjust figure size, font size, label, and tick size
+fig.set_size_inches(12, 6)
+plt.rc('font', size=12)
+ax.set_xlabel('Timestamp', fontsize=14)
+ax.set_ylabel('Latitude', fontsize=14)
+ax.set_title('AOD layer [%s - %s km]' % (alt_1, alt_2), fontsize=16)
+ax.tick_params(axis='both', labelsize=12)
+cbar = fig.colorbar(mesh, ax=ax, orientation='vertical', pad=0.02, shrink=0.8, extend='both')
+cbar.ax.tick_params(labelsize=12)
+cbar.set_label('AOD', fontsize=14)
 
-# Create an additional horizontal plot for the data source array
-ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
-ax2.pcolormesh(resampled_timestamps, [0, 1], data_sources[np.newaxis, :], cmap=cmap, shading='auto')
-ax2.set_yticks([])
-ax2.set_xticks(np.arange(0, len(timestamps), 6))
-ax2.set_xticklabels([t.strftime('%Y-%m-%d %H:%M') for t in np.array(timestamps)[::6]], rotation=45)
-
-# Set the colorbar labels
-cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap), ax=ax2, orientation='horizontal', ticks=[0, 1])
-cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
+# Format the x-axis to display dates
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+fig.autofmt_xdate()
+# Set x-tick font size and rotation
+plt.xticks(fontsize=10, rotation=60)
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
