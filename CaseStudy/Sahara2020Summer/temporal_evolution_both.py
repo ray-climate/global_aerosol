@@ -232,20 +232,21 @@ data_source_df = data_source_df.set_index('Timestamp')
 # Resample the data source DataFrame
 resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(method='nearest')
 resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
-print(resampled_data_sources)
+
 # Create a colormap for the data source array
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
 ax2 = fig.add_axes([0.15, 0.1, 0.7, 0.05])
-ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, shading='auto')
+mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, shading='auto', vmin=0, vmax=1)
 ax2.set_yticks([])
 ax2.set_xticks(np.arange(0, len(resampled_timestamps), 6))
 ax2.set_xticklabels([t.strftime('%Y-%m-%d %H:%M') for t in np.array(resampled_timestamps)[::6]], rotation=45)
 
 # Set the colorbar labels
-cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap), ax=ax2, orientation='horizontal', ticks=[0, 1])
+cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
+
