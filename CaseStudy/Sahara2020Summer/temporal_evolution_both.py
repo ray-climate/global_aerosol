@@ -192,7 +192,7 @@ resampled_aod_data = resampled_df.to_numpy().T
 # Apply Gaussian filter to the resampled AOD data
 smoothed_aod_data = np.zeros_like(resampled_aod_data)
 for i in range(len(resampled_timestamps)):
-    smoothed_aod_data[:, i] = gaussian_filter(resampled_aod_data[:, i], sigma=1)
+    smoothed_aod_data[:, i] = gaussian_filter(resampled_aod_data[:, i], sigma=5)
 
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
