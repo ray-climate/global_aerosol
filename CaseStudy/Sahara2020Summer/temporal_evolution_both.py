@@ -31,15 +31,13 @@ caliop_layer_lat_all = []
 aeolus_layer_aod_all = []
 aeolus_layer_lat_all = []
 
+############ extract caliop ################
 # Sort the npz_file list based on date and time
-npz_files = sorted([f for f in os.listdir(CALIOP_input_path) if f.endswith('.npz') and (('caliop_dbd_' in f) or ('aeolus_qc_' in f))],
+caliop_npz_files = sorted([f for f in os.listdir(CALIOP_input_path) if f.endswith('.npz') and 'caliop_dbd_' in f],
                    key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
-timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in npz_files]
+caliop_timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in caliop_npz_files]
 
-print(npz_files)
-quit()
-
-for npz_file in npz_files:
+for npz_file in caliop_npz_files:
 
     print('processing file: ' + npz_file + '...')
     lat_caliop = np.load(CALIOP_input_path + npz_file, allow_pickle=True)['lat']
@@ -69,28 +67,120 @@ for npz_file in npz_files:
     caliop_layer_aod_all.append(caliop_layer_aod)
     caliop_layer_lat_all.append(lat_caliop)
 
-############ extract caliop ################
+############ extract aeolus ################
+
+aeolus_npz_files = sorted([f for f in os.listdir(AEOLUS_input_path) if f.endswith('.npz') and 'aeolus_qc_' in f],
+                   key=lambda x: datetime.strptime(x[-16:-4], '%Y%m%d%H%M'))
+aeolus_timestamps = [datetime.strptime(f[-16:-4], '%Y%m%d%H%M') for f in aeolus_npz_files]
+
+
+def qc_to_bits(qc_array):
+    # Convert the quality control array to uint8
+    qc_uint8 = qc_array.astype(np.uint8)
+
+    # Unpack the uint8 array to bits
+    qc_bits = np.unpackbits(qc_uint8, axis=1)
+
+    # Reshape the bits array to match the original shape
+    qc_bits = qc_bits.reshape(*qc_array.shape, -1)
+
+    return qc_bits
+
+for npz_file in os.listdir(AEOLUS_input_path):
+    if npz_file.endswith('.npz') & ('aeolus_qc_' in npz_file):
+
+        print('processing file: ' + npz_file + '...')
+        # print the file name and variables in the file
+        lat_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['lat']
+        lon_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['lon']
+        alt_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['alt']
+        beta_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['beta']
+        alpha_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['alpha']
+        qc_aeolus = np.load(AEOLUS_input_path + npz_file, allow_pickle=True)['qc']
+
+        # Convert the quality control data to 8 bits
+        qc_bits = qc_to_bits(qc_aeolus)
+
+        first_bit = qc_bits[:, :, -1]
+        second_bit = qc_bits[:, :, -2]
+        # Create a boolean mask where the second bit equals 1 (valid data)
+        valid_mask_extinction = first_bit == 1
+        valid_mask_backscatter = second_bit == 1
+        # set invalid data to nan
+        # alpha_aeolus_qc = np.where(valid_mask_extinction, alpha_aeolus, np.nan)
+        alpha_aeolus_qc = np.copy(alpha_aeolus)
+        beta_aeolus_qc = np.where(valid_mask_backscatter, beta_aeolus, np.nan)
+
+        rows_to_keep_aeolus = []
+        for k in range(len(lat_aeolus)):
+            if lat_aeolus[k] > lat1 and lat_aeolus[k] < lat2 and lon_aeolus[k] > lon1 and lon_aeolus[k] < lon2 :
+                rows_to_keep_aeolus.append(k)
+
+        beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
+        alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
+        lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
+
+        aeolus_aod = np.zeros(len(lat_aeolus))
+
+        for k in range(alpha_aeolus_qc.shape[0]):
+
+            alt_top = []
+            alt_bot = []
+            for kk in range(alpha_aeolus_qc.shape[1]):
+
+                if (alt_aeolus[k, kk] < np.ceil(alt_2)) & (alt_aeolus[k, kk + 1] > np.floor(alt_1)):
+                    alt_top.append(alt_aeolus[k, kk])
+                    alt_bot.append(alt_aeolus[k, kk + 1])
+                    aeolus_aod[k] = aeolus_aod[k] + alpha_aeolus_qc[k, kk] * (alt_aeolus[k, kk] - alt_aeolus[k, kk + 1])
+            aeolus_aod[k] = aeolus_aod[k] / (alt_top[0] - alt_bot[-1]) * (alt_2 - alt_1)
+
+        aeolus_layer_aod_all.append(aeolus_aod)
+        aeolus_layer_lat_all.append(lat_aeolus)
 
 lat_grid = np.arange(lat1, lat2, 0.01)
 
-# Create a 2D grid for AOD values using the lat_grid
-aod_grid = np.zeros((len(lat_grid), len(caliop_layer_aod_all)))
-aod_grid[:] = np.nan
+#################### clean for caliop aod data
+# Create a 2D grid for AOD values using the lat_grid for caliop
+aod_grid_caliop = np.zeros((len(lat_grid), len(caliop_layer_aod_all)))
+aod_grid_caliop[:] = np.nan
 
 for k in range(len(caliop_layer_aod_all)):
     if np.size(caliop_layer_aod_all[k]) > 0:
         lat_centre = (caliop_layer_lat_all[k][1:] + caliop_layer_lat_all[k][0:-1]) / 2.
         for kk in range(len(lat_centre) - 2):
-            aod_grid[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
+            aod_grid_caliop[(lat_grid > min(lat_centre[kk], lat_centre[kk + 1])) & (
                         lat_grid < max(lat_centre[kk], lat_centre[kk + 1])), k] = caliop_layer_aod_all[k][kk + 1]
 
 # Only keep columns with mean AOD larger than 0
-cols_to_keep = [k for k in range(aod_grid.shape[1]) if np.nanmean(aod_grid[:, k]) > 0]
+cols_to_keep = [k for k in range(aod_grid_caliop.shape[1]) if np.nanmean(aod_grid_caliop[:, k]) > 0]
 
-aod_grid = aod_grid[:, cols_to_keep]
+aod_grid_caliop = aod_grid_caliop[:, cols_to_keep]
 caliop_layer_aod_all = [caliop_layer_aod_all[k] for k in cols_to_keep]
-timestamps = [timestamps[k] for k in cols_to_keep]
+caliop_timestamps = [caliop_timestamps[k] for k in cols_to_keep]
 
+#################### clean for aeolus aod data
+aod_grid_aeolus = np.zeros((len(lat_grid), len(aeolus_layer_lat_all)))
+aod_grid_aeolus[:] = np.nan
+
+for k in range(len(aod_grid_aeolus)):
+    if np.size(aod_grid_aeolus[k]) > 0:
+        lat_centre = aeolus_layer_aod_all[k]
+        for kk in range(len(lat_centre)):
+            aod_grid_aeolus[(lat_grid > (lat_centre[kk] - 0.4)) & (lat_grid < (lat_centre[kk] + 0.4)), k] = aeolus_layer_aod_all[k][kk]
+
+# Only keep columns with mean AOD larger than 0
+cols_to_keep = [k for k in range(aod_grid_aeolus.shape[1]) if np.nanmean(aod_grid_aeolus[:, k]) > 0]
+
+aod_grid_aeolus = aod_grid_aeolus[:, cols_to_keep]
+aeolus_timestamps = [aeolus_timestamps[k] for k in cols_to_keep]
+
+# combine aod_grid_caliop and aod_grid_aeolus
+aod_grid = np.concatenate((aod_grid_caliop, aod_grid_aeolus), axis=1)
+# combine caliop_timestamps and aeolus_timestamps
+timestamps = caliop_timestamps + aeolus_timestamps
+
+print(timestamps)
+quit()
 # Create the 2D pcolormesh plot
 fig, ax = plt.subplots()
 
