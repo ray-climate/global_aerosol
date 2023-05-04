@@ -232,7 +232,7 @@ data_source_df = data_source_df.set_index('Timestamp')
 # Resample the data source DataFrame
 resampled_data_source_df = data_source_df.resample('6H').mean().interpolate(method='nearest')
 resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
-
+print(resampled_data_sources)
 # Create a colormap for the data source array
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
@@ -249,9 +249,3 @@ cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
 
 # Save the figure with an appropriate size
 plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
-
-plt.show()
-
-# Save the figure with an appropriate size
-plt.savefig('./figures/temporal_evolution_aod_both.png', dpi=300, bbox_inches='tight')
-
