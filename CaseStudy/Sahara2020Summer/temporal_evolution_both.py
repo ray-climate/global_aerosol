@@ -209,7 +209,7 @@ mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='je
 # Adjust figure size, font size, label, and tick size
 fig.set_size_inches(12, 6)
 plt.rc('font', size=12)
-ax.set_xlabel('Timestamp', fontsize=14)
+# ax.set_xlabel('Timestamp', fontsize=14)
 ax.set_ylabel('Latitude', fontsize=14)
 ax.set_title('AOD layer [%s - %s km]' % (alt_1, alt_2), fontsize=16)
 ax.tick_params(axis='both', labelsize=12)
@@ -241,7 +241,7 @@ resampled_data_sources = resampled_data_source_df['data_source'].to_numpy()
 cmap = mcolors.ListedColormap(['red', 'blue'])
 
 # Create an additional horizontal plot for the data source array
-ax2 = fig.add_axes([0.15, 0.1, 0.68, 0.05])
+ax2 = fig.add_axes([0., -0.1, 0.68, 0.05])
 
 mesh2 = ax2.pcolormesh(resampled_timestamps, [0, 1], np.repeat(resampled_data_sources[np.newaxis, :], 2, axis=0), cmap=cmap, vmin=0, vmax=1)
 ax2.set_yticks([])
