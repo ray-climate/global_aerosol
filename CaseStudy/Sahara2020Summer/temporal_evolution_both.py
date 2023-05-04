@@ -209,7 +209,7 @@ colorbar_pad = 0.02  # Set the padding between ax1 and the colorbar
 mesh = ax.pcolormesh(resampled_timestamps, lat_grid, smoothed_aod_data, cmap='jet', vmin=0., vmax=0.4)
 
 # Adjust figure size, font size, label, and tick size
-fig.set_size_inches(12, 6)
+fig.set_size_inches(15, 6)
 plt.rc('font', size=12)
 # ax.set_xlabel('Timestamp', fontsize=14)
 ax.set_ylabel('Latitude', fontsize=14)
@@ -252,7 +252,7 @@ fig.autofmt_xdate()
 plt.xticks(fontsize=10, rotation=60)
 # Set the colorbar labels
 
-cbar = fig.colorbar(cm.ScalarMappable(cmap=cmap, norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='horizontal', ticks=[0, 1])
+cbar = fig.colorbar(cm.ScalarMappable(cmap='cool', norm=mcolors.Normalize(vmin=0, vmax=1)), ax=ax2, orientation='horizontal', ticks=[0, 1])
 cbar.ax.set_xticklabels(['CALIOP', 'AEOLUS'])
 cbar.ax.xaxis.set_label_position('top')
 cbar.ax.xaxis.set_ticks_position('top')
