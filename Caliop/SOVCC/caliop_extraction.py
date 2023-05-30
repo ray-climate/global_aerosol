@@ -58,7 +58,14 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
 
             # save all the variables as a numpy file
             save_file_name = save_sub_location + files[:-4] + '.npy'
-            np.save(save_file_name, [caliop_v4_aerosol_type, feature_type, extinction, orbit_l2_altitude, orbit_l2_latitude, orbit_l2_longitude, orbit_l2_tropopause_height])
+            np.savez(save_file_name,
+                     caliop_v4_aerosol_type=caliop_v4_aerosol_type,
+                     feature_type=feature_type,
+                     extinction=extinction,
+                     orbit_l2_altitude=orbit_l2_altitude,
+                     orbit_l2_latitude=orbit_l2_latitude,
+                     orbit_l2_longitude=orbit_l2_longitude,
+                     orbit_l2_tropopause_height=orbit_l2_tropopause_height)
             quit()
         else:
             pass
