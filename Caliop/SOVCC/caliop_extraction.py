@@ -5,6 +5,9 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        30/05/2023 12:51
 
+import sys
+sys.path.append('../../')
+
 from Caliop.caliop import Caliop_hdf_reader
 import sys
 import os
