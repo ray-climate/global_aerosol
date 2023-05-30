@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        30/05/2023 12:51
 
+from caliop import Caliop_hdf_reader
 import sys
 import os
 
@@ -30,6 +31,22 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
             # read caliop hdf file
             caliop_file = caliop_location + '/' + year + '/' + caliop_sub_folder + '/' + files
             # extract ash layer only
-            print(caliop_file)
+            request = Caliop_hdf_reader()
+
+            (caliop_v4_aerosol_type, feature_type) = request._get_feature_classification(
+                filename=caliop_file,
+                variable='Atmospheric_Volume_Description')
+
+            orbit_l2_altitude = request.get_altitudes(filename=caliop_file)
+            orbit_l2_latitude = request._get_latitude(filename=caliop_file)
+            orbit_l2_longitude = request._get_longitude(filename=caliop_file)
+            orbit_l2_tropopause_height = request._get_tropopause_height(filename=caliop_file)
+
+            print(caliop_v4_aerosol_type, feature_type)
+            print(orbit_l2_altitude)
+            print(orbit_l2_latitude)
+            print(orbit_l2_longitude)
+            print(orbit_l2_tropopause_height)
+            quit()
         else:
             pass
