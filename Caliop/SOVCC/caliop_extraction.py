@@ -50,7 +50,7 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
             orbit_l2_longitude = request._get_longitude(filename=caliop_file)
             orbit_l2_tropopause_height = request._get_tropopause_height(filename=caliop_file)
 
-            save_sub_location = save_location + '/' + year + '/' + caliop_sub_folder
+            save_sub_location = save_location + '/' + year + '/' + caliop_sub_folder + '/'
             try:
                 os.stat(save_sub_location)
             except:
