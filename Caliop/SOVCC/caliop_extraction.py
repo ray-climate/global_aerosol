@@ -66,6 +66,5 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
                      orbit_l2_latitude=orbit_l2_latitude,
                      orbit_l2_longitude=orbit_l2_longitude,
                      orbit_l2_tropopause_height=orbit_l2_tropopause_height)
-            quit()
         else:
             pass
