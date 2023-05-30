@@ -57,7 +57,7 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
                 os.mkdir(save_sub_location)
 
             # save all the variables as a numpy file
-            save_file_name = save_sub_location + files[:-4] + '.npy'
+            save_file_name = save_sub_location + files[:-4]
             np.savez(save_file_name,
                      caliop_v4_aerosol_type=caliop_v4_aerosol_type,
                      feature_type=feature_type,
