@@ -29,6 +29,12 @@ except:
 
 # loop through all the sub year folder in caliop_location
 for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
+
+    try:
+        os.stat(save_location + '/' + year)
+    except:
+        os.mkdir(save_location + '/' + year)
+
     for files in os.listdir(caliop_location + '/' + year + '/' + caliop_sub_folder):
         if files.endswith('.hdf'):
             print('---------> Reading caliop file: %s' %files)
