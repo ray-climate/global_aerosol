@@ -18,5 +18,16 @@ try:
 except:
     os.mkdir(save_location)
 
+# loop through all the sub folder in caliop_location
+for caliop_sub_folder in os.listdir(caliop_location):
+    for caliop_sub_sub_folder in os.listdir(caliop_location + '/' + caliop_sub_folder):
+        for caliop_file in os.listdir(caliop_location + '/' + caliop_sub_folder + '/' + caliop_sub_sub_folder):
+            if caliop_file.endswith('.hdf'):
+                print('---------> Reading file: %s' % caliop_file)
+                # extract ash only data
+                # os.system('python caliop_ash_extraction.py %s %s %s' % (caliop_location + '/' + caliop_sub_folder + '/' + caliop_sub_sub_folder + '/' + caliop_file, save_location, caliop_file))
+            else:
+                pass
+
 
 
