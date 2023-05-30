@@ -32,6 +32,8 @@ plt.ylabel('Bin', fontsize=30)
 plt.savefig('test_figure/observation_sca_backscatter.png')
 plt.close()
 
+
+
 if coda.get_field_available(codaid, 'scene_classification'):
     topclber = coda.fetch(codaid,'scene_classification',-1,'aladin_cloud_flag','topclber')
     DownClBER = coda.fetch(codaid,'scene_classification',-1,'aladin_cloud_flag','DownClBER')
