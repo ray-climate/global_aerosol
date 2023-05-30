@@ -19,7 +19,7 @@ year = sys.argv[1]
 # caliop location on CEDA
 caliop_location = '/gws/nopw/j04/eo_shared_data_vol1/satellite/calipso/APro5km'
 # location to save ash only data
-save_location = './caliop_ash_data_extraction/'
+save_location = './caliop_ash_data_extraction'
 
 # create save_location folder if not exist
 try:
