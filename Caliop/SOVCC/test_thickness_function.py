@@ -38,8 +38,8 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
     return thicknesses
 
 # Load your data here
-ash_mask = [0, 1, 1, 0, 1, 0, 1, 1, 0, 0]  # Example data
-altitude = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]  # Example data
+ash_mask = [0, 1, 1, 1, 1, 1, 1, 1, 0, 0]  # Example data
+altitude = [20., 19.8, 19.7, 19, 18., 17., 16, 15.5, 14., 12.8 ]  # Example data
 
 # Calculate thicknesses of ash_mask
 ash_mask_thicknesses = calculate_ash_mask_thickness(ash_mask, altitude)
