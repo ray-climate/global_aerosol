@@ -48,7 +48,7 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
                     min_altitude = altitude[max_index] - 0.5 * (altitude[max_index] - altitude[max_index + 1])
                 else:
                     min_altitude = altitude[max_index]
-                print(min_altitude, max_altitude)
+
                 thickness = max_altitude - min_altitude
                 thicknesses.append(thickness)
 
