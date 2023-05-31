@@ -16,9 +16,9 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
         altitude: List of float
 
     Returns:
-        thickness: float
+        thicknesses: List of float
     """
-    thickness = 0.0  # Initialize thickness
+    thicknesses = []  # Initialize thicknesses list
 
     # Convert ash_mask and altitude to numpy arrays
     ash_mask = np.array(ash_mask)
@@ -32,15 +32,17 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
         if np.all(seq == 1) and len(seq) > 1:
             # Calculate thickness based on corresponding altitude
             seq_indices = np.where(seq == 1)
-            thickness += altitude[seq_indices].max() - altitude[seq_indices].min()
+            thickness = altitude[seq_indices].max() - altitude[seq_indices].min()
+            thicknesses.append(thickness)
 
-    return thickness
+    return thicknesses
 
 # Load your data here
 ash_mask = [0, 1, 1, 0, 1, 0, 1, 1, 0, 0]  # Example data
 altitude = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]  # Example data
 
-# Calculate thickness of ash_mask
-ash_mask_thickness = calculate_ash_mask_thickness(ash_mask, altitude)
+# Calculate thicknesses of ash_mask
+ash_mask_thicknesses = calculate_ash_mask_thickness(ash_mask, altitude)
 
-print(f"Thickness of ash_mask: {ash_mask_thickness}")
+print(f"Thicknesses of ash_mask: {ash_mask_thicknesses}")
+
