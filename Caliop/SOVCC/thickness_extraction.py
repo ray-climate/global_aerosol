@@ -86,7 +86,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
             for i in range(ash_mask.shape[1]):
                 print(ash_mask[:, i].shape)
-                print(altitude[i].shape)
+                print(altitude.shape)
                 print(latitude[i])
                 print(longitude[i])
 
