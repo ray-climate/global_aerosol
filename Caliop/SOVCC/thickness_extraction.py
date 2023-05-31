@@ -87,7 +87,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
     for file in os.listdir(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder):
         if file.endswith('.npz'):
-            index += 1
+
             print('---------> Reading caliop file: %s' %file)
 
             dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
