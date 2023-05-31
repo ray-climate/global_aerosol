@@ -9,6 +9,7 @@ import sys
 sys.path.append('../../')
 
 from Caliop.caliop import Caliop_hdf_reader
+import pandas as pd
 import numpy as np
 import sys
 import os
@@ -18,6 +19,13 @@ year = sys.argv[1]
 
 # caliop location on CEDA
 caliop_extracted_location = './caliop_ash_data_extraction'
+save_location = './thickness_data_extraction'
+
+# create save_location folder if not exist
+try:
+    os.stat(save_location)
+except:
+    os.mkdir(save_location)
 
 def calculate_ash_mask_thickness(ash_mask, altitude):
     """
@@ -65,13 +73,19 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
 
     return thicknesses
 
+index = 0
 # loop through all the sub year folder in caliop_location
+latitude_all = []
+longitude_all = []
+thickness_all = []
+
 for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
     print('---------> Reading caliop date: %s' %caliop_sub_folder)
 
     for file in os.listdir(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder):
-        if file.endswith('.npz'):
+        if file.endswith('.npz') & (index < 200):
+            index += 1
             print('---------> Reading caliop file: %s' %file)
 
             dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
@@ -87,6 +101,20 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             for i in range(ash_mask.shape[1]):
                 if np.sum(ash_mask[:, i]) > 1:
                     thickness_i = calculate_ash_mask_thickness(ash_mask[:, i], altitude)
-                    print(thickness_i)
+                    latitude_i = latitude[i]
+                    longitude_i = longitude[i]
+
+                    latitude_all.append(latitude_i)
+                    longitude_all.append(longitude_i)
+                    thickness_all.append(thickness_i)
+
+df = pd.DataFrame({
+    'latitude': latitude_all,
+    'longitude': longitude_all,
+    'thickness': [','.join(map(str, t)) for t in thickness_all]  # Convert lists to strings
+})
+
+df.to_csv(save_location + '/' + year + '_thickness.csv', index=False)
+
 
 
