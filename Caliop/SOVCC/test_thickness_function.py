@@ -7,6 +7,7 @@
 
 import numpy as np
 
+
 def calculate_ash_mask_thickness(ash_mask, altitude):
     """
     Calculates thickness of ash mask based on altitude.
@@ -35,13 +36,26 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
             # If the sequence has more than one element
             if len(seq) > 1:
                 # Calculate thickness based on corresponding altitude
-                thickness = altitude[seq].max() - altitude[seq].min()
+                min_index = seq[0]
+                max_index = seq[-1]
+
+                if min_index > 0:
+                    max_altitude = altitude[min_index] + 0.5 * (altitude[min_index - 1] - altitude[min_index])
+                else:
+                    max_altitude = altitude[min_index]
+
+                if max_index < len(altitude) - 1:
+                    min_altitude = altitude[max_index] - 0.5 * (altitude[max_index] - altitude[max_index + 1])
+                else:
+                    min_altitude = altitude[max_index]
+
+                thickness = max_altitude - min_altitude
                 thicknesses.append(thickness)
 
     return thicknesses
 
 # Load your data here
-ash_mask = [0, 0., 1, 1, 1, 0, 1, 1, 0, 1, 1]  # Example data
+ash_mask = [0, 0., 1, 1, 1, 1, 1, 1, 1, 0, 0]  # Example data
 altitude = [20., 19.9, 19.8, 19.7, 19, 18., 17., 15.3, 15.1, 14., 12.8 ]  # Example data
 
 # Calculate thicknesses of ash_mask
