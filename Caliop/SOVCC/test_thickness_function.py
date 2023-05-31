@@ -28,7 +28,7 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
     sequences = np.split(ash_mask, np.where(np.diff(ash_mask))[0] + 1)
 
     for seq in sequences:
-        print(seq)
+
         # If the sequence is all ones and has more than one element
         if np.all(seq == 1) and len(seq) > 1:
             # Calculate thickness based on corresponding altitude
@@ -39,8 +39,8 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
     return thicknesses
 
 # Load your data here
-ash_mask = [0, 1, 1, 1, 1, 1, 1, 1, 0, 0]  # Example data
-altitude = [20., 19.8, 19.7, 19, 18., 17., 15.3, 15.1, 14., 12.8 ]  # Example data
+ash_mask = [0, 0., 1, 1, 1, 1, 1, 1, 1, 0, 0]  # Example data
+altitude = [20., 19.9, 19.8, 19.7, 19, 18., 17., 15.3, 15.1, 14., 12.8 ]  # Example data
 
 # Calculate thicknesses of ash_mask
 ash_mask_thicknesses = calculate_ash_mask_thickness(ash_mask, altitude)
