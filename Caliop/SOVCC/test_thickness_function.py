@@ -5,6 +5,8 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        31/05/2023 10:59
 
+import numpy as np
+
 def calculate_ash_mask_thickness(ash_mask, altitude):
     """
     Calculates thickness of ash mask based on altitude.
