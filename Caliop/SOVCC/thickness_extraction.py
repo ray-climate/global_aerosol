@@ -98,7 +98,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             latitude = dataset['orbit_l2_latitude']
             longitude = dataset['orbit_l2_longitude']
             tropopause_altitude = dataset['orbit_l2_tropopause_height']
-
+            quit()
             ash_mask = np.zeros((aerosol_type.shape))
             ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
 
