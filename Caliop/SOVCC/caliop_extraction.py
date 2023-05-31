@@ -42,7 +42,7 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
             caliop_file = caliop_location + '/' + year + '/' + caliop_sub_folder + '/' + files
             # extract ash layer only
             request = Caliop_hdf_reader()
-
+            #
             (caliop_v4_aerosol_type, feature_type) = request._get_feature_classification(filename=caliop_file, variable='Atmospheric_Volume_Description')
             extinction = request._get_calipso_data(filename=caliop_file, variable='Extinction_Coefficient_532')
             orbit_l2_altitude = request.get_altitudes(filename=caliop_file)
