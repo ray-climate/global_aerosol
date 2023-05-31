@@ -38,4 +38,4 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
             print(latitude.shape)
             # print(ash_mask[ash_mask > 0])
-            print(ash_mask[ash_mask > 0].shape)
+            print(ash_mask.shape)
