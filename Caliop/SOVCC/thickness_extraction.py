@@ -85,9 +85,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
 
             for i in range(ash_mask.shape[1]):
-                print(ash_mask[:, i].shape)
-                print(altitude.shape)
-                print(latitude[i])
-                print(longitude[i])
+                thickness_i = calculate_ash_mask_thickness(ash_mask[:, i], altitude)
+                print(thickness_i)
 
 
