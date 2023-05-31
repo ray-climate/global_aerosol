@@ -33,9 +33,9 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             aerosol_type = dataset['caliop_v4_aerosol_type']
             feature_type = dataset['feature_type']
             altitude = dataset['orbit_l2_altitude']
-
+            latitude = dataset['orbit_l2_latitude']
             ash_mask = np.zeros((aerosol_type.shape))
             ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
-            print(altitude.shape)
+            print(latitude.shape)
             # print(ash_mask[ash_mask > 0])
             print(ash_mask[ash_mask > 0].shape)
