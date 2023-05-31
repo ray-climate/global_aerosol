@@ -80,6 +80,7 @@ longitude_all = []
 thickness_all = []
 ash_height_all = []
 troppause_altitude_all = []
+utc_time_all = []
 
 for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
@@ -99,8 +100,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             longitude = dataset['orbit_l2_longitude']
             tropopause_altitude = dataset['orbit_l2_tropopause_height']
             utc_time = file[35:54]
-            print(utc_time)
-            quit()
+
             ash_mask = np.zeros((aerosol_type.shape))
             ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
 
@@ -111,6 +111,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
                     longitude_i = longitude[i]
                     tropopause_altitude_i = tropopause_altitude[i]
 
+                    utc_time_all.append(utc_time)
                     latitude_all.append(latitude_i)
                     longitude_all.append(longitude_i)
                     thickness_all.append(thickness_i)
@@ -118,6 +119,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
                     troppause_altitude_all.append(tropopause_altitude_i)
 
 df = pd.DataFrame({
+    'utc_time': utc_time_all,  # 'yyyy-mm-ddThh:mm:ssZ'
     'latitude': latitude_all,
     'longitude': longitude_all,
     'thickness': [','.join(map(str, t)) for t in thickness_all],
