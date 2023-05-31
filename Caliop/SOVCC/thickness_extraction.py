@@ -29,5 +29,5 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             print('---------> Reading caliop file: %s' %file)
 
             dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
-            print(dataset)
+            print(dataset.files)
             quit()
