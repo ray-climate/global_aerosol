@@ -24,17 +24,19 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
     ash_mask = np.array(ash_mask)
     altitude = np.array(altitude)
 
-    # Find all sequences of 1s
-    sequences = np.split(ash_mask, np.where(np.diff(ash_mask))[0] + 1)
+    # Find indices of 1s
+    one_indices = np.where(ash_mask == 1)[0]
 
-    for seq in sequences:
+    if len(one_indices) > 0:
+        # Find all sequences of 1s
+        sequences = np.split(one_indices, np.where(np.diff(one_indices) != 1)[0] + 1)
 
-        # If the sequence is all ones and has more than one element
-        if np.all(seq == 1) and len(seq) > 1:
-            # Calculate thickness based on corresponding altitude
-            seq_indices = np.where(seq == 1)
-            thickness = altitude[seq_indices].max() - altitude[seq_indices].min()
-            thicknesses.append(thickness)
+        for seq in sequences:
+            # If the sequence has more than one element
+            if len(seq) > 1:
+                # Calculate thickness based on corresponding altitude
+                thickness = altitude[seq].max() - altitude[seq].min()
+                thicknesses.append(thickness)
 
     return thicknesses
 
