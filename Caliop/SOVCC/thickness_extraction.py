@@ -74,19 +74,19 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
 
     return thicknesses, mean_heights
 
-index = 0
 # loop through all the sub year folder in caliop_location
 latitude_all = []
 longitude_all = []
 thickness_all = []
 ash_height_all = []
+troppause_altitude_all = []
 
 for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
     print('---------> Reading caliop date: %s' %caliop_sub_folder)
 
     for file in os.listdir(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder):
-        if file.endswith('.npz') & (index < 200):
+        if file.endswith('.npz'):
             index += 1
             print('---------> Reading caliop file: %s' %file)
 
@@ -97,6 +97,8 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             altitude = dataset['orbit_l2_altitude']
             latitude = dataset['orbit_l2_latitude']
             longitude = dataset['orbit_l2_longitude']
+            tropopause_altitude = dataset['tropopause_altitude']
+
             ash_mask = np.zeros((aerosol_type.shape))
             ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
 
@@ -105,17 +107,20 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
                     thickness_i, ash_height_i = calculate_ash_mask_thickness(ash_mask[:, i], altitude)
                     latitude_i = latitude[i]
                     longitude_i = longitude[i]
+                    tropopause_altitude_i = tropopause_altitude[i]
 
                     latitude_all.append(latitude_i)
                     longitude_all.append(longitude_i)
                     thickness_all.append(thickness_i)
                     ash_height_all.append(ash_height_i)
+                    troppause_altitude_all.append(tropopause_altitude_i)
 
 df = pd.DataFrame({
     'latitude': latitude_all,
     'longitude': longitude_all,
     'thickness': [','.join(map(str, t)) for t in thickness_all],
-    'ash_height': [','.join(map(str, t)) for t in ash_height_all]
+    'ash_height': [','.join(map(str, t)) for t in ash_height_all],
+    'tropopause_altitude': troppause_altitude_all
 })
 
 df.to_csv(save_location + '/' + year + '_thickness.csv', index=False)
