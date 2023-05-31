@@ -22,4 +22,9 @@ caliop_extracted_location = './caliop_ash_data_extraction'
 # loop through all the sub year folder in caliop_location
 for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
-    print('---------> Reading caliop file: %s' %caliop_sub_folder)
+    print('---------> Reading caliop date: %s' %caliop_sub_folder)
+
+    for file in os.listdir(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder):
+        if file.endswith('.npz'):
+            print('---------> Reading caliop file: %s' %file)
+
