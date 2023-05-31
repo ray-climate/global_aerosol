@@ -30,4 +30,5 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
             dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
             print(dataset.files)
+            print(dataset['orbit_l2_altitude'])
             quit()
