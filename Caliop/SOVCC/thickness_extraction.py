@@ -29,6 +29,12 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             print('---------> Reading caliop file: %s' %file)
 
             dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
-            print(dataset.files)
-            print(dataset['orbit_l2_altitude'])
-            quit()
+
+            aerosol_type = dataset['caliop_v4_aerosol_type']
+            feature_type = dataset['feature_type']
+            altitude = dataset['orbit_l2_altitude']
+
+            ash_mask = np.zeros((aerosol_type.shape))
+            ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
+
+            print(ash_mask)
