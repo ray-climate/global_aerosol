@@ -26,7 +26,7 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
 
     # Find all sequences of 1s
     sequences = np.split(ash_mask, np.where(np.diff(ash_mask))[0] + 1)
-
+    print(sequences)
     for seq in sequences:
         # If the sequence is all ones and has more than one element
         if np.all(seq == 1) and len(seq) > 1:
