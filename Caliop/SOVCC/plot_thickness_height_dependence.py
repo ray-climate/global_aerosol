@@ -81,8 +81,8 @@ plt.figure(figsize=(22, 10))
 cmap = plt.cm.get_cmap('rainbow')
 norm = plt.Normalize(count_grouped['thickness'].min(), count_grouped['thickness'].max())
 plt.scatter(mean_grouped.index, mean_grouped['thickness'], marker='o', c=count_grouped['thickness'], cmap=cmap, norm=norm)
-plt.xlim(8, 29)
-plt.ylim(0, 3.5)
+plt.xlim(7.9, 29.5)
+plt.ylim(0, 3.)
 # plt.plot(mean_grouped.index, mean_grouped['thickness'], marker='o')
 # Adding the shaded error region
 lower_bound = mean_grouped['thickness'] - std_grouped['thickness']
