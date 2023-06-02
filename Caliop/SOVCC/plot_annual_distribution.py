@@ -28,7 +28,7 @@ fig, axs = plt.subplots(4, 4, figsize=(20, 20))  # 4x4 grid of plots
 for ax, file in zip(axs.flatten(), files):
 
     data = pd.read_csv(variable_file_location + '/' + file)
-
+    print('processing file: ', file)
     for column in ['thickness', 'ash_height']:
         # We first split the column into multiple columns
         modified = data[column].str.split(",", expand=True)
