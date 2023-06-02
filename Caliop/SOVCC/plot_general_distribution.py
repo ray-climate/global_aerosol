@@ -41,6 +41,7 @@ for file in os.listdir(variable_file_location):
         thickness_columns = [col for col in data.columns if col.startswith("thickness")]
         for col in thickness_columns:
             print(data[col])
+            quit()
 
         # Print the data from the "ash_height", "ash_height_1", "ash_height_2", ... columns
         ash_height_columns = [col for col in data.columns if col.startswith("ash_height")]
