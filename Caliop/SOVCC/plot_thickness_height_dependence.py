@@ -5,13 +5,6 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        02/06/2023 17:42
 
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-
-# @Filename:    plot_thickness_height_dependence.py
-# @Author:      Dr. Rui Song
-# @Email:       rui.song@physics.ox.ac.uk
-# @Time:        02/06/2023 17:42
-
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -31,13 +24,13 @@ except:
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
 # Initiate empty DataFrame to store all data
-all_data = pd.DataFrame(columns=['thickness', 'ash_height'])
+all_data = pd.DataFrame(columns=['thickness', 'ash_height', 'latitude'])
 
 for file in files:
 
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
-    for column in ['thickness', 'ash_height']:
+    for column in ['thickness', 'ash_height', 'latitude']:
         # We first split the column into multiple columns
         modified = data[column].str.split(",", expand=True)
 
@@ -56,10 +49,13 @@ for file in files:
             data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
 
     # Append thickness and ash_height data to the DataFrame
-    all_data = all_data.append(data[['thickness', 'ash_height']], ignore_index=True)
+    all_data = all_data.append(data[['thickness', 'ash_height', 'latitude']], ignore_index=True)
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
+
+# Filter data by latitude range
+all_data = all_data[(all_data['latitude'] >= -10) & (all_data['latitude'] <= 10)]
 
 # Bin the 'ash_height' data into levels of 0.5 km from 8 to 30 km
 bins = np.arange(8, 30.5, 0.5)
@@ -71,11 +67,12 @@ grouped = all_data.groupby('ash_height_bin').mean()
 
 # Now we plot the relation between mean thickness and ash_height
 plt.figure(figsize=(10, 10))
-plt.plot(grouped['thickness'], grouped.index, marker='o')
+plt.plot(grouped.index, grouped['thickness'], marker='o')
 
 plt.title('Mean Thickness vs. Ash Height', fontsize=20)
-plt.xlabel('Mean Thickness', fontsize=15)
-plt.ylabel('Ash Height (km)', fontsize=15)
+
+plt.xlabel('Ash Height (km)', fontsize=15)
+plt.ylabel('Mean Thickness', fontsize=15)
 plt.grid(True)
 
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height.png')
