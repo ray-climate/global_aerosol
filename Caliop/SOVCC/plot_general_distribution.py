@@ -14,5 +14,5 @@ import os
 variable_file_location = './thickness_data_extraction'
 
 for file in os.listdir(variable_file_location):
-
-    print(file)
+    if file.endswith('.csv'):
+        print(file)
