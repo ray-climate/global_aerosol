@@ -43,7 +43,7 @@ for file in os.listdir(variable_file_location):
         # Print the data from the "thickness", "thickness_1", "thickness_2", ... columns
         thickness_columns = [col for col in data.columns if col.startswith("thickness")]
         for col in thickness_columns:
-            print(data[col])
+            print(data[col][0])
             quit()
 
         # Print the data from the "ash_height", "ash_height_1", "ash_height_2", ... columns
