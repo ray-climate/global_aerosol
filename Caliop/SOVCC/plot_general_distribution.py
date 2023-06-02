@@ -14,23 +14,21 @@ import os
 def split_columns(data, column_name):
     # Split the column on comma
     split_column = data[column_name].str.split(',', expand=True)
-    print(split_column)
-    quit()
-    # Check if there are multiple columns in split data
-    multiple_values = split_column.shape[1] > 1
 
-    # Add each split column to the dataframe as a new column
-    for i, column in split_column.items():
-        # If it's the first column and there are no multiple values, save it to the original column name
-        if i == 0 and not multiple_values:
-            data[column_name] = pd.to_numeric(column)
-        else:
-            # Set the original column to NaN
-            if multiple_values:
-                data[column_name] = np.nan
+    # Identify rows with multiple values
+    multiple_values = split_column.apply(lambda row: len([x for x in row if x is not None]) > 1, axis=1)
 
-            # Save the new data to a new column
-            data[f'{column_name}_{i + 1}'] = pd.to_numeric(column)
+    # Handle the first column
+    numeric_column = pd.to_numeric(split_column[0], errors='coerce')
+    data.loc[~multiple_values, column_name] = numeric_column[~multiple_values]
+    data.loc[multiple_values, column_name] = np.nan
+
+    # Handle subsequent columns, if any
+    for i, column in split_column.loc[:, 1:].items():
+        numeric_column = pd.to_numeric(column, errors='coerce')
+        if multiple_values.any():
+            data.loc[multiple_values, f'{column_name}_{i+1}'] = numeric_column[multiple_values]
+
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
