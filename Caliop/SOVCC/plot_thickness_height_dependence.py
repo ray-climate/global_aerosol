@@ -54,7 +54,7 @@ for file in files:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
     # Append thickness and ash_height data to the DataFrame
-    all_data = all_data.append(data[['thickness', 'ash_height', 'latitude']], ignore_index=True)
+    all_data = all_data.concat(data[['thickness', 'ash_height', 'latitude']], ignore_index=True)
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
@@ -72,7 +72,7 @@ mean_grouped = all_data.groupby('ash_height_bin').mean()
 std_grouped = all_data.groupby('ash_height_bin').std()
 
 # Now we plot the relation between mean thickness and ash_height
-plt.figure(figsize=(10, 18))
+plt.figure(figsize=(18, 10))
 
 plt.plot(mean_grouped.index, mean_grouped['thickness'], marker='o')
 # Adding the shaded error region
@@ -82,8 +82,10 @@ plt.fill_between(mean_grouped.index, lower_bound, upper_bound, color='gray', alp
 
 plt.title('Mean Thickness vs. Ash Height', fontsize=20)
 
-plt.xlabel('Ash Mean Altitude [km]', fontsize=15)
-plt.ylabel('Ash Layer Thickness [km]', fontsize=15)
+plt.xlabel('Ash Mean Altitude [km]', fontsize=18)
+plt.ylabel('Ash Layer Thickness [km]', fontsize=18)
+plt.tick_params(axis='both', which='major', labelsize=18)
+
 plt.grid(True)
 
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height.png')
