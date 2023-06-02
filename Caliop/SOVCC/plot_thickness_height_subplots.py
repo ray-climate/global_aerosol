@@ -66,7 +66,7 @@ fig, axs = plt.subplots(2, 3, figsize=(22, 16), sharex=True)
 
 # Iterate over latitude ranges and create a subplot for each
 for i, lat_range in enumerate(latitude_ranges):
-    ax = axs[i // 3, i % 3]
+    ax = axs[i//3][i%3]
 
     # Filter data by latitude range
     filtered_data = all_data[(all_data['latitude'] >= lat_range[0]) & (all_data['latitude'] <= lat_range[1])]
