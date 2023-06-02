@@ -14,7 +14,8 @@ import os
 def split_columns(data, column_name):
     # Split the column on comma
     split_column = data[column_name].str.split(',', expand=True)
-
+    print(split_column)
+    quit()
     # Check if there are multiple columns in split data
     multiple_values = split_column.shape[1] > 1
 
