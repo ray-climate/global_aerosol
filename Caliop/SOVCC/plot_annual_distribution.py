@@ -51,13 +51,13 @@ for ax, file in zip(axs.flatten(), files):
             data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
 
     # separate data by ash_height
-    below_20 = data[data['ash_height'] < 20] + 0.1
-    above_20 = data[data['ash_height'] >= 20] + 0.1
+    below_20 = data[data['ash_height'] < 20]
+    above_20 = data[data['ash_height'] >= 20]
 
     # Now we plot two histograms for the 'thickness' variable for this file,
     # one for ash_height < 20 and another for ash_height >= 20
-    ax.hist(below_20['thickness'].dropna(), bins=100, color='blue', alpha=0.7, label='ash_height < 20 km')
-    ax.hist(above_20['thickness'].dropna(), bins=100, color='red', alpha=0.7, label='ash_height >= 20 km')
+    ax.hist(below_20['thickness'].dropna() + 0.1, bins=100, color='blue', alpha=0.7, label='ash_height < 20 km')
+    ax.hist(above_20['thickness'].dropna() + 0.1, bins=100, color='red', alpha=0.7, label='ash_height >= 20 km')
     ax.set_title(f'Year - {file.split("_")[0]}', fontsize=15)
     ax.set_xlabel('Ash Layer Thickness', fontsize=15)
     ax.set_ylabel('Frequency', fontsize=15)
