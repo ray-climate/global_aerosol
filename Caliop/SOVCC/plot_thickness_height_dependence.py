@@ -60,10 +60,10 @@ for file in files:
 all_data = all_data.dropna()
 
 # Filter data by latitude range
-all_data = all_data[(all_data['latitude'] >= -10) & (all_data['latitude'] <= 10)]
+all_data = all_data[(all_data['latitude'] >= -30) & (all_data['latitude'] <= 30)]
 
-# Bin the 'ash_height' data into levels of 0.5 km from 8 to 30 km
-bins = np.arange(8, 30.5, 0.5)
+# Bin the 'ash_height' data into levels of 0.2 km from 8 to 30 km
+bins = np.arange(8, 30.2, 0.2)
 labels = bins[:-1] + 0.5/2  # Labels are the mid-point of each bin
 all_data['ash_height_bin'] = pd.cut(all_data['ash_height'], bins=bins, labels=labels)
 
