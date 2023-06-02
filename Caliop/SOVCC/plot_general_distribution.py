@@ -36,8 +36,8 @@ for file in os.listdir(variable_file_location):
             for i in range(modified.shape[1]):
                 data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
 
-        print(data['thickness'][171])
-        print(data['thickness_1'][171])
-        print(data['thickness_2'][171])
+        print(data['thickness'][46:50])
+        print(data['thickness_1'][46:50])
+        print(data['thickness_2'][46:50])
 
         quit()
