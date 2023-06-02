@@ -15,6 +15,12 @@ import os
 variable_file_location = './thickness_data_extraction'
 figure_save_location = './figures'
 
+# create save_location folder if not exist
+try:
+    os.stat(figure_save_location)
+except:
+    os.mkdir(figure_save_location)
+
 for file in os.listdir(variable_file_location):
     if file.endswith('2006_thickness.csv'):
 
