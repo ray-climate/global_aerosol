@@ -15,7 +15,7 @@ def split_columns(data, column_name):
     split_column = data[column_name].str.split(',', expand=True)
 
     # Add each split column to the dataframe as a new column
-    for i, column in split_column.iteritems():
+    for i, column in split_column.items():
         print(i, column)
         # If it's the first column and there are no more columns, save it to the original column name
         if i == 0 and split_column.shape[1] == 1:
