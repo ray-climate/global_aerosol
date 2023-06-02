@@ -57,6 +57,10 @@ for file in files:
 all_thickness = pd.concat(all_thickness)
 all_ash_height = pd.concat(all_ash_height)
 
+# Remove NaN values
+all_thickness = all_thickness.dropna()
+all_ash_height = all_ash_height.dropna()
+
 # Now we plot a 2D histogram (density map) for the 'thickness' and 'ash_height' variables
 plt.figure(figsize=(10, 6))
 plt.hist2d(all_thickness, all_ash_height, bins=[100, 100], cmap='viridis')
