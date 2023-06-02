@@ -13,16 +13,16 @@ import os
 def split_columns(data, column_name):
     # Split the column on comma
     split_column = data[column_name].str.split(',', expand=True)
-    print(split_column)
-    quit()
+
     # Add each split column to the dataframe as a new column
     for i, column in split_column.iteritems():
+        print(i, column)
         # If it's the first column and there are no more columns, save it to the original column name
         if i == 0 and split_column.shape[1] == 1:
             data[column_name] = pd.to_numeric(column)
         else:
             data[f'{column_name}_{i+1}'] = pd.to_numeric(column)
-
+    quit()
 # variable file location
 variable_file_location = './thickness_data_extraction'
 
