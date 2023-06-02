@@ -26,7 +26,7 @@ files = [file for file in os.listdir(variable_file_location) if file.endswith('.
 # Sort files by year
 files.sort(key=lambda x: int(x.split('_')[0]))
 
-fig, axs = plt.subplots(4, 4, figsize=(20, 25))  # 4x4 grid of plots
+fig, axs = plt.subplots(4, 4, figsize=(30, 20))  # 4x4 grid of plots
 
 for ax, file in zip(axs.flatten(), files):
 
@@ -52,10 +52,10 @@ for ax, file in zip(axs.flatten(), files):
 
     # Now we plot a histogram for the 'thickness' variable for this file
     ax.hist(data['thickness'].dropna(), bins=100, color='blue', alpha=0.7)
-    ax.set_title(f'Year - {file}', fontsize=10)
-    ax.set_xlabel('Layer Thickness [km]', fontsize=8)
-    ax.set_ylabel('Frequency', fontsize=8)
-    ax.tick_params(axis='both', which='major', labelsize=6)
+    ax.set_title(f'Year - {file.split("_")[0]}', fontsize=15)
+    ax.set_xlabel('Layer Thickness [km]', fontsize=15)
+    ax.set_ylabel('Frequency', fontsize=15)
+    ax.tick_params(axis='both', which='major', labelsize=12)
     ax.grid(True)
     ax.set_xlim(0, 5.)
 
