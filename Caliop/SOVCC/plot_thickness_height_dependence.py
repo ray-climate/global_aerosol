@@ -80,8 +80,8 @@ plt.figure(figsize=(22, 10))
 # Use colormap to color each point based on the count of values
 cmap = plt.cm.get_cmap('rainbow')
 norm = plt.Normalize(count_grouped['thickness'].min(), count_grouped['thickness'].max())
-plt.scatter(mean_grouped.index, mean_grouped['thickness'], marker='o', c=count_grouped['thickness'], cmap=cmap, norm=norm)
-plt.xlim(7.9, 29.5)
+plt.scatter(mean_grouped.index, mean_grouped['thickness'], marker='o', c=count_grouped['thickness'], cmap=cmap, norm=norm, s=100)
+plt.xlim(8, 29.)
 plt.ylim(0, 3.)
 # plt.plot(mean_grouped.index, mean_grouped['thickness'], marker='o')
 # Adding the shaded error region
@@ -102,5 +102,7 @@ plt.tick_params(axis='both', which='major', labelsize=18)
 
 plt.grid(True)
 plt.tight_layout()
+plt.subplots_adjust(right=0.85)
+
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height.png')
 
