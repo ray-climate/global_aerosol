@@ -10,9 +10,20 @@ import numpy as np
 import sys
 import os
 
+def process_column(col):
+    # split on comma and take the first item
+    return col.split(",")[0]
+
 # variable file location
 variable_file_location = './thickness_data_extraction'
 
 for file in os.listdir(variable_file_location):
     if file.endswith('.csv'):
-        print(file)
+        data = pd.read_csv('data.csv', converters={"thickness": process_column, "ash_height": process_column})
+        print(data["utc_time"])
+        print(data["latitude"])
+        print(data["longitude"])
+        print(data["thickness"])
+        print(data["ash_height"])
+        print(data["tropopause_altitude"])
+        quit()
