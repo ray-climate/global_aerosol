@@ -64,9 +64,9 @@ for ax, file in zip(axs.flatten(), files):
     ax.tick_params(axis='both', which='major', labelsize=12)
     ax.grid(True)
     ax.set_xlim(0, 5.)
-    ax.set_ylim(0, 5.e4)
+    ax.set_ylim(0, 35000)
     # y axis in log scale
-    ax.set_yscale('log')
+    #ax.set_yscale('log')
     ax.legend(fontsize=12)
 
 plt.tight_layout()
