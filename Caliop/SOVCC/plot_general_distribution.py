@@ -39,8 +39,7 @@ for file in os.listdir(variable_file_location):
         data = pd.read_csv(variable_file_location + '/' + file)
         split_columns(data, "thickness")
         split_columns(data, "ash_height")
-        print(data)
-        quit()
+
         # Print the data from the "thickness", "thickness_1", "thickness_2", ... columns
         thickness_columns = [col for col in data.columns if col.startswith("thickness")]
         for col in thickness_columns:
