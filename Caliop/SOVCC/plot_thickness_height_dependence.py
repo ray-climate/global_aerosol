@@ -71,14 +71,26 @@ all_data['ash_height_bin'] = pd.cut(all_data['ash_height'], bins=bins, labels=la
 mean_grouped = all_data.groupby('ash_height_bin').mean()
 std_grouped = all_data.groupby('ash_height_bin').std()
 
+# Calculate the count of values in each bin
+count_grouped = all_data.groupby('ash_height_bin').count()
+
 # Now we plot the relation between mean thickness and ash_height
 plt.figure(figsize=(18, 10))
 
-plt.plot(mean_grouped.index, mean_grouped['thickness'], marker='o')
+# Use colormap to color each point based on the count of values
+cmap = plt.cm.get_cmap('rainbow')
+norm = plt.Normalize(count_grouped['thickness'].min(), count_grouped['thickness'].max())
+plt.scatter(mean_grouped.index, mean_grouped['thickness'], marker='o', c=count_grouped['thickness'], cmap=cmap, norm=norm)
+
+# plt.plot(mean_grouped.index, mean_grouped['thickness'], marker='o')
 # Adding the shaded error region
 lower_bound = mean_grouped['thickness'] - std_grouped['thickness']
 upper_bound = mean_grouped['thickness'] + std_grouped['thickness']
 plt.fill_between(mean_grouped.index, lower_bound, upper_bound, color='gray', alpha=0.5)
+
+# Add a colorbar
+cbar = plt.colorbar()
+cbar.set_label('Count of measurements')
 
 plt.title('Mean Thickness vs. Ash Height', fontsize=20)
 
