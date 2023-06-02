@@ -10,26 +10,6 @@ import numpy as np
 import sys
 import os
 
-
-def split_columns(data, column_name):
-    # Split the column on comma
-    split_column = data[column_name].str.split(',', expand=True)
-
-    # Identify rows with multiple values
-    multiple_values = split_column.apply(lambda row: len([x for x in row if x is not None]) > 1, axis=1)
-
-    # Handle the first column
-    numeric_column = pd.to_numeric(split_column[0], errors='coerce')
-    data.loc[~multiple_values, column_name] = numeric_column[~multiple_values]
-    data.loc[multiple_values, column_name] = np.nan
-
-    # Handle subsequent columns, if any
-    for i, column in split_column.loc[:, 1:].items():
-        numeric_column = pd.to_numeric(column, errors='coerce')
-        if multiple_values.any():
-            data.loc[multiple_values, f'{column_name}_{i+1}'] = numeric_column[multiple_values]
-
-
 # variable file location
 variable_file_location = './thickness_data_extraction'
 
@@ -37,19 +17,27 @@ for file in os.listdir(variable_file_location):
     if file.endswith('.csv'):
 
         data = pd.read_csv(variable_file_location + '/' + file)
-        split_columns(data, "thickness")
-        split_columns(data, "ash_height")
 
-        # Print the data from the "thickness", "thickness_1", "thickness_2", ... columns
-        thickness_columns = [col for col in data.columns if col.startswith("thickness")]
-        for col in thickness_columns:
-            print(data[col][47])
-        quit()
+        for column in ['thickness', 'ash_height']:
+            # We first split the column into multiple columns
+            modified = data[column].str.split(",", expand=True)
 
-        # Print the data from the "ash_height", "ash_height_1", "ash_height_2", ... columns
-        ash_height_columns = [col for col in data.columns if col.startswith("ash_height")]
-        for col in ash_height_columns:
-            print(data[col])
+            # Case where there is only one value in the cell
+            single_value_mask = modified.count(axis=1) == 1
+            data.loc[single_value_mask, column] = modified.loc[single_value_mask, 0]
 
+            # Case where there are multiple values in the cell
+            multiple_values_mask = ~single_value_mask
+            for i, new_column in enumerate(modified.columns):
+                data.loc[multiple_values_mask, f"{column}_{i + 1}"] = modified.loc[multiple_values_mask, new_column]
+
+            # Convert the new columns to numeric
+            data[column] = pd.to_numeric(data[column], errors='coerce')
+            for i in range(modified.shape[1]):
+                data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
+
+        print(data['thickness'][47])
+        print(data['thickness_1'][47])
+        print(data['thickness_2'][47])
 
         quit()
