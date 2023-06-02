@@ -31,7 +31,7 @@ fig, axs = plt.subplots(4, 4, figsize=(30, 20))  # 4x4 grid of plots
 for ax, file in zip(axs.flatten(), files):
 
     data = pd.read_csv(variable_file_location + '/' + file)
-
+    print(f"Processing file {file}")
     for column in ['thickness', 'ash_height']:
         # We first split the column into multiple columns
         modified = data[column].str.split(",", expand=True)
@@ -50,14 +50,21 @@ for ax, file in zip(axs.flatten(), files):
         for i in range(modified.shape[1]):
             data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
 
-    # Now we plot a histogram for the 'thickness' variable for this file
-    ax.hist(data['thickness'].dropna(), bins=100, color='blue', alpha=0.7)
+    # separate data by ash_height
+    below_20 = data[data['ash_height'] < 20]
+    above_20 = data[data['ash_height'] >= 20]
+
+    # Now we plot two histograms for the 'thickness' variable for this file,
+    # one for ash_height < 20 and another for ash_height >= 20
+    ax.hist(below_20['thickness'].dropna(), bins=100, color='blue', alpha=0.7, label='ash_height < 20 km')
+    ax.hist(above_20['thickness'].dropna(), bins=100, color='red', alpha=0.7, label='ash_height >= km')
     ax.set_title(f'Year - {file.split("_")[0]}', fontsize=15)
-    ax.set_xlabel('Layer Thickness [km]', fontsize=15)
+    ax.set_xlabel('Thickness', fontsize=15)
     ax.set_ylabel('Frequency', fontsize=15)
     ax.tick_params(axis='both', which='major', labelsize=12)
     ax.grid(True)
     ax.set_xlim(0, 5.)
+    ax.legend(fontsize=12)
 
 plt.tight_layout()
 plt.savefig(figure_save_location + '/' + 'all_thickness.png')
