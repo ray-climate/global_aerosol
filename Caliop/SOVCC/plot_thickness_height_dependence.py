@@ -75,13 +75,14 @@ std_grouped = all_data.groupby('ash_height_bin').std()
 count_grouped = all_data.groupby('ash_height_bin').count()
 
 # Now we plot the relation between mean thickness and ash_height
-plt.figure(figsize=(18, 10))
+plt.figure(figsize=(22, 10))
 
 # Use colormap to color each point based on the count of values
 cmap = plt.cm.get_cmap('rainbow')
 norm = plt.Normalize(count_grouped['thickness'].min(), count_grouped['thickness'].max())
 plt.scatter(mean_grouped.index, mean_grouped['thickness'], marker='o', c=count_grouped['thickness'], cmap=cmap, norm=norm)
-
+plt.xlim(8, 29)
+plt.ylim(0, 3.5)
 # plt.plot(mean_grouped.index, mean_grouped['thickness'], marker='o')
 # Adding the shaded error region
 lower_bound = mean_grouped['thickness'] - std_grouped['thickness']
@@ -89,8 +90,9 @@ upper_bound = mean_grouped['thickness'] + std_grouped['thickness']
 plt.fill_between(mean_grouped.index, lower_bound, upper_bound, color='gray', alpha=0.5)
 
 # Add a colorbar
-cbar = plt.colorbar()
-cbar.set_label('Count of measurements')
+cbar = plt.colorbar(extend='both', shrink=0.8)
+cbar.set_label('Count of measurements', fontsize=18)
+cbar.ax.tick_params(labelsize=18)
 
 plt.title('Mean Thickness vs. Ash Height', fontsize=20)
 
