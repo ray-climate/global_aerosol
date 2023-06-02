@@ -27,7 +27,7 @@ variable_file_location = './thickness_data_extraction'
 
 for file in os.listdir(variable_file_location):
     if file.endswith('.csv'):
-        data = pd.read_csv(variable_file_location + '/' + file, converters={"thickness": process_column, "ash_height": process_column})
+        data = pd.read_csv(variable_file_location + '/' + file)
         split_columns(data, "thickness")
         split_columns(data, "ash_height")
 
