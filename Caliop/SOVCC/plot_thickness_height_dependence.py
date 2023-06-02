@@ -102,7 +102,7 @@ plt.tick_params(axis='both', which='major', labelsize=18)
 
 plt.grid(True)
 plt.tight_layout()
-plt.subplots_adjust(right=1.2)
+plt.subplots_adjust(right=1.05)
 
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height.png')
 
