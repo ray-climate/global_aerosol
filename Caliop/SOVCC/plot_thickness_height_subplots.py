@@ -62,11 +62,11 @@ all_data = all_data.dropna()
 # Define latitude ranges
 latitude_ranges = [[60, 90], [30, 60], [-30, 30], [-60, -30], [-90, -60]]
 
-fig, axs = plt.subplots(len(latitude_ranges), 1, figsize=(22, 50), sharex=True)
+fig, axs = plt.subplots(2, 3, figsize=(22, 16), sharex=True)
 
 # Iterate over latitude ranges and create a subplot for each
 for i, lat_range in enumerate(latitude_ranges):
-    ax = axs[i]
+    ax = axs[i // 3, i % 3]
 
     # Filter data by latitude range
     filtered_data = all_data[(all_data['latitude'] >= lat_range[0]) & (all_data['latitude'] <= lat_range[1])]
@@ -97,10 +97,13 @@ for i, lat_range in enumerate(latitude_ranges):
     upper_bound = mean_grouped['thickness'] + std_grouped['thickness']
     ax.fill_between(mean_grouped.index, lower_bound, upper_bound, color='gray', alpha=0.5)
 
-    ax.set_title(f'Mean Thickness vs. Ash Height for Latitudes {lat_range[0]} to {lat_range[1]}', fontsize=20)
+    ax.set_title(f'Latitude: {lat_range}', fontsize=20)
     ax.set_ylabel('Ash Layer Thickness [km]', fontsize=18)
     ax.tick_params(axis='both', which='major', labelsize=18)
     ax.grid(True)
+
+# Hide the unused subplot
+axs[-1, -1].axis('off')
 
 # Add a colorbar
 cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.8)
@@ -108,7 +111,7 @@ cbar.set_label('Count of measurements', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
 
 fig.text(0.5, 0.04, 'Ash Mean Altitude [km]', ha='center', va='center', fontsize=18)
-fig.tight_layout()
 
-plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height_subplots.png')
+plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height.png')
+
 
