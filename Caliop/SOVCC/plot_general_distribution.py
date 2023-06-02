@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        02/06/2023 12:54
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import sys
@@ -12,9 +13,10 @@ import os
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
+figure_save_location = './figures'
 
 for file in os.listdir(variable_file_location):
-    if file.endswith('.csv'):
+    if file.endswith('2006_thickness.csv'):
 
         data = pd.read_csv(variable_file_location + '/' + file)
 
@@ -36,9 +38,11 @@ for file in os.listdir(variable_file_location):
             for i in range(modified.shape[1]):
                 data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
 
-        print(data['ash_height'][168:178])
-        print(data['ash_height_1'][168:178])
-        print(data['ash_height_2'][168:178])
-        print(data['ash_height_3'][168:178])
-
-        quit()
+        # Now we plot a histogram for the 'thickness' variable for this file
+        plt.figure(figsize=(10, 6))
+        plt.hist(data['thickness'].dropna(), bins=30, color='blue', alpha=0.7)
+        plt.title(f'Thickness Histogram - {file}', fontsize=20)
+        plt.xlabel('Thickness', fontsize=15)
+        plt.ylabel('Frequency', fontsize=15)
+        plt.grid(True)
+        plt.savefig(figure_save_location + '/' + file.replace('.csv', '.png'))
