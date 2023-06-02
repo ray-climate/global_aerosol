@@ -72,13 +72,18 @@ mean_grouped = all_data.groupby('ash_height_bin').mean()
 std_grouped = all_data.groupby('ash_height_bin').std()
 
 # Now we plot the relation between mean thickness and ash_height
-plt.figure(figsize=(10, 10))
-plt.errorbar(mean_grouped.index, mean_grouped['thickness'], yerr=std_grouped['thickness'], fmt='o', capsize=5)
+plt.figure(figsize=(10, 18))
+
+plt.plot(mean_grouped.index, mean_grouped['thickness'], marker='o')
+# Adding the shaded error region
+lower_bound = mean_grouped['thickness'] - std_grouped['thickness']
+upper_bound = mean_grouped['thickness'] + std_grouped['thickness']
+plt.fill_between(mean_grouped.index, lower_bound, upper_bound, color='gray', alpha=0.5)
 
 plt.title('Mean Thickness vs. Ash Height', fontsize=20)
 
-plt.xlabel('Ash Height (km)', fontsize=15)
-plt.ylabel('Mean Thickness', fontsize=15)
+plt.xlabel('Ash Mean Altitude [km]', fontsize=15)
+plt.ylabel('Ash Layer Thickness [km]', fontsize=15)
 plt.grid(True)
 
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height.png')
