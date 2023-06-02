@@ -23,12 +23,15 @@ except:
 
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
-fig, axs = plt.subplots(4, 4, figsize=(20, 20))  # 4x4 grid of plots
+# Sort files by year
+files.sort(key=lambda x: int(x.split('_')[0]))
+
+fig, axs = plt.subplots(4, 4, figsize=(20, 25))  # 4x4 grid of plots
 
 for ax, file in zip(axs.flatten(), files):
 
     data = pd.read_csv(variable_file_location + '/' + file)
-    print('processing file: ', file)
+
     for column in ['thickness', 'ash_height']:
         # We first split the column into multiple columns
         modified = data[column].str.split(",", expand=True)
@@ -49,12 +52,13 @@ for ax, file in zip(axs.flatten(), files):
 
     # Now we plot a histogram for the 'thickness' variable for this file
     ax.hist(data['thickness'].dropna(), bins=100, color='blue', alpha=0.7)
-    ax.set_title(f'Thickness Histogram - {file}', fontsize=10)
-    ax.set_xlabel('Thickness', fontsize=8)
+    ax.set_title(f'Year - {file}', fontsize=10)
+    ax.set_xlabel('Layer Thickness [km]', fontsize=8)
     ax.set_ylabel('Frequency', fontsize=8)
     ax.tick_params(axis='both', which='major', labelsize=6)
     ax.grid(True)
-    ax.set_xlim(0, 6.)
+    ax.set_xlim(0, 5.)
 
 plt.tight_layout()
 plt.savefig(figure_save_location + '/' + 'all_thickness.png')
+
