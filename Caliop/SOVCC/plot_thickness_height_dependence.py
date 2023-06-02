@@ -54,7 +54,7 @@ for file in files:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
     # Append thickness and ash_height data to the DataFrame
-    all_data = all_data.concat(data[['thickness', 'ash_height', 'latitude']], ignore_index=True)
+    all_data = all_data.append(data[['thickness', 'ash_height', 'latitude']], ignore_index=True)
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
