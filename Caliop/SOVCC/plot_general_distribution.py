@@ -20,10 +20,7 @@ variable_file_location = './thickness_data_extraction'
 for file in os.listdir(variable_file_location):
     if file.endswith('.csv'):
         data = pd.read_csv(variable_file_location + '/' + file, converters={"thickness": process_column, "ash_height": process_column})
-        print(data["utc_time"])
-        print(data["latitude"])
-        print(data["longitude"])
-        print(data["thickness"])
-        print(data["ash_height"])
-        print(data["tropopause_altitude"])
+
+        print(data["thickness"][0:100])
+
         quit()
