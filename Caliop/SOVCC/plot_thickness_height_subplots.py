@@ -62,7 +62,7 @@ all_data = all_data.dropna()
 # Define latitude ranges
 latitude_ranges = [[60, 90], [30, 60], [-30, 30], [-60, -30], [-90, -60]]
 
-fig, axs = plt.subplots(2, 3, figsize=(22, 16))
+fig, axs = plt.subplots(2, 3, figsize=(22, 16), sharex=True)
 
 # Iterate over latitude ranges and create a subplot for each
 for i, lat_range in enumerate(latitude_ranges):
@@ -106,9 +106,9 @@ for i, lat_range in enumerate(latitude_ranges):
 axs[-1, -1].axis('off')
 
 # Add a colorbar
-cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.8)
-cbar.set_label('Count of measurements', fontsize=18)
-cbar.ax.tick_params(labelsize=18)
+# cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.8)
+# cbar.set_label('Count of measurements', fontsize=18)
+# cbar.ax.tick_params(labelsize=18)
 
 fig.text(0.5, 0.04, 'Ash Mean Altitude [km]', ha='center', va='center', fontsize=18)
 
