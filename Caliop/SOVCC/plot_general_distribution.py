@@ -15,17 +15,21 @@ def split_columns(data, column_name):
     # Split the column on comma
     split_column = data[column_name].str.split(',', expand=True)
 
+    # Check if there are multiple columns in split data
+    multiple_values = split_column.shape[1] > 1
+
     # Add each split column to the dataframe as a new column
     for i, column in split_column.items():
-        # If it's the first column and there are no more columns, save it to the original column name
-        if i == 0 and split_column.shape[1] == 1:
+        # If it's the first column and there are no multiple values, save it to the original column name
+        if i == 0 and not multiple_values:
             data[column_name] = pd.to_numeric(column)
         else:
             # Set the original column to NaN
-            data[column_name] = np.nan
+            if multiple_values:
+                data[column_name] = np.nan
 
             # Save the new data to a new column
-            data[f'{column_name}_{i+1}'] = pd.to_numeric(column)
+            data[f'{column_name}_{i + 1}'] = pd.to_numeric(column)
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
