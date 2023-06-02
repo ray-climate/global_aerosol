@@ -30,23 +30,28 @@ for file in files:
 
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
+
     for column in ['thickness', 'ash_height', 'latitude']:
-        # We first split the column into multiple columns
-        modified = data[column].str.split(",", expand=True)
+        if column in ['thickness', 'ash_height']:
+            # We first split the column into multiple columns
+            modified = data[column].str.split(",", expand=True)
 
-        # Case where there is only one value in the cell
-        single_value_mask = modified.count(axis=1) == 1
-        data.loc[single_value_mask, column] = modified.loc[single_value_mask, 0]
+            # Case where there is only one value in the cell
+            single_value_mask = modified.count(axis=1) == 1
+            data.loc[single_value_mask, column] = modified.loc[single_value_mask, 0]
 
-        # Case where there are multiple values in the cell
-        multiple_values_mask = ~single_value_mask
-        for i, new_column in enumerate(modified.columns):
-            data.loc[multiple_values_mask, f"{column}_{i + 1}"] = modified.loc[multiple_values_mask, new_column]
+            # Case where there are multiple values in the cell
+            multiple_values_mask = ~single_value_mask
+            for i, new_column in enumerate(modified.columns):
+                data.loc[multiple_values_mask, f"{column}_{i + 1}"] = modified.loc[multiple_values_mask, new_column]
 
-        # Convert the new columns to numeric
-        data[column] = pd.to_numeric(data[column], errors='coerce')
-        for i in range(modified.shape[1]):
-            data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
+            # Convert the new columns to numeric
+            data[column] = pd.to_numeric(data[column], errors='coerce')
+            for i in range(modified.shape[1]):
+                data[f"{column}_{i + 1}"] = pd.to_numeric(data[f"{column}_{i + 1}"], errors='coerce')
+        elif column == 'latitude':
+            # Convert the column to numeric
+            data[column] = pd.to_numeric(data[column], errors='coerce')
 
     # Append thickness and ash_height data to the DataFrame
     all_data = all_data.append(data[['thickness', 'ash_height', 'latitude']], ignore_index=True)
