@@ -6,6 +6,7 @@
 # @Time:        02/06/2023 17:42
 
 import matplotlib.pyplot as plt
+from matplotlib import colors
 import pandas as pd
 import numpy as np
 import sys
@@ -62,14 +63,16 @@ all_thickness = all_thickness.dropna()
 all_ash_height = all_ash_height.dropna()
 
 # Now we plot a 2D histogram (density map) for the 'thickness' and 'ash_height' variables
-plt.figure(figsize=(10, 6))
-plt.hist2d(all_thickness, all_ash_height, bins=[100, 100], cmap='viridis')
+plt.figure(figsize=(10, 10))
+plt.hist2d(all_thickness, all_ash_height, bins=[300, 300], cmap='RdYlGn_r', norm = colors.LogNorm())
+
 plt.colorbar(label='Density')
-plt.title('Density Map - Thickness vs Ash Height', fontsize=20)
+plt.title('Ash Layer Thickness - Layer Mean Height', fontsize=20)
 plt.xlabel('Thickness', fontsize=15)
 plt.ylabel('Ash Height', fontsize=15)
+plt.tick_params(axis='both', which='major', labelsize=12)
 plt.grid(True)
 plt.xlim(0, 6.)
-plt.ylim(0, 50.)
+plt.ylim(7, 30.)
 
 plt.savefig(figure_save_location + '/' + 'density_map_thickness_ashheight.png')
