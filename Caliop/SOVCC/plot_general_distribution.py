@@ -13,7 +13,8 @@ import os
 def split_columns(data, column_name):
     # Split the column on comma
     split_column = data[column_name].str.split(',', expand=True)
-
+    print(split_column)
+    quit()
     # Add each split column to the dataframe as a new column
     for i, column in split_column.iteritems():
         # If it's the first column and there are no more columns, save it to the original column name
@@ -32,12 +33,15 @@ for file in os.listdir(variable_file_location):
         split_columns(data, "thickness")
         split_columns(data, "ash_height")
 
-        # It will print the data from the "thickness", "thickness_1", "thickness_2", ... columns
-        for i in range(data.columns.str.startswith("thickness").sum()):
-            print(data[f"thickness" if i == 0 else f"thickness_{i + 1}"])
-        # It will print the data from the "ash_height", "ash_height_1", "ash_height_2", ... columns
-        for i in range(data.columns.str.startswith("ash_height").sum()):
-            print(data[f"ash_height" if i == 0 else f"ash_height_{i + 1}"])
+        # Print the data from the "thickness", "thickness_1", "thickness_2", ... columns
+        thickness_columns = [col for col in data.columns if col.startswith("thickness")]
+        for col in thickness_columns:
+            print(data[col])
+
+        # Print the data from the "ash_height", "ash_height_1", "ash_height_2", ... columns
+        ash_height_columns = [col for col in data.columns if col.startswith("ash_height")]
+        for col in ash_height_columns:
+            print(data[col])
 
 
         quit()
