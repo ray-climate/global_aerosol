@@ -101,6 +101,6 @@ plt.ylabel('Ash Layer Thickness [km]', fontsize=18)
 plt.tick_params(axis='both', which='major', labelsize=18)
 
 plt.grid(True)
-
+plt.tight_layout()
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height.png')
 
