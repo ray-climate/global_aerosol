@@ -46,9 +46,12 @@ for file in os.listdir(variable_file_location):
 
         # Now we plot a histogram for the 'thickness' variable for this file
         plt.figure(figsize=(10, 6))
-        plt.hist(data['thickness'].dropna(), bins=30, color='blue', alpha=0.7)
+        plt.hist(data['thickness'].dropna(), bins=100, color='blue', alpha=0.7)
         plt.title(f'Thickness Histogram - {file}', fontsize=20)
         plt.xlabel('Thickness', fontsize=15)
         plt.ylabel('Frequency', fontsize=15)
+        plt.xticks(fontsize=12)  # Updated tick size
+        plt.yticks(fontsize=12)  # Updated tick size
         plt.grid(True)
+        plt.xlim(0, 6.)
         plt.savefig(figure_save_location + '/' + file.replace('.csv', '.png'))
