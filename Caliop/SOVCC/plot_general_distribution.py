@@ -10,9 +10,17 @@ import numpy as np
 import sys
 import os
 
-def process_column(col):
-    # split on comma and take the first item
-    return col.split(",")[0]
+
+def split_columns(data, column_name):
+    # Split the column on comma
+    split_column = data[column_name].str.split(',', expand=True)
+
+    # Iterate over the split columns and add each to the dataframe as a new column
+    for i, column in split_column.iteritems():
+        data[f'{column_name}_{i + 1}'] = pd.to_numeric(column)
+
+    # Drop the original column
+    data.drop(column_name, axis=1, inplace=True)
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
@@ -20,7 +28,14 @@ variable_file_location = './thickness_data_extraction'
 for file in os.listdir(variable_file_location):
     if file.endswith('.csv'):
         data = pd.read_csv(variable_file_location + '/' + file, converters={"thickness": process_column, "ash_height": process_column})
+        split_columns(data, "thickness")
+        split_columns(data, "ash_height")
 
-        print(data["thickness"][0:100])
+        for i in range(1, data.columns.str.startswith("thickness").sum() + 1):
+            print(data[f"thickness_{i}"])
+        # It will print the data from the "ash_height_1", "ash_height_2", ... columns
+        for i in range(1, data.columns.str.startswith("ash_height").sum() + 1):
+            print(data[f"ash_height_{i}"])
+
 
         quit()
