@@ -64,15 +64,16 @@ all_data = all_data[(all_data['latitude'] >= -30) & (all_data['latitude'] <= 30)
 
 # Bin the 'ash_height' data into levels of 0.2 km from 8 to 30 km
 bins = np.arange(8, 30.2, 0.2)
-labels = bins[:-1] + 0.5/2  # Labels are the mid-point of each bin
+labels = bins[:-1] + 0.2/2  # Labels are the mid-point of each bin
 all_data['ash_height_bin'] = pd.cut(all_data['ash_height'], bins=bins, labels=labels)
 
-# Group by 'ash_height_bin' and calculate the mean 'thickness' for each group
-grouped = all_data.groupby('ash_height_bin').mean()
+# Group by 'ash_height_bin' and calculate the mean and standard deviation 'thickness' for each group
+mean_grouped = all_data.groupby('ash_height_bin').mean()
+std_grouped = all_data.groupby('ash_height_bin').std()
 
 # Now we plot the relation between mean thickness and ash_height
 plt.figure(figsize=(10, 10))
-plt.plot(grouped.index, grouped['thickness'], marker='o')
+plt.errorbar(mean_grouped.index, mean_grouped['thickness'], yerr=std_grouped['thickness'], fmt='o', capsize=5)
 
 plt.title('Mean Thickness vs. Ash Height', fontsize=20)
 
