@@ -43,7 +43,7 @@ for file in files:
 all_data = all_data.dropna()
 
 # Define the bin edges for latitude
-lat_bins = np.arange(-90, 91, 1)
+lat_bins = np.arange(-90, 95, 5)
 
 # Bin the latitude data
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins, labels=(lat_bins[:-1] + 1/2))
