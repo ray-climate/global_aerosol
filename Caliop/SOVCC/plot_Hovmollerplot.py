@@ -43,7 +43,7 @@ for file in files:
 all_data = all_data.dropna()
 
 # Define the bin edges for latitude
-lat_bins = np.arange(-90, 95, 5)
+lat_bins = np.arange(-90, 92, 2)
 
 # Bin the latitude data
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins, labels=(lat_bins[:-1] + 1/2))
@@ -60,12 +60,13 @@ pivoted_data = grouped_data.pivot(index='utc_time_bin', columns='latitude_bin', 
 fig, ax = plt.subplots(figsize=(14, 10))
 
 # Plot the pivoted data
-c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
+c = ax.pcolormesh(pivoted_data.columns, pd.to_datetime(pivoted_data.index.values[::-1]), pivoted_data.values[::-1], cmap='rainbow', vmin=0, vmax=4.)
 
 ax.set_xlabel('Latitude', fontsize=18)
 ax.set_ylabel('Time', fontsize=18)
 ax.grid(True)
 ax.set_xlim(-80, 80)
+ax.invert_yaxis()  # Invert the y-axis
 plt.tick_params(axis='both', which='major', labelsize=18)
 
 # Adding a color bar
