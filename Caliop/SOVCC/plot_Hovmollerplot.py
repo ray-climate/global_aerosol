@@ -80,4 +80,5 @@ for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Heigh
     cbar.set_label('Ash Layer Thickness', fontsize=18)
     cbar.ax.tick_params(labelsize=18)
 
+plt.subplots_adjust(left=0.15)
 plt.savefig(figure_save_location + '/' + 'average_thickness_vs_latitude_time.png')
