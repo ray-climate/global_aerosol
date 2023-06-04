@@ -113,8 +113,8 @@ for lat_range, position in latitude_ranges:
     ax.grid(True)
 
 # Add a colorbar
-cbar_ax = fig.add_axes([0.92, 0.15, 0.01, 0.7])  # This creates a new axes for the colorbar where [left, bottom, width, height] in the figure
-cbar = fig.colorbar(sc, cax=cbar_ax, orientation='vertical', extend='both', shrink=0.5)
+cbar_ax = fig.add_axes([0.92, 0.15, 0.01, 0.5])  # This creates a new axes for the colorbar where [left, bottom, width, height] in the figure
+cbar = fig.colorbar(sc, cax=cbar_ax, orientation='vertical', extend='both')
 cbar.set_label('Count of measurements', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
 
