@@ -51,7 +51,7 @@ all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins)
 
 # Group by the bins and utc_time (every 5 days) and calculate the mean thickness
 all_data.set_index('utc_time', inplace=True)
-grouped_data = all_data.groupby([pd.Grouper(freq='5D'), 'latitude_bin']).mean().reset_index()
+grouped_data = all_data.resample('5D').mean().groupby('latitude_bin').mean().reset_index()
 
 # Pivot the data so that utc_time and latitude are the index and columns
 pivoted_data = grouped_data.pivot(index='utc_time', columns='latitude_bin', values='thickness')
