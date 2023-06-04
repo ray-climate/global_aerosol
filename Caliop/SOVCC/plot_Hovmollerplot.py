@@ -69,7 +69,9 @@ for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Heigh
     # Plot the pivoted data
     # c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
     c = ax.contourf(pivoted_data.columns, pivoted_data.index, pivoted_data.values, levels=contour_levels,
-                    cmap='rainbow')
+                    cmap=plt.cm.bwr)
+    c_lines = ax.contour(pivoted_data.columns, pivoted_data.index, pivoted_data.values, levels=contour_levels,
+                         colors='black')
 
     ax.set_xlabel('Time', fontsize=18)
     ax.set_ylabel('Latitude', fontsize=18)
