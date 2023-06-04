@@ -68,7 +68,7 @@ latitude_ranges = [([-30, 30], (1,0,2,1)),  # Middle two rows in first column
                    ([-90, -60], (2,2,2,1))  # Bottom two rows in third column
                    ]
 
-gs = gridspec.GridSpec(4, 3, height_ratios=[1, 1, 1, 1, 0.05], hspace=1.5)
+gs = gridspec.GridSpec(4, 3, height_ratios=[1, 1, 1, 1], hspace=1.5)
 
 fig = plt.figure(figsize=(28, 11))
 
