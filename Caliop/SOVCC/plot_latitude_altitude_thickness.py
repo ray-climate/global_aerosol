@@ -60,7 +60,7 @@ fig, ax = plt.subplots(figsize=(14, 10))
 
 # Plot the pivoted data
 c = ax.imshow(pivoted_data, aspect='auto', cmap='rainbow', origin='lower',
-              extent=[-90, 90, 0, all_data['ash_height'].max()], vmin=0, vmax=3.)
+              extent=[-90, 90, 0, all_data['ash_height'].max()], vmin=0, vmax=3.5)
 # Add tropopause_height line plot
 
 # Add tropopause_height line plot
