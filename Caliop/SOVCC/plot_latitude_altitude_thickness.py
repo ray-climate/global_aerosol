@@ -65,13 +65,17 @@ c = ax.imshow(pivoted_data, aspect='auto', cmap='rainbow', origin='lower',
 
 # Add tropopause_height line plot
 lat_mids = [interval.mid for interval in tropopause_grouped['latitude_bin'].cat.categories]
-ax.plot(lat_mids, tropopause_grouped['tropopause_altitude'], color='black', linewidth=2, label='Tropopause')
+line = ax.plot(lat_mids, tropopause_grouped['tropopause_altitude'], color='black', linewidth=2)
 
 # ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude [°]', fontsize=18)
 ax.set_ylabel('Altitude [km]', fontsize=18)
 
-ax.legend(loc='upper left', bbox_to_anchor=(1.02, 1), borderaxespad=0., fontsize=18)
+# Annotate the line
+xytext_coordinates = (0, 5)  # this is the offset in points
+text_coordinates = (lat_mids[-1], tropopause_grouped['tropopause_altitude'].values[-1])  # we place the label at the end of the line
+ax.annotate('Tropopause', text_coordinates, xytext=xytext_coordinates,
+            textcoords='offset points', ha='right', va='bottom', fontsize=18, color=line.get_color())
 
 ax.set_xlim(-80, 80)
 ax.set_ylim(5, 30)
