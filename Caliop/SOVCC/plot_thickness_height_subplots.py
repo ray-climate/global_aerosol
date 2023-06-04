@@ -62,7 +62,7 @@ all_data = all_data.dropna()
 # Define latitude ranges
 latitude_ranges = [[60, 90], [30, 60], [-30, 30], [-60, -30], [-90, -60]]
 
-fig, axs = plt.subplots(2, 3, figsize=(24, 16), sharex=True)
+fig, axs = plt.subplots(2, 3, figsize=(16, 24), sharex=True)
 
 # Iterate over latitude ranges and create a subplot for each
 for i, lat_range in enumerate(latitude_ranges):
@@ -112,6 +112,6 @@ cbar.ax.tick_params(labelsize=18)
 
 fig.text(0.5, 0.04, 'Ash Mean Altitude [km]', ha='center', va='center', fontsize=18)
 
-plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height_mean.png')
+plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height_subplots.png')
 
 
