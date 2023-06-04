@@ -49,12 +49,20 @@ lat_bins = np.arange(-90, 91, 1)
 # Bin the latitude data
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins)
 
-# Group by the bins and utc_time (every 5 days) and calculate the mean thickness
-all_data.set_index('utc_time', inplace=True)
-grouped_data = all_data.resample('5D').mean().groupby('latitude_bin').mean().reset_index()
+# Convert utc_time to date only
+all_data['date'] = all_data.index.date
 
-# Pivot the data so that utc_time and latitude are the index and columns
-pivoted_data = grouped_data.pivot(index='utc_time', columns='latitude_bin', values='thickness')
+# Create a date range with 5-day frequency
+date_range = pd.date_range(start=all_data.date.min(), end=all_data.date.max(), freq='5D')
+
+# Map each date in the data to the closest date in the date range
+all_data['date_bin'] = all_data['date'].map(lambda x: date_range[date_range.get_loc(x, method='nearest')])
+
+# Now we can group by 'date_bin' and 'latitude_bin' and calculate the mean
+grouped_data = all_data.groupby(['date_bin', 'latitude_bin']).mean().reset_index()
+
+# Pivot the data so that date_bin and latitude_bin are the index and columns
+pivoted_data = grouped_data.pivot(index='date_bin', columns='latitude_bin', values='thickness')
 
 fig, ax = plt.subplots(figsize=(14, 10))
 
