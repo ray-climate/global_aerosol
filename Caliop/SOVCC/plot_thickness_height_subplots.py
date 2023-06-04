@@ -62,7 +62,7 @@ all_data = all_data.dropna()
 # Define latitude ranges
 latitude_ranges = [[60, 90], [30, 60], [-30, 30], [-60, -30], [-90, -60]]
 
-fig, axs = plt.subplots(2, 3, figsize=(16, 24), sharex=True)
+fig, axs = plt.subplots(2, 3, figsize=(30, 14), sharex=True)
 
 # Iterate over latitude ranges and create a subplot for each
 for i, lat_range in enumerate(latitude_ranges):
