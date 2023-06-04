@@ -113,7 +113,8 @@ for lat_range, position in latitude_ranges:
     ax.grid(True)
 
 # Add a colorbar
-cbar = plt.colorbar(sc, cax=cax, orientation='horizontal', label='Count of measurements', extend='both', shrink=0.4, fontsize=18)
+cbar = plt.colorbar(sc, cax=cax, orientation='horizontal', extend='both', shrink=0.4)
+cbar.set_label('Count of measurements', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
 
 # Add space between rows of plots
