@@ -118,7 +118,7 @@ cbar = fig.colorbar(sc, cax=cbar_ax, orientation='vertical', extend='both')
 cbar.set_label('Count of measurements', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
 
-plt.subplots_adjust(left=0.15)
+plt.subplots_adjust(left=0.1)
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height_subplots.png')
 
 
