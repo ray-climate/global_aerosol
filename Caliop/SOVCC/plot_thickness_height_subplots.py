@@ -69,7 +69,7 @@ latitude_ranges = [([-30, 30], (1,0,2,1)),  # Middle two rows in first column
                    ]
 
 gs = gridspec.GridSpec(4, 3)
-fig, axs = plt.subplots(4, 3, figsize=(30, 20))
+fig = plt.figure(figsize=(30, 20))
 
 # Iterate over latitude ranges and create a subplot for each
 
@@ -111,19 +111,11 @@ for lat_range, position in latitude_ranges:
     ax.tick_params(axis='both', which='major', labelsize=18)
     ax.grid(True)
 
-# Turn off the unused subplots
-for i in range(4):
-    for j in range(3):
-        if not any((pos[0] <= i < pos[0] + pos[2]) and (pos[1] <= j < pos[1] + pos[3]) for _, pos in latitude_ranges):
-            fig.add_subplot(gs[i, j]).axis('off')
 
-# Hide the unused subplot
-axs[-1, -1].axis('off')
-
-# Add a colorbar
-cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.6)
-cbar.set_label('Count of measurements', fontsize=18)
-cbar.ax.tick_params(labelsize=18)
+# # Add a colorbar
+# cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.6)
+# cbar.set_label('Count of measurements', fontsize=18)
+# cbar.ax.tick_params(labelsize=18)
 
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height_subplots.png')
 
