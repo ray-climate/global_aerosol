@@ -60,7 +60,7 @@ pivoted_data = grouped_data.pivot(index='utc_time_bin', columns='latitude_bin', 
 fig, ax = plt.subplots(figsize=(14, 10))
 
 # Plot the pivoted data
-c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow')
+c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
 
 ax.set_xlabel('Latitude', fontsize=18)
 ax.set_ylabel('Time', fontsize=18)
