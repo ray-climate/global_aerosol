@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import os
-from scipy.interpolate import griddata
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
@@ -49,20 +48,14 @@ all_data['height_bin'] = pd.cut(all_data['ash_height'], bins=height_bins)
 # Group by the bins and calculate the mean thickness
 grouped_data = all_data.groupby(['latitude_bin', 'height_bin']).mean().reset_index()
 
-# Interpolate the thickness over the bin midpoints
-bin_mids_lat = grouped_data['latitude_bin'].apply(lambda x: x.mid)
-bin_mids_height = grouped_data['height_bin'].apply(lambda x: x.mid)
-
-grid_lat, grid_height = np.meshgrid(np.unique(bin_mids_lat), np.unique(bin_mids_height))
-grid_thickness = griddata((bin_mids_lat, bin_mids_height), grouped_data['thickness'],
-                          (grid_lat, grid_height), method='linear')
+# Pivot the data so that latitude and altitude are the index and columns
+pivoted_data = grouped_data.pivot(index='height_bin', columns='latitude_bin', values='thickness')
 
 fig, ax = plt.subplots(figsize=(10, 8))
 
-# Plot the interpolated data
-c = ax.imshow(grid_thickness, extent=(bin_mids_lat.min(), bin_mids_lat.max(),
-                                      bin_mids_height.min(), bin_mids_height.max()),
-              origin='lower', aspect='auto', cmap='viridis')
+# Plot the pivoted data
+c = ax.imshow(pivoted_data, aspect='auto', cmap='viridis', origin='lower',
+              extent=[-90, 90, 0, all_data['ash_height'].max()])
 
 ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude', fontsize=18)
