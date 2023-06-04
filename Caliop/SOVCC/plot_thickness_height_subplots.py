@@ -60,18 +60,18 @@ for file in files:
 all_data = all_data.dropna()
 
 # Define latitude ranges
-latitude_ranges = [([-30, 30], (0,0)), # Central left
-                   ([30, 60], (0,1)),  # Top middle
-                   ([-60, -30], (1,1)),  # Bottom middle
-                   ([60, 90], (0,2)),  # Top right
-                   ([-90, -60], (1,2))  # Bottom right
+latitude_ranges = [([-30, 30], (1,0)),  # Middle two rows in first column
+                   ([30, 60], (0,1)),   # Top two rows in second column
+                   ([-60, -30], (2,1)), # Bottom two rows in second column
+                   ([60, 90], (0,2)),   # Top two rows in third column
+                   ([-90, -60], (2,2))  # Bottom two rows in third column
                    ]
 
-fig, axs = plt.subplots(2, 3, figsize=(30, 14))
+fig, axs = plt.subplots(4, 3, figsize=(30, 20))
 
 # Iterate over latitude ranges and create a subplot for each
 for lat_range, position in latitude_ranges:
-    ax = axs[position]
+    ax = axs[position[0]:position[0]+2, position[1]] # Two-row subplot
 
     # Filter data by latitude range
     filtered_data = all_data[(all_data['latitude'] >= lat_range[0]) & (all_data['latitude'] <= lat_range[1])]
