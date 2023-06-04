@@ -73,9 +73,10 @@ ax.set_ylabel('Altitude [km]', fontsize=18)
 
 # Annotate the line
 xytext_coordinates = (0, 5)  # this is the offset in points
-text_coordinates = (lat_mids[-1], tropopause_grouped['tropopause_altitude'].values[-1])  # we place the label at the end of the line
+# we place the label at the middle of the line
+text_coordinates = (lat_mids[len(lat_mids) // 2], tropopause_grouped['tropopause_altitude'].values[len(lat_mids) // 2])
 ax.annotate('Tropopause', text_coordinates, xytext=xytext_coordinates,
-            textcoords='offset points', ha='right', va='bottom', fontsize=18, color=line.get_color())
+            textcoords='offset points', ha='center', va='bottom', fontsize=18, color=line.get_color())
 
 ax.set_xlim(-80, 80)
 ax.set_ylim(5, 30)
