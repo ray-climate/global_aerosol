@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/06/2023 00:05
 
+import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -60,18 +61,19 @@ for file in files:
 all_data = all_data.dropna()
 
 # Define latitude ranges
-latitude_ranges = [([-30, 30], (1,0)),  # Middle two rows in first column
-                   ([30, 60], (0,1)),   # Top two rows in second column
-                   ([-60, -30], (2,1)), # Bottom two rows in second column
-                   ([60, 90], (0,2)),   # Top two rows in third column
-                   ([-90, -60], (2,2))  # Bottom two rows in third column
+latitude_ranges = [([-30, 30], (1,0,2,1)),  # Middle two rows in first column
+                   ([30, 60], (0,1,2,1)),   # Top two rows in second column
+                   ([-60, -30], (2,1,2,1)), # Bottom two rows in second column
+                   ([60, 90], (0,2,2,1)),   # Top two rows in third column
+                   ([-90, -60], (2,2,2,1))  # Bottom two rows in third column
                    ]
 
+gs = gridspec.GridSpec(4, 3)
 fig, axs = plt.subplots(4, 3, figsize=(30, 20))
 
 # Iterate over latitude ranges and create a subplot for each
 for lat_range, position in latitude_ranges:
-    ax = axs[position[0]:position[0]+2, position[1]] # Two-row subplot
+    ax = fig.add_subplot(gs[position[0]:position[0]+position[2], position[1]:position[1]+position[3]])
 
     # Filter data by latitude range
     filtered_data = all_data[(all_data['latitude'] >= lat_range[0]) & (all_data['latitude'] <= lat_range[1])]
