@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # @Filename:    plot_Hovmollerplot.py
 # @Author:      Dr. Rui Song
@@ -56,7 +55,6 @@ data_low_height = all_data[all_data['ash_height'] < 20]
 data_high_height = all_data[all_data['ash_height'] >= 20]
 
 fig, axs = plt.subplots(2, 1, figsize=(20, 13))  # two subplots in two rows
-contour_levels = np.arange(0, 4.1, 0.1)  # adjust here for smoothing
 
 # Iterate over the two dataframes
 for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Height < 20km', 'Ash Height >= 20km']):
@@ -67,11 +65,7 @@ for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Heigh
     pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
 
     # Plot the pivoted data
-    # c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
-    c = ax.contourf(pivoted_data.columns, pivoted_data.index, pivoted_data.values, levels=contour_levels,
-                    cmap=plt.cm.bwr)
-    c_lines = ax.contour(pivoted_data.columns, pivoted_data.index, pivoted_data.values, levels=contour_levels,
-                         colors='black')
+    c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap=plt.cm.bwr, vmin=0, vmax=4.)
 
     ax.set_xlabel('Time', fontsize=18)
     ax.set_ylabel('Latitude', fontsize=18)
@@ -88,4 +82,3 @@ for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Heigh
 
 plt.tight_layout()  # ensure sufficient space between subplots
 plt.savefig(figure_save_location + '/' + 'average_thickness_vs_latitude_time.png')
-
