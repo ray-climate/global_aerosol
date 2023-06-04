@@ -38,24 +38,31 @@ for file in files:
 # Remove rows with any NaN values
 all_data = all_data.dropna()
 
-# Now we are going to group the data by both latitude and ash_height
-grouped_data = all_data.groupby(['latitude', 'ash_height']).mean().reset_index()
+# Define the bin edges for latitude and ash_height
+lat_bins = np.arange(-90, 91, 1)
+height_bins = np.arange(0, all_data['ash_height'].max() + 0.1, 0.1)
 
-# Define the grid where we want to interpolate
-grid_lat = np.linspace(grouped_data['latitude'].min(), grouped_data['latitude'].max(), 1000)
-grid_height = np.linspace(grouped_data['ash_height'].min(), grouped_data['ash_height'].max(), 1000)
-grid_lat, grid_height = np.meshgrid(grid_lat, grid_height)
+# Bin the latitude and ash_height data
+all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins)
+all_data['height_bin'] = pd.cut(all_data['ash_height'], bins=height_bins)
 
-# Interpolate the thickness over this grid using griddata
-grid_thickness = griddata((grouped_data['latitude'], grouped_data['ash_height']), grouped_data['thickness'],
+# Group by the bins and calculate the mean thickness
+grouped_data = all_data.groupby(['latitude_bin', 'height_bin']).mean().reset_index()
+
+# Interpolate the thickness over the bin midpoints
+bin_mids_lat = grouped_data['latitude_bin'].apply(lambda x: x.mid)
+bin_mids_height = grouped_data['height_bin'].apply(lambda x: x.mid)
+
+grid_lat, grid_height = np.meshgrid(np.unique(bin_mids_lat), np.unique(bin_mids_height))
+grid_thickness = griddata((bin_mids_lat, bin_mids_height), grouped_data['thickness'],
                           (grid_lat, grid_height), method='linear')
 
 fig, ax = plt.subplots(figsize=(10, 8))
 
 # Plot the interpolated data
-c = ax.imshow(grid_thickness, extent=(grouped_data['latitude'].min(), grouped_data['latitude'].max(),
-                                      grouped_data['ash_height'].min(), grouped_data['ash_height'].max()),
-              origin='lower', aspect='auto', cmap='rainbow', vmin=0, vmax=4.)
+c = ax.imshow(grid_thickness, extent=(bin_mids_lat.min(), bin_mids_lat.max(),
+                                      bin_mids_height.min(), bin_mids_height.max()),
+              origin='lower', aspect='auto', cmap='viridis')
 
 ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude', fontsize=18)
