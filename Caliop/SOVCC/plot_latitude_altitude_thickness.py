@@ -54,8 +54,8 @@ pivoted_data = grouped_data.pivot(index='height_bin', columns='latitude_bin', va
 fig, ax = plt.subplots(figsize=(10, 8))
 
 # Plot the pivoted data
-c = ax.imshow(pivoted_data, aspect='auto', cmap='viridis', origin='lower',
-              extent=[-90, 90, 0, all_data['ash_height'].max()])
+c = ax.imshow(pivoted_data, aspect='auto', cmap='rainbow', origin='lower',
+              extent=[-90, 90, 0, all_data['ash_height'].max()], vmin=0, vmax=4.)
 
 ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude', fontsize=18)
