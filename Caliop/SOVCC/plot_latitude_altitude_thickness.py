@@ -53,8 +53,8 @@ grouped_data = all_data.groupby(['latitude_bin', 'height_bin']).mean().reset_ind
 # Pivot the data so that latitude and altitude are the index and columns
 pivoted_data = grouped_data.pivot(index='height_bin', columns='latitude_bin', values='thickness')
 
-# Group by latitude and calculate the mean tropopause_height
-tropopause_data = all_data.groupby('latitude_bin')['tropopause_altitude'].mean()
+# Group by the bins and calculate the mean tropopause height
+tropopause_grouped = all_data.groupby(['latitude_bin']).mean().reset_index()
 
 fig, ax = plt.subplots(figsize=(14, 10))
 
@@ -62,7 +62,10 @@ fig, ax = plt.subplots(figsize=(14, 10))
 c = ax.imshow(pivoted_data, aspect='auto', cmap='rainbow', origin='lower',
               extent=[-90, 90, 0, all_data['ash_height'].max()], vmin=0, vmax=4.)
 # Add tropopause_height line plot
-ax.plot(tropopause_data.index.mid, tropopause_data.values, color='black', linewidth=2, label='Tropopause Height')
+
+# Add tropopause_height line plot
+lat_mids = [interval.mid for interval in tropopause_grouped['latitude_bin'].cat.categories]
+ax.plot(lat_mids, tropopause_grouped['tropopause_altitude'], color='black', linewidth=2, label='Tropopause Height')
 
 # ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude', fontsize=18)
