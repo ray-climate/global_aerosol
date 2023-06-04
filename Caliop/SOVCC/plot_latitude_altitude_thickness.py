@@ -70,7 +70,9 @@ ax.plot(lat_mids, tropopause_grouped['tropopause_altitude'], color='black', line
 # ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude [°]', fontsize=18)
 ax.set_ylabel('Altitude [km]', fontsize=18)
-ax.legend(loc='upper left', fontsize=18)
+
+ax.legend(loc='upper left', bbox_to_anchor=(1.02, 1), borderaxespad=0., fontsize=18)
+
 ax.set_xlim(-80, 80)
 ax.set_ylim(5, 30)
 plt.tick_params(axis='both', which='major', labelsize=18)
