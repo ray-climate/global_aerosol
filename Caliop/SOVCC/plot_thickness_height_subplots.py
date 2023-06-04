@@ -60,13 +60,18 @@ for file in files:
 all_data = all_data.dropna()
 
 # Define latitude ranges
-latitude_ranges = [[60, 90], [30, 60], [-30, 30], [-60, -30], [-90, -60]]
+latitude_ranges = [([-30, 30], (0,0)), # Central left
+                   ([30, 60], (0,1)),  # Top middle
+                   ([-60, -30], (1,1)),  # Bottom middle
+                   ([60, 90], (0,2)),  # Top right
+                   ([-90, -60], (1,2))  # Bottom right
+                   ]
 
-fig, axs = plt.subplots(2, 3, figsize=(30, 14), sharex=True)
+fig, axs = plt.subplots(2, 3, figsize=(30, 14))
 
 # Iterate over latitude ranges and create a subplot for each
-for i, lat_range in enumerate(latitude_ranges):
-    ax = axs[i // 3, i % 3]
+for lat_range, position in latitude_ranges:
+    ax = axs[position]
 
     # Filter data by latitude range
     filtered_data = all_data[(all_data['latitude'] >= lat_range[0]) & (all_data['latitude'] <= lat_range[1])]
@@ -98,6 +103,7 @@ for i, lat_range in enumerate(latitude_ranges):
     ax.fill_between(mean_grouped.index, lower_bound, upper_bound, color='gray', alpha=0.5)
 
     ax.set_title(f'Latitude: {lat_range}', fontsize=20)
+    ax.set_xlabel('Ash Mean Altitude [km]', fontsize=18)
     ax.set_ylabel('Ash Layer Thickness [km]', fontsize=18)
     ax.tick_params(axis='both', which='major', labelsize=18)
     ax.grid(True)
@@ -106,11 +112,9 @@ for i, lat_range in enumerate(latitude_ranges):
 axs[-1, -1].axis('off')
 
 # Add a colorbar
-cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.8)
+cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.6)
 cbar.set_label('Count of measurements', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
-
-fig.text(0.5, 0.04, 'Ash Mean Altitude [km]', ha='center', va='center', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height_subplots.png')
 
