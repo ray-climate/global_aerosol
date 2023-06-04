@@ -72,8 +72,9 @@ gs = gridspec.GridSpec(4, 3)
 fig, axs = plt.subplots(4, 3, figsize=(30, 20))
 
 # Iterate over latitude ranges and create a subplot for each
+
 for lat_range, position in latitude_ranges:
-    ax = fig.add_subplot(gs[position[0]:position[0]+position[2], position[1]:position[1]+position[3]])
+    ax = fig.add_subplot(gs[position[0]:position[0] + position[2], position[1]:position[1] + position[3]])
 
     # Filter data by latitude range
     filtered_data = all_data[(all_data['latitude'] >= lat_range[0]) & (all_data['latitude'] <= lat_range[1])]
@@ -109,6 +110,12 @@ for lat_range, position in latitude_ranges:
     ax.set_ylabel('Ash Layer Thickness [km]', fontsize=18)
     ax.tick_params(axis='both', which='major', labelsize=18)
     ax.grid(True)
+
+# Turn off the unused subplots
+for i in range(4):
+    for j in range(3):
+        if not any((pos[0] <= i < pos[0] + pos[2]) and (pos[1] <= j < pos[1] + pos[3]) for _, pos in latitude_ranges):
+            fig.add_subplot(gs[i, j]).axis('off')
 
 # Hide the unused subplot
 axs[-1, -1].axis('off')
