@@ -49,24 +49,24 @@ lat_bins = np.arange(-90, 92, 2)
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins, labels=(lat_bins[:-1] + 1/2))
 
 # Group the utc_time to every 5 days
-all_data['utc_time_bin'] = all_data['utc_time'].dt.floor('5D')
+all_data['utc_time_bin'] = all_data['utc_time'].dt.floor('10D')
 
 # Now we can group by 'utc_time_bin' and 'latitude_bin' and calculate the mean
 grouped_data = all_data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
 
 # Pivot the data so that utc_time_bin and latitude_bin are the index and columns
-pivoted_data = grouped_data.pivot(index='utc_time_bin', columns='latitude_bin', values='thickness')
+pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
 
-fig, ax = plt.subplots(figsize=(14, 10))
+fig, ax = plt.subplots(figsize=(25, 10))
 
 # Plot the pivoted data
-c = ax.pcolormesh(pivoted_data.columns, pd.to_datetime(pivoted_data.index.values[::-1]), pivoted_data.values[::-1], cmap='rainbow', vmin=0, vmax=4.)
+c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
 
-ax.set_xlabel('Latitude', fontsize=18)
-ax.set_ylabel('Time', fontsize=18)
+ax.set_xlabel('Time', fontsize=18)
+ax.set_ylabel('Latitude', fontsize=18)
 ax.grid(True)
-ax.set_xlim(-80, 80)
-ax.invert_yaxis()  # Invert the y-axis
+ax.set_xlim(pivoted_data.columns.min(), pivoted_data.columns.max()) # Limit x-axis to the minimum and maximum time
+ax.set_ylim(-80, 80) # Limit y-axis to the range of latitude you have
 plt.tick_params(axis='both', which='major', labelsize=18)
 
 # Adding a color bar
@@ -75,3 +75,4 @@ cbar.set_label('Ash Layer Thickness', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
 
 plt.savefig(figure_save_location + '/' + 'average_thickness_vs_latitude_time.png')
+
