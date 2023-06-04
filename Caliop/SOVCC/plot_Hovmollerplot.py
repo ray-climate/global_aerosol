@@ -23,20 +23,20 @@ except:
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
 # Initiate empty DataFrame to store all data
-all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude'])
+all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'ash_height'])  # add ash_height column
 
 for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
 
-    for column in ['utc_time', 'thickness', 'latitude']:
+    for column in ['utc_time', 'thickness', 'latitude', 'ash_height']:  # add ash_height column
         if column == 'utc_time':
             # Convert utc_time to datetime format
             data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H-%M-%S')
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
-    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude']],
+    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height']],  # add ash_height column
                                ignore_index=True)
 
 # Remove rows with any NaN values
@@ -51,28 +51,36 @@ all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins, labels=(l
 # Group the utc_time to every 5 days
 all_data['utc_time_bin'] = all_data['utc_time'].dt.floor('10D')
 
-# Now we can group by 'utc_time_bin' and 'latitude_bin' and calculate the mean
-grouped_data = all_data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
+# Split data into two based on ash_height
+data_low_height = all_data[all_data['ash_height'] < 20]
+data_high_height = all_data[all_data['ash_height'] >= 20]
 
-# Pivot the data so that utc_time_bin and latitude_bin are the index and columns
-pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
+fig, axs = plt.subplots(2, 1, figsize=(20, 13))  # two subplots in two rows
 
-fig, ax = plt.subplots(figsize=(20, 6.5))
+# Iterate over the two dataframes
+for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Height < 20km', 'Ash Height >= 20km']):
+    # Group by 'utc_time_bin' and 'latitude_bin' and calculate the mean
+    grouped_data = data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
 
-# Plot the pivoted data
-c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
+    # Pivot the data so that utc_time_bin and latitude_bin are the index and columns
+    pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
 
-ax.set_xlabel('Time', fontsize=18)
-ax.set_ylabel('Latitude', fontsize=18)
-ax.grid(True)
-ax.set_xlim(pivoted_data.columns.min(), pivoted_data.columns.max()) # Limit x-axis to the minimum and maximum time
-ax.set_ylim(-80, 80) # Limit y-axis to the range of latitude you have
-plt.tick_params(axis='both', which='major', labelsize=18)
+    # Plot the pivoted data
+    c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
 
-# Adding a color bar
-cbar = fig.colorbar(c, ax=ax, shrink=0.7, extend='both')
-cbar.set_label('Ash Layer Thickness', fontsize=18)
-cbar.ax.tick_params(labelsize=18)
+    ax.set_xlabel('Time', fontsize=18)
+    ax.set_ylabel('Latitude', fontsize=18)
+    ax.set_title(title, fontsize=20)  # set title for each subplot
+    ax.grid(True)
+    ax.set_xlim(pivoted_data.columns.min(), pivoted_data.columns.max())  # Limit x-axis to the minimum and maximum time
+    ax.set_ylim(-80, 80)  # Limit y-axis to the range of latitude you have
+    ax.tick_params(axis='both', which='major', labelsize=18)
 
+    # Adding a color bar
+    cbar = fig.colorbar(c, ax=ax, shrink=0.7, extend='both')
+    cbar.set_label('Ash Layer Thickness', fontsize=18)
+    cbar.ax.tick_params(labelsize=18)
+
+plt.tight_layout()  # ensure sufficient space between subplots
 plt.savefig(figure_save_location + '/' + 'average_thickness_vs_latitude_time.png')
 
