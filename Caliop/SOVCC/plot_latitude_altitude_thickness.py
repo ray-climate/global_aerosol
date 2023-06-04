@@ -55,7 +55,7 @@ fig, ax = plt.subplots(figsize=(10, 8))
 # Plot the interpolated data
 c = ax.imshow(grid_thickness, extent=(grouped_data['latitude'].min(), grouped_data['latitude'].max(),
                                       grouped_data['ash_height'].min(), grouped_data['ash_height'].max()),
-              origin='lower', aspect='auto', cmap='viridis')
+              origin='lower', aspect='auto', cmap='rainbow', vmin=0, vmax=4.)
 
 ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude', fontsize=18)
