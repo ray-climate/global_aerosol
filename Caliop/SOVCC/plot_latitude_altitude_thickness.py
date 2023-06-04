@@ -51,7 +51,7 @@ grouped_data = all_data.groupby(['latitude_bin', 'height_bin']).mean().reset_ind
 # Pivot the data so that latitude and altitude are the index and columns
 pivoted_data = grouped_data.pivot(index='height_bin', columns='latitude_bin', values='thickness')
 
-fig, ax = plt.subplots(figsize=(10, 8))
+fig, ax = plt.subplots(figsize=(14, 10))
 
 # Plot the pivoted data
 c = ax.imshow(pivoted_data, aspect='auto', cmap='rainbow', origin='lower',
