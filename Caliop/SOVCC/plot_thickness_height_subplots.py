@@ -69,7 +69,9 @@ latitude_ranges = [([-30, 30], (1,0,2,1)),  # Middle two rows in first column
                    ]
 
 gs = gridspec.GridSpec(5, 3, height_ratios=[1, 1, 1, 1, 0.05]) # Adding extra space for the colorbar
-fig = plt.figure(figsize=(30, 20))
+gs = gridspec.GridSpec(5, 3, height_ratios=[1, 1, 1, 1, 0.05], hspace=0.5)
+
+fig = plt.figure(figsize=(45, 30))
 cax = plt.subplot(gs[4,:]) # Creating an axes for the colorbar
 
 # Iterate over latitude ranges and create a subplot for each
@@ -116,9 +118,6 @@ for lat_range, position in latitude_ranges:
 cbar = plt.colorbar(sc, cax=cax, orientation='horizontal', extend='both', shrink=0.4)
 cbar.set_label('Count of measurements', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
-
-# Add space between rows of plots
-plt.subplots_adjust(hspace=0.3) # Adjust the space as needed
 
 # # Add a colorbar
 # cbar = fig.colorbar(sc, ax=axs.ravel().tolist(), extend='both', shrink=0.6)
