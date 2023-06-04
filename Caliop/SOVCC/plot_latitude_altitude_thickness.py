@@ -57,14 +57,18 @@ fig, ax = plt.subplots(figsize=(10, 8))
 c = ax.imshow(pivoted_data, aspect='auto', cmap='rainbow', origin='lower',
               extent=[-90, 90, 0, all_data['ash_height'].max()], vmin=0, vmax=4.)
 
-ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
+# ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude', fontsize=18)
 ax.set_ylabel('Altitude', fontsize=18)
 ax.grid(True)
+ax.set_xlim(-80, 80)
+ax.set_ylim(5, 30)
+plt.tick_params(axis='both', which='major', labelsize=18)
 
 # Adding a color bar
-cbar = fig.colorbar(c, ax=ax)
-cbar.set_label('Average Thickness', fontsize=18)
+cbar = fig.colorbar(c, ax=ax, shrink = 0.7, extend='both')
+cbar.set_label('Ash Layer Thickness', fontsize=18)
+cbar.ax.tick_params(labelsize=18)
 
 plt.savefig(figure_save_location + '/' + 'average_thickness_vs_latitude_altitude.png')
 
