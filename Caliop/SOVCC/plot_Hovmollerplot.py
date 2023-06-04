@@ -49,6 +49,11 @@ lat_bins = np.arange(-90, 91, 1)
 # Bin the latitude data
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins)
 
+# Convert utc_time to datetime format
+all_data['utc_time'] = pd.to_datetime(all_data['utc_time'])
+# Set utc_time as the index
+all_data.set_index('utc_time', inplace=True)
+
 # Convert utc_time to date only
 all_data['date'] = all_data.index.date
 
