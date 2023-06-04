@@ -106,7 +106,7 @@ for lat_range, position in latitude_ranges:
     upper_bound = mean_grouped['thickness'] + std_grouped['thickness']
     ax.fill_between(mean_grouped.index, lower_bound, upper_bound, color='gray', alpha=0.5)
 
-    ax.set_title(f'Latitude: {lat_range}', fontsize=20)
+    ax.set_title(f'Latitude: {lat_range[0]}°-{lat_range[1]}°', fontsize=20)
     ax.set_xlabel('Ash Mean Altitude [km]', fontsize=18)
     ax.set_ylabel('Ash Layer Thickness [km]', fontsize=18)
     ax.tick_params(axis='both', which='major', labelsize=18)
@@ -118,7 +118,7 @@ cbar = fig.colorbar(sc, cax=cbar_ax, orientation='vertical', extend='both')
 cbar.set_label('Count of measurements', fontsize=18)
 cbar.ax.tick_params(labelsize=18)
 
-plt.subplots_adjust(left=0.1)
+plt.subplots_adjust(left=0.2)
 plt.savefig(figure_save_location + '/' + 'mean_thickness_vs_ash_height_subplots.png')
 
 
