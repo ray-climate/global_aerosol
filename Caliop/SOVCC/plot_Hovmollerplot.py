@@ -65,7 +65,7 @@ for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Heigh
     pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
 
     # Plot the pivoted data
-    c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap=plt.cm.bwr, vmin=0, vmax=4.)
+    c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='jet', vmin=0, vmax=4.)
 
     ax.set_xlabel('Time', fontsize=18)
     ax.set_ylabel('Latitude', fontsize=18)
@@ -80,5 +80,4 @@ for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Heigh
     cbar.set_label('Ash Layer Thickness', fontsize=18)
     cbar.ax.tick_params(labelsize=18)
 
-plt.tight_layout()  # ensure sufficient space between subplots
 plt.savefig(figure_save_location + '/' + 'average_thickness_vs_latitude_time.png')
