@@ -57,7 +57,7 @@ grouped_data = all_data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_i
 # Pivot the data so that utc_time_bin and latitude_bin are the index and columns
 pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
 
-fig, ax = plt.subplots(figsize=(25, 10))
+fig, ax = plt.subplots(figsize=(15, 5))
 
 # Plot the pivoted data
 c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='rainbow', vmin=0, vmax=4.)
