@@ -38,8 +38,8 @@ for file in files:
 all_data = all_data.dropna()
 
 # Define the bin edges for latitude and ash_height
-lat_bins = np.arange(-90, 91, 1)
-height_bins = np.arange(0, all_data['ash_height'].max() + 0.1, 0.1)
+lat_bins = np.arange(-90, 92, 2)
+height_bins = np.arange(0, all_data['ash_height'].max() + 0.2, 0.2)
 
 # Bin the latitude and ash_height data
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins)
