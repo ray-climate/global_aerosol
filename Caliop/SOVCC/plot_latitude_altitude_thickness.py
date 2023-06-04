@@ -23,16 +23,18 @@ except:
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
 # Initiate empty DataFrame to store all data
-all_data = pd.DataFrame(columns=['thickness', 'ash_height', 'latitude'])
+all_data = pd.DataFrame(columns=['thickness', 'ash_height', 'latitude', 'tropopause_altitude'])
 
 for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
 
-    for column in ['thickness', 'ash_height', 'latitude']:
+    for column in ['thickness', 'ash_height', 'latitude', 'tropopause_altitude']:
         data[column] = pd.to_numeric(data[column], errors='coerce')
 
-    all_data = all_data.append(data[['thickness', 'ash_height', 'latitude']], ignore_index=True)
+    all_data = all_data.append(data[['thickness', 'ash_height', 'latitude', 'tropopause_altitude']],
+                               ignore_index=True)
+
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
@@ -51,11 +53,16 @@ grouped_data = all_data.groupby(['latitude_bin', 'height_bin']).mean().reset_ind
 # Pivot the data so that latitude and altitude are the index and columns
 pivoted_data = grouped_data.pivot(index='height_bin', columns='latitude_bin', values='thickness')
 
+# Group by latitude and calculate the mean tropopause_height
+tropopause_data = all_data.groupby('latitude_bin')['tropopause_altitude'].mean()
+
 fig, ax = plt.subplots(figsize=(14, 10))
 
 # Plot the pivoted data
 c = ax.imshow(pivoted_data, aspect='auto', cmap='rainbow', origin='lower',
               extent=[-90, 90, 0, all_data['ash_height'].max()], vmin=0, vmax=4.)
+# Add tropopause_height line plot
+ax.plot(tropopause_data.index.mid, tropopause_data.values, color='black', linewidth=2, label='Tropopause Height')
 
 # ax.set_title('Average Thickness vs Latitude and Altitude', fontsize=20)
 ax.set_xlabel('Latitude', fontsize=18)
