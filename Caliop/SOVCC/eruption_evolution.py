@@ -83,6 +83,20 @@ plt.ylabel('Thickness', fontsize=18)
 plt.set_ylim = (0, 4)
 plt.grid(True)
 plt.title('Thickness for Each UTC Time', fontsize=20)
-plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
+
+# Calculate number of days since start date
+days_since_start = (grouped_data_day.index - pd.to_datetime(start_time)).days
+
+# Replace x-ticks with number of days since start
+ax.set_xticks(days_since_start)
+ax.set_xticklabels(days_since_start)
+
+plt.xlabel('Days Since Start Time', fontsize=18)  # Update x-axis label
+
 plt.tight_layout()  # Adjust subplot parameters to give specified padding
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
+
+
+
+
+
