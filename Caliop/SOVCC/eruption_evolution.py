@@ -20,7 +20,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Caulle'
 start_time = pd.to_datetime('2011-06-10')
-end_time = pd.to_datetime('2011-07-31')
+end_time = pd.to_datetime('2011-06-15')
 lat_top = 0
 lat_bottom = -80
 
