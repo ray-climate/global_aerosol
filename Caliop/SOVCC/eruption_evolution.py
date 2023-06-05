@@ -68,7 +68,7 @@ for i, row in all_data.iterrows():
 grouped_data_utc = all_data.groupby('utc_time').agg({'thickness': 'mean', 'count': 'first'})
 
 # Set up colormap
-cmap = plt.get_cmap("rainbow")
+cmap = plt.get_cmap("jet")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
 fig, ax = plt.subplots(figsize=(10, 6))  # Set the plot size
