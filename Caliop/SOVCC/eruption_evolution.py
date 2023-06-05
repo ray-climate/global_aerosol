@@ -56,7 +56,8 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 
 # Iterate over the rows to check for latitude criterion
 for i, row in all_data.iterrows():
-    nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1)]
+    nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
+                              (all_data['utc_time'] == row['utc_time'])]
     if nearby_records.shape[0] < 5:
         all_data.drop(i, inplace=True)
     if i % 1000 == 0:  # Print progress for every 1000 rows
