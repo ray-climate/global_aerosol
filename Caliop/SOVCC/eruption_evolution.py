@@ -74,7 +74,7 @@ plt.grid(True)
 plt.title('Average Thickness Over Time', fontsize=20)
 plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
 plt.tight_layout()  # Adjust subplot parameters to give specified padding
-
+plt.savefig(figure_save_location + '/' + name + '_average_thickness_vs_time.png')
 
 # Ash Height Plot
 plt.figure(figsize=(10, 6))  # Set the plot size
@@ -89,4 +89,3 @@ plt.savefig(figure_save_location + '/' + name + '_average_ash_height_vs_time.png
 
 
 
-plt.savefig(figure_save_location + '/' + name + '_average_thickness_vs_time.png')
