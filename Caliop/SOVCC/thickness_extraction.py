@@ -84,11 +84,11 @@ utc_time_all = []
 
 for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
-    print('---------> Reading caliop date: %s' %caliop_sub_folder)
+    # print('---------> Reading caliop date: %s' %caliop_sub_folder)
 
     for file in os.listdir(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder):
         # if file.endswith('.npz') & file.starts('CAL_LID_L2_05kmAPro-Standard-V4-20.2011-06'):
-        if file.startswith('CAL_LID_L2_05kmAPro-Standard-V4-20.2011-06-15T21-00-18ZN.npz'):
+        if file.startswith('CAL_LID_L2_05kmAPro-Standard-V4-20.2011-06-15T22-39'):
             print('---------> Reading caliop file: %s' %file)
 
             dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
