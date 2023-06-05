@@ -88,15 +88,17 @@ plt.title('Thickness for Each UTC Time', fontsize=20)
 
 # Calculate number of days since start date and set x-ticks
 start_date = pd.to_datetime(start_time)
-grouped_data_day['days_since_start'] = (grouped_data_day.index - start_date).days
-
-ax.xaxis.set_major_locator(ticker.FixedLocator(grouped_data_day['days_since_start'].values))
-ax.xaxis.set_major_formatter(ticker.FixedFormatter(grouped_data_day['days_since_start'].values))
+def custom_day_formatter(x, pos):
+    return (pd.to_datetime(x) - start_date).days
+# ax.xaxis.set_major_locator(mdates.DayLocator())  # Make sure ticks are at start of every day
+# ax.xaxis.set_major_formatter(mdates.DateFormatter('%d'))  # Format ticks to show day number
+ax.xaxis.set_major_formatter(ticker.FuncFormatter(custom_day_formatter))  # Format ticks to show day difference
 
 plt.xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
 
 plt.tight_layout()  # Adjust subplot parameters to give specified padding
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
+
 
 
 
