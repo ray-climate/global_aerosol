@@ -67,12 +67,16 @@ for i, row in all_data.iterrows():
 # Group the data by each utc_time and calculate the mean and count of thickness
 grouped_data_utc = all_data.groupby('utc_time').agg({'thickness': 'mean', 'count': 'first'})
 
+grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std']})
+grouped_data_day.columns = ['thickness_mean', 'thickness_std']
+
 # Set up colormap
 cmap = plt.get_cmap("jet")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
 fig, ax = plt.subplots(figsize=(10, 6))  # Set the plot size
 sc = ax.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
+ax.errorbar(grouped_data_day.index, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
 plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='Count')
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Thickness', fontsize=18)
