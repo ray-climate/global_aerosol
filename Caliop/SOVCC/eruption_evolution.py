@@ -89,7 +89,8 @@ plt.title('Thickness for Each UTC Time', fontsize=20)
 # Calculate number of days since start date and set x-ticks
 start_date = pd.to_datetime(start_time)
 def custom_day_formatter(x, pos):
-    return (pd.to_datetime(x) - start_date).days
+    return (mdates.num2date(x) - start_date).days
+
 # ax.xaxis.set_major_locator(mdates.DayLocator())  # Make sure ticks are at start of every day
 # ax.xaxis.set_major_formatter(mdates.DateFormatter('%d'))  # Format ticks to show day number
 ax.xaxis.set_major_formatter(ticker.FuncFormatter(custom_day_formatter))  # Format ticks to show day difference
