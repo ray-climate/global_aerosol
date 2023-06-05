@@ -63,8 +63,8 @@ for i, row in all_data.iterrows():
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} rows")
 
-# Sort the data by utc_time
-all_data.sort_values('utc_time', inplace=True)
+# Average the thickness for same utc_time
+all_data = all_data.groupby('utc_time').mean().reset_index()
 
 plt.figure(figsize=(10, 6))  # Set the plot size
 plt.plot(all_data['utc_time'], all_data['thickness'], 'ro')
