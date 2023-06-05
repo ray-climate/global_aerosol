@@ -47,7 +47,7 @@ lat_bins = np.arange(-90, 92, 2)
 # Bin the latitude data
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins, labels=(lat_bins[:-1] + 1/2))
 
-# Group the utc_time to every 5 days
+# Group the utc_time to every 10 days
 all_data['utc_time_bin'] = all_data['utc_time'].dt.floor('10D')
 
 # Split data into two based on ash_height
@@ -61,7 +61,7 @@ for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Heigh
 
     grouped_data = data.groupby(['utc_time_bin', 'latitude_bin'])
     # Filter groups that have less than 10 values
-    filtered_data = grouped_data.filter(lambda x: len(x) >= 10)
+    filtered_data = grouped_data.filter(lambda x: len(x) >= 5)
     # Recalculate the mean
     filtered_grouped_data = filtered_data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
     # Pivot the data so that utc_time_bin and latitude_bin are the index and columns
