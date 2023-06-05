@@ -60,8 +60,15 @@ fig, axs = plt.subplots(2, 1, figsize=(20, 13))  # two subplots in two rows
 for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Height < 20km', 'Ash Height >= 20km']):
 
     # For each row, check if there are less than 5 thickness values within ±1° latitude and the same utc_time_bin
-    data['drop'] = data.apply(lambda row: len(data[(np.abs(data['latitude'] - row['latitude']) <= 1) &
-                                                   (data['utc_time_bin'] == row['utc_time_bin'])]) < 5, axis=1)
+    total_length = len(data)
+    for i, row in data.iterrows():
+        data.loc[i, 'drop'] = len(data[(np.abs(data['latitude'] - row['latitude']) <= 1) &
+                                       (data['utc_time_bin'] == row['utc_time_bin'])]) < 5
+        if i % 1000 == 0:  # Print progress for every 1000 rows
+            print(f"Processed {i} out of {total_length} rows")
+
+    # data['drop'] = data.apply(lambda row: len(data[(np.abs(data['latitude'] - row['latitude']) <= 1) &
+    #                                                (data['utc_time_bin'] == row['utc_time_bin'])]) < 5, axis=1)
     # Keep only rows where drop is False
     data = data[data['drop'] == False]
 
