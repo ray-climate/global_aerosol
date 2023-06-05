@@ -87,6 +87,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
     print('---------> Reading caliop date: %s' %caliop_sub_folder)
 
     for file in os.listdir(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder):
+        print(file)
         if file.endswith('CAL_LID_L2_05kmAPro-Standard-V4-20.2011-06-16T04-22-24ZD.npz'):
 
             print('---------> Reading caliop file: %s' %file)
