@@ -67,7 +67,7 @@ for i, row in all_data.iterrows():
 all_data.sort_values('utc_time', inplace=True)
 
 plt.figure(figsize=(10, 6))  # Set the plot size
-plt.plot(all_data['utc_time'], all_data['thickness'], marker='o')
+plt.plot(all_data['utc_time'], all_data['thickness'], 'ro')
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Average Thickness', fontsize=18)
 plt.grid(True)
