@@ -36,7 +36,7 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
         os.mkdir(save_location + '/' + year)
 
     for files in os.listdir(caliop_location + '/' + year + '/' + caliop_sub_folder):
-        if files.endswith('.hdf'):
+        if files.endswith('CAL_LID_L2_05kmAPro-Standard-V4-20.2011-06-16T04-22-24ZD.hdf'):
             print('---------> Reading caliop file: %s' %files)
             # read caliop hdf file
             caliop_file = caliop_location + '/' + year + '/' + caliop_sub_folder + '/' + files
@@ -66,5 +66,9 @@ for caliop_sub_folder in os.listdir(caliop_location + '/' + year):
                      orbit_l2_latitude=orbit_l2_latitude,
                      orbit_l2_longitude=orbit_l2_longitude,
                      orbit_l2_tropopause_height=orbit_l2_tropopause_height)
+
+            for i in range(len(orbit_l2_latitude)):
+                print(orbit_l2_latitude[i], orbit_l2_longitude[i], orbit_l2_altitude[i], orbit_l2_tropopause_height[i])
+            quit()
         else:
             pass
