@@ -56,7 +56,7 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 grouped_data_utc = all_data.groupby('utc_time')['thickness'].agg(['mean', 'count'])
 
 # Set up colormap
-cmap = plt.get_cmap("viridis")
+cmap = plt.get_cmap("rainbow")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
 fig, ax = plt.subplots(figsize=(10, 6))  # Set the plot size
