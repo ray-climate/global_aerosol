@@ -54,6 +54,14 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
+# Iterate over the rows to check for latitude criterion
+for i, row in all_data.iterrows():
+    nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1)]
+    if nearby_records.shape[0] < 5:
+        all_data.drop(i, inplace=True)
+    if i % 1000 == 0:  # Print progress for every 1000 rows
+        print(f"Processed {i} rows")
+
 # Sort the data by utc_time
 all_data.sort_values('utc_time', inplace=True)
 
