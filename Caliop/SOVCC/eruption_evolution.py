@@ -52,18 +52,31 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
+# Iterate over the rows to check for latitude criterion
+all_data['count'] = np.nan
+for i, row in all_data.iterrows():
+    nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
+                              (all_data['utc_time'] == row['utc_time'])]
+    if nearby_records.shape[0] < 5:
+        all_data.drop(i, inplace=True)
+    else:
+        all_data.loc[i, 'count'] = nearby_records.shape[0]
+    if i % 1000 == 0:  # Print progress for every 1000 rows
+        print(f"Processed {i} rows")
+
 # Group the data by each utc_time and calculate the mean and count of thickness
-grouped_data_utc = all_data.groupby('utc_time')['thickness'].agg(['mean', 'count'])
+grouped_data_utc = all_data.groupby('utc_time').agg({'thickness': 'mean', 'count': 'first'})
 
 # Set up colormap
 cmap = plt.get_cmap("rainbow")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
 fig, ax = plt.subplots(figsize=(10, 6))  # Set the plot size
-sc = ax.scatter(grouped_data_utc.index, grouped_data_utc['mean'], c=grouped_data_utc['count'], cmap=cmap, norm=norm)
+sc = ax.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm)
 plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='Count')
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Thickness', fontsize=18)
+plt.set_ylim = (0, 4)
 plt.grid(True)
 plt.title('Thickness for Each UTC Time', fontsize=20)
 plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
