@@ -161,7 +161,7 @@ sc = ax.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped
 plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='Count')
 plt.xlabel(f'Time T0={start_time.date()}', fontsize=18)  # Modify x-label
 plt.ylabel('Thickness', fontsize=18)
-ax.set_ylim = (0, 4)
+plt.ylim([0, 4])
 plt.grid(True)
 plt.title('Thickness for Each UTC Time', fontsize=20)
 plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
