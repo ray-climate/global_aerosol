@@ -88,7 +88,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
     for file in os.listdir(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder):
         # if file.endswith('.npz') & file.starts('CAL_LID_L2_05kmAPro-Standard-V4-20.2011-06'):
-        if file.startswith('CAL_LID_L2_05kmAPro-Standard-V4-20.2011-06-15T20-07'):
+        if file.startswith('.npz'):
             print('---------> Reading caliop file: %s' %file)
 
             dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
@@ -120,7 +120,6 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
                     print(latitude_i, longitude_i, thickness_i, ash_height_i)
 
-quit()
 df = pd.DataFrame({
     'utc_time': utc_time_all,  # 'yyyy-mm-ddThh:mm:ssZ'
     'latitude': latitude_all,
