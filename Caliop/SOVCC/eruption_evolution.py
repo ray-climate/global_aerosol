@@ -73,6 +73,7 @@ plt.ylabel('Average Thickness', fontsize=18)
 plt.grid(True)
 plt.title('Average Thickness Over Time', fontsize=20)
 plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
+plt.ylim(0, 5.)
 plt.tight_layout()  # Adjust subplot parameters to give specified padding
 plt.savefig(figure_save_location + '/' + name + '_average_thickness_vs_time.png')
 
