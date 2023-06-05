@@ -66,8 +66,11 @@ for i, row in all_data.iterrows():
 # Average the thickness for same utc_time
 all_data = all_data.groupby('utc_time').mean().reset_index()
 
+grouped_data = all_data.groupby(pd.Grouper(key='utc_time', freq='D'))['thickness'].agg(['mean', 'std'])
+
 plt.figure(figsize=(10, 6))  # Set the plot size
 plt.plot(all_data['utc_time'], all_data['thickness'], 'ro')
+plt.errorbar(grouped_data.index, grouped_data['mean'], yerr=grouped_data['std'], fmt='o')
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Average Thickness', fontsize=18)
 plt.grid(True)
