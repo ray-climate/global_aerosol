@@ -48,7 +48,7 @@ lat_bins = np.arange(-90, 92, 2)
 all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins, labels=(lat_bins[:-1] + 1/2))
 
 # Group the utc_time to every 10 days
-all_data['utc_time_bin'] = all_data['utc_time'].dt.floor('10D')
+all_data['utc_time_bin'] = all_data['utc_time'].dt.floor('5D')
 
 # Split data into two based on ash_height
 data_low_height = all_data[all_data['ash_height'] < 20]
@@ -59,16 +59,32 @@ fig, axs = plt.subplots(2, 1, figsize=(20, 13))  # two subplots in two rows
 # Iterate over the two dataframes
 for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Height < 20km', 'Ash Height >= 20km']):
 
-    grouped_data = data.groupby(['utc_time_bin', 'latitude_bin'])
-    # Filter groups that have less than 10 values
-    filtered_data = grouped_data.filter(lambda x: len(x) >= 5)
-    # Recalculate the mean
-    filtered_grouped_data = filtered_data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
+    # For each row, check if there are less than 5 thickness values within ±1° latitude and the same utc_time_bin
+    data['drop'] = data.apply(lambda row: len(data[(np.abs(data['latitude'] - row['latitude']) <= 1) &
+                                                   (data['utc_time_bin'] == row['utc_time_bin'])]) < 5, axis=1)
+    # Keep only rows where drop is False
+    data = data[data['drop'] == False]
+
+    # Group by 'utc_time_bin' and 'latitude_bin' and calculate the mean
+    grouped_data = data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
+
     # Pivot the data so that utc_time_bin and latitude_bin are the index and columns
-    pivoted_data = filtered_grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
+    pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
 
     # Plot the pivoted data
     c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='jet', vmin=0, vmax=4.)
+
+    #####
+    # grouped_data = data.groupby(['utc_time_bin', 'latitude_bin'])
+    # # Filter groups that have less than 5 values
+    # filtered_data = grouped_data.filter(lambda x: len(x) >= 5)
+    # # Recalculate the mean
+    # filtered_grouped_data = filtered_data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
+    # # Pivot the data so that utc_time_bin and latitude_bin are the index and columns
+    # pivoted_data = filtered_grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
+
+    # Plot the pivoted data
+    # c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='jet', vmin=0, vmax=4.)
 
     ax.set_xlabel('Time', fontsize=18)
     ax.set_ylabel('Latitude', fontsize=18)
