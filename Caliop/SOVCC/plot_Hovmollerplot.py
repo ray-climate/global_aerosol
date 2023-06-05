@@ -58,11 +58,14 @@ fig, axs = plt.subplots(2, 1, figsize=(20, 13))  # two subplots in two rows
 
 # Iterate over the two dataframes
 for ax, data, title in zip(axs, [data_low_height, data_high_height], ['Ash Height < 20km', 'Ash Height >= 20km']):
-    # Group by 'utc_time_bin' and 'latitude_bin' and calculate the mean
-    grouped_data = data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
 
+    grouped_data = data.groupby(['utc_time_bin', 'latitude_bin'])
+    # Filter groups that have less than 10 values
+    filtered_data = grouped_data.filter(lambda x: len(x) >= 10)
+    # Recalculate the mean
+    filtered_grouped_data = filtered_data.groupby(['utc_time_bin', 'latitude_bin']).mean().reset_index()
     # Pivot the data so that utc_time_bin and latitude_bin are the index and columns
-    pivoted_data = grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
+    pivoted_data = filtered_grouped_data.pivot(index='latitude_bin', columns='utc_time_bin', values='thickness')
 
     # Plot the pivoted data
     c = ax.pcolormesh(pivoted_data.columns, pivoted_data.index, pivoted_data.values, cmap='jet', vmin=0, vmax=4.)
