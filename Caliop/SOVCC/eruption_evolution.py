@@ -152,21 +152,21 @@ for i, row in all_data.iterrows():
 # Group the data by each utc_time and calculate the mean and count of thickness
 grouped_data_utc = all_data.groupby('utc_time').agg({'thickness': 'mean', 'count': 'first'})
 
-# Set up colormap
+# Convert utc_time to days from start_time
+grouped_data_utc.index = (grouped_data_utc.index - pd.Timestamp(start_time)).days
+
 cmap = plt.get_cmap("rainbow")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
 fig, ax = plt.subplots(figsize=(10, 6))  # Set the plot size
 sc = ax.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
 plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='Count')
-plt.xlabel(f'Time T0={start_time.date()}', fontsize=18)  # Modify x-label
-plt.ylabel('Thickness', fontsize=18)
-plt.ylim([0, 4])
-plt.grid(True)
-plt.title('Thickness for Each UTC Time', fontsize=20)
-plt.xticks(rotation=45)  # Rotate x-axis labels for better visibility
+ax.set_xlabel(f'Time T0={start_time.date()}', fontsize=18)  # Modify x-label
+ax.set_ylabel('Thickness', fontsize=18)
+ax.set_ylim([0, 4])  # Set y limits
+ax.grid(True)
+ax.set_title('Thickness for Each UTC Time', fontsize=20)
+ax.tick_params(axis='x', rotation=45)  # Rotate x-axis labels for better visibility
 plt.tight_layout()  # Adjust subplot parameters to give specified padding
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
-
-
 
