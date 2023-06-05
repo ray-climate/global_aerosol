@@ -120,7 +120,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
                     print(latitude_i, longitude_i, thickness_i, ash_height_i)
 
-    quit()
+quit()
 df = pd.DataFrame({
     'utc_time': utc_time_all,  # 'yyyy-mm-ddThh:mm:ssZ'
     'latitude': latitude_all,
