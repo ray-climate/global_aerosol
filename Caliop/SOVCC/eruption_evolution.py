@@ -39,7 +39,7 @@ for file in files:
     for column in ['utc_time', 'thickness', 'latitude', 'ash_height']:
         if column == 'utc_time':
             # Convert utc_time to datetime format
-            data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H:%M:%S')
+            data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H-%M-%S')
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
