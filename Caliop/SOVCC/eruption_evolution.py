@@ -12,6 +12,7 @@ import os
 import matplotlib.dates as mdates
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
+import matplotlib.ticker as ticker
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
@@ -87,15 +88,15 @@ plt.title('Thickness for Each UTC Time', fontsize=20)
 
 # Calculate number of days since start date and set x-ticks
 start_date = pd.to_datetime(start_time)
-day_diff = (grouped_data_day.index - start_date).days
-ax.xaxis.set_major_locator(mdates.DayLocator())  # Make sure ticks are at start of every day
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%d'))  # Format ticks to show day number
+grouped_data_day['days_since_start'] = (grouped_data_day.index - start_date).days
+
+ax.xaxis.set_major_locator(ticker.FixedLocator(grouped_data_day['days_since_start'].values))
+ax.xaxis.set_major_formatter(ticker.FixedFormatter(grouped_data_day['days_since_start'].values))
 
 plt.xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
 
 plt.tight_layout()  # Adjust subplot parameters to give specified padding
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
-
 
 
 
