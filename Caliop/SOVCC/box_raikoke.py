@@ -155,14 +155,14 @@ ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 bp3 = ax[3].boxplot([data['AOD'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
 for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
     plt.setp(bp2[element], color='blue')
-ax[2].set_ylabel('AOD', fontsize=18)  # you might want to adjust this label
-ax[2].tick_params(axis='both', labelsize=18)
-ax[2].set_ylim(0, 0.6)  # Set the appropriate y limits for your extinction data
-ax[2].set_title(f"{name}", fontsize=20)
-ax[2].set_xticks(positions[::5])  # add this
-ax[2].set_xticklabels(x_labels[::5])  # add this
-ax[2].set_xlim(0., 50)
-ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
+ax[3].set_ylabel('AOD', fontsize=18)  # you might want to adjust this label
+ax[3].tick_params(axis='both', labelsize=18)
+ax[3].set_ylim(0, 0.6)  # Set the appropriate y limits for your extinction data
+ax[3].set_title(f"{name}", fontsize=20)
+ax[3].set_xticks(positions[::5])  # add this
+ax[3].set_xticklabels(x_labels[::5])  # add this
+ax[3].set_xlim(0., 50)
+ax[3].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
 
