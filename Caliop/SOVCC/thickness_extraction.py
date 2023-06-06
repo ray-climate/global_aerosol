@@ -19,7 +19,7 @@ year = sys.argv[1]
 
 # caliop location on CEDA
 caliop_extracted_location = './caliop_ash_data_extraction'
-save_location = './thickness_data_extraction'
+save_location = './thickness_data_extraction_extinction'
 
 # create save_location folder if not exist
 try:
@@ -73,11 +73,10 @@ def calculate_ash_mask_thickness(ash_mask, altitude, extinction):
                 thickness = max_altitude - min_altitude
                 thicknesses.append(thickness)
                 extinction_mask = extinction[seq]
-                weighted_extinctions.append(np.sum(extinction_mask) / thickness)
+                weighted_extinctions.append(np.sum(extinction_mask) * thickness)
                 mean_heights.append(np.mean([max_altitude, min_altitude]))
-                print(thickness, extinction_mask, np.sum(extinction_mask) / thickness)
-                quit()
-    return thicknesses, mean_heights
+
+    return thicknesses, mean_heights, weighted_extinctions
 
 
 # loop through all the sub year folder in caliop_location
@@ -87,6 +86,7 @@ thickness_all = []
 ash_height_all = []
 troppause_altitude_all = []
 utc_time_all = []
+extinction_all = []
 
 for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
@@ -113,7 +113,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
             for i in range(ash_mask.shape[1]):
                 if np.sum(ash_mask[:, i]) > 1:
-                    thickness_i, ash_height_i = calculate_ash_mask_thickness(ash_mask[:, i], altitude, extinction[:, i])
+                    thickness_i, ash_height_i, extinction_i = calculate_ash_mask_thickness(ash_mask[:, i], altitude, extinction[:, i])
                     latitude_i = latitude[i]
                     longitude_i = longitude[i]
                     tropopause_altitude_i = tropopause_altitude[i]
@@ -124,8 +124,9 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
                     thickness_all.append(thickness_i)
                     ash_height_all.append(ash_height_i)
                     troppause_altitude_all.append(tropopause_altitude_i)
+                    extinction_all.append(extinction_i)
 
-                    print(latitude_i, longitude_i, thickness_i, ash_height_i)
+                    print(latitude_i, longitude_i, thickness_i, ash_height_i, extinction_i)
 
 df = pd.DataFrame({
     'utc_time': utc_time_all,  # 'yyyy-mm-ddThh:mm:ssZ'
@@ -133,7 +134,8 @@ df = pd.DataFrame({
     'longitude': longitude_all,
     'thickness': [','.join(map(str, t)) for t in thickness_all],
     'ash_height': [','.join(map(str, t)) for t in ash_height_all],
-    'tropopause_altitude': troppause_altitude_all
+    'tropopause_altitude': troppause_altitude_all,
+    'extinction': [','.join(map(str, t)) for t in extinction_all]
 })
 
 df.to_csv(save_location + '/' + year + '_thickness.csv', index=False)
