@@ -82,7 +82,10 @@ norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['co
 fig, ax1 = plt.subplots(figsize=(10, 6))  # Set the plot size
 
 # Scatter plot with time-based x-axis
-sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
+# sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
+# Scatter plot with time-based x-axis
+sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5, s=50*grouped_data_utc['count'])
+
 ax1.set_ylabel('Thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
 ax1.grid(True)
