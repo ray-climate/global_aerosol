@@ -23,7 +23,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Caulle'
 start_time = '2011-06-15'
-end_time = '2011-06-20'
+end_time = '2011-07-25'
 lat_top = 0
 lat_bottom = -80
 
