@@ -104,9 +104,16 @@ axins = inset_axes(ax[0],
                    )
 ax[0].set_xlim(0, 100)
 
+# Create new date range that spans entire period
+full_date_range = pd.date_range(start=start_time, end=end_time, freq='D')
 # Create box-and-whisker plot with day-based x-axis
 thickness_data_per_day = all_data.groupby(all_data['utc_time'].dt.day)['thickness'].apply(list)  # Group data per day
-ax[0].boxplot(thickness_data_per_day, positions=grouped_data_day_days, widths=0.6)
+# Reindex to full date range, filling missing days with empty lists
+thickness_data_per_day = thickness_data_per_day.reindex(full_date_range, fill_value=[])
+# Convert date range to days since start, for plotting
+full_date_range_days = (full_date_range - start_date).days
+# Create box-and-whisker plot with full date range
+ax[0].boxplot(thickness_data_per_day, positions=full_date_range_days, widths=0.6)
 
 #
 # plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
