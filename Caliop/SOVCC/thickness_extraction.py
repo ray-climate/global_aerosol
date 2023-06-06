@@ -107,6 +107,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             latitude = dataset['orbit_l2_latitude']
             longitude = dataset['orbit_l2_longitude']
             tropopause_altitude = dataset['orbit_l2_tropopause_height']
+            extinction = dataset['extinction']
             utc_time = file[35:54]
 
             ash_mask = np.zeros((aerosol_type.shape))
@@ -114,7 +115,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
 
             for i in range(ash_mask.shape[1]):
                 if np.sum(ash_mask[:, i]) > 1:
-                    thickness_i, ash_height_i = calculate_ash_mask_thickness(ash_mask[:, i], altitude)
+                    thickness_i, ash_height_i = calculate_ash_mask_thickness(ash_mask[:, i], altitude, extinction[:, i])
                     latitude_i = latitude[i]
                     longitude_i = longitude[i]
                     tropopause_altitude_i = tropopause_altitude[i]
