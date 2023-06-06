@@ -69,65 +69,32 @@ for i, row in all_data.iterrows():
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} rows")
 
-# Group the data by each utc_time and calculate the mean and count of thickness
-grouped_data_utc = all_data.groupby('utc_time').agg({'thickness': 'mean', 'ash_height': 'mean', 'count': 'first'})
-
-start_date = pd.to_datetime(start_time)
 grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std'], 'ash_height': ['mean', 'std']})
+grouped_data_day.columns = ['thickness_mean', 'thickness_std', 'ash_height_mean', 'ash_height_std']
+thickness_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'thickness_mean'].values for day in range(1, 366)]
+ash_height_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'ash_height_mean'].values for day in range(1, 366)]
+grouped_data_day_days = (grouped_data_day.index - pd.to_datetime(start_time)).days
 
-grouped_data_utc['day'] = (grouped_data_utc.index - start_date).days
+fig, ax = plt.subplots(2, 1, figsize=(8, 16))
 
-# Define datetime variables
-start_date = pd.to_datetime(start_time)
-end_date = pd.to_datetime(end_time)
+# First subplot for thickness
+ax[0].boxplot(thickness_data_per_day, positions=grouped_data_day_days, widths=0.6)
+ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
+ax[0].grid(True)
+ax[0].set_title(f"{name}", fontsize=20)
+ax[0].tick_params(axis='both', labelsize=18)
+ax[0].set_xticklabels([])  # Hide ax0 xticklabels
+ax[0].set_xlim(0, 100)
 
-# Create new date range that spans entire period
-full_date_range = pd.date_range(start=start_time, end=end_time, freq='D')
+# Second subplot for ash_height
+ax[1].boxplot(ash_height_data_per_day, positions=grouped_data_day_days, widths=0.6)
+ax[1].set_ylabel('Ash height [km]', fontsize=18)
+ax[1].grid(True)
+ax[1].tick_params(axis='both', labelsize=18)
+ax[1].set_xlim(0, 100)
+start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
+formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
+ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
-# Group data per day
-thickness_data_per_day = all_data.groupby(all_data['utc_time'].dt.floor('D'))['thickness'].apply(list)
-ash_height_data_per_day = all_data.groupby(all_data['utc_time'].dt.floor('D'))['ash_height'].apply(list)
-
-# Reindex to full date range, filling missing days with empty lists
-thickness_data_per_day = thickness_data_per_day.reindex(full_date_range, fill_value=[])
-ash_height_data_per_day = ash_height_data_per_day.reindex(full_date_range, fill_value=[])
-
-# Convert date range to days since start, for plotting
-full_date_range_days = (full_date_range - start_date).days
-
-# Initialize Figure and Axes
-fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(18, 12), sharex=True)
-fig.subplots_adjust(hspace=0.1)
-
-# Scatter plot with error bars for 'thickness'
-ax[0].errorbar(grouped_data_day.index, grouped_data_day['thickness', 'mean'], yerr=grouped_data_day['thickness', 'std'],
-               fmt='o', markersize=2, ecolor='black', capsize=3)
-ax[0].set_ylabel('Ash layer thickness [km] (mean ± std)', fontsize=18)
-
-# Boxplot for thickness
-ax2 = ax[0].twinx()  # Create a twin y-axis sharing the x-axis
-ax2.boxplot(thickness_data_per_day, positions=full_date_range_days, widths=0.6)
-ax2.set_ylabel('Ash layer thickness [km] (boxplot)', fontsize=18)
-
-# Scatter plot with error bars for 'ash_height'
-ax[1].errorbar(grouped_data_day.index, grouped_data_day['ash_height', 'mean'], yerr=grouped_data_day['ash_height', 'std'],
-               fmt='o', markersize=2, ecolor='black', capsize=3)
-ax[1].set_ylabel('Ash height [km] (mean ± std)', fontsize=18)
-
-# Boxplot for ash_height
-ax4 = ax[1].twinx()  # Create a twin y-axis sharing the x-axis
-ax4.boxplot(ash_height_data_per_day, positions=full_date_range_days, widths=0.6)
-ax4.set_ylabel('Ash height [km] (boxplot)', fontsize=18)
-
-# Final adjustments to the plot
-plt.xlabel('Days since eruption', fontsize=18)
-ax[0].xaxis.set_major_locator(mdates.MonthLocator())
-ax[0].xaxis.set_minor_locator(mdates.WeekdayLocator())
-ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-ax[0].xaxis.set_minor_formatter(mdates.DateFormatter('%d'))
-
-# Save Figure
-plt.savefig(figure_save_location + '/' + name + '_box.png', dpi=300, bbox_inches='tight')
-
-print('Completed!')
-
+plt.savefig(figure_save_location + '/' + name + '_thickness_and_ash_height_for_each_utc_time.png')
+plt.show()
