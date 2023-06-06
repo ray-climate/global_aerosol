@@ -87,7 +87,8 @@ positions = range(len(box_plot_data))  # Generate numeric positions for the x-ax
 thickness_data = [data['thickness'] for data in box_plot_data.values()]
 ax[0].boxplot(thickness_data, positions=positions, widths=0.6)
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
-ax[0].grid(True)
+# ax[0].grid(True)
+ax[0].set_ylim(0, 4.)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
 ax[0].set_xticklabels([])  # Hide ax0 xticklabels
@@ -96,8 +97,9 @@ ax[0].set_xticklabels([])  # Hide ax0 xticklabels
 # Second subplot for ash_height
 ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=positions, widths=0.6)
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
-ax[1].grid(True)
+# ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
+ax[1].set_ylim(8, 15.)
 # ax[1].set_xlim(0, 100)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
