@@ -79,28 +79,30 @@ grouped_data_day_days = (grouped_data_day.index - start_date).days  # new Series
 cmap = plt.get_cmap("jet")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6), sharey=True)  # Create two subplots sharing y-axis
+fig, ax1 = plt.subplots(figsize=(10, 6))  # Set the plot size
 
 # Scatter plot with time-based x-axis
 sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
-ax1.set_xlabel('Time', fontsize=18)
 ax1.set_ylabel('Thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
 ax1.grid(True)
 ax1.set_title('Thickness for Each UTC Time', fontsize=20)
-ax1.set_xticks([])  # remove x-axis ticks of ax1
 plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax1, label='Count')
+ax1.set_xticklabels([])  # Hide ax1 xticklabels
+
+ax2 = ax1.twiny()  # Create a twin x-axis sharing the y-axis
+ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
+ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
 # Error bar plot with day-based x-axis
 ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
 ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
 ax2.set_xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
 
-# Set up the layout
 fig.tight_layout()
 
-# Save the figure
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
+
 
 
 
