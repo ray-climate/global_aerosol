@@ -83,10 +83,9 @@ for day, data in grouped_data_day.iterrows():
 fig, ax = plt.subplots(2, 1, figsize=(8, 16))
 
 # First subplot for thickness
+positions = range(len(box_plot_data))  # Generate numeric positions for the x-axis
 thickness_data = [data['thickness'] for data in box_plot_data.values()]
-print(thickness_data)
-ax[0].boxplot(thickness_data, positions=list(box_plot_data.keys()), widths=0.6)
-
+ax[0].boxplot(thickness_data, positions=positions, widths=0.6)
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
 ax[0].grid(True)
 ax[0].set_title(f"{name}", fontsize=20)
@@ -95,7 +94,7 @@ ax[0].set_xticklabels([])  # Hide ax0 xticklabels
 # ax[0].set_xlim(0, 100)
 
 # Second subplot for ash_height
-ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=list(box_plot_data.keys()), widths=0.6)
+ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=positions, widths=0.6)
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
 ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
