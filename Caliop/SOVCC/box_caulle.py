@@ -104,6 +104,8 @@ ax[1].set_ylim(8, 15.)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
+ax[1].set_xticks(range(0, len(box_plot_data), 5))
+ax[1].set_xticklabels(list(box_plot_data.keys())[::5])
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
 
