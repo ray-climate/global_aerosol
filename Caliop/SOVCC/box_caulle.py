@@ -73,6 +73,12 @@ for i, row in all_data.iterrows():
 grouped_data_utc = all_data.groupby('utc_time').agg({'thickness': 'mean', 'ash_height': 'mean', 'count': 'first'})
 
 start_date = pd.to_datetime(start_time)
+grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std'], 'ash_height': ['mean', 'std']})
+
+grouped_data_utc['day'] = (grouped_data_utc.index - start_date).days
+
+# Define datetime variables
+start_date = pd.to_datetime(start_time)
 end_date = pd.to_datetime(end_time)
 
 # Create new date range that spans entire period
@@ -89,69 +95,39 @@ ash_height_data_per_day = ash_height_data_per_day.reindex(full_date_range, fill_
 # Convert date range to days since start, for plotting
 full_date_range_days = (full_date_range - start_date).days
 
-# Set up colormap
-cmap = plt.get_cmap("jet")
-norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
+# Initialize Figure and Axes
+fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(18, 12), sharex=True)
+fig.subplots_adjust(hspace=0.1)
 
-fig, ax = plt.subplots(2, 1, figsize=(8, 16))  # Set the plot size and create 2 subplots
+# Scatter plot with error bars for 'thickness'
+ax[0].errorbar(grouped_data_day.index, grouped_data_day['thickness', 'mean'], yerr=grouped_data_day['thickness', 'std'],
+               fmt='o', markersize=2, ecolor='black', capsize=3)
+ax[0].set_ylabel('Ash layer thickness [km] (mean ± std)', fontsize=18)
 
-# First subplot for thickness
-sc = ax[0].scatter(grouped_data_utc_days, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
-ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
-ax[0].set_ylim(0, 4)  # set ylim correctly
-ax[0].grid(True)
-ax[0].set_title(f"{name}", fontsize=20)
-ax[0].tick_params(axis='both', labelsize=18)
-ax[0].set_xticklabels([])  # Hide ax1 xticklabels
-axins = inset_axes(ax[0],
-                   width="50%",  # width = 5% of parent_bbox width
-                   height="5%",  # height : 50%
-                   loc='upper left',
-                   bbox_to_anchor=(0.05, 0.55, 0.4, 0.4),
-                   bbox_transform=ax[0].transAxes,
-                   borderpad=0
-                   )
-ax[0].set_xlim(0, 50)
-plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
+# Boxplot for thickness
+ax2 = ax[0].twinx()  # Create a twin y-axis sharing the x-axis
+ax2.boxplot(thickness_data_per_day, positions=full_date_range_days, widths=0.6)
+ax2.set_ylabel('Ash layer thickness [km] (boxplot)', fontsize=18)
 
-ax2 = ax[0].twiny()  # Create a twin x-axis sharing the y-axis
-ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
-ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
+# Scatter plot with error bars for 'ash_height'
+ax[1].errorbar(grouped_data_day.index, grouped_data_day['ash_height', 'mean'], yerr=group_data_day['ash_height', 'std'],
+               fmt='o', markersize=2, ecolor='black', capsize=3)
+ax[1].set_ylabel('Ash height [km] (mean ± std)', fontsize=18)
 
-# Error bar plot with day-based x-axis
-ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
-ax2.set_xlim(0, 50)
-ax2.tick_params(axis='both',labelsize=18)
+# Boxplot for ash_height
+ax4 = ax[1].twinx()  # Create a twin y-axis sharing the x-axis
+ax4.boxplot(ash_height_data_per_day, positions=full_date_range_days, widths=0.6)
+ax4.set_ylabel('Ash height [km] (boxplot)', fontsize=18)
 
+# Final adjustments to the plot
+plt.xlabel('Days since eruption', fontsize=18)
+ax[0].xaxis.set_major_locator(mdates.MonthLocator())
+ax[0].xaxis.set_minor_locator(mdates.WeekdayLocator())
+ax[0].xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+ax[0].xaxis.set_minor_formatter(mdates.DateFormatter('%d'))
 
-# Second subplot for ash_height
-sc = ax[1].scatter(grouped_data_utc_days, grouped_data_utc['ash_height'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
-ax[1].set_ylabel('Ash height [km]', fontsize=18)
-ax[1].set_ylim(8, 15)  # set ylim correctly
-ax[1].grid(True)
-ax[1].tick_params(axis='both', labelsize=18)
-ax[1].set_xticklabels([])  # Hide ax1 xticklabels
-axins = inset_axes(ax[1],
-                   width="50%",  # width = 5% of parent_bbox width
-                   height="5%",  # height : 50%
-                   loc='upper left',
-                   bbox_to_anchor=(0.05, 0.55, 0.4, 0.4),
-                   bbox_transform=ax[1].transAxes,
-                   borderpad=0
-                   )
-plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
-ax[1].set_xlim(0, 50)
+# Save Figure
+plt.savefig(figure_save_location + '/' + name + '_box.png', dpi=300, bbox_inches='tight')
 
-ax4 = ax[1].twiny()  # Create a twin x-axis sharing the y-axis
-ax4.xaxis.tick_bottom()  # Move ax2 xticks to bottom
-ax4.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
-ax4.tick_params(axis='both', labelsize=18)
-# Error bar plot with day-based x-axis
-ax4.errorbar(grouped_data_day_days, grouped_data_day['ash_height_mean'], yerr=grouped_data_day['ash_height_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
-ax4.set_xlim(0, 50)
-start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
-formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
-ax4.set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
-
-plt.savefig(figure_save_location + '/' + name + '_thickness_and_ash_height_for_each_utc_time.png')
+print('Completed!')
 
