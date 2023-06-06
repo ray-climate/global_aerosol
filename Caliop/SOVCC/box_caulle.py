@@ -84,7 +84,9 @@ for day in range(1, 366):
 fig, ax = plt.subplots(2, 1, figsize=(8, 16))
 
 # First subplot for thickness
-ax[0].boxplot([data['thickness'] for data in box_plot_data.values()], positions=list(box_plot_data.keys()), widths=0.6)
+thickness_data = [data['thickness'] for data in box_plot_data.values()]
+ax[0].boxplot(thickness_data, positions=list(box_plot_data.keys()), widths=0.6)
+
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
 ax[0].grid(True)
 ax[0].set_title(f"{name}", fontsize=20)
