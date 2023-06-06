@@ -92,7 +92,18 @@ ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
 ax[0].set_ylim(0, 4)  # set ylim correctly
 ax[0].grid(True)
 ax[0].set_title(f"{name}", fontsize=20)
-ax[0].tick_params(axis='both', which='major', labelsize=18)
+ax[0].tick_params(axis='both', labelsize=18)
+
+axins = inset_axes(ax[0],
+                   width="50%",  # width = 5% of parent_bbox width
+                   height="5%",  # height : 50%
+                   loc='upper left',
+                   bbox_to_anchor=(0.05, 0.55, 0.4, 0.4),
+                   bbox_transform=ax1.transAxes,
+                   borderpad=0
+                   )
+ax[0].set_xlim(0, 50)
+plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
 
 ax2 = ax[0].twiny()  # Create a twin x-axis sharing the y-axis
 ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
@@ -100,6 +111,9 @@ ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
 # Error bar plot with day-based x-axis
 ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
+ax2.set_xlim(0, 50)
+
+
 
 # Second subplot for ash_height
 sc = ax[1].scatter(grouped_data_utc_days, grouped_data_utc['ash_height'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
@@ -107,12 +121,12 @@ ax[1].set_ylabel('Ash height [km]', fontsize=18)
 ax[1].set_ylim(8, 15)  # set ylim correctly
 ax[1].grid(True)
 
-ax2 = ax[1].twiny()  # Create a twin x-axis sharing the y-axis
-ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
-ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
-ax2.tick_params(axis='both', which='major', labelsize=18)
+ax4 = ax[1].twiny()  # Create a twin x-axis sharing the y-axis
+ax4.xaxis.tick_bottom()  # Move ax2 xticks to bottom
+ax4.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
+ax4.tick_params(axis='both', labelsize=18)
 # Error bar plot with day-based x-axis
-ax2.errorbar(grouped_data_day_days, grouped_data_day['ash_height_mean'], yerr=grouped_data_day['ash_height_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
+ax4.errorbar(grouped_data_day_days, grouped_data_day['ash_height_mean'], yerr=grouped_data_day['ash_height_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
 
 # ...
 
