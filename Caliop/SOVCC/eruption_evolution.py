@@ -79,12 +79,12 @@ grouped_data_day_days = (grouped_data_day.index - start_date).days  # new Series
 cmap = plt.get_cmap("jet")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
-fig, ax1 = plt.subplots(figsize=(12, 6))  # Set the plot size
+fig, ax1 = plt.subplots(figsize=(8, 6))  # Set the plot size
 
 # Scatter plot with time-based x-axis
 # sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
 # Scatter plot with time-based x-axis
-sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.7, s=15*grouped_data_utc['count'])
+sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.7, s=5*grouped_data_utc['count'])
 
 ax1.set_ylabel('Thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
