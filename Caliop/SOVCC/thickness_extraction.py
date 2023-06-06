@@ -27,7 +27,7 @@ try:
 except:
     os.mkdir(save_location)
 
-def calculate_ash_mask_thickness(ash_mask, altitude):
+def calculate_ash_mask_thickness(ash_mask, altitude, extinction):
     """
     Calculates thickness of ash mask based on altitude.
 
@@ -39,10 +39,12 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
         thicknesses: List of float
     """
     thicknesses = []  # Initialize thicknesses list
+    weighted_extinction = []  # Initialize weighted extinction list
     mean_heights = []
     # Convert ash_mask and altitude to numpy arrays
     ash_mask = np.array(ash_mask)
     altitude = np.array(altitude)
+    extinction = np.array(extinction)
 
     # Find indices of 1s
     one_indices = np.where(ash_mask == 1)[0]
@@ -70,9 +72,15 @@ def calculate_ash_mask_thickness(ash_mask, altitude):
 
                 thickness = max_altitude - min_altitude
                 thicknesses.append(thickness)
+                extinction_mask = extinction[seq]
+                print(extinction_mask)
+                print(altitude[seq])
+                print(thickness)
+                quit()
                 mean_heights.append(np.mean([max_altitude, min_altitude]))
 
     return thicknesses, mean_heights
+
 
 # loop through all the sub year folder in caliop_location
 latitude_all = []
