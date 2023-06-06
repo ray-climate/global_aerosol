@@ -69,17 +69,16 @@ for i, row in all_data.iterrows():
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} rows")
 
-grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std'], 'ash_height': ['mean', 'std']}).dropna()
+
+grouped_data_day = all_data.groupby([all_data['utc_time'].dt.date]).agg({'thickness': list, 'ash_height': list}).dropna()
 
 # Prepare boxplot data
 box_plot_data = {}
-for day in range(1, 366):
-    day_data = grouped_data_day[grouped_data_day.index.dayofyear == day]
-    if not day_data.empty:
-        box_plot_data[day] = {
-            'thickness': day_data[('thickness', 'mean')].values,
-            'ash_height': day_data[('ash_height', 'mean')].values
-        }
+for day, data in grouped_data_day.iterrows():
+    box_plot_data[day] = {
+        'thickness': data['thickness'],
+        'ash_height': data['ash_height']
+    }
 
 fig, ax = plt.subplots(2, 1, figsize=(8, 16))
 
