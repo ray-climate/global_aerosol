@@ -69,8 +69,11 @@ for i, row in all_data.iterrows():
 # Group the data by each utc_time and calculate the mean and count of thickness
 grouped_data_utc = all_data.groupby('utc_time').agg({'thickness': 'mean', 'count': 'first'})
 
+start_date = pd.to_datetime(start_time)
 grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std']})
 grouped_data_day.columns = ['thickness_mean', 'thickness_std']
+
+grouped_data_day_days = (grouped_data_day.index - start_date).days  # new Series representing days since start
 
 # Set up colormap
 cmap = plt.get_cmap("jet")
@@ -78,7 +81,7 @@ norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['co
 
 fig, ax = plt.subplots(figsize=(10, 6))  # Set the plot size
 sc = ax.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
-ax.errorbar(grouped_data_day.index, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
+ax.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
 plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='Count')
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Thickness', fontsize=18)
@@ -86,16 +89,13 @@ plt.set_ylim = (0, 4)
 plt.grid(True)
 plt.title('Thickness for Each UTC Time', fontsize=20)
 
-# Calculate number of days since start date and set x-ticks
-start_date = pd.to_datetime(start_time)
-def custom_day_formatter(x, pos):
+# Define a function for a secondary x-axis showing days since the start date
+def days_from_start(x):
     return (pd.to_datetime(x) - start_date).days
 
-# ax.xaxis.set_major_locator(mdates.DayLocator())  # Make sure ticks are at start of every day
-# ax.xaxis.set_major_formatter(mdates.DateFormatter('%d'))  # Format ticks to show day number
-ax.xaxis.set_major_formatter(ticker.FuncFormatter(custom_day_formatter))  # Format ticks to show day difference
-
-plt.xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
+# Create a secondary x-axis for the days since the start date
+secax = ax.secondary_xaxis('top', functions=(days_from_start, days_from_start))
+secax.set_xlabel('Days Since Start Time (' + start_time + ')')
 
 plt.tight_layout()  # Adjust subplot parameters to give specified padding
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
