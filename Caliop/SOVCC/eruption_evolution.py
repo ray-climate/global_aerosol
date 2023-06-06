@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import os
+from datetime import datetime
 import matplotlib.dates as mdates
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
@@ -92,16 +93,18 @@ ax1.grid(True)
 ax1.set_title('Thickness for Each UTC Time', fontsize=20)
 # plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax1, label='Count')
 ax1.set_xticklabels([])  # Hide ax1 xticklabels
-
+ax1.set_title('f{name}', fontsize=20)
 ax2 = ax1.twiny()  # Create a twin x-axis sharing the y-axis
 ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
 ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
 # Error bar plot with day-based x-axis
 ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o', color='black', markeredgecolor='black', capsize=3, elinewidth=1)
+start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
+formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 
 ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
-ax2.set_xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
+ax2.set_xlabel('Days Since T0 [' + formatted_start_time + ']', fontsize=18)
 
 fig.tight_layout()
 
