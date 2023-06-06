@@ -130,6 +130,7 @@ axins = inset_axes(ax[1],
                    bbox_transform=ax[1].transAxes,
                    borderpad=0
                    )
+plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
 ax[1].set_xlim(0, 50)
 
 ax4 = ax[1].twiny()  # Create a twin x-axis sharing the y-axis
