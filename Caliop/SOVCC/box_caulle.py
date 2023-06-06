@@ -69,8 +69,9 @@ for i, row in all_data.iterrows():
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} rows")
 
-
-grouped_data_day = all_data.groupby([all_data['utc_time'].dt.date]).agg({'thickness': list, 'ash_height': list}).dropna()
+grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': list})
+# Now group these means by day
+grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list}).dropna()
 
 # Prepare boxplot data
 box_plot_data = {}
