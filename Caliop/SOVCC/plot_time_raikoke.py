@@ -89,7 +89,7 @@ fig, ax = plt.subplots(2, 1, figsize=(8, 16))  # Set the plot size and create 2 
 # First subplot for thickness
 sc = ax[0].scatter(grouped_data_utc_days, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
-ax[0].set_ylim(0, 4)  # set ylim correctly
+ax[0].set_ylim(0, 6)  # set ylim correctly
 ax[0].grid(True)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
@@ -118,7 +118,7 @@ ax2.tick_params(axis='both',labelsize=18)
 # Second subplot for ash_height
 sc = ax[1].scatter(grouped_data_utc_days, grouped_data_utc['ash_height'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
-ax[1].set_ylim(10., 25)  # set ylim correctly
+ax[1].set_ylim(8., 18)  # set ylim correctly
 ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
 ax[1].set_xticklabels([])  # Hide ax1 xticklabels
