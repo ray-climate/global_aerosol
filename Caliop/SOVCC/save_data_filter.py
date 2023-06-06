@@ -41,20 +41,11 @@ for file in files:
 # Remove rows with any NaN values
 all_data = all_data.dropna()
 
-# Define the bin edges for latitude
-lat_bins = np.arange(-90, 92, 2)
-
-# Bin the latitude data
-all_data['latitude_bin'] = pd.cut(all_data['latitude'], bins=lat_bins, labels=(lat_bins[:-1] + 1/2))
-
-# Group the utc_time to every 10 days
-all_data['utc_time_bin'] = all_data['utc_time'].dt.floor('5D')
-
 # Iterate over the rows to check for latitude criterion
 total_length = len(all_data)
 for i, row in all_data.iterrows():
     all_data.loc[i, 'drop'] = len(all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
-                                           (all_data['utc_time_bin'] == row['utc_time_bin'])]) < 5
+                                           (all_data['utc_time'] == row['utc_time'])]) < 5
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} out of {total_length} rows")
 
