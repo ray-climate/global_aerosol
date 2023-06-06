@@ -157,7 +157,7 @@ for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
     plt.setp(bp2[element], color='blue')
 ax[3].set_ylabel('AOD', fontsize=18)  # you might want to adjust this label
 ax[3].tick_params(axis='both', labelsize=18)
-ax[3].set_ylim(0, 0.6)  # Set the appropriate y limits for your extinction data
+ax[3].set_ylim(0, 0.3)  # Set the appropriate y limits for your extinction data
 ax[3].set_title(f"{name}", fontsize=20)
 ax[3].set_xticks(positions[::5])  # add this
 ax[3].set_xticklabels(x_labels[::5])  # add this
