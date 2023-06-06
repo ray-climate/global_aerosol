@@ -87,11 +87,11 @@ fig, ax1 = plt.subplots(figsize=(8, 8))  # Set the plot size
 # Scatter plot with time-based x-axis
 sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
 
-ax1.set_ylabel('Thickness', fontsize=18)
+ax1.set_ylabel('Ash layer thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
 ax1.grid(True)
-ax1.set_title('Thickness for Each UTC Time', fontsize=20)
 # plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax1, label='Count')
+ax1.tick_params(axis='both', which='major', labelsize=18)
 ax1.set_xticklabels([])  # Hide ax1 xticklabels
 ax1.set_title(f"{name}", fontsize=20)
 ax2 = ax1.twiny()  # Create a twin x-axis sharing the y-axis
@@ -99,14 +99,14 @@ ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
 ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
 # Error bar plot with day-based x-axis
-ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o', color='black', markeredgecolor='black', capsize=3, elinewidth=1)
+ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 
 ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
 ax2.set_xlabel('Days Since T0 =' + formatted_start_time, fontsize=18)
 ax2.tick_params(axis='both', which='major', labelsize=18)
-
+ax2.set_xlim(0, 50)
 fig.tight_layout()
 
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
