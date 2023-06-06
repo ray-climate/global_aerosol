@@ -87,7 +87,7 @@ fig, ax1 = plt.subplots(figsize=(8, 8))  # Set the plot size
 # sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
 # Scatter plot with time-based x-axis
 sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
-
+print(grouped_data_utc.index)
 ax1.set_ylabel('Ash layer thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
 ax1.grid(True)
@@ -105,7 +105,6 @@ axins = inset_axes(ax1,
 
 plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
 
-
 ax1.tick_params(axis='both', which='major', labelsize=18)
 ax1.set_xticklabels([])  # Hide ax1 xticklabels
 ax1.set_title(f"{name}", fontsize=20)
@@ -117,6 +116,9 @@ ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
+
+
+print(grouped_data_day_days)
 
 ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
 ax2.set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
