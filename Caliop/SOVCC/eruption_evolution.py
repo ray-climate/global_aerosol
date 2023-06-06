@@ -21,7 +21,7 @@ figure_save_location = './figures'
 
 # Define time and latitude range
 name = 'Caulle'
-start_time = '2011-06-10'
+start_time = '2011-06-15'
 end_time = '2011-07-20'
 lat_top = 0
 lat_bottom = -80
@@ -80,12 +80,12 @@ grouped_data_day_days = (grouped_data_day.index - start_date).days  # new Series
 cmap = plt.get_cmap("jet")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
-fig, ax1 = plt.subplots(figsize=(8, 6))  # Set the plot size
+fig, ax1 = plt.subplots(figsize=(8, 8))  # Set the plot size
 
 # Scatter plot with time-based x-axis
 # sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
 # Scatter plot with time-based x-axis
-sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.7, s=5*grouped_data_utc['count'])
+sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
 
 ax1.set_ylabel('Thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
@@ -93,7 +93,7 @@ ax1.grid(True)
 ax1.set_title('Thickness for Each UTC Time', fontsize=20)
 # plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax1, label='Count')
 ax1.set_xticklabels([])  # Hide ax1 xticklabels
-ax1.set_title('f{name}', fontsize=20)
+ax1.set_title(f"{name}", fontsize=20)
 ax2 = ax1.twiny()  # Create a twin x-axis sharing the y-axis
 ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
 ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
@@ -104,7 +104,8 @@ start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 
 ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
-ax2.set_xlabel('Days Since T0 [' + formatted_start_time + ']', fontsize=18)
+ax2.set_xlabel('Days Since T0 =' + formatted_start_time, fontsize=18)
+ax2.tick_params(axis='both', which='major', labelsize=18)
 
 fig.tight_layout()
 
