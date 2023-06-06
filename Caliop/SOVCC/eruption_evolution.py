@@ -98,12 +98,12 @@ axins = inset_axes(ax1,
                    width="50%",  # width = 5% of parent_bbox width
                    height="5%",  # height : 50%
                    loc='upper left',
-                   bbox_to_anchor=(0, 0.6, 0.4, 0.4),
+                   bbox_to_anchor=(0.05, 0.55, 0.4, 0.4),
                    bbox_transform=ax1.transAxes,
                    borderpad=0
                    )
 
-plt.colorbar(sc, cax=axins, orientation='horizontal', label='Count')
+plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
 
 
 ax1.tick_params(axis='both', which='major', labelsize=18)
