@@ -72,7 +72,15 @@ for i, row in all_data.iterrows():
 
 grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
 # Now group these means by day
-grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
+# grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
+# Create a date range from start_time to end_time
+date_range = pd.date_range(start=start_time, end=end_time)
+# Now group these means by day
+grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list})
+# Reindex the DataFrame to include missing dates
+grouped_data_day = grouped_data_day.reindex(date_range)
+# Transform the index to date only, without time
+grouped_data_day.index = grouped_data_day.index.date
 
 # Prepare boxplot data
 box_plot_data = {}
