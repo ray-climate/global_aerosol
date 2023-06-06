@@ -24,7 +24,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Raikoke'
 start_time = '2019-06-22'
-end_time = '2019-08-25'
+end_time = '2019-10-25'
 lat_top = 85
 lat_bottom = 40
 
@@ -102,7 +102,7 @@ axins = inset_axes(ax[0],
                    bbox_transform=ax[0].transAxes,
                    borderpad=0
                    )
-ax[0].set_xlim(0, 50)
+ax[0].set_xlim(0, 100)
 plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
 
 ax2 = ax[0].twiny()  # Create a twin x-axis sharing the y-axis
@@ -111,14 +111,14 @@ ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
 # Error bar plot with day-based x-axis
 ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
-ax2.set_xlim(0, 50)
+ax2.set_xlim(0, 100)
 ax2.tick_params(axis='both',labelsize=18)
 
 
 # Second subplot for ash_height
 sc = ax[1].scatter(grouped_data_utc_days, grouped_data_utc['ash_height'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
-ax[1].set_ylim(9., 16)  # set ylim correctly
+ax[1].set_ylim(10., 25)  # set ylim correctly
 ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
 ax[1].set_xticklabels([])  # Hide ax1 xticklabels
@@ -131,7 +131,7 @@ axins = inset_axes(ax[1],
                    borderpad=0
                    )
 plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
-ax[1].set_xlim(0, 50)
+ax[1].set_xlim(0, 100)
 
 ax4 = ax[1].twiny()  # Create a twin x-axis sharing the y-axis
 ax4.xaxis.tick_bottom()  # Move ax2 xticks to bottom
@@ -139,7 +139,7 @@ ax4.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 ax4.tick_params(axis='both', labelsize=18)
 # Error bar plot with day-based x-axis
 ax4.errorbar(grouped_data_day_days, grouped_data_day['ash_height_mean'], yerr=grouped_data_day['ash_height_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
-ax4.set_xlim(0, 50)
+ax4.set_xlim(0, 100)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 ax4.set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
