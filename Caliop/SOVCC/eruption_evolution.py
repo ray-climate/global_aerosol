@@ -100,11 +100,10 @@ axins = inset_axes(ax1,
                    loc='upper left',
                    bbox_to_anchor=(0, 0.6, 0.4, 0.4),
                    bbox_transform=ax1.transAxes,
-                   borderpad=0,
+                   borderpad=0
                    )
 
-# Create colorbar in the inset_axes instance
-plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), cax=axins, label='Count')
+plt.colorbar(sc, cax=axins, orientation='horizontal', label='Count')
 
 
 ax1.tick_params(axis='both', which='major', labelsize=18)
