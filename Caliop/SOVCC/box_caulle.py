@@ -72,7 +72,15 @@ for i, row in all_data.iterrows():
 
 grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
 # Now group these means by day
-grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
+# grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
+# Create a date range from start_time to end_time
+date_range = pd.date_range(start=start_time, end=end_time)
+# Now group these means by day
+grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list})
+# Reindex the DataFrame to include missing dates
+grouped_data_day = grouped_data_day.reindex(date_range)
+# Transform the index to date only, without time
+grouped_data_day.index = grouped_data_day.index.date
 
 # Prepare boxplot data
 box_plot_data = {}
@@ -85,6 +93,7 @@ for day, data in grouped_data_day.iterrows():
 
 
 fig, ax = plt.subplots(1, 3, figsize=(24, 8))
+
 start_date = min(box_plot_data.keys())
 x_labels = [(day - start_date).days for day in box_plot_data.keys()]
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
@@ -97,13 +106,14 @@ bp0 = ax[0].boxplot(thickness_data, positions=positions, widths=0.6)
 for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
     plt.setp(bp0[element], color='#FF851B')
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
-# ax[0].grid(True)
+
 ax[0].set_ylim(0, 4.)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
 
 ax[0].set_xticks(positions[::5])  # add this
 ax[0].set_xticklabels(x_labels[::5])  # add this
+ax[0].set_xlim(0., 50)
 ax[0].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 
@@ -111,6 +121,7 @@ ax[0].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 bp1 = ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=positions, widths=0.6)
 for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
     plt.setp(bp1[element], color='#FF4136')
+
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
 # ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
@@ -120,6 +131,7 @@ ax[1].set_xticklabels([])
 # ax[1].set_xlim(0, 100)
 ax[1].set_xticks(positions[::5])  # add this
 ax[1].set_xticklabels(x_labels[::5])  # add this
+ax[1].set_xlim(0., 50)
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 bp2 = ax[2].boxplot([data['extinction'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
@@ -131,7 +143,7 @@ ax[2].set_ylim(0, 0.3)  # Set the appropriate y limits for your extinction data
 ax[2].set_title(f"{name}", fontsize=20)
 ax[2].set_xticks(positions[::5])  # add this
 ax[2].set_xticklabels(x_labels[::5])  # add this
+ax[2].set_xlim(0., 50)
 ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
-
