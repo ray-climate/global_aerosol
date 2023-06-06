@@ -90,7 +90,7 @@ fig, ax1 = plt.subplots(figsize=(8, 8))  # Set the plot size
 # sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
 sc = ax1.scatter(grouped_data_utc_days, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
 
-print(grouped_data_utc.index)
+print(grouped_data_utc_days)
 ax1.set_ylabel('Ash layer thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
 ax1.grid(True)
