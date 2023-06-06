@@ -77,12 +77,13 @@ grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg
 # Prepare boxplot data
 box_plot_data = {}
 for day, data in grouped_data_day.iterrows():
+    print(day)
     box_plot_data[day] = {
         'thickness': data['thickness'],
         'ash_height': data['ash_height'],
         'extinction': data['extinction']  # include 'extinction'
     }
-print(day)
+
 quit()
 
 fig, ax = plt.subplots(1, 3, figsize=(24, 8))
