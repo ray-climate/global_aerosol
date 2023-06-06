@@ -131,7 +131,7 @@ axins = inset_axes(ax[1],
                    borderpad=0
                    )
 plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
-ax[1].set_xlim(0, 100)
+ax[1].set_xlim(0, 100.)
 
 ax4 = ax[1].twiny()  # Create a twin x-axis sharing the y-axis
 ax4.xaxis.tick_bottom()  # Move ax2 xticks to bottom
