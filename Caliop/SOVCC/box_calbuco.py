@@ -50,7 +50,6 @@ for file in files:
 
     all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction']], ignore_index=True)  # include 'extinction'
 
-
 # Remove rows with any NaN values
 all_data = all_data.dropna()
 
@@ -58,27 +57,25 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
-# Set utc_time as the index for resampling
+# Convert utc_time to index
 all_data.set_index('utc_time', inplace=True)
-
-# Resample to daily frequency, fill missing values with NaN
-all_data_daily = all_data.resample('D').mean().fillna(np.nan)
+# Resample DataFrame by day and fill missing values
+all_data = all_data.resample('D').mean()
+all_data.fillna(np.nan, inplace=True)
 
 # Iterate over the rows to check for latitude criterion
-all_data_daily['count'] = np.nan
-
-for i, row in all_data_daily.iterrows():
-    print(all_data_daily.index , row.name)
-    nearby_records = all_data_daily[(np.abs(all_data_daily['latitude'] - row['latitude']) <= 1) &
-                                    (all_data_daily.index == row.name)]
+all_data['count'] = np.nan
+for i, row in all_data.iterrows():
+    nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
+                              (all_data['utc_time'] == row['utc_time'])]
     if nearby_records.shape[0] < 5:
-        all_data_daily.loc[i, 'count'] = np.nan
+        all_data.drop(i, inplace=True)
     else:
-        all_data_daily.loc[i, 'count'] = nearby_records.shape[0]
-    if i.day % 10 == 0:  # Print progress for every 10 days
-        print(f"Processed till {i}")
+        all_data.loc[i, 'count'] = nearby_records.shape[0]
+    if i % 1000 == 0:  # Print progress for every 1000 rows
+        print(f"Processed {i} rows")
 
-grouped_data_time = all_data_daily.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
+grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
 # Now group these means by day
 grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
 
@@ -90,6 +87,7 @@ for day, data in grouped_data_day.iterrows():
         'ash_height': data['ash_height'],
         'extinction': data['extinction']  # include 'extinction'
     }
+
 
 fig, ax = plt.subplots(1, 3, figsize=(24, 8))
 
