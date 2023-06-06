@@ -24,7 +24,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Puyehue-Cordón Caulle'
 start_time = '2011-06-15'
-end_time = '2011-07-25'
+end_time = '2011-08-05'
 lat_top = 0
 lat_bottom = -80
 
