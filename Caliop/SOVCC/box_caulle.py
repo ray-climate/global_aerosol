@@ -72,27 +72,32 @@ for i, row in all_data.iterrows():
 grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std'], 'ash_height': ['mean', 'std']}).dropna()
 
 # Prepare boxplot data
-thickness_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'thickness', 'mean'].values for day in range(1, 366)]
-ash_height_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'ash_height', 'mean'].values for day in range(1, 366)]
-grouped_data_day_days = [day for day in range(1, 366) if grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'thickness', 'mean'].values.size > 0]
+box_plot_data = {}
+for day in range(1, 366):
+    day_data = grouped_data_day[grouped_data_day.index.dayofyear == day]
+    if not day_data.empty:
+        box_plot_data[day] = {
+            'thickness': day_data[('thickness', 'mean')].values,
+            'ash_height': day_data[('ash_height', 'mean')].values
+        }
 
 fig, ax = plt.subplots(2, 1, figsize=(8, 16))
 
 # First subplot for thickness
-ax[0].boxplot(thickness_data_per_day, positions=grouped_data_day_days, widths=0.6)
+ax[0].boxplot([data['thickness'] for data in box_plot_data.values()], positions=list(box_plot_data.keys()), widths=0.6)
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
 ax[0].grid(True)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
 ax[0].set_xticklabels([])  # Hide ax0 xticklabels
-ax[0].set_xlim(0, 50)
+ax[0].set_xlim(0, 100)
 
 # Second subplot for ash_height
-ax[1].boxplot(ash_height_data_per_day, positions=grouped_data_day_days, widths=0.6)
+ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=list(box_plot_data.keys()), widths=0.6)
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
 ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
-ax[1].set_xlim(0, 50)
+ax[1].set_xlim(0, 100)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
