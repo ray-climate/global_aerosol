@@ -111,9 +111,9 @@ ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 
 ax[2].boxplot([data['extinction'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
-ax[2].set_ylabel('Extinction [km^{-1}]', fontsize=18)  # you might want to adjust this label
+ax[2].set_ylabel('Ash layer AOD', fontsize=18)  # you might want to adjust this label
 ax[2].tick_params(axis='both', labelsize=18)
-# ax[2].set_ylim(?, ?)  # Set the appropriate y limits for your extinction data
+ax[2].set_ylim(0, 6)  # Set the appropriate y limits for your extinction data
 ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 start_date = min(box_plot_data.keys())
