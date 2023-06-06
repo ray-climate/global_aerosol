@@ -84,7 +84,11 @@ for day, data in grouped_data_day.iterrows():
     }
 
 
-fig, ax = plt.subplots(3, 1, figsize=(8, 24))
+fig, ax = plt.subplots(1, 3, figsize=(24, 8))
+start_date = min(box_plot_data.keys())
+x_labels = [(day - start_date).days for day in box_plot_data.keys()]
+start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
+formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 
 # First subplot for thickness
 positions = range(len(box_plot_data))  # Generate numeric positions for the x-axis
@@ -95,8 +99,11 @@ ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
 ax[0].set_ylim(0, 4.)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
-ax[0].set_xticklabels([])  # Hide ax0 xticklabels
-# ax[0].set_xlim(0, 100)
+
+ax[0].set_xticks(positions[::5])  # add this
+ax[0].set_xticklabels(x_labels[::5])  # add this
+ax[0].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
+
 
 # Second subplot for ash_height
 ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=positions, widths=0.6)
@@ -104,23 +111,21 @@ ax[1].set_ylabel('Ash height [km]', fontsize=18)
 # ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
 ax[1].set_ylim(8, 15.)
+ax[1].set_title(f"{name}", fontsize=20)
+ax[1].set_xticklabels([])
 # ax[1].set_xlim(0, 100)
-start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
-formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
+ax[1].set_xticks(positions[::5])  # add this
+ax[1].set_xticklabels(x_labels[::5])  # add this
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
-
 ax[2].boxplot([data['extinction'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
-ax[2].set_ylabel('Ash layer AOD', fontsize=18)  # you might want to adjust this label
+ax[2].set_ylabel('Extinction [km$^{-1}$]', fontsize=18)  # you might want to adjust this label
 ax[2].tick_params(axis='both', labelsize=18)
 ax[2].set_ylim(0, 6)  # Set the appropriate y limits for your extinction data
-ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
-
-start_date = min(box_plot_data.keys())
-x_labels = [(day - start_date).days for day in box_plot_data.keys()]
+ax[2].set_title(f"{name}", fontsize=20)
 ax[2].set_xticks(positions[::5])  # add this
 ax[2].set_xticklabels(x_labels[::5])  # add this
-
+ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
 
