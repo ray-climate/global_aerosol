@@ -23,7 +23,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Caulle'
 start_time = '2011-06-15'
-end_time = '2011-07-20'
+end_time = '2011-06-20'
 lat_top = 0
 lat_bottom = -80
 
@@ -98,7 +98,7 @@ axins = inset_axes(ax1,
                    width="5%",  # width = 5% of parent_bbox width
                    height="50%",  # height : 50%
                    loc='upper left',
-                   bbox_to_anchor=(0, 0.6, 1, 1),
+                   bbox_to_anchor=(0, 0.6, 0.4, 0.4),
                    bbox_transform=ax1.transAxes,
                    borderpad=0,
                    )
