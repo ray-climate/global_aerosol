@@ -82,9 +82,11 @@ for day, data in grouped_data_day.iterrows():
         'ash_height': data['ash_height'],
         'extinction': data['extinction']  # include 'extinction'
     }
-
+print(day)
+quit()
 
 fig, ax = plt.subplots(1, 3, figsize=(24, 8))
+
 start_date = min(box_plot_data.keys())
 x_labels = [(day - start_date).days for day in box_plot_data.keys()]
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
