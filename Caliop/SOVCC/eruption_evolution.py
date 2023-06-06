@@ -98,7 +98,7 @@ axins = inset_axes(ax1,
                    width="5%",  # width = 5% of parent_bbox width
                    height="50%",  # height : 50%
                    loc='upper left',
-                   bbox_to_anchor=(0.1, 0.85, 0.4, 0.4),
+                   bbox_to_anchor=(0., 0.6, 0.4, 0.9),
                    bbox_transform=ax1.transAxes,
                    borderpad=0
                    )
