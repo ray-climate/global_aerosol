@@ -73,6 +73,9 @@ def calculate_ash_mask_thickness(ash_mask, altitude, extinction):
                 thickness = max_altitude - min_altitude
                 thicknesses.append(thickness)
                 extinction_mask = extinction[seq]
+                altitdue_mask = altitude[seq]
+                print(extinction_mask, altitdue_mask)
+                quit()
                 weighted_extinctions.append(np.sum(extinction_mask) * thickness)
                 mean_heights.append(np.mean([max_altitude, min_altitude]))
 
