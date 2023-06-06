@@ -94,8 +94,8 @@ formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 positions = range(len(box_plot_data))  # Generate numeric positions for the x-axis
 thickness_data = [data['thickness'] for data in box_plot_data.values()]
 bp0 = ax[0].boxplot(thickness_data, positions=positions, widths=0.6)
-for box in bp0['boxes']:
-    box.set_facecolor('#FF851B')
+for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+    plt.setp(bp0[element], color='#FF851B')
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
 # ax[0].grid(True)
 ax[0].set_ylim(0, 4.)
@@ -109,8 +109,8 @@ ax[0].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 # Second subplot for ash_height
 bp1 = ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=positions, widths=0.6)
-for box in bp1['boxes']:
-    box.set_facecolor('#FF4136')
+for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+    plt.setp(bp1[element], color='#FF4136')
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
 # ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
@@ -123,8 +123,8 @@ ax[1].set_xticklabels(x_labels[::5])  # add this
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 bp2 = ax[2].boxplot([data['extinction'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
-for box in bp2['boxes']:
-    box.set_facecolor('#3D9970')
+for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+    plt.setp(bp2[element], color='#3D9970')
 ax[2].set_ylabel('Extinction [km$^{-1}$]', fontsize=18)  # you might want to adjust this label
 ax[2].tick_params(axis='both', labelsize=18)
 ax[2].set_ylim(0, 0.5)  # Set the appropriate y limits for your extinction data
