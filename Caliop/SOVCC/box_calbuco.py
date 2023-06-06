@@ -58,6 +58,8 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
+print(all_data)
+quit()
 # Iterate over the rows to check for latitude criterion
 all_data['count'] = np.nan
 for i, row in all_data.iterrows():
@@ -77,14 +79,11 @@ grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg
 # Prepare boxplot data
 box_plot_data = {}
 for day, data in grouped_data_day.iterrows():
-    print(day)
     box_plot_data[day] = {
         'thickness': data['thickness'],
         'ash_height': data['ash_height'],
         'extinction': data['extinction']  # include 'extinction'
     }
-
-quit()
 
 fig, ax = plt.subplots(1, 3, figsize=(24, 8))
 
