@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        05/06/2023 17:11
 
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 import matplotlib.ticker as mticker
@@ -22,7 +23,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Caulle'
 start_time = '2011-06-15'
-end_time = '2011-07-25'
+end_time = '2011-07-20'
 lat_top = 0
 lat_bottom = -80
 
@@ -80,37 +81,52 @@ grouped_data_day_days = (grouped_data_day.index - start_date).days  # new Series
 cmap = plt.get_cmap("jet")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
-fig = plt.figure(figsize=(8, 8))
-gs = gridspec.GridSpec(2, 1, height_ratios=[15, 1], hspace=0.05)
+fig, ax1 = plt.subplots(figsize=(8, 8))  # Set the plot size
 
 # Scatter plot with time-based x-axis
-ax1 = plt.subplot(gs[0])
+# sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
+# Scatter plot with time-based x-axis
 sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
+
 ax1.set_ylabel('Ash layer thickness', fontsize=18)
-ax1.set_ylim(0, 4)
+ax1.set_ylim(0, 4)  # set ylim correctly
 ax1.grid(True)
+
+# create an inset_axes instance with a width of "5%" and a height of "50%"
+# located at (0, 0.6)
+axins = inset_axes(ax1,
+                   width="5%",  # width = 5% of parent_bbox width
+                   height="50%",  # height : 50%
+                   loc='upper left',
+                   bbox_to_anchor=(0, 0.6, 1, 1),
+                   bbox_transform=ax1.transAxes,
+                   borderpad=0,
+                   )
+
+# Create colorbar in the inset_axes instance
+plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), cax=axins, label='Count')
+
+
 ax1.tick_params(axis='both', which='major', labelsize=18)
-ax1.set_xticklabels([])
+ax1.set_xticklabels([])  # Hide ax1 xticklabels
 ax1.set_title(f"{name}", fontsize=20)
+ax2 = ax1.twiny()  # Create a twin x-axis sharing the y-axis
+ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
+ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
-# Colorbar
-cax = plt.subplot(gs[1])
-cb = plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), cax=cax, orientation='horizontal')
-cb.set_label('Count', fontsize=18)
-cb.ax.tick_params(labelsize=14)
-
-# Twin x-axis for error bar plot
-ax2 = ax1.twiny()
+# Error bar plot with day-based x-axis
 ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
-ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
+
+ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
 ax2.set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 ax2.tick_params(axis='both', which='major', labelsize=18)
 ax2.set_xlim(0, 50)
-
 fig.tight_layout()
+
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
+
 
 
 
