@@ -39,7 +39,7 @@ def calculate_ash_mask_thickness(ash_mask, altitude, extinction):
         thicknesses: List of float
     """
     thicknesses = []  # Initialize thicknesses list
-    weighted_extinction = []  # Initialize weighted extinction list
+    weighted_extinctions = []  # Initialize weighted extinction list
     mean_heights = []
     # Convert ash_mask and altitude to numpy arrays
     ash_mask = np.array(ash_mask)
@@ -73,12 +73,10 @@ def calculate_ash_mask_thickness(ash_mask, altitude, extinction):
                 thickness = max_altitude - min_altitude
                 thicknesses.append(thickness)
                 extinction_mask = extinction[seq]
-                print(extinction_mask)
-                print(altitude[seq])
-                print(thickness)
-                quit()
+                weighted_extinctions.append(np.sum(extinction_mask) / thickness)
                 mean_heights.append(np.mean([max_altitude, min_altitude]))
-
+                print(thickness, extinction_mask, np.sum(extinction_mask) / thickness)
+                quit()
     return thicknesses, mean_heights
 
 
