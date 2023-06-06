@@ -106,13 +106,14 @@ bp0 = ax[0].boxplot(thickness_data, positions=positions, widths=0.6)
 for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
     plt.setp(bp0[element], color='#FF851B')
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
-ax[0].set_xlim(0., 50)
+
 ax[0].set_ylim(0, 4.)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
 
 ax[0].set_xticks(positions[::5])  # add this
 ax[0].set_xticklabels(x_labels[::5])  # add this
+ax[0].set_xlim(0., 50)
 ax[0].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 
@@ -120,7 +121,7 @@ ax[0].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 bp1 = ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=positions, widths=0.6)
 for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
     plt.setp(bp1[element], color='#FF4136')
-ax[1].set_xlim(0., 50)
+
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
 # ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
@@ -130,18 +131,19 @@ ax[1].set_xticklabels([])
 # ax[1].set_xlim(0, 100)
 ax[1].set_xticks(positions[::5])  # add this
 ax[1].set_xticklabels(x_labels[::5])  # add this
+ax[1].set_xlim(0., 50)
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 bp2 = ax[2].boxplot([data['extinction'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
 for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
     plt.setp(bp2[element], color='#3D9970')
-ax[2].set_xlim(0., 50)
 ax[2].set_ylabel('Extinction [km$^{-1}$]', fontsize=18)  # you might want to adjust this label
 ax[2].tick_params(axis='both', labelsize=18)
 ax[2].set_ylim(0, 0.3)  # Set the appropriate y limits for your extinction data
 ax[2].set_title(f"{name}", fontsize=20)
 ax[2].set_xticks(positions[::5])  # add this
 ax[2].set_xticklabels(x_labels[::5])  # add this
+ax[2].set_xlim(0., 50)
 ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
