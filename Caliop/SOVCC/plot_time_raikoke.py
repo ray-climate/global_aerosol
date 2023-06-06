@@ -24,7 +24,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Raikoke'
 start_time = '2019-06-22'
-end_time = '2019-08-05'
+end_time = '2019-08-25'
 lat_top = 85
 lat_bottom = 40
 
@@ -118,7 +118,7 @@ ax2.tick_params(axis='both',labelsize=18)
 # Second subplot for ash_height
 sc = ax[1].scatter(grouped_data_utc_days, grouped_data_utc['ash_height'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
-ax[1].set_ylim(15., 22)  # set ylim correctly
+ax[1].set_ylim(9., 16)  # set ylim correctly
 ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
 ax[1].set_xticklabels([])  # Hide ax1 xticklabels
