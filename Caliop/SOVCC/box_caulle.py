@@ -85,6 +85,7 @@ fig, ax = plt.subplots(2, 1, figsize=(8, 16))
 
 # First subplot for thickness
 thickness_data = [data['thickness'] for data in box_plot_data.values()]
+print(thickness_data)
 ax[0].boxplot(thickness_data, positions=list(box_plot_data.keys()), widths=0.6)
 
 ax[0].set_ylabel('Ash layer thickness [km]', fontsize=18)
