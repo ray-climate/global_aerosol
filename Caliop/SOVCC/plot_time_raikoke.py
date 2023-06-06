@@ -103,16 +103,22 @@ axins = inset_axes(ax[0],
                    borderpad=0
                    )
 ax[0].set_xlim(0, 100)
-plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
 
-ax2 = ax[0].twiny()  # Create a twin x-axis sharing the y-axis
-ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
-ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
+# Create box-and-whisker plot with day-based x-axis
+thickness_data_per_day = all_data.groupby(all_data['utc_time'].dt.day)['thickness'].apply(list)  # Group data per day
+ax[0].boxplot(thickness_data_per_day, positions=grouped_data_day_days, widths=0.6)
 
-# Error bar plot with day-based x-axis
-ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
-ax2.set_xlim(0, 100)
-ax2.tick_params(axis='both',labelsize=18)
+#
+# plt.colorbar(sc, cax=axins, orientation='horizontal', label='Counts')
+#
+# ax2 = ax[0].twiny()  # Create a twin x-axis sharing the y-axis
+# ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
+# ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
+#
+# # Error bar plot with day-based x-axis
+# ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='x', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
+# ax2.set_xlim(0, 100)
+# ax2.tick_params(axis='both',labelsize=18)
 
 
 # Second subplot for ash_height
