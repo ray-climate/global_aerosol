@@ -64,16 +64,21 @@ all_data = all_data.resample('D').mean()
 all_data.fillna(np.nan, inplace=True)
 
 # Iterate over the rows to check for latitude criterion
+# Iterate over the rows to check for latitude criterion
 all_data['count'] = np.nan
+counter = 0
 for i, row in all_data.iterrows():
     nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
                               (all_data.index == row.name)]
     if nearby_records.shape[0] < 5:
-        all_data.drop(i, inplace=True)
+        all_data.loc[i, :] = np.nan
     else:
         all_data.loc[i, 'count'] = nearby_records.shape[0]
-    if i % 1000 == 0:  # Print progress for every 1000 rows
-        print(f"Processed {i} rows")
+
+    counter += 1
+    if counter % 1000 == 0:  # Print progress for every 1000 rows
+        print(f"Processed {counter} rows")
+
 
 grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
 # Now group these means by day
