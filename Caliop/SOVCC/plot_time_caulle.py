@@ -99,7 +99,7 @@ axins = inset_axes(ax[0],
                    height="5%",  # height : 50%
                    loc='upper left',
                    bbox_to_anchor=(0.05, 0.55, 0.4, 0.4),
-                   bbox_transform=ax1.transAxes,
+                   bbox_transform=ax[0].transAxes,
                    borderpad=0
                    )
 ax[0].set_xlim(0, 50)
