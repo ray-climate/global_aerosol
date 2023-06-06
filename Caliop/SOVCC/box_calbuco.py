@@ -48,8 +48,10 @@ for file in files:
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
-    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction']], ignore_index=True)  # include 'extinction'
+    # Calculate AOD by multiplying 'thickness' and 'extinction'
+    data['AOD'] = data['thickness'] * data['extinction']
 
+    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction', 'AOD']], ignore_index=True)  # include 'extinction' and 'AOD'
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
@@ -70,13 +72,14 @@ for i, row in all_data.iterrows():
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} rows")
 
-grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
+grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean, 'AOD': np.mean})  # include 'AOD'
+
 # Now group these means by day
 # grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
 # Create a date range from start_time to end_time
 date_range = pd.date_range(start=start_time, end=end_time)
 # Now group these means by day
-grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list})
+grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list, 'AOD': list}).dropna()  # include 'extinction' and 'AOD'
 # Reindex the DataFrame to include missing dates
 grouped_data_day = grouped_data_day.reindex(date_range)
 # Transform the index to date only, without time
@@ -84,15 +87,17 @@ grouped_data_day.index = grouped_data_day.index.date
 
 # Prepare boxplot data
 box_plot_data = {}
+
 for day, data in grouped_data_day.iterrows():
     box_plot_data[day] = {
         'thickness': data['thickness'],
         'ash_height': data['ash_height'],
-        'extinction': data['extinction']  # include 'extinction'
+        'extinction': data['extinction'],  # include 'extinction'
+        'AOD': data['AOD']  # include 'AOD'
     }
 
 
-fig, ax = plt.subplots(1, 3, figsize=(24, 8))
+fig, ax = plt.subplots(1, 4, figsize=(32, 8))
 
 start_date = min(box_plot_data.keys())
 x_labels = [(day - start_date).days for day in box_plot_data.keys()]
@@ -145,6 +150,18 @@ ax[2].set_xticks(positions[::5])  # add this
 ax[2].set_xticklabels(x_labels[::5])  # add this
 ax[2].set_xlim(0., 50)
 ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
+
+bp3 = ax[3].boxplot([data['AOD'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
+for element in ['boxes', 'whiskers', 'fliers', 'means', 'medians', 'caps']:
+    plt.setp(bp2[element], color='blue')
+ax[3].set_ylabel('AOD', fontsize=18)  # you might want to adjust this label
+ax[3].tick_params(axis='both', labelsize=18)
+ax[3].set_ylim(0, 0.3)  # Set the appropriate y limits for your extinction data
+ax[3].set_title(f"{name}", fontsize=20)
+ax[3].set_xticks(positions[::5])  # add this
+ax[3].set_xticklabels(x_labels[::5])  # add this
+ax[3].set_xlim(0., 50)
+ax[3].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
 
