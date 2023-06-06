@@ -90,17 +90,17 @@ ax[0].grid(True)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
 ax[0].set_xticklabels([])  # Hide ax0 xticklabels
-ax[0].set_xlim(0, 100)
+# ax[0].set_xlim(0, 100)
 
 # Second subplot for ash_height
 ax[1].boxplot([data['ash_height'] for data in box_plot_data.values()], positions=list(box_plot_data.keys()), widths=0.6)
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
 ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
-ax[1].set_xlim(0, 100)
+# ax[1].set_xlim(0, 100)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
-plt.savefig(figure_save_location + '/' + name + '_thickness_and_ash_height_for_each_utc_time.png')
+plt.savefig(figure_save_location + '/' + name + '_box.png')
 
