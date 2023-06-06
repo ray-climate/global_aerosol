@@ -12,7 +12,7 @@ import os
 import matplotlib.dates as mdates
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
-import matplotlib.ticker as ticker
+import matplotlib.ticker as mticker
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
@@ -79,25 +79,24 @@ grouped_data_day_days = (grouped_data_day.index - start_date).days  # new Series
 cmap = plt.get_cmap("jet")
 norm = Normalize(vmin=grouped_data_utc['count'].min(), vmax=grouped_data_utc['count'].max())
 
-fig, ax = plt.subplots(figsize=(10, 6))  # Set the plot size
-sc = ax.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
-ax.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
-plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax, label='Count')
+fig, ax1 = plt.subplots(figsize=(10, 6))  # Set the plot size
+
+sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Thickness', fontsize=18)
-plt.set_ylim = (0, 4)
+plt.ylim(0, 4)  # set ylim correctly
 plt.grid(True)
 plt.title('Thickness for Each UTC Time', fontsize=20)
+plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax1, label='Count')
 
-# Define a function for a secondary x-axis showing days since the start date
-def days_from_start(x):
-    return (pd.to_datetime(x) - start_date).days
+ax2 = ax1.twiny()  # Create a twin x-axis sharing the y-axis
 
-# Create a secondary x-axis for the days since the start date
-secax = ax.secondary_xaxis('top', functions=(days_from_start, days_from_start))
-secax.set_xlabel('Days Since Start Time (' + start_time + ')')
+# Error bar plot with day-based x-axis
+ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
+ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
 
-plt.tight_layout()  # Adjust subplot parameters to give specified padding
+ax2.set_xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
+
 plt.savefig(figure_save_location + '/' + name + '_thickness_for_each_utc_time.png')
 
 
