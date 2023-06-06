@@ -94,6 +94,7 @@ ax2 = ax1.twiny()  # Create a twin x-axis sharing the y-axis
 # Error bar plot with day-based x-axis
 ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
 ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
+print(grouped_data_day_days)
 
 ax2.set_xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
 
