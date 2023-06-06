@@ -58,21 +58,27 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
-print(all_data)
-quit()
-# Iterate over the rows to check for latitude criterion
-all_data['count'] = np.nan
-for i, row in all_data.iterrows():
-    nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
-                              (all_data['utc_time'] == row['utc_time'])]
-    if nearby_records.shape[0] < 5:
-        all_data.drop(i, inplace=True)
-    else:
-        all_data.loc[i, 'count'] = nearby_records.shape[0]
-    if i % 1000 == 0:  # Print progress for every 1000 rows
-        print(f"Processed {i} rows")
+# Set utc_time as the index for resampling
+all_data.set_index('utc_time', inplace=True)
 
-grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
+# Resample to daily frequency, fill missing values with NaN
+all_data_daily = all_data.resample('D').mean().fillna(np.nan)
+
+# Iterate over the rows to check for latitude criterion
+all_data_daily['count'] = np.nan
+
+for i, row in all_data_daily.iterrows():
+    print(all_data_daily.index , row.name)
+    nearby_records = all_data_daily[(np.abs(all_data_daily['latitude'] - row['latitude']) <= 1) &
+                                    (all_data_daily.index == row.name)]
+    if nearby_records.shape[0] < 5:
+        all_data_daily.loc[i, 'count'] = np.nan
+    else:
+        all_data_daily.loc[i, 'count'] = nearby_records.shape[0]
+    if i.day % 10 == 0:  # Print progress for every 10 days
+        print(f"Processed till {i}")
+
+grouped_data_time = all_data_daily.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
 # Now group these means by day
 grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
 
