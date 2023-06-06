@@ -110,7 +110,7 @@ ax2.boxplot(thickness_data_per_day, positions=full_date_range_days, widths=0.6)
 ax2.set_ylabel('Ash layer thickness [km] (boxplot)', fontsize=18)
 
 # Scatter plot with error bars for 'ash_height'
-ax[1].errorbar(grouped_data_day.index, grouped_data_day['ash_height', 'mean'], yerr=group_data_day['ash_height', 'std'],
+ax[1].errorbar(grouped_data_day.index, grouped_data_day['ash_height', 'mean'], yerr=grouped_data_day['ash_height', 'std'],
                fmt='o', markersize=2, ecolor='black', capsize=3)
 ax[1].set_ylabel('Ash height [km] (mean ± std)', fontsize=18)
 
