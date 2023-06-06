@@ -67,7 +67,7 @@ all_data.fillna(np.nan, inplace=True)
 all_data['count'] = np.nan
 for i, row in all_data.iterrows():
     nearby_records = all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
-                              (all_data['utc_time'] == row['utc_time'])]
+                              (all_data.index == row.name)]
     if nearby_records.shape[0] < 5:
         all_data.drop(i, inplace=True)
     else:
