@@ -24,7 +24,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Puyehue-Cordón Caulle'
 start_time = '2011-06-15'
-end_time = '2011-06-25'
+end_time = '2011-06-20'
 lat_top = 0
 lat_bottom = -80
 
@@ -69,11 +69,12 @@ for i, row in all_data.iterrows():
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} rows")
 
-grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std'], 'ash_height': ['mean', 'std']})
-grouped_data_day.columns = ['thickness_mean', 'thickness_std', 'ash_height_mean', 'ash_height_std']
-thickness_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'thickness_mean'].values for day in range(1, 366)]
-ash_height_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'ash_height_mean'].values for day in range(1, 366)]
-grouped_data_day_days = (grouped_data_day.index - pd.to_datetime(start_time)).days
+grouped_data_day = all_data.groupby(pd.Grouper(key='utc_time', freq='D')).agg({'thickness': ['mean', 'std'], 'ash_height': ['mean', 'std']}).dropna()
+
+# Prepare boxplot data
+thickness_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'thickness', 'mean'].values for day in range(1, 366)]
+ash_height_data_per_day = [grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'ash_height', 'mean'].values for day in range(1, 366)]
+grouped_data_day_days = [day for day in range(1, 366) if grouped_data_day.loc[grouped_data_day.index.dayofyear == day, 'thickness', 'mean'].values.size > 0]
 
 fig, ax = plt.subplots(2, 1, figsize=(8, 16))
 
@@ -84,17 +85,17 @@ ax[0].grid(True)
 ax[0].set_title(f"{name}", fontsize=20)
 ax[0].tick_params(axis='both', labelsize=18)
 ax[0].set_xticklabels([])  # Hide ax0 xticklabels
-ax[0].set_xlim(0, 100)
+ax[0].set_xlim(0, 50)
 
 # Second subplot for ash_height
 ax[1].boxplot(ash_height_data_per_day, positions=grouped_data_day_days, widths=0.6)
 ax[1].set_ylabel('Ash height [km]', fontsize=18)
 ax[1].grid(True)
 ax[1].tick_params(axis='both', labelsize=18)
-ax[1].set_xlim(0, 100)
+ax[1].set_xlim(0, 50)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_thickness_and_ash_height_for_each_utc_time.png')
-plt.show()
+
