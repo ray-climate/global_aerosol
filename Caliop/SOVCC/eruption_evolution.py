@@ -21,7 +21,7 @@ variable_file_location = './thickness_data_extraction'
 figure_save_location = './figures'
 
 # Define time and latitude range
-name = 'Caulle'
+name = 'Puyehue-Cordón Caulle'
 start_time = '2011-06-15'
 end_time = '2011-07-25'
 lat_top = 0
@@ -88,7 +88,7 @@ fig, ax1 = plt.subplots(figsize=(8, 8))  # Set the plot size
 # sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
 # Scatter plot with time-based x-axis
 # sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
-sc = ax1.scatter(grouped_data_utc_days, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.3, s=5*grouped_data_utc['count'])
+sc = ax1.scatter(grouped_data_utc_days, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.35, s=5*grouped_data_utc['count'])
 
 print(grouped_data_utc_days)
 ax1.set_ylabel('Ash layer thickness', fontsize=18)
@@ -116,7 +116,7 @@ ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
 ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
 # Error bar plot with day-based x-axis
-ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
+ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o-', color='black', markeredgecolor='black', capsize=3, elinewidth=2.4)
 start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 
