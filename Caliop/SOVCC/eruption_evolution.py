@@ -84,7 +84,7 @@ fig, ax1 = plt.subplots(figsize=(12, 6))  # Set the plot size
 # Scatter plot with time-based x-axis
 # sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.5)
 # Scatter plot with time-based x-axis
-sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.7, s=30*grouped_data_utc['count'])
+sc = ax1.scatter(grouped_data_utc.index, grouped_data_utc['thickness'], c=grouped_data_utc['count'], cmap=cmap, norm=norm, alpha=0.7, s=15*grouped_data_utc['count'])
 
 ax1.set_ylabel('Thickness', fontsize=18)
 ax1.set_ylim(0, 4)  # set ylim correctly
@@ -98,7 +98,8 @@ ax2.xaxis.tick_bottom()  # Move ax2 xticks to bottom
 ax2.xaxis.set_label_position('bottom')  # Move ax2 xlabel to bottom
 
 # Error bar plot with day-based x-axis
-ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o')
+ax2.errorbar(grouped_data_day_days, grouped_data_day['thickness_mean'], yerr=grouped_data_day['thickness_std'], fmt='o', color='black', markeredgecolor='black', capsize=3, elinewidth=1)
+
 ax2.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Ensure the ticks are integers
 ax2.set_xlabel('Days Since Start Time (' + start_time + ')', fontsize=18)  # Update x-axis label
 
