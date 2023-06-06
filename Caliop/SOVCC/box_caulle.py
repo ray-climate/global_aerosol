@@ -35,20 +35,21 @@ if not os.path.exists(figure_save_location):
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
 # Initiate empty DataFrame to store all data
-all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'ash_height'])
+all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction'])
 
 for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
 
-    for column in ['utc_time', 'thickness', 'latitude', 'ash_height']:
+    for column in ['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction']:  # include 'extinction'
         if column == 'utc_time':
             # Convert utc_time to datetime format
             data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H-%M-%S')
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
-    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height']], ignore_index=True)
+    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction']], ignore_index=True)  # include 'extinction'
+
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
@@ -69,19 +70,21 @@ for i, row in all_data.iterrows():
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} rows")
 
-grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean})
+grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'ash_height': np.mean, 'extinction': np.mean})  # include 'extinction'
 # Now group these means by day
-grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list}).dropna()
+grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list}).dropna()  # include 'extinction'
 
 # Prepare boxplot data
 box_plot_data = {}
 for day, data in grouped_data_day.iterrows():
     box_plot_data[day] = {
         'thickness': data['thickness'],
-        'ash_height': data['ash_height']
+        'ash_height': data['ash_height'],
+        'extinction': data['extinction']  # include 'extinction'
     }
 
-fig, ax = plt.subplots(2, 1, figsize=(8, 16))
+
+fig, ax = plt.subplots(3, 1, figsize=(8, 24))
 
 # First subplot for thickness
 positions = range(len(box_plot_data))  # Generate numeric positions for the x-axis
@@ -106,10 +109,18 @@ start_time_dt = datetime.strptime(start_time, '%Y-%m-%d')
 formatted_start_time = start_time_dt.strftime('%d/%m/%Y')
 ax[1].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
+
+ax[2].boxplot([data['extinction'] for data in box_plot_data.values()], positions=positions, widths=0.6)  # add this
+ax[2].set_ylabel('Extinction [km^{-1}]', fontsize=18)  # you might want to adjust this label
+ax[2].tick_params(axis='both', labelsize=18)
+# ax[2].set_ylim(?, ?)  # Set the appropriate y limits for your extinction data
+ax[2].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
+
 start_date = min(box_plot_data.keys())
 x_labels = [(day - start_date).days for day in box_plot_data.keys()]
-ax[1].set_xticks(positions[::5])
-ax[1].set_xticklabels(x_labels[::5])
+ax[2].set_xticks(positions[::5])  # add this
+ax[2].set_xticklabels(x_labels[::5])  # add this
+
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
 
