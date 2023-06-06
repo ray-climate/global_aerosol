@@ -25,8 +25,8 @@ figure_save_location = './figures'
 name = 'Raikoke'
 start_time = '2019-06-22'
 end_time = '2019-08-05'
-lat_top = 40
-lat_bottom = 85
+lat_top = 85
+lat_bottom = 40
 
 # create save_location folder if not exist
 if not os.path.exists(figure_save_location):
