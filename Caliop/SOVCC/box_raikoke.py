@@ -166,3 +166,9 @@ ax[3].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
 
+# Now group these means by day
+grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': ['mean', 'std'], 'ash_height': list, 'extinction': list, 'AOD': list}).dropna()  # include 'extinction' and 'AOD'
+
+# Print the mean and std of 'thickness' each day
+for day, data in grouped_data_day.iterrows():
+    print(f"On day {day}, Mean thickness: {data['thickness']['mean']}, Std thickness: {data['thickness']['std']}")
