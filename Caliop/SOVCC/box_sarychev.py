@@ -25,7 +25,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 name = 'Sarychev'
 start_time = '2009-06-15'
-end_time = '2019-08-25'
+end_time = '2009-08-25'
 lat_top = 85
 lat_bottom = 40
 
@@ -81,6 +81,7 @@ grouped_data_time = all_data.groupby(['utc_time']).agg({'thickness': np.mean, 'a
 date_range = pd.date_range(start=start_time, end=end_time)
 # Now group these means by day
 grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': list, 'ash_height': list, 'extinction': list, 'AOD': list}).dropna()  # include 'extinction' and 'AOD'
+
 # Reindex the DataFrame to include missing dates
 grouped_data_day = grouped_data_day.reindex(date_range)
 # Transform the index to date only, without time
@@ -165,3 +166,10 @@ ax[3].set_xlim(0., 50)
 ax[3].set_xlabel('Days Since T0 (' + formatted_start_time + ')', fontsize=18)
 
 plt.savefig(figure_save_location + '/' + name + '_box.png')
+
+# Now group these means by day
+grouped_data_day = grouped_data_time.groupby([grouped_data_time.index.date]).agg({'thickness': ['mean', 'std'], 'ash_height': list, 'extinction': list, 'AOD': list}).dropna()  # include 'extinction' and 'AOD'
+
+# Print the mean and std of 'thickness' each day
+for day, data in grouped_data_day.iterrows():
+    print(f"On day {day}, Mean thickness: {data['thickness']['mean']}, Std thickness: {data['thickness']['std']}")
