@@ -66,7 +66,8 @@ grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height
 
 # Get day of year from utc_time for coloring the points and lines in plot
 grouped_data['day_of_year'] = grouped_data['utc_time'].dt.dayofyear
-
+print(grouped_data)
+quit()
 # Create colormap for the day_of_year
 cmap = plt.cm.viridis
 norm = Normalize(vmin=grouped_data['day_of_year'].min(), vmax=grouped_data['day_of_year'].max())
