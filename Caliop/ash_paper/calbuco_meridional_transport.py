@@ -67,23 +67,64 @@ grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height
 # Sort the data by utc_time
 grouped_data = grouped_data.sort_values('utc_time')
 
+# ... previous code ...
+
+# Create a colormap
+cmap = plt.cm.get_cmap('viridis')  # use 'viridis' colormap, change as needed
+norm = Normalize(vmin=grouped_data['utc_time'].dt.date.min(), vmax=grouped_data['utc_time'].dt.date.max())
+
 # Create a new figure
 fig, ax = plt.subplots(figsize=(10,6))
 
-# Group by each day and plot ash_height over longitude
+# Group by each day, sort by longitude and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
-    ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', label=name)
+    group = group.sort_values('longitude')
+    ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', color=cmap(norm(name)))
 
 # Set title, x and y labels
 ax.set_title('Ash height over longitude')
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Ash height')
 
+# Add colorbar
+sm = ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+fig.colorbar(sm, ax=ax, orientation='vertical', label='Date')
+
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
 
-# Optional: Add a legend
-ax.legend()
+# Save figure
+plt.savefig(figure_save_location + '/' + 'ash_height_over_longitude.png', dpi=300)
+
+# Show the plot
+plt.show()
+# ... previous code ...
+
+# Create a colormap
+cmap = plt.cm.get_cmap('viridis')  # use 'viridis' colormap, change as needed
+norm = Normalize(vmin=grouped_data['utc_time'].dt.date.min(), vmax=grouped_data['utc_time'].dt.date.max())
+
+# Create a new figure
+fig, ax = plt.subplots(figsize=(10,6))
+
+# Group by each day, sort by longitude and plot ash_height over longitude
+for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
+    group = group.sort_values('longitude')
+    ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', color=cmap(norm(name)))
+
+# Set title, x and y labels
+ax.set_title('Ash height over longitude')
+ax.set_xlabel('Longitude')
+ax.set_ylabel('Ash height')
+ax.set_xlim(-80, 30)
+# Add colorbar
+sm = ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+fig.colorbar(sm, ax=ax, orientation='vertical', label='Date')
+
+# Optional: rotate x labels if they overlap
+plt.xticks(rotation=45)
 
 # Save figure
 plt.savefig(figure_save_location + '/' + 'ash_height_over_longitude.png', dpi=300)
