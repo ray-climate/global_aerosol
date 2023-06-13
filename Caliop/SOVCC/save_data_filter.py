@@ -44,7 +44,7 @@ all_data = all_data.dropna()
 # Iterate over the rows to check for latitude criterion
 total_length = len(all_data)
 for i, row in all_data.iterrows():
-    all_data.loc[i, 'drop'] = len(all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
+    all_data.loc[i, 'drop'] = len(all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 0.6) &
                                            (all_data['utc_time'] == row['utc_time'])]) < 10
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} out of {total_length} rows")
