@@ -78,7 +78,7 @@ m.fillcontinents(color='lightgray')
 
 # Normalizing 'utc_time' to 0-1 for color mapping
 norm = Normalize(vmin=grouped_data['utc_time'].min(), vmax=grouped_data['utc_time'].max())
-cmap = plt.get_cmap('coolwarm')  # Blue to red color map
+cmap = plt.get_cmap('jet_r')  # Blue to red color map
 sm = ScalarMappable(norm=norm, cmap=cmap)
 
 # Plot mean latitudes and longitudes with colors corresponding to 'utc_time'
