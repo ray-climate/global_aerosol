@@ -18,7 +18,7 @@ import numpy as np
 import os
 
 # variable file location
-variable_file_location = './SOVCC/thickness_data_extraction_extinction'
+variable_file_location = '../SOVCC/thickness_data_extraction_extinction'
 figure_save_location = './figures'
 
 # Define time and latitude range
