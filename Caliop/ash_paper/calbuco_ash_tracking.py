@@ -41,7 +41,7 @@ for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
 
-    for column in ['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction']:  # include 'extinction'
+    for column in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height', 'extinction']:  # include 'extinction'
         if column == 'utc_time':
             # Convert utc_time to datetime format
             data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H-%M-%S')
@@ -51,7 +51,7 @@ for file in files:
     # Calculate AOD by multiplying 'thickness' and 'extinction'
     data['AOD'] = data['thickness'] * data['extinction']
 
-    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction', 'AOD']], ignore_index=True)  # include 'extinction' and 'AOD'
+    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height', 'extinction', 'AOD']], ignore_index=True)  # include 'extinction' and 'AOD'
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
