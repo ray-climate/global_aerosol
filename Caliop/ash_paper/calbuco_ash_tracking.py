@@ -61,14 +61,18 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
+from mpl_toolkits.basemap import Basemap
+import matplotlib as mpl
+
 # Continued from your script...
+# Group data by 'utc_time' and calculate mean 'latitude' and 'longitude'
 grouped_data = all_data.groupby('utc_time').agg({'latitude': 'mean', 'longitude': 'mean'}).reset_index()
 
 # Convert 'utc_time' to numeric for color mapping
 grouped_data['utc_time'] = grouped_data['utc_time'].apply(lambda x: mdates.date2num(x))
 
 # Plotting
-fig, ax = plt.subplots(figsize=(30,10))
+fig, ax = plt.subplots(figsize=(10,10))
 m = Basemap(projection='cyl', resolution='l')
 
 # Draw continents and countries
@@ -76,9 +80,13 @@ m.drawcoastlines()
 m.drawcountries()
 m.fillcontinents(color='lightgray')
 
+# Draw parallels (latitude lines) and meridians (longitude lines)
+m.drawparallels(np.arange(-90.,91.,30.), labels=[True,False,False,True], fontsize=10)
+m.drawmeridians(np.arange(-180.,181.,60.), labels=[True,False,False,True], fontsize=10)
+
 # Normalizing 'utc_time' to 0-1 for color mapping
 norm = Normalize(vmin=grouped_data['utc_time'].min(), vmax=grouped_data['utc_time'].max())
-cmap = plt.get_cmap('coolwarm_r')  # Blue to red color map
+cmap = plt.get_cmap('coolwarm')  # Blue to red color map
 sm = ScalarMappable(norm=norm, cmap=cmap)
 
 # Plot mean latitudes and longitudes with colors corresponding to 'utc_time'
@@ -86,11 +94,10 @@ scatter = m.scatter(x=grouped_data['longitude'], y=grouped_data['latitude'], c=g
 
 # Add a colorbar
 cbar = plt.colorbar(scatter)
-cbar.ax.set_yticklabels(pd.to_datetime(cbar.get_ticks()).strftime(date_format='%Y-%m-%d'))
 
-# Labeling the axes
-plt.xlabel('Longitude')
-plt.ylabel('Latitude')
+# Correcting the colorbar labels to date format
+date_ticks = mdates.num2date(cbar.get_ticks())
+cbar.ax.set_yticklabels(date_ticks, fontsize=10)
 
 # Saving the figure
 plt.savefig(f"{figure_save_location}/global_plot_calbuco.png")
