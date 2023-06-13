@@ -64,34 +64,28 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 # Group data by utc_time, calculate mean longitude, ash_height and thickness for each utc_time
 grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
-# Get day of year from utc_time for coloring the points and lines in plot
-grouped_data['day_of_year'] = grouped_data['utc_time'].dt.dayofyear
-print(grouped_data)
-quit()
-# Create colormap for the day_of_year
-cmap = plt.cm.viridis
-norm = Normalize(vmin=grouped_data['day_of_year'].min(), vmax=grouped_data['day_of_year'].max())
+# Sort the data by utc_time
+grouped_data = grouped_data.sort_values('utc_time')
 
-# Create the figure and the axes
+# Create a new figure
 fig, ax = plt.subplots(figsize=(10,6))
 
-# Loop over the grouped_data and plot lines with markers for each utc_time, color determined by day_of_year
-for _, row in grouped_data.iterrows():
-    print(row['longitude'], row['ash_height'])
-    ax.plot(row['longitude'], row['ash_height'], marker='o', linestyle='-', color=cmap(norm(row['day_of_year'])))
+# Group by each day and plot ash_height over longitude
+for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
+    ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', label=name)
 
-# Add colorbar
-cbar = plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax)
-cbar.set_label('Day of Year')
+# Set title, x and y labels
+ax.set_title('Ash height over longitude')
+ax.set_xlabel('Longitude')
+ax.set_ylabel('Ash height')
 
-# Add grid, title and labels
-ax.grid(True)
-ax.set_title('Mean Ash Height over Mean Longitude')
-ax.set_xlabel('Mean Longitude')
-ax.set_ylabel('Mean Ash Height')
+# Optional: rotate x labels if they overlap
+plt.xticks(rotation=45)
 
-# Save the figure
-plt.tight_layout()
-plt.savefig(os.path.join(figure_save_location, 'ash_height_vs_longitude.png'))
-plt.show()
+# Optional: Add a legend
+ax.legend()
+
+# Save figure
+plt.savefig(figure_save_location + '/' + 'ash_height_over_longitude.png', dpi=300)
+
 
