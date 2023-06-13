@@ -6,6 +6,7 @@
 # @Time:        13/06/2023 16:31
 
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from mpl_toolkits.basemap import Basemap
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 import matplotlib.ticker as mticker
@@ -61,30 +62,35 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
 # Continued from your script...
-# Group data by 'utc_time' and calculate mean 'latitude' and 'longitude'
 grouped_data = all_data.groupby('utc_time').agg({'latitude': 'mean', 'longitude': 'mean'}).reset_index()
 
 # Convert 'utc_time' to numeric for color mapping
 grouped_data['utc_time'] = grouped_data['utc_time'].apply(lambda x: mdates.date2num(x))
 
 # Plotting
-fig, ax = plt.subplots(figsize=(10,10))
-cmap = plt.get_cmap('coolwarm')  # Blue to red color map
+fig, ax = plt.subplots(figsize=(30,10))
+m = Basemap(projection='cyl', resolution='l')
+
+# Draw continents and countries
+m.drawcoastlines()
+m.drawcountries()
+m.fillcontinents(color='lightgray')
 
 # Normalizing 'utc_time' to 0-1 for color mapping
 norm = Normalize(vmin=grouped_data['utc_time'].min(), vmax=grouped_data['utc_time'].max())
+cmap = plt.get_cmap('coolwarm')  # Blue to red color map
 sm = ScalarMappable(norm=norm, cmap=cmap)
 
 # Plot mean latitudes and longitudes with colors corresponding to 'utc_time'
-scatter = ax.scatter(x=grouped_data['longitude'], y=grouped_data['latitude'], c=grouped_data['utc_time'], cmap=cmap)
+scatter = m.scatter(x=grouped_data['longitude'], y=grouped_data['latitude'], c=grouped_data['utc_time'], cmap=cmap, latlon=True)
 
 # Add a colorbar
 cbar = plt.colorbar(scatter)
 cbar.ax.set_yticklabels(pd.to_datetime(cbar.get_ticks()).strftime(date_format='%Y-%m-%d'))
 
 # Labeling the axes
-ax.set_xlabel('Longitude')
-ax.set_ylabel('Latitude')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
 
 # Saving the figure
 plt.savefig(f"{figure_save_location}/global_plot_calbuco.png")
