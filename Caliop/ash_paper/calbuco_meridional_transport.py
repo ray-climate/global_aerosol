@@ -64,19 +64,19 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 # Group data by utc_time, calculate mean longitude, ash_height and thickness for each utc_time
 grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
-# Get day of year from utc_time for coloring the points in plot
+# Get day of year from utc_time for coloring the points and lines in plot
 grouped_data['day_of_year'] = grouped_data['utc_time'].dt.dayofyear
 
 # Create colormap for the day_of_year
-cmap = plt.cm.rainbow
+cmap = plt.cm.viridis
 norm = Normalize(vmin=grouped_data['day_of_year'].min(), vmax=grouped_data['day_of_year'].max())
 
 # Create the figure and the axes
 fig, ax = plt.subplots(figsize=(10,6))
 
-# Scatter plot of ash_height over longitude for each utc_time,
-# color determined by day_of_year
-sc = ax.scatter(grouped_data['longitude'], grouped_data['ash_height'], c=grouped_data['day_of_year'], cmap=cmap, norm=norm)
+# Loop over the grouped_data and plot lines with markers for each utc_time, color determined by day_of_year
+for _, row in grouped_data.iterrows():
+    ax.plot(row['longitude'], row['ash_height'], marker='o', color=cmap(norm(row['day_of_year'])))
 
 # Add colorbar
 cbar = plt.colorbar(ScalarMappable(norm=norm, cmap=cmap), ax=ax)
@@ -91,4 +91,3 @@ ax.set_ylabel('Mean Ash Height')
 # Save the figure
 plt.tight_layout()
 plt.savefig(os.path.join(figure_save_location, 'ash_height_vs_longitude.png'))
-
