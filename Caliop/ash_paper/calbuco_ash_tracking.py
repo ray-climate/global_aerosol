@@ -81,8 +81,8 @@ m.drawcountries()
 m.fillcontinents(color='lightgray')
 
 # Draw parallels (latitude lines) and meridians (longitude lines)
-m.drawparallels(np.arange(-90.,91.,30.), labels=[True,False,False,True], fontsize=10)
-m.drawmeridians(np.arange(-180.,181.,60.), labels=[True,False,False,True], fontsize=10)
+m.drawparallels(np.arange(-90.,91.,30.), labels=[True,False,False,True], fontsize=18)
+m.drawmeridians(np.arange(-180.,181.,60.), labels=[True,False,False,True], fontsize=18)
 
 # Normalizing 'utc_time' to 0-1 for color mapping
 norm = Normalize(vmin=grouped_data['utc_time'].min(), vmax=grouped_data['utc_time'].max())
@@ -93,11 +93,11 @@ sm = ScalarMappable(norm=norm, cmap=cmap)
 scatter = m.scatter(x=grouped_data['longitude'], y=grouped_data['latitude'], c=grouped_data['utc_time'], cmap=cmap, latlon=True)
 
 # Add a colorbar
-cbar = plt.colorbar(scatter, shrink=0.4)
+cbar = plt.colorbar(scatter, shrink=0.6)
 
 # Correcting the colorbar labels to date format and remove the time part
 date_ticks = [mdates.num2date(tick).strftime('%Y-%m-%d') for tick in cbar.get_ticks()]
-cbar.ax.set_yticklabels(date_ticks, fontsize=10)
+cbar.ax.set_yticklabels(date_ticks, fontsize=18)
 
 # Saving the figure
 plt.savefig(f"{figure_save_location}/global_plot_calbuco.png")
