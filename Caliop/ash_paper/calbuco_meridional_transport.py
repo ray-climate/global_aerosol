@@ -76,6 +76,7 @@ fig, ax = plt.subplots(figsize=(10,6))
 
 # Loop over the grouped_data and plot lines with markers for each utc_time, color determined by day_of_year
 for _, row in grouped_data.iterrows():
+    print(row['longitude'], row['ash_height'])
     ax.plot(row['longitude'], row['ash_height'], marker='o', linestyle='-', color=cmap(norm(row['day_of_year'])))
 
 # Add colorbar
