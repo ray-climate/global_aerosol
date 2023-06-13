@@ -68,7 +68,7 @@ grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height
 grouped_data['day_of_year'] = grouped_data['utc_time'].dt.dayofyear
 
 # Create colormap for the day_of_year
-cmap = plt.cm.viridis
+cmap = plt.cm.rainbow
 norm = Normalize(vmin=grouped_data['day_of_year'].min(), vmax=grouped_data['day_of_year'].max())
 
 # Create the figure and the axes
