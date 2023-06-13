@@ -11,7 +11,7 @@ import os
 
 # variable file location
 variable_file_location = './thickness_data_extraction'
-data_save_location = './filtered_data'  # change to where you want to save the new csv file
+data_save_location = './filtered_data_continuous_10'  # change to where you want to save the new csv file
 
 # create save_location folder if not exist
 try:
@@ -45,7 +45,7 @@ all_data = all_data.dropna()
 total_length = len(all_data)
 for i, row in all_data.iterrows():
     all_data.loc[i, 'drop'] = len(all_data[(np.abs(all_data['latitude'] - row['latitude']) <= 1) &
-                                           (all_data['utc_time'] == row['utc_time'])]) < 5
+                                           (all_data['utc_time'] == row['utc_time'])]) < 10
     if i % 1000 == 0:  # Print progress for every 1000 rows
         print(f"Processed {i} out of {total_length} rows")
 
