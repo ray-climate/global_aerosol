@@ -60,8 +60,12 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
+# Continued from your script...
 # Group data by 'utc_time' and calculate mean 'latitude' and 'longitude'
 grouped_data = all_data.groupby('utc_time').agg({'latitude': 'mean', 'longitude': 'mean'}).reset_index()
+
+# Convert 'utc_time' to numeric for color mapping
+grouped_data['utc_time'] = grouped_data['utc_time'].apply(lambda x: mdates.date2num(x))
 
 # Plotting
 fig, ax = plt.subplots(figsize=(10,10))
