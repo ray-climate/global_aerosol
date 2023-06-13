@@ -24,8 +24,8 @@ figure_save_location = './figures'
 
 # Define time and latitude range
 name = 'Calbuco'
-start_time = '2015-04-18'
-end_time = '2015-06-30'
+start_time = '2015-04-22'
+end_time = '2015-06-15'
 lat_top = 0
 lat_bottom = -50
 
