@@ -22,20 +22,20 @@ except:
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
 # Initiate empty DataFrame to store all data
-all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'ash_height'])  # add ash_height column
+all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height'])  # add ash_height column
 
 for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
 
-    for column in ['utc_time', 'thickness', 'latitude', 'ash_height']:  # add ash_height column
+    for column in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']:  # add ash_height column
         if column == 'utc_time':
             # Convert utc_time to datetime format
             data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H-%M-%S')
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
-    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'ash_height']],  # add ash_height column
+    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']],  # add ash_height column
                                ignore_index=True)
 
 # Remove rows with any NaN values
