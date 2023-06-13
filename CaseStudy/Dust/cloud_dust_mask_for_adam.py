@@ -38,8 +38,8 @@ lat_jump_threshold = 3.0 # degree, lat_jump_threshold is the threshold to separa
 aeolus_CM_threshold = 0.8 # unitless, threshold for cloud mask
 
 # Define the time range
-datetime_start = "2020-06-19"
-datetime_end = "2020-06-24"
+datetime_start = "2020-06-17"
+datetime_end = "2020-06-18"
 
 # Convert strings to datetime objects
 start_date = datetime.strptime(datetime_start, "%Y-%m-%d")

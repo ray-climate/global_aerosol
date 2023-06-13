@@ -179,7 +179,7 @@ def get_SEVIRI_CMA_cartopy(SEVIRI_HR_file_path, SEVIRI_CMA_file_path, extent, ti
     ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Add the scatter plot
     # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
-    plt.legend(fontsize=35)
+    #plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False
     gl.bottom_labels = True
@@ -236,7 +236,7 @@ def get_SEVIRI_CLM_cartopy(SEVIRI_HR_file_path, SEVIRI_CLM_file_path, extent, ti
     ax.add_feature(coast, edgecolor='black', linewidth=1, zorder=100)
     # Add the scatter plot
     # ax.scatter(aeolus_lon, aeolus_lat, marker='o', color='blue', s=50, transform=CRS, zorder=200, label='AEOLUS')
-    plt.legend(fontsize=35)
+    #plt.legend(fontsize=35)
     gl.top_labels = False
     gl.right_labels = False
     gl.bottom_labels = True
