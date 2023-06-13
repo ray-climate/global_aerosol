@@ -93,10 +93,10 @@ sm = ScalarMappable(norm=norm, cmap=cmap)
 scatter = m.scatter(x=grouped_data['longitude'], y=grouped_data['latitude'], c=grouped_data['utc_time'], cmap=cmap, latlon=True)
 
 # Add a colorbar
-cbar = plt.colorbar(scatter)
+cbar = plt.colorbar(scatter, shrink=0.5)
 
-# Correcting the colorbar labels to date format
-date_ticks = mdates.num2date(cbar.get_ticks())
+# Correcting the colorbar labels to date format and remove the time part
+date_ticks = [mdates.num2date(tick).strftime('%Y-%m-%d') for tick in cbar.get_ticks()]
 cbar.ax.set_yticklabels(date_ticks, fontsize=10)
 
 # Saving the figure
