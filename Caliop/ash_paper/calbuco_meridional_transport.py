@@ -73,8 +73,8 @@ fig, ax = plt.subplots(figsize=(10,6))
 # Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
     group = group.sort_values('longitude')
+    print(group['thickness'])
     linewidth = group['thickness'].mean() * 5  # or .median(), .max(), etc. as you prefer
-    print(linewidth)
     ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), label=name, linewidth=linewidth)
 
 
