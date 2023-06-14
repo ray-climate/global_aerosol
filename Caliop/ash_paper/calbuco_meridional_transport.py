@@ -61,8 +61,10 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 # Group data by utc_time, calculate mean longitude, ash_height and thickness for each utc_time
 grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
-# Sort the data by utc_time
-grouped_data = grouped_data.sort_values('utc_time')
+# Create a colormap
+cmap = plt.cm.get_cmap('Reds')
+grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
+norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
 # Create a new figure
 fig, ax = plt.subplots(figsize=(10,6))
@@ -71,12 +73,15 @@ fig, ax = plt.subplots(figsize=(10,6))
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
     group = group.sort_values('longitude')
     ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', label=name)
+    ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))),
+            label=name)
+
 
 # Set title, x and y labels
 ax.set_title('Ash height over longitude')
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Ash height')
-ax.set_xlim(-80, 30)
+ax.set_xlim(-80, 40)
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
 
