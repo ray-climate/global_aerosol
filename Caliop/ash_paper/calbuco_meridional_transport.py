@@ -72,7 +72,6 @@ fig, ax = plt.subplots(figsize=(10,6))
 # Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
     group = group.sort_values('longitude')
-    ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', label=name)
     ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))),
             label=name)
 
@@ -81,7 +80,7 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
 ax.set_title('Ash height over longitude')
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Ash height')
-ax.set_xlim(-80, 40)
+ax.set_xlim(-80, 60)
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
 
