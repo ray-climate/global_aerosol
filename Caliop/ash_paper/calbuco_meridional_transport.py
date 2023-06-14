@@ -36,7 +36,7 @@ if not os.path.exists(figure_save_location):
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
 # Initiate empty DataFrame to store all data
-all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction'])
+all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height', 'extinction'])
 
 for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
