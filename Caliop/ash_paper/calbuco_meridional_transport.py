@@ -80,7 +80,7 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
 ax.set_title('Ash height over longitude')
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Ash height')
-ax.set_ylim(8, 20)
+ax.set_ylim(12, 22)
 ax.set_xlim(-80, 60)
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
