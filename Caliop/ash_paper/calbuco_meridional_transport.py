@@ -49,9 +49,6 @@ for file in files:
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
-    # Calculate AOD by multiplying 'thickness' and 'extinction'
-    data['AOD'] = data['thickness'] * data['extinction']
-
     all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']], ignore_index=True)  # include 'extinction' and 'AOD'
 
 # Remove rows with any NaN values
