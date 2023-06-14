@@ -42,7 +42,7 @@ for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
 
-    for column in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height', 'extinction']:  # include 'extinction'
+    for column in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']:  # include 'extinction'
         if column == 'utc_time':
             # Convert utc_time to datetime format
             data[column] = pd.to_datetime(data[column], format='%Y-%m-%d %H:%M:%S')
