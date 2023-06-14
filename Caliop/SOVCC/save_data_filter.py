@@ -34,7 +34,7 @@ for file in files:
             data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H-%M-%S')
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
-        print(data[column])
+
     all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']],  # add ash_height column
                                ignore_index=True)
 
