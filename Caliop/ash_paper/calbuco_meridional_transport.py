@@ -19,7 +19,7 @@ import numpy as np
 import os
 
 # variable file location
-variable_file_location = '../SOVCC/filtered_data'
+variable_file_location = '../SOVCC/filtered_data_continuous_10'
 figure_save_location = './figures'
 
 # Define time and latitude range
