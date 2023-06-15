@@ -19,7 +19,7 @@ import numpy as np
 import os
 
 # variable file location
-variable_file_location = '../SOVCC/thickness_data_extraction_extinction'
+variable_file_location = '../SOVCC/filtered_data_continuous_10'
 figure_save_location = './figures'
 
 # Define time and latitude range
@@ -36,23 +36,20 @@ if not os.path.exists(figure_save_location):
 files = [file for file in os.listdir(variable_file_location) if file.endswith('.csv')]
 
 # Initiate empty DataFrame to store all data
-all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'ash_height', 'extinction'])
+all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height'])
 
 for file in files:
     data = pd.read_csv(variable_file_location + '/' + file)
     print(f"Processing file {file}")
 
-    for column in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height', 'extinction']:  # include 'extinction'
+    for column in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']:  # include 'extinction'
         if column == 'utc_time':
             # Convert utc_time to datetime format
             data[column] = pd.to_datetime(data[column], format='%Y-%m-%dT%H-%M-%S')
         else:
             data[column] = pd.to_numeric(data[column], errors='coerce')
 
-    # Calculate AOD by multiplying 'thickness' and 'extinction'
-    data['AOD'] = data['thickness'] * data['extinction']
-
-    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height', 'extinction', 'AOD']], ignore_index=True)  # include 'extinction' and 'AOD'
+    all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']], ignore_index=True)  # include 'extinction' and 'AOD'
 
 # Remove rows with any NaN values
 all_data = all_data.dropna()
