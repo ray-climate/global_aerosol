@@ -26,7 +26,7 @@ figure_save_location = './figures'
 # Define time and latitude range
 volcano_name = 'Caulle'
 start_time = '2011-06-04'
-end_time = '2011-08-20'
+end_time = '2011-08-01'
 lat_top = 0
 lat_bottom = -80
 
@@ -67,8 +67,8 @@ cmap = plt.cm.get_cmap('Reds')
 grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
-# Create a new figure
-fig, axs = plt.subplots(2, 1, figsize=(10,12))
+# Create a new figure for ash height over longitude
+fig1, ax1 = plt.subplots(figsize=(10,6))
 
 # Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
@@ -77,29 +77,19 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
         x = group['longitude'].iloc[i:i+2]
         y = group['ash_height'].iloc[i:i+2]
         linewidth = group['thickness'].iloc[i:i+2].mean() * 5
-        axs[0].plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
+        ax1.plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
 
 # Set title, x and y labels
-axs[0].set_title('Ash height over longitude')
-axs[0].set_xlabel('Longitude')
-axs[0].set_ylabel('Ash height')
-axs[0].set_ylim(12, 22)
-axs[0].set_xlim(-80, 60)
-# Optional: rotate x labels if they overlap
-plt.xticks(rotation=45)
-
-# Plot the average thickness per day over time
-grouped_by_day = grouped_data.groupby(grouped_data['utc_time'].dt.date)['thickness'].mean().reset_index()
-grouped_by_day['utc_time'] = pd.to_datetime(grouped_by_day['utc_time'])
-axs[1].plot(grouped_by_day['utc_time'], grouped_by_day['thickness'])
-axs[1].set_title('Average thickness over time')
-axs[1].set_xlabel('Date')
-axs[1].set_ylabel('Average thickness')
+ax1.set_title('Ash height over longitude')
+ax1.set_xlabel('Longitude')
+ax1.set_ylabel('Ash height')
+ax1.set_ylim(12, 22)
+ax1.set_xlim(-80, 60)
 
 # Create custom legend
 sm = ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array([])
-cbar = plt.colorbar(sm, ax=axs[0], orientation='vertical', label='Date')
+cbar = plt.colorbar(sm, ax=ax1, orientation='vertical', label='Date')
 cbar.ax.invert_yaxis()
 
 # Format colorbar labels as dates
@@ -108,3 +98,19 @@ cbar.ax.yaxis.set_major_formatter(formatter)
 
 # Save figure
 plt.savefig(figure_save_location + '/%s'%volcano_name + '_ash_height_over_longitude.png', dpi=300)
+
+# Create a new figure for average thickness over time
+fig2, ax2 = plt.subplots(figsize=(10,6))
+
+# Plot the average thickness per day over time
+grouped_by_day = grouped_data.groupby(grouped_data['utc_time'].dt.date)['thickness'].mean().reset_index()
+grouped_by_day['utc_time'] = pd.to_datetime(grouped_by_day['utc_time'])
+ax2.plot(grouped_by_day['utc_time'], grouped_by_day['thickness'])
+
+# Set title, x and y labels
+ax2.set_title('Average thickness over time')
+ax2.set_xlabel('Date')
+ax2.set_ylabel('Average thickness')
+
+# Save figure
+plt.savefig(figure_save_location + '/%s'%volcano_name + '_average_thickness_over_time.png', dpi=300)
