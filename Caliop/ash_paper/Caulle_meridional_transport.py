@@ -27,7 +27,7 @@ figure_save_location = './figures'
 volcano_name = 'Caulle'
 start_time = '2011-06-04'
 end_time = '2011-08-01'
-lat_top = 0
+lat_top = -30
 lat_bottom = -80
 
 # create save_location folder if not exist
