@@ -62,6 +62,7 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
 # Create a colormap
+# Create a colormap
 cmap = plt.cm.get_cmap('Reds')
 grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
@@ -87,8 +88,11 @@ ax.set_xlim(-80, 60)
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
 
-# Optional: Add a legend
-ax.legend()
+# Create custom legend
+sm = ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+cbar = plt.colorbar(sm, ax=ax, orientation='vertical', label='Date')
+cbar.ax.invert_yaxis()
 
 # Save figure
 plt.savefig(figure_save_location + '/' + 'ash_height_over_longitude.png', dpi=300)
