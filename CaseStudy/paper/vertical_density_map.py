@@ -123,7 +123,7 @@ plt.legend(loc='best', fontsize=14, frameon=False)
 output_path = output_path + f'retrieval_numbers.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
-quit()
+
 
 ############# backscatter plot #############
 # ang_coef = (355. / 532.) ** (-0.1)
@@ -168,10 +168,10 @@ plt.ylim([0., 20.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 
 # Save the figure
-output_path = input_path + f'retrieval_backscatter.png'
+output_path = output_path + f'retrieval_backscatter.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
-
+quit()
 ############# backscatter plot showing density of observation #############
 # Convert the 2D profiles arrays to long-form DataFrames
 
