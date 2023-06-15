@@ -63,12 +63,12 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
 # Create a colormap
-cmap = plt.cm.get_cmap('jet')
+cmap = plt.cm.get_cmap('Reds')
 grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
 # Create a new figure
-fig, ax = plt.subplots(figsize=(10,4))
+fig, axs = plt.subplots(2, 1, figsize=(10,12))
 
 # Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
@@ -77,21 +77,29 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
         x = group['longitude'].iloc[i:i+2]
         y = group['ash_height'].iloc[i:i+2]
         linewidth = group['thickness'].iloc[i:i+2].mean() * 5
-        ax.plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
+        axs[0].plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
 
 # Set title, x and y labels
-ax.set_title('Ash height from Caulle eruption in 2015')
-ax.set_xlabel('Longitude (deg)')
-ax.set_ylabel('Altitude (km)')
-ax.set_ylim(8, 18)
-ax.set_xlim(-80, 120)
+axs[0].set_title('Ash height over longitude')
+axs[0].set_xlabel('Longitude')
+axs[0].set_ylabel('Ash height')
+axs[0].set_ylim(12, 22)
+axs[0].set_xlim(-80, 60)
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
+
+# Plot the average thickness per day over time
+grouped_by_day = grouped_data.groupby(grouped_data['utc_time'].dt.date)['thickness'].mean().reset_index()
+grouped_by_day['utc_time'] = pd.to_datetime(grouped_by_day['utc_time'])
+axs[1].plot(grouped_by_day['utc_time'], grouped_by_day['thickness'])
+axs[1].set_title('Average thickness over time')
+axs[1].set_xlabel('Date')
+axs[1].set_ylabel('Average thickness')
 
 # Create custom legend
 sm = ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array([])
-cbar = plt.colorbar(sm, ax=ax, orientation='vertical', label='Date', shrink=0.5, pad=0.05)
+cbar = plt.colorbar(sm, ax=axs[0], orientation='vertical', label='Date')
 cbar.ax.invert_yaxis()
 
 # Format colorbar labels as dates
