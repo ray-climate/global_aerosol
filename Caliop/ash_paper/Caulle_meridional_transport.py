@@ -105,7 +105,7 @@ fig2, ax2 = plt.subplots(figsize=(10,6))
 # Plot the average thickness per day over time
 grouped_by_day = grouped_data.groupby(grouped_data['utc_time'].dt.date)['thickness'].mean().reset_index()
 grouped_by_day['utc_time'] = pd.to_datetime(grouped_by_day['utc_time'])
-ax2.plot(grouped_by_day['utc_time'], grouped_by_day['thickness'])
+ax2.plot(grouped_by_day['utc_time'], grouped_by_day['thickness'], 'bo-', linewidth=2)
 
 # Set title, x and y labels
 ax2.set_title('Average thickness over time')
