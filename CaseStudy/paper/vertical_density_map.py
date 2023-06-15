@@ -198,9 +198,9 @@ if True:
 
     # plt.plot(np.log10(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
     for i in range(len(beta_aeolus_mean)-1):
-        plt.plot([np.log10(beta_aeolus_mean[i]), np.log10(beta_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-        plt.plot([np.log10(beta_aeolus_mean[i]), np.log10(beta_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i+1] / conversion_factor)], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
     plt.plot([], [], 'k', label='Aeolus')
 
     # Set the x-axis to log scale
