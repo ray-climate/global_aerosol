@@ -17,11 +17,11 @@ import os
 # this code uses pre-processed, cloud-filtered Aeolus and Caliop L2 data over the Sahara in 2020 to do the analysis
 
 input_path = '../Dust/aeolus_caliop_sahara2020_extraction_output/'
-output_path = './figures/'
+output_dir = './figures/'
 
 # create save_location folder if not exist
-if not os.path.exists(output_path):
-    os.mkdir(output_path)
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
 
 beta_caliop_all = []
 alpha_caliop_all = []
@@ -120,7 +120,7 @@ plt.ylim([0., 20.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 
 # Save the figure
-output_path = output_path + f'retrieval_numbers.png'
+output_path = output_dir + f'retrieval_numbers.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
 
@@ -168,7 +168,7 @@ plt.ylim([0., 20.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 
 # Save the figure
-output_path = output_path + f'retrieval_backscatter.png'
+output_path = output_dir + f'retrieval_backscatter.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
 quit()
