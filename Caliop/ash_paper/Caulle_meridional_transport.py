@@ -68,7 +68,7 @@ grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
 # Create a new figure for ash height over longitude
-fig1, ax1 = plt.subplots(figsize=(10,6))
+fig1, ax1 = plt.subplots(figsize=(15,6))
 
 # Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
@@ -89,7 +89,7 @@ ax1.set_xlim(-80, 60)
 # Create custom legend
 sm = ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array([])
-cbar = plt.colorbar(sm, ax=ax1, orientation='vertical', label='Date')
+cbar = plt.colorbar(sm, ax=ax1, orientation='vertical', label='Date', shrink=0.5, pad=0.01)
 cbar.ax.invert_yaxis()
 
 # Format colorbar labels as dates
