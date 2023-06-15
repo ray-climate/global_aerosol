@@ -6,6 +6,7 @@
 # @Time:        13/06/2023 23:26
 
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from matplotlib.ticker import FuncFormatter
 from mpl_toolkits.basemap import Basemap
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
@@ -62,7 +63,6 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
 # Create a colormap
-# Create a colormap
 cmap = plt.cm.get_cmap('Reds')
 grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
@@ -93,6 +93,10 @@ sm = ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array([])
 cbar = plt.colorbar(sm, ax=ax, orientation='vertical', label='Date')
 cbar.ax.invert_yaxis()
+
+# Format colorbar labels as dates
+formatter = FuncFormatter(lambda x, pos: mdates.num2date(x).strftime('%Y-%m-%d'))
+cbar.ax.yaxis.set_major_formatter(formatter)
 
 # Save figure
 plt.savefig(figure_save_location + '/' + 'ash_height_over_longitude.png', dpi=300)
