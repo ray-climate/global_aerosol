@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    Caulle_ash_tracking.py
+# @Filename:    Caulle_meridional_transport.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        15/06/2023 12:13
+# @Time:        15/06/2023 12:18
 
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from matplotlib.ticker import FuncFormatter
 from mpl_toolkits.basemap import Basemap
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
@@ -58,44 +59,44 @@ all_data = all_data.dropna()
 all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time'] <= end_time) &
                     (all_data['latitude'] >= lat_bottom) & (all_data['latitude'] <= lat_top)]
 
-from mpl_toolkits.basemap import Basemap
-import matplotlib as mpl
+# Group data by utc_time, calculate mean longitude, ash_height and thickness for each utc_time
+grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
-# Continued from your script...
-# Group data by 'utc_time' and calculate mean 'latitude' and 'longitude'
-grouped_data = all_data.groupby('utc_time').agg({'latitude': 'mean', 'longitude': 'mean'}).reset_index()
+# Create a colormap
+cmap = plt.cm.get_cmap('jet')
+grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
+norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
-# Convert 'utc_time' to numeric for color mapping
-grouped_data['utc_time'] = grouped_data['utc_time'].apply(lambda x: mdates.date2num(x))
+# Create a new figure
+fig, ax = plt.subplots(figsize=(10,4))
 
-# Plotting
-fig, ax = plt.subplots(figsize=(30,10))
-m = Basemap(projection='cyl', resolution='l')
+# Group by each day and plot ash_height over longitude
+for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
+    group = group.sort_values('longitude')
+    for i in range(len(group) - 1):  # iterate over each pair of points
+        x = group['longitude'].iloc[i:i+2]
+        y = group['ash_height'].iloc[i:i+2]
+        linewidth = group['thickness'].iloc[i:i+2].mean() * 5
+        ax.plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
 
-# Draw continents and countries
-m.drawcoastlines()
-m.drawcountries()
-m.fillcontinents(color='lightgray')
+# Set title, x and y labels
+ax.set_title('Ash height from Caulle eruption in 2015')
+ax.set_xlabel('Longitude (deg)')
+ax.set_ylabel('Altitude (km)')
+ax.set_ylim(12, 22)
+ax.set_xlim(-80, 120)
+# Optional: rotate x labels if they overlap
+plt.xticks(rotation=45)
 
-# Draw parallels (latitude lines) and meridians (longitude lines)
-m.drawparallels(np.arange(-90.,91.,30.), labels=[True,False,False,True], fontsize=18)
-m.drawmeridians(np.arange(-180.,181.,60.), labels=[True,False,False,True], fontsize=18)
+# Create custom legend
+sm = ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+cbar = plt.colorbar(sm, ax=ax, orientation='vertical', label='Date', shrink=0.5, pad=0.05)
+cbar.ax.invert_yaxis()
 
-# Normalizing 'utc_time' to 0-1 for color mapping
-norm = Normalize(vmin=grouped_data['utc_time'].min(), vmax=grouped_data['utc_time'].max())
-cmap = plt.get_cmap('coolwarm_r')  # Blue to red color map
-sm = ScalarMappable(norm=norm, cmap=cmap)
+# Format colorbar labels as dates
+formatter = FuncFormatter(lambda x, pos: mdates.num2date(x).strftime('%Y-%m-%d'))
+cbar.ax.yaxis.set_major_formatter(formatter)
 
-# Plot mean latitudes and longitudes with colors corresponding to 'utc_time'
-scatter = m.scatter(x=grouped_data['longitude'], y=grouped_data['latitude'], c=grouped_data['utc_time'], cmap=cmap, latlon=True)
-
-# Add a colorbar
-cbar = plt.colorbar(scatter, shrink=0.6)
-
-# Correcting the colorbar labels to date format and remove the time part
-date_ticks = [mdates.num2date(tick).strftime('%Y-%m-%d') for tick in cbar.get_ticks()]
-cbar.ax.set_yticklabels(date_ticks, fontsize=18)
-
-# Saving the figure
-plt.savefig(f"{figure_save_location}/global_plot_Caulle.png")
-
+# Save figure
+plt.savefig(figure_save_location + '/%s'%name + '_ash_height_over_longitude.png', dpi=300)
