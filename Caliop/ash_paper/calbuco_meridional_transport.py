@@ -68,7 +68,7 @@ grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
 # Create a new figure
-fig, ax = plt.subplots(figsize=(10,6))
+fig, ax = plt.subplots(figsize=(15,6))
 
 # Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
@@ -80,9 +80,9 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
         ax.plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
 
 # Set title, x and y labels
-ax.set_title('Ash height over longitude')
-ax.set_xlabel('Longitude')
-ax.set_ylabel('Ash height')
+ax.set_title('Ash height from Calbuco eruption in 2015')
+ax.set_xlabel('Longitude (deg)')
+ax.set_ylabel('Altitude (km)')
 ax.set_ylim(12, 22)
 ax.set_xlim(-80, 60)
 # Optional: rotate x labels if they overlap
@@ -91,7 +91,7 @@ plt.xticks(rotation=45)
 # Create custom legend
 sm = ScalarMappable(cmap=cmap, norm=norm)
 sm.set_array([])
-cbar = plt.colorbar(sm, ax=ax, orientation='vertical', label='Date')
+cbar = plt.colorbar(sm, ax=ax, orientation='vertical', label='Date', shrink=0.5, pad=0.05)
 cbar.ax.invert_yaxis()
 
 # Format colorbar labels as dates
