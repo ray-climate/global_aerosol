@@ -76,7 +76,7 @@ for npz_file in os.listdir(input_path):
             alpha_aeolus_all = np.copy(alpha)
 
 beta_aeolus_mask = np.zeros((beta_aeolus_all.shape))
-beta_aeolus_mask[beta_aeolus_mask > 0.0] = 1.0
+beta_aeolus_mask[beta_aeolus_all > 0.0] = 1.0
 
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
