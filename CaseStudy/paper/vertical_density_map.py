@@ -104,7 +104,7 @@ for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
              [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k')
 plt.plot([], [], 'k', label='Aeolus Profiles (%d)' % beta_aeolus_all.shape[0])
 # set x to log scale
-plt.xscale('log')
+# plt.xscale('log')
 # Set x, y-axis label
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Retrieval numbers', fontsize=16)
