@@ -16,7 +16,7 @@ import os
 
 # this code uses pre-processed, cloud-filtered Aeolus and Caliop L2 data over the Sahara in 2020 to do the analysis
 
-input_path = './aeolus_caliop_sahara2020_extraction_output/'
+input_path = '../Dust/aeolus_caliop_sahara2020_extraction_output/'
 output_path = './figures/'
 
 # create save_location folder if not exist
