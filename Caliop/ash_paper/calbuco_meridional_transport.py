@@ -75,9 +75,8 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
     for i in range(len(group) - 1):  # iterate over each pair of points
         x = group['longitude'].iloc[i:i+2]
         y = group['ash_height'].iloc[i:i+2]
-        linewidth = group['thickness'].iloc[i:i+2].mean()
+        linewidth = group['thickness'].iloc[i:i+2].mean() * 5
         ax.plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
-
 
 # Set title, x and y labels
 ax.set_title('Ash height over longitude')
