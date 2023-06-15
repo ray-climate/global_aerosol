@@ -94,6 +94,7 @@ plt.plot(retrieval_numbers_caliop_all / np.max(retrieval_numbers_caliop_all), al
          label='Caliop Profiles (%d)' % beta_caliop_mask.shape[1])
 # plt.plot(retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all), alt_aeolus_mean, 'k', label='Aeolus Retrieval numbers')
 retrieval_numbers_aeolus_all_norm = retrieval_numbers_aeolus_all / np.max(retrieval_numbers_aeolus_all)
+print(retrieval_numbers_aeolus_all_norm)
 for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
     plt.plot([retrieval_numbers_aeolus_all_norm[i], retrieval_numbers_aeolus_all_norm[i]],
              [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k')
