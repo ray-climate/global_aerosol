@@ -68,7 +68,7 @@ grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
 # Create a new figure
-fig, ax = plt.subplots(figsize=(15,6))
+fig, ax = plt.subplots(figsize=(10,4))
 
 # Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
