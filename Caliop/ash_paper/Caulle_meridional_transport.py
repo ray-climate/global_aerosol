@@ -63,7 +63,7 @@ all_data = all_data[(all_data['utc_time'] >= start_time) & (all_data['utc_time']
 grouped_data = all_data.groupby('utc_time').agg({'longitude':'mean', 'ash_height':'mean', 'thickness':'mean'}).reset_index()
 
 # Create a colormap
-cmap = plt.cm.get_cmap('Reds')
+cmap = plt.cm.get_cmap('jet')
 grouped_data['date_num'] = mdates.date2num(grouped_data['utc_time'])
 norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_num'].max())
 
@@ -83,7 +83,7 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
 ax1.set_title('Ash height over longitude')
 ax1.set_xlabel('Longitude')
 ax1.set_ylabel('Ash height')
-ax1.set_ylim(12, 22)
+ax1.set_ylim(8, 18)
 ax1.set_xlim(-80, 60)
 
 # Create custom legend
