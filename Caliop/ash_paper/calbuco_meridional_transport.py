@@ -84,7 +84,7 @@ ax.set_title('Ash height from Calbuco eruption in 2015')
 ax.set_xlabel('Longitude (deg)')
 ax.set_ylabel('Altitude (km)')
 ax.set_ylim(12, 22)
-ax.set_xlim(-80, 60)
+ax.set_xlim(-80, 120)
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
 
