@@ -24,7 +24,7 @@ variable_file_location = '../SOVCC/filtered_data_continuous_10'
 figure_save_location = './figures'
 
 # Define time and latitude range
-name = 'Caulle'
+volcano_name = 'Caulle'
 start_time = '2011-06-04'
 end_time = '2011-08-20'
 lat_top = 0
@@ -83,7 +83,7 @@ for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
 ax.set_title('Ash height from Caulle eruption in 2015')
 ax.set_xlabel('Longitude (deg)')
 ax.set_ylabel('Altitude (km)')
-ax.set_ylim(12, 22)
+ax.set_ylim(8, 18)
 ax.set_xlim(-80, 120)
 # Optional: rotate x labels if they overlap
 plt.xticks(rotation=45)
@@ -99,4 +99,4 @@ formatter = FuncFormatter(lambda x, pos: mdates.num2date(x).strftime('%Y-%m-%d')
 cbar.ax.yaxis.set_major_formatter(formatter)
 
 # Save figure
-plt.savefig(figure_save_location + '/%s'%name + '_ash_height_over_longitude.png', dpi=300)
+plt.savefig(figure_save_location + '/%s'%volcano_name + '_ash_height_over_longitude.png', dpi=300)
