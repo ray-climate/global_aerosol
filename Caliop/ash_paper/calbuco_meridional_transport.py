@@ -70,12 +70,13 @@ norm = Normalize(vmin=grouped_data['date_num'].min(), vmax=grouped_data['date_nu
 fig, ax = plt.subplots(figsize=(10,6))
 
 # Group by each day and plot ash_height over longitude
-# Group by each day and plot ash_height over longitude
 for name, group in grouped_data.groupby(grouped_data['utc_time'].dt.date):
     group = group.sort_values('longitude')
-    print(group['thickness'])
-    linewidth = group['thickness'].mean() * 5  # or .median(), .max(), etc. as you prefer
-    ax.plot(group['longitude'], group['ash_height'], marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), label=name, linewidth=linewidth)
+    for i in range(len(group) - 1):  # iterate over each pair of points
+        x = group['longitude'].iloc[i:i+2]
+        y = group['ash_height'].iloc[i:i+2]
+        linewidth = group['thickness'].iloc[i:i+2].mean()
+        ax.plot(x, y, marker='o', linestyle='-', color=cmap(norm(mdates.date2num(name))), linewidth=linewidth)
 
 
 # Set title, x and y labels
