@@ -81,7 +81,7 @@ def calculate_ash_mask_thickness(ash_mask, altitude, extinction):
                 mean_heights.append(np.mean([max_altitude, min_altitude]))
 
     return thicknesses, mean_heights, weighted_extinctions
-
+#
 
 # loop through all the sub year folder in caliop_location
 # location parameter
