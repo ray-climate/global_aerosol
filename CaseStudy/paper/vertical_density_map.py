@@ -210,7 +210,7 @@ if True:
     plt.plot([], [], 'k', label='Aeolus')
     plt.ylabel('Altitude (km)', fontsize=16)
     plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
-    plt.title(f'AEOLUS aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+    # plt.title(f'AEOLUS aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
@@ -232,7 +232,7 @@ if True:
 
     plt.ylabel('Altitude (km)', fontsize=16)
     plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
-    plt.title(f'CALIPSO aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+    # plt.title(f'CALIPSO aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
@@ -268,7 +268,7 @@ if True:
     # Customize the plot
     plt.ylabel('Altitude (km)', fontsize=16)
     plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
-    plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+    # plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
@@ -290,7 +290,7 @@ if True:
 
     plt.ylabel('Altitude (km)', fontsize=16)
     plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
-    plt.title(f'CALIPSO aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+    # plt.title(f'CALIPSO aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
