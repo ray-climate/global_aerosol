@@ -191,14 +191,17 @@ long_form_data_aeolus['beta_aeolus_log'] = np.log10(long_form_data_aeolus['beta_
 long_form_data_caliop['alpha_caliop_log'] = np.log10(long_form_data_caliop['alpha_caliop'])
 long_form_data_aeolus['alpha_aeolus_log'] = np.log10(long_form_data_aeolus['alpha_aeolus'])
 
+long_form_data_aeolus_beta = np.copy(long_form_data_aeolus)
+long_form_data_aeolus_alpha = np.copy(long_form_data_aeolus)
+
+long_form_data_aeolus_beta = long_form_data_aeolus_beta[long_form_data_aeolus_beta['beta_aeolus'] >= 1.e-5]
+long_form_data_aeolus_alpha = long_form_data_aeolus_alpha[long_form_data_aeolus_alpha['alpha_aeolus_log'] >= 1.e-3]
+
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_aeolus, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
-    # sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Reds', fill=True)
-
-    # plt.plot(np.log10(beta_caliop_mean * conversion_factor), alt_caliop, 'r', label='Aeolus-like Caliop')
+    sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
@@ -246,14 +249,14 @@ if True:
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
 
-alpha_caliop_all[alpha_caliop_all < 0] = np.nan
+alpha_caliop_all[alpha_caliop_all < 1.e-3] = np.nan
 alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_aeolus, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True)
+    sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True)
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
@@ -302,10 +305,6 @@ if True:
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
 
-alpha_caliop_all[alpha_caliop_all < 0] = np.nan
-alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
-alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
-quit()
 # #
 # # for i in range(len(beta_aeolus_mean)-1):
 # #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
