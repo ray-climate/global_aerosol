@@ -129,6 +129,7 @@ plt.close()
 # ang_coef = (355. / 532.) ** (-0.1)
 ang_coef = 1.
 beta_caliop_all[beta_caliop_all < 1.e-5] = np.nan
+beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
 dp_caliop_all[dp_caliop_all < 0] = np.nan
 dp_caliop_all[dp_caliop_all > 1.] = np.nan
 
@@ -250,6 +251,8 @@ if True:
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
 
 alpha_caliop_all[alpha_caliop_all < 1.e-3] = np.nan
+alpha_aeolus_all[alpha_aeolus_all < 1.e-3] = np.nan
+
 alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
