@@ -273,10 +273,10 @@ if True:
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
     ax = plt.gca()
-    # # Set the x-axis scale and ticks
-    # ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
-    # ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-    # ax.set_xlim(np.log10([1.e-6, 1]))
+    # Set the x-axis scale and ticks
+    ax.set_xticks([-3, -2, -1, 0, 1])
+    ax.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
+    ax.set_xlim(np.log10([1.e-3, 1]))
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_extinction_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
@@ -296,9 +296,9 @@ if True:
     plt.yticks(fontsize=14)
     ax = plt.gca()
     # # Set the x-axis scale and ticks
-    # ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
-    # ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-    # ax.set_xlim(np.log10([1.e-6, 1]))
+    ax.set_xticks([-3, -2, -1, 0, 1])
+    ax.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
+    ax.set_xlim(np.log10([1.e-3, 1]))
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_extinction_density_caliop.png'
     plt.savefig(output_path, dpi=300)
@@ -308,6 +308,7 @@ if True:
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
 
+quit()
 # #
 # # for i in range(len(beta_aeolus_mean)-1):
 # #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
