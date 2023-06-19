@@ -209,6 +209,8 @@ plt.savefig(output_dir + 'alpha_aeolus_log_hist.png', dpi=300)
 
 # Boxplot of alpha_aeolus_log to visualize outliers
 plt.figure(figsize=(8, 6))
-sns.boxplot(long_form_data_aeolus['alpha_aeolus_log'])
+
+sns.boxplot(long_form_data_aeolus['alpha_aeolus_log'].reset_index(drop=True))
+
 plt.title('Boxplot of alpha_aeolus_log')
 plt.savefig(output_dir + 'alpha_aeolus_log_boxplot.png', dpi=300)
