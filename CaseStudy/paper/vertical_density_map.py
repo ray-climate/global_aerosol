@@ -276,7 +276,7 @@ if True:
     # Set the x-axis scale and ticks
     ax.set_xticks([-3, -2, -1, 0, 1])
     ax.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
-    ax.set_xlim(np.log10([1.e-3, 1]))
+    ax.set_xlim(np.log10([1.e-3, 1.e1]))
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_extinction_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
@@ -298,7 +298,7 @@ if True:
     # # Set the x-axis scale and ticks
     ax.set_xticks([-3, -2, -1, 0, 1])
     ax.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
-    ax.set_xlim(np.log10([1.e-3, 1]))
+    ax.set_xlim(np.log10([1.e-3, 1.e1]))
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_extinction_density_caliop.png'
     plt.savefig(output_path, dpi=300)
