@@ -128,7 +128,7 @@ plt.close()
 ############# backscatter plot #############
 # ang_coef = (355. / 532.) ** (-0.1)
 ang_coef = 1.
-beta_caliop_all[beta_caliop_all < 0] = np.nan
+beta_caliop_all[beta_caliop_all < 1.e-5] = np.nan
 dp_caliop_all[dp_caliop_all < 0] = np.nan
 dp_caliop_all[dp_caliop_all > 1.] = np.nan
 
@@ -194,11 +194,9 @@ long_form_data_aeolus['alpha_aeolus_log'] = np.log10(long_form_data_aeolus['alph
 long_form_data_aeolus_beta = long_form_data_aeolus.copy()
 long_form_data_aeolus_alpha = long_form_data_aeolus.copy()
 
-long_form_data_aeolus_beta = long_form_data_aeolus_beta[long_form_data_aeolus_beta['beta_aeolus_log'] >= 1.e-5]
+long_form_data_aeolus_beta = long_form_data_aeolus_beta[long_form_data_aeolus_beta['beta_aeolus_log'] >= -5]
 long_form_data_aeolus_alpha = long_form_data_aeolus_alpha[long_form_data_aeolus_alpha['alpha_aeolus_log'] >= -3]
 
-print(long_form_data_aeolus_alpha)
-quit()
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
@@ -259,7 +257,7 @@ if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
     sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True)
-    for i in range(len(beta_aeolus_mean)-1):
+    for i in range(len(alpha_aeolus_mean)-1):
         plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
         plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
