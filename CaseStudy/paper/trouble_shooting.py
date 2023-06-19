@@ -190,6 +190,8 @@ long_form_data_caliop['beta_caliop_log'] = np.log10(long_form_data_caliop['beta_
 long_form_data_aeolus['beta_aeolus_log'] = np.log10(long_form_data_aeolus['beta_aeolus'])
 long_form_data_caliop['alpha_caliop_log'] = np.log10(long_form_data_caliop['alpha_caliop'])
 long_form_data_aeolus['alpha_aeolus_log'] = np.log10(long_form_data_aeolus['alpha_aeolus'])
+long_form_data_aeolus = long_form_data_aeolus.replace([np.inf, -np.inf], np.nan)
+long_form_data_aeolus = long_form_data_aeolus.dropna(subset=['alpha_aeolus_log'])
 
 from scipy.stats import describe
 
