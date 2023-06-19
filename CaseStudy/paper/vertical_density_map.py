@@ -194,7 +194,7 @@ long_form_data_aeolus['alpha_aeolus_log'] = np.log10(long_form_data_aeolus['alph
 long_form_data_aeolus_beta = np.copy(long_form_data_aeolus)
 long_form_data_aeolus_alpha = np.copy(long_form_data_aeolus)
 
-long_form_data_aeolus_beta = long_form_data_aeolus_beta[long_form_data_aeolus_beta['beta_aeolus'] >= 1.e-5]
+long_form_data_aeolus_beta = long_form_data_aeolus_beta[long_form_data_aeolus_beta['beta_aeolus_log'] >= 1.e-5]
 long_form_data_aeolus_alpha = long_form_data_aeolus_alpha[long_form_data_aeolus_alpha['alpha_aeolus_log'] >= 1.e-3]
 
 #
