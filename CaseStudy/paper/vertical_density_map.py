@@ -224,7 +224,7 @@ if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
     sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True)
-    plt.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='Aeolus-like Caliop')
+    plt.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='CALIOP')
 
     plt.ylabel('Altitude (km)', fontsize=16)
     plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
@@ -261,7 +261,7 @@ if True:
     plt.plot([], [], 'k', label='Aeolus')
     # Customize the plot
     plt.ylabel('Altitude (km)', fontsize=16)
-    plt.xlabel('Extinction coeff.\n[km$^{-1}]', fontsize=16)
+    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
     plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=14)
@@ -272,9 +272,39 @@ if True:
     # ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
     # ax.set_xlim(np.log10([1.e-6, 1]))
     plt.ylim([0.,20.])
-    output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
+    output_path = output_dir + f'retrieval_extinction_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
+
+if True:
+    # plot the KDE density plot and the curve plot for caliop
+    plt.figure(figsize=(8, 12))
+    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True)
+    plt.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP')
+
+    plt.ylabel('Altitude (km)', fontsize=16)
+    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
+    plt.title(f'CALIPSO aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+    # Set x-axis and y-axis ticks
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    ax = plt.gca()
+    # # Set the x-axis scale and ticks
+    # ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
+    # ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
+    # ax.set_xlim(np.log10([1.e-6, 1]))
+    plt.ylim([0.,20.])
+    output_path = output_dir + f'retrieval_extinction_density_caliop.png'
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+
+    ############# depolarization ratio plot #############
+    plt.figure(figsize=(8, 12))
+    plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
+
+alpha_caliop_all[alpha_caliop_all < 0] = np.nan
+alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
+alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 quit()
 # #
 # # for i in range(len(beta_aeolus_mean)-1):
