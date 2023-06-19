@@ -195,7 +195,7 @@ long_form_data_aeolus_beta = long_form_data_aeolus.copy()
 long_form_data_aeolus_alpha = long_form_data_aeolus.copy()
 
 long_form_data_aeolus_beta = long_form_data_aeolus_beta[long_form_data_aeolus_beta['beta_aeolus_log'] >= 1.e-5]
-long_form_data_aeolus_alpha = long_form_data_aeolus_alpha[long_form_data_aeolus_alpha['alpha_aeolus_log'] >= 1.e-3]
+long_form_data_aeolus_alpha = long_form_data_aeolus_alpha[long_form_data_aeolus_alpha['alpha_aeolus_log'] >= -3]
 
 print(long_form_data_aeolus_alpha)
 quit()
