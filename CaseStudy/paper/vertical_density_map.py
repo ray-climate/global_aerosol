@@ -191,10 +191,6 @@ long_form_data_aeolus['beta_aeolus_log'] = np.log10(long_form_data_aeolus['beta_
 long_form_data_caliop['alpha_caliop_log'] = np.log10(long_form_data_caliop['alpha_caliop'])
 long_form_data_aeolus['alpha_aeolus_log'] = np.log10(long_form_data_aeolus['alpha_aeolus'])
 
-print(long_form_data_aeolus)
-alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
-print(alpha_aeolus_mean)
-quit()
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
