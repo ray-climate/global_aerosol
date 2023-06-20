@@ -84,6 +84,7 @@ def calculate_ash_mask_thickness(ash_mask, altitude, extinction):
 #
 
 # loop through all the sub year folder in caliop_location
+filename_all = []
 # location parameter
 utc_time_all = []
 latitude_all = []
@@ -110,8 +111,7 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
         if file.endswith('.npz'):
             print('---------> Reading caliop file: %s' %file)
 
-            dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file,
-                              allow_pickle=True)
+            dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
 
             aerosol_type = dataset['caliop_v4_aerosol_type']
             feature_type = dataset['feature_type']
@@ -124,8 +124,8 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
             tropopause_altitude = dataset['orbit_l2_tropopause_height']
             # optical parameters
             extinction = dataset['extinction']
-            backscatter = dataset['backscatter']
-            depolarisation = dataset['depolarisation']
+            # backscatter = dataset['backscatter']
+            # depolarisation = dataset['depolarisation']
 
             ash_mask = np.zeros((aerosol_type.shape))
             ash_mask[(feature_type == 4) & (aerosol_type == 2)] = 1
@@ -140,33 +140,34 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
                     altitude_i = np.copy(altitude)
                     tropopause_altitude_i = tropopause_altitude[i]
 
-
+                    filename_all.append(file)
                     latitude_all.append(latitude_i)
                     longitude_all.append(longitude_i)
                     altitude_all.append(altitude_i)
                     thickness_all.append(thickness_i)
                     ash_height_all.append(ash_height_i)
                     troppause_altitude_all.append(tropopause_altitude_i)
-                    extinction_all.append(extinction[:, i])
-                    backscatter_all.append(backscatter[:, i])
-                    depolarisation_all.append(depolarisation[:, i])
-                    aerosol_type_all.append(aerosol_type[:, i])
-                    feature_type_all.append(feature_type[:, i])
+                    # extinction_all.append(extinction[:, i])
+                    # backscatter_all.append(backscatter[:, i])
+                    # depolarisation_all.append(depolarisation[:, i])
+                    # aerosol_type_all.append(aerosol_type[:, i])
+                    # feature_type_all.append(feature_type[:, i])
 
 
 df = pd.DataFrame({
+    'filename': filename_all,
     'utc_time': utc_time_all,  # 'yyyy-mm-ddThh:mm:ssZ'
     'latitude': latitude_all,
     'longitude': longitude_all,
     'altitude': altitude_all,
     'ash_thickness': [','.join(map(str, t)) for t in thickness_all],
     'ash_height': [','.join(map(str, t)) for t in ash_height_all],
-    'tropopause_altitude': troppause_altitude_all,
-    'extinction': [','.join(map(str, t)) for t in extinction_all],
-    'backscatter': [','.join(map(str, t)) for t in backscatter_all],
-    'depolarisation': [','.join(map(str, t)) for t in depolarisation_all],
-    'aerosol_type': [','.join(map(str, t)) for t in aerosol_type_all],
-    'feature_type': [','.join(map(str, t)) for t in feature_type_all]
+    'tropopause_altitude': troppause_altitude_all
+    # 'extinction': [','.join(map(str, t)) for t in extinction_all],
+    # 'backscatter': [','.join(map(str, t)) for t in backscatter_all],
+    # 'depolarisation': [','.join(map(str, t)) for t in depolarisation_all],
+    # 'aerosol_type': [','.join(map(str, t)) for t in aerosol_type_all],
+    # 'feature_type': [','.join(map(str, t)) for t in feature_type_all]
 })
 
 df.to_csv(save_location + '/' + year + '_ash_thickness.csv', index=False)
