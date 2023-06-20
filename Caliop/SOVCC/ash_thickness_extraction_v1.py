@@ -110,7 +110,8 @@ for caliop_sub_folder in os.listdir(caliop_extracted_location + '/' + year):
         if file.endswith('.npz'):
             print('---------> Reading caliop file: %s' %file)
 
-            dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file)
+            dataset = np.load(caliop_extracted_location + '/' + year + '/' + caliop_sub_folder + '/' + file,
+                              allow_pickle=True)
 
             aerosol_type = dataset['caliop_v4_aerosol_type']
             feature_type = dataset['feature_type']
