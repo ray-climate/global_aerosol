@@ -167,7 +167,7 @@ data_list = [np.array(values) for values in new_dp_caliop_all]
 plt.boxplot(data_list, vert=False, patch_artist=True)  # 'vert=False' makes the boxplots horizontal
 
 plt.yticks(range(1, len(new_alt_caliop) + 1), new_alt_caliop)  # replace the y-tick labels with the new altitudes
-
+plt.xlim(0, 1)
 plt.xlabel('Binned dp_caliop_all Values')
 plt.ylabel('Altitude (km)')
 plt.title('Boxplot of Binned dp_caliop_all over Altitude')
