@@ -159,7 +159,8 @@ for alt_index, alt in enumerate(alt_caliop):
     bin_index = np.argmin(np.abs(new_alt_caliop - alt))
     # add the values to the appropriate bin, ignoring NaN values
     new_dp_caliop_all[bin_index].extend(dp_caliop_all[alt_index][~np.isnan(dp_caliop_all[alt_index])])
-print(new_dp_caliop_all.shape)
+print(len(new_dp_caliop_all))
+print(new_dp_caliop_all[0].shape)
 # calculate means and standard deviations for each bin
 means = [np.mean(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
 stds = [np.std(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
