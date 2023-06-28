@@ -106,14 +106,14 @@ plt.plot([], [], 'k', label='Aeolus Profiles (%d)' % beta_aeolus_all.shape[0])
 # set x to log scale
 # plt.xscale('log')
 # Set x, y-axis label
-plt.ylabel('Altitude (km)', fontsize=16)
-plt.xlabel('Retrieval numbers', fontsize=16)
+plt.ylabel('Altitude [km]', fontsize=20)
+plt.xlabel('Retrieval numbers', fontsize=20)
 # Set title
 plt.title(f'Aerosol retrievals over the Sahara \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
 
 # Set x-axis and y-axis ticks
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
 
 plt.ylim([0., 20.])
 # Display legend
@@ -154,8 +154,8 @@ plt.plot([], [], 'k', label='Aeolus')
 # set x to log scale
 plt.xscale('log')
 # Set x, y-axis label
-plt.ylabel('Altitude (km)', fontsize=16)
-plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
+plt.ylabel('Altitude [km]', fontsize=20)
+plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
 # Set title
 plt.title(f'Aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18,
           y=1.05)
@@ -208,12 +208,13 @@ if True:
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i+1] / conversion_factor)], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
     plt.plot([], [], 'k', label='Aeolus')
-    plt.ylabel('Altitude (km)', fontsize=16)
-    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
+    plt.ylabel('Altitude [km]', fontsize=20)
+    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
     # plt.title(f'AEOLUS aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+    plt.text(-1, 18, 'ALADIN', fontsize=20, color='k')
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
@@ -230,12 +231,13 @@ if True:
     sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True)
     plt.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='CALIOP')
 
-    plt.ylabel('Altitude (km)', fontsize=16)
-    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=16)
+    plt.ylabel('Altitude [km]', fontsize=20)
+    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
     # plt.title(f'CALIPSO aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+    plt.text(-1, 18, 'CALIOP', fontsize=20, color='k')
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
@@ -266,12 +268,13 @@ if True:
         plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
     plt.plot([], [], 'k', label='Aeolus')
     # Customize the plot
-    plt.ylabel('Altitude (km)', fontsize=16)
-    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
+    plt.ylabel('Altitude [km]', fontsize=20)
+    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
+    plt.text(0, 18, 'ALADIN', fontsize=20, color='k')
     # plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
     ax = plt.gca()
     # Set the x-axis scale and ticks
     ax.set_xticks([-3, -2, -1, 0, 1])
@@ -288,12 +291,13 @@ if True:
     sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True)
     plt.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP')
 
-    plt.ylabel('Altitude (km)', fontsize=16)
-    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=16)
+    plt.ylabel('Altitude (km)', fontsize=20)
+    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
     # plt.title(f'CALIPSO aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=14)
-    plt.yticks(fontsize=14)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+    plt.text(0, 18, 'CALIOP', fontsize=20, color='k')
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-3, -2, -1, 0, 1])
