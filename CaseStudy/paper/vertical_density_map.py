@@ -165,10 +165,13 @@ means = [np.mean(values) if len(values) > 0 else np.nan for values in new_dp_cal
 stds = [np.std(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
 
 # generate plot of means with error bars for standard deviations
-plt.errorbar(means, new_alt_caliop, xerr=stds, fmt='-o', capsize=3,  ecolor="k")
+plt.errorbar(means, new_alt_caliop, xerr=stds, fmt='-o',color='k', capsize=3,  ecolor="k")
 
 plt.xlabel('Particle depolarisation ratio at 532 nm', fontsize=20)
 plt.ylabel('Altitude [km]', fontsize=20)
+
+plt.xlim([0.,1.])
+plt.ylim([0.,20.])
 
 # Set x-axis and y-axis ticks
 plt.xticks(fontsize=16)
