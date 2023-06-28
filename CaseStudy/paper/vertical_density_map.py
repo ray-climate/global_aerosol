@@ -147,26 +147,14 @@ print('delta circ 355 is: ', conversion_factor)
 # Create a DataFrame from the data
 
 fig, ax = plt.subplots(figsize=(8, 12))
-# create new altitude grid from 0 to 20km with 0.5 km spacing
-new_alt_caliop = np.arange(0, 20.5, 0.5)
 
-# create lists for new dp_caliop_all data
-new_dp_caliop_all = [[] for _ in range(len(new_alt_caliop))]
+plt.plot(dp_caliop_mean, alt_caliop, label='Mean', color='blue')
+plt.fill_betweenx(alt_caliop, dp_caliop_mean - beta_caliop_all_std, dp_caliop_mean + beta_caliop_all_std, color='blue', alpha=0.2)
 
-# bin dp_caliop_all data into new altitude bins
-for alt_index, alt in enumerate(alt_caliop):
-    # find the closest bin in new_alt_caliop
-    bin_index = np.argmin(np.abs(new_alt_caliop - alt))
-    # add the values to the appropriate bin, ignoring NaN values
-    new_dp_caliop_all[bin_index].extend(dp_caliop_all[alt_index][~np.isnan(dp_caliop_all[alt_index])])
-print(len(new_dp_caliop_all))
-print(len(new_dp_caliop_all[0]))
-# calculate means and standard deviations for each bin
-means = [np.mean(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
-stds = [np.std(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
-
-# generate plot of means with error bars for standard deviations
-plt.errorbar(means, new_alt_caliop, xerr=stds, fmt='-o',color='k', capsize=3,  ecolor="k")
+# Label axes and add a legend
+plt.xlabel('Mean Value')
+plt.ylabel('Altitude')
+plt.legend()
 
 plt.xlabel('Particle depolarisation ratio at 532 nm', fontsize=20)
 plt.ylabel('Altitude [km]', fontsize=20)
