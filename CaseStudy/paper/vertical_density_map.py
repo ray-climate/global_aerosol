@@ -145,10 +145,10 @@ print('delta circ 355 is: ', conversion_factor)
 
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
-dp_caliop_mean_upper = np.nanmean(dp_caliop_all[(alt_caliop>2.5) & (alt_caliop<7.),:], axis=1)
-dp_caliop_mean_lower = np.nanmean(dp_caliop_all[(alt_caliop<2.5),:], axis=1)
-dp_caliop_std_upper = np.nanstd(dp_caliop_all[(alt_caliop>2.5) & (alt_caliop<7.),:], axis=1)
-dp_caliop_std_lower = np.nanstd(dp_caliop_all[(alt_caliop<2.5),:], axis=1)
+dp_caliop_mean_upper = np.nanmean(dp_caliop_all[(alt_caliop>2.5) & (alt_caliop<7.),:])
+dp_caliop_mean_lower = np.nanmean(dp_caliop_all[(alt_caliop<2.5),:])
+dp_caliop_std_upper = np.nanstd(dp_caliop_all[(alt_caliop>2.5) & (alt_caliop<7.),:])
+dp_caliop_std_lower = np.nanstd(dp_caliop_all[(alt_caliop<2.5),:])
 print('mean dp ratio upper: ', dp_caliop_mean_upper)
 print('mean dp ratio lower: ', dp_caliop_mean_lower)
 print('std dp ratio upper: ', dp_caliop_std_upper)
