@@ -214,7 +214,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(-1, 18, 'ALADIN', fontsize=20, color='k')
+    plt.text(-1.5, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
@@ -237,7 +237,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(-1, 18, 'CALIOP', fontsize=20, color='k')
+    plt.text(-1.5, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
@@ -270,7 +270,7 @@ if True:
     # Customize the plot
     plt.ylabel('Altitude [km]', fontsize=20)
     plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
-    plt.text(0, 18, 'ALADIN', fontsize=20, color='k')
+    plt.text(0, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     # plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
@@ -297,7 +297,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(0, 18, 'CALIOP', fontsize=20, color='k')
+    plt.text(0, 18, 'CALIOP', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-3, -2, -1, 0, 1])
