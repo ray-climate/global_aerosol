@@ -157,14 +157,11 @@ new_dp_caliop_all = [[] for _ in range(len(new_alt_caliop))]
 for alt_index, alt in enumerate(alt_caliop):
     # find the closest bin in new_alt_caliop
     bin_index = np.argmin(np.abs(new_alt_caliop - alt))
-    # add the values to the appropriate bin
-    new_dp_caliop_all[bin_index].extend(dp_caliop_all[alt_index])
+    # add the values to the appropriate bin, ignoring NaN values
+    new_dp_caliop_all[bin_index].extend(dp_caliop_all[alt_index][~np.isnan(dp_caliop_all[alt_index])])
 
 # generate a list of arrays, each array containing the data for a particular new altitude
 data_list = [np.array(values) for values in new_dp_caliop_all]
-
-# plot
-plt.figure(figsize=(10, 60))  # adjust the figure size as needed
 
 # generate boxplots
 plt.boxplot(data_list, vert=False, patch_artist=True)  # 'vert=False' makes the boxplots horizontal
