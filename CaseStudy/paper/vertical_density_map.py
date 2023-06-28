@@ -132,9 +132,6 @@ beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
 dp_caliop_all[dp_caliop_all < 0] = np.nan
 dp_caliop_all[dp_caliop_all > 1.] = np.nan
 
-# generate a list of arrays, each array containing the data for a particular altitude
-data_list = [row for row in dp_caliop_all]
-
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 beta_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
@@ -150,15 +147,33 @@ print('delta circ 355 is: ', conversion_factor)
 # Create a DataFrame from the data
 
 fig, ax = plt.subplots(figsize=(8, 12))
+# create new altitude grid from 0 to 20km with 0.5 km spacing
+new_alt_caliop = np.arange(0, 20.5, 0.5)
+
+# create a list for new dp_caliop_all data
+new_dp_caliop_all = [[] for _ in range(len(new_alt_caliop))]
+
+# bin dp_caliop_all data into new altitude bins
+for alt_index, alt in enumerate(alt_caliop):
+    # find the closest bin in new_alt_caliop
+    bin_index = np.argmin(np.abs(new_alt_caliop - alt))
+    # add the values to the appropriate bin
+    new_dp_caliop_all[bin_index].extend(dp_caliop_all[alt_index])
+
+# generate a list of arrays, each array containing the data for a particular new altitude
+data_list = [np.array(values) for values in new_dp_caliop_all]
+
+# plot
+plt.figure(figsize=(10, 60))  # adjust the figure size as needed
+
 # generate boxplots
-ax.boxplot(data_list, vert=False)  # 'vert=False' makes the boxplots horizontal
+plt.boxplot(data_list, vert=False, patch_artist=True)  # 'vert=False' makes the boxplots horizontal
 
-ax.set_yticks(np.arange(1, len(alt_caliop) + 1))  # set the y-ticks
-ax.set_yticklabels(alt_caliop)  # replace the y-tick labels with the altitudes
+plt.yticks(range(1, len(new_alt_caliop) + 1), new_alt_caliop)  # replace the y-tick labels with the new altitudes
 
-ax.set_xlabel('dp_caliop_all Values')
-ax.set_ylabel('Altitude')
-ax.set_title('Boxplot of dp_caliop_all over Altitude')
+plt.xlabel('Binned dp_caliop_all Values')
+plt.ylabel('Altitude (km)')
+plt.title('Boxplot of Binned dp_caliop_all over Altitude')
 plt.grid(True)
 
 # Save the figure
