@@ -150,7 +150,7 @@ fig, ax = plt.subplots(figsize=(8, 12))
 # create new altitude grid from 0 to 20km with 0.5 km spacing
 new_alt_caliop = np.arange(0, 20.5, 0.5)
 
-# create a list for new dp_caliop_all data
+# create lists for new dp_caliop_all data
 new_dp_caliop_all = [[] for _ in range(len(new_alt_caliop))]
 
 # bin dp_caliop_all data into new altitude bins
@@ -160,17 +160,19 @@ for alt_index, alt in enumerate(alt_caliop):
     # add the values to the appropriate bin, ignoring NaN values
     new_dp_caliop_all[bin_index].extend(dp_caliop_all[alt_index][~np.isnan(dp_caliop_all[alt_index])])
 
-# generate a list of arrays, each array containing the data for a particular new altitude
-data_list = [np.array(values) for values in new_dp_caliop_all]
+# calculate means and standard deviations for each bin
+means = [np.mean(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
+stds = [np.std(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
 
-# generate boxplots
-plt.boxplot(data_list, vert=False, patch_artist=True)  # 'vert=False' makes the boxplots horizontal
+# plot
+plt.figure(figsize=(10, 6))
 
-plt.yticks(range(1, len(new_alt_caliop) + 1), new_alt_caliop)  # replace the y-tick labels with the new altitudes
-plt.xlim(0, 1)
-plt.xlabel('Binned dp_caliop_all Values')
+# generate plot of means with error bars for standard deviations
+plt.errorbar(means, new_alt_caliop, xerr=stds, fmt='-o')
+
+plt.xlabel('Mean dp_caliop_all Values')
 plt.ylabel('Altitude (km)')
-plt.title('Boxplot of Binned dp_caliop_all over Altitude')
+plt.title('Mean and Standard Deviation of dp_caliop_all over Altitude')
 plt.grid(True)
 
 # Save the figure
