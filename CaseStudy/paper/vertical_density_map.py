@@ -160,7 +160,7 @@ plt.ylim([0., 20.])
 plt.legend(loc='best', fontsize=14, frameon=False)
 
 # Save the figure
-output_path = input_path + f'retrieval_depolarisation.png'
+output_path = output_dir + f'retrieval_depolarisation.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
 ############################################
