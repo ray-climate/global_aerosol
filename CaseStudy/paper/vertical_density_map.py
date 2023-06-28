@@ -131,8 +131,14 @@ beta_caliop_all[beta_caliop_all < 1.e-5] = np.nan
 beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
 dp_caliop_all[dp_caliop_all < 0] = np.nan
 dp_caliop_all[dp_caliop_all > 1.] = np.nan
-dp_caliop_all_nonan = [row_data[~np.isnan(row_data)] for row_data in dp_caliop_all]
 
+# Flatten dp_caliop_all and repeat alt_caliop to match the flattened shape
+dp_caliop_all_flattened = dp_caliop_all.flatten()
+alt_caliop_repeated = np.repeat(alt_caliop, dp_caliop_all.shape[1])
+# Remove entries where dp_caliop_all is NaN
+valid_indices = ~np.isnan(dp_caliop_all_flattened)
+dp_caliop_all_valid = dp_caliop_all_flattened[valid_indices]
+alt_caliop_valid = alt_caliop_repeated[valid_indices]
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 beta_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
@@ -146,10 +152,14 @@ print('std depolarisation ratio: ', np.nanstd(dp_caliop_mean))
 print('delta circ 355 is: ', conversion_factor)
 
 ################## plot depolarisation ratio
-
+# Create a DataFrame from the data
+df = pd.DataFrame({
+    'dp_caliop_all': dp_caliop_all_valid,
+    'altitude': alt_caliop_valid
+})
 plt.figure(figsize=(8, 12))
 # plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
-plt.boxplot(dp_caliop_all_nonan, vert=False, patch_artist=True)
+sns.boxplot(x='dp_caliop_all', y='altitude', data=df, orient='h')
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Depolarisation ratio', fontsize=16)
 # Set x-axis and y-axis ticks
