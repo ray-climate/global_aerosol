@@ -124,7 +124,6 @@ output_path = output_dir + f'retrieval_numbers.png'
 plt.savefig(output_path, dpi=300)
 plt.close()
 
-
 ############# backscatter plot #############
 # ang_coef = (355. / 532.) ** (-0.1)
 ang_coef = 1.
@@ -140,6 +139,33 @@ beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
+
+
+################## plot depolarisation ratio
+
+plt.figure(figsize=(8, 12))
+plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
+plt.ylabel('Altitude (km)', fontsize=16)
+plt.xlabel('Depolarisation ratio', fontsize=16)
+# Set title
+plt.title(f'Aerosol retrievals over the Sahara [depolarisation ratio] \n $14^{{th}}$ - $24^{{th}}$ June 2020',
+          fontsize=18, y=1.05)
+
+# Set x-axis and y-axis ticks
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+plt.ylim([0., 20.])
+# Display legend
+plt.legend(loc='best', fontsize=14, frameon=False)
+
+# Save the figure
+output_path = input_path + f'retrieval_depolarisation.png'
+plt.savefig(output_path, dpi=300)
+plt.close()
+############################################
+
+quit()
 plt.figure(figsize=(8, 12))
 plt.plot(beta_caliop_mean, alt_caliop, 'b', label='Caliop')
 plt.plot(beta_caliop_mean * conversion_factor * ang_coef, alt_caliop, 'r', label='Aeolus-like Caliop')
@@ -313,33 +339,7 @@ if True:
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
 
 quit()
-# #
-# # for i in range(len(beta_aeolus_mean)-1):
-# #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
-# # for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-# #     plt.plot([beta_aeolus_mean[i], beta_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
-# # plt.plot([], [], 'k', label='Aeolus')
-# # set x to log scale
-# # plt.xscale('log')
-# # Set x, y-axis label
-# plt.ylabel('Altitude (km)', fontsize=16)
-# plt.xlabel('Depolarisation ratio', fontsize=16)
-# # Set title
-# plt.title(f'Aerosol retrievals over the Sahara [depolarisation ratio] \n $14^{{th}}$ - $24^{{th}}$ June 2020',
-#           fontsize=18, y=1.05)
-#
-# # Set x-axis and y-axis ticks
-# plt.xticks(fontsize=14)
-# plt.yticks(fontsize=14)
-#
-# plt.ylim([0., 20.])
-# # Display legend
-# plt.legend(loc='best', fontsize=14, frameon=False)
-#
-# # Save the figure
-# output_path = input_path + f'retrieval_depolarisation.png'
-# plt.savefig(output_path, dpi=300)
-# plt.close()
+
 
 ############# extinction plot #############
 
