@@ -129,8 +129,8 @@ plt.close()
 ang_coef = 1.
 beta_caliop_all[beta_caliop_all < 1.e-5] = np.nan
 beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
-dp_caliop_all[dp_caliop_all < 0] = np.nan
-dp_caliop_all[dp_caliop_all > .6] = np.nan
+dp_caliop_all[dp_caliop_all < 0.3] = np.nan
+dp_caliop_all[dp_caliop_all > .32] = np.nan
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 beta_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
