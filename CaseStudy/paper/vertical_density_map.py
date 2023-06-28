@@ -131,10 +131,9 @@ beta_caliop_all[beta_caliop_all < 1.e-5] = np.nan
 beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
 dp_caliop_all[dp_caliop_all < 0] = np.nan
 dp_caliop_all[dp_caliop_all > 1.] = np.nan
-dp_caliop_all[(alt_caliop>7.)|(alt_caliop<2.), :] = np.nan
-print(dp_caliop_all.shape)
-print(alt_caliop.shape)
-quit()
+dp_caliop_all_nonan = [row_data[~np.isnan(row_data)] for row_data in dp_caliop_all]
+
+
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 beta_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
@@ -149,13 +148,10 @@ print('delta circ 355 is: ', conversion_factor)
 ################## plot depolarisation ratio
 
 plt.figure(figsize=(8, 12))
-plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
+# plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
+plt.boxplot(dp_caliop_all_nonan, vert=False, patch_artist=True)
 plt.ylabel('Altitude (km)', fontsize=16)
 plt.xlabel('Depolarisation ratio', fontsize=16)
-# Set title
-plt.title(f'Aerosol retrievals over the Sahara [depolarisation ratio] \n $14^{{th}}$ - $24^{{th}}$ June 2020',
-          fontsize=18, y=1.05)
-
 # Set x-axis and y-axis ticks
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
