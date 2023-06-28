@@ -133,7 +133,7 @@ dp_caliop_all[dp_caliop_all < 0.] = np.nan
 dp_caliop_all[dp_caliop_all > .7] = np.nan
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
-dp_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
+dp_caliop_all_std = np.nanstd(dp_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
 beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
