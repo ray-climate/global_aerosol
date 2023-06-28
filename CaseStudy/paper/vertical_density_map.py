@@ -164,16 +164,15 @@ for alt_index, alt in enumerate(alt_caliop):
 means = [np.mean(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
 stds = [np.std(values) if len(values) > 0 else np.nan for values in new_dp_caliop_all]
 
-# plot
-plt.figure(figsize=(10, 6))
-
 # generate plot of means with error bars for standard deviations
-plt.errorbar(means, new_alt_caliop, xerr=stds, fmt='-o')
+plt.errorbar(means, new_alt_caliop, xerr=stds, fmt='-o', capsize=3,  ecolor="k")
 
-plt.xlabel('Mean dp_caliop_all Values')
-plt.ylabel('Altitude (km)')
-plt.title('Mean and Standard Deviation of dp_caliop_all over Altitude')
-plt.grid(True)
+plt.xlabel('Particle depolarisation ratio at 532 nm', fontsize=20)
+plt.ylabel('Altitude [km]', fontsize=20)
+
+# Set x-axis and y-axis ticks
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
 
 # Save the figure
 output_path = output_dir + f'retrieval_depolarisation.png'
