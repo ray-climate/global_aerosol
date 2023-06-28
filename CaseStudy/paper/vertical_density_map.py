@@ -158,7 +158,7 @@ plt.ylabel('Altitude')
 plt.xlabel('Particle depolarisation ratio at 532 nm', fontsize=20)
 plt.ylabel('Altitude [km]', fontsize=20)
 
-plt.xlim([0.,1.])
+plt.xlim([0.,.8])
 plt.ylim([0.,20.])
 
 # Set x-axis and y-axis ticks
