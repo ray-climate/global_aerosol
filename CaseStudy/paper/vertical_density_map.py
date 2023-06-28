@@ -237,7 +237,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(-1.5, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(-1.5, 18, 'CALIOP', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
