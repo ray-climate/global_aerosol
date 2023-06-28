@@ -148,13 +148,12 @@ print('delta circ 355 is: ', conversion_factor)
 
 fig, ax = plt.subplots(figsize=(8, 12))
 
-plt.plot(dp_caliop_mean, alt_caliop, label='Mean', color='blue')
-plt.fill_betweenx(alt_caliop, dp_caliop_mean - beta_caliop_all_std, dp_caliop_mean + beta_caliop_all_std, color='blue', alpha=0.2)
+plt.plot(dp_caliop_mean, alt_caliop, label='Mean', color='black')
+plt.fill_betweenx(alt_caliop, dp_caliop_mean - beta_caliop_all_std, dp_caliop_mean + beta_caliop_all_std, color='gray', alpha=0.4)
 
 # Label axes and add a legend
 plt.xlabel('Mean Value')
 plt.ylabel('Altitude')
-plt.legend()
 
 plt.xlabel('Particle depolarisation ratio at 532 nm', fontsize=20)
 plt.ylabel('Altitude [km]', fontsize=20)
