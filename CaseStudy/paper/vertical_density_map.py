@@ -157,8 +157,8 @@ boxplot_data = np.transpose(dp_caliop_sorted)
 plt.boxplot(boxplot_data, vert=False, manage_ticks=False)  # set manage_ticks=False to manually set yticks later
 
 # set yticks to be altitude values at the middle of each box
-num_boxes = len(boxplot_data)
-middle_indices = np.linspace(0, num_boxes-1, num_boxes, dtype=int)
+num_boxes = len(boxplot_data) - 1
+middle_indices = np.linspace(0, num_boxes, num_boxes+1, dtype=int)
 plt.yticks(middle_indices + 1, alt_caliop_sorted[middle_indices])
 
 plt.xlabel('dp_caliop_all')
