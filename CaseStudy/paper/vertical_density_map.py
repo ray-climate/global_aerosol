@@ -132,10 +132,8 @@ beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
 dp_caliop_all[dp_caliop_all < 0] = np.nan
 dp_caliop_all[dp_caliop_all > 1.] = np.nan
 
-# sort altitudes and corresponding data points
-sort_indices = np.argsort(alt_caliop)
-alt_caliop_sorted = alt_caliop[sort_indices]
-dp_caliop_sorted = dp_caliop_all[sort_indices]
+# generate a list of arrays, each array containing the data for a particular altitude
+data_list = [row for row in dp_caliop_all]
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 beta_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
@@ -151,19 +149,16 @@ print('delta circ 355 is: ', conversion_factor)
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
 
-plt.figure(figsize=(8, 12))
-# plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
-boxplot_data = np.transpose(dp_caliop_sorted)
-plt.boxplot(boxplot_data, vert=False, manage_ticks=False)  # set manage_ticks=False to manually set yticks later
+fig, ax = plt.subplots(figsize=(8, 12))
+# generate boxplots
+ax.boxplot(data_list, vert=False)  # 'vert=False' makes the boxplots horizontal
 
-# set yticks to be altitude values at the middle of each box
-num_boxes = len(boxplot_data) - 1
-middle_indices = np.linspace(0, num_boxes, num_boxes+1, dtype=int)
-plt.yticks(middle_indices + 1, alt_caliop_sorted[middle_indices])
+ax.set_yticks(np.arange(1, len(alt_caliop) + 1))  # set the y-ticks
+ax.set_yticklabels(alt_caliop)  # replace the y-tick labels with the altitudes
 
-plt.xlabel('dp_caliop_all')
-plt.ylabel('Altitude')
-plt.title('Boxplot of dp_caliop_all over Altitude')
+ax.set_xlabel('dp_caliop_all Values')
+ax.set_ylabel('Altitude')
+ax.set_title('Boxplot of dp_caliop_all over Altitude')
 plt.grid(True)
 
 # Save the figure
