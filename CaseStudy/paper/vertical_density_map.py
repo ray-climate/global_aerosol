@@ -132,13 +132,10 @@ beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
 dp_caliop_all[dp_caliop_all < 0] = np.nan
 dp_caliop_all[dp_caliop_all > 1.] = np.nan
 
-# Flatten dp_caliop_all and repeat alt_caliop to match the flattened shape
-dp_caliop_all_flattened = dp_caliop_all.flatten()
-alt_caliop_repeated = np.repeat(alt_caliop, dp_caliop_all.shape[1])
-# Remove entries where dp_caliop_all is NaN
-valid_indices = ~np.isnan(dp_caliop_all_flattened)
-dp_caliop_all_valid = dp_caliop_all_flattened[valid_indices]
-alt_caliop_valid = alt_caliop_repeated[valid_indices]
+# sort altitudes and corresponding data points
+sort_indices = np.argsort(alt_caliop)
+alt_caliop_sorted = alt_caliop[sort_indices]
+dp_caliop_sorted = dp_caliop_all[sort_indices]
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 beta_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
@@ -153,22 +150,21 @@ print('delta circ 355 is: ', conversion_factor)
 
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
-df = pd.DataFrame({
-    'dp_caliop_all': dp_caliop_all_valid,
-    'altitude': alt_caliop_valid
-})
+
 plt.figure(figsize=(8, 12))
 # plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
-sns.boxplot(x='dp_caliop_all', y='altitude', data=df, orient='h')
-plt.ylabel('Altitude (km)', fontsize=16)
-plt.xlabel('Depolarisation ratio', fontsize=16)
-# Set x-axis and y-axis ticks
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
+boxplot_data = np.transpose(dp_caliop_sorted)
+plt.boxplot(boxplot_data, vert=False, manage_ticks=False)  # set manage_ticks=False to manually set yticks later
 
-plt.ylim([0., 20.])
-# Display legend
-plt.legend(loc='best', fontsize=14, frameon=False)
+# set yticks to be altitude values at the middle of each box
+num_boxes = len(boxplot_data)
+middle_indices = np.linspace(0, num_boxes-1, num_boxes, dtype=int)
+plt.yticks(middle_indices + 1, alt_caliop_sorted[middle_indices])
+
+plt.xlabel('dp_caliop_all')
+plt.ylabel('Altitude')
+plt.title('Boxplot of dp_caliop_all over Altitude')
+plt.grid(True)
 
 # Save the figure
 output_path = output_dir + f'retrieval_depolarisation.png'
