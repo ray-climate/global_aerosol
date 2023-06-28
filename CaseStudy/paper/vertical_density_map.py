@@ -133,7 +133,7 @@ dp_caliop_all[dp_caliop_all < 0.] = np.nan
 dp_caliop_all[dp_caliop_all > .7] = np.nan
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
-beta_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
+dp_caliop_all_std = np.nanstd(beta_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
 beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
@@ -157,7 +157,7 @@ print('std dp ratio lower: ', dp_caliop_std_lower)
 fig, ax = plt.subplots(figsize=(8, 12))
 
 plt.plot(dp_caliop_mean, alt_caliop, label='Mean', color='black')
-plt.fill_betweenx(alt_caliop, dp_caliop_mean - beta_caliop_all_std, dp_caliop_mean + beta_caliop_all_std, color='gray', alpha=0.4)
+plt.fill_betweenx(alt_caliop, dp_caliop_mean - dp_caliop_all_std, dp_caliop_mean + dp_caliop_all_std, color='gray', alpha=0.4)
 
 # Label axes and add a legend
 plt.xlabel('Mean Value')
