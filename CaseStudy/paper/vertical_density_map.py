@@ -139,7 +139,8 @@ beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
-
+print('mean depolarisation ratio: ', np.nanmean(dp_caliop_mean))
+print('delta circ 355 is: ', conversion_factor)
 
 ################## plot depolarisation ratio
 
