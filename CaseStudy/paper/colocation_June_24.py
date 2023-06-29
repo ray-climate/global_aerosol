@@ -20,16 +20,17 @@ lat2_caliop = 19.
 lat1_aeolus = 8.
 lat2_aeolus = 18.7
 
-layer1_index = -8
-layer1 = [4.42, 5.43]
+layer1_index = -9
+layer1 = [5.4, 6.4]
 
-layer2_index = -7
-layer2 = [3.42, 4.42]
+layer2_index = -8
+layer2 = [4.4, 5.4]
 
-layer3_index = -6
-layer3 = [2.42, 3.42]
+layer3_index = -7
+layer3 = [3.4, 4.4]
 
-layer4_index = -5
+layer4_index = -6
+layer4 = [2.4, 3.4]
 
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
@@ -106,7 +107,7 @@ conversion_factor = 1 / (1. + conversion_factor)
 
 fontsize = 22
 
-def plot_aerosol_layer_alpha_qc(ax, layer_index):
+def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
 
     alpha_caliop_layer = np.zeros(len(lat_caliop))
 
@@ -115,15 +116,14 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
         alpha_k = alpha_caliop[::-1, k]
         alpha_k[np.isnan(alpha_k)] = 0
         alpha_k[alpha_k == -9999] = 0
-        # find closest value of lat_caliop[k] in lat_aeolus
-        lat_index = np.argmin(np.abs(lat_aeolus - lat_caliop[k]))
-        alt_top = alt_aeolus[lat_index, layer_index]
-        alt_bottom = alt_aeolus[lat_index, layer_index + 1]
-        alt_top = 5.4
-        alt_bottom = 4.4
+        # # find closest value of lat_caliop[k] in lat_aeolus
+        # lat_index = np.argmin(np.abs(lat_aeolus - lat_caliop[k]))
+        # alt_top = alt_aeolus[lat_index, layer_index]
+        # alt_bottom = alt_aeolus[lat_index, layer_index + 1]
+        alt_top = layers[1]
+        alt_bottom = layers[0]
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
-        print(alt_top, alt_bottom, lat_index)
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 
@@ -189,11 +189,12 @@ def plot_aerosol_layer_alpha(ax, layer_index):
 
 # layers = [layer1, layer2, layer3]
 layer_indices = [layer1_index, layer2_index, layer3_index, layer4_index]
+layers = [layer1, layer2, layer3, layer4]
 
 # generate alpha plot for QC data
 fig, axs = plt.subplots(len(layer_indices), 1, figsize=(16, 8 * len(layer_indices)))
-for i, layer_index in enumerate(layer_indices):
-    plot_aerosol_layer_alpha_qc(axs[i], layer_index)
+for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
+    plot_aerosol_layer_alpha_qc(axs[i], layer_index, layer)
 
 fig.suptitle('Comparison of AEOLUS (QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
