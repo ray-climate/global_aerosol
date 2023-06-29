@@ -114,11 +114,13 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
         alt_k = alt_caliop[::-1]
         alpha_k = alpha_caliop[::-1, k]
         alpha_k[np.isnan(alpha_k)] = 0
-        # alpha_k[alpha_k == -9999] = 0
+        alpha_k[alpha_k == -9999] = 0
         # find closest value of lat_caliop[k] in lat_aeolus
         lat_index = np.argmin(np.abs(lat_aeolus - lat_caliop[k]))
         alt_top = alt_aeolus[lat_index, layer_index]
         alt_bottom = alt_aeolus[lat_index, layer_index + 1]
+        alt_top = 5.4
+        alt_bottom = 4.4
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
         print(alt_top, alt_bottom, lat_index)
