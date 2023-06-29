@@ -119,6 +119,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
         print(lat_caliop[k], lat_aeolus[lat_index])
         print(alt_aeolus[lat_index, :])
         print(alt_aeolus[lat_index, layer_index])
+        print(alt_aeolus[lat_index, -1])
         quit()
 
 
