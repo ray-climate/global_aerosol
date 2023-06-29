@@ -220,9 +220,9 @@ plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
 
 
 # generate plot for non-QC data
-fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
+fig, axs = plt.subplots(len(layer_indices), 1, figsize=(16, 8 * len(layer_indices)))
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
-    plot_aerosol_layer_alpha(axs[i], layer, layer_index)
+    plot_aerosol_layer_alpha(axs[i], layer_index, layer)
 fig.suptitle('Comparison of AEOLUS (non-QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers_nonQC.png', dpi=300)
 
