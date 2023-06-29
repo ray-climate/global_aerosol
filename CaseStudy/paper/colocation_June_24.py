@@ -34,6 +34,8 @@ layer4_index = -5
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
 save_path = f'./figures/{script_name}_output/'
+print(save_path)
+quit()
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
 # convert qc_aeolus to bits and check the quality of the data
