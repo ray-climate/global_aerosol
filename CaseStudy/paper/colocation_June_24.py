@@ -15,10 +15,10 @@ import sys
 import csv
 import os
 
-lat1_caliop = 8.25
+lat1_caliop = 8.
 lat2_caliop = 19.
 lat1_aeolus = 8.
-lat2_aeolus = 18.7
+lat2_aeolus = 19.
 
 layer1_index = -9
 layer1 = [5.4, 6.4]
@@ -132,7 +132,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5., 23.)
-    ax.set_ylim(1e-2, 3e0)
+    ax.set_ylim(1e-3, 2e0)
     # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
