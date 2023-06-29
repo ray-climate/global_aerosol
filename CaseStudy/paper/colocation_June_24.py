@@ -129,6 +129,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
         alt_top = alt_aeolus[lat_index, layer_index]
         alt_bottom = alt_aeolus[lat_index, layer_index + 1]
         print(alt_top1, alt_bottom1, alt_top, alt_bottom)
+
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
 
@@ -138,7 +139,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
     ax.plot(lat_caliop, alpha_caliop_layer, 'bo-',lw=2, label='CALIOP layer')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
-    ax.set_xlim(5., 23.)
+    ax.set_xlim(8., 20.)
     ax.set_ylim(1e-3, 2e0)
     # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
