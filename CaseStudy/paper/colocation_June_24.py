@@ -84,8 +84,6 @@ for npz_file in os.listdir(input_path):
         for k in range(len(lat_aeolus)):
             if lat_aeolus[k] > lat1_aeolus and lat_aeolus[k] < lat2_aeolus:
                 rows_to_keep_aeolus.append(k)
-                print(lat_aeolus[k])
-                print(alpha_aeolus[k, :])
 
         beta_aeolus = beta_aeolus[rows_to_keep_aeolus, :]
         alpha_aeolus = alpha_aeolus[rows_to_keep_aeolus, :]
@@ -94,7 +92,7 @@ for npz_file in os.listdir(input_path):
         beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
         #
-        print(alt_aeolus)
+        print(alt_aeolus.shape)
 
 quit()
 dp_caliop[dp_caliop < 0] = np.nan
