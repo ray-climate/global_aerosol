@@ -108,16 +108,16 @@ fontsize = 22
 
 def plot_aerosol_layer_alpha_qc(ax, layer_index):
 
-    alpha_caliop_layer = np.zeros(len(lat_caliop))
-
-    for k in range(len(lat_caliop)):
-        alt_k = alt_caliop[::-1]
-        alpha_k = alpha_caliop[::-1, k]
-        alpha_k[np.isnan(alpha_k)] = 0
-        mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
-        alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
-
-    alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+    # alpha_caliop_layer = np.zeros(len(lat_caliop))
+    #
+    # for k in range(len(lat_caliop)):
+    #     alt_k = alt_caliop[::-1]
+    #     alpha_k = alpha_caliop[::-1, k]
+    #     alpha_k[np.isnan(alpha_k)] = 0
+    #     mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
+    #     alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+    #
+    # alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 
     ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro-', label='AEOLUS layer')
     # ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
