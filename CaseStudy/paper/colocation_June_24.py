@@ -121,7 +121,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
         alt_bottom = alt_aeolus[lat_index, layer_index + 1]
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
-        print(alt_top, alt_bottom)
+        print(alt_top, alt_bottom, lat_index)
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 
