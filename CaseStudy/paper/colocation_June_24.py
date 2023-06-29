@@ -120,6 +120,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
         print(alt_aeolus[:, lat_index])
         print(lat_index)
         print(alt_aeolus[layer_index, lat_index])
+        print(alt_aeolus.shape)
         quit()
 
 
