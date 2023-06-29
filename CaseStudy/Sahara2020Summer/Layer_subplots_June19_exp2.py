@@ -143,7 +143,7 @@ def plot_aerosol_layer_beta_qc(ax, layer, layer_index):
 
     beta_caliop_layer[beta_caliop_layer <= 0] = np.nan
     print(beta_aeolus_qc[:, layer_index])
-    ax.plot(lat_aeolus, beta_aeolus_qc[:, layer_index+1] / conversion_factor, 'ro-', label='AEOLUS layer')
+    ax.plot(lat_aeolus, beta_aeolus_qc[:, layer_index] / conversion_factor, 'ro-', label='AEOLUS layer')
     ax.plot(lat_caliop, beta_caliop_layer, 'bo-', label='CALIOP layer')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
