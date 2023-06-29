@@ -27,7 +27,7 @@ layer2_index = -8
 layer2 = [4.8, 5.8]
 
 layer3_index = -7
-layer3 = [3.4, 4.4]
+layer3 = [3.8, 4.8]
 
 layer4_index = -6
 layer4 = [2.4, 3.4]
