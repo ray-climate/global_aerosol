@@ -17,8 +17,8 @@ import os
 
 lat1_caliop = 5.5
 lat2_caliop = 23.
-lat1_aeolus = 5.5
-lat2_aeolus = 23.
+lat1_aeolus = 5.5 + 1
+lat2_aeolus = 23. + 1
 
 layer1_index = -9
 layer1 = [5.4, 6.4]
