@@ -29,7 +29,7 @@ layer2 = [3.42, 4.42]
 layer3_index = -5
 layer3 = [2.42, 3.42]
 
-input_path = './aeolus_caliop_sahara2020_extraction_output/'
+input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
 save_path = f'{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
