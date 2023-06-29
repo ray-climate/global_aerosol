@@ -130,8 +130,8 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 
-    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro-', label='AEOLUS layer')
-    ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
+    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro', label='AEOLUS layer')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'bo', label='CALIOP layer')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5., 23.)
