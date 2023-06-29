@@ -17,7 +17,7 @@ import os
 
 lat1_caliop = 8.25
 lat2_caliop = 19.
-lat1_aeolus = 11.
+lat1_aeolus = 8.
 lat2_aeolus = 18.7
 
 layer1_index = -8
@@ -33,9 +33,8 @@ layer4_index = -5
 
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
-save_path = f'./figures/{script_name}_output/'
-print(save_path)
-quit()
+save_path = f'{script_name}_output/'
+
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
 # convert qc_aeolus to bits and check the quality of the data
@@ -109,16 +108,16 @@ fontsize = 22
 
 def plot_aerosol_layer_alpha_qc(ax, layer_index):
 
-    # alpha_caliop_layer = np.zeros(len(lat_caliop))
-    #
-    # for k in range(len(lat_caliop)):
-    #     alt_k = alt_caliop[::-1]
-    #     alpha_k = alpha_caliop[::-1, k]
-    #     alpha_k[np.isnan(alpha_k)] = 0
-    #     mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
-    #     alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
-    #
-    # alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+    alpha_caliop_layer = np.zeros(len(lat_caliop))
+
+    for k in range(len(lat_caliop)):
+        alt_k = alt_caliop[::-1]
+        alpha_k = alpha_caliop[::-1, k]
+        alpha_k[np.isnan(alpha_k)] = 0
+        mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
+        alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
+
+    alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
 
     ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro-', label='AEOLUS layer')
     # ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
