@@ -128,7 +128,6 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
 
         alt_top = alt_aeolus[lat_index, layer_index]
         alt_bottom = alt_aeolus[lat_index, layer_index + 1]
-        print(alt_top1, alt_bottom1, alt_top, alt_bottom)
 
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
@@ -138,6 +137,42 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
 
     ax.plot(lat_aeolus - .8, alpha_aeolus_qc[:, layer_index+1], 'bo--',lw=2, markersize=15, alpha=0.7, mec='none', label='ALADIN')
     ax.plot(lat_caliop, alpha_caliop_layer, 'g.--',lw=2, markersize=5, label='CALIOP')
+    ax.set_xlabel('Latitude', fontsize=fontsize)
+    ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
+    ax.set_xlim(5.5, 23.)
+    ax.set_ylim(1e-3, 5e0)
+    # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
+    ax.tick_params(axis='both', labelsize=fontsize)
+    ax.legend(loc='best', fontsize=fontsize)
+    ax.set_yscale('log')
+
+def plot_aerosol_layer_alpha(ax, layer_index, layers):
+    alpha_caliop_layer = np.zeros(len(lat_caliop))
+
+    for k in range(len(lat_caliop)):
+        alt_k = alt_caliop[::-1]
+        alpha_k = alpha_caliop[::-1, k]
+        alpha_k[np.isnan(alpha_k)] = 0
+        alpha_k[alpha_k == -9999] = 0
+        # # find closest value of lat_caliop[k] in lat_aeolus
+
+        alt_top1 = layers[1]
+        alt_bottom1 = layers[0]
+
+        lat_index = np.argmin((lat_aeolus - lat_caliop[k]) ** 2 + (lon_aeolus - lon_caliop[k]) ** 2)
+
+        alt_top = alt_aeolus[lat_index, layer_index]
+        alt_bottom = alt_aeolus[lat_index, layer_index + 1]
+
+        mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
+        alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
+
+    alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
+    alpha_aeolus[alpha_aeolus <= 2.e-3] = np.nan
+
+    ax.plot(lat_aeolus - .8, alpha_aeolus[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none',
+            label='ALADIN')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5.5, 23.)
@@ -171,31 +206,6 @@ def plot_aerosol_layer_beta_qc(ax, layer_index):
     ax.legend(loc='best', fontsize=fontsize)
     ax.set_yscale('log')
 
-def plot_aerosol_layer_alpha(ax, layer_index):
-
-    alpha_caliop_layer = np.zeros(len(lat_caliop))
-    beta_caliop_layer = np.zeros(len(lat_caliop))
-
-    # for k in range(len(lat_caliop)):
-    #     alt_k = alt_caliop[::-1]
-    #     alpha_k = alpha_caliop[::-1, k]
-    #     alpha_k[np.isnan(alpha_k)] = 0
-    #
-    #     mask = (alt_k >= layer[0]) & (alt_k <= layer[1])
-    #     alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (layer[1] - layer[0])
-
-    # alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
-    ax.plot(lat_aeolus, alpha_aeolus[:, layer_index], 'ro-', label='AEOLUS layer')
-    # ax.plot(lat_caliop, alpha_caliop_layer, 'bo-', label='CALIOP layer')
-    ax.set_xlabel('Latitude', fontsize=fontsize)
-    ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
-    ax.set_xlim(5., 23.)
-    ax.set_ylim(1e-2, 3e0)
-    ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
-    ax.tick_params(axis='both', labelsize=fontsize)
-    ax.legend(loc='best', fontsize=fontsize)
-    ax.set_yscale('log')
-
 # layers = [layer1, layer2, layer3]
 layer_indices = [layer1_index, layer2_index, layer3_index, layer4_index]
 layers = [layer1, layer2, layer3, layer4]
@@ -208,7 +218,7 @@ for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
 fig.suptitle('Comparison of AEOLUS (QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
 plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
 
-quit()
+
 # generate plot for non-QC data
 fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
