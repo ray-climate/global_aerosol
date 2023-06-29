@@ -118,6 +118,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
         lat_index = np.argmin(np.abs(lat_aeolus - lat_caliop[k]))
         print(lat_caliop[lat_index], lat_aeolus[k])
         print(alt_aeolus[:, lat_index])
+        print(lat_index)
         print(alt_aeolus[layer_index, lat_index])
         quit()
 
