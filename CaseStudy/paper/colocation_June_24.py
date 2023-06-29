@@ -124,7 +124,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5., 23.)
     ax.set_ylim(1e-2, 3e0)
-    ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
+    # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
     ax.set_yscale('log')
