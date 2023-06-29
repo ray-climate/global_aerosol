@@ -93,7 +93,7 @@ for npz_file in os.listdir(input_path):
 
         beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
-
+        #
         print(alt_aeolus)
 
 quit()
