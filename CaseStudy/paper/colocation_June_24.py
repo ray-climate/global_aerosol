@@ -59,7 +59,6 @@ for npz_file in os.listdir(input_path):
         lat_caliop = lat_caliop[cols_to_keep_caliop]
         print(alt_caliop)
 
-quit()
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc_ascending_202006242042' in npz_file):
@@ -95,6 +94,9 @@ for npz_file in os.listdir(input_path):
         beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 
+        print(alt_aeolus)
+
+quit()
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
 k_factor = 0.82
