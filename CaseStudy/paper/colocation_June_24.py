@@ -96,7 +96,7 @@ for npz_file in os.listdir(input_path):
 
         lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
         #
-        print(alt_aeolus.shape)
+        print(alt_aeolus)
 
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
