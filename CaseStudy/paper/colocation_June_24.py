@@ -116,10 +116,10 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index):
         alpha_k[np.isnan(alpha_k)] = 0
         # find closest value of lat_caliop[k] in lat_aeolus
         lat_index = np.argmin(np.abs(lat_aeolus - lat_caliop[k]))
-        print(lat_caliop[lat_index], lat_aeolus[k])
-        print(alt_aeolus[:, k])
+        print(lat_caliop[k], lat_aeolus[lat_index])
+        print(alt_aeolus[:, lat_index])
         print(lat_index)
-        print(alt_aeolus[layer_index, k])
+        print(alt_aeolus[layer_index, lat_index])
         quit()
 
 
