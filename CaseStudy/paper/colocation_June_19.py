@@ -20,16 +20,16 @@ lat2_caliop = 23.
 lat1_aeolus = 5.5
 lat2_aeolus = 23.
 
-layer1_index = -8
+layer1_index = -9
 layer1 = [5.4, 6.4]
 
-layer2_index = -7
+layer2_index = -8
 layer2 = [4.8, 5.8]
 
-layer3_index = -6
+layer3_index = -7
 layer3 = [3.8, 4.8]
 
-layer4_index = -5
+layer4_index = -6
 layer4 = [2.4, 3.4]
 
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
@@ -135,7 +135,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
     alpha_aeolus_qc[alpha_aeolus_qc <= 2.e-3] = np.nan
-    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index], 'ro-',lw=2, label='AEOLUS layer')
+    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index+1], 'ro-',lw=2, label='AEOLUS layer')
     ax.plot(lat_caliop, alpha_caliop_layer, 'bo-',lw=2, label='CALIOP layer')
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
