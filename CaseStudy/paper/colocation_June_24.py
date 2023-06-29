@@ -94,6 +94,8 @@ for npz_file in os.listdir(input_path):
         #
         print(alt_aeolus.shape)
 
+for i in range(alt_aeolus.shape[0]):
+    print(alt_aeolus[i, :])
 quit()
 dp_caliop[dp_caliop < 0] = np.nan
 dp_caliop[dp_caliop > 1] = np.nan
