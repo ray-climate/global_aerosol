@@ -48,6 +48,7 @@ def qc_to_bits(qc_array):
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006241642' in npz_file):
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop = np.load(input_path + npz_file, allow_pickle=True)['lon']
         alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
@@ -61,13 +62,14 @@ for npz_file in os.listdir(input_path):
         beta_caliop = beta_caliop[:, cols_to_keep_caliop]
         alpha_caliop = alpha_caliop[:, cols_to_keep_caliop]
         lat_caliop = lat_caliop[cols_to_keep_caliop]
-        print(alt_caliop)
+        lon_caliop = lon_caliop[cols_to_keep_caliop]
 
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc_ascending_202006242042' in npz_file):
         # print the file name and variables in the file
         lat_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        lon_aeolus = np.load(input_path + npz_file, allow_pickle=True)['lon']
         alt_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alt']
         beta_aeolus = np.load(input_path + npz_file, allow_pickle=True)['beta']
         alpha_aeolus = np.load(input_path + npz_file, allow_pickle=True)['alpha']
@@ -96,6 +98,7 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 
         lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
+        lon_aeolus = lon_aeolus[rows_to_keep_aeolus]
         #
         print(alt_aeolus)
 
@@ -118,13 +121,14 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
         alpha_k[alpha_k == -9999] = 0
         # # find closest value of lat_caliop[k] in lat_aeolus
 
-        alt_top = layers[1]
-        alt_bottom = layers[0]
-        print(alt_top, alt_bottom)
-        lat_index = np.argmin(np.abs(lat_aeolus - lat_caliop[k]))
+        alt_top1 = layers[1]
+        alt_bottom1 = layers[0]
+
+        lat_index = np.argmin((lat_aeolus - lat_caliop[k]) ** 2 + (lon_aeolus - lon_caliop[k]) ** 2)
+
         alt_top = alt_aeolus[lat_index, layer_index]
         alt_bottom = alt_aeolus[lat_index, layer_index + 1]
-        print(alt_top, alt_bottom)
+        print(alt_top1, alt_bottom1, alt_top, alt_bottom)
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
 
@@ -135,11 +139,11 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
     ax.set_xlabel('Latitude', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5., 23.)
-    ax.set_ylim(1e-3, 0.5)
+    ax.set_ylim(1e-3, 2e0)
     # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
-    # ax.set_yscale('log')
+    ax.set_yscale('log')
 
 def plot_aerosol_layer_beta_qc(ax, layer_index):
 
