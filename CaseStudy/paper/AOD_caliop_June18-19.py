@@ -34,7 +34,7 @@ for npz_file in os.listdir(input_path):
         aod_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 for npz_file in os.listdir(input_path):
-    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006190412' in npz_file):
+    if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
 
         lat_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['alt']
