@@ -127,7 +127,7 @@ for npz_file in os.listdir(input_path):
 print(lr_aeolus_all.shape)
 print(np.nanmean(lr_aeolus_all))
 
-lr_aeolus_all[lr_aeolus_all <= 20.] = np.nan
+lr_aeolus_all[lr_aeolus_all <= 30.] = np.nan
 lr_aeolus_all[lr_aeolus_all > 100.] = np.nan
 print(np.nanmean(lr_aeolus_all))
 
