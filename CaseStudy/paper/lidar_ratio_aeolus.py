@@ -64,17 +64,18 @@ for npz_file in os.listdir(input_path):
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
 
         lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=0) / (np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor)
+        alt_mean = np.nanmean(alt, axis=0)
         # print('lidar ratio: ', lr_aeolus_qc)
         lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
         lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
-        print(alt)
+        print(alt_mean)
 
         try:
             lr_aeolus_all = np.concatenate((lr_aeolus_all, lr_aeolus_qc), axis=1)
-            alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=1)
+            alt_aeolus_all = np.concatenate((alt_aeolus_all, alt_mean), axis=1)
         except:
             lr_aeolus_all = lr_aeolus_qc
-            alt_aeolus_all = alt
+            alt_aeolus_all = alt_mean
 
 lr_aeolus_all = np.array(lr_aeolus_all)
 alt_aeolus_all = np.array(alt_aeolus_all)
