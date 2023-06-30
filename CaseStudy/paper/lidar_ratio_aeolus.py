@@ -68,9 +68,15 @@ for npz_file in os.listdir(input_path):
         lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
         lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
 
-        lr_aeolus_all.append(lr_aeolus_qc)
-        alt_aeolus_all.append(alt)
+        try:
+            lr_aeolus_all = np.concatenate((lr_aeolus_all, lr_aeolus_qc), axis=1)
+            alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=1)
+        except:
+            lr_aeolus_all = lr_aeolus_qc
+            alt_aeolus_all = alt
 
 lr_aeolus_all = np.array(lr_aeolus_all)
 alt_aeolus_all = np.array(alt_aeolus_all)
-print(lr_aeolus_all.shape)
+alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
+
+
