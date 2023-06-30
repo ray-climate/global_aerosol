@@ -26,6 +26,19 @@ lat1_caliop = 10.
 lat2_caliop = 20.
 
 caliop_aqua_hour_diff = 1.5 # 0.5 hour difference limit between CALIOP and Aqua
+caliop_aqua_dis_threshold = 40. # 40 km distance threshold between CALIOP and Aqua
+
+def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
+    distances = np.empty_like(lat_data, dtype=float)
+
+    for i in range(lat_data.shape[0]):
+        for j in range(lat_data.shape[1]):
+            distances[i, j] = haversine(point_lat, point_lon, lat_data[i, j], lon_data[i, j])
+
+    min_distance = np.min(distances)
+    closest_point_index = np.unravel_index(np.argmin(distances), distances.shape)
+
+    return closest_point_index, min_distance
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
@@ -39,6 +52,7 @@ for npz_file in os.listdir(input_path):
 
         lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
         lon_caliop = np.load(input_path + npz_file, allow_pickle=True)['lon']
+        aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
         year_i = npz_file[-16:-12]
         month_i = npz_file[-12:-10]
@@ -107,9 +121,35 @@ for npz_file in os.listdir(input_path):
             MYD04_lon_data.append(MYD04_lon_data_j.ReadAsArray())
             MYD04_aod_data.append(MYD04_aod_data_j.ReadAsArray())
 
-        print("MYD04_lat_data: ", MYD04_lat_data)
-        print("MYD04_lon_data: ", MYD04_lon_data)
-        print("MYD04_aod_data: ", MYD04_aod_data)
+        modis_aod_all = []
+        modis_lat_all = []
+
+        for m in range(len(lat_caliop)):
+
+            lat_m = lat_caliop[m]
+            lon_m = lon_caliop[m]
+            aod_m = aod_caliop[m]
+
+            closest_point_index_list = []
+            min_distance_list = []
+
+            for n in range(len(MODY04_colocation_file)):
+                closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
+                closest_point_index_list.append(closest_point_index_n)
+                min_distance_list.append(min_distance_n)
+
+            closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
+            min_distance = min_distance_list[np.argmin(min_distance_list)]
+            modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
+
+            if (min_distance < caliop_aqua_dis_threshold) & (modis_aod > 0.):
+                modis_aod_m = modis_aod * 0.001
+            else:
+                modis_aod_m = np.nan
+
+            modis_aod_all.append(modis_aod_m)
+            modis_lat_all.append(lat_m)
+            print(modis_lat_all, modis_aod_all)
 
 
 quit()
