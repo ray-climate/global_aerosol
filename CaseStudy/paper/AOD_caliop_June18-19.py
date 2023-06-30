@@ -26,16 +26,27 @@ lat2_caliop = 20.
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
-        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
-        alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
-        beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
-        alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
-        dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
-        aod_caliop = np.load(input_path + npz_file, allow_pickle=True)['aod']
+        lat_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        alt_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['dp']
+        aod_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['aod']
+
+for npz_file in os.listdir(input_path):
+    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006190412' in npz_file):
+
+        lat_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        alt_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['dp']
+        aod_caliop_time2 = np.load(input_path + npz_file, allow_pickle=True)['aod']
 
 fontsize = 12
 fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
+ax.plot(lat_caliop_time1, aod_caliop_time1, 'g.-',lw=3, markersize=5, label='CALIOP_time1')
+ax.plot(lat_caliop_time2, aod_caliop_time2, 'b.-',lw=3, markersize=5, label='CALIOP_time2')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
 ax.set_xlim(lat1_caliop, lat2_caliop)
