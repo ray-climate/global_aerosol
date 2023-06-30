@@ -26,7 +26,7 @@ lat1_caliop = 10.
 lat2_caliop = 20.
 
 caliop_aqua_hour_diff = 1.5 # 0.5 hour difference limit between CALIOP and Aqua
-caliop_aqua_dis_threshold = 40. # 40 km distance threshold between CALIOP and Aqua
+caliop_aqua_dis_threshold = 100. # 40 km distance threshold between CALIOP and Aqua
 
 def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
     distances = np.empty_like(lat_data, dtype=float)
