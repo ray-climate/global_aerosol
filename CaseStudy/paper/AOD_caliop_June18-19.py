@@ -32,11 +32,11 @@ for npz_file in os.listdir(input_path):
 
 fontsize = 12
 fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(lat_caliop, aod_caliop, 'g.--',lw=2, markersize=5, label='CALIOP')
+ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
 # ax.set_xlim(5.5, 23.)
-ax.set_ylim(0, 4.)
+ax.set_ylim(0, 5.)
 # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
