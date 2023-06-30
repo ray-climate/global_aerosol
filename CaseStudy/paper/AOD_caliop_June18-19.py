@@ -20,6 +20,9 @@ script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 save_path = f'./figures/{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
+lat1_caliop = 10.
+lat2_caliop = 20.
+
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
@@ -35,7 +38,7 @@ fig, ax = plt.subplots(figsize=(8, 6))
 ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
-# ax.set_xlim(5.5, 23.)
+ax.set_xlim(lat1_caliop, lat2_caliop)
 ax.set_ylim(0, 5.)
 # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
 ax.tick_params(axis='both', labelsize=fontsize)
