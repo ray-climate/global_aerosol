@@ -71,9 +71,11 @@ for npz_file in os.listdir(input_path):
         print(alt_mean)
 
         try:
+            print(111)
             lr_aeolus_all = np.concatenate((lr_aeolus_all, lr_aeolus_qc), axis=1)
             alt_aeolus_all = np.concatenate((alt_aeolus_all, alt_mean), axis=1)
         except:
+            print(222)
             lr_aeolus_all = lr_aeolus_qc
             alt_aeolus_all = alt_mean
 
