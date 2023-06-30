@@ -16,12 +16,10 @@ import csv
 import os
 
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
-script_name = os.path.splitext(os.path.abspath(__file__))[0]
-last_folder_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
-print(last_folder_name)
+script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
+save_path = f'./{script_name}_output/'
+print(save_path)
 quit()
-save_path = f'{script_name}_output/'
-
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
