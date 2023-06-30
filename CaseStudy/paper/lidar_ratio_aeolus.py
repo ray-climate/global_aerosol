@@ -79,4 +79,18 @@ lr_aeolus_all = np.array(lr_aeolus_all)
 alt_aeolus_all = np.array(alt_aeolus_all)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
 
+fig, ax = plt.subplots(figsize=(8, 12))
 
+plt.plot(lr_aeolus_all, alt_aeolus_mean, color='blue')
+# Label axes and add a legend
+plt.xlabel('LRR')
+plt.ylabel('Altitude')
+# plt.xlim([0.,1.])
+plt.ylim([0.,20.])
+# Set x-axis and y-axis ticks
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+# Save the figure
+output_path = save_path + f'aeolus_lidar_ratio.png'
+plt.savefig(output_path, dpi=300)
+plt.close()
