@@ -62,6 +62,7 @@ font = {'family': 'serif',
         'weight': 'normal',
         'size': 14}
 plt.rc('font', **font)
+
 plt.figure(figsize=(10, 7))
 plt.hist(lr_caliop_all.flatten(), bins=100, color='steelblue', edgecolor='black')
 plt.title('Histogram of Lidar Ratio')
@@ -69,7 +70,65 @@ plt.xlabel('Lidar Ratio')
 plt.ylabel('Frequency')
 plt.xlim(20, 70)
 plt.grid(True)
-
 # Save the figure
 output_path = save_path + f'lidar_ratio_caliop.png'
 plt.savefig(output_path, dpi=300)
+
+beta_aeolus_all = []
+alpha_aeolus_all = []
+alt_aeolus_all = []
+lr_aeolus_all = []
+
+# convert qc_aeolus to bits and check the quality of the data
+def qc_to_bits(qc_array):
+    qc_uint8 = qc_array.astype(np.uint8)
+    qc_bits = np.unpackbits(qc_uint8, axis=1)
+    qc_bits = qc_bits.reshape(*qc_array.shape, -1)
+    return qc_bits
+
+for npz_file in os.listdir(input_path):
+    if npz_file.endswith('.npz') & ('aeolus_qc' in  npz_file):
+        # print the file name and variables in the file
+        print(npz_file)
+        alt = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
+
+        qc_bits = qc_to_bits(qc_aeolus)
+        first_bit = qc_bits[:, :, -1]
+        second_bit = qc_bits[:, :, -2]
+
+        # Create a boolean mask where the second bit equals 1 (valid data)
+        valid_mask_extinction = first_bit == 1
+        valid_mask_backscatter = second_bit == 1
+        # set invalid data to nan
+        alpha_aeolus_qc = np.where(valid_mask_extinction, alpha, np.nan)
+        beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
+
+        lr_aeolus_qc = alpha_aeolus_qc / beta_aeolus_qc
+
+        try:
+            alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
+            beta_aeolus_all = np.concatenate((beta_aeolus_all, beta), axis=0)
+            alpha_aeolus_all = np.concatenate((alpha_aeolus_all, alpha), axis=0)
+            lr_aeolus_all = np.concatenate((lr_aeolus_all, lr_aeolus_qc), axis=0)
+
+        except:
+            alt_aeolus_all = np.copy(alt)
+            beta_aeolus_all = np.copy(beta)
+            alpha_aeolus_all = np.copy(alpha)
+            lr_aeolus_all = np.copy(lr_aeolus_qc)
+
+plt.figure(figsize=(10, 7))
+plt.hist(lr_aeolus_all.flatten(), bins=100, color='steelblue', edgecolor='black')
+plt.title('Histogram of Lidar Ratio')
+plt.xlabel('Lidar Ratio')
+plt.ylabel('Frequency')
+plt.xlim(20, 70)
+plt.grid(True)
+# Save the figure
+output_path = save_path + f'lidar_ratio_aeolus.png'
+plt.savefig(output_path, dpi=300)
+
+
