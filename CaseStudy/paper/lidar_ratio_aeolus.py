@@ -64,10 +64,10 @@ for npz_file in os.listdir(input_path):
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
 
         lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=0) / (np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor)
-        print('lidar ratio: ', lr_aeolus_qc)
+        # print('lidar ratio: ', lr_aeolus_qc)
         lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
         lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
-
+        print(alt)
         try:
             lr_aeolus_all = np.concatenate((lr_aeolus_all, lr_aeolus_qc), axis=1)
             alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=1)
@@ -83,7 +83,7 @@ fig, ax = plt.subplots(figsize=(8, 12))
 
 plt.plot(lr_aeolus_all, alt_aeolus_mean, color='blue')
 # Label axes and add a legend
-plt.xlabel('LRR')
+plt.xlabel('LR')
 plt.ylabel('Altitude')
 # plt.xlim([0.,1.])
 plt.ylim([0.,20.])
