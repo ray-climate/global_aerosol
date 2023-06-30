@@ -95,6 +95,9 @@ for npz_file in os.listdir(input_path):
         alpha = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         qc_aeolus = np.load(input_path + npz_file, allow_pickle=True)['qc']
 
+        alpha[alpha <= 0.] = np.nan
+        beta[beta <= 0.] = np.nan
+
         qc_bits = qc_to_bits(qc_aeolus)
         first_bit = qc_bits[:, :, -1]
         second_bit = qc_bits[:, :, -2]
