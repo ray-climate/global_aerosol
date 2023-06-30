@@ -139,6 +139,7 @@ for npz_file in os.listdir(input_path):
 
         modis_aod_all = []
         modis_lat_all = []
+        modis_lon_all = []
 
         for m in range(len(lat_caliop)):
 
@@ -157,6 +158,8 @@ for npz_file in os.listdir(input_path):
             closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
             min_distance = min_distance_list[np.argmin(min_distance_list)]
             modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
+            modis_lat = MYD04_lat_data[np.argmin(min_distance_list)][closest_point_index]
+            modis_lon = MYD04_lon_data[np.argmin(min_distance_list)][closest_point_index]
 
             if (min_distance < caliop_aqua_dis_threshold) & (modis_aod > 0.):
                 modis_aod_m = modis_aod * 0.001
@@ -164,10 +167,16 @@ for npz_file in os.listdir(input_path):
                 modis_aod_m = np.nan
 
             modis_aod_all.append(modis_aod_m)
-            modis_lat_all.append(lat_m)
-        print(modis_lat_all, modis_aod_all)
+            modis_lat_all.append(modis_lat)
+            modis_lon_all.append(modis_lon)
 
-
+np.savez_compressed('./output_aod_file.npz',
+                    lat_caliop=lat_caliop,
+                    lon_caliop=lon_caliop,
+                    modis_lat_all=modis_lat_all,
+                    modis_lon_all=modis_lon_all,
+                    aod_caliop=aod_caliop,
+                    modis_aod_all=modis_aod_all)
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
