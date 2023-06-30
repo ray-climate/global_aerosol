@@ -109,7 +109,7 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus_qc = np.where(valid_mask_extinction, alpha, np.nan)
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
 
-        lr_aeolus_qc = alpha_aeolus_qc / beta_aeolus_qc
+        lr_aeolus_qc = alpha / beta
         print(lr_aeolus_qc)
 
         try:
