@@ -125,7 +125,7 @@ for npz_file in os.listdir(input_path):
             lr_aeolus_all = np.copy(lr_aeolus_qc)
 
 plt.figure(figsize=(10, 7))
-plt.hist(lr_aeolus_all.flatten(), bins=100, color='steelblue', edgecolor='black')
+plt.hist(lr_aeolus_all.flatten(), bins=300, color='steelblue', edgecolor='black')
 plt.title('Histogram of Lidar Ratio')
 plt.xlabel('Lidar Ratio')
 plt.ylabel('Frequency')
