@@ -39,6 +39,7 @@ font = {'family': 'serif',
         'size': 14}
 plt.rc('font', **font)
 
+conversion_factor = 0.564
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc' in  npz_file):
         # print the file name and variables in the file
@@ -62,7 +63,9 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus_qc = np.where(valid_mask_extinction, alpha, np.nan)
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
 
-        lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=0) / np.nanmean(beta_aeolus_qc, axis=0)
+        lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=0) / (np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor)
+        lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
+        lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
         alt_aeolus_mean = np.nanmean(alt, axis=0)
 
         for i in range(len(lr_aeolus_qc) - 1):
