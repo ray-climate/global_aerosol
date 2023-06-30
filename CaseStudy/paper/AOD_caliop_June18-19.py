@@ -25,7 +25,11 @@ lat2_caliop = 20.
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
-        print(np.load(input_path + npz_file, allow_pickle=True))
+
+        with np.load(input_path + npz_file) as data:
+            for var_name in data.files:
+                print(var_name)
+
         quit()
         lat_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['lat']
         alt_caliop_time1 = np.load(input_path + npz_file, allow_pickle=True)['alt']
