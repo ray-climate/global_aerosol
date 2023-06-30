@@ -67,14 +67,10 @@ for npz_file in os.listdir(input_path):
         print('lidar ratio: ', lr_aeolus_qc)
         lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
         lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
-        alt_aeolus_mean = np.nanmean(alt, axis=0)
 
-        for i in range(len(lr_aeolus_qc) - 1):
-            plt.plot([lr_aeolus_qc[i], lr_aeolus_qc[i]],
-                     [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k')
-        for i in range(len(lr_aeolus_qc) - 1):
-            plt.plot([lr_aeolus_qc[i], lr_aeolus_qc[i + 1]],
-                     [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k')
-        # plt.plot([], [], 'k', label='Aeolus Profiles (%d)' % beta_aeolus_all.shape[0])
-        output_path = save_path + f'lidar_ratio_aeolus_%s.png'%npz_file
-        plt.savefig(output_path, dpi=300)
+        lr_aeolus_all.append(lr_aeolus_qc)
+        alt_aeolus_all.append(alt)
+
+lr_aeolus_all = np.array(lr_aeolus_all)
+alt_aeolus_all = np.array(alt_aeolus_all)
+print(lr_aeolus_all.shape)
