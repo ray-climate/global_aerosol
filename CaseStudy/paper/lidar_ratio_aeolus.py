@@ -68,25 +68,19 @@ for npz_file in os.listdir(input_path):
         # print('lidar ratio: ', lr_aeolus_qc)
         lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
         lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
-        print(alt_mean)
-
 
         lr_aeolus_all.append(lr_aeolus_qc)
         alt_aeolus_all.append(alt_mean)
-        # except:
-        #     print(222)
-        #     lr_aeolus_all = lr_aeolus_qc
-        #     alt_aeolus_all = alt_mean
 
 lr_aeolus_all = np.array(lr_aeolus_all)
 alt_aeolus_all = np.array(alt_aeolus_all)
-print(lr_aeolus_all.shape)
-print(alt_aeolus_all.shape)
+
+lr_aeolus_mean = np.nanmean(lr_aeolus_all, axis=0)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
 
 fig, ax = plt.subplots(figsize=(8, 12))
 
-plt.plot(lr_aeolus_all, alt_aeolus_mean, color='blue')
+plt.plot(lr_aeolus_mean, alt_aeolus_mean, color='blue')
 # Label axes and add a legend
 plt.xlabel('LR')
 plt.ylabel('Altitude')
