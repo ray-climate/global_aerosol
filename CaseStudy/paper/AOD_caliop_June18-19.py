@@ -18,7 +18,6 @@ import os
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 save_path = f'./figures/{script_name}_output/'
-print(save_path)
 
 quit()
 for npz_file in os.listdir(input_path):
