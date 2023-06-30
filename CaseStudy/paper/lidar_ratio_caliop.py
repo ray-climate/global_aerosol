@@ -53,6 +53,7 @@ for npz_file in os.listdir(input_path):
             aod_caliop_all = np.copy(aod)
             lr_caliop_all = np.copy(lr)
 
+print(np.mean(lr_caliop_all))
 lr_caliop_all[lr_caliop_all <= 10.] = np.nan
 # Set font parameters
 font = {'family': 'serif',
