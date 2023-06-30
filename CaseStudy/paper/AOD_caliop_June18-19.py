@@ -40,6 +40,22 @@ def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
 
     return closest_point_index, min_distance
 
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371  # Earth's radius in kilometers
+
+    # Convert latitudes and longitudes to radians
+    lat1, lon1, lat2, lon2 = np.radians([lat1, lon1, lat2, lon2])
+
+    # Calculate differences
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    # Apply Haversine formula
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
+
+    return R * c  # Return distance in kilometers
+
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
 
