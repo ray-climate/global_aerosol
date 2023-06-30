@@ -129,7 +129,7 @@ plt.hist(lr_aeolus_all.flatten(), bins=300, color='steelblue', edgecolor='black'
 plt.title('Histogram of Lidar Ratio')
 plt.xlabel('Lidar Ratio')
 plt.ylabel('Frequency')
-# plt.xlim(20, 150)
+plt.xlim(0, 300)
 plt.grid(True)
 # Save the figure
 output_path = save_path + f'lidar_ratio_aeolus.png'
