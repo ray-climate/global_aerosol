@@ -149,10 +149,9 @@ for npz_file in os.listdir(input_path):
 
             modis_aod_all.append(modis_aod_m)
             modis_lat_all.append(lat_m)
-            print(modis_lat_all, modis_aod_all)
+        print(modis_lat_all, modis_aod_all)
 
 
-quit()
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_descending_202006190412' in npz_file):
@@ -168,6 +167,7 @@ fontsize = 12
 fig, ax = plt.subplots(figsize=(8, 6))
 ax.plot(lat_caliop_time1, aod_caliop_time1, 'g.-',lw=3, markersize=5, label='CALIOP_time1')
 ax.plot(lat_caliop_time2, aod_caliop_time2, 'b.-',lw=3, markersize=5, label='CALIOP_time2')
+ax.plot(modis_lat_all, modis_aod_all, 'r.-',lw=3, markersize=5, label='MODIS')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
 ax.set_xlim(lat1_caliop, lat2_caliop)
