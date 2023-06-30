@@ -129,6 +129,7 @@ print(np.nanmean(lr_aeolus_all))
 
 lr_aeolus_all[lr_aeolus_all <= 30.] = np.nan
 lr_aeolus_all[lr_aeolus_all > 100.] = np.nan
+print(lr_aeolus_all[lr_aeolus_all>0])
 print(np.nanmean(lr_aeolus_all))
 
 plt.figure(figsize=(10, 7))
