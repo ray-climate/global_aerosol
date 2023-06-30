@@ -45,8 +45,7 @@ for npz_file in os.listdir(input_path):
 
         alpha[alpha <= 0.] = np.nan
         beta[beta <= 0.] = np.nan
-        print(beta.shape)
-        quit()
+
         qc_bits = qc_to_bits(qc_aeolus)
         first_bit = qc_bits[:, :, -1]
         second_bit = qc_bits[:, :, -2]
@@ -58,38 +57,7 @@ for npz_file in os.listdir(input_path):
         alpha_aeolus_qc = np.where(valid_mask_extinction, alpha, np.nan)
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
 
-        lr_aeolus_qc = alpha / beta
+        lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=1) / np.nanmean(beta_aeolus_qc, axis=1)
         print(lr_aeolus_qc)
-
-        try:
-            alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
-            beta_aeolus_all = np.concatenate((beta_aeolus_all, beta), axis=0)
-            alpha_aeolus_all = np.concatenate((alpha_aeolus_all, alpha), axis=0)
-            lr_aeolus_all = np.concatenate((lr_aeolus_all, lr_aeolus_qc), axis=0)
-
-        except:
-            alt_aeolus_all = np.copy(alt)
-            beta_aeolus_all = np.copy(beta)
-            alpha_aeolus_all = np.copy(alpha)
-            lr_aeolus_all = np.copy(lr_aeolus_qc)
-
-print(lr_aeolus_all.shape)
-print(np.nanmean(lr_aeolus_all))
-
-lr_aeolus_all[lr_aeolus_all <= 30.] = np.nan
-lr_aeolus_all[lr_aeolus_all > 100.] = np.nan
-print(lr_aeolus_all[lr_aeolus_all>0])
-print(np.nanmean(lr_aeolus_all))
-
-plt.figure(figsize=(10, 7))
-plt.hist(lr_aeolus_all.flatten(), color='steelblue', edgecolor='black')
-plt.title('Histogram of Lidar Ratio')
-plt.xlabel('Lidar Ratio')
-plt.ylabel('Frequency')
-plt.xlim(0, 300)
-plt.grid(True)
-# Save the figure
-output_path = save_path + f'lidar_ratio_aeolus.png'
-plt.savefig(output_path, dpi=300)
 
 
