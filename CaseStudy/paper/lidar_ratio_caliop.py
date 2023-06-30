@@ -37,11 +37,11 @@ for npz_file in os.listdir(input_path):
         alpha = np.load(input_path + npz_file, allow_pickle=True)['alpha']
         dp = np.load(input_path + npz_file, allow_pickle=True)['dp']
         aod = np.load(input_path + npz_file, allow_pickle=True)['aod']
+
+        beta[beta <= 0.] = np.nan
+        alpha[alpha <= 0.] = np.nan
         lr = alpha / beta
-        print(beta[:,0])
-        print(alpha[:,0])
-        print(lr[:,0])
-        quit()
+
         try:
             beta_caliop_all = np.concatenate((beta_caliop_all, beta), axis=1)
             alpha_caliop_all = np.concatenate((alpha_caliop_all, alpha), axis=1)
@@ -56,7 +56,7 @@ for npz_file in os.listdir(input_path):
             aod_caliop_all = np.copy(aod)
             lr_caliop_all = np.copy(lr)
 
-print(lr_caliop_all)
+print(np.nanmean(lr_caliop_all))
 lr_caliop_all[lr_caliop_all <= 0.] = np.nan
 # Set font parameters
 font = {'family': 'serif',
