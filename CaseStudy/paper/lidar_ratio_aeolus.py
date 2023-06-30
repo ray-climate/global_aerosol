@@ -68,6 +68,7 @@ for npz_file in os.listdir(input_path):
         lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
         lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
         print(alt)
+
         try:
             lr_aeolus_all = np.concatenate((lr_aeolus_all, lr_aeolus_qc), axis=1)
             alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=1)
