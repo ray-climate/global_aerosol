@@ -88,9 +88,30 @@ for npz_file in os.listdir(input_path):
 
         MODY04_colocation_file = list(set(MODY04_colocation_file))
 
+        print("MODY04_colocation_file: ", MODY04_colocation_file)
         if len(MODY04_colocation_file) == 0:
             print('No colocation found')
             continue
+
+        MYD04_lat_data = []
+        MYD04_lon_data = []
+        MYD04_aod_data = []
+
+        for j in range(len(MODY04_colocation_file)):
+            MYD04_lat_data_j = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % MODY04_colocation_file[j])
+            MYD04_lon_data_j = gdal.Open('HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % MODY04_colocation_file[j])
+            MYD04_aod_data_j = gdal.Open(
+                'HDF4_EOS:EOS_SWATH:"%s":mod04:Optical_Depth_Land_And_Ocean' % MODY04_colocation_file[j])
+
+            MYD04_lat_data.append(MYD04_lat_data_j.ReadAsArray())
+            MYD04_lon_data.append(MYD04_lon_data_j.ReadAsArray())
+            MYD04_aod_data.append(MYD04_aod_data_j.ReadAsArray())
+
+        print("MYD04_lat_data: ", MYD04_lat_data)
+        print("MYD04_lon_data: ", MYD04_lon_data)
+        print("MYD04_aod_data: ", MYD04_aod_data)
+
+
 quit()
 
 for npz_file in os.listdir(input_path):
