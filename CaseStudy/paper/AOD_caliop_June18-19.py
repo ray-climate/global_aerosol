@@ -17,7 +17,7 @@ import os
 
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
-last_folder_name = os.path.basename(os.path.abspath(__file__))
+last_folder_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 print(last_folder_name)
 quit()
 save_path = f'{script_name}_output/'
