@@ -110,6 +110,7 @@ for npz_file in os.listdir(input_path):
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
 
         lr_aeolus_qc = alpha_aeolus_qc / beta_aeolus_qc
+        print(lr_aeolus_qc)
 
         try:
             alt_aeolus_all = np.concatenate((alt_aeolus_all, alt), axis=0)
