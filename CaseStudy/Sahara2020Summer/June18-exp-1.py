@@ -78,7 +78,6 @@ beta_aeolus_qc = beta_aeolus_qc[rows_to_keep_aeolus, :]
 alpha_aeolus_qc = alpha_aeolus_qc[rows_to_keep_aeolus, :]
 lat_aeolus = lat_aeolus[rows_to_keep_aeolus]
 
-
 cols_to_keep_caliop = []
 for k in range(len(lat_caliop)):
     if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
