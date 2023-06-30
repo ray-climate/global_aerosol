@@ -75,6 +75,7 @@ for npz_file in os.listdir(input_path):
 lr_aeolus_all = np.array(lr_aeolus_all)
 alt_aeolus_all = np.array(alt_aeolus_all)
 
+print(lr_aeolus_all)
 lr_aeolus_mean = np.nanmean(lr_aeolus_all, axis=0)
 lr_aeolus_std = np.nanstd(lr_aeolus_all, axis=0)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
