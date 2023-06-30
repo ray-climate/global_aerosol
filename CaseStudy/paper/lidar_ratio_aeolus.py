@@ -76,11 +76,13 @@ lr_aeolus_all = np.array(lr_aeolus_all)
 alt_aeolus_all = np.array(alt_aeolus_all)
 
 lr_aeolus_mean = np.nanmean(lr_aeolus_all, axis=0)
+lr_aeolus_std = np.nanstd(lr_aeolus_all, axis=0)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
 
 fig, ax = plt.subplots(figsize=(8, 12))
 
-plt.plot(lr_aeolus_mean, alt_aeolus_mean, color='blue')
+plt.errorbar(lr_aeolus_mean, alt_aeolus_mean, xerr=lr_aeolus_std, fmt='o', color='blue', ecolor='lightblue', elinewidth=3, capsize=0)
+# plt.plot(lr_aeolus_mean, alt_aeolus_mean, color='blue')
 # Label axes and add a legend
 plt.xlabel('LR')
 plt.ylabel('Altitude')
