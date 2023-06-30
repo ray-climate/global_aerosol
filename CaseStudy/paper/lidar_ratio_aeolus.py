@@ -34,6 +34,11 @@ def qc_to_bits(qc_array):
     qc_bits = qc_bits.reshape(*qc_array.shape, -1)
     return qc_bits
 
+font = {'family': 'serif',
+        'weight': 'normal',
+        'size': 14}
+plt.rc('font', **font)
+
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc' in  npz_file):
         # print the file name and variables in the file
@@ -58,6 +63,14 @@ for npz_file in os.listdir(input_path):
         beta_aeolus_qc = np.where(valid_mask_backscatter, beta, np.nan)
 
         lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=0) / np.nanmean(beta_aeolus_qc, axis=0)
-        print(lr_aeolus_qc)
+        alt_aeolus_mean = np.nanmean(alt, axis=0)
 
-
+        for i in range(len(lr_aeolus_qc) - 1):
+            plt.plot([lr_aeolus_qc[i], lr_aeolus_qc[i]],
+                     [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k')
+        for i in range(len(lr_aeolus_qc) - 1):
+            plt.plot([lr_aeolus_qc[i], lr_aeolus_qc[i + 1]],
+                     [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k')
+        # plt.plot([], [], 'k', label='Aeolus Profiles (%d)' % beta_aeolus_all.shape[0])
+        output_path = save_path + f'lidar_ratio_aeolus_%s.png'%npz_file
+        plt.savefig(output_path, dpi=300)
