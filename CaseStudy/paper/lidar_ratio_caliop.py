@@ -129,6 +129,7 @@ print(np.nanmean(lr_aeolus_all))
 
 lr_aeolus_all[lr_aeolus_all <= 20.] = np.nan
 lr_aeolus_all[lr_aeolus_all > 100.] = np.nan
+print(np.nanmean(lr_aeolus_all))
 
 plt.figure(figsize=(10, 7))
 plt.hist(lr_aeolus_all.flatten(), color='steelblue', edgecolor='black')
