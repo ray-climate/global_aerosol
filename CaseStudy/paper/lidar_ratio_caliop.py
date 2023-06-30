@@ -54,14 +54,14 @@ for npz_file in os.listdir(input_path):
             lr_caliop_all = np.copy(lr)
 
 print(np.mean(lr_caliop_all))
-lr_caliop_all[lr_caliop_all <= 10.] = np.nan
+lr_caliop_all[lr_caliop_all <= 0.] = np.nan
 # Set font parameters
 font = {'family': 'serif',
         'weight': 'normal',
         'size': 14}
 plt.rc('font', **font)
 plt.figure(figsize=(10, 7))
-plt.hist(lr_caliop_all.flatten(), bins=100, color='steelblue', edgecolor='black')
+plt.hist(lr_caliop_all.flatten(), bins=1000, color='steelblue', edgecolor='black')
 plt.title('Histogram of Lidar Ratio')
 plt.xlabel('Lidar Ratio')
 plt.ylabel('Frequency')
