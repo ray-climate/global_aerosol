@@ -125,7 +125,10 @@ for npz_file in os.listdir(input_path):
             lr_aeolus_all = np.copy(lr_aeolus_qc)
 
 print(lr_aeolus_all.shape)
-print(np.mean(lr_aeolus_all))
+print(np.nanmean(lr_aeolus_all))
+
+lr_aeolus_all[lr_aeolus_all <= 20.] = np.nan
+lr_aeolus_all[lr_aeolus_all > 100.] = np.nan
 
 plt.figure(figsize=(10, 7))
 plt.hist(lr_aeolus_all.flatten(), color='steelblue', edgecolor='black')
