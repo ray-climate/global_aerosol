@@ -34,7 +34,8 @@ layer4 = [2.4, 3.4]
 
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
-save_path = f'{script_name}_output/'
+save_path = f'./figures/{script_name}_output/'
+pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
@@ -134,14 +135,15 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
-    alpha_aeolus_qc[alpha_aeolus_qc <= 2.e-3] = np.nan
+    alpha_aeolus_qc[alpha_aeolus_qc <= 0] = np.nan
 
-    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index+1], 'ro-',lw=2, label='AEOLUS layer')
-    ax.plot(lat_caliop, alpha_caliop_layer, 'bo-',lw=2, label='CALIOP layer')
-    ax.set_xlabel('Latitude', fontsize=fontsize)
+    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none',
+            label='ALADIN')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP')
+    ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
-    ax.set_xlim(8., 20.)
-    ax.set_ylim(1e-3, 2e0)
+    # ax.set_xlim(5.5, 23.)
+    # ax.set_ylim(1e-3, 5e0)
     # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='best', fontsize=fontsize)
