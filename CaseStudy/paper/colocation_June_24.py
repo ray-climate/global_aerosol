@@ -5,7 +5,6 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        29/06/2023 15:52
 
-from matplotlib.lines import Line2D
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -139,25 +138,16 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
     alpha_aeolus_qc[alpha_aeolus_qc <= 0] = np.nan
 
-    # Plotting without labels
-    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none')
-    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5)
-
-    # Creating custom legend elements
-    legend_elements = [
-        Line2D([0], [0], marker='o', color='b', lw=2, ls='--', markersize=15, alpha=0.7, mec='none', label='ALADIN'),
-        Line2D([0], [0], marker='.', color='g', lw=2, ls=':', markersize=5, label='CALIOP')]
-
-    # Setting the rest of the plot
+    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none',
+            label='ALADIN')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP')
     ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(8, 19.)
     ax.set_ylim(1e-3, 1.)
+    # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
-
-    # Adding the custom legend
-    ax.legend(handles=legend_elements, loc='lower center', fontsize=fontsize, title='ALADIN vs CALIOP')
-
+    ax.legend(loc='lower right', fontsize=fontsize)
     ax.set_yscale('log')
 
 def plot_aerosol_layer_beta_qc(ax, layer_index):
