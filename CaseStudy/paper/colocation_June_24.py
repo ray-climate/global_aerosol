@@ -110,7 +110,7 @@ k_factor = 0.82
 conversion_factor = (np.nanmean(dp_caliop) * k_factor * 2) / (1. - np.nanmean(dp_caliop) * k_factor)
 conversion_factor = 1 / (1. + conversion_factor)
 
-fontsize = 22
+fontsize = 28
 
 def plot_aerosol_layer_alpha_qc(layer_index, layers):
 
@@ -211,6 +211,7 @@ for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
     plot_aerosol_layer_alpha_qc(layer_index, layer)
     plt.savefig(save_path + 'aeolus_caliop_alpha_layers_%.1f-%.1f.png'%(layer[0], layer[1]), dpi=300)
 
+quit()
 # generate plot for non-QC data
 fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
