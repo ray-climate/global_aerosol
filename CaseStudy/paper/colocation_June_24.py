@@ -112,7 +112,7 @@ conversion_factor = 1 / (1. + conversion_factor)
 
 fontsize = 22
 
-def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
+def plot_aerosol_layer_alpha_qc(layer_index, layers):
 
     alpha_caliop_layer = np.zeros(len(lat_caliop))
 
@@ -138,6 +138,7 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
     alpha_aeolus_qc[alpha_aeolus_qc <= 0] = np.nan
 
+    fig, ax = plt.subplots(figsize=(16, 8))
     ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none',
             label='ALADIN')
     ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP')
@@ -205,14 +206,11 @@ layer_indices = [layer1_index, layer2_index, layer3_index, layer4_index]
 layers = [layer1, layer2, layer3, layer4]
 
 # generate alpha plot for QC data
-fig, axs = plt.subplots(len(layer_indices), 1, figsize=(16, 8 * len(layer_indices)))
+
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
-    plot_aerosol_layer_alpha_qc(axs[i], layer_index, layer)
+    plot_aerosol_layer_alpha_qc(layer_index, layer)
+    plt.savefig(save_path + 'aeolus_caliop_alpha_layers_%.1f-%.1f.png'%(layer[0], layer[1]), dpi=300)
 
-fig.suptitle('Comparison of AEOLUS (QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
-plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
-
-quit()
 # generate plot for non-QC data
 fig, axs = plt.subplots(len(layers), 1, figsize=(16, 8 * len(layers)))
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
