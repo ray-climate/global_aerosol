@@ -66,22 +66,22 @@ for npz_file in os.listdir(input_path):
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
-        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
-        lon_caliop = np.load(input_path + npz_file, allow_pickle=True)['lon']
-        alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
-        beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
-        alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
-        dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
+        lat_caliop_2 = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop_2 = np.load(input_path + npz_file, allow_pickle=True)['lon']
+        alt_caliop_2 = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_caliop_2 = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_caliop_2 = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop_2 = np.load(input_path + npz_file, allow_pickle=True)['dp']
 
         cols_to_keep_caliop = []
-        for k in range(len(lat_caliop)):
-            if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
+        for k in range(len(lat_caliop_2)):
+            if lat_caliop_2[k] > lat1_caliop and lat_caliop_2[k] < lat2_caliop:
                 cols_to_keep_caliop.append(k)
 
-        beta_caliop_2 = beta_caliop[:, cols_to_keep_caliop]
-        alpha_caliop_2 = alpha_caliop[:, cols_to_keep_caliop]
-        lat_caliop_2 = lat_caliop[cols_to_keep_caliop]
-        lon_caliop_2 = lon_caliop[cols_to_keep_caliop]
+        beta_caliop_2 = beta_caliop_2[:, cols_to_keep_caliop]
+        alpha_caliop_2 = alpha_caliop_2[:, cols_to_keep_caliop]
+        lat_caliop_2 = lat_caliop_2[cols_to_keep_caliop]
+        lon_caliop_2 = lon_caliop_2[cols_to_keep_caliop]
 
 
 for npz_file in os.listdir(input_path):
@@ -132,18 +132,14 @@ fontsize = 22
 def plot_aerosol_layer_alpha_qc(layer_index, layers):
 
     alpha_caliop_layer = np.zeros(len(lat_caliop))
-    alpha_caliop_layer_2 = np.zeros(len(lat_caliop))
+    alpha_caliop_layer_2 = np.zeros(len(lat_caliop_2))
 
     for k in range(len(lat_caliop)):
         alt_k = alt_caliop[::-1]
         alpha_k = alpha_caliop[::-1, k]
-        alpha_k_2 = alpha_caliop_2[::-1, k]
 
         alpha_k[np.isnan(alpha_k)] = 0
         alpha_k[alpha_k == -9999] = 0
-
-        alpha_k_2[np.isnan(alpha_k_2)] = 0
-        alpha_k_2[alpha_k_2 == -9999] = 0
 
         # # find closest value of lat_caliop[k] in lat_aeolus
 
@@ -158,6 +154,21 @@ def plot_aerosol_layer_alpha_qc(layer_index, layers):
 
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
+
+    for k in range(len(lat_caliop_2)):
+        alt_k = alt_caliop[::-1]
+        alpha_k_2 = alpha_caliop_2[::-1, k]
+
+        alpha_k_2[np.isnan(alpha_k_2)] = 0
+        alpha_k_2[alpha_k_2 == -9999] = 0
+
+        lat_index = np.argmin((lat_aeolus - lat_caliop_2[k]) ** 2 + (lon_aeolus - lon_caliop_2[k]) ** 2)
+
+        alt_top = alt_aeolus[lat_index, layer_index]
+        alt_bottom = alt_aeolus[lat_index, layer_index + 1]
+        # print(alt_top1, alt_bottom1, alt_top, alt_bottom)
+
+        mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer_2[k] = np.trapz(alpha_k_2[mask], alt_k[mask]) / (alt_top - alt_bottom)
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
