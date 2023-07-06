@@ -33,9 +33,9 @@ layer4_index = -6
 layer4 = [2.4, 3.4]
 
 input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
+
 script_name = os.path.splitext(os.path.abspath(__file__))[0]
 save_path = f'{script_name}_output/'
-
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
 # convert qc_aeolus to bits and check the quality of the data
@@ -110,7 +110,7 @@ conversion_factor = 1 / (1. + conversion_factor)
 
 fontsize = 22
 
-def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
+def plot_aerosol_layer_alpha_qc(layer_index, layers):
 
     alpha_caliop_layer = np.zeros(len(lat_caliop))
 
@@ -128,22 +128,26 @@ def plot_aerosol_layer_alpha_qc(ax, layer_index, layers):
 
         alt_top = alt_aeolus[lat_index, layer_index]
         alt_bottom = alt_aeolus[lat_index, layer_index + 1]
+        # print(alt_top1, alt_bottom1, alt_top, alt_bottom)
 
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
-    alpha_aeolus_qc[alpha_aeolus_qc <= 2.e-3] = np.nan
+    alpha_aeolus_qc[alpha_aeolus_qc <= 0] = np.nan
 
-    ax.plot(lat_aeolus - .8, alpha_aeolus_qc[:, layer_index+1], 'bo--',lw=2, markersize=15, alpha=0.7, mec='none', label='ALADIN')
-    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--',lw=2, markersize=5, label='CALIOP')
-    ax.set_xlabel('Latitude', fontsize=fontsize)
+    fig, ax = plt.subplots(figsize=(16, 8))
+    ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none',
+            label='ALADIN')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP')
+    ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
-    ax.set_xlim(5.5, 23.)
-    ax.set_ylim(1e-3, 5e0)
+    ax.set_xlim(8, 19.)
+    ax.set_ylim(1e-3, 1.)
     # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
-    ax.legend(loc='best', fontsize=fontsize)
+    ax.legend(loc='lower center', fontsize=fontsize)
+    ax.text(8.2, 0.6, 'Dust layer: %.1f - %.1f km'%(layers[0], layers[1]), fontsize=fontsize, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax.set_yscale('log')
 
 def plot_aerosol_layer_alpha(ax, layer_index, layers):
@@ -211,13 +215,12 @@ layer_indices = [layer1_index, layer2_index, layer3_index, layer4_index]
 layers = [layer1, layer2, layer3, layer4]
 
 # generate alpha plot for QC data
-fig, axs = plt.subplots(len(layer_indices), 1, figsize=(16, 8 * len(layer_indices)))
+
 for i, (layer, layer_index) in enumerate(zip(layers, layer_indices)):
-    plot_aerosol_layer_alpha_qc(axs[i], layer_index, layer)
+    plot_aerosol_layer_alpha_qc(layer_index, layer)
+    plt.savefig(save_path + 'aeolus_caliop_alpha_layers_%.1f-%.1f.png'%(layer[0], layer[1]), dpi=300)
 
-fig.suptitle('Comparison of AEOLUS (QC) and CALIOP Aerosol Extinction at Different Layers', fontsize=fontsize * 1.2, y=1.05)
-plt.savefig(save_path + 'aeolus_caliop_alpha_layers.png', dpi=300)
-
+quit()
 
 # generate plot for non-QC data
 fig, axs = plt.subplots(len(layer_indices), 1, figsize=(16, 8 * len(layer_indices)))

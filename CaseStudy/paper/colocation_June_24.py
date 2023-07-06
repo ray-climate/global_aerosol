@@ -38,8 +38,6 @@ script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 save_path = f'./figures/{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
 
-pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
-
 # convert qc_aeolus to bits and check the quality of the data
 def qc_to_bits(qc_array):
     qc_uint8 = qc_array.astype(np.uint8)
