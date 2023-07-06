@@ -64,6 +64,25 @@ for npz_file in os.listdir(input_path):
         lat_caliop = lat_caliop[cols_to_keep_caliop]
         lon_caliop = lon_caliop[cols_to_keep_caliop]
 
+for npz_file in os.listdir(input_path):
+    if npz_file.endswith('.npz') & ('caliop_dbd_ascending_202006181612' in npz_file):
+        lat_caliop = np.load(input_path + npz_file, allow_pickle=True)['lat']
+        lon_caliop = np.load(input_path + npz_file, allow_pickle=True)['lon']
+        alt_caliop = np.load(input_path + npz_file, allow_pickle=True)['alt']
+        beta_caliop = np.load(input_path + npz_file, allow_pickle=True)['beta']
+        alpha_caliop = np.load(input_path + npz_file, allow_pickle=True)['alpha']
+        dp_caliop = np.load(input_path + npz_file, allow_pickle=True)['dp']
+
+        cols_to_keep_caliop = []
+        for k in range(len(lat_caliop)):
+            if lat_caliop[k] > lat1_caliop and lat_caliop[k] < lat2_caliop:
+                cols_to_keep_caliop.append(k)
+
+        beta_caliop_2 = beta_caliop[:, cols_to_keep_caliop]
+        alpha_caliop_2 = alpha_caliop[:, cols_to_keep_caliop]
+        lat_caliop_2 = lat_caliop[cols_to_keep_caliop]
+        lon_caliop_2 = lon_caliop[cols_to_keep_caliop]
+
 
 for npz_file in os.listdir(input_path):
     if npz_file.endswith('.npz') & ('aeolus_qc_descending_202006190812' in npz_file):
@@ -113,6 +132,7 @@ fontsize = 22
 def plot_aerosol_layer_alpha_qc(layer_index, layers):
 
     alpha_caliop_layer = np.zeros(len(lat_caliop))
+    alpha_caliop_layer_2 = np.zeros(len(lat_caliop))
 
     for k in range(len(lat_caliop)):
         alt_k = alt_caliop[::-1]
@@ -132,14 +152,18 @@ def plot_aerosol_layer_alpha_qc(layer_index, layers):
 
         mask = (alt_k >= alt_bottom) & (alt_k <= alt_top)
         alpha_caliop_layer[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
+        alpha_caliop_layer_2[k] = np.trapz(alpha_k[mask], alt_k[mask]) / (alt_top - alt_bottom)
 
     alpha_caliop_layer[alpha_caliop_layer <= 0] = np.nan
     alpha_aeolus_qc[alpha_aeolus_qc <= 0] = np.nan
 
+    alpha_caliop_layer_2[alpha_caliop_layer_2 <= 0] = np.nan
+
     fig, ax = plt.subplots(figsize=(16, 8))
     ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none',
             label='ALADIN')
-    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP 19th')
+    ax.plot(lat_caliop, alpha_caliop_layer_2, 'k.--', lw=2, markersize=5, label='CALIOP 18th')
     ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5.5, 23.)
