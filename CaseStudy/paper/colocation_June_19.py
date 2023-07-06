@@ -188,7 +188,7 @@ def plot_aerosol_layer_alpha_qc(layer_index, layers):
     # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='lower center', fontsize=fontsize)
-    ax.text(6.8, 3.5, 'Dust layer: %.1f - %.1f km'%(layers[0], layers[1]), fontsize=fontsize, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    ax.text(5.8, 3., 'Dust layer: %.1f - %.1f km'%(layers[0], layers[1]), fontsize=fontsize, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax.set_yscale('log')
 
 def plot_aerosol_layer_alpha(ax, layer_index, layers):
