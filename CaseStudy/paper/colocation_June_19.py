@@ -179,8 +179,8 @@ def plot_aerosol_layer_alpha_qc(layer_index, layers):
     fig, ax = plt.subplots(figsize=(16, 8))
     ax.plot(lat_aeolus, alpha_aeolus_qc[:, layer_index + 1], 'bo--', lw=2, markersize=15, alpha=0.7, mec='none',
             label='ALADIN')
-    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP 19th')
-    ax.plot(lat_caliop, alpha_caliop_layer_2, 'k.--', lw=2, markersize=5, label='CALIOP 18th')
+    ax.plot(lat_caliop, alpha_caliop_layer, 'g.--', lw=2, markersize=5, label='CALIOP')
+    # ax.plot(lat_caliop, alpha_caliop_layer_2, 'k.--', lw=2, markersize=5, label='CALIOP 18th')
     ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
     ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
     ax.set_xlim(5.5, 23.)
@@ -188,7 +188,7 @@ def plot_aerosol_layer_alpha_qc(layer_index, layers):
     # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
     ax.tick_params(axis='both', labelsize=fontsize)
     ax.legend(loc='lower center', fontsize=fontsize)
-    ax.text(8.2, 0.6, 'Dust layer: %.1f - %.1f km'%(layers[0], layers[1]), fontsize=fontsize, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    ax.text(6.8, 3.5, 'Dust layer: %.1f - %.1f km'%(layers[0], layers[1]), fontsize=fontsize, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax.set_yscale('log')
 
 def plot_aerosol_layer_alpha(ax, layer_index, layers):
