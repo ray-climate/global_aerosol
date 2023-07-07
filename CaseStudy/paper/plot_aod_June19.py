@@ -76,7 +76,7 @@ attenuation_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
 
-aod_file = './output_aod_file.npz'
+aod_file = './output_aod_file_v2.npz'
 script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 save_path = f'./figures/{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
