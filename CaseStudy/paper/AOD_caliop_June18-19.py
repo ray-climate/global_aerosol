@@ -86,7 +86,6 @@ for npz_file in os.listdir(input_path):
             hour_aqua = file[-26:-24]
             minute_aqua = file[-24:-22]
 
-
             if abs(int(hour_i) * 60 + int(minute_i) - int(hour_aqua) * 60 - int(
                     minute_aqua)) < caliop_aqua_hour_diff * 60:
 
@@ -115,6 +114,12 @@ for npz_file in os.listdir(input_path):
                         np.nanmin(MYD04_longitude[:, 0]) > np.nanmin(MYD04_longitude[:, -1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
                     print('pass colocation check from first caliop point')
+
+                if ((lat_caliop[0] + lat_caliop[-1])/2. > MYD04_lat_min) & ((lat_caliop[0] + lat_caliop[-1])/2. < MYD04_lat_max) & (
+                        (lon_caliop[0] + lon_caliop[-1])/2. > MYD04_lon_min) & ((lon_caliop[0] + lon_caliop[-1])/2. < MYD04_lon_max) & (
+                        np.nanmin(MYD04_longitude[:, 0]) > np.nanmin(MYD04_longitude[:, -1])):
+                    MODY04_colocation_file.append(matching_MYD04_file)
+                    print('pass colocation check from mid caliop point')
 
                 if (lat_caliop[-1] > MYD04_lat_min) & (lat_caliop[-1] < MYD04_lat_max) & (
                         lon_caliop[-1] > MYD04_lon_min) & (lon_caliop[-1] < MYD04_lon_max) & (
