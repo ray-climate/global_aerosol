@@ -75,8 +75,6 @@ spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up
 attenuation_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
-# Create the mask where attenuation_mask_lat > 1
-mask = attenuation_mask_lat < 1
 
 aod_file = './output_aod_file.npz'
 script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
@@ -91,9 +89,17 @@ modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 fontsize = 12
 fig, ax = plt.subplots(figsize=(8, 6))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
-ax.plot(modis_lat_all, modis_aod_all, 'r.-',lw=3, markersize=5, label='MODIS')
-ax.plot(caliop_latitude, caliop_AOD_532_total, 'g.-',lw=3, markersize=5, label='CALIOP')
-ax.plot(caliop_latitude[mask], caliop_AOD_532_total[mask], 'b*-', lw=3, markersize=5, label='CALIOP Highlighted')
+ax.plot(modis_lat_all, modis_aod_all, 'r.-',lw=3, markersize=5, label='MODIS')\
+# Create the masks
+mask_greater = attenuation_mask_lat > 1
+mask_less_equal = attenuation_mask_lat <= 1
+
+# Then plot the line in a single color and style
+ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
+
+# Overlay the different marker styles for the sections of the line that meet your conditions
+ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'go', markersize=5)  # Use 'go' for green circles
+ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g*', markersize=5)  # Use 'g*' for green stars
 
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
