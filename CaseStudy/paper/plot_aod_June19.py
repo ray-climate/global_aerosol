@@ -85,27 +85,26 @@ lat_caliop = np.load(aod_file, allow_pickle=True)['lat_caliop']
 modis_lat_all = np.load(aod_file, allow_pickle=True)['modis_lat_all']
 aod_caliop = np.load(aod_file, allow_pickle=True)['aod_caliop']
 modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
-print(modis_lat_all)
-print(modis_aod_all[modis_lat_all < 20.])
+
 fontsize = 12
-fig, ax = plt.subplots(figsize=(8, 6))
+fig, ax = plt.subplots(figsize=(10, 6))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
-ax.plot(modis_lat_all, modis_aod_all, 'r.-',lw=3, markersize=5, label='MODIS')\
+ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=15, label='MODIS')
 # Create the masks
-mask_greater = attenuation_mask_lat > 1
-mask_less_equal = attenuation_mask_lat <= 1
+mask_greater = attenuation_mask_lat >= 1
+mask_less_equal = attenuation_mask_lat < 1
 
 # Then plot the line in a single color and style
-ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
-
+# ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
-ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g*', markersize=5)  # Use 'g*' for green stars
+ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g-*', lw=3, markersize=15)  # Use 'g*' for green stars
 
-ax.set_xlabel('Latitude', fontsize=fontsize)
+ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
-ax.set_xlim(10., 20.)
+ax.set_xlim(12., 20.)
 ax.set_ylim(0, 5.)
+ax.grid()
 # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
