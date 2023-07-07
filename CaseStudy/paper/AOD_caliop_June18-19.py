@@ -119,6 +119,8 @@ for npz_file in os.listdir(input_path):
         MODY04_colocation_file = list(set(MODY04_colocation_file))
 
         print("MODY04_colocation_file: ", MODY04_colocation_file)
+        quit()
+
         if len(MODY04_colocation_file) == 0:
             print('No colocation found')
             continue
