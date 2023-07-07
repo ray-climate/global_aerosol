@@ -75,6 +75,8 @@ spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up
 attenuation_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
+# Create the mask where attenuation_mask_lat > 1
+mask = attenuation_mask_lat > 1
 
 aod_file = './output_aod_file.npz'
 script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
@@ -88,12 +90,14 @@ modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 
 fontsize = 12
 fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
+# ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.plot(modis_lat_all, modis_aod_all, 'r.-',lw=3, markersize=5, label='MODIS')
-ax.plot(caliop_latitude, caliop_AOD_532_total, 'k.-',lw=3, markersize=5, label='CALIOP_new')
+ax.plot(caliop_latitude, caliop_AOD_532_total, 'g.-',lw=3, markersize=5, label='CALIOP')
+ax.plot(caliop_latitude[mask], caliop_AOD_532_total[mask], 'b*-', lw=3, markersize=5, label='CALIOP Highlighted')
+
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
-# ax.set_xlim(lat1_caliop, lat2_caliop)
+ax.set_xlim(10., 20.)
 ax.set_ylim(0, 5.)
 # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
 ax.tick_params(axis='both', labelsize=fontsize)
