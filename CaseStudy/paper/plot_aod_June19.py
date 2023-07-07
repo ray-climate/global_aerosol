@@ -78,7 +78,7 @@ print(caliop_feature_type.shape)
 
 attenuation_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
-attenuation_mask_lat = np.sum(attenuation_mask, axis=1)
+attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
 print(caliop_latitude[attenuation_mask_lat > 1])
 quit()
 
