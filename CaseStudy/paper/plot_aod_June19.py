@@ -75,6 +75,11 @@ spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up
 print(caliop_latitude.shape)
 print(caliop_alpha.shape)
 print(caliop_feature_type.shape)
+
+attenuation_mask = np.zeros((caliop_feature_type.shape))
+attenuation_mask[caliop_feature_type == 7] = 1.
+attenuation_mask_lat = np.sum(attenuation_mask, axis=1)
+print(attenuation_mask_lat.shape)
 quit()
 
 
