@@ -35,10 +35,9 @@ def find_closest_point_and_distance(lat_data, lon_data, point_lat, point_lon):
         for j in range(lat_data.shape[1]):
             distances[i, j] = haversine(point_lat, point_lon, lat_data[i, j], lon_data[i, j])
 
-    min_distance = np.min(distances)
-    closest_point_index = np.unravel_index(np.argmin(distances), distances.shape)
+    sorted_distance_indices = np.unravel_index(np.argsort(distances, axis=None), distances.shape)
 
-    return closest_point_index, min_distance
+    return sorted_distance_indices, distances
 
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  # Earth's radius in kilometers
@@ -161,6 +160,29 @@ for npz_file in os.listdir(input_path):
 
             closest_point_index_list = []
             min_distance_list = []
+
+            for n in range(len(MODY04_colocation_file)):
+                sorted_distance_indices_n, distances_n = find_closest_point_and_distance(MYD04_lat_data[n],
+                                                                                         MYD04_lon_data[n], lat_m,
+                                                                                         lon_m)
+                for index in zip(*sorted_distance_indices_n):
+                    if MYD04_aod_data[n][index] > 0.:
+                        closest_point_index_list.append(index)
+                        min_distance_list.append(distances_n[index])
+                        break
+
+            min_distance_index = np.argmin(min_distance_list)
+            closest_point_index = closest_point_index_list[min_distance_index]
+            min_distance = min_distance_list[min_distance_index]
+
+            modis_aod = MYD04_aod_data[min_distance_index][closest_point_index]
+            modis_lat = MYD04_lat_data[min_distance_index][closest_point_index]
+            modis_lon = MYD04_lon_data[min_distance_index][closest_point_index]
+
+            if min_distance < caliop_aqua_dis_threshold:
+                modis_aod_m = modis_aod * 0.001
+            else:
+                modis_aod_m = np.nan
 
             for n in range(len(MODY04_colocation_file)):
                 closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
