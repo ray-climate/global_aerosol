@@ -74,6 +74,7 @@ spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up
 
 print(caliop_latitude.shape)
 print(caliop_alpha.shape)
+print(caliop_feature_type.shape)
 quit()
 
 
