@@ -199,6 +199,7 @@ for npz_file in os.listdir(input_path):
                 modis_aod_m = modis_aod * 0.001
             else:
                 modis_aod_m = np.nan
+            print('AOD at lat: %f, lon: %f is %f' % (modis_lat, modis_lon, modis_aod_m))
 
             modis_aod_all.append(modis_aod_m)
             modis_lat_all.append(modis_lat)
