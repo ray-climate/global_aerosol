@@ -72,10 +72,6 @@ caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, cal
 
 spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
 
-print(caliop_latitude.shape)
-print(caliop_alpha.shape)
-print(caliop_feature_type.shape)
-
 attenuation_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
@@ -99,6 +95,7 @@ fontsize = 12
 fig, ax = plt.subplots(figsize=(8, 6))
 ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.plot(modis_lat_all, modis_aod_all, 'r.-',lw=3, markersize=5, label='MODIS')
+ax.plot(caliop_latitude, caliop_AOD_532_total, 'k.-',lw=3, markersize=5, label='CALIOP_new')
 ax.set_xlabel('Latitude', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
 # ax.set_xlim(lat1_caliop, lat2_caliop)
