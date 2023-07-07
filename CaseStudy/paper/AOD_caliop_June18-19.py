@@ -182,7 +182,7 @@ for npz_file in os.listdir(input_path):
             modis_lat_all.append(modis_lat)
             modis_lon_all.append(modis_lon)
 
-np.savez_compressed('./output_aod_file.npz',
+np.savez_compressed('./output_aod_file_v2.npz',
                     lat_caliop=lat_caliop,
                     lon_caliop=lon_caliop,
                     modis_lat_all=modis_lat_all,
