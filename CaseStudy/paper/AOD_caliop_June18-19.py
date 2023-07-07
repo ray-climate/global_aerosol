@@ -85,11 +85,12 @@ for npz_file in os.listdir(input_path):
             matching_MYD04_file = os.path.join(MYD04_directory, file)
             hour_aqua = file[-26:-24]
             minute_aqua = file[-24:-22]
-            print('looking for matching MYD04 file from %s' % matching_MYD04_file)
+
 
             if abs(int(hour_i) * 60 + int(minute_i) - int(hour_aqua) * 60 - int(
                     minute_aqua)) < caliop_aqua_hour_diff * 60:
 
+                print('looking for matching MYD04 file from %s' % matching_MYD04_file)
                 print('pass time difference check')
 
                 MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
