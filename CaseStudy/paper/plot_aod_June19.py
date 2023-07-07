@@ -75,11 +75,6 @@ spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up
 attenuation_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
-print(caliop_latitude[attenuation_mask_lat > 1])
-quit()
-
-
-
 
 aod_file = './output_aod_file.npz'
 script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
