@@ -184,23 +184,9 @@ for npz_file in os.listdir(input_path):
             else:
                 modis_aod_m = np.nan
 
-            for n in range(len(MODY04_colocation_file)):
-                closest_point_index_n, min_distance_n = find_closest_point_and_distance(MYD04_lat_data[n], MYD04_lon_data[n], lat_m, lon_m)
-                closest_point_index_list.append(closest_point_index_n)
-                min_distance_list.append(min_distance_n)
-
             print(min_distance_list)
             print(len(min_distance_list))
-            closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
-            min_distance = min_distance_list[np.argmin(min_distance_list)]
-            modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
-            modis_lat = MYD04_lat_data[np.argmin(min_distance_list)][closest_point_index]
-            modis_lon = MYD04_lon_data[np.argmin(min_distance_list)][closest_point_index]
 
-            if (min_distance < caliop_aqua_dis_threshold) & (modis_aod > 0.):
-                modis_aod_m = modis_aod * 0.001
-            else:
-                modis_aod_m = np.nan
             print('AOD at lat: %f, lon: %f is %f' % (modis_lat, modis_lon, modis_aod_m))
 
             modis_aod_all.append(modis_aod_m)
