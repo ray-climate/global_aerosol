@@ -98,7 +98,7 @@ mask_less_equal = attenuation_mask_lat <= 1
 ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
 
 # Overlay the different marker styles for the sections of the line that meet your conditions
-ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
+# ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
 ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g*', markersize=5)  # Use 'g*' for green stars
 
 ax.set_xlabel('Latitude', fontsize=fontsize)
