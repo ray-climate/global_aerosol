@@ -89,7 +89,7 @@ modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 fontsize = 12
 fig, ax = plt.subplots(figsize=(10, 6))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
-ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=15, label='MODIS')
+ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=10, label='MODIS')
 # Create the masks
 mask_greater = attenuation_mask_lat >= 1
 mask_less_equal = attenuation_mask_lat < 1
@@ -98,7 +98,7 @@ mask_less_equal = attenuation_mask_lat < 1
 # ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
-ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g-*', lw=3, markersize=15)  # Use 'g*' for green stars
+ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g-*', lw=3, markersize=10)  # Use 'g*' for green stars
 
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
