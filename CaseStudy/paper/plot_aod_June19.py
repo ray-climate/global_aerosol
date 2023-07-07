@@ -87,7 +87,7 @@ aod_caliop = np.load(aod_file, allow_pickle=True)['aod_caliop']
 modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 
 fontsize = 12
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=10, label='MODIS Aqua')
 # Create the masks
