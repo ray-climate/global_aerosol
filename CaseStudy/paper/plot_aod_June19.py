@@ -76,7 +76,7 @@ attenuation_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
 # Create the mask where attenuation_mask_lat > 1
-mask = attenuation_mask_lat > 1
+mask = attenuation_mask_lat < 1
 
 aod_file = './output_aod_file.npz'
 script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
