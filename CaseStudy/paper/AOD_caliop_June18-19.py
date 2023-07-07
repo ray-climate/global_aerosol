@@ -85,9 +85,12 @@ for npz_file in os.listdir(input_path):
             matching_MYD04_file = os.path.join(MYD04_directory, file)
             hour_aqua = file[-26:-24]
             minute_aqua = file[-24:-22]
+            print('looking for matching MYD04 file from %s' % matching_MYD04_file)
 
             if abs(int(hour_i) * 60 + int(minute_i) - int(hour_aqua) * 60 - int(
                     minute_aqua)) < caliop_aqua_hour_diff * 60:
+
+                print('pass time difference check')
 
                 MYD04_latitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Latitude' % matching_MYD04_file
                 MYD04_longitude_file = 'HDF4_EOS:EOS_SWATH:"%s":mod04:Longitude' % matching_MYD04_file
@@ -110,11 +113,13 @@ for npz_file in os.listdir(input_path):
                         lon_caliop[0] > MYD04_lon_min) & (lon_caliop[0] < MYD04_lon_max) & (
                         np.nanmin(MYD04_longitude[:, 0]) > np.nanmin(MYD04_longitude[:, -1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
+                    print('pass colocation check from first caliop point')
 
                 if (lat_caliop[-1] > MYD04_lat_min) & (lat_caliop[-1] < MYD04_lat_max) & (
                         lon_caliop[-1] > MYD04_lon_min) & (lon_caliop[-1] < MYD04_lon_max) & (
                         np.nanmin(MYD04_longitude[:, 0]) > np.nanmin(MYD04_longitude[:, -1])):
                     MODY04_colocation_file.append(matching_MYD04_file)
+                    print('pass colocation check from last caliop point')
 
         MODY04_colocation_file = list(set(MODY04_colocation_file))
 
