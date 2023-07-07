@@ -184,10 +184,7 @@ for npz_file in os.listdir(input_path):
             else:
                 modis_aod_m = np.nan
 
-            print(min_distance_list)
-            print(len(min_distance_list))
-
-            print('AOD at lat: %f, lon: %f is %f' % (modis_lat, modis_lon, modis_aod_m))
+            print('AOD at lat: %f is %f, with min distance of %f' % (modis_lat, modis_aod_m, min_distance))
 
             modis_aod_all.append(modis_aod_m)
             modis_lat_all.append(modis_lat)
