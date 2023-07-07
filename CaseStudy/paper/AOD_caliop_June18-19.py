@@ -189,6 +189,8 @@ for npz_file in os.listdir(input_path):
                 closest_point_index_list.append(closest_point_index_n)
                 min_distance_list.append(min_distance_n)
 
+            print(min_distance_list)
+            print(len(min_distance_list))
             closest_point_index = closest_point_index_list[np.argmin(min_distance_list)]
             min_distance = min_distance_list[np.argmin(min_distance_list)]
             modis_aod = MYD04_aod_data[np.argmin(min_distance_list)][closest_point_index]
