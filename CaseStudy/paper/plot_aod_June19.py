@@ -86,6 +86,7 @@ modis_lat_all = np.load(aod_file, allow_pickle=True)['modis_lat_all']
 aod_caliop = np.load(aod_file, allow_pickle=True)['aod_caliop']
 modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 print(modis_lat_all)
+print(modis_aod_all)
 fontsize = 12
 fig, ax = plt.subplots(figsize=(8, 6))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
