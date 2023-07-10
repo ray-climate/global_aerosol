@@ -137,7 +137,10 @@ plt.fill_betweenx(alt_caliop, lr_caliop_mean - lr_caliop_std, lr_caliop_mean + l
 # plt.errorbar(lr_aeolus_mean, alt_aeolus_mean, xerr=lr_aeolus_std, fmt='o', color='blue', ecolor='lightblue', elinewidth=3, capsize=0)
 for i in range(len(lr_aeolus_mean) - 1):
     print(lr_aeolus_mean[i], lr_aeolus_std[i], alt_aeolus_mean[i], alt_aeolus_mean[i + 1])
-    plt.plot([lr_aeolus_mean[i], lr_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], linestyle='-', color='blue', linewidth=3, label='ALADIN')
+    if i == 0:
+        plt.plot([lr_aeolus_mean[i], lr_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], linestyle='-', color='blue', linewidth=3, label='ALADIN')
+    else:
+        plt.plot([lr_aeolus_mean[i], lr_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], linestyle='-', color='blue', linewidth=3)
     # plt.fill_betweenx([lr_aeolus_mean[i] - lr_aeolus_std[i], lr_aeolus_mean[i] + lr_aeolus_std[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], color='lightblue')
     plt.fill_betweenx([alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], lr_aeolus_mean[i] - lr_aeolus_std[i],
                       lr_aeolus_mean[i] + lr_aeolus_std[i], color='lightblue', alpha=0.7)
