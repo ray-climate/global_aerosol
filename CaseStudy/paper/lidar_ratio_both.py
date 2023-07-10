@@ -149,7 +149,7 @@ plt.xlabel('Lidar Ratio [sr]', fontsize=20)
 plt.ylabel('Altitude [km]', fontsize=20)
 plt.xlim(0, 100)
 plt.ylim(0, 10.)
-plt.grid(True)
+# plt.grid(True)
 # Set x-axis and y-axis ticks
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
