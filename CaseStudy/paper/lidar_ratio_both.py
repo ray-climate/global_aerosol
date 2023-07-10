@@ -121,11 +121,8 @@ lr_aeolus_std = np.nanstd(lr_aeolus_all, axis=0)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
 
 print(len(lr_aeolus_mean))
-alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 print(len(alt_aeolus_mean))
-print(alt_aeolus_mean)
-alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
-print(alt_aeolus_mean)
+
 # Set font parameters
 font = {'family': 'serif',
         'weight': 'normal',
