@@ -120,6 +120,9 @@ lr_aeolus_mean = np.nanmean(lr_aeolus_all, axis=0)
 lr_aeolus_std = np.nanstd(lr_aeolus_all, axis=0)
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
 
+alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
+alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
+
 # Set font parameters
 font = {'family': 'serif',
         'weight': 'normal',
@@ -128,7 +131,14 @@ plt.rc('font', **font)
 
 plt.figure(figsize=(8, 12))
 plt.errorbar(lr_caliop_mean, alt_caliop, xerr=lr_caliop_std, fmt='o', color='green', ecolor='lightgreen', elinewidth=3, capsize=0)
-plt.errorbar(lr_aeolus_mean, alt_aeolus_mean, xerr=lr_aeolus_std, fmt='o', color='blue', ecolor='lightblue', elinewidth=3, capsize=0)
+# plt.errorbar(lr_aeolus_mean, alt_aeolus_mean, xerr=lr_aeolus_std, fmt='o', color='blue', ecolor='lightblue', elinewidth=3, capsize=0)
+for i in range(len(lr_aeolus_mean) - 1):
+    plt.plot([lr_aeolus_mean[i], lr_aeolus_mean[i]],
+             [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k')
+for i in range(len(lr_aeolus_mean) - 1):
+    plt.plot([lr_aeolus_mean[i], lr_aeolus_mean[i + 1]],
+             [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k')
+
 plt.xlabel('Lidar Ratio')
 plt.ylabel('Altitude')
 plt.xlim(0, 100)
