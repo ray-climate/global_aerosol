@@ -67,8 +67,8 @@ for npz_file in os.listdir(input_path):
         lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=0) / (np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor)
         alt_mean = np.nanmean(alt, axis=0)
         # print('lidar ratio: ', lr_aeolus_qc)
-        lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
-        lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
+        # lr_aeolus_qc[lr_aeolus_qc <= 20.] = np.nan
+        # lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
 
         lr_aeolus_all.append(lr_aeolus_qc)
         alt_aeolus_all.append(alt_mean)
