@@ -74,6 +74,7 @@ plt.grid(True)
 output_path = save_path + f'lidar_ratio_caliop.png'
 plt.savefig(output_path, dpi=300)
 
+quit()
 beta_aeolus_all = []
 alpha_aeolus_all = []
 alt_aeolus_all = []
