@@ -60,7 +60,8 @@ for npz_file in os.listdir(input_path):
 lr_caliop_all[lr_caliop_all <= 0.] = np.nan
 lr_caliop_mean = np.nanmean(lr_caliop_all, axis=1)
 lr_caliop_std = np.nanstd(lr_caliop_all, axis=1)
-
+lr_caliop_mean[alt_caliop > 10.] = np.nan
+lr_caliop_std[alt_caliop > 10.] = np.nan
 
 beta_aeolus_all = []
 alpha_aeolus_all = []
