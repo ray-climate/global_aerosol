@@ -67,8 +67,8 @@ for npz_file in os.listdir(input_path):
         lr_aeolus_qc = np.nanmean(alpha_aeolus_qc, axis=0) / (np.nanmean(beta_aeolus_qc, axis=0) / conversion_factor)
         alt_mean = np.nanmean(alt, axis=0)
         # print('lidar ratio: ', lr_aeolus_qc)
-        # lr_aeolus_qc[lr_aeolus_qc <= 25.] = np.nan
-        # lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
+        lr_aeolus_qc[lr_aeolus_qc <= 25.] = np.nan
+        lr_aeolus_qc[lr_aeolus_qc > 100.] = np.nan
 
         lr_aeolus_all.append(lr_aeolus_qc)
         alt_aeolus_all.append(alt_mean)
@@ -88,7 +88,7 @@ plt.errorbar(lr_aeolus_mean, alt_aeolus_mean, xerr=lr_aeolus_std, fmt='o', color
 # Label axes and add a legend
 plt.xlabel('LR')
 plt.ylabel('Altitude')
-# plt.xlim([0.,1.])
+plt.xlim([0.,100.])
 plt.ylim([0.,20.])
 # Set x-axis and y-axis ticks
 plt.xticks(fontsize=16)
