@@ -17,7 +17,7 @@ import csv
 import os
 
 MYD04_base_path = "/neodc/modis/data/MYD04_L2/collection61"
-input_path = '../Dust/aeolus_caliop_sahara2020_extraction_output/'
+input_path = '../Sahara2020Summer/aeolus_caliop_sahara2020_extraction_output/'
 script_name = os.path.splitext(os.path.basename(os.path.abspath(__file__)))[0]
 save_path = f'./figures/{script_name}_output/'
 pathlib.Path(save_path).mkdir(parents=True, exist_ok=True)
