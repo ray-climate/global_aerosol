@@ -68,8 +68,8 @@ font = {'family': 'serif',
         'size': 14}
 plt.rc('font', **font)
 
-plt.figure(figsize=(10, 7))
-plt.errorbar(lr_caliop_mean, alt_caliop, xerr=lr_caliop_std, fmt='o', color='blue', ecolor='lightblue', elinewidth=3, capsize=0)
+plt.figure(figsize=(8, 12))
+plt.errorbar(lr_caliop_mean, alt_caliop, xerr=lr_caliop_std, fmt='o', color='green', ecolor='lightgreen', elinewidth=3, capsize=0)
 plt.xlabel('Lidar Ratio')
 plt.ylabel('Altitude')
 plt.xlim(0, 100)
