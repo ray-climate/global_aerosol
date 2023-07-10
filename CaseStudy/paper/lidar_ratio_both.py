@@ -118,7 +118,7 @@ alt_aeolus_all = np.array(alt_aeolus_all)
 
 lr_aeolus_mean = np.nanmean(lr_aeolus_all, axis=0)
 lr_aeolus_std = np.nanstd(lr_aeolus_all, axis=0)
-alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)[0:-1]
+alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
 
 print(len(lr_aeolus_mean))
 print(len(alt_aeolus_mean))
