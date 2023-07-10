@@ -132,12 +132,12 @@ plt.rc('font', **font)
 
 plt.figure(figsize=(8, 12))
 # plt.errorbar(lr_caliop_mean, alt_caliop, xerr=lr_caliop_std, fmt='o', color='green', ecolor='lightgreen', elinewidth=3, capsize=0, alpha=0.6)
-plt.plot(lr_caliop_mean, alt_caliop, linestyle='-', color='green', linewidth=3, alpha=0.6)
+plt.plot(lr_caliop_mean, alt_caliop, linestyle='-', color='green', linewidth=3, alpha=0.6, label='CALIOP')
 plt.fill_betweenx(alt_caliop, lr_caliop_mean - lr_caliop_std, lr_caliop_mean + lr_caliop_std, color='lightgreen', alpha=0.6)
 # plt.errorbar(lr_aeolus_mean, alt_aeolus_mean, xerr=lr_aeolus_std, fmt='o', color='blue', ecolor='lightblue', elinewidth=3, capsize=0)
 for i in range(len(lr_aeolus_mean) - 1):
     print(lr_aeolus_mean[i], lr_aeolus_std[i], alt_aeolus_mean[i], alt_aeolus_mean[i + 1])
-    plt.plot([lr_aeolus_mean[i], lr_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], linestyle='-', color='blue', linewidth=3)
+    plt.plot([lr_aeolus_mean[i], lr_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], linestyle='-', color='blue', linewidth=3, label='ALADIN')
     # plt.fill_betweenx([lr_aeolus_mean[i] - lr_aeolus_std[i], lr_aeolus_mean[i] + lr_aeolus_std[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], color='lightblue')
     plt.fill_betweenx([alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], lr_aeolus_mean[i] - lr_aeolus_std[i],
                       lr_aeolus_mean[i] + lr_aeolus_std[i], color='lightblue', alpha=0.7)
@@ -150,7 +150,7 @@ plt.grid(True)
 # Set x-axis and y-axis ticks
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
-
+plt.legend(loc='best', fontsize=14, frameon=False)
 # Save the figure
 output_path = save_path + f'lidar_ratio_both.png'
 plt.savefig(output_path, dpi=300)
