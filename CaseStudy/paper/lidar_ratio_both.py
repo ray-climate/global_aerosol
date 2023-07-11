@@ -65,7 +65,7 @@ lr_caliop_std[alt_caliop > 10.] = np.nan
 print(lr_caliop_mean)
 print(alt_caliop)
 
-print(np.mean(lr_caliop_mean[(alt_caliop < 10.) & (alt_caliop > 2.5)]))
+print(np.nanmean(lr_caliop_mean[(alt_caliop < 10.) & (alt_caliop > 2.5)]))
 beta_aeolus_all = []
 alpha_aeolus_all = []
 alt_aeolus_all = []
