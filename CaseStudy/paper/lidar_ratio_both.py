@@ -63,6 +63,7 @@ lr_caliop_std = np.nanstd(lr_caliop_all, axis=1)
 lr_caliop_mean[alt_caliop > 10.] = np.nan
 lr_caliop_std[alt_caliop > 10.] = np.nan
 
+print(np.mean(lr_caliop_mean[(alt_caliop < 10.)] & (alt_caliop > 2.5)))
 beta_aeolus_all = []
 alpha_aeolus_all = []
 alt_aeolus_all = []
