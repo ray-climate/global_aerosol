@@ -128,8 +128,8 @@ ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal] 
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
 ax.set_xlim(12., 20.)
-ax.set_ylim(5.e-1, 1.e1)
-plt.yscale('log')
+ax.set_ylim(0, 5.)
+
 ax.grid()
 # ax.set_title(f'layer between {layer[0]:.1f} km - {layer[1]:.1f} km', fontsize=fontsize, loc='left')
 ax.tick_params(axis='both', labelsize=fontsize)
