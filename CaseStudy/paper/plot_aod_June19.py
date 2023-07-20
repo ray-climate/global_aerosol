@@ -153,23 +153,26 @@ ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
 
-top_plume_height_top = np.zeros((caliop_latitude.shape[0]))
-top_plume_height_bottom = np.zeros((caliop_latitude.shape[0]))
+plume_top = np.zeros((caliop_latitude.shape[0]))
+plume_bottom = np.zeros((caliop_latitude.shape[0]))
+plum_diff = np.zeros((caliop_latitude.shape[0]))
 
 for i in range(caliop_latitude.shape[0]):
     aerosol_layer_height = caliop_altitude * aersol_mask[:, i]
     aerosol_layer_height[aerosol_layer_height < 0.1] = np.nan
 
-    top_plume_height_top[i] = np.nanmax(aerosol_layer_height)
-    top_plume_height_bottom[i] = np.nanmin(aerosol_layer_height)
+    plume_top[i] = np.nanmax(aerosol_layer_height)
+    plume_bottom[i] = np.nanmin(aerosol_layer_height)
+    plum_diff[i] = plume_top[i] - plume_bottom[i]
 
 
 fig, ax = plt.subplots(figsize=(11, 5))
 
-ax.plot(caliop_latitude[mask_less_equal], top_plume_height_top[mask_less_equal], 'r-*', lw=3, markersize=10, label='dust top')
-ax.plot(caliop_latitude[mask_less_equal], top_plume_height_bottom[mask_less_equal], 'b-*', lw=3, markersize=10, label='dust bottom')
+ax.plot(caliop_latitude[mask_less_equal], plume_top[mask_less_equal], 'r-*', lw=3, markersize=10, label='dust top')
+ax.plot(caliop_latitude[mask_less_equal], plume_bottom[mask_less_equal], 'b-*', lw=3, markersize=10, label='dust bottom')
 # ax.plot(caliop_latitude, top_plume_height_bottom, 'k-.', lw=3, markersize=10, label='dust bottom nonfilter')
 ax.plot(caliop_latitude[mask_less_equal], plume_thickness[mask_less_equal], 'g-*', lw=3, markersize=10, label='dust thickness')
+ax.plot(caliop_latitude[mask_less_equal], plum_diff[mask_less_equal], 'k-*', lw=3, markersize=10, label='dust thickness nonfilter')
 
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('Altitude [km]', fontsize=fontsize)
