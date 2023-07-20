@@ -93,7 +93,7 @@ for i in range(caliop_alpha.shape[1]):
     alpha_i = caliop_alpha[:, i]
     alpha_i[np.isnan(alpha_i)] = 0
     caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
-
+    print(caliop_aod_trap[i])
 fontsize = 12
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
