@@ -73,7 +73,9 @@ caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, cal
 spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
 
 attenuation_mask = np.zeros((caliop_feature_type.shape))
+aersol_mask = np.zeros((caliop_feature_type.shape))
 attenuation_mask[caliop_feature_type == 7] = 1.
+aersol_mask[caliop_feature_type == 3] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
 
 aod_file = './output_aod_file_v2.npz'
@@ -137,5 +139,5 @@ plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
 
 top_plume_height = np.zeros((caliop_latitude.shape[0]))
 for i in range(caliop_latitude.shape[0]):
-    print(caliop_altitude * attenuation_mask[:, i])
+    print(caliop_altitude * aersol_mask[:, i])
     # top_plume_height[i] = caliop_altitude[i, np.argmax(attenuation_mask[i, :])]
