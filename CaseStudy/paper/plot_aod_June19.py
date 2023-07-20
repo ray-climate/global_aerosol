@@ -137,5 +137,5 @@ plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
 
 top_plume_height = np.zeros((caliop_latitude.shape[0]))
 for i in range(caliop_latitude.shape[0]):
-    print(attenuation_mask[i, :])
+    print(caliop_altitude * attenuation_mask[i, :])
     # top_plume_height[i] = caliop_altitude[i, np.argmax(attenuation_mask[i, :])]
