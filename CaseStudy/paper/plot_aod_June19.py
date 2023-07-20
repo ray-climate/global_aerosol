@@ -122,7 +122,7 @@ mask_less_equal = attenuation_mask_lat < 1
 # ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
-ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-*', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
+ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g-*', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
 ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal] * 63.5 / 43.5, 'r-*', lw=3, markersize=10, label='CALIOP corrected')
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
@@ -134,3 +134,8 @@ ax.grid()
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
+
+top_plume_height = np.zeros((caliop_latitude.shape[0]))
+for i in range(caliop_latitude.shape[0]):
+    print(attenuation_mask[i, :])
+    # top_plume_height[i] = caliop_altitude[i, np.argmax(attenuation_mask[i, :])]
