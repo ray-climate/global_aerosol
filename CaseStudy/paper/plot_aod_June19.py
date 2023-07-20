@@ -171,7 +171,7 @@ plt.savefig(save_path + f'dust_plume_height.png', dpi=300)
 caliop_aod_trap_filter = np.copy(caliop_aod_trap)
 caliop_aod_trap_corr_filter = np.copy(caliop_aod_trap_corr)
 
-caliop_aod_trap_filter[plum_diff_index <1.] = np.nan
+# caliop_aod_trap_filter[plum_diff_index <1.] = np.nan
 # caliop_aod_trap_corr_filter[plum_diff_index <1.] = np.nan
 
 fig, ax = plt.subplots(figsize=(11, 5))
