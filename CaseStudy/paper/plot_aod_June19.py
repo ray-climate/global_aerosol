@@ -152,6 +152,7 @@ fig, ax = plt.subplots(figsize=(11, 5))
 
 ax.plot(caliop_latitude[mask_less_equal], top_plume_height_top[mask_less_equal], 'r-*', lw=3, markersize=10, label='dust top')
 ax.plot(caliop_latitude[mask_less_equal], top_plume_height_bottom[mask_less_equal], 'b-*', lw=3, markersize=10, label='dust bottom')
+ax.plot(caliop_latitude, top_plume_height_bottom, 'k-.', lw=3, markersize=10, label='dust bottom nonfilter')
 
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('Altitude [km]', fontsize=fontsize)
