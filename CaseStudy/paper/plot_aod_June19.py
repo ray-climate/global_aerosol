@@ -88,6 +88,12 @@ modis_lat_all = np.load(aod_file, allow_pickle=True)['modis_lat_all']
 aod_caliop = np.load(aod_file, allow_pickle=True)['aod_caliop']
 modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 
+caliop_aod_trap = np.zeros((caliop_alpha.shape[1]))
+for i in range(caliop_alpha.shape[1]):
+    alpha_i = caliop_alpha[:, i]
+    alpha_i[np.isnan(alpha_i)] = 0
+    caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
+
 fontsize = 12
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
@@ -101,6 +107,7 @@ mask_less_equal = attenuation_mask_lat < 1
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
 ax.plot(caliop_latitude[mask_less_equal], caliop_AOD_532_total[mask_less_equal], 'g-*', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
+ax.plot(caliop_latitude[mask_less_equal], caliop_aod_trap[mask_less_equal], 'r-*', lw=3, markersize=10, label='CALIOP trap')  # Use 'g*' for green stars
 
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
