@@ -89,12 +89,16 @@ aod_caliop = np.load(aod_file, allow_pickle=True)['aod_caliop']
 modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 
 caliop_aod_trap = np.zeros((caliop_alpha.shape[1]))
+plume_thickness = np.zeros((caliop_alpha.shape[1]))
+
 for i in range(caliop_alpha.shape[1]):
     alpha_i = caliop_alpha[:, i]
+    mask_i = aersol_mask[:, i]
     alpha_i[alpha_i < 0] = np.nan
     alpha_i[np.isnan(alpha_i)] = 0
     caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
-    print(caliop_aod_trap[i])
+    plume_thickness[i] = np.trapz(mask_i[::-1], caliop_altitude[::-1])
+
 fontsize = 12
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
@@ -161,6 +165,7 @@ fig, ax = plt.subplots(figsize=(11, 5))
 ax.plot(caliop_latitude[mask_less_equal], top_plume_height_top[mask_less_equal], 'r-*', lw=3, markersize=10, label='dust top')
 ax.plot(caliop_latitude[mask_less_equal], top_plume_height_bottom[mask_less_equal], 'b-*', lw=3, markersize=10, label='dust bottom')
 ax.plot(caliop_latitude, top_plume_height_bottom, 'k-.', lw=3, markersize=10, label='dust bottom nonfilter')
+ax.plot(caliop_latitude, plume_thickness, 'g-.', lw=3, markersize=10, label='dust thickness')
 
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('Altitude [km]', fontsize=fontsize)
