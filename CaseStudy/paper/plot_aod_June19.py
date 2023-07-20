@@ -96,7 +96,6 @@ for i in range(caliop_alpha.shape[1]):
     mask_i = aersol_mask[:, i]
     alpha_i[alpha_i < 0] = np.nan
     alpha_i[np.isnan(alpha_i)] = 0
-    print(caliop_altitude)
     test = alpha_i[(caliop_altitude > 7.) & (alpha_i > 0.)]
     print(lat_caliop[i], test)
     caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
