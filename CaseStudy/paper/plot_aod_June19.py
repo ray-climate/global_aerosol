@@ -142,12 +142,11 @@ top_plume_height_bottom = np.zeros((caliop_latitude.shape[0]))
 
 for i in range(caliop_latitude.shape[0]):
     aerosol_layer_height = caliop_altitude * aersol_mask[:, i]
+    aerosol_layer_height[aerosol_layer_height < 0.1] = np.nan
 
-    if (np.min(aerosol_layer_height) > 0):
-        top_plume_height_top[i] = np.max(aerosol_layer_height)
-        top_plume_height_bottom[i] = np.min(aerosol_layer_height)
-        print(top_plume_height_top[i])
-        print(top_plume_height_bottom[i])
+    top_plume_height_top[i] = np.nanmax(aerosol_layer_height)
+    top_plume_height_bottom[i] = np.nanmin(aerosol_layer_height)
+
 
 fig, ax = plt.subplots(figsize=(11, 5))
 
