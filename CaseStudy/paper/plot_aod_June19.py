@@ -137,7 +137,24 @@ ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
 
-top_plume_height = np.zeros((caliop_latitude.shape[0]))
+top_plume_height_top = np.zeros((caliop_latitude.shape[0]))
+top_plume_height_bottom = np.zeros((caliop_latitude.shape[0]))
+
 for i in range(caliop_latitude.shape[0]):
-    print(caliop_altitude * aersol_mask[:, i])
-    # top_plume_height[i] = caliop_altitude[i, np.argmax(attenuation_mask[i, :])]
+    aerosol_layer_height = caliop_altitude * aersol_mask[:, i]
+    top_plume_height_top[i] = np.max(aerosol_layer_height[aerosol_layer_height > 0])
+    top_plume_height_bottom[i] = np.min(aerosol_layer_height[aerosol_layer_height > 0])
+
+fig, ax = plt.subplots(figsize=(11, 5))
+
+ax.plot(caliop_latitude[mask_less_equal], top_plume_height_top[mask_less_equal], 'r-*', lw=3, markersize=10, label='dust top')
+ax.plot(caliop_latitude[mask_less_equal], top_plume_height_bottom[mask_less_equal], 'b-*', lw=3, markersize=10, label='dust bottom')
+
+ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
+ax.set_ylabel('Altitude [km]', fontsize=fontsize)
+ax.set_xlim(12., 20.)
+# ax.set_ylim(0, 5.)
+# ax.grid()
+ax.tick_params(axis='both', labelsize=fontsize)
+ax.legend(loc='best', fontsize=fontsize)
+plt.savefig(save_path + f'dust_plume_height.png', dpi=300)
