@@ -89,6 +89,7 @@ aod_caliop = np.load(aod_file, allow_pickle=True)['aod_caliop']
 modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 
 caliop_aod_trap = np.zeros((caliop_alpha.shape[1]))
+caliop_aod_trap_corr = np.zeros((caliop_alpha.shape[1]))
 plume_thickness = np.zeros((caliop_alpha.shape[1]))
 
 for i in range(caliop_alpha.shape[1]):
@@ -99,8 +100,11 @@ for i in range(caliop_alpha.shape[1]):
 
     alpha_i[(caliop_altitude > 7.)] = 0.
     mask_i[(caliop_altitude > 7.)] = 0.
+    alpha_i_corr = np.copy(alpha_i)
+    alpha_i_corr[caliop_altitude > 2.5] = alpha_i_corr[caliop_altitude > 2.5] * 63.5 / 43.5
 
     caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
+    caliop_aod_trap_corr[i] = np.trapz(alpha_i_corr[::-1], caliop_altitude[::-1])
     plume_thickness[i] = np.trapz(mask_i[::-1], caliop_altitude[::-1])
 
 fontsize = 12
@@ -165,7 +169,10 @@ plt.savefig(save_path + f'dust_plume_height.png', dpi=300)
 
 
 caliop_aod_trap_filter = np.copy(caliop_aod_trap)
+caliop_aod_trap_corr_filter = np.copy(caliop_aod_trap_corr)
+
 caliop_aod_trap_filter[plum_diff_index <1.] = np.nan
+caliop_aod_trap_corr_filter[plum_diff_index <1.] = np.nan
 
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
@@ -179,7 +186,7 @@ mask_less_equal = attenuation_mask_lat < 1
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
 ax.plot(caliop_latitude[mask_less_equal], caliop_aod_trap_filter[mask_less_equal], 'g*', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
-ax.plot(caliop_latitude[mask_less_equal], caliop_aod_trap_filter[mask_less_equal] * 63.5 / 43.5, 'r*', lw=3, markersize=10, label='CALIOP corrected')
+ax.plot(caliop_latitude[mask_less_equal], caliop_aod_trap_corr_filter[mask_less_equal], 'r*', lw=3, markersize=10, label='CALIOP corrected')
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
 ax.set_xlim(12., 20.)
