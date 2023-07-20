@@ -101,7 +101,7 @@ for i in range(caliop_alpha.shape[1]):
     alpha_i[(caliop_altitude > 7.)] = 0.
     mask_i[(caliop_altitude > 7.)] = 0.
     alpha_i_corr = np.copy(alpha_i)
-    alpha_i_corr[caliop_altitude > 2.5] = alpha_i_corr[caliop_altitude > 2.5] * 63.5 / 43.5
+    alpha_i_corr[caliop_altitude > 2.] = alpha_i_corr[caliop_altitude > 2.] * 63.5 / 43.5
 
     caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
     caliop_aod_trap_corr[i] = np.trapz(alpha_i_corr[::-1], caliop_altitude[::-1])
