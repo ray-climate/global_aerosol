@@ -156,7 +156,7 @@ ax.plot(caliop_latitude[mask_less_equal], top_plume_height_bottom[mask_less_equa
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('Altitude [km]', fontsize=fontsize)
 ax.set_xlim(12., 20.)
-# ax.set_ylim(0, 5.)
+ax.set_ylim(0, 7.)
 # ax.grid()
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
