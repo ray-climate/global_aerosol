@@ -207,21 +207,23 @@ plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
 for i in range(len(caliop_latitude)):
 
     if (mask_less_equal[i] == True) & (caliop_aod_trap_filter[i] > 0):
+        if (caliop_latitude[i]> 12.) & (caliop_latitude[i] < 20.):
 
-        print('plot extinction for latitude: ', caliop_latitude[i])
+            print('plot extinction for latitude: ', caliop_latitude[i])
 
-        fig, ax = plt.subplots(figsize=(11, 5))
-        ax.plot(caliop_altitude, caliop_alpha_all[i], 'k-', lw=3, label='CALIOP')
-        ax.plot(caliop_altitude, caliop_alpha_corr_all[i], 'r-', lw=3, label='CALIOP corrected')
-        ax.set_xlabel('Altitude [km]', fontsize=fontsize)
-        ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
-        ax.set_xlim(0, 7.)
-        ax.set_ylim(0, 0.5)
-        ax.grid()
-        ax.tick_params(axis='both', labelsize=fontsize)
-        ax.legend(loc='best', fontsize=fontsize)
-        plt.savefig(save_path + f'figure_extinction_{i}.png', dpi=300)
-        plt.close('all')
+            fig, ax = plt.subplots(figsize=(11, 5))
+            ax.plot(caliop_altitude, caliop_alpha_all[i], 'k-', lw=3, label='CALIOP')
+            ax.plot(caliop_altitude, caliop_alpha_corr_all[i], 'r-', lw=3, label='CALIOP corrected')
+            ax.set_xlabel('Altitude [km]', fontsize=fontsize)
+            ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
+            ax.set_xlim(0, 7.)
+            ax.set_ylim(0, 0.5)
+            ax.set_title(f'MODIS AOD: {modis_aod_all[i]:.2f}, CALIOP AOD: {caliop_aod_trap_filter[i]:.2f}', fontsize=fontsize, loc='left')
+            ax.grid()
+            ax.tick_params(axis='both', labelsize=fontsize)
+            ax.legend(loc='best', fontsize=fontsize)
+            plt.savefig(save_path + f'figure_extinction_{i}.png', dpi=300)
+            plt.close('all')
 
 
 
