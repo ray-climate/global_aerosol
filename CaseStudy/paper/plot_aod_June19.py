@@ -117,7 +117,6 @@ for i in range(caliop_alpha.shape[1]):
 
     print(lat_caliop[i], caliop_aod_trap[i], aod_caliop[i])
 
-quit()
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=10, label='MODIS Aqua')
@@ -207,6 +206,22 @@ ax.grid()
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
+
+caliop_alpha_low_aod = []
+caliop_alpha_high_aod = []
+
+for i in range(len(caliop_latitude)):
+    if (mask_less_equal[i] == True) & (caliop_aod_trap_filter[i] > 0):
+        if (caliop_latitude[i]> 12.) & (caliop_latitude[i] < 20.):
+            print('plot aod for latitude: ', caliop_latitude[i])
+            if caliop_aod_trap_filter[i] < 1.8:
+                print('CALIOP aod is low: ', caliop_aod_trap_filter[i])
+                caliop_alpha_low_aod.append(caliop_alpha_all[i])
+            else:
+                print('CALIOP aod is high: ', caliop_aod_trap_filter[i])
+                caliop_alpha_high_aod.append(caliop_alpha_all[i])
+quit()
+
 
 for i in range(len(caliop_latitude)):
 
