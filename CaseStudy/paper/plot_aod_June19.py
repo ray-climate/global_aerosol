@@ -204,7 +204,7 @@ ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
 
-for i in range(caliop_latitude.shape[0]):
+for i in range(len(caliop_latitude)):
 
     if (mask_less_equal[i] == True) & (caliop_aod_trap_filter[i] > 0):
 
