@@ -91,8 +91,8 @@ modis_aod_all = np.load(aod_file, allow_pickle=True)['modis_aod_all']
 caliop_aod_trap = np.zeros((caliop_alpha.shape[1]))
 caliop_aod_trap_corr = np.zeros((caliop_alpha.shape[1]))
 plume_thickness = np.zeros((caliop_alpha.shape[1]))
-caliop_alpha = []
-caliop_alpha_corr = []
+caliop_alpha_all = []
+caliop_alpha_corr_all = []
 
 fontsize = 12
 
@@ -111,8 +111,8 @@ for i in range(caliop_alpha.shape[1]):
     caliop_aod_trap_corr[i] = np.trapz(alpha_i_corr[::-1], caliop_altitude[::-1])
     plume_thickness[i] = np.trapz(mask_i[::-1], caliop_altitude[::-1])
 
-    caliop_alpha.append(alpha_i)
-    caliop_alpha_corr.append(alpha_i_corr)
+    caliop_alpha_all.append(alpha_i)
+    caliop_alpha_corr_all.append(alpha_i_corr)
 
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
@@ -211,8 +211,8 @@ for i in range(len(caliop_latitude)):
         print('plot extinction for latitude: ', caliop_latitude[i])
 
         fig, ax = plt.subplots(figsize=(11, 5))
-        ax.plot(caliop_altitude, caliop_alpha[i], 'k-', lw=3, label='CALIOP')
-        ax.plot(caliop_altitude, caliop_alpha_corr[i], 'r-', lw=3, label='CALIOP corrected')
+        ax.plot(caliop_altitude, caliop_alpha_all[i], 'k-', lw=3, label='CALIOP')
+        ax.plot(caliop_altitude, caliop_alpha_corr_all[i], 'r-', lw=3, label='CALIOP corrected')
         ax.set_xlabel('Altitude [km]', fontsize=fontsize)
         ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
         ax.set_xlim(0, 7.)
