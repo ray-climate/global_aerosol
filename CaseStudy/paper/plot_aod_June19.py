@@ -217,7 +217,7 @@ for i in range(len(caliop_latitude)):
             ax.set_ylabel('Altitude [km]', fontsize=fontsize)
             ax.set_xlabel('Extinction [km$^{-1}$]', fontsize=fontsize)
             ax.set_ylim(0, 10.)
-            ax.set_xlim(1.e-2, 1.)
+            ax.set_xlim(1.e-2, 1.e1)
             ax.set_title(f'MODIS AOD: {modis_aod_all[i]:.2f}, CALIOP AOD: {caliop_aod_trap_filter[i]:.2f}', fontsize=fontsize, loc='left')
             ax.grid()
             plt.xscale('log')
