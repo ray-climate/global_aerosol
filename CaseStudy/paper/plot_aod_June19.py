@@ -220,6 +220,10 @@ for i in range(len(caliop_latitude)):
             else:
                 print('CALIOP aod is high: ', caliop_aod_trap_filter[i])
                 caliop_alpha_high_aod.append(caliop_alpha_all[i])
+caliop_alpha_low_aod = np.asarray(caliop_alpha_low_aod)
+caliop_alpha_high_aod = np.asarray(caliop_alpha_high_aod)
+print('caliop_alpha_low_aod: ', caliop_alpha_low_aod.shape)
+print('caliop_alpha_high_aod: ', caliop_alpha_high_aod.shape)
 quit()
 
 
