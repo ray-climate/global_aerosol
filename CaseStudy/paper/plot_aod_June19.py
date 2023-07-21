@@ -115,7 +115,6 @@ for i in range(caliop_alpha.shape[1]):
     caliop_alpha_all.append(alpha_i)
     caliop_alpha_corr_all.append(alpha_i_corr)
 
-    print(lat_caliop[i], caliop_aod_trap[i], aod_caliop[i])
 
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
