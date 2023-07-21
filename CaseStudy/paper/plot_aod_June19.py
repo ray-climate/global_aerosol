@@ -73,9 +73,10 @@ caliop_utc, caliop_latitude, caliop_longitude, caliop_altitude, caliop_beta, cal
 spatial_mask = np.where((caliop_latitude > lat_down) & (caliop_latitude < lat_up) & (caliop_longitude > lon_left) & (caliop_longitude < lon_right))[0]
 
 attenuation_mask = np.zeros((caliop_feature_type.shape))
-aersol_mask = np.zeros((caliop_feature_type.shape))
+aerosol_mask = np.zeros((caliop_feature_type.shape))
+
 attenuation_mask[caliop_feature_type == 7] = 1.
-aersol_mask[caliop_feature_type == 3] = 1.
+aerosol_mask[caliop_feature_type == 3] = 1.
 attenuation_mask_lat = np.sum(attenuation_mask, axis=0)
 
 aod_file = './output_aod_file_v2.npz'
@@ -98,7 +99,7 @@ fontsize = 12
 
 for i in range(caliop_alpha.shape[1]):
     alpha_i = caliop_alpha[:, i]
-    mask_i = aersol_mask[:, i]
+    mask_i = aerosol_mask[:, i]
     alpha_i[alpha_i < 0] = np.nan
     alpha_i[np.isnan(alpha_i)] = 0
 
@@ -114,6 +115,9 @@ for i in range(caliop_alpha.shape[1]):
     caliop_alpha_all.append(alpha_i)
     caliop_alpha_corr_all.append(alpha_i_corr)
 
+    print(lat_caliop[i], caliop_aod_trap[i], aod_caliop[i])
+
+quit()
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=10, label='MODIS Aqua')
