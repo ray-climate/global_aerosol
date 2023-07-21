@@ -211,13 +211,13 @@ for i in range(len(caliop_latitude)):
 
             print('plot extinction for latitude: ', caliop_latitude[i])
 
-            fig, ax = plt.subplots(figsize=(11, 5))
+            fig, ax = plt.subplots(figsize=(5, 11))
             ax.plot(caliop_alpha_all[i], caliop_altitude, 'k-', lw=3, label='CALIOP')
             ax.plot(caliop_alpha_corr_all[i], caliop_altitude, 'r-', lw=3, label='CALIOP corrected')
-            ax.set_xlabel('Altitude [km]', fontsize=fontsize)
-            ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
-            ax.set_xlim(0, 10.)
-            ax.set_ylim(1.e-2, 1.)
+            ax.set_ylabel('Altitude [km]', fontsize=fontsize)
+            ax.set_xlabel('Extinction [km$^{-1}$]', fontsize=fontsize)
+            ax.set_ylim(0, 10.)
+            ax.set_xlim(1.e-2, 1.)
             ax.set_title(f'MODIS AOD: {modis_aod_all[i]:.2f}, CALIOP AOD: {caliop_aod_trap_filter[i]:.2f}', fontsize=fontsize, loc='left')
             ax.grid()
             plt.xscale('log')
