@@ -92,6 +92,8 @@ caliop_aod_trap = np.zeros((caliop_alpha.shape[1]))
 caliop_aod_trap_corr = np.zeros((caliop_alpha.shape[1]))
 plume_thickness = np.zeros((caliop_alpha.shape[1]))
 
+fontsize = 12
+
 for i in range(caliop_alpha.shape[1]):
     alpha_i = caliop_alpha[:, i]
     mask_i = aersol_mask[:, i]
@@ -107,7 +109,20 @@ for i in range(caliop_alpha.shape[1]):
     caliop_aod_trap_corr[i] = np.trapz(alpha_i_corr[::-1], caliop_altitude[::-1])
     plume_thickness[i] = np.trapz(mask_i[::-1], caliop_altitude[::-1])
 
-fontsize = 12
+    fig, ax = plt.subplots(figsize=(11, 5))
+    ax.plot(caliop_altitude, alpha_i, 'k-', lw=3, label='CALIOP')
+    ax.plot(caliop_altitude, alpha_i_corr, 'r-', lw=3, label='CALIOP corrected')
+    ax.set_xlabel('Altitude [km]', fontsize=fontsize)
+    ax.set_ylabel('Extinction [km$^{-1}$]', fontsize=fontsize)
+    ax.set_xlim(0, 7.)
+    ax.set_ylim(0, 0.5)
+    ax.grid()
+    ax.tick_params(axis='both', labelsize=fontsize)
+    ax.legend(loc='best', fontsize=fontsize)
+    plt.savefig(save_path + f'figure_extinction_{i}.png', dpi=300)
+    plt.close('all')
+
+quit()
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=10, label='MODIS Aqua')
@@ -197,3 +212,4 @@ ax.grid()
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
+
