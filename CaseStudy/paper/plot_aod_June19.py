@@ -115,7 +115,6 @@ for i in range(caliop_alpha.shape[1]):
     caliop_alpha_all.append(alpha_i)
     caliop_alpha_corr_all.append(alpha_i_corr)
 
-
 fig, ax = plt.subplots(figsize=(11, 5))
 # ax.plot(lat_caliop, aod_caliop, 'g.-',lw=3, markersize=5, label='CALIOP')
 ax.plot(modis_lat_all, modis_aod_all, 'k.-',lw=3, markersize=10, label='MODIS Aqua')
@@ -147,7 +146,7 @@ plum_diff = np.zeros((caliop_latitude.shape[0]))
 plum_diff_index = np.zeros((caliop_latitude.shape[0]))
 
 for i in range(caliop_latitude.shape[0]):
-    aerosol_layer_height = caliop_altitude * aersol_mask[:, i]
+    aerosol_layer_height = caliop_altitude * aerosol_mask[:, i]
     aerosol_layer_height[aerosol_layer_height < 0.1] = np.nan
 
     plume_top[i] = np.nanmax(aerosol_layer_height)
