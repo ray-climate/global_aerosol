@@ -229,6 +229,14 @@ caliop_alpha_low_aod_std = np.nanstd(caliop_alpha_low_aod, axis=0)
 caliop_alpha_high_aod_std = np.nanstd(caliop_alpha_high_aod, axis=0)
 
 print(caliop_altitude[caliop_alpha_low_aod_mean>0])
+
+# caliop_aod_low_upper = np.trapz(caliop_alpha_low_aod_mean[::-1], caliop_altitude[caliop_altitude > ])
+print(caliop_alpha_low_aod)
+print(caliop_alpha_high_aod)
+print(caliop_altitude)
+quit()
+
+
 fig, ax = plt.subplots(figsize=(8, 12))
 plt.plot(caliop_alpha_low_aod_mean, caliop_altitude, 'k-', lw=3, label='CALIOP')
 plt.fill_betweenx(caliop_altitude, caliop_alpha_low_aod_mean - caliop_alpha_low_aod_std, caliop_alpha_low_aod_mean + caliop_alpha_low_aod_std, color='gray', alpha=0.4)
