@@ -95,7 +95,7 @@ plume_thickness = np.zeros((caliop_alpha.shape[1]))
 caliop_alpha_all = []
 caliop_alpha_corr_all = []
 
-fontsize = 12
+fontsize = 20
 
 for i in range(caliop_alpha.shape[1]):
     alpha_i = caliop_alpha[:, i]
