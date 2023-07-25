@@ -230,6 +230,7 @@ caliop_alpha_high_aod_std = np.nanstd(caliop_alpha_high_aod, axis=0)
 
 print(111111111)
 print(caliop_alpha_low_aod[:,-36])
+print(caliop_alpha_low_aod[:,-37])
 print(caliop_alpha_low_aod_mean-caliop_alpha_low_aod_std)
 print(caliop_alpha_low_aod_mean)
 print(caliop_alpha_low_aod_std)
