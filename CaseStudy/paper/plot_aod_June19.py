@@ -232,7 +232,7 @@ print(111111111)
 
 print(caliop_alpha_low_aod_mean-caliop_alpha_low_aod_std)
 print(caliop_alpha_low_aod_mean)
-
+print(caliop_alpha_low_aod_std)
 print(111111111)
 quit()
 print(caliop_altitude[caliop_alpha_low_aod_mean>0])
