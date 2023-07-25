@@ -231,9 +231,10 @@ caliop_alpha_high_aod_std = np.nanstd(caliop_alpha_high_aod, axis=0)
 print(111111111)
 
 print(caliop_alpha_low_aod_mean-caliop_alpha_low_aod_std)
-
+print(caliop_alpha_low_aod_mean)
 
 print(111111111)
+quit()
 print(caliop_altitude[caliop_alpha_low_aod_mean>0])
 print(caliop_altitude[::-1])
 caliop_aod_low_upper = np.trapz(caliop_alpha_low_aod_mean[::-1][caliop_altitude[::-1]>2.4], caliop_altitude[::-1][caliop_altitude[::-1]>2.4])
