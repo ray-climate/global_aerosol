@@ -212,7 +212,7 @@ for i in range(len(caliop_latitude)):
     if (mask_less_equal[i] == True) & (caliop_aod_trap_filter[i] > 0):
         if (caliop_latitude[i]> 12.) & (caliop_latitude[i] < 20.):
             print('plot aod for latitude: ', caliop_latitude[i])
-            if caliop_aod_trap_filter[i] < 1.8:
+            if caliop_aod_trap_filter[i] < 1.7:
                 print('CALIOP aod is low: ', caliop_aod_trap_filter[i])
                 caliop_alpha_low_aod.append(caliop_alpha_all[i])
             else:
@@ -228,15 +228,12 @@ caliop_alpha_high_aod_mean = np.nanmean(caliop_alpha_high_aod, axis=0)
 caliop_alpha_low_aod_std = np.nanstd(caliop_alpha_low_aod, axis=0)
 caliop_alpha_high_aod_std = np.nanstd(caliop_alpha_high_aod, axis=0)
 
-print(111111111)
 print(caliop_alpha_low_aod[:,-36])
 print(caliop_alpha_low_aod[:,-37])
 print(caliop_alpha_low_aod_mean-caliop_alpha_low_aod_std)
 print(caliop_alpha_low_aod_mean)
 print(caliop_alpha_low_aod_std)
-print(22222222)
 
-quit()
 print(caliop_altitude[caliop_alpha_low_aod_mean>0])
 print(caliop_altitude[::-1])
 caliop_aod_low_upper = np.trapz(caliop_alpha_low_aod_mean[::-1][caliop_altitude[::-1]>2.4], caliop_altitude[::-1][caliop_altitude[::-1]>2.4])
