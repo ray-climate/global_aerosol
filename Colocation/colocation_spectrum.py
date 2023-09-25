@@ -101,24 +101,25 @@ for i in range(len(time_distance)):
         print('temporal distance is %s hours, and spatial distance is %s km' %(time_distance[i], spatial_distance[i]))
     else:
         print('pass latitude is %s'%lat_ALADIN_colocation[i])
+
 fig, ax = plt.subplots(figsize=(24, 20))
 plt.pcolormesh(coherence_grid_x, coherence_grid_y, coherence_matrix, cmap='gist_heat_r')
 
-plt.xlabel('Temporal distance [hours]', fontsize=40)
-plt.ylabel('Spatial distance [km]', fontsize=40)
+plt.xlabel('Temporal distance [hours]', fontsize=55)
+plt.ylabel('Spatial distance [km]', fontsize=55)
 
 cbar = plt.colorbar(extend='both', shrink=0.7)
-cbar.set_label('Colocations', rotation=270, fontsize=40, y=0.5, labelpad=40)
-cbar.ax.tick_params(labelsize=30)
+cbar.set_label('Colocations', rotation=270, fontsize=40, y=0.5, labelpad=55)
+cbar.ax.tick_params(labelsize=40)
 
 plt.ylim([0., 24.])
 plt.ylim([0., 100])
 
-plt.title('AEOLUS - CALIOP colocations [60$^\circ$N - 90$^\circ$N, 60$^\circ$S - 90$^\circ$S]', fontsize=40)
+plt.title('AEOLUS - CALIOP colocations [60$^\circ$N - 90$^\circ$N, 60$^\circ$S - 90$^\circ$S]', fontsize=55)
 for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(36)
+    tick.label.set_fontsize(45)
 for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(36)
+    tick.label.set_fontsize(45)
 plt.tight_layout()
 
 plt.savefig('./figures/colocation_spectrum_60-90.png')
