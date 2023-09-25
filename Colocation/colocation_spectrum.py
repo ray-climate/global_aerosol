@@ -105,21 +105,21 @@ for i in range(len(time_distance)):
 fig, ax = plt.subplots(figsize=(24, 20))
 plt.pcolormesh(coherence_grid_x, coherence_grid_y, coherence_matrix, cmap='gist_heat_r')
 
-plt.xlabel('Temporal distance [hours]', fontsize=55)
-plt.ylabel('Spatial distance [km]', fontsize=55)
+plt.xlabel('Temporal distance [hours]', fontsize=65)
+plt.ylabel('Spatial distance [km]', fontsize=65)
 
 cbar = plt.colorbar(extend='both', shrink=0.7)
-cbar.set_label('Colocations', rotation=270, fontsize=40, y=0.5, labelpad=55)
-cbar.ax.tick_params(labelsize=40)
+cbar.set_label('Colocations', rotation=270, fontsize=40, y=0.5, labelpad=65)
+cbar.ax.tick_params(labelsize=50)
 
 plt.ylim([0., 24.])
 plt.ylim([0., 100])
 
-plt.title('AEOLUS - CALIOP colocations [60$^\circ$N - 90$^\circ$N, 60$^\circ$S - 90$^\circ$S]', fontsize=55)
+plt.title('[60$^\circ$N - 90$^\circ$N, 60$^\circ$S - 90$^\circ$S]', fontsize=65)
 for tick in ax.xaxis.get_major_ticks():
-    tick.label.set_fontsize(45)
+    tick.label.set_fontsize(55)
 for tick in ax.yaxis.get_major_ticks():
-    tick.label.set_fontsize(45)
+    tick.label.set_fontsize(55)
 plt.tight_layout()
 
 plt.savefig('./figures/colocation_spectrum_60-90.png')
