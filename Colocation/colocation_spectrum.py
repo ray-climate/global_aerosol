@@ -90,7 +90,8 @@ for i in range(len(time_distance)):
 
 for i in range(len(time_distance)):
 
-    if (abs(lat_ALADIN_colocation[i]) > 30.) & (abs(lat_ALADIN_colocation[i]) < 60.):
+    # if (abs(lat_ALADIN_colocation[i]) > 30.) & (abs(lat_ALADIN_colocation[i]) < 60.):
+    if (abs(lat_ALADIN_colocation[i]) <= 30.):
         index_x = int(np.round(np.round(time_distance[i] / temporal_resolution)))
         index_y = int(np.round(np.round(spatial_distance[i])))
         if index_y > spatial_space[-2]:
@@ -115,12 +116,12 @@ cbar.ax.tick_params(labelsize=50)
 plt.ylim([0., 24.])
 plt.ylim([0., 100])
 
-plt.title('[30$^\circ$N - 60$^\circ$N, 30$^\circ$S - 60$^\circ$S]', fontsize=65)
+plt.title('[30$^\circ$N - 30$^\circ$S]', fontsize=65)
 for tick in ax.xaxis.get_major_ticks():
     tick.label.set_fontsize(55)
 for tick in ax.yaxis.get_major_ticks():
     tick.label.set_fontsize(55)
 plt.tight_layout()
 
-plt.savefig('./figures/colocation_spectrum_30-60.png')
+plt.savefig('./figures/colocation_spectrum_0-30.png')
 plt.close()
