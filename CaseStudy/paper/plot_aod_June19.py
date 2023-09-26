@@ -95,7 +95,7 @@ plume_thickness = np.zeros((caliop_alpha.shape[1]))
 caliop_alpha_all = []
 caliop_alpha_corr_all = []
 
-fontsize = 16
+fontsize = 15
 
 for i in range(caliop_alpha.shape[1]):
     alpha_i = caliop_alpha[:, i]
@@ -106,7 +106,7 @@ for i in range(caliop_alpha.shape[1]):
     alpha_i[(caliop_altitude > 7.)] = 0.
     mask_i[(caliop_altitude > 7.)] = 0.
     alpha_i_corr = np.copy(alpha_i)
-    alpha_i_corr[caliop_altitude > 1.8] = alpha_i_corr[caliop_altitude > 1.8] * 63.5 / 43.5
+    alpha_i_corr[caliop_altitude > 2.] = alpha_i_corr[caliop_altitude > 2.] * 63.5 / 43.5
 
     caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
     caliop_aod_trap_corr[i] = np.trapz(alpha_i_corr[::-1], caliop_altitude[::-1])
@@ -193,7 +193,8 @@ mask_less_equal = attenuation_mask_lat < 1
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
 ax.plot(caliop_latitude[(mask_less_equal)], caliop_aod_trap[(mask_less_equal)], 'r-*', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
-ax.plot(caliop_latitude[(mask_less_equal)], caliop_aod_trap_corr[(mask_less_equal)], 'g-*', lw=3, markersize=10, label='CALIOP corrected')
+# ax.plot(caliop_latitude[(mask_less_equal)], caliop_aod_trap_corr[(mask_less_equal)], 'g-*', lw=3, markersize=10, label='CALIOP corrected')
+ax.plot(caliop_latitude[(mask_less_equal)], caliop_aod_trap[(mask_less_equal)] * 63.5 / 43.5, 'g-*', lw=3, markersize=10, label='CALIOP corrected')
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
 ax.set_xlim(12., 20.)
