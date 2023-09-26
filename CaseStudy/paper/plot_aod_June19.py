@@ -192,8 +192,8 @@ mask_less_equal = attenuation_mask_lat < 1
 # ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
-ax.plot(caliop_latitude[(mask_less_equal) & (caliop_aod_trap_filter > 0)], caliop_aod_trap_filter[(mask_less_equal) & (caliop_aod_trap_filter > 0)], 'g-.', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
-ax.plot(caliop_latitude[(mask_less_equal) & (caliop_aod_trap_corr_filter > 0)], caliop_aod_trap_corr_filter[(mask_less_equal) & (caliop_aod_trap_corr_filter > 0)], 'r-.', lw=3, markersize=10, label='CALIOP corrected')
+ax.plot(caliop_latitude[(mask_less_equal) & (caliop_aod_trap_filter > 0)], caliop_aod_trap_filter[(mask_less_equal) & (caliop_aod_trap_filter > 0)], 'r-.', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
+ax.plot(caliop_latitude[(mask_less_equal) & (caliop_aod_trap_corr_filter > 0)], caliop_aod_trap_corr_filter[(mask_less_equal) & (caliop_aod_trap_corr_filter > 0)], 'g-.', lw=3, markersize=10, label='CALIOP corrected')
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
 ax.set_xlim(12., 20.)
@@ -204,7 +204,7 @@ ax.grid()
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
-
+quit()
 caliop_alpha_low_aod = []
 caliop_alpha_high_aod = []
 
@@ -212,7 +212,7 @@ for i in range(len(caliop_latitude)):
     if (mask_less_equal[i] == True) & (caliop_aod_trap_filter[i] > 0):
         if (caliop_latitude[i]> 12.) & (caliop_latitude[i] < 20.):
             print('plot aod for latitude: ', caliop_latitude[i])
-            if caliop_aod_trap_filter[i] < 1.7:
+            if caliop_aod_trap_filter[i] < 1.8:
                 print('CALIOP aod is low: ', caliop_aod_trap_filter[i])
                 caliop_alpha_low_aod.append(caliop_alpha_all[i])
             else:
