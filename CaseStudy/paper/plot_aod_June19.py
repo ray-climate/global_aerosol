@@ -192,8 +192,8 @@ mask_less_equal = attenuation_mask_lat < 1
 # ax.plot(caliop_latitude, caliop_AOD_532_total, 'g-', lw=3, label='CALIOP')
 # Overlay the different marker styles for the sections of the line that meet your conditions
 # ax.plot(caliop_latitude[mask_greater], caliop_AOD_532_total[mask_greater], 'bo', markersize=5)  # Use 'go' for green circles
-ax.plot(caliop_latitude[(mask_less_equal) & (caliop_aod_trap_filter > 0)], caliop_aod_trap_filter[(mask_less_equal) & (caliop_aod_trap_filter > 0)], 'r-.', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
-ax.plot(caliop_latitude[(mask_less_equal) & (caliop_aod_trap_corr_filter > 0)], caliop_aod_trap_corr_filter[(mask_less_equal) & (caliop_aod_trap_corr_filter > 0)], 'g-.', lw=3, markersize=10, label='CALIOP corrected')
+ax.plot(caliop_latitude[(mask_less_equal)], caliop_aod_trap_filter[(mask_less_equal)], 'r-.', lw=3, markersize=10, label='CALIOP')  # Use 'g*' for green stars
+ax.plot(caliop_latitude[(mask_less_equal)], caliop_aod_trap_corr_filter[(mask_less_equal)], 'g-.', lw=3, markersize=10, label='CALIOP corrected')
 ax.set_xlabel('Latitude [$^{\circ}$]', fontsize=fontsize)
 ax.set_ylabel('AOD', fontsize=fontsize)
 ax.set_xlim(12., 20.)
