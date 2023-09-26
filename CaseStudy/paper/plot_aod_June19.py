@@ -95,7 +95,7 @@ plume_thickness = np.zeros((caliop_alpha.shape[1]))
 caliop_alpha_all = []
 caliop_alpha_corr_all = []
 
-fontsize = 20
+fontsize = 16
 
 for i in range(caliop_alpha.shape[1]):
     alpha_i = caliop_alpha[:, i]
@@ -106,7 +106,7 @@ for i in range(caliop_alpha.shape[1]):
     alpha_i[(caliop_altitude > 7.)] = 0.
     mask_i[(caliop_altitude > 7.)] = 0.
     alpha_i_corr = np.copy(alpha_i)
-    alpha_i_corr[caliop_altitude > 2.] = alpha_i_corr[caliop_altitude > 2.] * 63.5 / 43.5
+    alpha_i_corr[caliop_altitude > 1.8] = alpha_i_corr[caliop_altitude > 1.8] * 63.5 / 43.5
 
     caliop_aod_trap[i] = np.trapz(alpha_i[::-1], caliop_altitude[::-1])
     caliop_aod_trap_corr[i] = np.trapz(alpha_i_corr[::-1], caliop_altitude[::-1])
@@ -204,7 +204,7 @@ ax.grid()
 ax.tick_params(axis='both', labelsize=fontsize)
 ax.legend(loc='best', fontsize=fontsize)
 plt.savefig(save_path + f'figure_aod_corrected.png', dpi=300)
-quit()
+
 caliop_alpha_low_aod = []
 caliop_alpha_high_aod = []
 
