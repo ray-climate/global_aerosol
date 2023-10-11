@@ -132,8 +132,7 @@ for time in unique_utc_times:
      alt_caliop, beta_caliop, alpha_caliop,
      aerosol_type_caliop, feature_type_caliop, dp_caliop) \
         = extract_variables_from_caliop(closest_file, logger)
-    print(time)
-    quit()
+
     ######################################################################
     #### add subplot of caliop aerosol types
     ######################################################################
@@ -150,7 +149,7 @@ for time in unique_utc_times:
     norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
 
     z_grid_caliop_type = aerosol_type_caliop
-    z_grid_caliop_type[feature_type_caliop == 4] = 0
+    z_grid_caliop_type[feature_type_caliop != 4] = 0
 
     fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
 
