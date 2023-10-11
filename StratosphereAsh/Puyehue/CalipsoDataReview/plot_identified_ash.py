@@ -32,9 +32,9 @@ def get_closest_file_for_utc(utc_time):
 
     # List all HDF files for the specific day
     all_files = [f for f in os.listdir(specific_day_folder) if
-                 f.endswith('.hdf') and f.startswith(f"CAL_LID_L2_05kmAPro-Standard-V4-51.{year}-{month}-{day}")]
+                 f.endswith('.hdf') and f.startswith(f"CAL_LID_L2_05kmAPro-Standard-V4-51.{year}-{month}")]
 
-    # If there are no files for that day
+    # If there are no files for that month
     if not all_files:
         return None
 
