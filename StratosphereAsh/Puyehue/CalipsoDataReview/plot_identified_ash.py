@@ -6,10 +6,53 @@
 # @Time:        11/10/2023 11:22
 
 import pandas as pd
+import datetime
 import os
 
+CALIPSO_location = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
 variable_file_location = '../../../Caliop/SOVCC/filtered_data_continuous_10/'
 figure_save_location = './figures'
+
+
+# Function to extract datetime from filename
+def extract_datetime_from_filename(filename):
+    datetime_str = filename.split('.')[1].replace("ZN", "")
+    return datetime.datetime.strptime(datetime_str, "%Y-%m-%dT%H-%M-%S")
+
+def get_closest_file_for_utc(utc_time):
+    year = utc_time.strftime('%Y')
+    month = utc_time.strftime('%m')
+    day = utc_time.strftime('%d')
+
+    specific_day_folder = os.path.join(CALIPSO_location, year, month)
+
+    # Check if specific day folder exists
+    if not os.path.exists(specific_day_folder):
+        return None
+
+    # List all HDF files for the specific day
+    all_files = [f for f in os.listdir(specific_day_folder) if
+                 f.endswith('.hdf') and f.startswith(f"CAL_LID_L2_05kmAPro-Standard-V4-51.{year}-{month}-{day}")]
+
+    # If there are no files for that day
+    if not all_files:
+        return None
+
+    # Extract datetimes from filenames
+    file_datetimes = [extract_datetime_from_filename(f) for f in all_files]
+
+    # Determine the closest file by computing the timedelta
+    min_diff = datetime.timedelta(days=365)  # Arbitrary large number
+    closest_file = None
+
+    for file, file_datetime in zip(all_files, file_datetimes):
+        time_diff = abs(utc_time - file_datetime)
+
+        if time_diff < min_diff:
+            min_diff = time_diff
+            closest_file = os.path.join(specific_day_folder, file)
+
+    return closest_file
 
 # create save_location folder if not exist
 if not os.path.exists(figure_save_location):
@@ -48,5 +91,15 @@ all_data = all_data[(all_data['utc_time'] >= start_date) & (all_data['utc_time']
 unique_utc_times = all_data['utc_time'].drop_duplicates().reset_index(drop=True)
 count_unique_utc_times = unique_utc_times.shape[0]
 print(f'The number of unique utc_time values is: {count_unique_utc_times}')
-print(unique_utc_times)
+
+closest_files = []
+
+for time in unique_utc_times:
+    print('Identified ash for time: ', time)
+    closest_file = get_closest_file_for_utc(time)
+    print('---------------- Closest file: ', closest_file)
+    if closest_file:
+        closest_files.append(closest_file)
+    quit()
+print(closest_files)
 
