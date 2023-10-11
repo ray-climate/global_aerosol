@@ -52,7 +52,7 @@ def get_closest_file_for_utc(utc_time):
 
     for file, file_datetime in zip(all_files, file_datetimes):
         time_diff = abs(utc_time - file_datetime)
-        print(time_diff, min_diff)
+        print(file, time_diff, min_diff)
         if time_diff < min_diff:
             min_diff = time_diff
             closest_file = os.path.join(specific_day_folder, file)
