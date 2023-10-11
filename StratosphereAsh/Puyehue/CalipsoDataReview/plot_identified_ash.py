@@ -144,10 +144,6 @@ for time in unique_utc_times:
 
     ax1 = fig.add_subplot(gs[0, 0:6])
 
-    # Custom tick locations
-    tick_locs = [0.5, 1.5, 2.5, 3.5, 4.5, 5.5]  # These are the mid-values of your bounds
-    # Custom tick labels
-    tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop != 4] = 0
@@ -156,6 +152,11 @@ for time in unique_utc_times:
     cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green'])
     bounds = [0, 1, 2, 3, 4, 5]
     norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+
+    # Custom tick locations
+    tick_locs = [0.5, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
+    # Custom tick labels
+    tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
     fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
 
