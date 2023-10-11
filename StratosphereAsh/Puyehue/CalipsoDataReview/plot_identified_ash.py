@@ -10,7 +10,7 @@ import datetime
 import logging
 import sys
 import os
-sys.path.append('../')
+sys.path.append('../../../')
 from getColocationData.get_caliop import *
 
 def get_script_name():
