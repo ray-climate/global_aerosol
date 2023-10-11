@@ -142,7 +142,7 @@ for time in unique_utc_times:
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
     gs = GridSpec(2, 6, figure=fig)
 
-    ax6 = fig.add_subplot(gs[0, 0:6])
+    ax1 = fig.add_subplot(gs[0, 0:6])
 
     cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
     bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -162,15 +162,18 @@ for time in unique_utc_times:
     cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
     cbar.ax.tick_params(labelsize=18)
 
-    ax6.set_xlabel('Latitude', fontsize=30)
-    ax6.set_ylabel('Height [km]', fontsize=30)
+    ax1.set_xlabel('Latitude', fontsize=30)
+    ax1.set_ylabel('Height [km]', fontsize=30)
 
-    for tick in ax6.xaxis.get_major_ticks():
+    for tick in ax1.xaxis.get_major_ticks():
         tick.label.set_fontsize(25)
-    for tick in ax6.yaxis.get_major_ticks():
+    for tick in ax1.yaxis.get_major_ticks():
         tick.label.set_fontsize(25)
+
+    ax1.set_xlim(lat_south, lat_north)
 
     plt.savefig('./caliop_aerosol_types.png', dpi=300)
+
     quit()
 
 print(closest_files)
