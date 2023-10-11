@@ -159,14 +159,23 @@ for time in unique_utc_times:
 
     fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
 
-    divider = make_axes_locatable(ax1)
-    cax = divider.append_axes("bottom", size="5%", pad="20%")  # Make the colorbar smaller
-    cax_width = 0.5
-    box = cax.get_position()
-    cax.set_position([box.x0 + box.width * (1 - cax_width) / 2, box.y0, box.width * cax_width, box.height])
+    # Specify position for colorbar's axes [left, bottom, width, height]
+    cbar_ax_position = [0.25, 0.08, 0.5, 0.03]  # Modify these values as needed
+    cax = fig.add_axes(cbar_ax_position)
+
     cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
     cbar.ax.set_xticklabels(tick_labels)
-    cbar.ax.tick_params(labelsize=24)  # Increase the font size of the colorbar
+    cbar.ax.tick_params(labelsize=24)
+
+    #
+    # divider = make_axes_locatable(ax1)
+    # cax = divider.append_axes("bottom", size="5%", pad="20%")  # Make the colorbar smaller
+    # cax_width = 0.5
+    # box = cax.get_position()
+    # cax.set_position([box.x0 + box.width * (1 - cax_width) / 2, box.y0, box.width * cax_width, box.height])
+    # cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
+    # cbar.ax.set_xticklabels(tick_labels)
+    # cbar.ax.tick_params(labelsize=24)  # Increase the font size of the colorbar
 
     ax1.set_xlabel('Latitude', fontsize=30)
     ax1.set_ylabel('Height [km]', fontsize=30)
