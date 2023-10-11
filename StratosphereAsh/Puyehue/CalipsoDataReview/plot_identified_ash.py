@@ -141,9 +141,9 @@ for time in unique_utc_times:
     x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-    gs = GridSpec(2, 5, figure=fig)
+    gs = GridSpec(2, 6, figure=fig)
 
-    ax6 = fig.add_subplot(gs[0, 0:1])
+    ax6 = fig.add_subplot(gs[0, 0:3])
 
     cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
     bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
