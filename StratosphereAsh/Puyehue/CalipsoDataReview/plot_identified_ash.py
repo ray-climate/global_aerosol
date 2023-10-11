@@ -144,14 +144,15 @@ for time in unique_utc_times:
 
     ax1 = fig.add_subplot(gs[0, 0:6])
 
-    cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
-    bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+    # Custom tick locations
+    tick_locs = [0.5, 1.5, 2.5, 3.5, 4.5, 5.5]  # These are the mid-values of your bounds
+    # Custom tick labels
+    tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop != 4] = 0
 
-    fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
+    fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
 
     # Create an axes divider for the main plot
     divider = make_axes_locatable(ax1)
@@ -159,7 +160,16 @@ for time in unique_utc_times:
     # Add the colorbar to the divider
     cax = divider.append_axes("bottom", size="7%", pad="30%")
 
-    cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
+    cbar = plt.colorbar(fig1, cax=cax, shrink=0.6, orientation="horizontal")
+    cbar.ax.tick_params(labelsize=18)
+
+    # cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
+    cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green'])
+    bounds = [0, 1, 2, 3, 4, 5]
+    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+
+    cbar = plt.colorbar(fig1, cax=cax, shrink=0.6, orientation="horizontal", ticks=tick_locs)
+    cbar.ax.set_xticklabels(tick_labels)  # Set the tick labels
     cbar.ax.tick_params(labelsize=18)
 
     ax1.set_xlabel('Latitude', fontsize=30)
