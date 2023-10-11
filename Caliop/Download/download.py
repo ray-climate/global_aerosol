@@ -40,7 +40,7 @@ while start_date_datetime <= end_date_datetime:
 
     URL = 'https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/%s/%s/'%(year_i, month_i)
     TOKEN = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfb3BzIiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6InJ1aXNvbmcxMjMiLCJleHAiOjE3MDIyMTg1MDQsImlhdCI6MTY5NzAzNDUwNCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.qXf6FwJrnk4Z4ouBVlLb1lI1IQBAvfLOCz3lORF5zVBQwF9ZWtSdzLiTRXbLcqPyRb8VKyhWbWN7Y4NHJEjXLuH2kam5tJW_E2khW2rqg2hcrcM5BIhNgFfs_k_yMqUPACS-wDJivXliqoG-kjw7kMt9V9N6ctrSADUxpaMrfMKshL3JHr1LVEj8mcyJ41DSnRZP4tyZ5bEFjn0Zs7TV0Bz5KsRMUKtWpm1P6aP_sly0GBC12DB0KF7UfjcOmg4uhB0990okDNxGAWEa1e3wE4GrBz7553m7C9uWWfG_E9WsVuriZ8ZXlrqWAZs27b7av2abmlNddA4ihdtI9hbahQ'
-    print(URL)
+    print('wget --header "Authorization: Bearer $TOKEN" --recursive --no-parent --reject "index.html*" --execute robots=off $URL')
     os.system('wget --header "Authorization: Bearer $TOKEN" --recursive --no-parent --reject "index.html*" --execute robots=off $URL')
 
     start_date_datetime = start_date_datetime + time_delta
