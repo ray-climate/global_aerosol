@@ -142,7 +142,7 @@ for time in unique_utc_times:
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
     gs = GridSpec(100, 100, figure=fig)
 
-    ax1 = fig.add_subplot(gs[5:35, 10:90])
+    ax1 = fig.add_subplot(gs[5:35, 5:95])
 
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop != 4] = 0
@@ -160,7 +160,7 @@ for time in unique_utc_times:
     fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
 
     # Specify position for colorbar's axes [left, bottom, width, height]
-    cbar_ax_position = [0.25, 0.6, 0.5, 0.02]  # Modify these values as needed
+    cbar_ax_position = [0.25, 0.57, 0.5, 0.02]  # Modify these values as needed
     cax = fig.add_axes(cbar_ax_position)
 
     cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
