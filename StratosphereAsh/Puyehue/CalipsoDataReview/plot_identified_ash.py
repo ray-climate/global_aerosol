@@ -144,7 +144,6 @@ for time in unique_utc_times:
 
     ax1 = fig.add_subplot(gs[0, 0:6])
 
-
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop != 4] = 0
 
@@ -158,20 +157,14 @@ for time in unique_utc_times:
     # Custom tick labels
     tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
-    fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
+    fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
 
-    # Create an axes divider for the main plot
     divider = make_axes_locatable(ax1)
-
-    # Add the colorbar to the divider
-    cax = divider.append_axes("bottom", size="7%", pad="30%")
-
-    cbar = plt.colorbar(fig1, cax=cax, shrink=0.6, orientation="horizontal")
-    cbar.ax.tick_params(labelsize=18)
+    cax = divider.append_axes("bottom", size="5%", pad="20%")  # Make the colorbar smaller
 
     cbar = plt.colorbar(fig1, cax=cax, shrink=0.6, orientation="horizontal", ticks=tick_locs)
-    cbar.ax.set_xticklabels(tick_labels)  # Set the tick labels
-    cbar.ax.tick_params(labelsize=18)
+    cbar.ax.set_xticklabels(tick_labels)
+    cbar.ax.tick_params(labelsize=24)  # Increase the font size of the colorbar
 
     ax1.set_xlabel('Latitude', fontsize=30)
     ax1.set_ylabel('Height [km]', fontsize=30)
@@ -182,7 +175,7 @@ for time in unique_utc_times:
         tick.label.set_fontsize(25)
 
     ax1.set_xlim(lat_south, lat_north)
-
+    plt.tight_layout()
     plt.savefig('./caliop_aerosol_types.png', dpi=300)
 
     quit()
