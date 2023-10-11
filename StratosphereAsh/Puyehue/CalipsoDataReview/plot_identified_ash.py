@@ -137,7 +137,7 @@ for time in unique_utc_times:
     #### add subplot of caliop aerosol types
     ######################################################################
 
-    x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
+    x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
     gs = GridSpec(2, 5, figure=fig)
