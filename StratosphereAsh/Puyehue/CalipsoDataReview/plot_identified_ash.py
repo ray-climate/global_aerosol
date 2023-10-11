@@ -152,6 +152,11 @@ for time in unique_utc_times:
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop != 4] = 0
 
+    # cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
+    cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green'])
+    bounds = [0, 1, 2, 3, 4, 5]
+    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+
     fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
 
     # Create an axes divider for the main plot
@@ -162,11 +167,6 @@ for time in unique_utc_times:
 
     cbar = plt.colorbar(fig1, cax=cax, shrink=0.6, orientation="horizontal")
     cbar.ax.tick_params(labelsize=18)
-
-    # cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
-    cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green'])
-    bounds = [0, 1, 2, 3, 4, 5]
-    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
 
     cbar = plt.colorbar(fig1, cax=cax, shrink=0.6, orientation="horizontal", ticks=tick_locs)
     cbar.ax.set_xticklabels(tick_labels)  # Set the tick labels
