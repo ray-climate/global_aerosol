@@ -124,7 +124,7 @@ for time in unique_utc_times:
 
     (footprint_lat_caliop, footprint_lon_caliop,
      alt_caliop, beta_caliop, alpha_caliop,
-     aerosol_type_caliop, feature_type_caliop) \
+     aerosol_type_caliop, feature_type_caliop, dp_caliop) \
         = extract_variables_from_caliop(closest_file, logger)
     print(footprint_lat_caliop)
 
