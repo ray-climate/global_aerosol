@@ -180,7 +180,5 @@ for time in unique_utc_times:
 
     plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
 
-    quit()
-
 print(closest_files)
 
