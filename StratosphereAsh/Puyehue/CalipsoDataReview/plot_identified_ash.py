@@ -7,12 +7,31 @@
 
 import pandas as pd
 import datetime
+import logging
+import sys
 import os
+sys.path.append('../')
+from getColocationData.get_caliop import *
+
+def get_script_name():
+    return sys.modules['__main__'].__file__
+# Get the name of the script
+script_name = get_script_name()
+# Split the script name into a base name and an extension
+script_base, script_ext = os.path.splitext(script_name)
+
+# Add the .log extension to the base name
+log_filename = script_base + '.log'
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
+                    filemode='w',
+                    filename=log_filename,
+                    level=logging.INFO)
+# Get a logger object
+logger = logging.getLogger()
 
 CALIPSO_location = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
 variable_file_location = '../../../Caliop/SOVCC/filtered_data_continuous_10/'
 figure_save_location = './figures'
-
 
 # Function to extract datetime from filename
 def extract_datetime_from_filename(filename):
@@ -20,7 +39,6 @@ def extract_datetime_from_filename(filename):
     if datetime_str.endswith("ZN") or datetime_str.endswith("ZD"):
         datetime_str = datetime_str[:-2]
     return datetime.datetime.strptime(datetime_str, "%Y-%m-%dT%H-%M-%S")
-
 
 def get_closest_file_for_utc(utc_time):
     year = utc_time.strftime('%Y')
@@ -43,8 +61,6 @@ def get_closest_file_for_utc(utc_time):
 
     # Extract datetimes from filenames
     file_datetimes = [extract_datetime_from_filename(f) for f in all_files]
-    print(file_datetimes)
-    print(utc_time)
 
     # Determine the closest file by computing the timedelta
     min_diff = datetime.timedelta(days=365)  # Arbitrary large number
@@ -52,7 +68,7 @@ def get_closest_file_for_utc(utc_time):
 
     for file, file_datetime in zip(all_files, file_datetimes):
         time_diff = abs(utc_time - file_datetime)
-        print(file, time_diff, min_diff)
+
         if time_diff < min_diff:
             min_diff = time_diff
             closest_file = os.path.join(specific_day_folder, file)
@@ -105,6 +121,13 @@ for time in unique_utc_times:
     print('---------------- Closest file: ', closest_file)
     if closest_file:
         closest_files.append(closest_file)
-    quit()
+
+    (footprint_lat_caliop, footprint_lon_caliop,
+     alt_caliop, beta_caliop, alpha_caliop,
+     aerosol_type_caliop, feature_type_caliop) \
+        = extract_variables_from_caliop(closest_file, logger)
+    print(footprint_lat_caliop)
+
+
 print(closest_files)
 
