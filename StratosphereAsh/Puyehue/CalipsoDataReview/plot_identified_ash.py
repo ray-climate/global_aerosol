@@ -175,7 +175,7 @@ for time in unique_utc_times:
         tick.label.set_fontsize(25)
 
     ax1.set_xlim(lat_south, lat_north)
-    plt.tight_layout()
+
     plt.savefig('./caliop_aerosol_types.png', dpi=300)
 
     quit()
