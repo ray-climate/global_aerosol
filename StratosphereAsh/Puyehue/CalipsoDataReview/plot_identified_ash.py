@@ -140,9 +140,9 @@ for time in unique_utc_times:
     x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-    gs = GridSpec(3, 8, figure=fig)
+    gs = GridSpec(100, 100, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0, 1:7])
+    ax1 = fig.add_subplot(gs[5:35, 10:90])
 
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop != 4] = 0
@@ -165,9 +165,9 @@ for time in unique_utc_times:
 
     cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
     cbar.ax.set_xticklabels(tick_labels)
-    cbar.ax.tick_params(labelsize=24, labeltop=False, labelbottom=True)
+    cbar.ax.tick_params(labelsize=36)
 
-    ax1.set_xlabel('Latitude', fontsize=35,)
+    ax1.set_xlabel('Latitude', fontsize=35)
     ax1.set_ylabel('Height [km]', fontsize=35)
 
     for tick in ax1.xaxis.get_major_ticks():
