@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        11/10/2023 11:22
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 import pandas as pd
 import numpy as np
 import datetime
@@ -154,13 +155,13 @@ for time in unique_utc_times:
     fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
 
     # Create an axes divider for the main plot
-    # divider = make_axes_locatable(ax6)
+    divider = make_axes_locatable(ax6)
 
     # Add the colorbar to the divider
-    # cax = divider.append_axes("bottom", size="7%", pad="30%")
+    cax = divider.append_axes("bottom", size="7%", pad="30%")
 
-    # cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
-    # cbar.ax.tick_params(labelsize=18)
+    cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
+    cbar.ax.tick_params(labelsize=18)
 
     ax6.set_xlabel('Latitude', fontsize=30)
     ax6.set_ylabel('Height [km]', fontsize=30)
