@@ -79,7 +79,7 @@ def get_closest_file_for_utc(utc_time):
 if not os.path.exists(figure_save_location):
     os.mkdir(figure_save_location)
 
-start_date = '2011-06-13'
+start_date = '2011-07-01'
 end_date = '2011-08-20'
 lat_north = 0
 lat_south = -80
