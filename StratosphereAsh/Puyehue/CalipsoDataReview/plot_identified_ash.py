@@ -40,6 +40,8 @@ def get_closest_file_for_utc(utc_time):
 
     # Extract datetimes from filenames
     file_datetimes = [extract_datetime_from_filename(f) for f in all_files]
+    print(file_datetimes)
+    print(utc_time)
 
     # Determine the closest file by computing the timedelta
     min_diff = datetime.timedelta(days=365)  # Arbitrary large number
