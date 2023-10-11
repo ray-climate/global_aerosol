@@ -48,5 +48,5 @@ all_data = all_data[(all_data['utc_time'] >= start_date) & (all_data['utc_time']
 unique_utc_times = all_data['utc_time'].drop_duplicates().reset_index(drop=True)
 count_unique_utc_times = unique_utc_times.shape[0]
 print(f'The number of unique utc_time values is: {count_unique_utc_times}')
-print(count_unique_utc_times)
+print(unique_utc_times)
 
