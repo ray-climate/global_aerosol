@@ -132,8 +132,9 @@ for time in unique_utc_times:
      alt_caliop, beta_caliop, alpha_caliop,
      aerosol_type_caliop, feature_type_caliop, dp_caliop) \
         = extract_variables_from_caliop(closest_file, logger)
-
-
+    print(footprint_lat_caliop)
+    print(footprint_lon_caliop)
+    quit()
     ######################################################################
     #### add subplot of caliop aerosol types
     ######################################################################
