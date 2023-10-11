@@ -115,6 +115,10 @@ print(f'The number of unique utc_time values is: {count_unique_utc_times}')
 
 closest_files = []
 
+from matplotlib.gridspec import GridSpec
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
 for time in unique_utc_times:
     print('Identified ash for time: ', time)
     closest_file = get_closest_file_for_utc(time)
@@ -126,8 +130,47 @@ for time in unique_utc_times:
      alt_caliop, beta_caliop, alpha_caliop,
      aerosol_type_caliop, feature_type_caliop, dp_caliop) \
         = extract_variables_from_caliop(closest_file, logger)
-    print(footprint_lat_caliop)
 
+
+    ######################################################################
+    #### add subplot of caliop aerosol types
+    ######################################################################
+
+    x_grid_caliop, y_grid_caliop = np.meshgrid(lat_caliop, alt_caliop)
+
+    fig = plt.figure(constrained_layout=True, figsize=(36, 24))
+    gs = GridSpec(2, 5, figure=fig)
+
+    ax6 = fig.add_subplot(gs[0, 0:1])
+
+    cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
+    bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+
+    z_grid_caliop_type = aerosol_type_caliop
+    z_grid_caliop_type[feature_type_caliop == 4] = 0
+
+    fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
+
+    # Create an axes divider for the main plot
+    # divider = make_axes_locatable(ax6)
+
+    # Add the colorbar to the divider
+    # cax = divider.append_axes("bottom", size="7%", pad="30%")
+
+    # cbar = plt.colorbar(fig6, cax=cax, shrink=0.6, orientation="horizontal")
+    # cbar.ax.tick_params(labelsize=18)
+
+    ax6.set_xlabel('Latitude', fontsize=30)
+    ax6.set_ylabel('Height [km]', fontsize=30)
+
+    for tick in ax6.xaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+    for tick in ax6.yaxis.get_major_ticks():
+        tick.label.set_fontsize(25)
+
+    plt.savefig('./caliop_aerosol_types.png', dpi=300)
+    quit()
 
 print(closest_files)
 
