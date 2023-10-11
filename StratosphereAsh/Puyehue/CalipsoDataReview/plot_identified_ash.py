@@ -140,9 +140,9 @@ for time in unique_utc_times:
     x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-    gs = GridSpec(2, 6, figure=fig)
+    gs = GridSpec(3, 8, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0, 0:6])
+    ax1 = fig.add_subplot(gs[0, 1:7])
 
     z_grid_caliop_type = aerosol_type_caliop
     z_grid_caliop_type[feature_type_caliop != 4] = 0
@@ -160,13 +160,12 @@ for time in unique_utc_times:
     fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
 
     # Specify position for colorbar's axes [left, bottom, width, height]
-    cbar_ax_position = [0.25, 0.08, 0.5, 0.03]  # Modify these values as needed
+    cbar_ax_position = [0.25, 0.75, 0.5, 0.03]  # Modify these values as needed
     cax = fig.add_axes(cbar_ax_position)
 
     cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
     cbar.ax.set_xticklabels(tick_labels)
-    cbar.ax.tick_params(labelsize=24)
-
+    cbar.ax.tick_params(labelsize=36)
     #
     # divider = make_axes_locatable(ax1)
     # cax = divider.append_axes("bottom", size="5%", pad="20%")  # Make the colorbar smaller
@@ -181,9 +180,9 @@ for time in unique_utc_times:
     ax1.set_ylabel('Height [km]', fontsize=30)
 
     for tick in ax1.xaxis.get_major_ticks():
-        tick.label.set_fontsize(25)
+        tick.label.set_fontsize(30)
     for tick in ax1.yaxis.get_major_ticks():
-        tick.label.set_fontsize(25)
+        tick.label.set_fontsize(30)
 
     ax1.set_xlim(lat_south, lat_north)
 
