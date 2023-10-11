@@ -142,7 +142,7 @@ for time in unique_utc_times:
     fig = plt.figure(constrained_layout=True, figsize=(36, 24))
     gs = GridSpec(2, 6, figure=fig)
 
-    ax6 = fig.add_subplot(gs[0, 0:3])
+    ax6 = fig.add_subplot(gs[0, 0:6])
 
     cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
     bounds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
