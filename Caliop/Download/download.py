@@ -32,7 +32,7 @@ while start_date_datetime <= end_date_datetime:
     day_i = '{:02d}'.format(start_date_datetime.day)
 
     save_dir_i = data_dir + '/%s/%s_%s_%s/'%(year_i, year_i, month_i, day_i)
-
+    #
     try:
         os.stat(save_dir_i)
     except:
