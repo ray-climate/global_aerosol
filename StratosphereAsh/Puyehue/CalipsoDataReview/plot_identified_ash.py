@@ -178,7 +178,7 @@ for time in unique_utc_times:
 
     ax1.set_xlim(lat_south, lat_north)
 
-    plt.savefig('./caliop_aerosol_types.png', dpi=300)
+    plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
 
     quit()
 
