@@ -16,8 +16,11 @@ figure_save_location = './figures'
 
 # Function to extract datetime from filename
 def extract_datetime_from_filename(filename):
-    datetime_str = filename.split('.')[1].replace("ZN", "")
+    datetime_str = filename.split('.')[1]
+    if datetime_str.endswith("ZN") or datetime_str.endswith("ZD"):
+        datetime_str = datetime_str[:-2]
     return datetime.datetime.strptime(datetime_str, "%Y-%m-%dT%H-%M-%S")
+
 
 def get_closest_file_for_utc(utc_time):
     year = utc_time.strftime('%Y')
