@@ -167,7 +167,7 @@ for time in unique_utc_times:
     cbar.ax.set_xticklabels(tick_labels)
     cbar.ax.tick_params(labelsize=24, labeltop=False, labelbottom=True)
 
-    ax1.set_xlabel('Latitude', fontsize=35)
+    ax1.set_xlabel('Latitude', fontsize=35,)
     ax1.set_ylabel('Height [km]', fontsize=35)
 
     for tick in ax1.xaxis.get_major_ticks():
