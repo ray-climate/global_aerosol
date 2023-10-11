@@ -130,7 +130,7 @@ for time in unique_utc_times:
 
     (footprint_lat_caliop, footprint_lon_caliop,
      alt_caliop, beta_caliop, alpha_caliop,
-     aerosol_type_caliop, feature_type_caliop, dp_caliop) \
+     aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
         = extract_variables_from_caliop(closest_file, logger)
 
     ######################################################################
@@ -158,6 +158,7 @@ for time in unique_utc_times:
     tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
     fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
+    plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
     # Specify position for colorbar's axes [left, bottom, width, height]
     cbar_ax_position = [0.25, 0.57, 0.5, 0.02]  # Modify these values as needed

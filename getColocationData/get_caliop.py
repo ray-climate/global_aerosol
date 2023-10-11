@@ -43,7 +43,11 @@ def extract_variables_from_caliop(hdf_file, logger):
         _get_calipso_data(filename=hdf_file,
                           variable='Particulate_Depolarization_Ratio_Profile_532')
 
+    caliop_tropopause_height = caliop_request.\
+        _get_tropopause_height(filename=hdf_file)
+
     logger.info("Extracted data from caliop file: 7 parameters")
     return caliop_latitude_list, caliop_longitude_list, \
            caliop_altitude_list, caliop_beta_list, \
-           caliop_alpha_list, caliop_aerosol_type, caliop_feature_type, caliop_Depolarization_Ratio_list
+           caliop_alpha_list, caliop_aerosol_type, caliop_feature_type, \
+           caliop_Depolarization_Ratio_list, caliop_tropopause_height
