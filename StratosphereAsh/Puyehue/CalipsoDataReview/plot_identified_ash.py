@@ -160,9 +160,9 @@ for time in unique_utc_times:
     fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
 
     divider = make_axes_locatable(ax1)
-    cax = divider.append_axes("bottom", size="5%", pad="20%")  # Make the colorbar smaller
+    cax = divider.append_axes("bottom", size="3%", pad="15%")  # Make the colorbar smaller
 
-    cbar = plt.colorbar(fig1, cax=cax, shrink=0.6, orientation="horizontal", ticks=tick_locs)
+    cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
     cbar.ax.set_xticklabels(tick_labels)
     cbar.ax.tick_params(labelsize=24)  # Increase the font size of the colorbar
 
