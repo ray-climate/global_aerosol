@@ -154,7 +154,7 @@ for time in unique_utc_times:
     fig6 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm, )
 
     # Create an axes divider for the main plot
-    divider = make_axes_locatable(ax6)
+    divider = make_axes_locatable(ax1)
 
     # Add the colorbar to the divider
     cax = divider.append_axes("bottom", size="7%", pad="30%")
