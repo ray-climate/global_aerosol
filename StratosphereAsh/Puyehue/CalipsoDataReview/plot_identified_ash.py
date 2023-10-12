@@ -156,7 +156,7 @@ def main():
         plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar_ax_position = [0.25, 0.57, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.6, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
