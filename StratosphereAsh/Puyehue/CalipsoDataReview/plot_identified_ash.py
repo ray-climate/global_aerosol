@@ -23,7 +23,7 @@ from getColocationData.get_caliop import *
 LOG_EXT = ".log"
 START_DATE = '2011-07-01'
 END_DATE = '2011-08-20'
-LAT_NORTH = 0
+LAT_NORTH = -30
 LAT_SOUTH = -80
 
 # File locations
