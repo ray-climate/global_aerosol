@@ -12,6 +12,7 @@ import datetime
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.gridspec import GridSpec
 import matplotlib as mpl
@@ -139,10 +140,10 @@ def main():
         ax1 = fig.add_subplot(gs[5:35, 5:95])
 
         z_grid_caliop_type = aerosol_type_caliop
-        z_grid_caliop_type[feature_type_caliop != 3] = 0
+        z_grid_caliop_type[feature_type_caliop != 4] = 0
 
         # cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
-        cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green'])
+        cmap = mpl.colors.ListedColormap(['lightgray', 'blue', 'yellow', 'orange', 'green'])
         bounds = [0, 1, 2, 3, 4, 5]
         norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
 
@@ -171,6 +172,28 @@ def main():
             tick.label.set_fontsize(35)
 
         ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
+
+        ######################################################################
+        #### add subplot of caliop observation track over a map
+        ######################################################################
+
+        ax2 = fig.add_subplot(gs[40:65, 5:95])  # Creates a subplot below the main one
+
+        # Create a basemap instance with a cylindrical projection.
+        # This next step assumes your latitude and longitude data cover the whole globe.
+        # If they don't, you can set the `llcrnrlat`, `llcrnrlon`, `urcrnrlat`, `urcrnrlon` arguments
+        # to define the lower-left and upper-right corners of the map.
+        m = Basemap(projection='cyl', resolution='l', ax=ax2)
+        m.drawcoastlines()
+        m.drawcountries()
+        m.drawmapboundary(fill_color='aqua')
+        m.fillcontinents(color='lightgray', lake_color='aqua')
+
+        x, y = m(footprint_lon_caliop, footprint_lat_caliop)
+        m.plot(x, y, color='blue', linewidth=2)
+
+        ax2.set_title('CALIOP Observation Track', fontsize=35)
+
 
         plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
 
