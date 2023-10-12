@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
+from matplotlib.colors import ListedColormap
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.gridspec import GridSpec
 import matplotlib as mpl
@@ -156,7 +157,50 @@ def main():
         plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar_ax_position = [0.25, 0.6, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.95, 0.5, 0.02]  # Modify these values as needed
+        cax = fig.add_axes(cbar_ax_position)
+
+        cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
+        cbar.ax.set_xticklabels(tick_labels)
+        cbar.ax.tick_params(labelsize=36)
+
+        ax1.set_xlabel('Latitude', fontsize=35)
+        ax1.set_ylabel('Height [km]', fontsize=35)
+
+        for tick in ax1.xaxis.get_major_ticks():
+            tick.label.set_fontsize(35)
+        for tick in ax1.yaxis.get_major_ticks():
+            tick.label.set_fontsize(35)
+
+        ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
+
+        ######################################################################
+        #### add subplot of caliop depolarization ratio
+        ######################################################################
+
+        ax2 = fig.add_subplot(gs[40:70, 5:95])
+
+        # Define the custom colormap colors and boundaries
+        colors = [
+            "#000000",  # black
+            "#0000FF",  # blue
+            "#00FF00",  # green
+            "#FFFF00",  # yellow
+            "#FFA500",  # orange
+            "#FF0000",  # red
+            "#FF00FF",  # magenta
+            "#800080",  # purple
+            "#808080",  # gray
+            "#FFFFFF",  # white
+        ]
+        boundaries = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+        # Create the colormap
+        custom_cmap = ListedColormap(colors)
+
+        fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap, norm=norm)
+
+        # Specify position for colorbar's axes [left, bottom, width, height]
+        cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
@@ -177,22 +221,22 @@ def main():
         #### add subplot of caliop observation track over a map
         ######################################################################
 
-        ax2 = fig.add_subplot(gs[40:65, 5:95])  # Creates a subplot below the main one
-
-        # Create a basemap instance with a cylindrical projection.
-        # This next step assumes your latitude and longitude data cover the whole globe.
-        # If they don't, you can set the `llcrnrlat`, `llcrnrlon`, `urcrnrlat`, `urcrnrlon` arguments
-        # to define the lower-left and upper-right corners of the map.
-        m = Basemap(projection='cyl', resolution='l', ax=ax2)
-        m.drawcoastlines()
-        m.drawcountries()
-        m.drawmapboundary(fill_color='aqua')
-        m.fillcontinents(color='lightgray', lake_color='aqua')
-
-        x, y = m(footprint_lon_caliop, footprint_lat_caliop)
-        m.plot(x, y, color='blue', linewidth=2)
-
-        ax2.set_title('CALIOP Observation Track', fontsize=35)
+        # ax2 = fig.add_subplot(gs[40:65, 5:95])  # Creates a subplot below the main one
+        #
+        # # Create a basemap instance with a cylindrical projection.
+        # # This next step assumes your latitude and longitude data cover the whole globe.
+        # # If they don't, you can set the `llcrnrlat`, `llcrnrlon`, `urcrnrlat`, `urcrnrlon` arguments
+        # # to define the lower-left and upper-right corners of the map.
+        # m = Basemap(projection='cyl', resolution='l', ax=ax2)
+        # m.drawcoastlines()
+        # m.drawcountries()
+        # m.drawmapboundary(fill_color='aqua')
+        # m.fillcontinents(color='lightgray', lake_color='aqua')
+        #
+        # x, y = m(footprint_lon_caliop, footprint_lat_caliop)
+        # m.plot(x, y, color='blue', linewidth=2)
+        #
+        # ax2.set_title('CALIOP Observation Track', fontsize=35)
 
 
         plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
