@@ -139,7 +139,7 @@ def main():
         ax1 = fig.add_subplot(gs[5:35, 5:95])
 
         z_grid_caliop_type = aerosol_type_caliop
-        z_grid_caliop_type[feature_type_caliop == 4] = 0
+        z_grid_caliop_type[feature_type_caliop != 3] = 0
 
         # cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
         cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green'])
