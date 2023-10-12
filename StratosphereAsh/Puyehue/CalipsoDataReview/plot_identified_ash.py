@@ -196,14 +196,14 @@ def main():
         boundaries = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
         # Create the colormap
         custom_cmap = ListedColormap(colors)
-
+        print(np.mean(dp_caliop[dp_caliop>0]))
         fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap, norm=norm)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
         cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
-        cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
+        cbar = plt.colorbar(fig2, cax=cax, orientation="horizontal")
         cbar.ax.set_xticklabels(tick_labels)
         cbar.ax.tick_params(labelsize=36)
 
