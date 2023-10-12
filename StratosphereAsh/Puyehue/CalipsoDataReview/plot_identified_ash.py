@@ -197,7 +197,7 @@ def main():
         # Create the colormap
         custom_cmap = ListedColormap(colors)
 
-        fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap, norm=norm)
+        fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap, norm=norm)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
         cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
@@ -207,15 +207,15 @@ def main():
         cbar.ax.set_xticklabels(tick_labels)
         cbar.ax.tick_params(labelsize=36)
 
-        ax1.set_xlabel('Latitude', fontsize=35)
-        ax1.set_ylabel('Height [km]', fontsize=35)
+        ax2.set_xlabel('Latitude', fontsize=35)
+        ax2.set_ylabel('Height [km]', fontsize=35)
 
-        for tick in ax1.xaxis.get_major_ticks():
+        for tick in ax2.xaxis.get_major_ticks():
             tick.label.set_fontsize(35)
-        for tick in ax1.yaxis.get_major_ticks():
+        for tick in ax2.yaxis.get_major_ticks():
             tick.label.set_fontsize(35)
 
-        ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
+        ax2.set_xlim(LAT_SOUTH, LAT_NORTH)
 
         ######################################################################
         #### add subplot of caliop observation track over a map
