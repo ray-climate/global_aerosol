@@ -107,7 +107,7 @@ def main():
 
     # Filter data based on defined start_time, end_time, lat_top, and lat_bottom
     all_data = all_data[(all_data['utc_time'] >= START_DATE) & (all_data['utc_time'] <= END_DATE) &
-                        (all_data['latitude'] >= LAT_NORTH) & (all_data['latitude'] <= LAT_SOUTH)]
+                        (all_data['latitude'] >= LAT_SOUTH) & (all_data['latitude'] <= LAT_NORTH)]
 
     unique_utc_times = all_data['utc_time'].drop_duplicates().reset_index(drop=True)
     count_unique_utc_times = unique_utc_times.shape[0]
