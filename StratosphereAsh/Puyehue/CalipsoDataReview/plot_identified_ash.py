@@ -197,7 +197,7 @@ def main():
         # Create the colormap
         custom_cmap = ListedColormap(colors)
         print(np.mean(dp_caliop[dp_caliop>0]))
-        fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap, norm=norm)
+        fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
         cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
