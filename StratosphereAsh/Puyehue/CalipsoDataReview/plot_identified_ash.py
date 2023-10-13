@@ -260,7 +260,10 @@ def main():
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
         # Specify position for colourbar's axes [left, bottom, width, height]
-        # cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=ax2, orientation='horizontal')
+        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), ax=ax2, orientation='horizontal')
+        cbar.set_ticks(bounds)
+        cbar.set_ticklabels(['$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$'])
+
         # cbar.ax.tick_params(labelsize=36)
         # #
         ax2.set_xlabel('Latitude', fontsize=35)
