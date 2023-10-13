@@ -121,7 +121,7 @@ def main():
         print('Identified ash for time: ', time)
         closest_file_level2 = get_closest_file_for_utc(time)
         # the correspongding level 1 file is replacing "Standard" by "05kmAPro-Standard"
-        closest_file_level1 = closest_file_level2.replace("L2_05kmAPro-Standard", "L1_Standard")
+        closest_file_level1 = closest_file_level2.replace("L2_05kmAPro-Standard", "L1-Standard")
         print('---------------- Closest level-2 file: ', closest_file_level2)
         print('---------------- Closest level-1 file: ', closest_file_level1)
 
