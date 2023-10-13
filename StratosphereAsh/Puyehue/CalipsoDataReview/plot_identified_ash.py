@@ -133,8 +133,10 @@ def main():
          aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
             = extract_variables_from_caliop(closest_file_level2, logger)
 
-        extract_variables_from_caliop_level1(closest_file_level1, logger)
-        quit()
+        (footprint_lat_caliop_l1, footprint_lon_caliop_l1,
+         alt_caliop_l1, attenuated_backscatter) = \
+            extract_variables_from_caliop_level1(closest_file_level1, logger)
+
         ######################################################################
         #### add subplot of caliop aerosol types
         ######################################################################
@@ -180,38 +182,58 @@ def main():
 
         ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
 
+        # ######################################################################
+        # #### add subplot of caliop depolarization ratio
+        # ######################################################################
+        #
+        # ax2 = fig.add_subplot(gs[40:70, 5:95])
+        #
+        # # Define the custom colormap colors and boundaries
+        # colors = [
+        #     "#000000",  # black
+        #     "#0000FF",  # blue
+        #     "#00FF00",  # green
+        #     "#FFFF00",  # yellow
+        #     "#FFA500",  # orange
+        #     "#FF0000",  # red
+        #     "#FF00FF",  # magenta
+        #     "#800080",  # purple
+        #     "#808080",  # gray
+        #     "#FFFFFF",  # white
+        # ]
+        # boundaries = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+        # # Create the colormap
+        # custom_cmap = ListedColormap(colors)
+        # print(np.mean(dp_caliop[dp_caliop>0]))
+        # fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap)
+        #
+        # # Specify position for colorbar's axes [left, bottom, width, height]
+        # cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
+        # cax = fig.add_axes(cbar_ax_position)
+        #
+        # cbar = plt.colorbar(fig2, cax=cax, orientation="horizontal")
+        # cbar.ax.set_xticklabels(tick_labels)
+        # cbar.ax.tick_params(labelsize=36)
+        #
+        # ax2.set_xlabel('Latitude', fontsize=35)
+        # ax2.set_ylabel('Height [km]', fontsize=35)
+        #
+        # for tick in ax2.xaxis.get_major_ticks():
+        #     tick.label.set_fontsize(35)
+        # for tick in ax2.yaxis.get_major_ticks():
+        #     tick.label.set_fontsize(35)
+        #
+        # ax2.set_xlim(LAT_SOUTH, LAT_NORTH)
+
         ######################################################################
-        #### add subplot of caliop depolarization ratio
+        #### add subplot of caliop atteunated backscatter
         ######################################################################
 
         ax2 = fig.add_subplot(gs[40:70, 5:95])
 
-        # Define the custom colormap colors and boundaries
-        colors = [
-            "#000000",  # black
-            "#0000FF",  # blue
-            "#00FF00",  # green
-            "#FFFF00",  # yellow
-            "#FFA500",  # orange
-            "#FF0000",  # red
-            "#FF00FF",  # magenta
-            "#800080",  # purple
-            "#808080",  # gray
-            "#FFFFFF",  # white
-        ]
-        boundaries = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-        # Create the colormap
-        custom_cmap = ListedColormap(colors)
-        print(np.mean(dp_caliop[dp_caliop>0]))
-        fig2 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, dp_caliop, cmap=custom_cmap)
+        x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
-        # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
-        cax = fig.add_axes(cbar_ax_position)
-
-        cbar = plt.colorbar(fig2, cax=cax, orientation="horizontal")
-        cbar.ax.set_xticklabels(tick_labels)
-        cbar.ax.tick_params(labelsize=36)
+        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap='rainbow')
 
         ax2.set_xlabel('Latitude', fontsize=35)
         ax2.set_ylabel('Height [km]', fontsize=35)
@@ -222,6 +244,7 @@ def main():
             tick.label.set_fontsize(35)
 
         ax2.set_xlim(LAT_SOUTH, LAT_NORTH)
+
 
         ######################################################################
         #### add subplot of caliop observation track over a map
@@ -246,7 +269,7 @@ def main():
 
 
         plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
-
+        quit()
 if __name__ == "__main__":
     main()
 
