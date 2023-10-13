@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
-from matplotlib.colors import ListedColormap
+from matplotlib.colors import ListedColormap, LogNorm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.gridspec import GridSpec
 import matplotlib as mpl
@@ -233,7 +233,33 @@ def main():
 
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
-        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap='rainbow')
+        colors = [
+            '#0000FF',  # Blue
+            '#00FFFF',  # Cyan
+            '#00FF00',  # Green
+            '#FFFF00',  # Yellow
+            '#FF0000',  # Red
+            '#FFFFFF',  # White
+            '#C0C0C0',  # Silver
+            '#808080'  # Gray
+        ]
+
+        # Create the colormap
+        cmap_ax2 = ListedColormap(colors)
+        # Set up the logarithmic normalization using LogNorm
+        # You can set the vmin and vmax to fit the range of your data,
+        # if not specified, the min and max of your data will be used by default.
+        norm = LogNorm()
+
+        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
+
+        # Specify position for colorbar's axes [left, bottom, width, height]
+        cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
+        cax = fig.add_axes(cbar_ax_position)
+
+        cbar = plt.colorbar(fig2, cax=cax, orientation="horizontal")
+        cbar.ax.set_xticklabels(tick_labels)
+        cbar.ax.tick_params(labelsize=36)
 
         ax2.set_xlabel('Latitude', fontsize=35)
         ax2.set_ylabel('Height [km]', fontsize=35)
