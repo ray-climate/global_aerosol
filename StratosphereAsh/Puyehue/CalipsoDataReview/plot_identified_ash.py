@@ -252,20 +252,17 @@ def main():
         ]
 
         # Create the colormap
-        cmap_ax2 = ListedColormap(colors)
+        cmap_custom = ListedColormap(colors)
 
         bounds = [10 ** (-4), 10 ** (-3), 10 ** (-2), 10 ** (-1)]
-        norm = BoundaryNorm(bounds, len(colors) - 1, clip=True)
+        norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
-        tick_locs = [(bounds[i] + bounds[i + 1]) / 2 for i in range(len(bounds) - 1)]
-        tick_labels = ['10^-4', '10^-3', '10^-2', '10^-1']
-
-        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
+        fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar = plt.colorbar(fig2, orientation='horizontal', ticks=tick_locs)
-        cbar.ax.set_xticklabels(tick_labels)
+        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=ax2, orientation='horizontal')
 
+        cbar.ax.set_xticklabels(tick_labels)
         cbar.ax.tick_params(labelsize=36)
 
         ax2.set_xlabel('Latitude', fontsize=35)
