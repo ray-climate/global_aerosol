@@ -238,17 +238,13 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            # 10 colors for 10^-4 to 10^-3
-            '#0000FF', '#0033FF', '#0066FF', '#0099FF', '#00CCFF', '#00FFFF', '#33FFFF', '#66FFFF', '#99FFFF',
-            '#CCFFFF',
-
-            # 15 colors for 10^-3 to 10^-2
-            '#00FFCC', '#00FF99', '#00FF66', '#00FF33', '#00FF00', '#33FF00', '#66FF00', '#99FF00', '#CCFF00',
-            '#FFFF00',
-            '#FFCC00', '#FF9900', '#FF6600', '#FF3300', '#FF0000',
-
-            # 10 colors for 10^-2 to 10^-1
-            '#CC0000', '#C00000', '#B00000', '#A00000', '#8B0000', '#C0C0C0', '#B0B0B0', '#A0A0A0', '#8B8B8B', '#787878'
+            '#05059A', '#1B1BC2', '#3232E7', '#4646F9', '#5C5CF9', '#7171FA', '#8686FB', '#9B9BFC', '#B1B1FC',
+            '#C6C6FD',
+            '#35E12D', '#61E449', '#8DE664', '#B9E87F', '#E5EA9A', '#FDFB6F', '#FDD650', '#FCB231', '#FB9E11',
+            '#FA8A01',
+            '#FA7700', '#FB6300', '#FC5000', '#FD3D00', '#FE2A00', '#FF1700', '#F90606', '#E40808', '#CE0A0A',
+            '#B90C0C',
+            '#A40E0E', '#900F0F', '#7B1111', '#661313', '#511515'
         ]
         # Create the colormap
         cmap_custom = ListedColormap(colors)
