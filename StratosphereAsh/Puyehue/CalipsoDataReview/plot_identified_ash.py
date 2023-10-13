@@ -253,9 +253,9 @@ def main():
         # Set up the logarithmic normalization using LogNorm
         # You can set the vmin and vmax to fit the range of your data,
         # if not specified, the min and max of your data will be used by default.
-        norm = LogNorm()
+        norm = LogNorm(vmin=1.e-4, vmax=1.e-1)
 
-        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm, vmin=1.e-4, vmax=1.e-1)
+        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
         cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
