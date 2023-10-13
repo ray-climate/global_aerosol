@@ -136,7 +136,7 @@ def main():
         (footprint_lat_caliop_l1, footprint_lon_caliop_l1,
          alt_caliop_l1, attenuated_backscatter) = \
             extract_variables_from_caliop_level1(closest_file_level1, logger)
-
+        print(np.mean(attenuated_backscatter))
         ######################################################################
         #### add subplot of caliop aerosol types
         ######################################################################
