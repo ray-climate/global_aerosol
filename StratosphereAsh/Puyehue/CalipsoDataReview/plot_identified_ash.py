@@ -119,17 +119,21 @@ def main():
 
     for time in unique_utc_times:
         print('Identified ash for time: ', time)
-        closest_file = get_closest_file_for_utc(time)
-        print('---------------- Closest file: ', closest_file)
-        if closest_file:
-            closest_files.append(closest_file)
+        closest_file_level2 = get_closest_file_for_utc(time)
+        # the correspongding level 1 file is replacing "Standard" by "05kmAPro-Standard"
+        closest_file_level1 = closest_file_level2.replace("Standard", "05kmAPro-Standard")
+        print('---------------- Closest level-2 file: ', closest_file_level2)
+        print('---------------- Closest level-1 file: ', closest_file_level1)
+
+        if closest_file_level2:
+            closest_files.append(closest_file_level2)
 
         (footprint_lat_caliop, footprint_lon_caliop,
          alt_caliop, beta_caliop, alpha_caliop,
          aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
-            = extract_variables_from_caliop(closest_file, logger)
+            = extract_variables_from_caliop(closest_file_level2, logger)
 
-        extract_variables_from_caliop_level1(closest_file, logger)
+        extract_variables_from_caliop_level1(closest_file_level1, logger)
         quit()
         ######################################################################
         #### add subplot of caliop aerosol types
