@@ -250,22 +250,24 @@ def main():
             # 10 colors for 10^-2 to 10^-1
             '#CC0000', '#C00000', '#B00000', '#A00000', '#8B0000', '#C0C0C0', '#B0B0B0', '#A0A0A0', '#8B8B8B', '#787878'
         ]
-
         # Create the colormap
         cmap_custom = ListedColormap(colors)
 
-        bounds = [10 ** (-4), 10 ** (-3), 10 ** (-2), 10 ** (-1)]
+        bounds = np.concatenate([
+            np.linspace(10 ** -4, 10 ** -3, 11)[:-1],  # 10 divisions for 10^-4 to 10^-3
+            np.linspace(10 ** -3, 10 ** -2, 16)[:-1],  # 15 divisions for 10^-3 to 10^-2
+            np.linspace(10 ** -2, 10 ** -1, 11)  # 10 divisions for 10^-2 to 10^-1
+        ])
         norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
-        # Specify position for colourbar's axes [left, bottom, width, height]
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), ax=ax2, orientation='horizontal')
-        cbar.set_ticks(bounds)
+        cbar_ticks = [10 ** -4, 10 ** -3, 10 ** -2, 10 ** -1]
+        cbar.set_ticks(cbar_ticks)
         cbar.set_ticklabels(['$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$'])
 
         # cbar.ax.tick_params(labelsize=36)
-        # #
         ax2.set_xlabel('Latitude', fontsize=35)
         ax2.set_ylabel('Height [km]', fontsize=35)
 
