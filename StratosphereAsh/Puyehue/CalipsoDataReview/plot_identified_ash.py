@@ -238,14 +238,43 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            '#05059A', '#1B1BC2', '#3232E7', '#4646F9', '#5C5CF9', '#7171FA', '#8686FB', '#9B9BFC', '#B1B1FC',
-            '#C6C6FD',
-            '#35E12D', '#61E449', '#8DE664', '#B9E87F', '#E5EA9A', '#FDFB6F', '#FDD650', '#FCB231', '#FB9E11',
-            '#FA8A01',
-            '#FA7700', '#FB6300', '#FC5000', '#FD3D00', '#FE2A00', '#FF1700', '#F90606', '#E40808', '#CE0A0A',
-            '#B90C0C',
-            '#A40E0E', '#900F0F', '#7B1111', '#661313', '#511515'
+            "020469",  # Dark Blue
+            "020D7D",  # Blue
+            "0215B2",  # Bright Blue
+            "021CE6",  # Lighter Blue
+            "267505",  # Dark Green
+            "33A307",  # Green
+            "3FF909",  # Light Green
+            "7AC902",  # Olive-ish Green
+            "A6ED04",  # Light Olive Green
+            "CFFF06",  # Lime Green/Yellow
+            "FFD500",  # Golden Yellow
+            "FFAB00",  # Orange
+            "FF8200",  # Dark Orange
+            "FF5900",  # Reddish Orange
+            "FF3000",  # Red-Orange
+            "FF0700",  # Red
+            "FC001B",  # Bright Red
+            "F80035",  # Pinkish Red
+            "F50050",  # Dark Pink
+            "F2006A",  # Magenta
+            "EF0090",  # Dark Magenta
+            "EB00B6",  # Purple Magenta
+            "E800DB",  # Purple
+            "C01BDD",  # Dark Purple
+            "991DE0",  # Violet Purple
+            "711EE3",  # Blueish Purple
+            "4920E6",  # Lighter Blue Purple
+            "2021EA",  # Blue
+            "0000EE",  # Bright Blue
+            "0000D2",  # Darker Blue
+            "0000B6",  # Even Darker Blue
+            "00009A",  # Very Dark Blue
+            "00007E",  # Nearly Black Blue
+            "000062"  # Very Nearly Black Blue
+            "000062"  # Very Nearly Black Blue
         ]
+
         # Create the colormap
         cmap_custom = ListedColormap(colors)
 
