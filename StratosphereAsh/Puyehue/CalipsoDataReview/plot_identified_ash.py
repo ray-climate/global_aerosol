@@ -259,10 +259,10 @@ def main():
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
-        # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=ax2, orientation='horizontal')
-        cbar.ax.tick_params(labelsize=36)
-        #
+        # Specify position for colourbar's axes [left, bottom, width, height]
+        # cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=ax2, orientation='horizontal')
+        # cbar.ax.tick_params(labelsize=36)
+        # #
         ax2.set_xlabel('Latitude', fontsize=35)
         ax2.set_ylabel('Height [km]', fontsize=35)
 
