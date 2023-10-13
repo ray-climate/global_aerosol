@@ -26,6 +26,9 @@ START_DATE = '2011-07-01'
 END_DATE = '2011-08-20'
 LAT_NORTH = -30
 LAT_SOUTH = -80
+ALT_BOT = 0
+ALT_TOP = 20
+
 
 # File locations
 CALIPSO_LOCATION = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
@@ -181,6 +184,7 @@ def main():
             tick.label.set_fontsize(35)
 
         ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
+        ax1.set_ylim(ALT_BOT, ALT_TOP)
 
         # ######################################################################
         # #### add subplot of caliop depolarization ratio
@@ -251,7 +255,7 @@ def main():
         # if not specified, the min and max of your data will be used by default.
         norm = LogNorm()
 
-        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
+        fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm, vmin=1.e-4, vmax=1.e-1)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
         cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
@@ -270,7 +274,7 @@ def main():
             tick.label.set_fontsize(35)
 
         ax2.set_xlim(LAT_SOUTH, LAT_NORTH)
-
+        ax2.set_ylim(ALT_BOT, ALT_TOP)
 
         ######################################################################
         #### add subplot of caliop observation track over a map
