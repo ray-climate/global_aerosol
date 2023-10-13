@@ -238,11 +238,11 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            '#1c579d', '#275aa0', '#3061a4', '#3668a7', '#3b6eaa', '#4275ad', '#487bb1', '#5185b8',
-            '#5d91c0', '#699dc8', '#74a9d0', '#80b5d9', '#8bc0e1', '#99cce9', '#a6d7f0', '#b3e2f7',
-            '#c0ecff', '#ffda98', '#ffcf7e', '#ffc464', '#ffb949', '#ffae2e', '#ffa413', '#ff9900',
-            '#ff8a8a', '#ff7a7a', '#ff6a6a', '#ff5a5a', '#ff4a4a', '#ff3a3a', '#ff2a2a', '#ff1a1a',
-            '#ff0a0a', '#ff0000', '#ff0000'
+            '#002aaa', '#002aaa', '#007ffe', '#007ffe', '#007ffe', '#007ffe', '#007ffe', '#06ffa9',
+            '#007f7f', '#00aa55', '#ffff00', '#ffff00', '#ffd401', '#ffd401', '#ff7f00', '#ff5502',
+            '#fe0000', '#ff2a55', '#ff557f', '#ff7eaa', '#ff7eaa', '#ff7eaa', '#ff7eaa', '#ff7eaa',
+            '#ff7eaa', '#ff7eaa', '#ff6a6a', '#ff7eaa', '#ff7eaa', '#ff7eaa', '#ff7eaa', '#ff7eaa',
+            '#ff7eaa', '#ff7eaa', '#ff7eaa'
         ]
 
         # Create the colormap
