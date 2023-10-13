@@ -238,27 +238,26 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            '#0000FF', '#0000CD', '#0000B0', '#00008B',  # Segment for 10^-4
-            '#00FFFF', '#00E5EE', '#00CED1', '#00B2EE',  # Segment for 10^-3.5
-            '#00FF00', '#00CD00', '#00B000', '#008B00',  # Segment for 10^-3
-            '#FFFF00', '#FFD700', '#FFC125', '#FFB90F',  # Segment for 10^-2.5
-            '#FF6347', '#FF4500', '#FF3030', '#FF0000',  # Segment for 10^-2
-            '#C0C0C0', '#B0B0B0', '#A0A0A0', '#8B8B8B',  # Segment for 10^-1.5
-            '#787878', '#696969', '#585858', '#474747'  # Segment for 10^-1
+            # 10 colors for 10^-4 to 10^-3
+            '#0000FF', '#0033FF', '#0066FF', '#0099FF', '#00CCFF', '#00FFFF', '#33FFFF', '#66FFFF', '#99FFFF',
+            '#CCFFFF',
+
+            # 15 colors for 10^-3 to 10^-2
+            '#00FFCC', '#00FF99', '#00FF66', '#00FF33', '#00FF00', '#33FF00', '#66FF00', '#99FF00', '#CCFF00',
+            '#FFFF00',
+            '#FFCC00', '#FF9900', '#FF6600', '#FF3300', '#FF0000',
+
+            # 10 colors for 10^-2 to 10^-1
+            '#CC0000', '#C00000', '#B00000', '#A00000', '#8B0000', '#C0C0C0', '#B0B0B0', '#A0A0A0', '#8B8B8B', '#787878'
         ]
 
         # Create the colormap
         cmap_ax2 = ListedColormap(colors)
 
-        bounds = [
-            10 ** -4, 10 ** -3.75, 10 ** -3.5, 10 ** -3.25,
-            10 ** -3, 10 ** -2.75, 10 ** -2.5, 10 ** -2.25,
-            10 ** -2, 10 ** -1.75, 10 ** -1.5, 10 ** -1.25,
-            10 ** -1
-        ]
-        norm = BoundaryNorm(bounds, cmap_ax2.N, clip=True)
+        bounds = [10 ** (-4), 10 ** (-3), 10 ** (-2), 10 ** (-1)]
+        norm = BoundaryNorm(bounds, len(colors) - 1, clip=True)
 
-        tick_locs = [10 ** -4, 10 ** -3, 10 ** -2, 10 ** -1]
+        tick_locs = [(bounds[i] + bounds[i + 1]) / 2 for i in range(len(bounds) - 1)]
         tick_labels = ['10^-4', '10^-3', '10^-2', '10^-1']
 
         fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
