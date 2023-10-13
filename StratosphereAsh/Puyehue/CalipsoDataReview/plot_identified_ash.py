@@ -271,7 +271,7 @@ def main():
             "0000B6",  # Even Darker Blue
             "00009A",  # Very Dark Blue
             "00007E",  # Nearly Black Blue
-            "000062"  # Very Nearly Black Blue
+            "000062",  # Very Nearly Black Blue
             "000062"  # Very Nearly Black Blue
         ]
 
