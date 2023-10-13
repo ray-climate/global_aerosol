@@ -261,8 +261,6 @@ def main():
 
         # Specify position for colorbar's axes [left, bottom, width, height]
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=ax2, orientation='horizontal')
-
-        cbar.ax.set_xticklabels(tick_labels)
         cbar.ax.tick_params(labelsize=36)
 
         ax2.set_xlabel('Latitude', fontsize=35)
