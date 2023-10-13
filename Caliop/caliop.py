@@ -368,7 +368,6 @@ class Caliop_hdf_reader():
 
     # def _nasa_vocal_cmp(self, cmp_filename):
 
-
 class Caliop_feature:
 
     def __init__(self, filename):
