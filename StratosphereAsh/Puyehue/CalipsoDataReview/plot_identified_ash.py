@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
-from matplotlib.colors import ListedColormap, LogNorm
+from matplotlib.colors import ListedColormap, BoundaryNorm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.gridspec import GridSpec
 import matplotlib as mpl
@@ -238,22 +238,20 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            '#0000FF',  # Blue
-            '#00FFFF',  # Cyan
-            '#00FF00',  # Green
-            '#FFFF00',  # Yellow
-            '#FF0000',  # Red
-            '#FFFFFF',  # White
-            '#C0C0C0',  # Silver
-            '#808080'  # Gray
+            '#0000FF', '#0000CD', '#0000B0', '#00008B',
+            '#00FFFF', '#00E5EE', '#00CED1', '#00B2EE',
+            '#00FF00', '#00CD00', '#00B000', '#008B00',
+            '#FFFF00', '#FFD700', '#FFC125', '#FFB90F',
+            '#FF6347', '#FF4500', '#FF3030', '#FF0000',
+            '#C0C0C0', '#B0B0B0', '#A0A0A0', '#8B8B8B',
+            '#787878', '#696969', '#585858', '#474747'
         ]
 
         # Create the colormap
         cmap_ax2 = ListedColormap(colors)
-        # Set up the logarithmic normalization using LogNorm
-        # You can set the vmin and vmax to fit the range of your data,
-        # if not specified, the min and max of your data will be used by default.
-        norm = LogNorm(vmin=1.e-4, vmax=1.e-1)
+        # Define the boundaries for your data based on the provided image
+        bounds = [10 ** (-4), 10 ** (-3.5), 10 ** (-3), 10 ** (-2.5), 10 ** (-2), 10 ** (-1.5), 10 ** (-1)]
+        norm = BoundaryNorm(bounds, cmap_ax2.N, clip=True)
 
         fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
 
