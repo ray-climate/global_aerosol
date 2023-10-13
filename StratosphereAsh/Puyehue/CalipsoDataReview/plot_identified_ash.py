@@ -249,12 +249,12 @@ def main():
 
         # Create the colormap
         cmap_ax2 = ListedColormap(colors)
-        # Define the boundaries for your data based on the provided image
-        tick_locs = [(bounds[i] + bounds[i + 1]) / 2 for i in range(len(bounds) - 1)]
-        tick_labels = ['10^-4', '10^-3.5', '10^-3', '10^-2.5', '10^-2', '10^-1.5', '10^-1']
 
         bounds = [10 ** (-4), 10 ** (-3.5), 10 ** (-3), 10 ** (-2.5), 10 ** (-2), 10 ** (-1.5), 10 ** (-1)]
         norm = BoundaryNorm(bounds, cmap_ax2.N, clip=True)
+
+        tick_locs = [(bounds[i] + bounds[i + 1]) / 2 for i in range(len(bounds) - 1)]
+        tick_labels = ['10^-4', '10^-3.5', '10^-3', '10^-2.5', '10^-2', '10^-1.5', '10^-1']
 
         fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
 
