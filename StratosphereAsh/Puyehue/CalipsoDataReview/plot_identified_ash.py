@@ -272,6 +272,7 @@ def main():
             "00009A",  # Very Dark Blue
             "00007E",  # Nearly Black Blue
             "000062"  # Very Nearly Black Blue
+            "000062"  # Very Nearly Black Blue
         ]
 
         # Create the colormap
