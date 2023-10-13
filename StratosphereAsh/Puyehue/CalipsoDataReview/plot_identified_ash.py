@@ -242,7 +242,7 @@ def main():
             '#5d91c0', '#699dc8', '#74a9d0', '#80b5d9', '#8bc0e1', '#99cce9', '#a6d7f0', '#b3e2f7',
             '#c0ecff', '#ffda98', '#ffcf7e', '#ffc464', '#ffb949', '#ffae2e', '#ffa413', '#ff9900',
             '#ff8a8a', '#ff7a7a', '#ff6a6a', '#ff5a5a', '#ff4a4a', '#ff3a3a', '#ff2a2a', '#ff1a1a',
-            '#ff0a0a', '#ff0000'
+            '#ff0a0a', '#ff0000', '#ff0000'
         ]
 
         # Create the colormap
