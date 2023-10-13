@@ -51,3 +51,39 @@ def extract_variables_from_caliop(hdf_file, logger):
            caliop_altitude_list, caliop_beta_list, \
            caliop_alpha_list, caliop_aerosol_type, caliop_feature_type, \
            caliop_Depolarization_Ratio_list, caliop_tropopause_height
+
+def extract_variables_from_caliop_level1(hdf_file, logger):
+    """Extract relevant variables from the CALIOP Level-1 data"""
+
+    caliop_request = Caliop_hdf_reader()
+    caliop_latitude_list = caliop_request. \
+        _get_latitude(hdf_file)
+    caliop_longitude_list = caliop_request. \
+        _get_longitude(hdf_file)
+    caliop_altitude_list = caliop_request. \
+        get_altitudes(hdf_file)
+    caliop_total_attenuated_backscatter_list = \
+        caliop_request._get_calipso_data(filename=hdf_file,
+                                         variable='Total_Attenuated_Backscatter_532')
+    print(caliop_latitude_list.shape)
+    print(caliop_total_attenuated_backscatter_list.shape)
+    quit()
+    # caliop_alpha_list = caliop_request. \
+    #     _get_calipso_data(filename=hdf_file,
+    #                       variable='Extinction_Coefficient_532')
+    # (caliop_aerosol_type, caliop_feature_type) = caliop_request.\
+    #     _get_feature_classification(filename=hdf_file,
+    #                                 variable='Atmospheric_Volume_Description')
+    #
+    # caliop_Depolarization_Ratio_list = caliop_request. \
+    #     _get_calipso_data(filename=hdf_file,
+    #                       variable='Particulate_Depolarization_Ratio_Profile_532')
+    #
+    # caliop_tropopause_height = caliop_request.\
+    #     _get_tropopause_height(filename=hdf_file)
+
+    logger.info("Extracted data from caliop file: 7 parameters")
+    return caliop_latitude_list, caliop_longitude_list, \
+           caliop_altitude_list, caliop_beta_list, \
+           caliop_alpha_list, caliop_aerosol_type, caliop_feature_type, \
+           caliop_Depolarization_Ratio_list, caliop_tropopause_height

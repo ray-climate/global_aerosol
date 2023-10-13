@@ -129,6 +129,8 @@ def main():
          aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
             = extract_variables_from_caliop(closest_file, logger)
 
+        extract_variables_from_caliop_level1(closest_file, logger)
+        quit()
         ######################################################################
         #### add subplot of caliop aerosol types
         ######################################################################
