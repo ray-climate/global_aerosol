@@ -238,7 +238,7 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            "020469",  # Dark Blue
+            "020D7D",  # Dark Blue
             "020D7D",  # Blue
             "0215B2",  # Bright Blue
             "021CE6",  # Lighter Blue
