@@ -238,41 +238,11 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            "020D7D",  # Dark Blue
-            "020D7D",  # Blue
-            "0215B2",  # Bright Blue
-            "021CE6",  # Lighter Blue
-            "267505",  # Dark Green
-            "33A307",  # Green
-            "3FF909",  # Light Green
-            "7AC902",  # Olive-ish Green
-            "A6ED04",  # Light Olive Green
-            "CFFF06",  # Lime Green/Yellow
-            "FFD500",  # Golden Yellow
-            "FFAB00",  # Orange
-            "FF8200",  # Dark Orange
-            "FF5900",  # Reddish Orange
-            "FF3000",  # Red-Orange
-            "FF0700",  # Red
-            "FC001B",  # Bright Red
-            "F80035",  # Pinkish Red
-            "F50050",  # Dark Pink
-            "F2006A",  # Magenta
-            "EF0090",  # Dark Magenta
-            "EB00B6",  # Purple Magenta
-            "E800DB",  # Purple
-            "C01BDD",  # Dark Purple
-            "991DE0",  # Violet Purple
-            "711EE3",  # Blueish Purple
-            "4920E6",  # Lighter Blue Purple
-            "2021EA",  # Blue
-            "0000EE",  # Bright Blue
-            "0000D2",  # Darker Blue
-            "0000B6",  # Even Darker Blue
-            "00009A",  # Very Dark Blue
-            "00007E",  # Nearly Black Blue
-            "000062",  # Very Nearly Black Blue
-            "000062"  # Very Nearly Black Blue
+            '#1c579d', '#275aa0', '#3061a4', '#3668a7', '#3b6eaa', '#4275ad', '#487bb1', '#5185b8',
+            '#5d91c0', '#699dc8', '#74a9d0', '#80b5d9', '#8bc0e1', '#99cce9', '#a6d7f0', '#b3e2f7',
+            '#c0ecff', '#ffda98', '#ffcf7e', '#ffc464', '#ffb949', '#ffae2e', '#ffa413', '#ff9900',
+            '#ff8a8a', '#ff7a7a', '#ff6a6a', '#ff5a5a', '#ff4a4a', '#ff3a3a', '#ff2a2a', '#ff1a1a',
+            '#ff0a0a', '#ff0000'
         ]
 
         # Create the colormap
