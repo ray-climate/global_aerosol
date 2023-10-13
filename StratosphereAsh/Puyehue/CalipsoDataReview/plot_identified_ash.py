@@ -250,16 +250,16 @@ def main():
         # Create the colormap
         cmap_ax2 = ListedColormap(colors)
         # Define the boundaries for your data based on the provided image
+        tick_locs = [(bounds[i] + bounds[i + 1]) / 2 for i in range(len(bounds) - 1)]
+        tick_labels = ['10^-4', '10^-3.5', '10^-3', '10^-2.5', '10^-2', '10^-1.5', '10^-1']
+
         bounds = [10 ** (-4), 10 ** (-3.5), 10 ** (-3), 10 ** (-2.5), 10 ** (-2), 10 ** (-1.5), 10 ** (-1)]
         norm = BoundaryNorm(bounds, cmap_ax2.N, clip=True)
 
         fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar_ax_position = [0.25, 0.55, 0.5, 0.02]  # Modify these values as needed
-        cax = fig.add_axes(cbar_ax_position)
-
-        cbar = plt.colorbar(fig2, cax=cax, orientation="horizontal")
+        cbar = plt.colorbar(fig2, ticks=tick_locs)
         cbar.ax.set_xticklabels(tick_labels)
         cbar.ax.tick_params(labelsize=36)
 
