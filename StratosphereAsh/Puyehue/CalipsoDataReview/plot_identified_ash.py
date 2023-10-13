@@ -238,23 +238,28 @@ def main():
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
         colors = [
-            '#0000FF', '#0000CD', '#0000B0', '#00008B',
-            '#00FFFF', '#00E5EE', '#00CED1', '#00B2EE',
-            '#00FF00', '#00CD00', '#00B000', '#008B00',
-            '#FFFF00', '#FFD700', '#FFC125', '#FFB90F',
-            '#FF6347', '#FF4500', '#FF3030', '#FF0000',
-            '#C0C0C0', '#B0B0B0', '#A0A0A0', '#8B8B8B',
-            '#787878', '#696969', '#585858', '#474747'
+            '#0000FF', '#0000CD', '#0000B0', '#00008B',  # Segment for 10^-4
+            '#00FFFF', '#00E5EE', '#00CED1', '#00B2EE',  # Segment for 10^-3.5
+            '#00FF00', '#00CD00', '#00B000', '#008B00',  # Segment for 10^-3
+            '#FFFF00', '#FFD700', '#FFC125', '#FFB90F',  # Segment for 10^-2.5
+            '#FF6347', '#FF4500', '#FF3030', '#FF0000',  # Segment for 10^-2
+            '#C0C0C0', '#B0B0B0', '#A0A0A0', '#8B8B8B',  # Segment for 10^-1.5
+            '#787878', '#696969', '#585858', '#474747'  # Segment for 10^-1
         ]
 
         # Create the colormap
         cmap_ax2 = ListedColormap(colors)
 
-        bounds = [10 ** (-4), 10 ** (-3.5), 10 ** (-3), 10 ** (-2.5), 10 ** (-2), 10 ** (-1.5), 10 ** (-1)]
+        bounds = [
+            10 ** -4, 10 ** -3.75, 10 ** -3.5, 10 ** -3.25,
+            10 ** -3, 10 ** -2.75, 10 ** -2.5, 10 ** -2.25,
+            10 ** -2, 10 ** -1.75, 10 ** -1.5, 10 ** -1.25,
+            10 ** -1
+        ]
         norm = BoundaryNorm(bounds, cmap_ax2.N, clip=True)
 
-        tick_locs = [(bounds[i] + bounds[i + 1]) / 2 for i in range(len(bounds) - 1)]
-        tick_labels = ['10^-4', '10^-3.5', '10^-3', '10^-2.5', '10^-2', '10^-1.5']
+        tick_locs = [10 ** -4, 10 ** -3, 10 ** -2, 10 ** -1]
+        tick_labels = ['10^-4', '10^-3', '10^-2', '10^-1']
 
         fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
 
