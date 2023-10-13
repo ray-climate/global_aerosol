@@ -259,8 +259,8 @@ def main():
         fig2 = plt.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_ax2, norm=norm)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar = plt.colorbar(fig2, ticks=tick_locs)
-        cbar.ax.set_yticklabels(tick_labels)  # Note: Use set_yticklabels for vertical colorbar
+        cbar = plt.colorbar(fig2, orientation='horizontal', ticks=tick_locs)
+        cbar.ax.set_xticklabels(tick_labels)
 
         cbar.ax.tick_params(labelsize=36)
 
