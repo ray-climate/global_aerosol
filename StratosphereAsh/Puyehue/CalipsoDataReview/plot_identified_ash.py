@@ -147,7 +147,7 @@ def main():
         x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(115, 100, figure=fig)
+        gs = GridSpec(110, 100, figure=fig)
 
         ax1 = fig.add_subplot(gs[75:105, 5:95])
 
@@ -168,12 +168,12 @@ def main():
         plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar_ax_position = [0.25, 0.027, 0.5, 0.02]  # Modify these values as needed
-        cax = fig.add_axes(cbar_ax_position)
+        # cbar_ax_position = [0.25, 0.027, 0.5, 0.02]  # Modify these values as needed
+        # cax = fig.add_axes(cbar_ax_position)
 
-        cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
+        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), pad=0.005)
         cbar.ax.set_xticklabels(tick_labels)
-        cbar.ax.tick_params(labelsize=36)
+        cbar.ax.tick_params(labelsize=20)
 
         ax1.set_xlabel('Latitude', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
@@ -260,7 +260,7 @@ def main():
         # cbar_ax_position = [0.25, 0.663, 0.5, 0.02]  # Modify these values as needed
         # cax = fig.add_axes(cbar_ax_position)
 
-        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), pad=0.01)
+        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), pad=0.005)
         cbar_ticks = [10 ** -4, 10 ** -3, 10 ** -2, 10 ** -1]
         cbar.set_ticks(cbar_ticks)
         cbar.set_ticklabels(['$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$'])
@@ -304,10 +304,10 @@ def main():
         fig3 = ax3.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, volume_depolarization_ratio, cmap=cmap_custom,
                               norm=norm)
 
-        cbar_ax_position = [0.25, 0.345, 0.5, 0.02]  # Modify these values as needed
-        cax = fig.add_axes(cbar_ax_position)
+        # cbar_ax_position = [0.25, 0.345, 0.5, 0.02]  # Modify these values as needed
+        # cax = fig.add_axes(cbar_ax_position)
 
-        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
+        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), pad=0.005)
         cbar_ticks = [0., 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.]
         cbar.set_ticks(cbar_ticks)
         cbar.set_ticklabels(['0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
