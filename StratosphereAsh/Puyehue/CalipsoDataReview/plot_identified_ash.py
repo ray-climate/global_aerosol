@@ -147,9 +147,9 @@ def main():
         x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(105, 100, figure=fig)
+        gs = GridSpec(110, 100, figure=fig)
 
-        ax1 = fig.add_subplot(gs[5:35, 5:95])
+        ax1 = fig.add_subplot(gs[75:105, 5:95])
 
         z_grid_caliop_type = aerosol_type_caliop
         z_grid_caliop_type[feature_type_caliop != 4] = 0
@@ -168,7 +168,7 @@ def main():
         plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
-        cbar_ax_position = [0.25, 0.95, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.027, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, orientation="horizontal", ticks=tick_locs)
@@ -233,7 +233,7 @@ def main():
         #### add subplot of caliop atteunated backscatter
         ######################################################################
 
-        ax2 = fig.add_subplot(gs[40:70, 5:95])
+        ax2 = fig.add_subplot(gs[5:35, 5:95])
 
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
@@ -257,7 +257,7 @@ def main():
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, total_attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
-        cbar_ax_position = [0.25, 0.62, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.663, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
@@ -288,7 +288,7 @@ def main():
         print(np.min(volume_depolarization_ratio))
         print(np.max(volume_depolarization_ratio))
 
-        ax3 = fig.add_subplot(gs[75:105, 5:95])
+        ax3 = fig.add_subplot(gs[40:70, 5:95])
 
         colors = [
             '#000000', '#03aaff', '#00d401', '#ffff00', '#ffaa01', '#ff0200', '#ff0200', '#ffd4ff',
@@ -304,7 +304,7 @@ def main():
         fig3 = ax3.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, volume_depolarization_ratio, cmap=cmap_custom,
                               norm=norm)
 
-        cbar_ax_position = [0.25, 0.35, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.345, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
