@@ -167,7 +167,7 @@ def main():
         fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
         plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
-        cbar_ax_position = [0.55, 0.1, 0.01, 0.2]  # Modify these values as needed
+        cbar_ax_position = [0.56, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
@@ -360,7 +360,7 @@ def main():
         footprint_lat_caliop_filter = footprint_lat_caliop[(footprint_lat_caliop > LAT_SOUTH) & (footprint_lat_caliop < LAT_NORTH)]
 
         x, y = m(footprint_lon_caliop_filter, footprint_lat_caliop_filter)
-        m.plot(x, y, color='red', linewidth=5)
+        m.plot(x, y, color='red', linewidth=8)
 
         # ax2.set_title('CALIOP Observation Track', fontsize=35)
         #
