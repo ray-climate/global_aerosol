@@ -147,7 +147,7 @@ def main():
         x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(100, 100, figure=fig)
+        gs = GridSpec(105, 100, figure=fig)
 
         ax1 = fig.add_subplot(gs[5:35, 5:95])
 
@@ -288,7 +288,7 @@ def main():
         print(np.min(volume_depolarization_ratio))
         print(np.max(volume_depolarization_ratio))
 
-        ax3 = fig.add_subplot(gs[10:40, 5:95])
+        ax3 = fig.add_subplot(gs[75:105, 5:95])
 
         colors = [
             '#000000', '#03aaff', '#00d401', '#ffff00', '#ffaa01', '#ff0200', '#ff0200', '#ffd4ff',
@@ -315,16 +315,16 @@ def main():
         cbar.set_label('Volume depolarization ratio', fontsize=35)
 
         # cbar.ax.tick_params(labelsize=36)
-        ax2.set_xlabel('Latitude', fontsize=35)
-        ax2.set_ylabel('Height [km]', fontsize=35)
+        ax3.set_xlabel('Latitude', fontsize=35)
+        ax3.set_ylabel('Height [km]', fontsize=35)
 
-        for tick in ax2.xaxis.get_major_ticks():
+        for tick in ax3.xaxis.get_major_ticks():
             tick.label.set_fontsize(35)
-        for tick in ax2.yaxis.get_major_ticks():
+        for tick in ax3.yaxis.get_major_ticks():
             tick.label.set_fontsize(35)
 
-        ax2.set_xlim(LAT_SOUTH, LAT_NORTH)
-        ax2.set_ylim(ALT_BOT, ALT_TOP)
+        ax3.set_xlim(LAT_SOUTH, LAT_NORTH)
+        ax3.set_ylim(ALT_BOT, ALT_TOP)
 
         ######################################################################
         #### add subplot of caliop observation track over a map
