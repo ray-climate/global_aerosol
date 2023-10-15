@@ -343,10 +343,7 @@ def main():
         x, y = m(footprint_lon_caliop_filter, footprint_lat_caliop_filter)
         m.plot(x, y, color='red', linewidth=8)
 
-        # ax2.set_title('CALIOP Observation Track', fontsize=35)
-        #
-
-        plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
+        plt.savefig(FIGURE_SAVE_LOCATION + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
 
 if __name__ == "__main__":
     main()
