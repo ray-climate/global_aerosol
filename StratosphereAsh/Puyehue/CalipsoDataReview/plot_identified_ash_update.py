@@ -195,17 +195,6 @@ def main():
         else:
             ax1.set_xlim(right=index_limit)
 
-        for tick in ax1.yaxis.get_major_ticks():
-            tick.label.set_fontsize(35)
-        # Get the current x-axis limits
-        x_min, x_max = ax1.get_xlim()
-        # Compute 6 evenly spaced ticks
-        ticks = np.linspace(x_min, x_max, 6)
-        # Set the x-ticks
-        ax1.set_xticks(ticks)
-        # Format the tick labels to have one digit after the decimal point
-        ax1.set_xticklabels([f"{tick:.1f}" for tick in footprint_lat_caliop[np.round(ticks).astype(int)]])
-
         ax1.set_ylim(ALT_BOT, ALT_TOP)
 
         ######################################################################
@@ -248,7 +237,7 @@ def main():
         cbar.set_label('Attenuated bks [km$^{-1}$sr$^{-1}$]', fontsize=35)
 
         # Determine indices corresponding to the latitude range with interval of 10
-        index_ticks_l1 = np.arange(0, len(footprint_lat_caliop_l1), 300)
+        index_ticks_l1 = np.arange(0, len(footprint_lat_caliop_l1), 3000)
         # Set x-ticks and x-tick labels
         ax2.set_xticks(index_ticks_l1)
         ax2.set_xticklabels(np.round(footprint_lat_caliop_l1[index_ticks_l1], 2))
@@ -277,8 +266,6 @@ def main():
         volume_depolarization_ratio = perpendicular_attenuated_backscatter / (total_attenuated_backscatter - perpendicular_attenuated_backscatter)
         volume_depolarization_ratio = np.nan_to_num(volume_depolarization_ratio)
         volume_depolarization_ratio[volume_depolarization_ratio > 1] = 1
-        print(np.min(volume_depolarization_ratio))
-        print(np.max(volume_depolarization_ratio))
 
         ax3 = fig.add_subplot(gs[40:70, 5:95])
 
@@ -306,16 +293,26 @@ def main():
         cbar.ax.tick_params(labelsize=36)
         cbar.set_label('Volume depolarization ratio', fontsize=35)
 
-        # cbar.ax.tick_params(labelsize=36)
+        # Set x-ticks and x-tick labels
+        ax3.set_xticks(index_ticks_l1)
+        ax3.set_xticklabels(np.round(footprint_lat_caliop_l1[index_ticks_l1], 2))
+
         ax3.set_xlabel('Latitude', fontsize=35)
         ax3.set_ylabel('Height [km]', fontsize=35)
 
-        for tick in ax3.xaxis.get_major_ticks():
-            tick.label.set_fontsize(35)
+        ax3.tick_params(axis='x', labelsize=35)
+
         for tick in ax3.yaxis.get_major_ticks():
             tick.label.set_fontsize(35)
 
-        ax3.set_xlim(LAT_SOUTH, LAT_NORTH)
+        # Determine the index in footprint_lat_caliop closest to LAT_NORTH
+        index_limit_l1 = np.abs(footprint_lat_caliop_l1 - LAT_NORTH).argmin()
+        # Set the x-limit
+        if footprint_lat_caliop_l1[0] > footprint_lat_caliop_l1[-1]:
+            ax3.set_xlim(left=index_limit_l1)
+        else:
+            ax3.set_xlim(right=index_limit_l1)
+
         ax3.set_ylim(ALT_BOT, ALT_TOP)
 
         #####################################################################
