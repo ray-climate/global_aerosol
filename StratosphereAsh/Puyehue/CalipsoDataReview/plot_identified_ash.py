@@ -334,27 +334,27 @@ def main():
         ax3.set_xlim(LAT_SOUTH, LAT_NORTH)
         ax3.set_ylim(ALT_BOT, ALT_TOP)
 
-        ######################################################################
-        #### add subplot of caliop observation track over a map
-        ######################################################################
+        #####################################################################
+        ### add subplot of caliop observation track over a map
+        #####################################################################
 
-        # ax2 = fig.add_subplot(gs[40:65, 5:95])  # Creates a subplot below the main one
-        #
-        # # Create a basemap instance with a cylindrical projection.
-        # # This next step assumes your latitude and longitude data cover the whole globe.
-        # # If they don't, you can set the `llcrnrlat`, `llcrnrlon`, `urcrnrlat`, `urcrnrlon` arguments
-        # # to define the lower-left and upper-right corners of the map.
-        # m = Basemap(projection='cyl', resolution='l', ax=ax2)
-        # m.drawcoastlines()
-        # m.drawcountries()
-        # m.drawmapboundary(fill_color='aqua')
-        # m.fillcontinents(color='lightgray', lake_color='aqua')
-        #
-        # x, y = m(footprint_lon_caliop, footprint_lat_caliop)
-        # m.plot(x, y, color='blue', linewidth=2)
-        #
-        # ax2.set_title('CALIOP Observation Track', fontsize=35)
+        ax4 = fig.add_subplot(gs[5:35, 105:195])  # Creates a subplot below the main one
 
+        # Create a basemap instance with a cylindrical projection.
+        # This next step assumes your latitude and longitude data cover the whole globe.
+        # If they don't, you can set the `llcrnrlat`, `llcrnrlon`, `urcrnrlat`, `urcrnrlon` arguments
+        # to define the lower-left and upper-right corners of the map.
+        m = Basemap(projection='cyl', resolution='l', ax=ax4)
+        m.drawcoastlines()
+        m.drawcountries()
+        m.drawmapboundary(fill_color='aqua')
+        m.fillcontinents(color='lightgray', lake_color='aqua')
+
+        x, y = m(footprint_lon_caliop, footprint_lat_caliop)
+        m.plot(x, y, color='blue', linewidth=2)
+
+        ax2.set_title('CALIOP Observation Track', fontsize=35)
+        #
 
         plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
         quit()
