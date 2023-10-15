@@ -137,9 +137,9 @@ def main():
             = extract_variables_from_caliop(closest_file_level2, logger)
 
         (footprint_lat_caliop_l1, footprint_lon_caliop_l1,
-         alt_caliop_l1, attenuated_backscatter) = \
+         alt_caliop_l1, total_attenuated_backscatter, perpendicular_attenuated_backscatter) = \
             extract_variables_from_caliop_level1(closest_file_level1, logger)
-        print(np.mean(attenuated_backscatter))
+
         ######################################################################
         #### add subplot of caliop aerosol types
         ######################################################################
@@ -233,7 +233,7 @@ def main():
         #### add subplot of caliop atteunated backscatter
         ######################################################################
 
-        ax2 = fig.add_subplot(gs[35:65, 5:95])
+        ax2 = fig.add_subplot(gs[40:70, 5:95])
 
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
@@ -255,7 +255,7 @@ def main():
         ])
         norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
-        fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
+        fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, total_attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
         cbar_ax_position = [0.25, 0.6, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
@@ -266,6 +266,49 @@ def main():
         cbar.set_ticklabels(['$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$'])
         cbar.ax.tick_params(labelsize=36)
         cbar.set_label('Attenuated Backscatter [km$^{-1}$sr$^{-1}$]', fontsize=35)
+
+        # cbar.ax.tick_params(labelsize=36)
+        ax2.set_xlabel('Latitude', fontsize=35)
+        ax2.set_ylabel('Height [km]', fontsize=35)
+
+        for tick in ax2.xaxis.get_major_ticks():
+            tick.label.set_fontsize(35)
+        for tick in ax2.yaxis.get_major_ticks():
+            tick.label.set_fontsize(35)
+
+        ax2.set_xlim(LAT_SOUTH, LAT_NORTH)
+        ax2.set_ylim(ALT_BOT, ALT_TOP)
+
+        ######################################################################
+        #### add subplot of caliop volume depolarization ratio
+        ######################################################################
+
+        ax3 = fig.add_subplot(gs[10:40, 5:95])
+
+        colors = [
+            '#000000', '#03aaff', '#00d401', '#ffff00', '#ffaa01', '#ff0200', '#ff0200', '#ffd4ff',
+            '#aa55ff', '#ffffff', '#ffffff', '#ffffff'
+        ]
+
+        # Create the colormap
+        cmap_custom = ListedColormap(colors)
+
+        bounds = [-np.inf] + np.linspace(0, 1, 11).tolist() + [
+            np.inf]  # Inf bounds added to accommodate <0 and >1 values
+        norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
+
+        fig3 = ax3.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, total_attenuated_backscatter, cmap=cmap_custom,
+                              norm=norm)
+
+        cbar_ax_position = [0.25, 0.4, 0.5, 0.02]  # Modify these values as needed
+        cax = fig.add_axes(cbar_ax_position)
+
+        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
+        cbar_ticks = [0., 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.]
+        cbar.set_ticks(cbar_ticks)
+        cbar.set_ticklabels(['0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
+        cbar.ax.tick_params(labelsize=36)
+        cbar.set_label('Volume depolarization ratio', fontsize=35)
 
         # cbar.ax.tick_params(labelsize=36)
         ax2.set_xlabel('Latitude', fontsize=35)
