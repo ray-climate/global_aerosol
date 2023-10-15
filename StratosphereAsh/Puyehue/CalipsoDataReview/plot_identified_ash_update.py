@@ -22,8 +22,8 @@ from getColocationData.get_caliop import *
 
 # Constants
 LOG_EXT = ".log"
-START_DATE = '2011-07-01'
-END_DATE = '2011-08-20'
+START_DATE = '2011-06-15'
+END_DATE = '2011-07-31'
 LAT_NORTH = -30
 LAT_SOUTH = -89
 ALT_BOT = 0
