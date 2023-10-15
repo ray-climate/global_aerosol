@@ -233,7 +233,7 @@ def main():
         #### add subplot of caliop atteunated backscatter
         ######################################################################
 
-        ax2 = fig.add_subplot(gs[40:70, 5:95])
+        ax2 = fig.add_subplot(gs[35:65, 5:95])
 
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
@@ -257,7 +257,7 @@ def main():
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
-        cbar_ax_position = [0.25, 0.58, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.6, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
