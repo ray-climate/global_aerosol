@@ -25,7 +25,7 @@ LOG_EXT = ".log"
 START_DATE = '2011-07-01'
 END_DATE = '2011-08-20'
 LAT_NORTH = -30
-LAT_SOUTH = -75
+LAT_SOUTH = -80
 ALT_BOT = 0
 ALT_TOP = 20
 
@@ -144,8 +144,9 @@ def main():
         #### add subplot of caliop aerosol types
         ######################################################################
 
-        x_indices = np.arange(len(footprint_lat_caliop))
-        x_grid_caliop, y_grid_caliop = np.meshgrid(x_indices, alt_caliop)
+        indices = np.arange(len(footprint_lat_caliop))
+        x_grid_caliop_indices, y_grid_caliop_indices = np.meshgrid(indices, alt_caliop)
+        # x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
         gs = GridSpec(110, 160, figure=fig)
@@ -165,8 +166,10 @@ def main():
         # Custom tick labels
         tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
-        fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
-        plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
+        # fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
+        # plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
+        fig1 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
+        plt.plot(indices, alt_tropopause, color='red', linewidth=3)
 
         cbar_ax_position = [0.555, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
@@ -184,17 +187,22 @@ def main():
         # cbar.ax.set_xticklabels(tick_labels)
         # cbar.ax.tick_params(labelsize=10)
 
+        # Set x-ticks and x-tick labels
+        num_ticks = 10  # Adjust as necessary for your specific data
+        selected_indices = np.linspace(0, len(footprint_lat_caliop) - 1, num_ticks).astype(int)
+        ax1.set_xticks(selected_indices)
+        ax1.set_xticklabels(footprint_lat_caliop[selected_indices].round(2))
+
         ax1.set_xlabel('Latitude', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
 
-        ax1.set_xticks(x_indices[::5])  # Adjust as needed
-        ax1.set_xticklabels(np.round(footprint_lat_caliop[::5], 2))
         for tick in ax1.xaxis.get_major_ticks():
             tick.label.set_fontsize(35)
         for tick in ax1.yaxis.get_major_ticks():
             tick.label.set_fontsize(35)
 
         # ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
+        ax1.set_xlim(indices[0], indices[-1])
         ax1.set_ylim(ALT_BOT, ALT_TOP)
 
         # ######################################################################
