@@ -237,7 +237,7 @@ def main():
 
         x_grid_caliop_l1, y_grid_caliop_l1 = np.meshgrid(footprint_lat_caliop_l1, alt_caliop_l1)
 
-        colors = [
+        colors_original = [
             '#002aaa', '#002aaa', '#007ffe', '#007ffe', '#007ffe', '#007ffe', '#007ffe', '#06ffa9',
             '#007f7f', '#00aa55', '#ffff00', '#ffff00', '#ffd401', '#ffd401', '#ff7f00', '#ff5502',
             '#fe0000', '#ff2a55', '#ff557f', '#ff7eaa', '#464646', '#646464', '#646464', '#646464',
@@ -245,14 +245,25 @@ def main():
             '#f9f9f9', '#fdfdfd', '#ffffff',
         ]
 
-        # Create the colormap
-        cmap_custom = ListedColormap(colors)
+        # Insert a tiny black segment between each color
+        colors_with_edges = []
+        for color in colors_original[:-1]:
+            colors_with_edges.extend([color, '#000000', color])
+        colors_with_edges.append(colors_original[-1])
 
-        bounds = np.concatenate([
-            np.linspace(10 ** -4, 10 ** -3, 11)[:-1],  # 10 divisions for 10^-4 to 10^-3
-            np.linspace(10 ** -3, 10 ** -2, 16)[:-1],  # 15 divisions for 10^-3 to 10^-2
-            np.linspace(10 ** -2, 10 ** -1, 11)  # 10 divisions for 10^-2 to 10^-1
-        ])
+        # Create the colormap
+        cmap_custom = ListedColormap(colors_with_edges)
+
+        # Adjust the bounds to account for the very thin black segments
+        bounds = [0]
+        increment = 1.0 / (len(colors_original) - 1)
+        for i in range(len(colors_original) - 1):
+            bounds.append(bounds[-1] + 0.499 * increment)
+            bounds.append(bounds[-1] + 0.001 * increment)  # This is the very thin segment
+            bounds.append(bounds[-1] + 0.499 * increment)
+        bounds.append(1)
+
+        # Create normalization
         norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
