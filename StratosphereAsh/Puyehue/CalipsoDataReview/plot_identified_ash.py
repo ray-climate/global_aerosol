@@ -257,7 +257,7 @@ def main():
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
-        cbar_ax_position = [0.25, 0.62, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.60, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
@@ -265,7 +265,7 @@ def main():
         cbar.set_ticks(cbar_ticks)
         cbar.set_ticklabels(['$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$'])
         cbar.ax.tick_params(labelsize=36)
-        cbar.set_label('Attenuated\nBackscatter\n[km$^{-1}$sr$^{-1}$]', fontsize=35, labelpad=20)
+        cbar.set_label('Attenuated Backscatter [km$^{-1}$sr$^{-1}$]', fontsize=35)
 
         # cbar.ax.tick_params(labelsize=36)
         ax2.set_xlabel('Latitude', fontsize=35)
