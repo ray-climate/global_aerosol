@@ -283,6 +283,8 @@ def main():
         #### add subplot of caliop volume depolarization ratio
         ######################################################################
         volume_depolarization_ratio = perpendicular_attenuated_backscatter / (total_attenuated_backscatter - perpendicular_attenuated_backscatter)
+        volume_depolarization_ratio = np.nan_to_num(volume_depolarization_ratio)
+
         ax3 = fig.add_subplot(gs[10:40, 5:95])
 
         colors = [
@@ -294,6 +296,8 @@ def main():
         cmap_custom = ListedColormap(colors)
 
         bounds = [-np.inf] + np.linspace(0, 1, 11).tolist() + [np.inf]  # Inf bounds added to accommodate <0 and >1 values
+
+
         norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
         fig3 = ax3.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, volume_depolarization_ratio, cmap=cmap_custom,
