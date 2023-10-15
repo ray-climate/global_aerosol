@@ -257,7 +257,7 @@ def main():
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
-        cbar_ax_position = [0.25, 0.60, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.58, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
