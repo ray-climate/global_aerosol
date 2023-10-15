@@ -257,7 +257,7 @@ def main():
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, total_attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
-        cbar_ax_position = [0.25, 0.6, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.62, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
@@ -298,13 +298,13 @@ def main():
         # Create the colormap
         cmap_custom = ListedColormap(colors)
 
-        bounds = [-1., 0., 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1., 1.]
+        bounds = [-1., 0., 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1., 100.]
         norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
         fig3 = ax3.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, volume_depolarization_ratio, cmap=cmap_custom,
                               norm=norm)
 
-        cbar_ax_position = [0.25, 0.4, 0.5, 0.02]  # Modify these values as needed
+        cbar_ax_position = [0.25, 0.35, 0.5, 0.02]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), cax=cax, orientation='horizontal')
