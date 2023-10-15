@@ -187,9 +187,6 @@ def main():
         #     tick.label.set_fontsize(35)
         ax1.tick_params(axis='x', labelsize=35)
 
-        for tick in ax1.yaxis.get_major_ticks():
-            tick.label.set_fontsize(35)
-
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
         index_limit = np.abs(footprint_lat_caliop - LAT_NORTH).argmin()
         # Set the x-limit
@@ -197,6 +194,17 @@ def main():
             ax1.set_xlim(left=index_limit)
         else:
             ax1.set_xlim(right=index_limit)
+
+        for tick in ax1.yaxis.get_major_ticks():
+            tick.label.set_fontsize(35)
+        # Get the current x-axis limits
+        x_min, x_max = ax1.get_xlim()
+        # Compute 6 evenly spaced ticks
+        ticks = np.linspace(x_min, x_max, 6)
+        # Set the x-ticks
+        ax1.set_xticks(ticks)
+        # Format the tick labels to have one digit after the decimal point
+        ax1.set_xticklabels([f"{tick:.1f}" for tick in footprint_lat_caliop[np.round(ticks).astype(int)]])
 
         ax1.set_ylim(ALT_BOT, ALT_TOP)
 
