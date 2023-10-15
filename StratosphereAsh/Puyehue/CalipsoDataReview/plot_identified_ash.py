@@ -187,11 +187,13 @@ def main():
         # cbar.ax.set_xticklabels(tick_labels)
         # cbar.ax.tick_params(labelsize=10)
 
+
+        # Determine indices corresponding to the latitude range with interval of 10
+        lat_values = np.arange(LAT_SOUTH, LAT_NORTH + 10, 10)  # +10 ensures LAT_NORTH is included
+        corresponding_indices = [np.abs(footprint_lat_caliop - lat_val).argmin() for lat_val in lat_values]
         # Set x-ticks and x-tick labels
-        num_ticks = 10  # Adjust as necessary for your specific data
-        selected_indices = np.linspace(0, len(footprint_lat_caliop) - 1, num_ticks).astype(int)
-        ax1.set_xticks(selected_indices)
-        ax1.set_xticklabels(footprint_lat_caliop[selected_indices].round(2))
+        ax1.set_xticks(corresponding_indices)
+        ax1.set_xticklabels(footprint_lat_caliop[corresponding_indices].round(2))
 
         ax1.set_xlabel('Latitude', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
@@ -201,8 +203,10 @@ def main():
         for tick in ax1.yaxis.get_major_ticks():
             tick.label.set_fontsize(35)
 
+
+
         # ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
-        ax1.set_xlim(indices[0], indices[-1])
+        # ax1.set_xlim(indices[0], indices[-1])
         ax1.set_ylim(ALT_BOT, ALT_TOP)
 
         # ######################################################################
