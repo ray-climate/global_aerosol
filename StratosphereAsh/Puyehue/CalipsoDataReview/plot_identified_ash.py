@@ -245,8 +245,14 @@ def main():
             '#f9f9f9', '#fdfdfd', '#ffffff',
         ]
 
+        colors_with_lines = []
+        for i in range(len(colors) - 1):
+            colors_with_lines.append(colors[i])
+            # Add a black color between each color section
+            colors_with_lines.append('#000000')
+
         # Create the colormap
-        cmap_custom = ListedColormap(colors)
+        cmap_custom = ListedColormap(colors_with_lines)
 
         bounds = np.concatenate([
             np.linspace(10 ** -4, 10 ** -3, 11)[:-1],  # 10 divisions for 10^-4 to 10^-3
