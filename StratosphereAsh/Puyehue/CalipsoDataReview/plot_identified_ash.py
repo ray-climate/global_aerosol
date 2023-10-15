@@ -260,12 +260,12 @@ def main():
         # cbar_ax_position = [0.25, 0.663, 0.5, 0.02]  # Modify these values as needed
         # cax = fig.add_axes(cbar_ax_position)
 
-        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom))
+        cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), pad=0.01)
         cbar_ticks = [10 ** -4, 10 ** -3, 10 ** -2, 10 ** -1]
         cbar.set_ticks(cbar_ticks)
         cbar.set_ticklabels(['$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$'])
         cbar.ax.tick_params(labelsize=36)
-        cbar.set_label('Attenuated Backscatter [km$^{-1}$sr$^{-1}$]', fontsize=35)
+        cbar.set_label('Attenuated bks [km$^{-1}$sr$^{-1}$]', fontsize=35)
 
         # cbar.ax.tick_params(labelsize=36)
         ax2.set_xlabel('Latitude', fontsize=35)
