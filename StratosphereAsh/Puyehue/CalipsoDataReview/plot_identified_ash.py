@@ -207,7 +207,10 @@ def main():
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
         index_limit = np.abs(footprint_lat_caliop - LAT_NORTH).argmin()
         # Set the x-limit
-        ax1.set_xlim(right=index_limit)
+        if footprint_lat_caliop[index_limit] > ax1.get_xlim()[0]:
+            ax1.set_xlim(right=index_limit)
+        else:
+            ax1.set_xlim(left=index_limit)
 
         # ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
         # ax1.set_xlim(indices[0], indices[-1])
