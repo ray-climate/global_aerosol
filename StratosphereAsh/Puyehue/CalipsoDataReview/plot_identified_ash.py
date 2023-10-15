@@ -167,12 +167,12 @@ def main():
         fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
         plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
-        cbar_ax_position = [0.9, 0.1, 0.01, 0.1]  # Modify these values as needed
+        cbar_ax_position = [0.89, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
         cbar.ax.set_yticklabels(tick_labels)  # Note: We're using set_yticklabels for vertical orientation
-        cbar.ax.tick_params(labelsize=25)
+        cbar.ax.tick_params(labelsize=28)
 
         # Specify position for colorbar's axes [left, bottom, width, height]
         # cbar_ax_position = [0.25, 0.027, 0.5, 0.02]  # Modify these values as needed
