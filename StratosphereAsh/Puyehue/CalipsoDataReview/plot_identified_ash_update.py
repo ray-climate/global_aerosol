@@ -126,7 +126,7 @@ def main():
         closest_file_level1 = closest_file_level2.replace("L2_05kmAPro-Standard", "L1-Standard")
         print('---------------- Closest level-2 file: ', closest_file_level2)
         print('---------------- Closest level-1 file: ', closest_file_level1)
-
+        print(time.strftime('%Y%m%d_%H%M%S'))
         if closest_file_level2:
             closest_files.append(closest_file_level2)
 
