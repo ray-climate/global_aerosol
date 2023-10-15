@@ -245,29 +245,15 @@ def main():
             '#f9f9f9', '#fdfdfd', '#ffffff',
         ]
 
-        # 1. Add black colors in between your existing colors
-        sep_color = '#000000'  # Black color
-        colors_with_sep = []
-        for color in colors[:-1]:
-            colors_with_sep.extend([color, sep_color])
-        colors_with_sep.append(colors[-1])  # Add the last color
-
-        # 2. Adjust the bounds to introduce the black lines
-        sep_thickness = 1e-7  # Define the thickness of the separator
-        bounds_with_sep = []
-        for b in bounds[:-1]:
-            bounds_with_sep.extend([b, b + sep_thickness])
-        bounds_with_sep.append(bounds[-1])
-
         # Create the colormap
-        cmap_custom = ListedColormap(colors_with_sep)
+        cmap_custom = ListedColormap(colors)
 
         bounds = np.concatenate([
             np.linspace(10 ** -4, 10 ** -3, 11)[:-1],  # 10 divisions for 10^-4 to 10^-3
             np.linspace(10 ** -3, 10 ** -2, 16)[:-1],  # 15 divisions for 10^-3 to 10^-2
             np.linspace(10 ** -2, 10 ** -1, 11)  # 10 divisions for 10^-2 to 10^-1
         ])
-        norm = BoundaryNorm(bounds_with_sep, cmap_custom.N, clip=True)
+        norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
         fig2 = ax2.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, attenuated_backscatter, cmap=cmap_custom, norm=norm)
 
