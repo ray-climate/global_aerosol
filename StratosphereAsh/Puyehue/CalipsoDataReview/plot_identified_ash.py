@@ -285,6 +285,8 @@ def main():
         volume_depolarization_ratio = perpendicular_attenuated_backscatter / (total_attenuated_backscatter - perpendicular_attenuated_backscatter)
         volume_depolarization_ratio = np.nan_to_num(volume_depolarization_ratio)
         volume_depolarization_ratio[volume_depolarization_ratio > 1] = 1
+        print(np.min(volume_depolarization_ratio))
+        print(np.max(volume_depolarization_ratio))
 
         ax3 = fig.add_subplot(gs[10:40, 5:95])
 
