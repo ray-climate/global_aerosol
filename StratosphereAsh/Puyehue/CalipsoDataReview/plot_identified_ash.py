@@ -366,7 +366,7 @@ def main():
         #
 
         plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
-        quit()
+
 if __name__ == "__main__":
     main()
 
