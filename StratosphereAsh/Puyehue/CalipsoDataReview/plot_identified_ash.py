@@ -144,7 +144,8 @@ def main():
         #### add subplot of caliop aerosol types
         ######################################################################
 
-        x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
+        x_indices = np.arange(len(footprint_lat_caliop))
+        x_grid_caliop, y_grid_caliop = np.meshgrid(x_indices, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
         gs = GridSpec(110, 160, figure=fig)
@@ -185,6 +186,9 @@ def main():
 
         ax1.set_xlabel('Latitude', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
+
+        ax1.set_xticks(x_indices[::5])  # Adjust as needed
+        ax1.set_xticklabels(np.round(footprint_lat_caliop[::5], 2))
 
         for tick in ax1.xaxis.get_major_ticks():
             tick.label.set_fontsize(35)
