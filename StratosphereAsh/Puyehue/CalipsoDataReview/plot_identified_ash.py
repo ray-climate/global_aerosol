@@ -167,7 +167,7 @@ def main():
         fig1 = plt.pcolormesh(x_grid_caliop, y_grid_caliop, z_grid_caliop_type, cmap=cmap, norm=norm)
         plt.plot(footprint_lat_caliop, alt_tropopause, color='red', linewidth=3)
 
-        cbar_ax_position = [0.9, 0.1, 0.01, 0.2]  # Modify these values as needed
+        cbar_ax_position = [0.6, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
@@ -338,7 +338,7 @@ def main():
         ### add subplot of caliop observation track over a map
         #####################################################################
 
-        ax4 = fig.add_subplot(gs[5:35, 105:155])  # Creates a subplot below the main one
+        ax4 = fig.add_subplot(gs[40:70, 105:155])  # Creates a subplot below the main one
 
         # Create a basemap instance with a cylindrical projection.
         # This next step assumes your latitude and longitude data cover the whole globe.
