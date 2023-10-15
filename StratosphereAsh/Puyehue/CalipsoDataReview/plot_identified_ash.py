@@ -298,9 +298,7 @@ def main():
         # Create the colormap
         cmap_custom = ListedColormap(colors)
 
-        bounds = [-np.inf] + np.linspace(0, 1, 11).tolist() + [np.inf]  # Inf bounds added to accommodate <0 and >1 values
-
-
+        bounds = [-1., 0., 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1., 1]
         norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
 
         fig3 = ax3.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, volume_depolarization_ratio, cmap=cmap_custom,
