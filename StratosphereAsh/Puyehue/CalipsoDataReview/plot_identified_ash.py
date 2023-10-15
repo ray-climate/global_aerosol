@@ -147,7 +147,7 @@ def main():
         x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(110, 100, figure=fig)
+        gs = GridSpec(110, 200, figure=fig)
 
         ax1 = fig.add_subplot(gs[75:105, 5:95])
 
