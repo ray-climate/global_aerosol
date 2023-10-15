@@ -147,7 +147,7 @@ def main():
         x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(110, 150, figure=fig)
+        gs = GridSpec(110, 200, figure=fig)
 
         ax1 = fig.add_subplot(gs[75:105, 5:95])
 
@@ -338,7 +338,7 @@ def main():
         ### add subplot of caliop observation track over a map
         #####################################################################
 
-        ax4 = fig.add_subplot(gs[5:35, 105:145])  # Creates a subplot below the main one
+        ax4 = fig.add_subplot(gs[5:35, 105:195])  # Creates a subplot below the main one
 
         # Create a basemap instance with a cylindrical projection.
         # This next step assumes your latitude and longitude data cover the whole globe.
@@ -346,14 +346,19 @@ def main():
         # to define the lower-left and upper-right corners of the map.
         m = Basemap(projection='cyl', resolution='l', ax=ax4)
         m.drawcoastlines()
-        m.drawcountries()
+        # m.drawcountries()
         m.drawmapboundary(fill_color='aqua')
         m.fillcontinents(color='lightgray', lake_color='aqua')
+
+        parallels = np.arange(-90., 91., 10.)
+        meridians = np.arange(-180., 181., 10.)
+        m.drawparallels(parallels, labels=[True, False, False, False])  # Only left side labels
+        m.drawmeridians(meridians, labels=[False, False, False, True])  # Only bottom side labels
 
         x, y = m(footprint_lon_caliop, footprint_lat_caliop)
         m.plot(x, y, color='blue', linewidth=2)
 
-        ax2.set_title('CALIOP Observation Track', fontsize=35)
+        # ax2.set_title('CALIOP Observation Track', fontsize=35)
         #
 
         plt.savefig('./caliop_aerosol_types_%s.png'%time, dpi=300)
