@@ -172,9 +172,9 @@ def main():
         # cax = fig.add_axes(cbar_ax_position)
 
         # cbar = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap_custom), pad=0.005)
-        cbar = plt.colorbar(fig1, ticks=tick_locs, pad=0.005)
-        cbar.ax.set_xticklabels(tick_labels)
-        cbar.ax.tick_params(labelsize=10)
+        # cbar = plt.colorbar(fig1, ticks=tick_locs, pad=0.005)
+        # cbar.ax.set_xticklabels(tick_labels)
+        # cbar.ax.tick_params(labelsize=10)
 
         ax1.set_xlabel('Latitude', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
