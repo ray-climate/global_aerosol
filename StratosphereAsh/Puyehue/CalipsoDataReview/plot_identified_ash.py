@@ -25,7 +25,7 @@ LOG_EXT = ".log"
 START_DATE = '2011-07-01'
 END_DATE = '2011-08-20'
 LAT_NORTH = -30
-LAT_SOUTH = -80
+LAT_SOUTH = -89
 ALT_BOT = 0
 ALT_TOP = 20
 
@@ -189,25 +189,22 @@ def main():
 
 
         # Determine indices corresponding to the latitude range with interval of 10
-        lat_values = np.arange(LAT_SOUTH, LAT_NORTH + 10, 10)  # +10 ensures LAT_NORTH is included
-        corresponding_indices = [np.abs(footprint_lat_caliop - lat_val).argmin() for lat_val in lat_values]
+        index_ticks = np.arange(0, len(footprint_lat_caliop), 100)
         # Set x-ticks and x-tick labels
-        ax1.set_xticks(corresponding_indices)
-        ax1.set_xticklabels(footprint_lat_caliop[corresponding_indices].round(2))
+        ax1.set_xticks(index_ticks)
+        ax1.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
 
         ax1.set_xlabel('Latitude', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
 
-        for tick in ax1.xaxis.get_major_ticks():
-            tick.label.set_fontsize(35)
-        for tick in ax1.yaxis.get_major_ticks():
-            tick.label.set_fontsize(35)
-
-
+        # for tick in ax1.xaxis.get_major_ticks():
+        #     tick.label.set_fontsize(35)
+        # for tick in ax1.yaxis.get_major_ticks():
+        #     tick.label.set_fontsize(35)
 
         # ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
         # ax1.set_xlim(indices[0], indices[-1])
-        ax1.set_ylim(ALT_BOT, ALT_TOP)
+        # ax1.set_ylim(ALT_BOT, ALT_TOP)
 
         # ######################################################################
         # #### add subplot of caliop depolarization ratio
