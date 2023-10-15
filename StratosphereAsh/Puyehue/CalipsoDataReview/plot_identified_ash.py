@@ -239,18 +239,18 @@ def main():
 
         colors = [
             '#002aaa', '#002aaa', '#007ffe', '#007ffe', '#007ffe', '#007ffe', '#007ffe', '#06ffa9',
-            '#007f7f', '#00aa55', '#ffff00', '#ffff00', '#ffd401', '#ffd401', '#ff7f00', '#ff5502',
-            '#fe0000', '#ff2a55', '#ff557f', '#ff7eaa', '#464646', '#646464', '#646464', '#646464',
-            '#646464', '#646464', '#c9c9c9', '#e1e1e1', '#f2f2f2', '#f2f2f2', '#f9f9f9', '#f6f6f6',
-            '#f9f9f9', '#fdfdfd', '#ffffff',
+            '#007f7f', '#00aa55', '#ffff00', '#ffff00', '#ffd401', '#ffaa01', '#ff7f00', '#ff5502',
+            '#fe0000', '#ff2a55', '#ff557f', '#ff7eaa', '#464646', '#646464', '#828282', '#9b9b9b',
+            '#b4b4b4', '#c8c8c8', '#e1e1e1', '#ececec', '#f0f0f0', '#f2f2f2', '#f6f6f6', '#f6f6f6',
+            '#f9f9f9', '#fefefe', '#ffffff',
         ]
 
         # Create the colormap
         cmap_custom = ListedColormap(colors)
 
         bounds = np.concatenate([
-            np.linspace(10 ** -4, 10 ** -3, 11)[:-1],  # 10 divisions for 10^-4 to 10^-3
-            np.linspace(10 ** -3, 10 ** -2, 16)[:-1],  # 15 divisions for 10^-3 to 10^-2
+            np.linspace(10 ** -4, 10 ** -3, 10)[:-1],  # 10 divisions for 10^-4 to 10^-3
+            np.linspace(10 ** -3, 10 ** -2, 15)[:-1],  # 15 divisions for 10^-3 to 10^-2
             np.linspace(10 ** -2, 10 ** -1, 11)  # 10 divisions for 10^-2 to 10^-1
         ])
         norm = BoundaryNorm(bounds, cmap_custom.N, clip=True)
