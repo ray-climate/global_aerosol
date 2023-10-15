@@ -189,13 +189,12 @@ def main():
 
         ax1.set_xticks(x_indices[::5])  # Adjust as needed
         ax1.set_xticklabels(np.round(footprint_lat_caliop[::5], 2))
-
         for tick in ax1.xaxis.get_major_ticks():
             tick.label.set_fontsize(35)
         for tick in ax1.yaxis.get_major_ticks():
             tick.label.set_fontsize(35)
 
-        ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
+        # ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
         ax1.set_ylim(ALT_BOT, ALT_TOP)
 
         # ######################################################################
