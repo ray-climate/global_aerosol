@@ -350,8 +350,8 @@ def main():
         m.drawmapboundary(fill_color='aqua')
         m.fillcontinents(color='lightgray', lake_color='aqua')
 
-        parallels = np.arange(-90., 91., 30.)
-        meridians = np.arange(-180., 181., 30.)
+        parallels = np.arange(-90., 91., 60.)
+        meridians = np.arange(-180., 181., 60.)
 
         m.drawparallels(parallels, labels=[True, False, False, False], fontsize=35)  # Set font size
         m.drawmeridians(meridians, labels=[False, False, False, True], fontsize=35)  # Set font size
@@ -359,8 +359,8 @@ def main():
         footprint_lon_caliop_filter = footprint_lon_caliop[(footprint_lat_caliop > LAT_SOUTH) & (footprint_lat_caliop < LAT_NORTH)]
         footprint_lat_caliop_filter = footprint_lat_caliop[(footprint_lat_caliop > LAT_SOUTH) & (footprint_lat_caliop < LAT_NORTH)]
 
-        x, y = m(footprint_lon_caliop, footprint_lat_caliop)
-        m.plot(x, y, color='red', linewidth=3)
+        x, y = m(footprint_lon_caliop_filter, footprint_lat_caliop_filter)
+        m.plot(x, y, color='red', linewidth=5)
 
         # ax2.set_title('CALIOP Observation Track', fontsize=35)
         #
