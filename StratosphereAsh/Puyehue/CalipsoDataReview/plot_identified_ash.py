@@ -147,7 +147,7 @@ def main():
         x_grid_caliop, y_grid_caliop = np.meshgrid(footprint_lat_caliop, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(110, 200, figure=fig)
+        gs = GridSpec(110, 150, figure=fig)
 
         ax1 = fig.add_subplot(gs[75:105, 5:95])
 
@@ -338,7 +338,7 @@ def main():
         ### add subplot of caliop observation track over a map
         #####################################################################
 
-        ax4 = fig.add_subplot(gs[5:35, 105:195])  # Creates a subplot below the main one
+        ax4 = fig.add_subplot(gs[5:35, 105:145])  # Creates a subplot below the main one
 
         # Create a basemap instance with a cylindrical projection.
         # This next step assumes your latitude and longitude data cover the whole globe.
