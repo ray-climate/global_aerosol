@@ -199,8 +199,15 @@ def main():
 
         # for tick in ax1.xaxis.get_major_ticks():
         #     tick.label.set_fontsize(35)
+        ax1.tick_params(axis='x', labelsize=35)
+
         for tick in ax1.yaxis.get_major_ticks():
             tick.label.set_fontsize(35)
+
+        # Determine the index in footprint_lat_caliop closest to LAT_NORTH
+        index_limit = np.abs(footprint_lat_caliop - LAT_NORTH).argmin()
+        # Set the x-limit
+        ax1.set_xlim(right=index_limit)
 
         # ax1.set_xlim(LAT_SOUTH, LAT_NORTH)
         # ax1.set_xlim(indices[0], indices[-1])
