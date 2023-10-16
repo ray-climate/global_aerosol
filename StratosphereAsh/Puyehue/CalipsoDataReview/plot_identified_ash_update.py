@@ -344,6 +344,7 @@ def main():
         m.plot(x, y, color='red', linewidth=8)
 
         plt.savefig(FIGURE_SAVE_LOCATION + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+        plt.close()
 
 if __name__ == "__main__":
     main()
