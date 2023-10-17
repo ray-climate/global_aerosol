@@ -342,9 +342,12 @@ def main():
 
         ax3.set_ylim(ALT_BOT, ALT_TOP)
 
+        # Set x-ticks and x-tick labels
+        ax3.set_xticks(index_ticks_l1)
+        ax3.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop_l1[index_ticks_l1]])
+
         ax3.tick_params(axis='x', labelsize=35)
         ax3.tick_params(axis='y', labelsize=35)
-
 
         #####################################################################
         ### add subplot of caliop observation track over a map
