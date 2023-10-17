@@ -8,7 +8,6 @@
 import os
 import sys
 import logging
-import datetime
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,27 +16,29 @@ from matplotlib.colors import ListedColormap, BoundaryNorm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.gridspec import GridSpec
 import matplotlib as mpl
+
+# Append the custom path to system path
 sys.path.append('../../../')
 from getColocationData.get_caliop import *
 
 # Constants
-LOG_EXT = ".log"
-START_DATE = '2011-06-15'
-END_DATE = '2011-07-31'
-LAT_NORTH = -30
-LAT_SOUTH = -89
-ALT_BOT = 0
-ALT_TOP = 20
+LOG_EXTENSION = ".log"
+DATE_START = '2011-06-15'
+DATE_END = '2011-07-31'
+NORTHERN_LATITUDE = -30
+SOUTHERN_LATITUDE = -89
+MIN_ALTITUDE = 0
+MAX_ALTITUDE = 20
 
-# File locations
-CALIPSO_LOCATION = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
-VARIABLE_FILE_LOCATION = '../../../Caliop/SOVCC/filtered_data_continuous_10/'
-FIGURE_SAVE_LOCATION = './figures'
+# Directory paths and locations
+CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
+VARIABLE_DATA_PATH = '../../../Caliop/SOVCC/filtered_data_continuous_10/'
+FIGURE_OUTPUT_PATH = './figures'
 
 # Initialize Logging
-script_base, _ = os.path.splitext(sys.modules['__main__'].__file__)
-log_filename = script_base + LOG_EXT
-logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', filemode='w', filename=log_filename, level=logging.INFO)
+script_base_name, _ = os.path.splitext(sys.modules['__main__'].__file__)
+log_file_name = script_base_name + LOG_EXTENSION
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', filemode='w', filename=log_file_name, level=logging.INFO)
 logger = logging.getLogger()
 
 # Function to extract datetime from filename
@@ -84,42 +85,46 @@ def get_closest_file_for_utc(utc_time):
 
 def main():
 
-    # create save_location folder if not exist
-    if not os.path.exists(FIGURE_SAVE_LOCATION):
-        os.mkdir(FIGURE_SAVE_LOCATION)
+    """Main function to process and visualize data"""
 
-    files = [file for file in os.listdir(VARIABLE_FILE_LOCATION) if file.endswith('.csv')]
+    # Create figure saving directory if not present
+    if not os.path.exists(FIGURE_OUTPUT_PATH):
+        os.mkdir(FIGURE_OUTPUT_PATH)
 
-    # Initiate empty DataFrame to store all data
-    all_data = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height'])  # add ash_height column
+    # Load all CSV files from the variable data directory
+    csv_files = [f for f in os.listdir(VARIABLE_DATA_PATH) if f.endswith('.csv')]
 
-    for file in files:
-        data = pd.read_csv(VARIABLE_FILE_LOCATION + '/' + file)
-        print(f"Processing file {file}")
+    # Initialize an empty DataFrame to collect data
+    all_data_df = pd.DataFrame(columns=['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height'])
 
-        for column in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']:  # include 'extinction'
-            if column == 'utc_time':
-                # Convert utc_time to datetime format
-                data[column] = pd.to_datetime(data[column], format='%Y-%m-%d %H:%M:%S')
+    # Process each CSV file
+    for csv_file in csv_files:
+        file_data = pd.read_csv(os.path.join(VARIABLE_DATA_PATH, csv_file))
+        print(f"Processing file {csv_file}")
+
+        # Parse and convert necessary columns
+        for col_name in ['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']:
+            if col_name == 'utc_time':
+                file_data[col_name] = pd.to_datetime(file_data[col_name], format='%Y-%m-%d %H:%M:%S')
             else:
-                data[column] = pd.to_numeric(data[column], errors='coerce')
+                file_data[col_name] = pd.to_numeric(file_data[col_name], errors='coerce')
 
-        all_data = all_data.append(data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']], ignore_index=True)  # include 'extinction' and 'AOD'
+        all_data_df = all_data_df.append(file_data[['utc_time', 'thickness', 'latitude', 'longitude', 'ash_height']], ignore_index=True)
 
-    # Remove rows with any NaN values
-    all_data = all_data.dropna()
+    # Filter out invalid data entries and apply date & latitude filters
+    all_data_df = all_data_df.dropna()
+    all_data_df = all_data_df[
+        (all_data_df['utc_time'] >= DATE_START) &
+        (all_data_df['utc_time'] <= DATE_END) &
+        (all_data_df['latitude'] >= SOUTHERN_LATITUDE) &
+        (all_data_df['latitude'] <= NORTHERN_LATITUDE)
+        ]
 
-    # Filter data based on defined start_time, end_time, lat_top, and lat_bottom
-    all_data = all_data[(all_data['utc_time'] >= START_DATE) & (all_data['utc_time'] <= END_DATE) &
-                        (all_data['latitude'] >= LAT_SOUTH) & (all_data['latitude'] <= LAT_NORTH)]
+    # Extract and count unique UTC times
+    unique_times = all_data_df['utc_time'].drop_duplicates().reset_index(drop=True)
+    print(f'The number of unique utc_time values is: {len(unique_times)}')
 
-    unique_utc_times = all_data['utc_time'].drop_duplicates().reset_index(drop=True)
-    count_unique_utc_times = unique_utc_times.shape[0]
-    print(f'The number of unique utc_time values is: {count_unique_utc_times}')
-
-    closest_files = []
-
-    for time in unique_utc_times:
+    for time in unique_times:
 
         print('Identified ash for time: ', time)
         closest_file_level2 = get_closest_file_for_utc(time)
@@ -189,7 +194,7 @@ def main():
         ax1.set_ylabel('Height [km]', fontsize=35)
 
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
-        index_limit = np.abs(footprint_lat_caliop - LAT_NORTH).argmin()
+        index_limit = np.abs(footprint_lat_caliop - NORTHERN_LATITUDE).argmin()
         # Set the x-limit
         if footprint_lat_caliop[0] > footprint_lat_caliop[-1]:
             ax1.set_xlim(left=index_limit)
@@ -202,7 +207,7 @@ def main():
             start_index = 0
             end_index = index_limit
 
-        ax1.set_ylim(ALT_BOT, ALT_TOP)
+        ax1.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
 
         # Define the number of x-ticks you want
         num_xticks = 6
@@ -278,7 +283,7 @@ def main():
             start_index_l1 = 0
             end_index_l1 = index_limit_l1
 
-        ax2.set_ylim(ALT_BOT, ALT_TOP)
+        ax2.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
 
         # Define the number of x-ticks you want
         num_xticks = 6
@@ -323,7 +328,7 @@ def main():
         cbar.set_ticks(cbar_ticks)
         cbar.set_ticklabels(['0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
         cbar.ax.tick_params(labelsize=36)
-        cbar.set_label('Volume depolarization ratio', fontsize=35, labelpad=30)
+        cbar.set_label('Volume depolarization ratio', fontsize=35, labelpad=33)
 
         # Set x-ticks and x-tick labels
         ax3.set_xticks(index_ticks_l1)
@@ -333,14 +338,14 @@ def main():
         ax3.set_ylabel('Height [km]', fontsize=35)
 
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
-        index_limit_l1 = np.abs(footprint_lat_caliop_l1 - LAT_NORTH).argmin()
+        index_limit_l1 = np.abs(footprint_lat_caliop_l1 - NORTHERN_LATITUDE).argmin()
         # Set the x-limit
         if footprint_lat_caliop_l1[0] > footprint_lat_caliop_l1[-1]:
             ax3.set_xlim(left=index_limit_l1)
         else:
             ax3.set_xlim(right=index_limit_l1)
 
-        ax3.set_ylim(ALT_BOT, ALT_TOP)
+        ax3.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
 
         # Set x-ticks and x-tick labels
         ax3.set_xticks(index_ticks_l1)
@@ -371,13 +376,13 @@ def main():
         m.drawparallels(parallels, labels=[True, False, False, False], fontsize=35)  # Set font size
         m.drawmeridians(meridians, labels=[False, False, False, True], fontsize=35)  # Set font size
 
-        footprint_lon_caliop_filter = footprint_lon_caliop[(footprint_lat_caliop > LAT_SOUTH) & (footprint_lat_caliop < LAT_NORTH)]
-        footprint_lat_caliop_filter = footprint_lat_caliop[(footprint_lat_caliop > LAT_SOUTH) & (footprint_lat_caliop < LAT_NORTH)]
+        footprint_lon_caliop_filter = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        footprint_lat_caliop_filter = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
 
         x, y = m(footprint_lon_caliop_filter, footprint_lat_caliop_filter)
         m.plot(x, y, color='red', linewidth=8)
 
-        plt.savefig(FIGURE_SAVE_LOCATION + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+        plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
 
 if __name__ == "__main__":
