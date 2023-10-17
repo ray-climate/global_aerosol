@@ -271,7 +271,7 @@ def main():
         ax2.set_ylabel('Height [km]', fontsize=35)
 
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
-        index_limit_l1 = np.abs(footprint_lat_caliop_l1 - LAT_NORTH).argmin()
+        index_limit_l1 = np.abs(footprint_lat_caliop_l1 - NORTHERN_LATITUDE).argmin()
 
         if footprint_lat_caliop_l1[0] > footprint_lat_caliop_l1[-1]:
             ax2.set_xlim(left=index_limit_l1)
