@@ -120,6 +120,7 @@ def main():
     closest_files = []
 
     for time in unique_utc_times:
+
         print('Identified ash for time: ', time)
         closest_file_level2 = get_closest_file_for_utc(time)
         # the correspongding level 1 file is replacing "Standard" by "05kmAPro-Standard"
@@ -127,17 +128,21 @@ def main():
         print('---------------- Closest level-2 file: ', closest_file_level2)
         print('---------------- Closest level-1 file: ', closest_file_level1)
         print(time.strftime('%Y%m%d_%H%M%S'))
-        if closest_file_level2:
-            closest_files.append(closest_file_level2)
 
-        (footprint_lat_caliop, footprint_lon_caliop,
-         alt_caliop, beta_caliop, alpha_caliop,
-         aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
-            = extract_variables_from_caliop(closest_file_level2, logger)
+        # try to load the corresponding level 2 and level 1 files
 
-        (footprint_lat_caliop_l1, footprint_lon_caliop_l1,
-         alt_caliop_l1, total_attenuated_backscatter, perpendicular_attenuated_backscatter) = \
-            extract_variables_from_caliop_level1(closest_file_level1, logger)
+        try:
+            (footprint_lat_caliop, footprint_lon_caliop,
+             alt_caliop, beta_caliop, alpha_caliop,
+             aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
+                = extract_variables_from_caliop(closest_file_level2, logger)
+
+            (footprint_lat_caliop_l1, footprint_lon_caliop_l1,
+             alt_caliop_l1, total_attenuated_backscatter, perpendicular_attenuated_backscatter) = \
+                extract_variables_from_caliop_level1(closest_file_level1, logger)
+        except:
+            print('Error in loading the corresponding level 2 and level 1 files')
+            continue
 
         ######################################################################
         #### add subplot of caliop aerosol types
@@ -183,19 +188,33 @@ def main():
         ax1.set_xlabel('Latitude', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
 
-        # for tick in ax1.xaxis.get_major_ticks():
-        #     tick.label.set_fontsize(35)
-        ax1.tick_params(axis='x', labelsize=35)
-
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
         index_limit = np.abs(footprint_lat_caliop - LAT_NORTH).argmin()
         # Set the x-limit
         if footprint_lat_caliop[0] > footprint_lat_caliop[-1]:
             ax1.set_xlim(left=index_limit)
+            # If you're setting left limit, use index_limit as your starting index and go till end of the data
+            start_index = index_limit
+            end_index = len(footprint_lat_caliop) - 1
         else:
             ax1.set_xlim(right=index_limit)
+            # If you're setting right limit, your range starts from 0 to index_limit
+            start_index = 0
+            end_index = index_limit
 
         ax1.set_ylim(ALT_BOT, ALT_TOP)
+
+        # Define the number of x-ticks you want
+        num_ticks = 6
+        # Use linspace to get evenly spaced indices within the effective range
+        index_ticks = np.linspace(start_index, end_index, num_ticks).astype(int)
+
+        # Set x-ticks and x-tick labels
+        ax1.set_xticks(index_ticks)
+        ax1.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
+
+        ax1.tick_params(axis='x', labelsize=35)
+        ax1.tick_params(axis='y', labelsize=35)
 
         ######################################################################
         #### add subplot of caliop atteunated backscatter
@@ -348,11 +367,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
 
 
