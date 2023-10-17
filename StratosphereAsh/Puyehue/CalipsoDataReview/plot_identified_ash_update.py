@@ -53,7 +53,7 @@ def get_closest_file_for_utc(utc_time):
     month = utc_time.strftime('%m')
     day = utc_time.strftime('%d')
 
-    specific_day_folder = os.path.join(CALIPSO_LOCATION, year, month)
+    specific_day_folder = os.path.join(CALIPSO_DATA_PATH, year, month)
 
     # Check if specific day folder exists
     if not os.path.exists(specific_day_folder):
