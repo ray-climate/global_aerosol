@@ -185,7 +185,7 @@ def main():
         ax1.set_xticks(index_ticks)
         ax1.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
 
-        ax1.set_xlabel('Latitude', fontsize=35)
+        ax1.set_xlabel('Latitude [$^{\circ}$N]', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
 
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
@@ -261,7 +261,7 @@ def main():
         ax2.set_xticks(index_ticks_l1)
         ax2.set_xticklabels(np.round(footprint_lat_caliop_l1[index_ticks_l1], 2))
 
-        ax2.set_xlabel('Latitude', fontsize=35)
+        ax2.set_xlabel('Latitude [$^{\circ}$N]', fontsize=35)
         ax2.set_ylabel('Height [km]', fontsize=35)
 
         ax2.tick_params(axis='x', labelsize=35)
@@ -310,13 +310,13 @@ def main():
         cbar.set_ticks(cbar_ticks)
         cbar.set_ticklabels(['0', '0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
         cbar.ax.tick_params(labelsize=36)
-        cbar.set_label('Volume depolarization ratio', fontsize=35, labelpad=10)
+        cbar.set_label('Volume depolarization ratio', fontsize=35, labelpad=30)
 
         # Set x-ticks and x-tick labels
         ax3.set_xticks(index_ticks_l1)
         ax3.set_xticklabels(np.round(footprint_lat_caliop_l1[index_ticks_l1], 2))
 
-        ax3.set_xlabel('Latitude', fontsize=35)
+        ax3.set_xlabel('Latitude [$^{\circ}$N]', fontsize=35)
         ax3.set_ylabel('Height [km]', fontsize=35)
 
         ax3.tick_params(axis='x', labelsize=35)
