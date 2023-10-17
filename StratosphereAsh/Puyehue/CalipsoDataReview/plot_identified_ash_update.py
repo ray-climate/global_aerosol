@@ -185,7 +185,7 @@ def main():
         ax1.set_xticks(index_ticks)
         ax1.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
 
-        ax1.set_xlabel('Latitude [$^{\circ}$N]', fontsize=35)
+        ax1.set_xlabel('Latitude [$^{\circ}$]', fontsize=35)
         ax1.set_ylabel('Height [km]', fontsize=35)
 
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
@@ -205,9 +205,9 @@ def main():
         ax1.set_ylim(ALT_BOT, ALT_TOP)
 
         # Define the number of x-ticks you want
-        num_ticks = 6
+        num_xticks = 6
         # Use linspace to get evenly spaced indices within the effective range
-        index_ticks = np.linspace(start_index, end_index, num_ticks).astype(int)
+        index_ticks = np.linspace(start_index, end_index, num_xticks).astype(int)
 
         # Set x-ticks and x-tick labels
         ax1.set_xticks(index_ticks)
@@ -261,23 +261,36 @@ def main():
         ax2.set_xticks(index_ticks_l1)
         ax2.set_xticklabels(np.round(footprint_lat_caliop_l1[index_ticks_l1], 2))
 
-        ax2.set_xlabel('Latitude [$^{\circ}$N]', fontsize=35)
+        ax2.set_xlabel('Latitude [$^{\circ}$]', fontsize=35)
         ax2.set_ylabel('Height [km]', fontsize=35)
-
-        ax2.tick_params(axis='x', labelsize=35)
-
-        for tick in ax2.yaxis.get_major_ticks():
-            tick.label.set_fontsize(35)
 
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
         index_limit_l1 = np.abs(footprint_lat_caliop_l1 - LAT_NORTH).argmin()
-        # Set the x-limit
+
         if footprint_lat_caliop_l1[0] > footprint_lat_caliop_l1[-1]:
-            ax2.set_xlim(left=index_limit_l1)
+            ax1.set_xlim(left=index_limit_l1)
+            # If you're setting left limit, use index_limit as your starting index and go till end of the data
+            start_index_l1 = index_limit_l1
+            end_index_l1 = len(footprint_lat_caliop_l1) - 1
         else:
-            ax2.set_xlim(right=index_limit_l1)
+            ax1.set_xlim(right=index_limit_l1)
+            # If you're setting right limit, your range starts from 0 to index_limit
+            start_index_l1 = 0
+            end_index_l1 = index_limit_l1
 
         ax2.set_ylim(ALT_BOT, ALT_TOP)
+
+        # Define the number of x-ticks you want
+        num_xticks = 6
+        # Use linspace to get evenly spaced indices within the effective range
+        index_ticks_l1 = np.linspace(start_index_l1, end_index_l1, num_xticks).astype(int)
+
+        # Set x-ticks and x-tick labels
+        ax1.set_xticks(index_ticks_l1)
+        ax1.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop_l1[index_ticks_l1]])
+
+        ax2.tick_params(axis='x', labelsize=35)
+        ax2.tick_params(axis='y', labelsize=35)
 
         ######################################################################
         #### add subplot of caliop volume depolarization ratio
@@ -316,13 +329,8 @@ def main():
         ax3.set_xticks(index_ticks_l1)
         ax3.set_xticklabels(np.round(footprint_lat_caliop_l1[index_ticks_l1], 2))
 
-        ax3.set_xlabel('Latitude [$^{\circ}$N]', fontsize=35)
+        ax3.set_xlabel('Latitude [$^{\circ}$]', fontsize=35)
         ax3.set_ylabel('Height [km]', fontsize=35)
-
-        ax3.tick_params(axis='x', labelsize=35)
-
-        for tick in ax3.yaxis.get_major_ticks():
-            tick.label.set_fontsize(35)
 
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
         index_limit_l1 = np.abs(footprint_lat_caliop_l1 - LAT_NORTH).argmin()
@@ -333,6 +341,10 @@ def main():
             ax3.set_xlim(right=index_limit_l1)
 
         ax3.set_ylim(ALT_BOT, ALT_TOP)
+
+        ax3.tick_params(axis='x', labelsize=35)
+        ax3.tick_params(axis='y', labelsize=35)
+
 
         #####################################################################
         ### add subplot of caliop observation track over a map
