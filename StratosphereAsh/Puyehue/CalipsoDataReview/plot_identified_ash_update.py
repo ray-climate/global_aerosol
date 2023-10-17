@@ -268,12 +268,12 @@ def main():
         index_limit_l1 = np.abs(footprint_lat_caliop_l1 - LAT_NORTH).argmin()
 
         if footprint_lat_caliop_l1[0] > footprint_lat_caliop_l1[-1]:
-            ax1.set_xlim(left=index_limit_l1)
+            ax2.set_xlim(left=index_limit_l1)
             # If you're setting left limit, use index_limit as your starting index and go till end of the data
             start_index_l1 = index_limit_l1
             end_index_l1 = len(footprint_lat_caliop_l1) - 1
         else:
-            ax1.set_xlim(right=index_limit_l1)
+            ax2.set_xlim(right=index_limit_l1)
             # If you're setting right limit, your range starts from 0 to index_limit
             start_index_l1 = 0
             end_index_l1 = index_limit_l1
@@ -286,8 +286,8 @@ def main():
         index_ticks_l1 = np.linspace(start_index_l1, end_index_l1, num_xticks).astype(int)
 
         # Set x-ticks and x-tick labels
-        ax1.set_xticks(index_ticks_l1)
-        ax1.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop_l1[index_ticks_l1]])
+        ax2.set_xticks(index_ticks_l1)
+        ax2.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop_l1[index_ticks_l1]])
 
         ax2.tick_params(axis='x', labelsize=35)
         ax2.tick_params(axis='y', labelsize=35)
