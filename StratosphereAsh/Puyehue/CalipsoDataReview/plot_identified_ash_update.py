@@ -181,7 +181,7 @@ def main():
         cbar_ax_position = [0.555, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
-        cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
+        cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs, pad=0.005)
         cbar.ax.set_yticklabels(tick_labels)  # Note: We're using set_yticklabels for vertical orientation
         cbar.ax.tick_params(labelsize=28)
 
