@@ -173,7 +173,7 @@ def main():
         norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
 
         # Custom tick locations
-        tick_locs = [0.48, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
+        tick_locs = [0.485, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
         # Custom tick labels
         tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
@@ -294,6 +294,7 @@ def main():
         index_ticks_l1 = np.linspace(start_index_l1, end_index_l1, num_xticks).astype(int)
         # determine the MAX_ALTITUDE index
         index_max_altitude_l1 = np.abs(alt_caliop_l1 - MAX_ALTITUDE).argmin()
+        index_min_altitude_l1 = np.abs(alt_caliop_l1 - 0).argmin()
 
         # Set x-ticks and x-tick labels
         ax2.set_xticks(index_ticks_l1)
@@ -444,9 +445,9 @@ def main():
 
 
         # Stack the 2D arrays to create a 3D RGB image
-        rgb_image = np.stack((data1_norm[index_max_altitude_l1:,start_index_l1:end_index_l1],
-                              data3_norm[index_max_altitude_l1:,start_index_l1:end_index_l1],
-                              data2_norm[index_max_altitude_l1:,start_index_l1:end_index_l1]),
+        rgb_image = np.stack((data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
+                              data3_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
+                              data2_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1]),
                               axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:190])
