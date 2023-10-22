@@ -436,7 +436,7 @@ def main():
 
 
         # Stack the 2D arrays to create a 3D RGB image
-        rgb_image = np.stack((data1_norm[:,40000:], data3_norm[:,40000:], data2_norm[:,40000:]), axis=-1)
+        rgb_image = np.stack((data1_norm[:,35000:40000], data3_norm[:,35000:40000], data2_norm[:,35000:40000]), axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:200])
 
