@@ -173,7 +173,7 @@ def main():
         norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
 
         # Custom tick locations
-        tick_locs = [0.5, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
+        tick_locs = [0.48, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
         # Custom tick labels
         tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
@@ -438,9 +438,9 @@ def main():
             return np.stack((red[:, :, 0], green[:, :, 1], blue[:, :, 2]), axis=-1)
 
         # Normalize the data
-        data1_norm = normalize_data(np.log(perpendicular_attenuated_backscatter))
-        data2_norm = normalize_data(np.log(parallel_attenuated_backscatter))
-        data3_norm = normalize_data(np.log(caliop_atteunated_backscatter_1064))
+        data1_norm = normalize_data(np.log10(perpendicular_attenuated_backscatter))
+        data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter))
+        data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064))
 
 
         # Stack the 2D arrays to create a 3D RGB image
