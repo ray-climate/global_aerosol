@@ -439,18 +439,14 @@ def main():
             """
             return np.stack((red[:, :, 0], green[:, :, 1], blue[:, :, 2]), axis=-1)
 
-        # Normalize the data
-        lower_percentile = 1
-        upper_percentile = 99
 
-        data_ref = np.log10(caliop_atteunated_backscatter_1064).filled(np.nan)
-        # lower = np.nanpercentile(data_ref, lower_percentile)
-        # upper = np.nanpercentile(data_ref, upper_percentile)
-        lower = -3.5
-        upper = -2.
+        lower = -4
+        upper = -1.5
+
         data1_norm = normalize_data(np.log10(perpendicular_attenuated_backscatter), lower, upper) * 2.
         data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter), lower, upper) * 2.
         data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064), lower, upper)
+
         print(np.mean(data1_norm[data1_norm > 0.]))
         print(np.mean(data2_norm[data2_norm > 0.]))
         print(np.mean(data3_norm[data3_norm > 0.]))
@@ -462,7 +458,7 @@ def main():
                               axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:190])
-        ax5.imshow(data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
+        ax5.imshow(rgb_image[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
         ax5.axis('off')
 
         ax6 = fig.add_subplot(gs[75:105, 105:190])
