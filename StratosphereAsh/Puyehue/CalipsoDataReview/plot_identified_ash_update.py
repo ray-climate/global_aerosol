@@ -447,9 +447,12 @@ def main():
         data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter), lower, upper) * 2.
         data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064), lower, upper)
 
-        print(np.mean(data1_norm[data1_norm > 0.]))
-        print(np.mean(data2_norm[data2_norm > 0.]))
-        print(np.mean(data3_norm[data3_norm > 0.]))
+        rgb_mask = np.zerors((data1_norm.shape))
+        rgb_mask[(data1_norm > 0) & (data2_norm > 0) & (data3_norm > 0)] = 1
+
+        data1_norm = data1_norm * rgb_mask
+        data2_norm = data2_norm * rgb_mask
+        data3_norm = data3_norm * rgb_mask
 
         # Stack the 2D arrays to create a 3D RGB image
         rgb_image = np.stack((data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
@@ -461,74 +464,70 @@ def main():
         ax5.imshow(rgb_image[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
         ax5.axis('off')
 
-        ax6 = fig.add_subplot(gs[75:105, 105:190])
-        ax6.imshow(data2_norm[index_max_altitude_l1:index_min_altitude_l1, start_index_l1:end_index_l1], aspect='auto')
-        ax6.axis('off')
-
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
-
-        # set a new plot for save data1_norm
-        fig = plt.figure(figsize=(20, 10))
-        ax = fig.add_subplot(111)
-        ax.imshow(np.log10(perpendicular_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
-        ax.axis('off')
-        # add colorbar for imshow
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
-        cbar = plt.colorbar(ax.imshow(np.log10(perpendicular_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto'), cax=cax)
-        cbar.ax.tick_params(labelsize=35)
-        plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test1.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
-
-        # set a new plot for save data1_norm
-        fig = plt.figure(figsize=(20, 10))
-        ax = fig.add_subplot(111)
-        ax.imshow(np.log10(parallel_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,
-                  start_index_l1:end_index_l1], aspect='auto')
-        ax.axis('off')
-        # add colorbar for imshow
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
-        cbar = plt.colorbar(ax.imshow(
-            np.log10(parallel_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,
-            start_index_l1:end_index_l1], aspect='auto'), cax=cax)
-        cbar.ax.tick_params(labelsize=35)
-        plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test2.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
-
-        # set a new plot for save data1_norm
-        fig = plt.figure(figsize=(20, 10))
-        ax = fig.add_subplot(111)
-        ax.imshow(np.log10(caliop_atteunated_backscatter_1064)[index_max_altitude_l1:index_min_altitude_l1,
-                  start_index_l1:end_index_l1], aspect='auto')
-        ax.axis('off')
-        # add colorbar for imshow
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
-        cbar = plt.colorbar(ax.imshow(
-            np.log10(caliop_atteunated_backscatter_1064)[index_max_altitude_l1:index_min_altitude_l1,
-            start_index_l1:end_index_l1], aspect='auto'), cax=cax)
-        cbar.ax.tick_params(labelsize=35)
-        plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test3.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
-
-        # set a new plot for save data1_norm
-        fig = plt.figure(figsize=(20, 10))
-        ax = fig.add_subplot(111)
-        ax.imshow(rgb_image[index_max_altitude_l1:index_min_altitude_l1,
-                  start_index_l1:end_index_l1], aspect='auto')
-        ax.axis('off')
-        # add colorbar for imshow
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
-        cbar = plt.colorbar(ax.imshow(
-            rgb_image[index_max_altitude_l1:index_min_altitude_l1,
-            start_index_l1:end_index_l1], aspect='auto'), cax=cax)
-        cbar.ax.tick_params(labelsize=35)
-        plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test_rgb.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
-
-
+        #
+        # # set a new plot for save data1_norm
+        # fig = plt.figure(figsize=(20, 10))
+        # ax = fig.add_subplot(111)
+        # ax.imshow(np.log10(perpendicular_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
+        # ax.axis('off')
+        # # add colorbar for imshow
+        # divider = make_axes_locatable(ax)
+        # cax = divider.append_axes("right", size="5%", pad=0.05)
+        # # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
+        # cbar = plt.colorbar(ax.imshow(np.log10(perpendicular_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto'), cax=cax)
+        # cbar.ax.tick_params(labelsize=35)
+        # plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test1.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+        #
+        # # set a new plot for save data1_norm
+        # fig = plt.figure(figsize=(20, 10))
+        # ax = fig.add_subplot(111)
+        # ax.imshow(np.log10(parallel_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,
+        #           start_index_l1:end_index_l1], aspect='auto')
+        # ax.axis('off')
+        # # add colorbar for imshow
+        # divider = make_axes_locatable(ax)
+        # cax = divider.append_axes("right", size="5%", pad=0.05)
+        # # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
+        # cbar = plt.colorbar(ax.imshow(
+        #     np.log10(parallel_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,
+        #     start_index_l1:end_index_l1], aspect='auto'), cax=cax)
+        # cbar.ax.tick_params(labelsize=35)
+        # plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test2.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+        #
+        # # set a new plot for save data1_norm
+        # fig = plt.figure(figsize=(20, 10))
+        # ax = fig.add_subplot(111)
+        # ax.imshow(np.log10(caliop_atteunated_backscatter_1064)[index_max_altitude_l1:index_min_altitude_l1,
+        #           start_index_l1:end_index_l1], aspect='auto')
+        # ax.axis('off')
+        # # add colorbar for imshow
+        # divider = make_axes_locatable(ax)
+        # cax = divider.append_axes("right", size="5%", pad=0.05)
+        # # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
+        # cbar = plt.colorbar(ax.imshow(
+        #     np.log10(caliop_atteunated_backscatter_1064)[index_max_altitude_l1:index_min_altitude_l1,
+        #     start_index_l1:end_index_l1], aspect='auto'), cax=cax)
+        # cbar.ax.tick_params(labelsize=35)
+        # plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test3.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+        #
+        # # set a new plot for save data1_norm
+        # fig = plt.figure(figsize=(20, 10))
+        # ax = fig.add_subplot(111)
+        # ax.imshow(rgb_image[index_max_altitude_l1:index_min_altitude_l1,
+        #           start_index_l1:end_index_l1], aspect='auto')
+        # ax.axis('off')
+        # # add colorbar for imshow
+        # divider = make_axes_locatable(ax)
+        # cax = divider.append_axes("right", size="5%", pad=0.05)
+        # # cax = fig.add_axes([0.92, 0.1, 0.02, 0.8])
+        # cbar = plt.colorbar(ax.imshow(
+        #     rgb_image[index_max_altitude_l1:index_min_altitude_l1,
+        #     start_index_l1:end_index_l1], aspect='auto'), cax=cax)
+        # cbar.ax.tick_params(labelsize=35)
+        # plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test_rgb.png' % (time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+        #
+        #
 
         plt.close()
 
