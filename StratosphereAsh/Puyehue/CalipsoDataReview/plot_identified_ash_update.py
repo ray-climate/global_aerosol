@@ -458,9 +458,10 @@ def main():
         # Assuming you have an altitude array or similar which represents your y-axis data
         y_ticks = alt_caliop_l1[index_max_altitude_l1:index_min_altitude_l1]
         # Set the y-ticks and their labels
+        ax5.axis('on')
         ax5.set_yticks(np.linspace(0, 20, 5))  # 5 is an example; adjust based on desired number of ticks
         ax5.set_yticklabels(np.linspace(0, 20, 5))
-        ax5.axis('off')
+        ax5.set_ylabel('Height [km]', fontsize=35)
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
