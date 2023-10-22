@@ -449,16 +449,16 @@ def main():
             return np.stack((red[:, :, 0], green[:, :, 1], blue[:, :, 2]), axis=-1)
 
         # Normalize the data
-        data1_norm = normalize_data(np.log10(perpendicular_attenuated_backscatter))
-        data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter))
-        data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064))
-
         lower_percentile = 1
         upper_percentile = 99
 
-        data_ref = data3_norm.filled(np.nan)
+        data_ref = np.log10(caliop_atteunated_backscatter_1064).filled(np.nan)
         lower = np.nanpercentile(data_ref, lower_percentile)
         upper = np.nanpercentile(data_ref, upper_percentile)
+
+        data1_norm = normalize_data(np.log10(perpendicular_attenuated_backscatter), lower, upper)
+        data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter), lower, upper)
+        data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064), lower, upper)
 
         # Stack the 2D arrays to create a 3D RGB image
         rgb_image = np.stack((data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
