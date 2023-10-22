@@ -427,7 +427,7 @@ def main():
         ax5 = fig.add_subplot(gs[40:70, 105:200])
 
         # fig5 = ax5.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, data1_norm)
-        ax5.imshow(rgb_image, aspect='auto')  # Plot the image
+        ax5.imshow(rgb_image, aspect='auto')  # Plot the image here
         ax5.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
