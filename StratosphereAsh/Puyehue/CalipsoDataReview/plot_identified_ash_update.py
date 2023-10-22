@@ -447,7 +447,7 @@ def main():
         data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter), lower, upper) * 2.
         data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064), lower, upper)
 
-        rgb_mask = np.zerors((data1_norm.shape))
+        rgb_mask = np.zeros((data1_norm.shape))
         rgb_mask[(data1_norm > 0) & (data2_norm > 0) & (data3_norm > 0)] = 1.
 
         data1_norm = data1_norm * rgb_mask
