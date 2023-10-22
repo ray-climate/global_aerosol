@@ -406,7 +406,7 @@ def main():
             Apply colormap to data
             """
             cmap = plt.get_cmap(colormap)
-            return cmap(data)[:, :, :3]  # Discard alpha channel, if present
+            return cmap(data)[:, :, :3]  # Discard alpha channel, if presentt
 
         def combine_channels(red, green, blue):
             """
