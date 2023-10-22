@@ -425,7 +425,7 @@ def main():
             Values below lower_percentile are set to 0, and values above upper_percentile are set to 1.
             """
 
-            data[data < - abs(lower) * 0.9] = - abs(lower) * 0.9
+            data[data < lower] = lower
             data[data > upper] = upper
             print('lower:', lower, - abs(lower) * 0.9)
             print('upper:', upper)
