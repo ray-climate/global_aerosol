@@ -186,14 +186,14 @@ def main():
         norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
 
         # Custom tick locations
-        tick_locs = [0.485, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
+        tick_locs = [0.495, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
         # Custom tick labels
         tick_labels = ["None", "PSC", "Ash", "Sulfate", "Elevated Smoke"]
 
         fig1 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
         plt.plot(indices, alt_tropopause, color='red', linewidth=3)
 
-        cbar_ax_position = [0.48, 0.1, 0.01, 0.2]  # Modify these values as needed
+        cbar_ax_position = [0.49, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
@@ -408,7 +408,7 @@ def main():
 
         print("start slow process")
 
-        def normalize_data(data, lower_percentile=1, upper_percentile=99):
+        def normalize_data(data, lower, upper):
 
             """
             Normalize data to range [0, 1]
@@ -425,9 +425,6 @@ def main():
             Values below lower_percentile are set to 0, and values above upper_percentile are set to 1.
             """
 
-            data = data.filled(np.nan)
-            lower = np.nanpercentile(data, lower_percentile)
-            upper = np.nanpercentile(data, upper_percentile)
             data[data < - abs(lower) * 0.9] = - abs(lower) * 0.9
             data[data > upper] = upper
             print('lower:', lower, - abs(lower) * 0.9)
@@ -456,6 +453,12 @@ def main():
         data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter))
         data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064))
 
+        lower_percentile = 1
+        upper_percentile = 99
+
+        data_ref = data3_norm.filled(np.nan)
+        lower = np.nanpercentile(data_ref, lower_percentile)
+        upper = np.nanpercentile(data_ref, upper_percentile)
 
         # Stack the 2D arrays to create a 3D RGB image
         rgb_image = np.stack((data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
