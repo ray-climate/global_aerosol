@@ -412,9 +412,10 @@ def main():
             data = data.filled(np.nan)
             lower = np.nanpercentile(data, lower_percentile)
             upper = np.nanpercentile(data, upper_percentile)
-            data[data < lower * 3] = lower
+            data[data < - abs(lower) * 0.9] = - abs(lower) * 0.9
             data[data > upper] = upper
-            print(lower, upper)
+            print('lower:', lower, - abs(lower) * 0.9)
+            print('upper:', upper)
             # Clip data to fall within the desired percentile range
             data_clipped = np.clip(data, lower, upper)
 
