@@ -390,6 +390,7 @@ def main():
         #### add subplot of caliop false RGB
         ######################################################################
 
+        print("start slow process")
         def normalize_data(data):
 
             """
@@ -421,13 +422,13 @@ def main():
 
 
         # Stack the 2D arrays to create a 3D RGB image
-        rgb_image = np.stack((data1_norm, data2_norm, data3_norm), axis=-1)
+        rgb_image = np.stack((data1_norm[:,40000:], data3_norm[:,40000:], data2_norm[:,40000:]), axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:200])
 
-        fig5 = ax5.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, data1_norm)
-        # ax5.imshow(rgb_image, aspect='auto')  # Plot the image
-        # ax5.axis('off')
+        # fig5 = ax5.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, data1_norm)
+        ax5.imshow(rgb_image, aspect='auto')  # Plot the image
+        ax5.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
