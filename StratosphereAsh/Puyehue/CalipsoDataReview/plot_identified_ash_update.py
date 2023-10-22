@@ -435,13 +435,6 @@ def main():
             # Normalize the clipped data
             return (data_clipped - lower) / (upper - lower)
 
-        def apply_colormap(data, colormap='viridis'):
-            """
-            Apply colormap to data
-            """
-            cmap = plt.get_cmap(colormap)
-            return cmap(data)[:, :, :3]  # Discard alpha channel, if presentt
-
         def combine_channels(red, green, blue):
             """
             Combine the RGB channels into a single image
@@ -471,14 +464,12 @@ def main():
                               axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:190])
-
-        # fig5 = ax5.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, data1_norm)
-        ax5.imshow(rgb_image, aspect='auto')  # Plot the image here
-
-        # Assuming you have an altitude array or similar which represents your y-axis data
-        y_ticks = alt_caliop_l1[index_max_altitude_l1:index_min_altitude_l1]
-        # Set the y-ticks and their labels
+        ax5.imshow(data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
         ax5.axis('off')
+
+        ax6 = fig.add_subplot(gs[75:105, 105:190])
+        ax6.imshow(data2_norm[index_max_altitude_l1:index_min_altitude_l1, start_index_l1:end_index_l1], aspect='auto')
+        ax6.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
