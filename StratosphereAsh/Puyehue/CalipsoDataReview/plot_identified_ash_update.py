@@ -414,7 +414,7 @@ def main():
             upper = np.nanpercentile(data, upper_percentile)
             data[data < lower * 3] = lower
             data[data > upper] = upper
-
+            print(lower, upper)
             # Clip data to fall within the desired percentile range
             data_clipped = np.clip(data, lower, upper)
 
