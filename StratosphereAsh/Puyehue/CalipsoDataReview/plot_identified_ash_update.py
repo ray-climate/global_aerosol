@@ -396,9 +396,9 @@ def main():
             Normalize data to range [0, 1]
             """
 
-            data[data < -4.] = -4.
-            data_max = -1.
-            data_min = -4.
+            data[data < -3.5] = -3.5
+            data_max = -2.
+            data_min = -3.5
             return (data - data_min) / (data_max - data_min)
 
         def apply_colormap(data, colormap='viridis'):
