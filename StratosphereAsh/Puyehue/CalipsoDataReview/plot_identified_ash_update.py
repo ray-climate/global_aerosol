@@ -457,8 +457,8 @@ def main():
         # upper = np.nanpercentile(data_ref, upper_percentile)
         lower = -3.5
         upper = -2.
-        data1_norm = normalize_data(np.log10(perpendicular_attenuated_backscatter), lower, upper)
-        data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter), lower, upper)
+        data1_norm = normalize_data(np.log10(perpendicular_attenuated_backscatter), lower, upper) * 2.
+        data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter), lower, upper) * 2.
         data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064), lower, upper)
 
         # Stack the 2D arrays to create a 3D RGB image
