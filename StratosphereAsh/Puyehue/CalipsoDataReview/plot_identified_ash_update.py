@@ -463,15 +463,22 @@ def main():
 
         ax5 = fig.add_subplot(gs[40:70, 105:190])
         ax5.imshow(data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
-        ax5.colorbar()
         ax5.axis('off')
 
         ax6 = fig.add_subplot(gs[75:105, 105:190])
         ax6.imshow(data2_norm[index_max_altitude_l1:index_min_altitude_l1, start_index_l1:end_index_l1], aspect='auto')
-        ax6.colorbar()
         ax6.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+
+        # set a new plot for save data1_norm
+        fig = plt.figure(figsize=(20, 10))
+        ax = fig.add_subplot(111)
+        ax.imshow(data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
+        ax.axis('off')
+        plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s_test.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
+
+
         plt.close()
 
 if __name__ == "__main__":
