@@ -474,7 +474,7 @@ def main():
         # set a new plot for save data1_norm
         fig = plt.figure(figsize=(20, 10))
         ax = fig.add_subplot(111)
-        ax.imshow(data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
+        ax.imshow(np.log10(perpendicular_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
         ax.axis('off')
         # add colorbar for imshow
         divider = make_axes_locatable(ax)
