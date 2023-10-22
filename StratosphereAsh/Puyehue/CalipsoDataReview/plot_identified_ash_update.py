@@ -410,7 +410,7 @@ def main():
             """
             print(data.shape)
             print(type(data))
-            print(lower, upper)
+
             # data = data.filled(np.nan)
             lower = np.percentile(data, lower_percentile)
             upper = np.percentile(data, upper_percentile)
