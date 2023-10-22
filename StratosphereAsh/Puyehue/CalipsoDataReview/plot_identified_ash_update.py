@@ -419,12 +419,15 @@ def main():
         data2_norm = normalize_data(np.log(parallel_attenuated_backscatter))
         data3_norm = normalize_data(np.log(caliop_atteunated_backscatter_1064))
 
+
         # Stack the 2D arrays to create a 3D RGB image
         rgb_image = np.stack((data1_norm, data2_norm, data3_norm), axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:200])
-        ax5.imshow(rgb_image, aspect='auto')  # Plot the image here
-        ax5.axis('off')
+
+        fig5 = ax5.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, data1_norm)
+        # ax5.imshow(rgb_image, aspect='auto')  # Plot the image here
+        # ax5.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
