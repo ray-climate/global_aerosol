@@ -193,7 +193,7 @@ def main():
         fig1 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
         plt.plot(indices, alt_tropopause, color='red', linewidth=3)
 
-        cbar_ax_position = [0.49, 0.1, 0.01, 0.2]  # Modify these values as needed
+        cbar_ax_position = [0.487, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
@@ -453,9 +453,10 @@ def main():
         upper_percentile = 99
 
         data_ref = np.log10(caliop_atteunated_backscatter_1064).filled(np.nan)
-        lower = np.nanpercentile(data_ref, lower_percentile)
-        upper = np.nanpercentile(data_ref, upper_percentile)
-
+        # lower = np.nanpercentile(data_ref, lower_percentile)
+        # upper = np.nanpercentile(data_ref, upper_percentile)
+        lower = -3.5
+        upper = -2.
         data1_norm = normalize_data(np.log10(perpendicular_attenuated_backscatter), lower, upper)
         data2_norm = normalize_data(np.log10(parallel_attenuated_backscatter), lower, upper)
         data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064), lower, upper)
