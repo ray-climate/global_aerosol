@@ -459,10 +459,8 @@ def main():
                               data3_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
                               data2_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1]),
                               axis=-1)
-        print(rgb_image.shape)
-        print(index_max_altitude_l1,index_min_altitude_l1,start_index_l1,end_index_l1)
         ax5 = fig.add_subplot(gs[40:70, 105:190])
-        ax5.imshow(rgb_image[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
+        ax5.imshow(rgb_image, aspect='auto')
         ax5.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
