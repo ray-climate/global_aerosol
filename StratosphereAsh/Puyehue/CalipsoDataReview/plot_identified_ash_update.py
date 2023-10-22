@@ -448,18 +448,18 @@ def main():
         data3_norm = normalize_data(np.log10(caliop_atteunated_backscatter_1064), lower, upper)
 
         rgb_mask = np.zerors((data1_norm.shape))
-        rgb_mask[(data1_norm > 0) & (data2_norm > 0) & (data3_norm > 0)] = 1
+        rgb_mask[(data1_norm > 0) & (data2_norm > 0) & (data3_norm > 0)] = 1.
 
         data1_norm = data1_norm * rgb_mask
         data2_norm = data2_norm * rgb_mask
         data3_norm = data3_norm * rgb_mask
-
+        print(data2_norm.shape)
         # Stack the 2D arrays to create a 3D RGB image
         rgb_image = np.stack((data1_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
                               data3_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1],
                               data2_norm[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1]),
                               axis=-1)
-
+        print(rgb_image.shape)
         ax5 = fig.add_subplot(gs[40:70, 105:190])
         ax5.imshow(rgb_image[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
         ax5.axis('off')
