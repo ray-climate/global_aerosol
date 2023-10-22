@@ -160,7 +160,7 @@ def main():
         x_grid_caliop_indices, y_grid_caliop_indices = np.meshgrid(indices, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(110, 205, figure=fig)
+        gs = GridSpec(110, 195, figure=fig)
 
         ax1 = fig.add_subplot(gs[75:105, 5:95])
 
@@ -180,7 +180,7 @@ def main():
         fig1 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
         plt.plot(indices, alt_tropopause, color='red', linewidth=3)
 
-        cbar_ax_position = [0.55, 0.1, 0.01, 0.2]  # Modify these values as needed
+        cbar_ax_position = [0.5, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
@@ -364,7 +364,7 @@ def main():
         ### add subplot of caliop observation track over a map
         #####################################################################
 
-        ax4 = fig.add_subplot(gs[3:35, 105:200])  # Creates a subplot below the main one
+        ax4 = fig.add_subplot(gs[5:35, 105:190])  # Creates a subplot below the main one
 
         # Create a basemap instance with a cylindrical projection.
         # This next step assumes your latitude and longitude data cover the whole globe.
@@ -449,7 +449,7 @@ def main():
                               data2_norm[index_max_altitude_l1:,start_index_l1:end_index_l1]),
                               axis=-1)
 
-        ax5 = fig.add_subplot(gs[40:70, 105:200])
+        ax5 = fig.add_subplot(gs[40:70, 105:190])
 
         # fig5 = ax5.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, data1_norm)
         ax5.imshow(rgb_image, aspect='auto')  # Plot the image here
