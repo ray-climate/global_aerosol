@@ -412,6 +412,8 @@ def main():
             # data = data.filled(np.nan)
             lower = np.percentile(data, lower_percentile)
             upper = np.percentile(data, upper_percentile)
+            print(data.shape)
+            print(type(data))
             print(lower, upper)
             # Clip data to fall within the desired percentile range
             data_clipped = np.clip(data, lower, upper)
