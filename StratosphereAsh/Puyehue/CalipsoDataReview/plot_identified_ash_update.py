@@ -391,6 +391,7 @@ def main():
         ######################################################################
 
         print("start slow process")
+
         def normalize_data(data, lower_percentile=1, upper_percentile=99):
 
             """
@@ -407,6 +408,7 @@ def main():
             Normalize data based on given percentiles.
             Values below lower_percentile are set to 0, and values above upper_percentile are set to 1.
             """
+            data = data.filled(np.nan)
             lower = np.percentile(data, lower_percentile)
             upper = np.percentile(data, upper_percentile)
 
