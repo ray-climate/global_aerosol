@@ -457,7 +457,7 @@ def main():
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
-        quit()
+
 if __name__ == "__main__":
     main()
 
