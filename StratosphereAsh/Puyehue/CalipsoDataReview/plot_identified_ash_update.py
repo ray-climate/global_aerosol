@@ -398,7 +398,8 @@ def main():
             """
 
             data[data < -3.5] = -3.5
-            data_max = -2.
+            data[data > -2.5] = -2.5
+            data_max = -2.5
             data_min = -3.5
             return (data - data_min) / (data_max - data_min)
 
