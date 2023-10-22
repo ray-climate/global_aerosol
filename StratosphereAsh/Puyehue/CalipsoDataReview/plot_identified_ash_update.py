@@ -391,17 +391,30 @@ def main():
         ######################################################################
 
         print("start slow process")
-        def normalize_data(data):
+        def normalize_data(data, lower_percentile=1, upper_percentile=99):
 
             """
             Normalize data to range [0, 1]
             """
 
-            data[data > -3.5] = -3.5
-            data[data < -2.5] = -2.5
-            data_max = -2.5
-            data_min = -3.5
-            return (data - data_min) / (data_max - data_min)
+            # data[data > -3.5] = -3.5
+            # data[data < -2.5] = -2.5
+            # data_max = -2.5
+            # data_min = -3.5
+            # return (data - data_min) / (data_max - data_min)
+
+            """
+            Normalize data based on given percentiles.
+            Values below lower_percentile are set to 0, and values above upper_percentile are set to 1.
+            """
+            lower = np.percentile(data, lower_percentile)
+            upper = np.percentile(data, upper_percentile)
+
+            # Clip data to fall within the desired percentile range
+            data_clipped = np.clip(data, lower, upper)
+
+            # Normalize the clipped data
+            return (data_clipped - lower) / (upper - lower)
 
         def apply_colormap(data, colormap='viridis'):
             """
