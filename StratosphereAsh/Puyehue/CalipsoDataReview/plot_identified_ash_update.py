@@ -296,6 +296,7 @@ def main():
         index_max_altitude_l1 = np.abs(alt_caliop_l1 - MAX_ALTITUDE).argmin()
         print(index_max_altitude_l1)
         print(alt_caliop_l1[index_max_altitude_l1])
+        print(alt_caliop_l1[0] )
         quit()
         # Set x-ticks and x-tick labels
         ax2.set_xticks(index_ticks_l1)
