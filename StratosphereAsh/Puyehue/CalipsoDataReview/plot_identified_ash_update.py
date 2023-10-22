@@ -294,7 +294,9 @@ def main():
         index_ticks_l1 = np.linspace(start_index_l1, end_index_l1, num_xticks).astype(int)
         # determine the MAX_ALTITUDE index
         index_max_altitude_l1 = np.abs(alt_caliop_l1 - MAX_ALTITUDE).argmin()
-
+        print(index_max_altitude_l1)
+        print(alt_caliop_l1[index_max_altitude_l1])
+        quit()
         # Set x-ticks and x-tick labels
         ax2.set_xticks(index_ticks_l1)
         ax2.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop_l1[index_ticks_l1]])
