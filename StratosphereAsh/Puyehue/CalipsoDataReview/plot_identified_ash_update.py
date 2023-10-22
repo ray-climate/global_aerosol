@@ -423,7 +423,7 @@ def main():
         rgb_image = combine_channels(red_channel, green_channel, blue_channel)
 
         ax5 = fig.add_subplot(gs[40:70, 105:200])
-        ax5.imshow(rgb_image)  # Plot the image here
+        ax5.imshow(rgb_image)  # Plot the image her
 
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
