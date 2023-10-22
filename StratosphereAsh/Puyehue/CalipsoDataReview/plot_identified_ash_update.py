@@ -144,7 +144,9 @@ def main():
                 = extract_variables_from_caliop(closest_file_level2, logger)
 
             (footprint_lat_caliop_l1, footprint_lon_caliop_l1,
-             alt_caliop_l1, total_attenuated_backscatter, perpendicular_attenuated_backscatter) = \
+             alt_caliop_l1, total_attenuated_backscatter,
+             perpendicular_attenuated_backscatter,
+             caliop_atteunated_backscatter_1064) = \
                 extract_variables_from_caliop_level1(closest_file_level1, logger)
         except:
             print('Error in loading the corresponding level 2 and level 1 files')
@@ -158,7 +160,7 @@ def main():
         x_grid_caliop_indices, y_grid_caliop_indices = np.meshgrid(indices, alt_caliop)
 
         fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(110, 160, figure=fig)
+        gs = GridSpec(110, 205, figure=fig)
 
         ax1 = fig.add_subplot(gs[75:105, 5:95])
 
@@ -301,7 +303,8 @@ def main():
         ######################################################################
         #### add subplot of caliop volume depolarization ratio
         ######################################################################
-        volume_depolarization_ratio = perpendicular_attenuated_backscatter / (total_attenuated_backscatter - perpendicular_attenuated_backscatter)
+        parallel_attenuated_backscatter = total_attenuated_backscatter - perpendicular_attenuated_backscatter
+        volume_depolarization_ratio = perpendicular_attenuated_backscatter / parallel_attenuated_backscatter
         volume_depolarization_ratio = np.nan_to_num(volume_depolarization_ratio)
         volume_depolarization_ratio[volume_depolarization_ratio > 1] = 1
 
@@ -359,7 +362,7 @@ def main():
         ### add subplot of caliop observation track over a map
         #####################################################################
 
-        ax4 = fig.add_subplot(gs[40:70, 105:155])  # Creates a subplot below the main one
+        ax4 = fig.add_subplot(gs[3:35, 105:200])  # Creates a subplot below the main one
 
         # Create a basemap instance with a cylindrical projection.
         # This next step assumes your latitude and longitude data cover the whole globe.
@@ -383,9 +386,52 @@ def main():
         x, y = m(footprint_lon_caliop_filter, footprint_lat_caliop_filter)
         m.plot(x, y, color='red', linewidth=8)
 
+        ######################################################################
+        #### add subplot of caliop false RGB
+        ######################################################################
+
+        def normalize_data(data):
+            """
+            Normalize data to range [0, 1]
+            """
+            return (data - np.min(data)) / (np.max(data) - np.min(data))
+
+        def apply_colormap(data, colormap='viridis'):
+            """
+            Apply colormap to data
+            """
+            cmap = plt.get_cmap(colormap)
+            return cmap(data)[:, :, :3]  # Discard alpha channel, if present
+
+        def combine_channels(red, green, blue):
+            """
+            Combine the RGB channels into a single image
+            """
+            return np.stack((red[:, :, 0], green[:, :, 1], blue[:, :, 2]), axis=-1)
+
+        # Normalize the data
+        data1_norm = normalize_data(perpendicular_attenuated_backscatter)
+        data2_norm = normalize_data(parallel_attenuated_backscatter)
+        data3_norm = normalize_data(caliop_atteunated_backscatter_1064)
+
+        # Apply colormaps
+        red_channel = apply_colormap(data1_norm, 'Reds')
+        green_channel = apply_colormap(data2_norm, 'Greens')
+        blue_channel = apply_colormap(data3_norm, 'Blues')
+
+        # Combine RGB channels
+        rgb_image = combine_channels(red_channel, green_channel, blue_channel)
+
+        ax5 = fig.add_subplot(gs[40:70, 105:200])
+        ax5.imshow(rgb_image)  # Plot the image
+
+
+
+
+
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
-
+        quit()
 if __name__ == "__main__":
     main()
 

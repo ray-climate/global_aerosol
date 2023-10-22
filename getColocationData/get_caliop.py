@@ -68,6 +68,9 @@ def extract_variables_from_caliop_level1(hdf_file, logger):
     caliop_perpendicular_attenuated_backscatter_532_list = \
         caliop_request._get_calipso_data(filename=hdf_file,
                                             variable='Perpendicular_Attenuated_Backscatter_532')
+    caliop_atteunated_backscatter_1064_list = \
+        caliop_request._get_calipso_data(filename=hdf_file,
+                                            variable='Attenuated_Backscatter_1064')
 
     # caliop_alpha_list = caliop_request. \
     #     _get_calipso_data(filename=hdf_file,
@@ -86,4 +89,5 @@ def extract_variables_from_caliop_level1(hdf_file, logger):
     logger.info("Extracted data from caliop level-1 file")
     return caliop_latitude_list, caliop_longitude_list, \
            caliop_altitude_list, caliop_total_attenuated_backscatter_list, \
-           caliop_perpendicular_attenuated_backscatter_532_list
+           caliop_perpendicular_attenuated_backscatter_532_list, \
+           caliop_atteunated_backscatter_1064_list
