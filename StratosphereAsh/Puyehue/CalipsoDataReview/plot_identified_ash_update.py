@@ -408,13 +408,13 @@ def main():
             Normalize data based on given percentiles.
             Values below lower_percentile are set to 0, and values above upper_percentile are set to 1.
             """
-
-            # data = data.filled(np.nan)
-            lower = np.percentile(data, lower_percentile)
-            upper = np.percentile(data, upper_percentile)
             print(data.shape)
             print(type(data))
             print(lower, upper)
+            # data = data.filled(np.nan)
+            lower = np.percentile(data, lower_percentile)
+            upper = np.percentile(data, upper_percentile)
+
             # Clip data to fall within the desired percentile range
             data_clipped = np.clip(data, lower, upper)
 
