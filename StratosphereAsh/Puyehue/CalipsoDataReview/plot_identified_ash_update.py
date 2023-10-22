@@ -292,6 +292,8 @@ def main():
         num_xticks = 6
         # Use linspace to get evenly spaced indices within the effective range
         index_ticks_l1 = np.linspace(start_index_l1, end_index_l1, num_xticks).astype(int)
+        # determine the MAX_ALTITUDE index
+        index_max_altitude_l1 = np.abs(alt_caliop_l1 - MAX_ALTITUDE).argmin()
 
         # Set x-ticks and x-tick labels
         ax2.set_xticks(index_ticks_l1)
@@ -442,7 +444,10 @@ def main():
 
 
         # Stack the 2D arrays to create a 3D RGB image
-        rgb_image = np.stack((data1_norm[:,35000:40000], data3_norm[:,35000:40000], data2_norm[:,35000:40000]), axis=-1)
+        rgb_image = np.stack((data1_norm[0:index_max_altitude_l1,start_index_l1:end_index_l1],
+                              data3_norm[0:index_max_altitude_l1,start_index_l1:end_index_l1],
+                              data2_norm[0:index_max_altitude_l1,start_index_l1:end_index_l1]),
+                              axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:200])
 
