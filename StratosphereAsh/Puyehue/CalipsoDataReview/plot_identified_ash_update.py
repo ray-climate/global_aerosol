@@ -391,10 +391,15 @@ def main():
         ######################################################################
 
         def normalize_data(data):
+
             """
             Normalize data to range [0, 1]
             """
-            return (data - np.min(data)) / (np.max(data) - np.min(data))
+
+            data[data < -4.] = -4.
+            data_max = -1.
+            data_min = -4.
+            return (data - data_min) / (data_max - data_min)
 
         def apply_colormap(data, colormap='viridis'):
             """
