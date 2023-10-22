@@ -11,6 +11,7 @@ import logging
 import datetime
 import pandas as pd
 import numpy as np
+import argparse
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 from matplotlib.colors import ListedColormap, BoundaryNorm
@@ -24,12 +25,24 @@ from getColocationData.get_caliop import *
 
 # Constants
 LOG_EXTENSION = ".log"
-DATE_START = '2011-06-15'
-DATE_END = '2011-07-31'
+# DATE_START = '2011-06-15'
+# DATE_END = '2011-07-31'
 NORTHERN_LATITUDE = -30
 SOUTHERN_LATITUDE = -89
 MIN_ALTITUDE = 0
 MAX_ALTITUDE = 20
+
+# Set up argument parser
+parser = argparse.ArgumentParser(description="Script to process data between two dates.")
+parser.add_argument("DATE_START", type=str, help="Start date in the format YYYY-MM-DD.")
+parser.add_argument("DATE_END", type=str, help="End date in the format YYYY-MM-DD.")
+
+# Parse the arguments
+args = parser.parse_args()
+
+# Use the parsed arguments
+DATE_START = args.DATE_START
+DATE_END = args.DATE_END
 
 # Directory paths and locations
 CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
@@ -458,10 +471,7 @@ def main():
         # Assuming you have an altitude array or similar which represents your y-axis data
         y_ticks = alt_caliop_l1[index_max_altitude_l1:index_min_altitude_l1]
         # Set the y-ticks and their labels
-        ax5.axis('on')
-        ax5.set_yticks(np.linspace(0, 20, 5))  # 5 is an example; adjust based on desired number of ticks
-        ax5.set_yticklabels(np.linspace(0, 20, 5))
-        ax5.set_ylabel('Height [km]', fontsize=35)
+        ax5.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
