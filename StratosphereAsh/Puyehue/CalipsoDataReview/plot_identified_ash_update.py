@@ -414,17 +414,11 @@ def main():
         data2_norm = normalize_data(parallel_attenuated_backscatter)
         data3_norm = normalize_data(caliop_atteunated_backscatter_1064)
 
-        # Apply colormaps
-        red_channel = apply_colormap(data1_norm, 'Reds')
-        green_channel = apply_colormap(data2_norm, 'Greens')
-        blue_channel = apply_colormap(data3_norm, 'Blues')
-
-        # Combine RGB channels
-        rgb_image = combine_channels(red_channel, green_channel, blue_channel)
+        # Stack the 2D arrays to create a 3D RGB image
+        rgb_image = np.stack((data1_norm, data2_norm, data3_norm), axis=-1)
 
         ax5 = fig.add_subplot(gs[40:70, 105:200])
         ax5.imshow(rgb_image)  # Plot the image her
-
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         plt.close()
