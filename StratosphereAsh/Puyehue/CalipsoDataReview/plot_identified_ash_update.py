@@ -454,6 +454,12 @@ def main():
 
         # fig5 = ax5.pcolormesh(x_grid_caliop_l1, y_grid_caliop_l1, data1_norm)
         ax5.imshow(rgb_image, aspect='auto')  # Plot the image here
+
+        # Assuming you have an altitude array or similar which represents your y-axis data
+        y_ticks = alt_caliop_l1[index_max_altitude_l1:index_min_altitude_l1]
+        # Set the y-ticks and their labels
+        ax5.set_yticks(np.linspace(0, 20, 5))  # 5 is an example; adjust based on desired number of ticks
+        ax5.set_yticklabels(np.linspace(0, 20, 5))
         ax5.axis('off')
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
