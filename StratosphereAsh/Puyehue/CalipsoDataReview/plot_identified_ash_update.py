@@ -410,9 +410,9 @@ def main():
             return np.stack((red[:, :, 0], green[:, :, 1], blue[:, :, 2]), axis=-1)
 
         # Normalize the data
-        data1_norm = normalize_data(perpendicular_attenuated_backscatter)
-        data2_norm = normalize_data(parallel_attenuated_backscatter)
-        data3_norm = normalize_data(caliop_atteunated_backscatter_1064)
+        data1_norm = normalize_data(np.log(perpendicular_attenuated_backscatter))
+        data2_norm = normalize_data(np.log(parallel_attenuated_backscatter))
+        data3_norm = normalize_data(np.log(caliop_atteunated_backscatter_1064))
 
         # Stack the 2D arrays to create a 3D RGB image
         rgb_image = np.stack((data1_norm, data2_norm, data3_norm), axis=-1)
