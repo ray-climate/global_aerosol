@@ -465,7 +465,7 @@ def main():
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/caliop_%s.png'%(time.strftime('%Y%m%d_%H%M%S')), dpi=300)
         #
-        # # set a new plot for save data1_norm
+        # # set a new plot for save data1_norm here
         # fig = plt.figure(figsize=(20, 10))
         # ax = fig.add_subplot(111)
         # ax.imshow(np.log10(perpendicular_attenuated_backscatter)[index_max_altitude_l1:index_min_altitude_l1,start_index_l1:end_index_l1], aspect='auto')
