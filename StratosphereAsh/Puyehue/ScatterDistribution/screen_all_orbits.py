@@ -70,6 +70,8 @@ def main():
     day = DATE_SEARCH.split('-')[2]
     data_path = os.path.join(CALIPSO_DATA_PATH, year, month)
     file_list = os.listdir(data_path)
+    # only keep files that contains year-month-day in the full file name
+    file_list = [file for file in file_list if DATE_SEARCH in file]
     print(file_list)
 
 if __name__ == "__main__":
