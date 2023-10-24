@@ -70,4 +70,5 @@ def main():
     day = DATE_SEARCH.split('-')[2]
     data_path = os.path.join(CALIPSO_DATA_PATH, year, month)
     file_list = os.listdir(data_path)
+    print(file_list)
 
