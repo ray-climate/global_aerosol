@@ -35,7 +35,6 @@ MAX_ALTITUDE = 20
 # Set up argument parser
 parser = argparse.ArgumentParser(description="Script to process data between two dates.")
 parser.add_argument("DATE_START", type=str, help="Start date in the format YYYY-MM-DD.")
-parser.add_argument("DATE_END", type=str, help="End date in the format YYYY-MM-DD.")
 
 # Parse the arguments
 args = parser.parse_args()
