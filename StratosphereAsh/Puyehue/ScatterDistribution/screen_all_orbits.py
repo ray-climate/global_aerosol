@@ -86,6 +86,9 @@ def main():
             print('Cannot process file: {}'.format(file))
             continue
 
+        print(aerosol_type_caliop.shape)
+        print(feature_type_caliop.shape)
+        quit()
         stratosphere_aerosol_mask = np.copy(aerosol_type_caliop)
         stratosphere_aerosol_mask[feature_type_caliop != 4] = 0
         # PSC == 1, ash == 2, sulfate == 3, smoke == 4
@@ -93,7 +96,15 @@ def main():
         stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 2] = 1
         stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 3] = 1
         stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 4] = 1
+        aerosol_lower_limit = 20
+
         print('Number of total detected stratospheric aerosol: {}'.format(np.sum(stratosphere_aerosol_mask_combine)))
+
+        if np.sum(stratosphere_aerosol_mask_combine) < aerosol_lower_limit:
+            print('Number of stratospheric aerosol is less than {}'.format(aerosol_lower_limit))
+            continue
+
+
 
 
 
