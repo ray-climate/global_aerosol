@@ -72,7 +72,18 @@ def main():
     file_list = os.listdir(data_path)
     # only keep files that contains year-month-day in the full file name
     file_list = [file for file in file_list if DATE_SEARCH in file]
-    print(file_list)
+
+    # iterate through all files
+    for file in file_list:
+        try:
+            (footprint_lat_caliop, footprint_lon_caliop,
+             alt_caliop, beta_caliop, alpha_caliop,
+             aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
+                = extract_variables_from_caliop(file, logger)
+            print('Processing file: {}'.format(file))
+        except:
+            print('Cannot process file: {}'.format(file))
+            continue
 
 if __name__ == "__main__":
     main()
