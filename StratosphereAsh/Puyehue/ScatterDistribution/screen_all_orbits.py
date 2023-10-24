@@ -33,14 +33,14 @@ MIN_ALTITUDE = 0
 MAX_ALTITUDE = 20
 
 # Set up argument parser
-parser = argparse.ArgumentParser(description="Script to process data between two dates.")
-parser.add_argument("DATE_START", type=str, help="Start date in the format YYYY-MM-DD.")
+parser = argparse.ArgumentParser(description="Script to process data at specific date.")
+parser.add_argument("DATE_SEARCH", type=str, help="Date in the format YYYY-MM-DD.")
 
 # Parse the arguments
 args = parser.parse_args()
 
 # Use the parsed arguments
-DATE_SEARCH = args.DATE
+DATE_SEARCH = args.DATE_SEARCH
 
 # Directory paths and locations
 CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
