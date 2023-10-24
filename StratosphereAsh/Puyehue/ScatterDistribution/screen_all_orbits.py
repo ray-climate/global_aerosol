@@ -72,3 +72,5 @@ def main():
     file_list = os.listdir(data_path)
     print(file_list)
 
+if __name__ == "__main__":
+    main()
