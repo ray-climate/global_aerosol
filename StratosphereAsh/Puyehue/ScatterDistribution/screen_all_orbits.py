@@ -79,7 +79,7 @@ def main():
             (footprint_lat_caliop, footprint_lon_caliop,
              alt_caliop, beta_caliop, alpha_caliop,
              aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
-                = extract_variables_from_caliop(file, logger)
+                = extract_variables_from_caliop(data_path + file, logger)
             print('Processing file: {}'.format(file))
         except:
             print('Cannot process file: {}'.format(file))
