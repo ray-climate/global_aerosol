@@ -75,6 +75,7 @@ def main():
 
     # iterate through all files
     for file in file_list:
+        print(data_path + file)
         try:
             (footprint_lat_caliop, footprint_lon_caliop,
              alt_caliop, beta_caliop, alpha_caliop,
