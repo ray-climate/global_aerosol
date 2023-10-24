@@ -90,7 +90,9 @@ def main():
         stratosphere_aerosol_mask[feature_type_caliop != 4] = 0
         # PSC == 1, ash == 2, sulfate == 3, smoke == 4
         stratosphere_aerosol_mask_combine = np.zeros((stratosphere_aerosol_mask.shape))
-        stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 2 | stratosphere_aerosol_mask == 3 | stratosphere_aerosol_mask == 4] = 1
+        stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 2] = 1
+        stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 3] = 1
+        stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 4] = 1
         print('Number of total detected stratospheric aerosol: {}'.format(np.sum(stratosphere_aerosol_mask_combine)))
 
 
