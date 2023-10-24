@@ -92,10 +92,6 @@ def main():
         lat_caliop = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         lon_caliop = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
 
-        print(lat_caliop.shape)
-        print(lon_caliop.shape)
-        print(aerosol_type_caliop.shape)
-        quit()
         stratosphere_aerosol_mask = np.copy(aerosol_type_caliop)
         stratosphere_aerosol_mask[feature_type_caliop != 4] = 0
         # PSC == 1, ash == 2, sulfate == 3, smoke == 4
