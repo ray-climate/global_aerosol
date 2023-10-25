@@ -108,14 +108,14 @@ def main():
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
             # first row to write name of parameters
 
+            writer = csv.writer(csvfile, lineterminator='\n')
+            writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Color_Ratio',
+                             'Depolarization_Ratio', 'Aerosol_type'))
+
             for i in range(len(caliop_feature_type_4_index[0])):
 
                 index_row = caliop_feature_type_4_index[0][i]
                 index_col = caliop_feature_type_4_index[1][i]
-
-                writer = csv.writer(csvfile, lineterminator='\n')
-                writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Color_Ratio',
-                                 'Depolarization_Ratio', 'Aerosol_type'))
 
                 # start to write every parameter into the new row
                 writer.writerow((caliop_lat[index_col],
