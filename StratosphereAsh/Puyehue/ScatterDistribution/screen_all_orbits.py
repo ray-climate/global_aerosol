@@ -101,7 +101,8 @@ def main():
 
         # get index of caliop_feature_type == 4
         caliop_feature_type_4_index = np.where(caliop_feature_type == 4)
-
+        print(caliop_feature_type_4_index)
+        quit()
         for i in range(len(caliop_feature_type_4_index[0])):
             for j in range(len(caliop_feature_type_4_index[1])):
                 print(caliop_feature_type_4_index[i][j])
