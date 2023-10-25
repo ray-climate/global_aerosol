@@ -108,8 +108,6 @@ def main():
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
             # first row to write name of parameters
 
-
-
             for i in range(len(caliop_feature_type_4_index[0])):
 
                 index_row = caliop_feature_type_4_index[0][i]
@@ -120,8 +118,8 @@ def main():
                                  'Depolarization_Ratio', 'Aerosol_type'))
 
                 # start to write every parameter into the new row
-                writer.writerow((caliop_lat[index_row, index_col],
-                                 caliop_lon[index_row, index_col],
+                writer.writerow((caliop_lat[index_col],
+                                 caliop_lon[index_col],
                                  caliop_Layer_Base[index_row, index_col],
                                  caliop_Layer_Top[index_row, index_col],
                                  caliop_color[index_row, index_col],
