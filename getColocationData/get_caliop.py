@@ -113,15 +113,16 @@ def extract_variables_from_caliop_ALay(hdf_file, logger):
         _get_feature_classification_ALay(filename=hdf_file,
                                          variable='Feature_Classification_Flags')
 
-    # caliop_perpendicular_attenuated_backscatter_532_list = \
-    #     caliop_request._get_calipso_data(filename=hdf_file,
-    #                                         variable='Perpendicular_Attenuated_Backscatter_532')
-    # caliop_atteunated_backscatter_1064_list = \
-    #     caliop_request._get_calipso_data(filename=hdf_file,
-    #                                         variable='Attenuated_Backscatter_1064')
+    caliop_Layer_Top_Altitude =  caliop_request._get_calipso_data(filename=hdf_file,
+                                                                  variable='Layer_Top_Altitude')
+    caliop_Layer_Base_Altitude = caliop_request._get_calipso_data(filename=hdf_file,
+                                                                 variable='Layer_Base_Altitude')
+
+
 
     logger.info("Extracted data from caliop ALay file")
     return caliop_latitude_list, caliop_longitude_list, \
            caliop_Integrated_Attenuated_Total_Color_Ratio, \
            caliop_Integrated_Volume_Depolarization_Ratio, \
-           caliop_aerosol_type, caliop_feature_type
+           caliop_aerosol_type, caliop_feature_type, \
+           caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude

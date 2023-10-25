@@ -80,7 +80,8 @@ def main():
         (footprint_lat_caliop, footprint_lon_caliop,
          caliop_Integrated_Attenuated_Total_Color_Ratio,
          caliop_Integrated_Volume_Depolarization_Ratio,
-         caliop_aerosol_type, caliop_feature_type) \
+         caliop_aerosol_type, caliop_feature_type,
+         caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude)\
             = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
         print('Processing file: {}'.format(file))
         # except:
@@ -88,32 +89,35 @@ def main():
         #     continue
 
         print(footprint_lat_caliop.shape)
-        print(caliop_Integrated_Attenuated_Total_Color_Ratio.shape)
-        print(caliop_Integrated_Volume_Depolarization_Ratio.shape)
-        print(caliop_feature_type.shape)
 
+        caliop_aerosol_type = caliop_aerosol_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_feature_type = caliop_feature_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_dp = caliop_Integrated_Volume_Depolarization_Ratio[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_color = caliop_Integrated_Attenuated_Total_Color_Ratio[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_Layer_Top = caliop_Layer_Top_Altitude[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_Layer_Base = caliop_Layer_Base_Altitude[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_lat = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_lon = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+
+        # get index of caliop_feature_type == 4
+        caliop_feature_type_4_index = np.where(caliop_feature_type == 4)
+        print(caliop_feature_type_4_index)
         quit()
-        aerosol_type_caliop = aerosol_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        feature_type_caliop = feature_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        dp_caliop = dp_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
 
-        lat_caliop = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        lon_caliop = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-
-        stratosphere_aerosol_mask = np.copy(aerosol_type_caliop)
-        stratosphere_aerosol_mask[feature_type_caliop != 4] = 0
-        # PSC == 1, ash == 2, sulfate == 3, smoke == 4
-        stratosphere_aerosol_mask_combine = np.zeros((stratosphere_aerosol_mask.shape))
-        stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 2] = 1
-        stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 3] = 1
-        stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 4] = 1
-        aerosol_lower_limit = 20
-
-        print('Number of total detected stratospheric aerosol: {}'.format(np.sum(stratosphere_aerosol_mask_combine)))
-
-        if np.sum(stratosphere_aerosol_mask_combine) < aerosol_lower_limit:
-            print('Number of stratospheric aerosol is less than {}'.format(aerosol_lower_limit))
-            continue
+        # stratosphere_aerosol_mask = np.copy(aerosol_type_caliop)
+        # stratosphere_aerosol_mask[feature_type_caliop != 4] = 0
+        # # PSC == 1, ash == 2, sulfate == 3, smoke == 4
+        # stratosphere_aerosol_mask_combine = np.zeros((stratosphere_aerosol_mask.shape))
+        # stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 2] = 1
+        # stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 3] = 1
+        # stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 4] = 1
+        # aerosol_lower_limit = 20
+        #
+        # print('Number of total detected stratospheric aerosol: {}'.format(np.sum(stratosphere_aerosol_mask_combine)))
+        #
+        # if np.sum(stratosphere_aerosol_mask_combine) < aerosol_lower_limit:
+        #     print('Number of stratospheric aerosol is less than {}'.format(aerosol_lower_limit))
+        #     continue
 
 
 
