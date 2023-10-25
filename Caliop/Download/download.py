@@ -9,16 +9,8 @@ from datetime import datetime, timedelta
 import pathlib
 import os
 
-data_dir = './APro5km_temporal'
-
-# create save_location folder if not exist
-try:
-    os.stat(data_dir)
-except:
-    os.mkdir(data_dir)
-
 start_date = '2011-06-13' # start data for downloading
-end_date   = '2011-06-13' # end date for downloading
+end_date   = '2011-07-13' # end date for downloading
 
 start_date_datetime = datetime.strptime(start_date, '%Y-%m-%d')
 end_date_datetime = datetime.strptime(end_date, '%Y-%m-%d')
@@ -31,16 +23,9 @@ while start_date_datetime <= end_date_datetime:
     month_i = '{:02d}'.format(start_date_datetime.month)
     day_i = '{:02d}'.format(start_date_datetime.day)
 
-    save_dir_i = data_dir + '/%s/%s_%s_%s/'%(year_i, year_i, month_i, day_i)
-    #
-    try:
-        os.stat(save_dir_i)
-    except:
-        pathlib.Path(save_dir_i).mkdir(parents=True, exist_ok=True)
-
     URL = 'https://asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/%s/%s/'%(year_i, month_i)
-    TOKEN = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfb3BzIiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6InJ1aXNvbmcxMjMiLCJleHAiOjE3MDIyMTg1MDQsImlhdCI6MTY5NzAzNDUwNCwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.qXf6FwJrnk4Z4ouBVlLb1lI1IQBAvfLOCz3lORF5zVBQwF9ZWtSdzLiTRXbLcqPyRb8VKyhWbWN7Y4NHJEjXLuH2kam5tJW_E2khW2rqg2hcrcM5BIhNgFfs_k_yMqUPACS-wDJivXliqoG-kjw7kMt9V9N6ctrSADUxpaMrfMKshL3JHr1LVEj8mcyJ41DSnRZP4tyZ5bEFjn0Zs7TV0Bz5KsRMUKtWpm1P6aP_sly0GBC12DB0KF7UfjcOmg4uhB0990okDNxGAWEa1e3wE4GrBz7553m7C9uWWfG_E9WsVuriZ8ZXlrqWAZs27b7av2abmlNddA4ihdtI9hbahQ'
-    print('wget --header "Authorization: Bearer %s" --recursive --no-parent --reject "index.html*" --execute robots=off %s'%(TOKEN, URL))
+    TOKEN = 'eyJ0eXAiOiJKV1QiLCJvcmlnaW4iOiJFYXJ0aGRhdGEgTG9naW4iLCJzaWciOiJlZGxqd3RwdWJrZXlfb3BzIiwiYWxnIjoiUlMyNTYifQ.eyJ0eXBlIjoiVXNlciIsInVpZCI6InJ1aXNvbmcxMjMiLCJleHAiOjE3MDMyNzg2MDEsImlhdCI6MTY5ODA5NDYwMSwiaXNzIjoiRWFydGhkYXRhIExvZ2luIn0.iUKMhjwRzr31KALYiBdqzljdOp-ZJEarhfPSpa12Sm2d1H_DYPbuZRZZFMxXeJEobjbauN_Rij8OfI9OExwDaiSjYQPICwUOunwz1cBZ4l8U5eooHuKoqjAN00tsPqUOOYyuUaiU2C4LeFBgAdPFcM7jdWvLtdgFSgDUSqqyZFNYurNp3AhWFO2i9ZxyXjd6tWeGsiK8FHTtougHN6Hsq2KQO87dnOBZNK5WI31DOLlJjPJIfu7JKZbNhbBK80a9DPO865opJceqp04qd7yZJiCRQd7sXq8Z_B3w8Dsuq_7BltGIdUgMj_7djg8TjKJR_RkxPPZLc6ICz0KGDt3tZg'
+
     os.system('wget --header "Authorization: Bearer %s" --recursive --no-parent --reject "index.html*" --execute robots=off %s'%(TOKEN, URL))
 
     start_date_datetime = start_date_datetime + time_delta

@@ -116,7 +116,7 @@ class Caliop_hdf_reader():
         # bit 10-12 is for aersol subtype
         bit_start = 9
         bit_count = 3
-
+        print(data.shape)
         # for the moment, use the higher bins classification flag for 60-m data below 8.2km.
         data = data[:,:,0]
         caliop_v4_aerosol_type = self.bits_stripping(bit_start, bit_count, data)
