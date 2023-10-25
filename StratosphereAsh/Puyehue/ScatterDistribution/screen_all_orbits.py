@@ -7,6 +7,7 @@
 
 import os
 import sys
+import csv
 import logging
 import datetime
 import pandas as pd
@@ -103,46 +104,31 @@ def main():
         caliop_feature_type_4_index = np.where(caliop_feature_type == 4)
         print(caliop_feature_type.shape)
 
-        for i in range(len(caliop_feature_type_4_index[0])):
-            print(caliop_feature_type[caliop_feature_type_4_index[0][i],caliop_feature_type_4_index[1][i]])
-        # # for loop to access to each of the index
-        # for i in range(len(caliop_feature_type_4_index[0])):
-        #     # get the index of the current feature
-        #     current_feature_index = caliop_feature_type_4_index[0][i]
-        #     print(current_feature_index)
-        #     # get the altitude of the current feature
-        #     current_feature_altitude = caliop_Layer_Top[current_feature_index]
-        #     # get the latitude of the current feature
-        #     current_feature_latitude = caliop_lat[current_feature_index]
-        #     # get the longitude of the current feature
-        #     current_feature_longitude = caliop_lon[current_feature_index]
-        #     # get the aerosol type of the current feature
-        #     current_feature_aerosol_type = caliop_aerosol_type[current_feature_index]
-        #     # get the depolarization ratio of the current feature
-        #     current_feature_dp = caliop_dp[current_feature_index]
-        #     # get the color ratio of the current
+        # save all detected feature type 4 into a csv file, iterative to write each row
+        with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
+            # first row to write name of parameters
+
+
+
+            for i in range(len(caliop_feature_type_4_index[0])):
+
+                index_row = caliop_feature_type_4_index[0][i]
+                index_col = caliop_feature_type_4_index[1][i]
+
+                writer = csv.writer(csvfile, lineterminator='\n')
+                writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Color_Ratio',
+                                 'Depolarization_Ratio', 'Aerosol_type'))
+
+                # start to write every parameter into the new row
+                writer.writerow((caliop_lat[index_row, index_col],
+                                 caliop_lon[index_row, index_col],
+                                 caliop_Layer_Base[index_row, index_col],
+                                 caliop_Layer_Top[index_row, index_col],
+                                 caliop_color[index_row, index_col],
+                                 caliop_dp[index_row, index_col],
+                                 caliop_aerosol_type[index_row, index_col]))
+
         quit()
-
-
-
-        # stratosphere_aerosol_mask = np.copy(aerosol_type_caliop)
-        # stratosphere_aerosol_mask[feature_type_caliop != 4] = 0
-        # # PSC == 1, ash == 2, sulfate == 3, smoke == 4
-        # stratosphere_aerosol_mask_combine = np.zeros((stratosphere_aerosol_mask.shape))
-        # stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 2] = 1
-        # stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 3] = 1
-        # stratosphere_aerosol_mask_combine[stratosphere_aerosol_mask == 4] = 1
-        # aerosol_lower_limit = 20
-        #
-        # print('Number of total detected stratospheric aerosol: {}'.format(np.sum(stratosphere_aerosol_mask_combine)))
-        #
-        # if np.sum(stratosphere_aerosol_mask_combine) < aerosol_lower_limit:
-        #     print('Number of stratospheric aerosol is less than {}'.format(aerosol_lower_limit))
-        #     continue
-
-
-
-
 
 
 if __name__ == "__main__":
