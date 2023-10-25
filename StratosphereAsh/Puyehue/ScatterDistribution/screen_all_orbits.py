@@ -78,7 +78,7 @@ def main():
         # print(data_path + file)
         try:
             (footprint_lat_caliop, footprint_lon_caliop,
-             caliop_Integrated_Attenuated_Total_Color_Ratio) \
+             caliop_Integrated_Attenuated_Total_Color_Ratio, caliop_Layer_Top_Altitude) \
                 = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
             print('Processing file: {}'.format(file))
         except:
@@ -87,6 +87,7 @@ def main():
 
         print(footprint_lat_caliop.shape)
         print(caliop_Integrated_Attenuated_Total_Color_Ratio.shape)
+        print(caliop_Layer_Top_Altitude.shape)
         quit()
         aerosol_type_caliop = aerosol_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         feature_type_caliop = feature_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
