@@ -104,7 +104,7 @@ def main():
         print(caliop_feature_type.shape)
         for i in range(len(caliop_feature_type_4_index[0])):
             for j in range(len(caliop_feature_type_4_index[1])):
-                print(i,j)
+                print(caliop_feature_type[caliop_feature_type_4_index[0][i],caliop_feature_type_4_index[1][j]])
         # # for loop to access to each of the index
         # for i in range(len(caliop_feature_type_4_index[0])):
         #     # get the index of the current feature
