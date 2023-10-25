@@ -86,7 +86,7 @@ def main():
             continue
 
         print(footprint_lat_caliop.shape)
-        print(caliop_Integrated_Attenuated_Total_Color_Ratio)
+        print(caliop_Integrated_Attenuated_Total_Color_Ratio.shape)
         quit()
         aerosol_type_caliop = aerosol_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         feature_type_caliop = feature_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
