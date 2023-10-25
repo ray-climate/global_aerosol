@@ -110,8 +110,8 @@ def main():
         # 7 = spare
 
         ash_mask = np.zeros((caliop_feature_type.shape))
-        caliop_aerosol_type[(caliop_feature_type == 4) & (caliop_aerosol_type == 2)] = 1
-        number_of_ash_layer = np.sum(caliop_aerosol_type)
+        ash_mask[(caliop_feature_type == 4) & (caliop_aerosol_type == 2)] = 1
+        number_of_ash_layer = np.sum(ash_mask)
         print('Number of ash layer: {}'.format(number_of_ash_layer))
         continue
 
