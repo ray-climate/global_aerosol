@@ -101,7 +101,7 @@ def main():
 
         # get index of caliop_feature_type == 4
         caliop_feature_type_4_index = np.where(caliop_feature_type == 4)
-        print(caliop_feature_type_4_index)
+        print(caliop_feature_type_4_index[0])
         quit()
 
         # stratosphere_aerosol_mask = np.copy(aerosol_type_caliop)
