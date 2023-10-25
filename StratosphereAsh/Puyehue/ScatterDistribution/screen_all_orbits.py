@@ -101,25 +101,26 @@ def main():
 
         # get index of caliop_feature_type == 4
         caliop_feature_type_4_index = np.where(caliop_feature_type == 4)
-        print(caliop_feature_type_4_index)
-        print(caliop_aerosol_type.shape)
-        quit()
-        # for loop to access to each of the index
-        for i in range(len(caliop_feature_type_4_index[0])):
-            # get the index of the current feature
-            current_feature_index = caliop_feature_type_4_index[0][i]
-            print(current_feature_index)
-            # get the altitude of the current feature
-            current_feature_altitude = caliop_Layer_Top[current_feature_index]
-            # get the latitude of the current feature
-            current_feature_latitude = caliop_lat[current_feature_index]
-            # get the longitude of the current feature
-            current_feature_longitude = caliop_lon[current_feature_index]
-            # get the aerosol type of the current feature
-            current_feature_aerosol_type = caliop_aerosol_type[current_feature_index]
-            # get the depolarization ratio of the current feature
-            current_feature_dp = caliop_dp[current_feature_index]
-            # get the color ratio of the current
+
+        for i in range(caliop_feature_type_4_index.shape[0]):
+            for j in range(caliop_feature_type_4_index.shape[1]):
+                print(caliop_feature_type_4_index[i][j])
+        # # for loop to access to each of the index
+        # for i in range(len(caliop_feature_type_4_index[0])):
+        #     # get the index of the current feature
+        #     current_feature_index = caliop_feature_type_4_index[0][i]
+        #     print(current_feature_index)
+        #     # get the altitude of the current feature
+        #     current_feature_altitude = caliop_Layer_Top[current_feature_index]
+        #     # get the latitude of the current feature
+        #     current_feature_latitude = caliop_lat[current_feature_index]
+        #     # get the longitude of the current feature
+        #     current_feature_longitude = caliop_lon[current_feature_index]
+        #     # get the aerosol type of the current feature
+        #     current_feature_aerosol_type = caliop_aerosol_type[current_feature_index]
+        #     # get the depolarization ratio of the current feature
+        #     current_feature_dp = caliop_dp[current_feature_index]
+        #     # get the color ratio of the current
         quit()
 
 
