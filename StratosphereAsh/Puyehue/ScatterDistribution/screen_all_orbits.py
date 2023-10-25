@@ -113,7 +113,9 @@ def main():
         ash_mask[(caliop_feature_type == 4) & (caliop_aerosol_type == 2)] = 1
         number_of_ash_layer = np.sum(ash_mask)
         print('Number of ash layer: {}'.format(number_of_ash_layer))
-        continue
+        if number_of_ash_layer < 5:
+            # if number of ash layer < 5, skip this file
+            continue
 
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
