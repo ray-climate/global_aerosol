@@ -26,8 +26,6 @@ from getColocationData.get_caliop import *
 
 # Constants
 LOG_EXTENSION = ".log"
-# DATE_START = '2011-06-15'
-# DATE_END = '2011-07-31'
 NORTHERN_LATITUDE = -30
 SOUTHERN_LATITUDE = -89
 MIN_ALTITUDE = 0
@@ -77,17 +75,17 @@ def main():
     # iterate through all files
     for file in file_list:
         # print(data_path + file)
-        # try:
-        (footprint_lat_caliop, footprint_lon_caliop,
-         caliop_Integrated_Attenuated_Total_Color_Ratio,
-         caliop_Integrated_Volume_Depolarization_Ratio,
-         caliop_aerosol_type, caliop_feature_type,
-         caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude)\
-            = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
-        print('Processing file: {}'.format(file))
-        # except:
-        #     print('Cannot process file: {}'.format(file))
-        #     continue
+        try:
+            (footprint_lat_caliop, footprint_lon_caliop,
+             caliop_Integrated_Attenuated_Total_Color_Ratio,
+             caliop_Integrated_Volume_Depolarization_Ratio,
+             caliop_aerosol_type, caliop_feature_type,
+             caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude)\
+                = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
+            print('Processing file: {}'.format(file))
+        except:
+            print('Cannot process file: {}'.format(file))
+            continue
 
         caliop_aerosol_type = caliop_aerosol_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_feature_type = caliop_feature_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
@@ -100,6 +98,22 @@ def main():
 
         # get index of caliop_feature_type == 4
         caliop_feature_type_4_index = np.where(caliop_feature_type == 4)
+
+        # aerosol subtype
+        # 0 = invalid
+        # 1 = polar stratospheric aerosol
+        # 2 = volcanic ash
+        # 3 = sulfate
+        # 4 = elevated smoke
+        # 5 = unclassified
+        # 6 = spare
+        # 7 = spare
+
+        ash_mask = np.zeros((caliop_feature_type.shape))
+        caliop_aerosol_type[(caliop_feature_type == 4) & (caliop_aerosol_type == 2)] = 1
+        number_of_ash_layer = np.sum(caliop_aerosol_type)
+        print('Number of ash layer: {}'.format(number_of_ash_layer))
+        continue
 
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
