@@ -79,6 +79,7 @@ def main():
         # try:
         (footprint_lat_caliop, footprint_lon_caliop,
          caliop_Integrated_Attenuated_Total_Color_Ratio,
+         caliop_Integrated_Volume_Depolarization_Ratio,
          caliop_aerosol_type, caliop_feature_type) \
             = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
         print('Processing file: {}'.format(file))
@@ -88,7 +89,7 @@ def main():
 
         print(footprint_lat_caliop.shape)
         print(caliop_Integrated_Attenuated_Total_Color_Ratio.shape)
-        print(caliop_aerosol_type.shape)
+        print(caliop_Integrated_Volume_Depolarization_Ratio.shape)
         print(caliop_feature_type.shape)
 
         quit()
