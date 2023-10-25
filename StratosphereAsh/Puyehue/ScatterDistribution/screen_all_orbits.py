@@ -43,7 +43,7 @@ args = parser.parse_args()
 DATE_SEARCH = args.DATE_SEARCH
 
 # Directory paths and locations
-CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
+CALIPSO_DATA_PATH = "/network/group/aopp/eodg/calipso/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmALay-Standard-V4-51/"
 FIGURE_OUTPUT_PATH = './figures'
 CSV_OUTPUT_PATH = './csv'
 
@@ -77,18 +77,19 @@ def main():
     for file in file_list:
         # print(data_path + file)
         try:
-            (footprint_lat_caliop, footprint_lon_caliop,
-             alt_caliop, beta_caliop, alpha_caliop,
-             aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
-                = extract_variables_from_caliop(data_path + '/' + file, logger)
+            (footprint_lat_caliop, footprint_lon_caliop) \
+                = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
             print('Processing file: {}'.format(file))
         except:
             print('Cannot process file: {}'.format(file))
             continue
 
+        print(footprint_lat_caliop.shape)
+        quit()
         aerosol_type_caliop = aerosol_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         feature_type_caliop = feature_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         dp_caliop = dp_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+
         lat_caliop = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         lon_caliop = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
 
