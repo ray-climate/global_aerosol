@@ -89,8 +89,6 @@ def main():
         #     print('Cannot process file: {}'.format(file))
         #     continue
 
-        print(footprint_lat_caliop.shape)
-
         caliop_aerosol_type = caliop_aerosol_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_feature_type = caliop_feature_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_dp = caliop_Integrated_Volume_Depolarization_Ratio[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
@@ -102,7 +100,6 @@ def main():
 
         # get index of caliop_feature_type == 4
         caliop_feature_type_4_index = np.where(caliop_feature_type == 4)
-        print(caliop_feature_type.shape)
 
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
@@ -126,8 +123,7 @@ def main():
                                  caliop_dp[index_row, index_col],
                                  caliop_aerosol_type[index_row, index_col]))
 
-        quit()
-
+        print('Finished processing file: {}'.format(file))
 
 if __name__ == "__main__":
     main()
