@@ -107,7 +107,7 @@ def extract_variables_from_caliop_ALay(hdf_file, logger):
                                          variable='Integrated_Attenuated_Total_Color_Ratio')
     (caliop_aerosol_type, caliop_feature_type) = caliop_request. \
         _get_feature_classification_ALay(filename=hdf_file,
-                                    variable='Feature_Classification_Flags')
+                                         variable='Feature_Classification_Flags')
 
     # caliop_perpendicular_attenuated_backscatter_532_list = \
     #     caliop_request._get_calipso_data(filename=hdf_file,
