@@ -19,8 +19,8 @@ for file in os.listdir(INPUT_DIR):
             color_ratio = []
             depolarization_ratio = []
             for line in lines[1:]:
-                color_ratio.append(float(line.split(',')[0]))
-                depolarization_ratio.append(float(line.split(',')[1]))
+                color_ratio.append(float(line.split(',')[4]))
+                depolarization_ratio.append(float(line.split(',')[5]))
 
         print(color_ratio)
         print(depolarization_ratio)
