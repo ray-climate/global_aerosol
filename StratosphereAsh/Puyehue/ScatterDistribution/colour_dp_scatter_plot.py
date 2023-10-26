@@ -39,12 +39,10 @@ for file in os.listdir(INPUT_DIR):
                         if (float(line.split(',')[5]) > 0.25) & (float(line.split(',')[6]) == 3.):
                             print(file, line.split(',')[0], line.split(',')[1], line.split(',')[2],line.split(',')[3],line.split(',')[5])
                         else:
-                            print(111111111, file, line.split(',')[0], line.split(',')[1], line.split(',')[2], line.split(',')[3],
-                                  line.split(',')[5])
+                            continue
                 except:
                     continue
 
-quit()
 color_ratio = np.array(color_ratio)
 depolarization_ratio = np.array(depolarization_ratio)
 Aerosol_type = np.array(Aerosol_type)
@@ -52,7 +50,7 @@ Aerosol_type = np.array(Aerosol_type)
 # add a figure
 plt.figure(figsize=(8, 8))
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(x=depolarization_ratio[Aerosol_type==3.], y=color_ratio[Aerosol_type==3.], kind='kde', cmap='hot_r', n_levels=60, fill=True)
+g = sns.jointplot(x=depolarization_ratio[Aerosol_type==3.], y=color_ratio[Aerosol_type==3.], kind='kde', cmap='Greens', n_levels=60, fill=True)
 # Set the axis labels
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
@@ -66,7 +64,7 @@ plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio_sulf
 # add a figure
 plt.figure(figsize=(8, 8))
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(x=depolarization_ratio[Aerosol_type==2.], y=color_ratio[Aerosol_type==2.], kind='kde', cmap='hot_r', n_levels=60, fill=True)
+g = sns.jointplot(x=depolarization_ratio[Aerosol_type==2.], y=color_ratio[Aerosol_type==2.], kind='kde', cmap='Reds', n_levels=60, fill=True)
 # Set the axis labels
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
