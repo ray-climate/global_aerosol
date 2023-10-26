@@ -78,7 +78,7 @@ def main():
         try:
             (footprint_lat_caliop, footprint_lon_caliop,
              caliop_Integrated_Attenuated_Total_Color_Ratio,
-             caliop_Integrated_Volume_Depolarization_Ratio,
+             caliop_Integrated_Particulate_Depolarization_Ratio,
              caliop_aerosol_type, caliop_feature_type,
              caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude)\
                 = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
@@ -89,7 +89,7 @@ def main():
 
         caliop_aerosol_type = caliop_aerosol_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_feature_type = caliop_feature_type[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        caliop_dp = caliop_Integrated_Volume_Depolarization_Ratio[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_dp = caliop_Integrated_Particulate_Depolarization_Ratio[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_color = caliop_Integrated_Attenuated_Total_Color_Ratio[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_Layer_Top = caliop_Layer_Top_Altitude[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_Layer_Base = caliop_Layer_Base_Altitude[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
