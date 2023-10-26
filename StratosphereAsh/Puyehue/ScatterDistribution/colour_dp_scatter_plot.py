@@ -5,9 +5,17 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        26/10/2023 14:33
 
+import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 
 INPUT_DIR = './csv'
+FIG_DIR = './plots'
+
+try:
+    os.stat(FIG_DIR)
+except:
+    os.mkdir(FIG_DIR)
 
 color_ratio = []
 depolarization_ratio = []
@@ -26,3 +34,14 @@ for file in os.listdir(INPUT_DIR):
                         depolarization_ratio.append(float(line.split(',')[5]))
                 except:
                     continue
+
+# Plotting the data
+plt.figure(figsize=(10, 7))
+hb = plt.hexbin(depolarization_ratio, color_ratio, gridsize=50, cmap='inferno')
+cb = plt.colorbar(hb)
+cb.set_label('Counts')
+plt.xlabel('Depolarization Ratio')
+plt.ylabel('Color Ratio')
+plt.title('2D Histogram of Depolarization Ratio vs. Color Ratio')
+plt.tight_layout()
+plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio.png', dpi=300)
