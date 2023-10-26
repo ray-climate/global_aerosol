@@ -51,11 +51,14 @@ df = pd.DataFrame({
     'Aerosol Type': Aerosol_type
 })
 
-# Define a color palette
-palette = {2.: 'red', 3.: 'green', 4.: 'black'}
+# Replace values in 'Aerosol Type' column
+aerosol_name_mapping = {2.: 'ash', 3.: 'sulfate', 4.: 'smoke'}
+df['Aerosol Type'] = df['Aerosol Type'].map(aerosol_name_mapping)
+# Update palette
+palette = {'ash': 'red', 'sulfate': 'green', 'smoke': 'black'}
 
 # add a figure
-plt.figure(figsize=(15, 15))
+plt.figure(figsize=(8, 8))
 # Generate the 2D scatter plot using seaborn's jointplot
 g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", palette=palette, marker="+", s=5)  # `s` inside scatter_kws defines the size
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
