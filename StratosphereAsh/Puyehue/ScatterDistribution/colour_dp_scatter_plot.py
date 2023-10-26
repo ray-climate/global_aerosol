@@ -5,7 +5,6 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        26/10/2023 14:33
 
-from scipy.stats import gaussian_kde
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -37,21 +36,17 @@ for file in os.listdir(INPUT_DIR):
                 except:
                     continue
 
-# Compute point densities
-data = np.vstack([depolarization_ratio, color_ratio])
-kde = gaussian_kde(data)
-densities = kde(data)
+# Generate the 2D scatter plot using seaborn's jointplot
+g = sns.jointplot(x=depolarization_ratio, y=color_ratio, kind='hex', cmap='viridis')
 
-# Plot
-plt.figure(figsize=(10, 7))
-scatter = plt.scatter(depolarization_ratio, color_ratio, c=densities, s=50, edgecolor='', cmap='inferno')
-plt.colorbar(scatter, label='Density')
-plt.xlabel('Depolarization Ratio')
-plt.ylabel('Color Ratio')
-plt.title('Scatter Plot with Density Coloring')
+# Set the axis labels
+g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
 plt.ylim(0, 1.)
+# Display the plot with a color bar
+plt.colorbar(cax=g.ax_joint.collections[0], ax=g.ax_joint)
 plt.tight_layout()
+
 #
 # # Plotting the data
 # plt.figure(figsize=(10, 7))
