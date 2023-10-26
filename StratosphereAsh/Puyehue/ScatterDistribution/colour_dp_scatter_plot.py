@@ -32,7 +32,7 @@ for file in os.listdir(INPUT_DIR):
             lines = f.readlines()
             for line in lines[1:]:
                 try:
-                    if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0) & (float(line.split(',')[6]) >= 2.) & (float(line.split(',')[6]) <= 4.):
+                    if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0) & (float(line.split(',')[6]) >= 3.) & (float(line.split(',')[6]) <= 3.):
                         color_ratio.append(float(line.split(',')[4]))
                         depolarization_ratio.append(float(line.split(',')[5]))
                         Aerosol_type.append(float(line.split(',')[6]))
