@@ -57,7 +57,7 @@ palette = {2.: 'red', 3.: 'green', 4.: 'black'}
 # add a figure
 plt.figure(figsize=(15, 15))
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", palette=palette)  # `s` inside scatter_kws defines the size
+g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", palette=palette, marker="+", s=5)  # `s` inside scatter_kws defines the size
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
 plt.ylim(0, 1.)
