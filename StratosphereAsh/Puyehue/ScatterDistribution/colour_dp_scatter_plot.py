@@ -37,7 +37,7 @@ for file in os.listdir(INPUT_DIR):
                     continue
 
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(x=depolarization_ratio, y=color_ratio, kind='hex', cmap='viridis')
+g = sns.jointplot(x=depolarization_ratio, y=color_ratio, kind='kde', cmap='hot_r', n_levels=60, fill=True)
 
 # Set the axis labels
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
