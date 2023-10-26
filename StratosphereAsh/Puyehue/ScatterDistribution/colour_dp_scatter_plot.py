@@ -37,7 +37,7 @@ for file in os.listdir(INPUT_DIR):
                         Aerosol_type.append(float(line.split(',')[6]))
 
                         if (float(line.split(',')[5]) > 0.25) & (float(line.split(',')[6]) == 3.):
-                            print(file, line.split(',')[0], line.split(',')[1])
+                            print(file, line.split(',')[0], line.split(',')[1], line.split(',')[5])
                 except:
                     continue
 
