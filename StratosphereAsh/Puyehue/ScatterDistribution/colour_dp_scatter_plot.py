@@ -20,6 +20,7 @@ except:
 
 color_ratio = []
 depolarization_ratio = []
+Aerosol_type = []
 
 for file in os.listdir(INPUT_DIR):
     if file.endswith('.csv'):
@@ -33,11 +34,16 @@ for file in os.listdir(INPUT_DIR):
                     if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0):
                         color_ratio.append(float(line.split(',')[4]))
                         depolarization_ratio.append(float(line.split(',')[5]))
+                        Aerosol_type.append(float(line.split(',')[6]))
                 except:
                     continue
 
+color_ratio = np.array(color_ratio)
+depolarization_ratio = np.array(depolarization_ratio)
+Aerosol_type = np.array(Aerosol_type)
+
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(x=depolarization_ratio, y=color_ratio, kind='kde', cmap='hot_r', n_levels=60, fill=True)
+g = sns.jointplot(x=depolarization_ratio[Aerosol_type==2.], y=color_ratio[Aerosol_type==2.], kind='kde', cmap='hot_r', n_levels=60, fill=True)
 
 # Set the axis labels
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
