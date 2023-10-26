@@ -32,7 +32,7 @@ for file in os.listdir(INPUT_DIR):
             lines = f.readlines()
             for line in lines[1:]:
                 try:
-                    if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0) & (float(line.split(',')[6]) >= 3.) & (float(line.split(',')[6]) <= 3.):
+                    if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0) & (float(line.split(',')[6]) >= 2.) & (float(line.split(',')[6]) <= 4.):
                         color_ratio.append(float(line.split(',')[4]))
                         depolarization_ratio.append(float(line.split(',')[5]))
                         Aerosol_type.append(float(line.split(',')[6]))
@@ -57,7 +57,7 @@ palette = {2.: 'red', 3.: 'green', 4.: 'black'}
 # add a figure
 plt.figure(figsize=(5, 5))
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", palette=palette)  # `s` inside scatter_kws defines the size
+g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", palette=palette, size = 7)  # `s` inside scatter_kws defines the size
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
 plt.ylim(0, 1.)
