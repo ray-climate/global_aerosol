@@ -42,9 +42,10 @@ color_ratio = np.array(color_ratio)
 depolarization_ratio = np.array(depolarization_ratio)
 Aerosol_type = np.array(Aerosol_type)
 
+# add a figure
+plt.figure(figsize=(8, 8))
 # Generate the 2D scatter plot using seaborn's jointplot
 g = sns.jointplot(x=depolarization_ratio[Aerosol_type==3.], y=color_ratio[Aerosol_type==3.], kind='kde', cmap='hot_r', n_levels=60, fill=True)
-
 # Set the axis labels
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
@@ -53,18 +54,18 @@ plt.ylim(0, 1.)
 cbar_ax = g.fig.add_axes([.15, .55, .02, .2])  # x, y, width, height
 cb = plt.colorbar(cax=cbar_ax, orientation="vertical", mappable=g.ax_joint.collections[0])
 plt.tight_layout()
+plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio_sulfate.png', dpi=300)
 
-#
-# # Plotting the data
-# plt.figure(figsize=(10, 7))
-# hb = plt.hexbin(depolarization_ratio, color_ratio, gridsize=50, cmap='inferno')
-# cb = plt.colorbar(hb)
-# cb.set_label('Counts')
-# plt.xlabel('Depolarization Ratio')
-# plt.ylabel('Color Ratio')
-# plt.title('2D Histogram of Depolarization Ratio vs. Color Ratio')
-# plt.xlim(0, 0.6)
-# plt.ylim(0, 1.)
-# plt.tight_layout()
-
-plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio.png', dpi=300)
+# add a figure
+plt.figure(figsize=(8, 8))
+# Generate the 2D scatter plot using seaborn's jointplot
+g = sns.jointplot(x=depolarization_ratio[Aerosol_type==2.], y=color_ratio[Aerosol_type==2.], kind='kde', cmap='hot_r', n_levels=60, fill=True)
+# Set the axis labels
+g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
+plt.xlim(0, 0.6)
+plt.ylim(0, 1.)
+# Display the plot with a color bar
+cbar_ax = g.fig.add_axes([.15, .55, .02, .2])  # x, y, width, height
+cb = plt.colorbar(cax=cbar_ax, orientation="vertical", mappable=g.ax_joint.collections[0])
+plt.tight_layout()
+plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio_ash.png', dpi=300)
