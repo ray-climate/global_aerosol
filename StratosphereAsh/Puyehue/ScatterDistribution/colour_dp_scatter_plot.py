@@ -8,6 +8,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import pandas as pd
 import os
 
 INPUT_DIR = './csv'
@@ -31,15 +32,11 @@ for file in os.listdir(INPUT_DIR):
             lines = f.readlines()
             for line in lines[1:]:
                 try:
-                    if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0):
+                    if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0) & (float(line.split(',')[6]) >= 2.) & (float(line.split(',')[6]) <= 4.):
                         color_ratio.append(float(line.split(',')[4]))
                         depolarization_ratio.append(float(line.split(',')[5]))
                         Aerosol_type.append(float(line.split(',')[6]))
 
-                        if (float(line.split(',')[5]) > 0.25) & (float(line.split(',')[6]) == 3.):
-                            print(file, line.split(',')[0], line.split(',')[1], line.split(',')[2],line.split(',')[3],line.split(',')[5])
-                        else:
-                            continue
                 except:
                     continue
 
@@ -47,30 +44,21 @@ color_ratio = np.array(color_ratio)
 depolarization_ratio = np.array(depolarization_ratio)
 Aerosol_type = np.array(Aerosol_type)
 
-# add a figure
-plt.figure(figsize=(8, 8))
-# Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(x=depolarization_ratio[Aerosol_type==3.], y=color_ratio[Aerosol_type==3.], kind='kde', cmap='Greens', n_levels=60, fill=True)
-# Set the axis labels
-g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
-plt.xlim(0, 0.6)
-plt.ylim(0, 1.)
-# Display the plot with a color bar
-cbar_ax = g.fig.add_axes([.15, .55, .02, .2])  # x, y, width, height
-cb = plt.colorbar(cax=cbar_ax, orientation="vertical", mappable=g.ax_joint.collections[0])
-plt.tight_layout()
-plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio_sulfate.png', dpi=300)
+# Organize data into a pandas DataFrame
+df = pd.DataFrame({
+    'Depolarization Ratio': depolarization_ratio,
+    'Color Ratio': color_ratio,
+    'Aerosol Type': Aerosol_type
+})
 
 # add a figure
 plt.figure(figsize=(8, 8))
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(x=depolarization_ratio[Aerosol_type==2.], y=color_ratio[Aerosol_type==2.], kind='kde', cmap='Reds', n_levels=60, fill=True)
-# Set the axis labels
+g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type")
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
 plt.ylim(0, 1.)
-# Display the plot with a color bar
-cbar_ax = g.fig.add_axes([.15, .55, .02, .2])  # x, y, width, height
-cb = plt.colorbar(cax=cbar_ax, orientation="vertical", mappable=g.ax_joint.collections[0])
+
 plt.tight_layout()
-plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio_ash.png', dpi=300)
+plt.savefig(FIG_DIR + '/2D_Histogram_of_Depolarization_Ratio_vs_Color_Ratio_combine.png', dpi=300)
+
