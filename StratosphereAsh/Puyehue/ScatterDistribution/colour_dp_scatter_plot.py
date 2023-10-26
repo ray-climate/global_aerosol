@@ -26,6 +26,3 @@ for file in os.listdir(INPUT_DIR):
                         depolarization_ratio.append(float(line.split(',')[5]))
                 except:
                     continue
-        print(color_ratio)
-        print(depolarization_ratio)
-        quit()
