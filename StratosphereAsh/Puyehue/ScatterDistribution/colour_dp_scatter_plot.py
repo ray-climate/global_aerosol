@@ -38,6 +38,9 @@ for file in os.listdir(INPUT_DIR):
 
                         if (float(line.split(',')[5]) > 0.25) & (float(line.split(',')[6]) == 3.):
                             print(file, line.split(',')[0], line.split(',')[1], line.split(',')[2],line.split(',')[3],line.split(',')[5])
+                        else:
+                            print(111111111, file, line.split(',')[0], line.split(',')[1], line.split(',')[2], line.split(',')[3],
+                                  line.split(',')[5])
                 except:
                     continue
 
