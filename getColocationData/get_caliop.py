@@ -105,9 +105,9 @@ def extract_variables_from_caliop_ALay(hdf_file, logger):
     caliop_Integrated_Attenuated_Total_Color_Ratio = \
         caliop_request._get_calipso_data(filename=hdf_file,
                                          variable='Integrated_Attenuated_Total_Color_Ratio')
-    caliop_Integrated_Volume_Depolarization_Ratio = \
+    caliop_Integrated_Particulate_Depolarization_Ratio = \
         caliop_request._get_calipso_data(filename=hdf_file,
-                                            variable='Integrated_Volume_Depolarization_Ratio')
+                                            variable='Integrated_Particulate_Depolarization_Ratio')
 
     (caliop_aerosol_type, caliop_feature_type) = caliop_request. \
         _get_feature_classification_ALay(filename=hdf_file,
@@ -123,6 +123,6 @@ def extract_variables_from_caliop_ALay(hdf_file, logger):
     logger.info("Extracted data from caliop ALay file")
     return caliop_latitude_list, caliop_longitude_list, \
            caliop_Integrated_Attenuated_Total_Color_Ratio, \
-           caliop_Integrated_Volume_Depolarization_Ratio, \
+           caliop_Integrated_Particulate_Depolarization_Ratio, \
            caliop_aerosol_type, caliop_feature_type, \
            caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude
