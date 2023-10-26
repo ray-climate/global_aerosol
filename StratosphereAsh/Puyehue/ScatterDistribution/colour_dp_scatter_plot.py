@@ -35,9 +35,13 @@ for file in os.listdir(INPUT_DIR):
                         color_ratio.append(float(line.split(',')[4]))
                         depolarization_ratio.append(float(line.split(',')[5]))
                         Aerosol_type.append(float(line.split(',')[6]))
+
+                        if (float(line.split(',')[5]) > 0.25) & (float(line.split(',')[6]) == 3.):
+                            print(file, line.split(',')[0], line.split(',')[1])
                 except:
                     continue
 
+quit()
 color_ratio = np.array(color_ratio)
 depolarization_ratio = np.array(depolarization_ratio)
 Aerosol_type = np.array(Aerosol_type)
