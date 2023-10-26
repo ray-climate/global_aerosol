@@ -11,5 +11,17 @@ INPUT_DIR = './csv'
 
 for file in os.listdir(INPUT_DIR):
     if file.endswith('.csv'):
-        print(file)
-        # os.system('python colour_dp_scatter_plot.py -i %s/%s' % (INPUT_DIR, file)
+        print('Reading file: %s' % file)
+        # start to read the csv file and load variables of 'Color_Ratio' and 'Depolarization_Ratio'
+
+        with open(INPUT_DIR + '/' + file, 'r') as f:
+            lines = f.readlines()
+            color_ratio = []
+            depolarization_ratio = []
+            for line in lines[1:]:
+                color_ratio.append(float(line.split(',')[0]))
+                depolarization_ratio.append(float(line.split(',')[1]))
+
+        print(color_ratio)
+        print(depolarization_ratio)
+        quit()
