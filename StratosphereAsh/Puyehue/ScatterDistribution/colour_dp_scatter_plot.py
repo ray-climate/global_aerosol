@@ -9,6 +9,9 @@ import os
 
 INPUT_DIR = './csv'
 
+color_ratio = []
+depolarization_ratio = []
+
 for file in os.listdir(INPUT_DIR):
     if file.endswith('.csv'):
         print('Reading file: %s' % file)
@@ -16,13 +19,13 @@ for file in os.listdir(INPUT_DIR):
 
         with open(INPUT_DIR + '/' + file, 'r') as f:
             lines = f.readlines()
-            color_ratio = []
-            depolarization_ratio = []
             for line in lines[1:]:
-                if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0):
-                    color_ratio.append(float(line.split(',')[4]))
-                    depolarization_ratio.append(float(line.split(',')[5]))
-
+                try:
+                    if (float(line.split(',')[4]) > 0) &(float(line.split(',')[5]) > 0):
+                        color_ratio.append(float(line.split(',')[4]))
+                        depolarization_ratio.append(float(line.split(',')[5]))
+                except:
+                    continue
         print(color_ratio)
         print(depolarization_ratio)
         quit()
