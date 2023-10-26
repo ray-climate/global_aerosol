@@ -43,7 +43,7 @@ depolarization_ratio = np.array(depolarization_ratio)
 Aerosol_type = np.array(Aerosol_type)
 
 # Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(x=depolarization_ratio[Aerosol_type==2.], y=color_ratio[Aerosol_type==2.], kind='kde', cmap='hot_r', n_levels=60, fill=True)
+g = sns.jointplot(x=depolarization_ratio[Aerosol_type==3.], y=color_ratio[Aerosol_type==3.], kind='kde', cmap='hot_r', n_levels=60, fill=True)
 
 # Set the axis labels
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
