@@ -44,7 +44,8 @@ g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
 plt.ylim(0, 1.)
 # Display the plot with a color bar
-plt.colorbar(cax=g.ax_joint.collections[0], ax=g.ax_joint)
+cbar_ax = g.fig.add_axes([.15, .55, .02, .2])  # x, y, width, height
+cb = plt.colorbar(cax=cbar_ax, orientation="vertical", mappable=g.ax_joint.collections[0])
 plt.tight_layout()
 
 #
