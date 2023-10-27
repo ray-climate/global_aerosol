@@ -68,32 +68,48 @@ for date, counts in latitude_count_per_date.items():
 
 # Create a 2D matrix to store counts
 unique_dates = sorted(list(set(dates_all)))
-lat_ranges = [i for i in range(-80, -28, 2)]  # Adjusted to store just the starting values of each range
+lat_ranges = [i for i in range(-80, -28, 2)]
 
 counts_matrix = np.zeros((len(unique_dates), len(lat_ranges)))
 
 for date_idx, date in enumerate(unique_dates):
-    for lat_idx, lat_start in enumerate(lat_ranges):  # Adjusted variable name
+    for lat_idx, lat_start in enumerate(lat_ranges):
         lat_range = f"{lat_start} to {lat_start+2}"
         counts_matrix[date_idx, lat_idx] = latitude_count_per_date[date].get(lat_range, 0)
+
+# Replace 0 with nan for proper colormap visualization
+counts_matrix[counts_matrix == 0] = np.nan
 
 # Transpose the matrix for plotting with dates on x-axis
 counts_matrix_T = counts_matrix.T
 
+# Modify the colormap
+colormap = plt.cm.jet  # or any other colormap you like
+colormap.set_bad(color='white')
+
 # Plotting
 plt.figure(figsize=(25, 10))
-plt.imshow(counts_matrix_T, cmap='jet', aspect='auto', origin='lower')
-plt.colorbar(label='Occurrences', fraction=0.046, pad=0.04)
-plt.yticks(np.arange(len(lat_ranges)), lat_ranges)  # Displaying the starting value of each range
-plt.xticks(np.arange(len(unique_dates)), unique_dates, rotation=45)
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
+X, Y = np.meshgrid(np.arange(counts_matrix_T.shape[1] + 1), np.arange(counts_matrix_T.shape[0] + 1))
+plt.pcolormesh(X, Y, counts_matrix_T, cmap=colormap, shading='auto')
+
+cbar = plt.colorbar(label='Occurrences', fraction=0.046, pad=0.04)
+cbar.ax.tick_params(labelsize=20)
+cbar.set_label('Occurrences', size=25)
+
+# Selecting 10 evenly spaced ticks for x and y axis
+y_ticks = np.linspace(0.5, len(lat_ranges) - 0.5, 10)
+y_ticklabels = [lat_ranges[int(i)] for i in y_ticks]
+plt.yticks(y_ticks, y_ticklabels, fontsize=20)
+
+x_ticks = np.linspace(0.5, len(unique_dates) - 0.5, 10)
+x_ticklabels = [unique_dates[int(i)] for i in x_ticks]
+plt.xticks(x_ticks, x_ticklabels, rotation=45, fontsize=20)
+
 plt.ylabel('Latitude', fontsize=25)
 plt.xlabel('Date', fontsize=25)
-plt.title('Occurrences of Stratospheric Aerosols ')
+plt.title('Occurrences of Stratospheric Aerosols', fontsize=25)
 plt.tight_layout()
 plt.savefig(FIG_DIR + '/aerosol_occurrence_time.png')
-
 
 
 
