@@ -68,12 +68,13 @@ for date, counts in latitude_count_per_date.items():
 
 # Create a 2D matrix to store counts
 unique_dates = sorted(list(set(dates_all)))
-lat_ranges = [f"{i} to {i+2}" for i in range(-80, -28, 2)]
+lat_ranges = [i for i in range(-80, -28, 2)]  # Adjusted to store just the starting values of each range
 
 counts_matrix = np.zeros((len(unique_dates), len(lat_ranges)))
 
 for date_idx, date in enumerate(unique_dates):
-    for lat_idx, lat_range in enumerate(lat_ranges):
+    for lat_idx, lat_start in enumerate(lat_ranges):  # Adjusted variable name
+        lat_range = f"{lat_start} to {lat_start+2}"
         counts_matrix[date_idx, lat_idx] = latitude_count_per_date[date].get(lat_range, 0)
 
 # Transpose the matrix for plotting with dates on x-axis
@@ -81,14 +82,17 @@ counts_matrix_T = counts_matrix.T
 
 # Plotting
 plt.figure(figsize=(15, 10))
-plt.imshow(counts_matrix_T, cmap='viridis', aspect='auto', origin='lower')
+plt.imshow(counts_matrix_T, cmap='jet', aspect='auto', origin='lower')
 plt.colorbar(label='Occurrences')
-plt.yticks(np.arange(len(lat_ranges)), lat_ranges)
+plt.yticks(np.arange(len(lat_ranges)), lat_ranges)  # Displaying the starting value of each range
 plt.xticks(np.arange(len(unique_dates)), unique_dates, rotation=45)
-plt.ylabel('Latitude Range')
+plt.ylabel('Latitude')
 plt.xlabel('Date')
 plt.title('Occurrences of Latitudes per Date')
 plt.tight_layout()
 plt.savefig(FIG_DIR + '/aerosol_occurrence_time.png')
+
+
+
 
 
