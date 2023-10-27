@@ -53,5 +53,10 @@ for date, lat in zip(dates_all, lats_all):
         bucket = get_latitude_bucket(lat)
         latitude_count_per_date[date][bucket] += 1
 
-print(latitude_count_per_date)
+# Display the counts
+for date, counts in latitude_count_per_date.items():
+    print(f"For date {date}:")
+    for lat_range, count in sorted(counts.items()):
+        print(f"Latitude range {lat_range}: {count} occurrences")
+    print("----")
 
