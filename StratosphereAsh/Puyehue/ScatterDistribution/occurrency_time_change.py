@@ -84,7 +84,7 @@ counts_matrix[counts_matrix == 0] = np.nan
 counts_matrix_T = counts_matrix.T
 
 # Modify the colormap
-colormap = plt.cm.jet  # or any other colormap you like
+colormap = plt.cm.RdYlBu_r  # or any other colormap you like
 colormap.set_bad(color='white')
 
 # Plotting
