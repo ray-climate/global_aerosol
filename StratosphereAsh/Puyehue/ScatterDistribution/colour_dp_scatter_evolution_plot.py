@@ -68,7 +68,7 @@ aerosol_name_mapping = {2.: 'ash', 3.: 'sulfate', 4.: 'smoke'}
 df['Aerosol Type'] = df['Aerosol Type'].map(aerosol_name_mapping)
 # Update palette
 palette = {'ash': 'red', 'sulfate': 'green', 'smoke': 'black'}
-print(df)
+
 
 # add a figure
 plt.figure(figsize=(8, 8))
