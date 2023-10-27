@@ -92,22 +92,22 @@ plt.figure(figsize=(25, 10))
 X, Y = np.meshgrid(np.arange(counts_matrix_T.shape[1] + 1), np.arange(counts_matrix_T.shape[0] + 1))
 plt.pcolormesh(X, Y, counts_matrix_T, cmap=colormap, shading='auto')
 
-cbar = plt.colorbar(label='Occurrences', fraction=0.046, pad=0.04)
+cbar = plt.colorbar(label='Occurrences', fraction=0.046, pad=0.04, shrink=0.6)
 cbar.ax.tick_params(labelsize=20)
 cbar.set_label('Occurrences', size=25)
 
 # Selecting 10 evenly spaced ticks for x and y axis
 y_ticks = np.linspace(0.5, len(lat_ranges) - 0.5, 10)
 y_ticklabels = [lat_ranges[int(i)] for i in y_ticks]
-plt.yticks(y_ticks, y_ticklabels, fontsize=20)
+plt.yticks(y_ticks, y_ticklabels, fontsize=25)
 
 x_ticks = np.linspace(0.5, len(unique_dates) - 0.5, 10)
 x_ticklabels = [unique_dates[int(i)] for i in x_ticks]
-plt.xticks(x_ticks, x_ticklabels, rotation=45, fontsize=20)
+plt.xticks(x_ticks, x_ticklabels, rotation=45, fontsize=25)
 
-plt.ylabel('Latitude', fontsize=25)
-plt.xlabel('Date', fontsize=25)
-plt.title('Occurrences of Stratospheric Aerosols', fontsize=25)
+plt.ylabel('Latitude [$^\circ$]', fontsize=28)
+plt.xlabel('Date', fontsize=28)
+plt.title('Occurrences of Stratospheric Aerosols', fontsize=28)
 plt.tight_layout()
 plt.savefig(FIG_DIR + '/aerosol_occurrence_time.png')
 
