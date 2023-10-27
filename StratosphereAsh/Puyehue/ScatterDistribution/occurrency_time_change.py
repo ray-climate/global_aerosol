@@ -20,7 +20,10 @@ SOUTHERN_LATITUDE = -80.
 INPUT_DIR = './csv'
 FIG_DIR = './plots_time'
 
-os.path.exists(FIG_DIR) or os.makedirs(FIG_DIR)
+try:
+    os.stat(FIG_DIR)
+except:
+    os.mkdir(FIG_DIR)
 
 dates_all = []
 lats_all = []
