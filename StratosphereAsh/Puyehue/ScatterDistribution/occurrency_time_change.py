@@ -23,7 +23,7 @@ dates_all = []
 lats_all = []
 
 for file in os.listdir(INPUT_DIR):
-    if file.endswith('.csv'):
+    if file.endswith('.csv') & ('2011-06-15' in file):
         print('Reading file: %s' % file)
 
         # derive dates from file name
@@ -47,6 +47,11 @@ def get_latitude_bucket(lat):
     return None
 
 latitude_count_per_date = defaultdict(lambda: defaultdict(int))
+
+for date, lat in zip(dates_all, lats_all):
+    if -80 <= lat <= -30:
+        bucket = get_latitude_bucket(lat)
+        latitude_count_per_date[date][bucket] += 1
 
 print(latitude_count_per_date)
 
