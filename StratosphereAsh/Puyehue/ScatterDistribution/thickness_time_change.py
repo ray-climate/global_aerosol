@@ -99,7 +99,7 @@ colormap.set_bad(color='white')
 # Plotting
 plt.figure(figsize=(25, 10))
 X, Y = np.meshgrid(np.arange(thickness_matrix_T.shape[1] + 1), np.arange(thickness_matrix_T.shape[0] + 1))
-plt.pcolormesh(X, Y, thickness_matrix_T, cmap=colormap, shading='auto', vmin=1., vmax=3.)
+plt.pcolormesh(X, Y, thickness_matrix_T, cmap=colormap, shading='auto', vmin=1., vmax=3.)#
 
 cbar = plt.colorbar(label='Average Thickness', fraction=0.046, pad=0.04, shrink=0.6, extend='both')
 cbar.ax.tick_params(labelsize=20)
