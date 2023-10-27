@@ -81,14 +81,16 @@ for date_idx, date in enumerate(unique_dates):
 counts_matrix_T = counts_matrix.T
 
 # Plotting
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(25, 10))
 plt.imshow(counts_matrix_T, cmap='jet', aspect='auto', origin='lower')
-plt.colorbar(label='Occurrences')
+plt.colorbar(label='Occurrences', fraction=0.046, pad=0.04)
 plt.yticks(np.arange(len(lat_ranges)), lat_ranges)  # Displaying the starting value of each range
 plt.xticks(np.arange(len(unique_dates)), unique_dates, rotation=45)
-plt.ylabel('Latitude')
-plt.xlabel('Date')
-plt.title('Occurrences of Latitudes per Date')
+plt.xticks(fontsize=20)
+plt.yticks(fontsize=20)
+plt.ylabel('Latitude', fontsize=25)
+plt.xlabel('Date', fontsize=25)
+plt.title('Occurrences of Stratospheric Aerosols ')
 plt.tight_layout()
 plt.savefig(FIG_DIR + '/aerosol_occurrence_time.png')
 
