@@ -5,12 +5,16 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        27/10/2023 21:07
 
+from collections import defaultdict
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pandas as pd
 import argparse
 import os
+
+NORTHERN_LATITUDE = -30.
+SOUTHERN_LATITUDE = -80.
 
 INPUT_DIR = './csv'
 FIG_DIR = './plots_time'
@@ -19,7 +23,7 @@ dates_all = []
 lats_all = []
 
 for file in os.listdir(INPUT_DIR):
-    if file.endswith('.csv') & ('2011-06-16' in file):
+    if file.endswith('.csv'):
         print('Reading file: %s' % file)
 
         # derive dates from file name
@@ -35,6 +39,14 @@ for file in os.listdir(INPUT_DIR):
                 except:
                     continue
 
-print(dates_all)
-print(lats_all)
+# Bucket the latitudes into 2-degree intervals
+def get_latitude_bucket(lat):
+    for i in range(-80, -28, 2):  # goes up to -28 to ensure -30 is included in the last bucket
+        if i <= lat < i+2:
+            return f"{i} to {i+2}"
+    return None
+
+latitude_count_per_date = defaultdict(lambda: defaultdict(int))
+
+print(latitude_count_per_date)
 
