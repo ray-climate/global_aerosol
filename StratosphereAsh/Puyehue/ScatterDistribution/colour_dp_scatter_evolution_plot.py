@@ -77,6 +77,7 @@ g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aeros
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
 plt.xlim(0, 0.6)
 plt.ylim(0, 1.)
+plt.title('%s' % DATE_SEARCH)
 
 plt.tight_layout()
 plt.savefig(FIG_DIR + '/joint_distribution_%s.png'%DATE_SEARCH, dpi=300)
