@@ -75,7 +75,7 @@ plt.figure(figsize=(8, 8))
 # Generate the 2D scatter plot using seaborn's jointplot
 g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", marker="+", s=30)  # `s` inside scatter_kws defines the size
 g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
-plt.xlim(0, 0.6)
+plt.xlim(0, 0.8)
 plt.ylim(0, 1.)
 plt.title('%s' % DATE_SEARCH)
 
