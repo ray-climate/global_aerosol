@@ -56,31 +56,32 @@ for file in os.listdir(INPUT_DIR):
 color_ratio = np.array(color_ratio)
 depolarization_ratio = np.array(depolarization_ratio)
 Aerosol_type = np.array(Aerosol_type)
-print(color_ratio.shape)
-quit()
-# Organize data into a pandas DataFrame
-df = pd.DataFrame({
-    'Depolarization Ratio': depolarization_ratio,
-    'Color Ratio': color_ratio,
-    'Aerosol Type': Aerosol_type
-})
 
-# Replace values in 'Aerosol Type' column
-aerosol_name_mapping = {2.: 'ash', 3.: 'sulfate', 4.: 'smoke'}
-df['Aerosol Type'] = df['Aerosol Type'].map(aerosol_name_mapping)
-# Update palette
-palette = {'ash': 'red', 'sulfate': 'green', 'smoke': 'black'}
+if color_ratio.shape[0] > 5:
 
-# add a figure
-plt.figure(figsize=(8, 8))
-# Generate the 2D scatter plot using seaborn's jointplot
-g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", marker="+", s=30)  # `s` inside scatter_kws defines the size
-g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
-plt.xlim(0, 0.8)
-plt.ylim(0, 1.)
-plt.title('%s' % DATE_SEARCH)
+    # Organize data into a pandas DataFrame
+    df = pd.DataFrame({
+        'Depolarization Ratio': depolarization_ratio,
+        'Color Ratio': color_ratio,
+        'Aerosol Type': Aerosol_type
+    })
 
-plt.tight_layout()
-plt.savefig(FIG_DIR + '/joint_distribution_%s.png'%DATE_SEARCH, dpi=300)
+    # Replace values in 'Aerosol Type' column
+    aerosol_name_mapping = {2.: 'ash', 3.: 'sulfate', 4.: 'smoke'}
+    df['Aerosol Type'] = df['Aerosol Type'].map(aerosol_name_mapping)
+    # Update palette
+    palette = {'ash': 'red', 'sulfate': 'green', 'smoke': 'black'}
+
+    # add a figure
+    plt.figure(figsize=(8, 8))
+    # Generate the 2D scatter plot using seaborn's jointplot
+    g = sns.jointplot(data=df, x="Depolarization Ratio", y="Color Ratio", hue="Aerosol Type", marker="+", s=30)  # `s` inside scatter_kws defines the size
+    g.set_axis_labels('Depolarization Ratio', 'Color Ratio')
+    plt.xlim(0, 0.8)
+    plt.ylim(0, 1.)
+    plt.title('%s' % DATE_SEARCH)
+
+    plt.tight_layout()
+    plt.savefig(FIG_DIR + '/joint_distribution_%s.png'%DATE_SEARCH, dpi=300)
 
 
