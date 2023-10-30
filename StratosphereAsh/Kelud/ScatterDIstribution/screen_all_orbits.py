@@ -110,10 +110,16 @@ def main():
         # 7 = spare
 
         ash_mask = np.zeros((caliop_feature_type.shape))
+        sulfate_mask = np.zeros((caliop_feature_type.shape))
         ash_mask[(caliop_feature_type == 4) & (caliop_aerosol_type == 2)] = 1
+        sulfate_mask[(caliop_feature_type == 4) & (caliop_aerosol_type == 3)] = 1
         number_of_ash_layer = np.sum(ash_mask)
+        number_of_sulfate_layer = np.sum(sulfate_mask)
+
         print('Number of ash layer: {}'.format(number_of_ash_layer))
-        if number_of_ash_layer < 5:
+        print('Number of sulfate layer: {}'.format(number_of_sulfate_layer))
+
+        if (number_of_ash_layer < 5) & (number_of_sulfate_layer < 5):
             # if number of ash layer < 5, skip this file
             continue
 
