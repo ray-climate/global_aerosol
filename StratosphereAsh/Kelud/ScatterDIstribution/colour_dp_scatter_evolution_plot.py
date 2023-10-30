@@ -56,7 +56,8 @@ for file in os.listdir(INPUT_DIR):
 color_ratio = np.array(color_ratio)
 depolarization_ratio = np.array(depolarization_ratio)
 Aerosol_type = np.array(Aerosol_type)
-
+print(color_ratio.shape)
+quit()
 # Organize data into a pandas DataFrame
 df = pd.DataFrame({
     'Depolarization Ratio': depolarization_ratio,
