@@ -30,7 +30,7 @@ args = parser.parse_args()
 
 # Use the parsed arguments
 DATE_SEARCH = args.DATE_SEARCH
-
+#
 color_ratio = []
 depolarization_ratio = []
 Aerosol_type = []

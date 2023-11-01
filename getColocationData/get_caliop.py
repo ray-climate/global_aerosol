@@ -35,6 +35,7 @@ def extract_variables_from_caliop(hdf_file, logger):
     caliop_alpha_list = caliop_request. \
         _get_calipso_data(filename=hdf_file,
                           variable='Extinction_Coefficient_532')
+
     (caliop_aerosol_type, caliop_feature_type) = caliop_request.\
         _get_feature_classification(filename=hdf_file,
                                     variable='Atmospheric_Volume_Description')
