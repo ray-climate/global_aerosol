@@ -191,7 +191,7 @@ def main():
         z_grid_caliop_type = np.copy(caliop_dp)
         z_grid_caliop_type[ice_cloud_mask == 0] = np.nan
 
-        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap='jet')
+        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap='jet',vmin=0., vmax=0.4)
         cbar = plt.colorbar(fig2, ticks=tick_locs)
 
         # Determine indices corresponding to the latitude range with interval of 10
