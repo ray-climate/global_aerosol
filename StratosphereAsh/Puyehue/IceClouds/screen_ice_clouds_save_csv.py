@@ -145,47 +145,6 @@ def main():
         cbar_ax_position = [0.487, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
-        cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
-
-        # Determine indices corresponding to the latitude range with interval of 10
-        index_ticks = np.arange(0, len(footprint_lat_caliop), 300)
-        # Set x-ticks and x-tick labels
-        ax1.set_xticks(index_ticks)
-        ax1.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
-
-        ax1.set_xlabel('Latitude [$^{\circ}$]', fontsize=35)
-        ax1.set_ylabel('Height [km]', fontsize=35)
-
-        # Determine the index in footprint_lat_caliop closest to LAT_NORTH
-        index_limit = np.abs(footprint_lat_caliop - NORTHERN_LATITUDE).argmin()
-        # Set the x-limit
-        if footprint_lat_caliop[0] > footprint_lat_caliop[-1]:
-            ax1.set_xlim(left=index_limit)
-            # If you're setting left limit, use index_limit as your starting index and go till end of the data
-            start_index = index_limit
-            end_index = len(footprint_lat_caliop) - 1
-        else:
-            ax1.set_xlim(right=index_limit)
-            # If you're setting right limit, your range starts from 0 to index_limit
-            start_index = 0
-            end_index = index_limit
-
-        ax1.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
-
-        # Define the number of x-ticks you want
-        num_xticks = 6
-        # Use linspace to get evenly spaced indices within the effective range
-        index_ticks = np.linspace(start_index, end_index, num_xticks).astype(int)
-
-        # Set x-ticks and x-tick labels
-        ax1.set_xticks(index_ticks)
-        ax1.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop[index_ticks]])
-
-        ax1.tick_params(axis='x', labelsize=35)
-        ax1.tick_params(axis='y', labelsize=35)
-
-
-
         ######################################################################
         ax2 = fig.add_subplot(gs[40:70, 5:95])
         z_grid_caliop_type = np.copy(caliop_dp)
@@ -193,37 +152,6 @@ def main():
 
         fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap='jet',vmin=0., vmax=0.4)
         cbar = plt.colorbar(fig2, ticks=tick_locs)
-
-        # Determine indices corresponding to the latitude range with interval of 10
-        index_ticks = np.arange(0, len(footprint_lat_caliop), 300)
-        # Set x-ticks and x-tick labels
-        ax2.set_xticks(index_ticks)
-        ax2.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
-
-        ax2.set_xlabel('Latitude [$^{\circ}$]', fontsize=35)
-        ax2.set_ylabel('Height [km]', fontsize=35)
-
-        # Determine the index in footprint_lat_caliop closest to LAT_NORTH
-        index_limit = np.abs(footprint_lat_caliop - NORTHERN_LATITUDE).argmin()
-
-        if footprint_lat_caliop[0] > footprint_lat_caliop[-1]:
-            ax2.set_xlim(left=index_limit)
-            # If you're setting left limit, use index_limit as your starting index and go till end of the data
-            start_index = index_limit
-            end_index = len(footprint_lat_caliop) - 1
-        else:
-            ax2.set_xlim(right=index_limit)
-            # If you're setting right limit, your range starts from 0 to index_limit
-            start_index = 0
-            end_index = index_limit
-
-        ax2.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
-        # Set x-ticks and x-tick labels
-        ax2.set_xticks(index_ticks)
-        ax2.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop[index_ticks]])
-
-        ax2.tick_params(axis='x', labelsize=35)
-        ax2.tick_params(axis='y', labelsize=35)
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
 
