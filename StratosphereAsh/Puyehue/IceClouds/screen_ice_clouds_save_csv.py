@@ -188,13 +188,11 @@ def main():
 
         ######################################################################
         ax2 = fig.add_subplot(gs[40:70, 5:95])
-        print(ice_cloud_mask.shape)
-        print(caliop_dp.shape)
         z_grid_caliop_type = np.copy(caliop_dp)
         z_grid_caliop_type[ice_cloud_mask == 0] = np.nan
 
         fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap='jet')
-        cbar = plt.colorbar(fig2, cax=cax, ticks=tick_locs)
+        cbar = plt.colorbar(fig2, ticks=tick_locs)
 
         # Determine indices corresponding to the latitude range with interval of 10
         index_ticks = np.arange(0, len(footprint_lat_caliop), 300)
