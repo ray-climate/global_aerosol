@@ -149,7 +149,7 @@ def main():
         ax2 = fig.add_subplot(gs[40:70, 5:95])
         z_grid_caliop_type = np.zeros((caliop_dp.shape))
         z_grid_caliop_type[caliop_dp > 0] = caliop_dp[caliop_dp > 0]
-        z_grid_caliop_type[ice_cloud_mask == 0] = np.nan
+        z_grid_caliop_type[ice_cloud_mask == 0] = 0
 
         fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap='jet',vmin=0., vmax=0.4)
         cbar = plt.colorbar(fig2, ticks=tick_locs)
