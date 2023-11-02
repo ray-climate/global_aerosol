@@ -189,9 +189,9 @@ def main():
         ######################################################################
         ax2 = fig.add_subplot(gs[40:70, 5:95])
         print(ice_cloud_mask.shape)
-        print(dp_caliop.shape)
-        z_grid_caliop_type = np.copy(dp_caliop)
-        dp_caliop[ice_cloud_mask == 0] = np.nan
+        print(caliop_dp.shape)
+        z_grid_caliop_type = np.copy(caliop_dp)
+        z_grid_caliop_type[ice_cloud_mask == 0] = np.nan
 
         fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
