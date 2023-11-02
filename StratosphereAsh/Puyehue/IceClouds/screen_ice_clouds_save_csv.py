@@ -10,6 +10,9 @@ import sys
 import logging
 import argparse
 import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 
 # Append the custom path to system path
 sys.path.append('../../../')
@@ -35,6 +38,7 @@ DATE_SEARCH = args.DATE_SEARCH
 # Directory paths and locations
 CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
 CSV_OUTPUT_PATH = './csv'
+FIGURE_OUTPUT_PATH = './figures'
 
 # Initialize Logging
 script_base_name, _ = os.path.splitext(sys.modules['__main__'].__file__)
@@ -47,6 +51,9 @@ def main():
     # Create csv saving directory if not present
     if not os.path.exists(CSV_OUTPUT_PATH):
         os.mkdir(CSV_OUTPUT_PATH)
+
+    if not os.path.exists(FIGURE_OUTPUT_PATH):
+        os.mkdir(FIGURE_OUTPUT_PATH)
 
     # search all data at CALIPSO_DATA_PATH/year/month/
     year = DATE_SEARCH.split('-')[0]
@@ -109,6 +116,82 @@ def main():
         caliop_cloud_index = np.where(ice_cloud_mask == 1)
         test_array = dp_caliop[caliop_cloud_index]
         print(np.size(test_array[test_array > 0.]))
+
+        ######################################################################
+        #### add subplot of caliop cloud types
+        ######################################################################
+
+        indices = np.arange(len(caliop_lat))
+        x_grid_caliop_indices, y_grid_caliop_indices = np.meshgrid(indices, alt_caliop)
+
+        fig = plt.figure(constrained_layout=True, figsize=(36, 24))
+        gs = GridSpec(110, 195, figure=fig)
+
+        ax1 = fig.add_subplot(gs[75:105, 5:95])
+
+        z_grid_caliop_type = ice_cloud_mask
+
+        # cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
+        cmap = mpl.colors.ListedColormap(['lightgray', 'blue'])
+        bounds = [0, 1, 2]
+        norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+
+        # Custom tick locations
+        tick_locs = [0.495, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
+        # Custom tick labels
+        tick_labels = ["None", "Cloud"]
+
+        fig1 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
+        plt.plot(indices, alt_tropopause, color='red', linewidth=3)
+
+        cbar_ax_position = [0.487, 0.1, 0.01, 0.2]  # Modify these values as needed
+        cax = fig.add_axes(cbar_ax_position)
+
+        cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
+        cbar.ax.set_yticklabels(tick_labels)  # Note: We're using set_yticklabels for vertical orientation
+        cbar.ax.tick_params(labelsize=28)
+
+        # Determine indices corresponding to the latitude range with interval of 10
+        index_ticks = np.arange(0, len(footprint_lat_caliop), 300)
+        # Set x-ticks and x-tick labels
+        ax1.set_xticks(index_ticks)
+        ax1.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
+
+        ax1.set_xlabel('Latitude [$^{\circ}$]', fontsize=35)
+        ax1.set_ylabel('Height [km]', fontsize=35)
+
+        # Determine the index in footprint_lat_caliop closest to LAT_NORTH
+        index_limit = np.abs(footprint_lat_caliop - NORTHERN_LATITUDE).argmin()
+        # Set the x-limit
+        if footprint_lat_caliop[0] > footprint_lat_caliop[-1]:
+            ax1.set_xlim(left=index_limit)
+            # If you're setting left limit, use index_limit as your starting index and go till end of the data
+            start_index = index_limit
+            end_index = len(footprint_lat_caliop) - 1
+        else:
+            ax1.set_xlim(right=index_limit)
+            # If you're setting right limit, your range starts from 0 to index_limit
+            start_index = 0
+            end_index = index_limit
+
+        ax1.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
+
+        # Define the number of x-ticks you want
+        num_xticks = 6
+        # Use linspace to get evenly spaced indices within the effective range
+        index_ticks = np.linspace(start_index, end_index, num_xticks).astype(int)
+
+        # Set x-ticks and x-tick labels
+        ax1.set_xticks(index_ticks)
+        ax1.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop[index_ticks]])
+
+        ax1.tick_params(axis='x', labelsize=35)
+        ax1.tick_params(axis='y', labelsize=35)
+
+        plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), dpi=300)
+
+        quit()
+
 
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
