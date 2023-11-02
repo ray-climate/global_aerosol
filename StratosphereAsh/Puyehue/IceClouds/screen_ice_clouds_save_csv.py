@@ -188,7 +188,8 @@ def main():
 
         ######################################################################
         ax2 = fig.add_subplot(gs[40:70, 5:95])
-
+        print(ice_cloud_mask.shape)
+        print(dp_caliop.shape)
         z_grid_caliop_type = np.copy(dp_caliop)
         dp_caliop[ice_cloud_mask == 0] = np.nan
 
