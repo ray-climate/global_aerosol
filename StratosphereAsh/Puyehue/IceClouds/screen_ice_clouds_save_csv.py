@@ -111,12 +111,10 @@ def main():
         # 3 = oriented ice crystals
 
         ice_cloud_mask = np.zeros((caliop_cloud_phase.shape))
-        ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1)] = 1
-
+        ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1) & (caliop_cloud_phase_QA >= 2)] = 1
         caliop_cloud_index = np.where(ice_cloud_mask == 1)
-        test_array = dp_caliop[caliop_cloud_index]
-        print(np.size(test_array[test_array > 0.]))
 
+        """
         ######################################################################
         #### add subplot of caliop cloud types
         ######################################################################
@@ -155,31 +153,29 @@ def main():
         cbar = plt.colorbar(fig2, ticks=tick_locs)
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
+        """
 
-        # quit()
-        #
-        #
-        # # save all detected feature type 4 into a csv file, iterative to write each row
-        # with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
-        #     # first row to write name of parameters
-        #
-        #     writer = csv.writer(csvfile, lineterminator='\n')
-        #     writer.writerow(('Latitude', 'Longitude', 'Altitude', 'Depolarization_Ratio'))
-        #
-        #     for i in range(len(caliop_cloud_index[0])):
-        #
-        #         index_row = caliop_cloud_index[0][i]
-        #         index_col = caliop_cloud_index[1][i]
-        #         print(index_row, index_col)
-        #         if caliop_dp[index_row, index_col] > 0.:
-        #
-        #             print(caliop_lat[index_col], caliop_lon[index_col], alt_caliop[index_row], caliop_dp[index_row, index_col])
-        #
-        #             # start to write every parameter into the new row
-        #             writer.writerow((caliop_lat[index_col],
-        #                              caliop_lon[index_col],
-        #                              alt_caliop[index_row],
-        #                              caliop_dp[index_row, index_col]))
+        # save all detected feature type 4 into a csv file, iterative to write each row
+        with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
+            # first row to write name of parameters
+
+            writer = csv.writer(csvfile, lineterminator='\n')
+            writer.writerow(('Latitude', 'Longitude', 'Altitude', 'Depolarization_Ratio'))
+
+            for i in range(len(caliop_cloud_index[0])):
+
+                index_row = caliop_cloud_index[0][i]
+                index_col = caliop_cloud_index[1][i]
+                print(index_row, index_col)
+                if caliop_dp[index_row, index_col] > 0.:
+
+                    print(caliop_lat[index_col], caliop_lon[index_col], alt_caliop[index_row], caliop_dp[index_row, index_col])
+
+                    # start to write every parameter into the new row
+                    writer.writerow((caliop_lat[index_col],
+                                     caliop_lon[index_col],
+                                     alt_caliop[index_row],
+                                     caliop_dp[index_row, index_col]))
 
         print('Finished processing file: {}'.format(file))
 
