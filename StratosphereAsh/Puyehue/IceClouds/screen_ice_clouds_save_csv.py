@@ -51,12 +51,34 @@ def main():
     month = DATE_SEARCH.split('-')[1]
     day = DATE_SEARCH.split('-')[2]
     data_path = os.path.join(CALIPSO_DATA_PATH, year, month)
-    print(data_path)
+
     file_list = os.listdir(data_path)
     # only keep files that contains year-month-day in the full file name
     file_list = [file for file in file_list if DATE_SEARCH in file]
 
-    print(file_list)
+    # iterate through all files
+    for file in file_list:
+        # print(data_path + file)
+        try:
+            (footprint_lat_caliop, footprint_lon_caliop,
+             alt_caliop, beta_caliop, alpha_caliop,
+             aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
+                = extract_variables_from_caliop(file, logger)
+            print('Processing file: {}'.format(file))
+        except:
+            print('Cannot process file: {}'.format(file))
+            continue
+
+        caliop_aerosol_type = aerosol_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_feature_type = feature_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_dp = dp_caliop[:,(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_alt = alt_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_lat = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_lon = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+
+        print(caliop_feature_type.shape)
+        quit()
+
 
 if __name__ == "__main__":
     main()
