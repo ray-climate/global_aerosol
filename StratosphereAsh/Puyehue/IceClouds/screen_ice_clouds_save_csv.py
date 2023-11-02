@@ -118,9 +118,9 @@ def main():
                 index_col = caliop_cloud_index[1][i]
 
                 # start to write every parameter into the new row
-                writer.writerow((caliop_lat[index_col],
-                                 caliop_lon[index_col],
-                                 alt_caliop[index_row, index_col],
+                writer.writerow((caliop_lat[index_row, index_col],
+                                 caliop_lon[index_row, index_col],
+                                 alt_caliop[index_row],
                                  caliop_dp[index_row, index_col]))
 
         print('Finished processing file: {}'.format(file))
