@@ -7,6 +7,7 @@
 
 import sys
 import logging
+import argparse
 
 # Append the custom path to system path
 sys.path.append('../../../')
