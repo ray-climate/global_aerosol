@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        02/11/2023 15:11
 
+import sys
 import logging
 
 # Append the custom path to system path
@@ -29,7 +30,7 @@ args = parser.parse_args()
 DATE_SEARCH = args.DATE_SEARCH
 
 # Directory paths and locations
-CALIPSO_DATA_PATH = "/network/group/aopp/eodg/calipso/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
+CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmAPro-Standard-V4-51/"
 CSV_OUTPUT_PATH = './csv'
 
 # Initialize Logging
