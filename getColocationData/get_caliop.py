@@ -48,10 +48,19 @@ def extract_variables_from_caliop(hdf_file, logger):
         _get_tropopause_height(filename=hdf_file)
 
     logger.info("Extracted data from caliop file: 7 parameters")
+
     return caliop_latitude_list, caliop_longitude_list, \
            caliop_altitude_list, caliop_beta_list, \
            caliop_alpha_list, caliop_aerosol_type, caliop_feature_type, \
            caliop_Depolarization_Ratio_list, caliop_tropopause_height
+
+def extract_cloud_phase_caliop(hdf_file, logger):
+
+    caliop_request = Caliop_hdf_reader()
+    caliop_cloud_phase, caliop_cloud_phase_QA = caliop_request. \
+        _get_cloud_phase(filename=hdf_file, variable='Atmospheric_Volume_Description')
+
+    return caliop_cloud_phase, caliop_cloud_phase_QA
 
 def extract_variables_from_caliop_level1(hdf_file, logger):
     """Extract relevant variables from the CALIOP Level-1 data"""

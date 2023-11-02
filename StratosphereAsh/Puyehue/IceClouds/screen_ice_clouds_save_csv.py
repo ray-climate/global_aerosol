@@ -8,6 +8,7 @@
 import sys
 import logging
 import argparse
+import numpy as np
 
 # Append the custom path to system path
 sys.path.append('../../../')
@@ -64,18 +65,42 @@ def main():
              alt_caliop, beta_caliop, alpha_caliop,
              aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
                 = extract_variables_from_caliop(data_path + '/' + file, logger)
+
+            (caliop_cloud_phase, caliop_cloud_phase_QA) = extract_cloud_phase_caliop(data_path + '/' + file, logger)
+
             print('Processing file: {}'.format(file))
         except:
             print('Cannot process file: {}'.format(file))
             continue
-
+        print(caliop_cloud_phase.shape)
+        quit()
         caliop_aerosol_type = aerosol_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_feature_type = feature_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_dp = dp_caliop[:,(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_lat = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_lon = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
 
-        print(caliop_feature_type.shape)
+        """
+        feature type
+        """
+        # 0 = invalid (bad or missing data)
+        # 1 = "clear air"
+        # 2 = cloud
+        # 3 = tropospheric aerosol
+        # 4 = stratospheric aerosol
+        # 5 = surface
+        # 6 = subsurface
+        # 7 = no signal(totally attenuated)
+
+        """
+        ice water phase
+        """
+        # 0 = unknown / not determined
+        # 1 = ice
+        # 2 = water
+        # 3 = oriented ice crystals
+
+        ice_cloud_mask = np.zeros((caliop_aerosol_type.shape))
         quit()
 
 

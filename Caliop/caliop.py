@@ -127,6 +127,26 @@ class Caliop_hdf_reader():
 
         return caliop_v4_aerosol_type, feature_type
 
+    def _get_cloud_phase(self, filename, variable):
+
+        sd = SD(filename)
+        datasets = sd.select(variable)
+        data = datasets.get()
+
+        # bit 6-7 is for cloud phase, bit 8-9 is for cloud phase QA
+        bit_start_phase = 5
+        bit_start_phase_QA = 7
+        bit_count = 2
+
+        data = data[:,:,0]
+        cloud_phase = self.bits_stripping(bit_start_phase, bit_count, data)
+        cloud_phase = cloud_phase.T
+
+        cloud_phase_QA = self.bits_stripping(bit_start_phase_QA, bit_count, data)
+        cloud_phase_QA = cloud_phase_QA.T
+
+        return cloud_phase, cloud_phase_QA
+
     def _get_feature_classification_ALay(self, filename, variable):
 
         sd = SD(filename)
