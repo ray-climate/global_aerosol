@@ -146,8 +146,6 @@ def main():
         cax = fig.add_axes(cbar_ax_position)
 
         cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
-        cbar.ax.set_yticklabels(tick_labels)  # Note: We're using set_yticklabels for vertical orientation
-        cbar.ax.tick_params(labelsize=28)
 
         # Determine indices corresponding to the latitude range with interval of 10
         index_ticks = np.arange(0, len(footprint_lat_caliop), 300)
