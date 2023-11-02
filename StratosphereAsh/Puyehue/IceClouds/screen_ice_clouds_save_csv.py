@@ -142,8 +142,6 @@ def main():
         tick_labels = ["None", "Cloud"]
 
         fig1 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
-        plt.plot(indices, alt_tropopause, color='red', linewidth=3)
-
         cbar_ax_position = [0.487, 0.1, 0.01, 0.2]  # Modify these values as needed
         cax = fig.add_axes(cbar_ax_position)
 
