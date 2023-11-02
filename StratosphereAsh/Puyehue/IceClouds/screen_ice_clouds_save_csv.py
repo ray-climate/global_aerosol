@@ -82,8 +82,7 @@ def main():
         caliop_dp = dp_caliop[:,(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_lat = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_lon = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        print(dp_caliop[dp_caliop>0])
-        quit()
+
         """
         feature type
         """
@@ -108,7 +107,8 @@ def main():
         ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1) & (caliop_cloud_phase_QA >= 2.)] = 1
 
         caliop_cloud_index = np.where(ice_cloud_mask == 1)
-
+        print(dp_caliop[caliop_cloud_index])
+        quit()
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
             # first row to write name of parameters
