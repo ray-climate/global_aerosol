@@ -193,8 +193,8 @@ def main():
         z_grid_caliop_type = np.copy(caliop_dp)
         z_grid_caliop_type[ice_cloud_mask == 0] = np.nan
 
-        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
-        cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
+        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap='jet')
+        cbar = plt.colorbar(fig2, cax=cax, ticks=tick_locs)
 
         # Determine indices corresponding to the latitude range with interval of 10
         index_ticks = np.arange(0, len(footprint_lat_caliop), 300)
@@ -226,7 +226,6 @@ def main():
 
         ax2.tick_params(axis='x', labelsize=35)
         ax2.tick_params(axis='y', labelsize=35)
-
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
 
