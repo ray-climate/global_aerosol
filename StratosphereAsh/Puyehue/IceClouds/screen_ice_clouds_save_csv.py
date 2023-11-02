@@ -107,7 +107,8 @@ def main():
         ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1) & (caliop_cloud_phase_QA >= 2.)] = 1
 
         caliop_cloud_index = np.where(ice_cloud_mask == 1)
-        print(dp_caliop[caliop_cloud_index])
+        test_array = dp_caliop[caliop_cloud_index]
+        print(test_array[test_array > 0.])
         quit()
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
