@@ -184,7 +184,7 @@ def main():
         ax1.tick_params(axis='x', labelsize=35)
         ax1.tick_params(axis='y', labelsize=35)
 
-        plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), dpi=300)
+        plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
 
         quit()
 
