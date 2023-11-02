@@ -5,6 +5,7 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        02/11/2023 15:11
 
+import csv
 import sys
 import logging
 import argparse
@@ -72,10 +73,10 @@ def main():
         except:
             print('Cannot process file: {}'.format(file))
             continue
-        print(caliop_cloud_phase.shape)
-        quit()
-        caliop_aerosol_type = aerosol_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        caliop_feature_type = feature_type_caliop[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+
+        caliop_feature_phase = feature_type_caliop[:,(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_cloud_phase = caliop_cloud_phase[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_cloud_phase_QA = caliop_cloud_phase_QA[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_dp = dp_caliop[:,(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_lat = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
         caliop_lon = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
@@ -100,8 +101,31 @@ def main():
         # 2 = water
         # 3 = oriented ice crystals
 
-        ice_cloud_mask = np.zeros((caliop_aerosol_type.shape))
+        ice_cloud_mask = np.zeros((caliop_cloud_phase.shape))
+        ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1) & (caliop_cloud_phase_QA >= 2.)] = 1
+
+        caliop_cloud_index = np.where(ice_cloud_mask == 1)
+
+        # save all detected feature type 4 into a csv file, iterative to write each row
+        with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
+            # first row to write name of parameters
+
+            writer = csv.writer(csvfile, lineterminator='\n')
+            writer.writerow(('Latitude', 'Longitude', 'Altitude', 'Depolarization_Ratio'))
+
+            for i in range(len(caliop_cloud_index[0])):
+                index_row = caliop_cloud_index[0][i]
+                index_col = caliop_cloud_index[1][i]
+
+                # start to write every parameter into the new row
+                writer.writerow((caliop_lat[index_col],
+                                 caliop_lon[index_col],
+                                 alt_caliop[index_row, index_col],
+                                 caliop_dp[index_row, index_col]))
+
+        print('Finished processing file: {}'.format(file))
         quit()
+
 
 
 if __name__ == "__main__":
