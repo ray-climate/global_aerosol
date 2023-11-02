@@ -151,7 +151,7 @@ def main():
         z_grid_caliop_type[caliop_dp > 0] = caliop_dp[caliop_dp > 0]
         z_grid_caliop_type[ice_cloud_mask == 0] = 0
 
-        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap='jet',vmin=0., vmax=0.4)
+        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, caliop_dp, cmap='jet',vmin=0., vmax=0.4)
         cbar = plt.colorbar(fig2, ticks=tick_locs)
 
         plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
