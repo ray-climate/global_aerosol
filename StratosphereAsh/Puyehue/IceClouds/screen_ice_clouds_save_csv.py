@@ -208,6 +208,17 @@ def main():
         # Determine the index in footprint_lat_caliop closest to LAT_NORTH
         index_limit = np.abs(footprint_lat_caliop - NORTHERN_LATITUDE).argmin()
 
+        if footprint_lat_caliop[0] > footprint_lat_caliop[-1]:
+            ax2.set_xlim(left=index_limit)
+            # If you're setting left limit, use index_limit as your starting index and go till end of the data
+            start_index = index_limit
+            end_index = len(footprint_lat_caliop) - 1
+        else:
+            ax2.set_xlim(right=index_limit)
+            # If you're setting right limit, your range starts from 0 to index_limit
+            start_index = 0
+            end_index = index_limit
+
         ax2.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
         # Set x-ticks and x-tick labels
         ax2.set_xticks(index_ticks)
