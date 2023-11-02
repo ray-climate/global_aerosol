@@ -58,4 +58,6 @@ def main():
 
     print(file_list)
 
+if __name__ == "__main__":
+    main()
 
