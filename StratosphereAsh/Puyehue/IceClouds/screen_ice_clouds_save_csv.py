@@ -109,7 +109,7 @@ def main():
         caliop_cloud_index = np.where(ice_cloud_mask == 1)
         test_array = dp_caliop[caliop_cloud_index]
         print(test_array[test_array > 0.])
-        quit()
+
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
             # first row to write name of parameters
