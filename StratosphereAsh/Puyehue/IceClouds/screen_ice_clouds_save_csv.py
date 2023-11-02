@@ -70,7 +70,9 @@ def main():
             (caliop_cloud_phase, caliop_cloud_phase_QA) = extract_cloud_phase_caliop(data_path + '/' + file, logger)
 
             print('Processing file: {}'.format(file))
+
         except:
+
             print('Cannot process file: {}'.format(file))
             continue
 
@@ -118,7 +120,7 @@ def main():
             for i in range(len(caliop_cloud_index[0])):
                 index_row = caliop_cloud_index[0][i]
                 index_col = caliop_cloud_index[1][i]
-
+                print(caliop_dp[index_row, index_col])
                 # start to write every parameter into the new row
                 writer.writerow((caliop_lat[index_col],
                                  caliop_lon[index_col],
