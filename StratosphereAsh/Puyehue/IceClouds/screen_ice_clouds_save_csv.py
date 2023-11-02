@@ -104,7 +104,7 @@ def main():
         # 3 = oriented ice crystals
 
         ice_cloud_mask = np.zeros((caliop_cloud_phase.shape))
-        ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1) & (caliop_cloud_phase_QA >= 2.)] = 1
+        ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1) & (caliop_cloud_phase_QA >= 1.)] = 1
 
         caliop_cloud_index = np.where(ice_cloud_mask == 1)
         test_array = dp_caliop[caliop_cloud_index]
