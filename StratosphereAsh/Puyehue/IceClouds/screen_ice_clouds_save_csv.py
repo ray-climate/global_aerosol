@@ -120,7 +120,7 @@ def main():
             for i in range(len(caliop_cloud_index[0])):
                 index_row = caliop_cloud_index[0][i]
                 index_col = caliop_cloud_index[1][i]
-                print(caliop_dp[index_row, index_col])
+
                 # start to write every parameter into the new row
                 writer.writerow((caliop_lat[index_col],
                                  caliop_lon[index_col],
@@ -128,7 +128,7 @@ def main():
                                  caliop_dp[index_row, index_col]))
 
         print('Finished processing file: {}'.format(file))
-        quit()
+
 
 
 
