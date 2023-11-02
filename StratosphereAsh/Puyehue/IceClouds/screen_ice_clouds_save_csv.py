@@ -184,6 +184,38 @@ def main():
         ax1.tick_params(axis='x', labelsize=35)
         ax1.tick_params(axis='y', labelsize=35)
 
+
+
+        ######################################################################
+        ax2 = fig.add_subplot(gs[40:70, 5:95])
+
+        z_grid_caliop_type = np.copy(dp_caliop)
+        dp_caliop[ice_cloud_mask == 0] = np.nan
+
+        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
+        cbar = plt.colorbar(fig1, cax=cax, ticks=tick_locs)
+
+        # Determine indices corresponding to the latitude range with interval of 10
+        index_ticks = np.arange(0, len(footprint_lat_caliop), 300)
+        # Set x-ticks and x-tick labels
+        ax2.set_xticks(index_ticks)
+        ax2.set_xticklabels(np.round(footprint_lat_caliop[index_ticks], 2))
+
+        ax2.set_xlabel('Latitude [$^{\circ}$]', fontsize=35)
+        ax2.set_ylabel('Height [km]', fontsize=35)
+
+        # Determine the index in footprint_lat_caliop closest to LAT_NORTH
+        index_limit = np.abs(footprint_lat_caliop - NORTHERN_LATITUDE).argmin()
+
+        ax2.set_ylim(MIN_ALTITUDE, MAX_ALTITUDE)
+        # Set x-ticks and x-tick labels
+        ax2.set_xticks(index_ticks)
+        ax2.set_xticklabels(["{:.1f}".format(val) for val in footprint_lat_caliop[index_ticks]])
+
+        ax2.tick_params(axis='x', labelsize=35)
+        ax2.tick_params(axis='y', labelsize=35)
+
+
         plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
 
         # quit()
