@@ -40,21 +40,25 @@ for file in os.listdir(INPUT_PATH):
             reader = csv.reader(f)
             next(reader)  # Skip header
             for row in reader:
-                latitude = float(row[0])
-                alt_base = float(row[2])
-                alt_top = float(row[3])
-                depolarization = float(row[5])
-                aerosol_type = float(row[6])
-                CAD = float(row[7])
-                date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
 
-                if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) & (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) & (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) & (2. <= aerosol_type <= 4.) & (depolarization > 0):
+                try:
+                    latitude = float(row[0])
+                    alt_base = float(row[2])
+                    alt_top = float(row[3])
+                    depolarization = float(row[5])
+                    aerosol_type = float(row[6])
+                    CAD = float(row[7])
+                    date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
 
-                    # Assign counts to appropriate latitude range
-                    for lat_range in valid_depolarization_counts:
-                        if lat_range[0] <= latitude <= lat_range[1]:
-                            valid_depolarization_counts[lat_range][date] += 1
-                            break
+                    if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) & (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) & (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) & (2. <= aerosol_type <= 4.) & (depolarization > 0):
+
+                        # Assign counts to appropriate latitude range
+                        for lat_range in valid_depolarization_counts:
+                            if lat_range[0] <= latitude <= lat_range[1]:
+                                valid_depolarization_counts[lat_range][date] += 1
+                                break
+                except:
+                    pass
 
 # Define the figure and subplots
 fig, axs = plt.subplots(3, 1, figsize=(10, 15), sharex=True)
