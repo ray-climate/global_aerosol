@@ -66,14 +66,33 @@ dates = list(sorted_valid_depolarization_count.keys())
 counts = list(sorted_valid_depolarization_count.values())
 
 # Plotting
+# Plotting
 plt.figure(figsize=(10, 5))
+
+# Force x-axis limits
+start_date = datetime(2011, 4, 1)
+end_date = datetime(2011, 10, 1)
+plt.xlim(start_date, end_date)
+
+# Plot the data
 plt.plot(dates, counts, marker='o')
+
+# Set x-axis major ticks to the first day of each month
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+# Set x-axis minor ticks to invisible, if necessary
+plt.gca().xaxis.set_minor_locator(mdates.MonthLocator())
+plt.gca().xaxis.set_minor_formatter(ticker.NullFormatter())
+
+# Rotate date labels automatically
+plt.gcf().autofmt_xdate()
+
 plt.xlabel('Date')
 plt.ylabel('Number of Valid Depolarization Values')
 plt.title('Valid Depolarization Values per Day')
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-plt.gca().xaxis.set_major_locator(mdates.DayLocator())
-plt.gcf().autofmt_xdate()  # Rotation
 plt.grid(True)
 plt.tight_layout()
+
+# Save the figure
 plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'valid_depolarization_values_per_day.png'))
