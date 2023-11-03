@@ -135,6 +135,7 @@ def main():
         stratosphere_aerosol_mask[(caliop_feature_type == 4) & (caliop_aerosol_type >= 2) & (caliop_aerosol_type <= 4)] = 1
 
         print('Number of stratosphere layer: {}'.format(np.sum(stratosphere_aerosol_mask)))
+
         if np.sum(stratosphere_aerosol_mask) < 5:
             # if number of ash layer < 5, skip this file
             continue
