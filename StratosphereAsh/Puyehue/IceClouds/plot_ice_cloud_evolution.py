@@ -52,6 +52,9 @@ for file in os.listdir(INPUT_PATH):
         altitude_i_filter = altitude_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
         depolarization_i_filter = depolarization_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
 
+        if np.size(latitude_i_filter) < 1:
+            continue
+
         date_i = file.split('.')[1][0:10]
         date.append(date_i)
         depolarization.append(np.mean(depolarization_i_filter))
