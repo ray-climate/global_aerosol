@@ -166,10 +166,8 @@ def main():
 
                 index_row = caliop_cloud_index[0][i]
                 index_col = caliop_cloud_index[1][i]
-                print(index_row, index_col)
-                if caliop_dp[index_row, index_col] > 0.:
 
-                    print(caliop_lat[index_col], caliop_lon[index_col], alt_caliop[index_row], caliop_dp[index_row, index_col])
+                if caliop_dp[index_row, index_col] > 0.:
 
                     # start to write every parameter into the new row
                     writer.writerow((caliop_lat[index_col],
