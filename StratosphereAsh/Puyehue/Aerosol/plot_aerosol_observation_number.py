@@ -15,6 +15,9 @@ import csv
 # Constants
 NORTHERN_LATITUDE = -20
 SOUTHERN_LATITUDE = -80
+MIN_ALTITUDE = 9
+MAX_ALTITUDE = 16.
+
 INPUT_PATH = './csv_new'
 FIGURE_OUTPUT_PATH = './figures'
 
