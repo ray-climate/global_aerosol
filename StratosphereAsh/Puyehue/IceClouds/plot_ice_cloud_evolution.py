@@ -88,8 +88,13 @@ plt.figure(figsize=(16, 6))
 colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
 
 for lat_range, color in colors.items():
+    # Format the label to include the degree symbol and superscript
+    formatted_label = lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
     plt.errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'], yerr=plot_data[lat_range]['stds'],
-                 marker='o',capsize=12, color=color, label=f'{lat_range.replace("_to_", "°S to °S")}')
+                 marker='o', capsize=12, color=color, label=formatted_label)
+
+# Set x-axis limits to the specified range
+plt.xlim([datetime(2011, 4, 1), datetime(2011, 10, 1)])
 
 # Set x-ticks to the first day of each month
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
