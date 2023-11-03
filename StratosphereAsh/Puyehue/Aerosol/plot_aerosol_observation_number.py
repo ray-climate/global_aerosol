@@ -20,7 +20,7 @@ SOUTHERN_LATITUDE = -80
 MIN_ALTITUDE = 9
 MAX_ALTITUDE = 16.
 
-INPUT_PATH = './csv_ALay'
+INPUT_PATH = './csv_new'
 FIGURE_OUTPUT_PATH = './figures'
 
 # Create csv saving directory if not present
@@ -44,16 +44,19 @@ for file in os.listdir(INPUT_PATH):
             reader = csv.reader(f)
             next(reader)  # Skip the header
             for row in reader:
-                latitude = float(row[0])
-                alt_base = float(row[2])
-                alt_top = float(row[3])
-                depolarization = float(row[5])
-                aerosol_type = float(row[6])
-                CAD = float(row[7])
-                file_date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
+                try:
+                    latitude = float(row[0])
+                    alt_base = float(row[2])
+                    alt_top = float(row[3])
+                    depolarization = float(row[5])
+                    aerosol_type = float(row[6])
+                    CAD = float(row[7])
+                    file_date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
 
-                if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) & (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) & (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) & (2. <= aerosol_type <= 4.):
-                    valid_depolarization_count[file_date] += 1
+                    if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) & (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) & (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) & (2. <= aerosol_type <= 4.):
+                        valid_depolarization_count[file_date] += 1
+                except:
+                    pass
 
 # Sort the dictionary by date
 sorted_valid_depolarization_count = dict(sorted(valid_depolarization_count.items()))
