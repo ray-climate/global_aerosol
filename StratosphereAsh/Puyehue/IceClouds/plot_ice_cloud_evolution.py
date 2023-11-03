@@ -9,10 +9,11 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from matplotlib.patches import Patch
+from collections import defaultdict
+import matplotlib.ticker as ticker
 import numpy as np
 import csv
 import os
-from collections import defaultdict
 
 NORTHERN_LATITUDE = -20
 SOUTHERN_LATITUDE = -80
@@ -83,7 +84,7 @@ for lat_range in plot_data:
     plot_data[lat_range]['dates'] = mdates.date2num(plot_data[lat_range]['dates'])
 
 # Plotting
-plt.figure(figsize=(12, 5))
+plt.figure(figsize=(16, 6))
 colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
 
 for lat_range, color in colors.items():
@@ -91,15 +92,18 @@ for lat_range, color in colors.items():
                  fmt='o', color=color, label=f'{lat_range.replace("_to_", "° to -")}°')
 
 # Set major locator to pick 10 dates evenly spaced
-plt.gca().xaxis.set_major_locator(mdates.MaxNLocator(10))
+plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(10))
 # Formatting the date to make it readable
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 plt.gcf().autofmt_xdate()  # Rotation
 
-plt.title('Depolarization Over Time')
-plt.xlabel('Date')
-plt.ylabel('Depolarization (mean ± std)')
-plt.legend(title='Latitude Range')
+plt.title('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km', fontsize=18)
+plt.xlabel('Date', fontsize=18)
+plt.ylabel('Particulate Depolarization Ratio', fontsize=18)
+plt.legend(loc='upper right', fontsize=16)
+plt.tick_params(axis='both', which='major', labelsize=16)
+plt.tick_params(axis='both', which='minor', labelsize=16)
+
 plt.grid(True, linestyle='--')  # Set grid to dashed line
 plt.tight_layout()
 plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time.png'))
