@@ -54,7 +54,7 @@ for file in os.listdir(INPUT_PATH):
 
         depolarization_mean = np.mean(depolarization_i_filter)
         depolarization_std = np.std(depolarization_i_filter)
-        date_i = file.split('_')[1][0:10]
+        date_i = file.split('.')[1][0:10]
 
         print('Date: {}, depolarization: {}, depolarization_std: {}'.format(date_i, depolarization_mean, depolarization_std))
         quit()
