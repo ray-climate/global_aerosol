@@ -31,7 +31,7 @@ data_by_altitude = {key: {'dates': [], 'depolarization': [], 'depolarization_std
 
 # Read data from files and organize it by date and altitude range
 start_date = datetime(2011, 4, 1)
-end_date = datetime(2011, 9, 30)
+end_date = datetime(2011, 4, 30)
 
 current_date = start_date
 
