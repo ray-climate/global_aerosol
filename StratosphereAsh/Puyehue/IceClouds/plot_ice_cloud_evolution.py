@@ -5,6 +5,9 @@
 # @Email:       rui.song@physics.ox.ac.uk
 # @Time:        03/11/2023 11:56
 
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+from datetime import datetime
 import numpy as np
 import os
 
@@ -14,6 +17,11 @@ MIN_ALTITUDE = 9
 MAX_ALTITUDE = 16.
 
 INPUT_PATH = './csv'
+FIGURE_OUTPUT_PATH = './figures'
+
+# Create csv saving directory if not present
+if not os.path.exists(FIGURE_OUTPUT_PATH):
+    os.mkdir(FIGURE_OUTPUT_PATH)
 
 date = []
 depolarization = []
@@ -62,6 +70,34 @@ for file in os.listdir(INPUT_PATH):
 
         print('Date: {}, depolarization: {}, depolarization_std: {}'.format(date_i, np.mean(depolarization_i_filter), np.std(depolarization_i_filter)))
 
+# plot the depolraization with std over the date
+
+# Convert string dates to datetime objects
+date_objects = [datetime.strptime(d, '%Y-%m-%d') for d in date]
+
+# Sort the data by date
+sorted_indices = np.argsort(date_objects)
+sorted_dates = np.array(date_objects)[sorted_indices]
+sorted_depolarization = np.array(depolarization)[sorted_indices]
+sorted_depolarization_std = np.array(depolarization_std)[sorted_indices]
+
+# Plotting
+plt.figure(figsize=(12, 5))
+
+# Plot the mean depolarization
+plt.errorbar(sorted_dates, sorted_depolarization, yerr=sorted_depolarization_std, fmt='*', color='red')
+
+# Formatting the date to make it readable
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=10))  # Adjust interval to suit your data
+plt.gcf().autofmt_xdate()  # Rotation
+
+plt.title('Depolarization Over Time')
+plt.xlabel('Date')
+plt.ylabel('Depolarization (mean ± std)')
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time.png'))
 
 
 
