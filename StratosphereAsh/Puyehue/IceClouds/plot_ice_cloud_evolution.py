@@ -20,7 +20,7 @@ SOUTHERN_LATITUDE = -80
 MIN_ALTITUDE = 9
 MAX_ALTITUDE = 16.
 
-INPUT_PATH = './csv_new'
+INPUT_PATH = './csv'
 FIGURE_OUTPUT_PATH = './figures'
 
 # Create csv saving directory if not present
