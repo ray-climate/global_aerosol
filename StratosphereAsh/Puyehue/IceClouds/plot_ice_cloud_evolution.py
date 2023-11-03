@@ -69,55 +69,59 @@ plot_data = {
     '-60_to_-80': {'dates': [], 'means': [], 'stds': []}
 }
 
+# Calculate the mean and std for each period and latitude range
+for date in sorted(depolarization_data.keys()):
+    for lat_range in depolarization_data[date]:
+        if depolarization_data[date][lat_range]:  # if the list is not empty
+            mean_depol = np.mean(depolarization_data[date][lat_range])
+            std_depol = np.std(depolarization_data[date][lat_range])
+            plot_data[lat_range]['dates'].append(date)
+            plot_data[lat_range]['means'].append(mean_depol)
+            plot_data[lat_range]['stds'].append(std_depol)
 
 # Convert datetime objects to the format Matplotlib expects for dates
 for lat_range in plot_data:
     plot_data[lat_range]['dates'] = mdates.date2num(plot_data[lat_range]['dates'])
 
-# Create a 3x1 subplot figure
-fig, axs = plt.subplots(3, 1, figsize=(16, 18), sharex=True)
+# ... [previous code remains unchanged]
 
-# Set colors for each latitude range
-colors = {
-    '-20_to_-40': 'tab:blue',
-    '-40_to_-60': 'tab:green',
-    '-60_to_-80': 'tab:red'
-}
+# Set up the figure and subplots
+fig, axs = plt.subplots(3, 1, figsize=(16, 18))  # Changed to create a 3x1 subplot grid
+colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
 
-# Loop over each latitude range and plot in a separate subplot
-for i, lat_range in enumerate(colors.keys()):
-    ax = axs[i]
-
-    # Format the label to include the degree symbol and remove negative sign
+# Iterate through each latitude range and create its subplot
+for i, (lat_range, color) in enumerate(colors.items()):
+    # Format the label to include the degree symbol and superscript
     formatted_label = lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
+    axs[i].errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
+                    yerr=plot_data[lat_range]['stds'],
+                    fmt='o', capsize=5, elinewidth=2, markeredgewidth=2,
+                    color=color, label=formatted_label, linestyle='none')
 
-    # Plot data
-    ax.errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
-                yerr=plot_data[lat_range]['stds'],
-                fmt='o', capsize=5, elinewidth=2, markeredgewidth=2,
-                color=colors[lat_range], label=formatted_label, linestyle='none')
+    # Set x-axis limits to the specified range for each subplot
+    axs[i].set_xlim([mdates.date2num(datetime(2011, 4, 1)), mdates.date2num(datetime(2011, 10, 1))])
 
-    # Set the title for each subplot with the corresponding latitude range label
-    ax.set_title(f'Ice Clouds Depolarization Ratio {formatted_label} between 9 and 16 km', fontsize=14)
+    # Set x-ticks to the first day of each month for each subplot
+    axs[i].xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
+    axs[i].xaxis.set_minor_locator(mdates.MonthLocator())
 
-    # Formatting the date for each subplot to make it readable
-    ax.xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    # Formatting the date to make it readable for each subplot
+    axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    axs[i].xaxis.set_minor_formatter(mdates.DateFormatter('%m-%d'))
+    fig.autofmt_xdate()  # Rotate the dates
+    axs[i].set_ylim(0, 0.8)
 
-    # Set the same x and y axis limits
-    ax.set_xlim([datetime(2011, 4, 1), datetime(2011, 10, 1)])
-    ax.set_ylim(0, 0.8)
+    axs[i].set_title('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km (' + formatted_label + ')', fontsize=14)
+    axs[i].set_xlabel('Date', fontsize=14)
+    axs[i].set_ylabel('Particulate Depolarization Ratio', fontsize=14)
+    axs[i].legend(loc='upper right', fontsize=12)
+    axs[i].tick_params(axis='both', which='major', labelsize=12)
+    axs[i].tick_params(axis='both', which='minor', labelsize=12)
 
-    ax.grid(True, linestyle='--')
-    ax.legend(loc='upper right', fontsize=12)
-    ax.tick_params(axis='both', which='major', labelsize=12)
+    axs[i].grid(True, linestyle='--')  # Set grid to dashed line
 
-# Set common labels
-plt.xlabel('Date', fontsize=18)
-fig.text(0.04, 0.5, 'Particulate Depolarization Ratio', va='center', rotation='vertical', fontsize=18)
-
-# Rotate date labels for the bottom subplot
-plt.setp(axs[-1].get_xticklabels(), rotation=45, ha="right")
-
+# Adjust the layout so there is no overlap
 plt.tight_layout()
-plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time.png'))
+
+# Save the figure
+plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time_subplot.png'))
