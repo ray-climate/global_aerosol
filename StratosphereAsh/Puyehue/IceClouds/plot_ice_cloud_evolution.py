@@ -84,19 +84,28 @@ for lat_range in plot_data:
     plot_data[lat_range]['dates'] = mdates.date2num(plot_data[lat_range]['dates'])
 
 # ... [previous code remains unchanged]
+# ... [previous code remains unchanged]
 
 # Set up the figure and subplots
 fig, axs = plt.subplots(3, 1, figsize=(16, 18))  # Changed to create a 3x1 subplot grid
+fig.suptitle('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km', fontsize=20)  # Main title
+
 colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
+
+# Larger font size
+font_size_title = 16  # Title font size
+font_size_label = 14  # Label font size
+font_size_ticks = 12  # Ticks font size
+font_size_legend = 12  # Legend font size
 
 # Iterate through each latitude range and create its subplot
 for i, (lat_range, color) in enumerate(colors.items()):
     # Format the label to include the degree symbol and superscript
-    formatted_label = lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
+    formatted_label = lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^^{\circ}$S"
     axs[i].errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
                     yerr=plot_data[lat_range]['stds'],
                     fmt='o', capsize=5, elinewidth=2, markeredgewidth=2,
-                    color=color, label=formatted_label, linestyle='none')
+                    color=color, label='Depolarization Ratio', linestyle='none')  # Legend label simplified
 
     # Set x-axis limits to the specified range for each subplot
     axs[i].set_xlim([mdates.date2num(datetime(2011, 4, 1)), mdates.date2num(datetime(2011, 10, 1))])
@@ -111,17 +120,18 @@ for i, (lat_range, color) in enumerate(colors.items()):
     fig.autofmt_xdate()  # Rotate the dates
     axs[i].set_ylim(0, 0.8)
 
-    axs[i].set_title('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km (' + formatted_label + ')', fontsize=14)
-    axs[i].set_xlabel('Date', fontsize=14)
-    axs[i].set_ylabel('Particulate Depolarization Ratio', fontsize=14)
-    axs[i].legend(loc='upper right', fontsize=12)
-    axs[i].tick_params(axis='both', which='major', labelsize=12)
-    axs[i].tick_params(axis='both', which='minor', labelsize=12)
+    axs[i].set_title(formatted_label, fontsize=font_size_title)
+    axs[i].set_xlabel('Date', fontsize=font_size_label)
+    axs[i].set_ylabel('Particulate Depolarization Ratio', fontsize=font_size_label)
+    axs[i].legend(loc='upper right', fontsize=font_size_legend)
+    axs[i].tick_params(axis='both', which='major', labelsize=font_size_ticks)
+    axs[i].tick_params(axis='both', which='minor', labelsize=font_size_ticks)
 
     axs[i].grid(True, linestyle='--')  # Set grid to dashed line
 
-# Adjust the layout so there is no overlap
+# Adjust the layout so there is no overlap, and the main title is properly spaced
 plt.tight_layout()
+plt.subplots_adjust(top=0.95)  # Adjust the top spacing to accommodate main title
 
 # Save the figure
 plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time_subplot.png'))
