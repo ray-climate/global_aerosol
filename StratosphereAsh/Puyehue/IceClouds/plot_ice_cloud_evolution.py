@@ -90,7 +90,7 @@ for lat_range, color in colors.items():
     dates = [date for date in sorted(depolarization_data.keys())]
     means = [np.mean(depolarization_data[date][lat_range]) for date in dates]
     stds = [np.std(depolarization_data[date][lat_range]) for date in dates]
-    plt.errorbar(dates, means, yerr=stds, fmt='-o', color=color, label=f'{lat_range}')
+    plt.errorbar(dates, means, yerr=stds, marker='o',capsize=12, color=color, label=f'{lat_range}')
 
 # Set x-ticks to the first day of each month
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
