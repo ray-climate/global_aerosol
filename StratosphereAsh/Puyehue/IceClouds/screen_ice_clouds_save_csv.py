@@ -155,7 +155,7 @@ def main():
         plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
         """
 
-        print(len(caliop_lat[index_col]))
+        print(len(caliop_cloud_index[0]))
         quit()
         # save all detected feature type 4 into a csv file, iterative to write each row
         with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
