@@ -101,7 +101,8 @@ font_size_legend = 12  # Legend font size
 # Iterate through each latitude range and create its subplot
 for i, (lat_range, color) in enumerate(colors.items()):
     # Format the label to include the degree symbol and superscript
-    formatted_label = lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^^{\circ}$S"
+    formatted_label = lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
+
     axs[i].errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
                     yerr=plot_data[lat_range]['stds'],
                     fmt='o', capsize=5, elinewidth=2, markeredgewidth=2,
@@ -129,6 +130,8 @@ for i, (lat_range, color) in enumerate(colors.items()):
 
     axs[i].grid(True, linestyle='--')  # Set grid to dashed line
 
+# Adjust the layout so there is no overlap, and the main title is properly spaced
+plt.tight_layout()
 plt.subplots_adjust(top=0.95)  # Adjust the top spacing to accommodate main title
 
 # Save the figure
