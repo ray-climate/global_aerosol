@@ -85,12 +85,11 @@ for lat_range in plot_data:
 
 # Plotting
 plt.figure(figsize=(16, 6))
-colors = {'20°S to 40°S': 'blue', '40°S to 60°S': 'green', '60°S to 80°S': 'red'}
+colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
+
 for lat_range, color in colors.items():
-    dates = [date for date in sorted(depolarization_data.keys())]
-    means = [np.mean(depolarization_data[date][lat_range]) for date in dates]
-    stds = [np.std(depolarization_data[date][lat_range]) for date in dates]
-    plt.errorbar(dates, means, yerr=stds, marker='o',capsize=12, color=color, label=f'{lat_range}')
+    plt.errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'], yerr=plot_data[lat_range]['stds'],
+                 marker='o',capsize=12, color=color, label=f'{lat_range.replace("_to_", "°S to °S")}')
 
 # Set x-ticks to the first day of each month
 plt.gca().xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
