@@ -47,7 +47,7 @@ for file in os.listdir(INPUT_PATH):
                 latitude = float(row[0])
                 altitude = float(row[2])
                 depolarization = float(row[3])
-                file_date = datetime.strptime(row[1], '%Y-%m-%d')  # Assuming the date is in the second column
+                file_date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')  # Assuming the date is in the second column
                 aligned_date = align_to_interval(file_date, start_date)
 
                 if SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE and MIN_ALTITUDE <= altitude <= MAX_ALTITUDE:
