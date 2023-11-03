@@ -93,10 +93,10 @@ fig.suptitle('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km'
 colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
 
 # Larger font size
-font_size_title = 16  # Title font size
-font_size_label = 14  # Label font size
-font_size_ticks = 12  # Ticks font size
-font_size_legend = 12  # Legend font size
+font_size_title = 18  # Title font size
+font_size_label = 18  # Label font size
+font_size_ticks = 16  # Ticks font size
+font_size_legend = 18  # Legend font size
 
 # Iterate through each latitude range and create its subplot
 for i, (lat_range, color) in enumerate(colors.items()):
@@ -124,15 +124,15 @@ for i, (lat_range, color) in enumerate(colors.items()):
     axs[i].set_title(formatted_label, fontsize=font_size_title)
     axs[i].set_xlabel('Date', fontsize=font_size_label)
     axs[i].set_ylabel('Particulate Depolarization Ratio', fontsize=font_size_label)
-    axs[i].legend(loc='upper right', fontsize=font_size_legend)
+    # axs[i].legend(loc='upper right', fontsize=font_size_legend)
     axs[i].tick_params(axis='both', which='major', labelsize=font_size_ticks)
     axs[i].tick_params(axis='both', which='minor', labelsize=font_size_ticks)
 
     axs[i].grid(True, linestyle='--')  # Set grid to dashed line
 
 # Adjust the layout so there is no overlap, and the main title is properly spaced
-plt.tight_layout()
-plt.subplots_adjust(top=0.95)  # Adjust the top spacing to accommodate main title
+
+plt.subplots_adjust(top=0.9)  # Adjust the top spacing to accommodate main title
 
 # Save the figure
 plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time_subplot.png'))
