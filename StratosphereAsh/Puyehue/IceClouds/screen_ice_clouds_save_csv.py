@@ -155,6 +155,7 @@ def main():
         plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
         """
 
+        print(len(caliop_cloud_index[0]))
         if len(caliop_cloud_index[0]) < 5.:
             continue
 
