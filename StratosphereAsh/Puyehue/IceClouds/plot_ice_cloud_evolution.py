@@ -132,7 +132,6 @@ for i, (lat_range, color) in enumerate(colors.items()):
 
 # Adjust the layout so there is no overlap, and the main title is properly spaced
 
-plt.subplots_adjust(top=0.85)  # Adjust the top spacing to accommodate main title
-plt.tight_layout()  # Adjust spacing between subplots to minimize the overlaps
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
 # Save the figure
 plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time_subplot.png'))
