@@ -54,7 +54,7 @@ for file in os.listdir(INPUT_PATH):
 
                         # Assign counts to appropriate latitude range
                         for lat_range in valid_depolarization_counts:
-                            if lat_range[0] <= latitude <= lat_range[1]:
+                            if lat_range[0] >= latitude >= lat_range[1]:
                                 valid_depolarization_counts[lat_range][date] += 1
                                 break
                 except:
