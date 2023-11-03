@@ -56,16 +56,23 @@ while current_date <= end_date:
 
 # Process data to calculate the mean and std for each altitude range
 for altitude_range, data in data_by_altitude.items():
-    # Convert lists to numpy arrays for vectorized operations
-    depolarization = np.array(data['depolarization'])
+    # Only continue if there are data points
+    if data['dates']:
+        # Convert lists to numpy arrays for vectorized operations
+        depolarization = np.array(data['depolarization'])
 
-    # Calculate mean and std only if there is data available
-    if depolarization.size > 0:
+        # Calculate mean and std for the 5-day period
         data['depolarization_mean'] = np.mean(depolarization)
         data['depolarization_std'] = np.std(depolarization)
+        # Ensure that dates are datetime objects and not strings
+        data['dates'] = [datetime.strptime(date_str, '%Y-%m-%d') for date_str in data['dates']]
     else:
         data['depolarization_mean'] = None
         data['depolarization_std'] = None
+
+# Debug: Print out the dates to ensure they are correct
+for altitude_range, data in data_by_altitude.items():
+    print(f"Dates for {altitude_range}: {data['dates']}")
 
 # Plotting
 plt.figure(figsize=(12, 5))
