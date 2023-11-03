@@ -97,7 +97,7 @@ for i, lat_range in enumerate(colors.keys()):
                 fmt='o', capsize=5, elinewidth=2, markeredgewidth=2,
                 color=colors[lat_range], label=formatted_label, linestyle='none')
 
-    # Set the title for each subplot with the corresponding latitude range label
+    # Set the title for each subplot with the corresponding latitude range label legend
     ax.set_title(f'Ice Clouds Depolarization Ratio {formatted_label} between 9 and 16 km', fontsize=14)
 
     # Formatting the date for each subplot to make it readable
