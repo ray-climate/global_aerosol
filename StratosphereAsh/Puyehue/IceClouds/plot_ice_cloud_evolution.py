@@ -19,7 +19,7 @@ SOUTHERN_LATITUDE = -80
 MIN_ALTITUDE = 9
 MAX_ALTITUDE = 16.
 
-INPUT_PATH = './csv'
+INPUT_PATH = './csv_new'
 FIGURE_OUTPUT_PATH = './figures'
 
 # Create csv saving directory if not present
@@ -59,51 +59,47 @@ for file in os.listdir(INPUT_PATH):
                     elif -80 < latitude <= -60:
                         depolarization_data[aligned_date]['-60_to_-80'].append(depolarization)
 
-plot_data = {key: [] for key in depolarization_data[list(depolarization_data.keys())[0]].keys()}
-dates = sorted(depolarization_data.keys())
+# ... [the rest of your code above remains unchanged]
 
-for date in dates:
-    for lat_range in plot_data.keys():
-        plot_data[lat_range].append(depolarization_data[date][lat_range])
+# Prepare data for plotting
+plot_data = {
+    '-20_to_-40': {'dates': [], 'means': [], 'stds': []},
+    '-40_to_-60': {'dates': [], 'means': [], 'stds': []},
+    '-60_to_-80': {'dates': [], 'means': [], 'stds': []}
+}
 
-fig, ax = plt.subplots(figsize=(12, 5))
+# Calculate the mean and std for each period and latitude range
+for date in sorted(depolarization_data.keys()):
+    for lat_range in depolarization_data[date]:
+        if depolarization_data[date][lat_range]:  # if the list is not empty
+            mean_depol = np.mean(depolarization_data[date][lat_range])
+            std_depol = np.std(depolarization_data[date][lat_range])
+            plot_data[lat_range]['dates'].append(date)
+            plot_data[lat_range]['means'].append(mean_depol)
+            plot_data[lat_range]['stds'].append(std_depol)
 
-positions = range(len(dates))
-boxplots = []
+# Convert datetime objects to the format Matplotlib expects for dates
+for lat_range in plot_data:
+    plot_data[lat_range]['dates'] = mdates.date2num(plot_data[lat_range]['dates'])
 
-for i, (lat_range, color) in enumerate({'-20_to_-40': 'blue', '-40_to_-60': 'green', '-60_to_-80': 'purple'}.items()):
-    bp = ax.boxplot(plot_data[lat_range], positions=np.array(positions) + i*0.2, widths=0.15, patch_artist=True, boxprops=dict(facecolor=color))
-    boxplots.append(bp)
+# Plotting
+plt.figure(figsize=(12, 5))
+colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
 
-# Formatting dates for x-axis
-ax.xaxis.set_major_locator(mdates.DayLocator(interval=(len(dates) // 10)))  # Show only 10 dates
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-plt.xticks(rotation=45)
+for lat_range, color in colors.items():
+    plt.errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'], yerr=plot_data[lat_range]['stds'],
+                 fmt='o', color=color, label=f'{lat_range.replace("_to_", "° to -")}°')
 
-# Setting x-axis limits to frame our boxplot groups
-ax.set_xlim(-0.5, len(dates) - 0.5)
-ax.set_ylim(0., 0.8)
-# Set the background grid to dashed line
-ax.yaxis.grid(True, linestyle='--', which='major', color='grey', alpha=0.5)
+# Set major locator to pick 10 dates evenly spaced
+plt.gca().xaxis.set_major_locator(mdates.MaxNLocator(10))
+# Formatting the date to make it readable
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+plt.gcf().autofmt_xdate()  # Rotation
 
-# Legend
-# Define the labels and colors in the same order as the boxplots were created
-latitude_ranges = ['-20_to_-40', '-40_to_-60', '-60_to_-80']
-colors = ['tab:blue', 'tab:green', 'tab:red']  # the colors used in the boxplots
-labels = ['-20$^{\circ}$ to -40$^{\circ}$', '-40$^{\circ}$ to -60$^{\circ}$', '-60$^{\circ}$ to -80$^{\circ}$']
-
-# Create a list of patch objects to be used as handles in the legend
-legend_handles = [Patch(facecolor=color, label=label) for label, color in zip(labels, colors)]
-
-# Create the legend on the plot
-plt.legend(handles=legend_handles, loc='upper right', fontsize=16)
-
-plt.title('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km', fontsize=18)
-plt.xlabel('Date', fontsize=18)
-plt.ylabel('Particulate Depolarization Ratio', fontsize=18)
-
-# set tick label size
-ax.tick_params(axis='both', which='major', labelsize=16)
-ax.tick_params(axis='both', which='minor', labelsize=16)
+plt.title('Depolarization Over Time')
+plt.xlabel('Date')
+plt.ylabel('Depolarization (mean ± std)')
+plt.legend(title='Latitude Range')
+plt.grid(True, linestyle='--')  # Set grid to dashed line
 plt.tight_layout()
-plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time_boxplot.png'))
+plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time.png'))
