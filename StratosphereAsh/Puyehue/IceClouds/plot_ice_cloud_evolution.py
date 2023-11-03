@@ -57,7 +57,7 @@ for file in os.listdir(INPUT_PATH):
         date_i = file.split('.')[1][0:10]
 
         print('Date: {}, depolarization: {}, depolarization_std: {}'.format(date_i, depolarization_mean, depolarization_std))
-        quit()
+
 
 
 
