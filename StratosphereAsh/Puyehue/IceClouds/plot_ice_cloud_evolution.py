@@ -52,15 +52,12 @@ for file in os.listdir(INPUT_PATH):
         altitude_i_filter = altitude_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
         depolarization_i_filter = depolarization_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
 
-        depolarization_mean = np.mean(depolarization_i_filter)
-        depolarization_std = np.std(depolarization_i_filter)
         date_i = file.split('.')[1][0:10]
-
         date.append(date_i)
-        depolarization.append(depolarization_mean)
-        depolarization_std.append(depolarization_std)
+        depolarization.append(np.mean(depolarization_i_filter))
+        depolarization_std.append(np.std(depolarization_i_filter))
 
-        print('Date: {}, depolarization: {}, depolarization_std: {}'.format(date_i, depolarization_mean, depolarization_std))
+        print('Date: {}, depolarization: {}, depolarization_std: {}'.format(date_i, np.mean(depolarization_i_filter), np.std(depolarization_i_filter)))
 
 
 
