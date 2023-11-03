@@ -37,7 +37,7 @@ DATE_SEARCH = args.DATE_SEARCH
 
 # Directory paths and locations
 CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmALay-Standard-V4-51/"
-CSV_OUTPUT_PATH = './csv'
+CSV_OUTPUT_PATH = './csv_ALay'
 FIGURE_OUTPUT_PATH = './figures'
 
 # Initialize Logging
@@ -74,7 +74,8 @@ def main():
              caliop_Integrated_Attenuated_Total_Color_Ratio,
              caliop_Integrated_Particulate_Depolarization_Ratio,
              caliop_aerosol_type, caliop_feature_type,
-             caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude) \
+             caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude,
+             caliop_CAD) \
                 = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
 
             print('Processing file: {}'.format(file))
@@ -84,12 +85,24 @@ def main():
             print('Cannot process file: {}'.format(file))
             continue
 
-        caliop_feature_phase = feature_type_caliop[:,(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        caliop_cloud_phase = caliop_cloud_phase[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        caliop_cloud_phase_QA = caliop_cloud_phase_QA[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        caliop_dp = dp_caliop[:,(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        caliop_lat = footprint_lat_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
-        caliop_lon = footprint_lon_caliop[(footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_aerosol_type = caliop_aerosol_type[:,
+                              (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_feature_type = caliop_feature_type[:,
+                              (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_dp = caliop_Integrated_Particulate_Depolarization_Ratio[:,
+                    (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_color = caliop_Integrated_Attenuated_Total_Color_Ratio[:,
+                       (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_CAD = caliop_CAD[:, (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_Layer_Top = caliop_Layer_Top_Altitude[:,
+                           (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_Layer_Base = caliop_Layer_Base_Altitude[:,
+                            (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_lat = footprint_lat_caliop[
+            (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+        caliop_lon = footprint_lon_caliop[
+            (footprint_lat_caliop > SOUTHERN_LATITUDE) & (footprint_lat_caliop < NORTHERN_LATITUDE)]
+
 
         """
         feature type
@@ -104,84 +117,52 @@ def main():
         # 7 = no signal(totally attenuated)
 
         """
-        ice water phase
+        aerosol type
         """
-        # 0 = unknown / not determined
-        # 1 = ice
-        # 2 = water
-        # 3 = oriented ice crystals
+        # aerosol subtype
+        # 0 = invalid
+        # 1 = polar stratospheric aerosol
+        # 2 = volcanic ash
+        # 3 = sulfate
+        # 4 = elevated smoke
+        # 5 = unclassified
+        # 6 = spare
+        # 7 = spare
 
-        ice_cloud_mask = np.zeros((caliop_cloud_phase.shape))
-        ice_cloud_mask[(caliop_feature_phase == 2) & (caliop_cloud_phase == 1) & (caliop_cloud_phase_QA >= 2)] = 1
-        caliop_cloud_index = np.where(ice_cloud_mask == 1)
+        caliop_feature_type_4_index = np.where(caliop_feature_type == 4) # stratospheric aerosol
 
-        """
-        ######################################################################
-        #### add subplot of caliop cloud types
-        ######################################################################
+        stratosphere_aerosol_mask = np.zeros((caliop_feature_type.shape))
+        stratosphere_aerosol_mask[(caliop_feature_type == 4) & (caliop_aerosol_type >= 2) & (caliop_aerosol_type <= 4)] = 1
 
-        indices = np.arange(len(caliop_lat))
-        x_grid_caliop_indices, y_grid_caliop_indices = np.meshgrid(indices, alt_caliop)
-
-        fig = plt.figure(constrained_layout=True, figsize=(36, 24))
-        gs = GridSpec(110, 195, figure=fig)
-
-        ax1 = fig.add_subplot(gs[75:105, 5:95])
-
-        z_grid_caliop_type = ice_cloud_mask
-
-        # cmap = mpl.colors.ListedColormap(['gray', 'blue', 'yellow', 'orange', 'green', 'chocolate', 'black', 'cyan'])
-        cmap = mpl.colors.ListedColormap(['lightgray', 'blue'])
-        bounds = [0, 1, 2]
-        norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
-
-        # Custom tick locations
-        tick_locs = [0.495, 1.5, 2.5, 3.5, 4.5]  # These are the mid-values of your bounds
-        # Custom tick labels
-        tick_labels = ["None", "Cloud"]
-
-        fig1 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, z_grid_caliop_type, cmap=cmap, norm=norm)
-        cbar_ax_position = [0.487, 0.1, 0.01, 0.2]  # Modify these values as needed
-        cax = fig.add_axes(cbar_ax_position)
-
-        ######################################################################
-        ax2 = fig.add_subplot(gs[40:70, 5:95])
-        z_grid_caliop_type = np.zeros((caliop_dp.shape))
-        z_grid_caliop_type[caliop_dp > 0] = caliop_dp[caliop_dp > 0]
-        z_grid_caliop_type[ice_cloud_mask == 0] = 0
-
-        fig2 = plt.pcolormesh(x_grid_caliop_indices, y_grid_caliop_indices, caliop_dp, cmap='jet',vmin=0., vmax=0.4)
-        cbar = plt.colorbar(fig2, ticks=tick_locs)
-
-        plt.savefig(FIGURE_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.png'), dpi=300)
-        """
-
-        print(len(caliop_cloud_index[0]))
-        if len(caliop_cloud_index[0]) < 5.:
+        print('Number of stratosphere layer: {}'.format(np.sum(stratosphere_aerosol_mask)))
+        if np.sum(stratosphere_aerosol_mask) < 5:
+            # if number of ash layer < 5, skip this file
             continue
 
         # save all detected feature type 4 into a csv file, iterative to write each row
-        with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '_cloud.csv'), 'w') as csvfile:
+        with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
             # first row to write name of parameters
 
             writer = csv.writer(csvfile, lineterminator='\n')
-            writer.writerow(('Latitude', 'Longitude', 'Altitude', 'Depolarization_Ratio'))
+            writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Color_Ratio',
+                             'Depolarization_Ratio', 'Aerosol_type', 'CAD'))
 
-            for i in range(len(caliop_cloud_index[0])):
+            for i in range(len(caliop_feature_type_4_index[0])):
 
-                index_row = caliop_cloud_index[0][i]
-                index_col = caliop_cloud_index[1][i]
+                index_row = caliop_feature_type_4_index[0][i]
+                index_col = caliop_feature_type_4_index[1][i]
 
-                if caliop_dp[index_row, index_col] > 0.:
+                # start to write every parameter into the new row
+                writer.writerow((caliop_lat[index_col],
+                                 caliop_lon[index_col],
+                                 caliop_Layer_Base[index_row, index_col],
+                                 caliop_Layer_Top[index_row, index_col],
+                                 caliop_color[index_row, index_col],
+                                 caliop_dp[index_row, index_col],
+                                 caliop_aerosol_type[index_row, index_col],
+                                 caliop_CAD[index_row, index_col]))
 
-                    # start to write every parameter into the new row
-                    writer.writerow((caliop_lat[index_col],
-                                     caliop_lon[index_col],
-                                     alt_caliop[index_row],
-                                     caliop_dp[index_row, index_col]))
-
-        print('Finished processing file: {}'.format(file))
-
+            print('Finished processing file: {}'.format(file))
 
 if __name__ == "__main__":
     main()
