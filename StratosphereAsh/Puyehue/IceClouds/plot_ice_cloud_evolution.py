@@ -129,8 +129,6 @@ for i, (lat_range, color) in enumerate(colors.items()):
 
     axs[i].grid(True, linestyle='--')  # Set grid to dashed line
 
-# Adjust the layout so there is no overlap, and the main title is properly spaced
-plt.tight_layout()
 plt.subplots_adjust(top=0.95)  # Adjust the top spacing to accommodate main title
 
 # Save the figure
