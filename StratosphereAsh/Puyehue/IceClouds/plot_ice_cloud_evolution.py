@@ -9,95 +9,68 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
 import numpy as np
+import csv
 import os
 
-NORTHERN_LATITUDE = -20
-SOUTHERN_LATITUDE = -80
+latitude_bands = [(-40, -20), (-60, -40), (-80, -60)]
+
 MIN_ALTITUDE = 9
 MAX_ALTITUDE = 16.
 
 INPUT_PATH = './csv'
+OUTPUT_PATH = './output'
 FIGURE_OUTPUT_PATH = './figures'
 
 # Create csv saving directory if not present
 if not os.path.exists(FIGURE_OUTPUT_PATH):
     os.mkdir(FIGURE_OUTPUT_PATH)
 
-date = []
-depolarization = []
-depolarization_std = []
+# A dictionary to hold data for each latitude range
+data_by_latitude = {band: {'dates': [], 'means': [], 'std_devs': []} for band in latitude_bands}
 
 for file in os.listdir(INPUT_PATH):
     if file.endswith('.csv'):
-
-        date_i = []
-        latitude_i = []
-        longitude_i = []
-        altitude_i = []
-        depolarization_i = []
-        depolarization_std_i = []
-
         file_path = os.path.join(INPUT_PATH, file)
         print('Reading file: {}'.format(file_path))
-        # skip the first row and read the data
         with open(file_path, 'r') as f:
-            for line in f.readlines()[1:]:
-                line = line.split(',')
-                latitude_i.append(float(line[0]))
-                longitude_i.append(float(line[1]))
-                altitude_i.append(float(line[2]))
-                depolarization_i.append(float(line[3]))
+            lines = f.readlines()[1:]
+            latitudes = np.array([float(line.split(',')[0]) for line in lines])
+            altitudes = np.array([float(line.split(',')[2]) for line in lines])
+            depolarizations = np.array([float(line.split(',')[3]) for line in lines])
 
-        # convert to numpy array
-        latitude_i = np.array(latitude_i)
-        longitude_i = np.array(longitude_i)
-        altitude_i = np.array(altitude_i)
-        depolarization_i = np.array(depolarization_i)
+        for band in latitude_bands:
+            # Filter data within each latitude band and altitude range
+            mask = (latitudes >= band[0]) & (latitudes < band[1]) & (altitudes >= MIN_ALTITUDE) & (
+                        altitudes <= MAX_ALTITUDE)
+            filtered_depolarizations = depolarizations[mask]
 
-        # select the data within the range
-        latitude_i_filter = latitude_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
-        longitude_i_filter = longitude_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
-        altitude_i_filter = altitude_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
-        depolarization_i_filter = depolarization_i[(latitude_i >= SOUTHERN_LATITUDE) & (latitude_i <= NORTHERN_LATITUDE) & (altitude_i >= MIN_ALTITUDE) & (altitude_i <= MAX_ALTITUDE)]
+            if len(filtered_depolarizations) > 0:
+                date_str = file.split('.')[1][0:10]
+                mean_depol = np.mean(filtered_depolarizations)
+                std_depol = np.std(filtered_depolarizations)
+                data_by_latitude[band]['dates'].append(date_str)
+                data_by_latitude[band]['means'].append(mean_depol)
+                data_by_latitude[band]['std_devs'].append(std_depol)
+                print('Date: {}, Latitude Range: {}, Mean Depolarization: {}, Std Dev: {}'.format(date_str, band,
+                                                                                                  mean_depol,
+                                                                                                  std_depol))
 
-        if np.size(latitude_i_filter) < 1:
-            continue
+# Write to CSV files
+for band in latitude_bands:
+    output_file_path = os.path.join(OUTPUT_PATH, 'depolarization_summary_{}_to_{}.csv'.format(band[1], band[0]))
+    with open(output_file_path, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        # Write the header
+        writer.writerow(['Date', 'Depolarization Mean', 'Depolarization Std'])
+        # Write the data
+        for i in range(len(data_by_latitude[band]['dates'])):
+            writer.writerow([
+                data_by_latitude[band]['dates'][i],
+                data_by_latitude[band]['means'][i],
+                data_by_latitude[band]['std_devs'][i]
+            ])
+    print(f'Data saved to {output_file_path}')
 
-        date_i = file.split('.')[1][0:10]
-        date.append(date_i)
-        depolarization.append(np.mean(depolarization_i_filter))
-        depolarization_std.append(np.std(depolarization_i_filter))
-
-        print('Date: {}, depolarization: {}, depolarization_std: {}'.format(date_i, np.mean(depolarization_i_filter), np.std(depolarization_i_filter)))
-
-# plot the depolraization with std over the date
-
-# Convert string dates to datetime objects
-date_objects = [datetime.strptime(d, '%Y-%m-%d') for d in date]
-
-# Sort the data by date
-sorted_indices = np.argsort(date_objects)
-sorted_dates = np.array(date_objects)[sorted_indices]
-sorted_depolarization = np.array(depolarization)[sorted_indices]
-sorted_depolarization_std = np.array(depolarization_std)[sorted_indices]
-
-# Plotting
-plt.figure(figsize=(12, 5))
-
-# Plot the mean depolarization
-plt.errorbar(sorted_dates, sorted_depolarization, yerr=sorted_depolarization_std, fmt='*', color='red')
-
-# Formatting the date to make it readable
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=10))  # Adjust interval to suit your data
-plt.gcf().autofmt_xdate()  # Rotation
-
-plt.title('Depolarization Over Time')
-plt.xlabel('Date')
-plt.ylabel('Depolarization (mean ± std)')
-plt.grid(True)
-plt.tight_layout()
-plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'ice_clouds_depolarization_over_time.png'))
 
 
 
