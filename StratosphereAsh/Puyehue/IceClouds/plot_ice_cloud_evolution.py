@@ -85,17 +85,22 @@ for lat_range in plot_data:
 
 # Plotting
 plt.figure(figsize=(16, 6))
-colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
-
+colors = {'20°S to 40°S': 'blue', '40°S to 60°S': 'green', '60°S to 80°S': 'red'}
 for lat_range, color in colors.items():
-    plt.errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'], yerr=plot_data[lat_range]['stds'],
-                 fmt='o', color=color, label=f'{lat_range.replace("_to_", "° to -")}°')
+    dates = [date for date in sorted(depolarization_data.keys())]
+    means = [np.mean(depolarization_data[date][lat_range]) for date in dates]
+    stds = [np.std(depolarization_data[date][lat_range]) for date in dates]
+    plt.errorbar(dates, means, yerr=stds, fmt='-o', color=color, label=f'{lat_range}')
 
-# Set major locator to pick 10 dates evenly spaced
-plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(10))
+# Set x-ticks to the first day of each month
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
+plt.gca().xaxis.set_minor_locator(mdates.MonthLocator())
+
 # Formatting the date to make it readable
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-plt.gcf().autofmt_xdate()  # Rotation
+plt.gca().xaxis.set_minor_formatter(mdates.DateFormatter('%m-%d'))
+plt.gcf().autofmt_xdate()  # Rotate the dates
+plt.ylim(0, 0.8)
 
 plt.title('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km', fontsize=18)
 plt.xlabel('Date', fontsize=18)
