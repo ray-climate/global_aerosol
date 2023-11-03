@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import numpy as np
 import csv
 import os
+from collections import defaultdict
 
 NORTHERN_LATITUDE = -20
 SOUTHERN_LATITUDE = -80
@@ -24,19 +25,19 @@ FIGURE_OUTPUT_PATH = './figures'
 if not os.path.exists(FIGURE_OUTPUT_PATH):
     os.mkdir(FIGURE_OUTPUT_PATH)
 
+# Function to align dates to the nearest five-day interval start date
+def align_to_interval(date, interval_start, days=5):
+    days_since_start = (date - interval_start).days
+    aligned_date = interval_start + timedelta(days=(days_since_start // days) * days)
+    return aligned_date
+
 # Initialize dictionary to hold depolarization data
-depolarization_data = {}
+depolarization_data = defaultdict(lambda: {'-20_to_-40': [], '-40_to_-60': [], '-60_to_-80': []})
 
 # Define the date range for every five days
 start_date = datetime(2011, 4, 1)
 end_date = datetime(2011, 9, 30)
-current_date = start_date
 
-while current_date <= end_date:
-    depolarization_data[current_date] = {'-20_to_-40': [], '-40_to_-60': [], '-60_to_-80': []}
-    current_date += timedelta(days=5)
-print(depolarization_data)
-quit()
 for file in os.listdir(INPUT_PATH):
     if file.endswith('.csv'):
         with open(os.path.join(INPUT_PATH, file), 'r') as f:
@@ -46,33 +47,41 @@ for file in os.listdir(INPUT_PATH):
                 latitude = float(row[0])
                 altitude = float(row[2])
                 depolarization = float(row[3])
-                file_date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
+                file_date = datetime.strptime(row[1], '%Y-%m-%d')  # Assuming the date is in the second column
+                aligned_date = align_to_interval(file_date, start_date)
 
-                if file_date in depolarization_data and SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE and MIN_ALTITUDE <= altitude <= MAX_ALTITUDE:
+                if SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE and MIN_ALTITUDE <= altitude <= MAX_ALTITUDE:
                     if -40 < latitude <= -20:
-                        depolarization_data[file_date]['-20_to_-40'].append(depolarization)
+                        depolarization_data[aligned_date]['-20_to_-40'].append(depolarization)
                     elif -60 < latitude <= -40:
-                        depolarization_data[file_date]['-40_to_-60'].append(depolarization)
+                        depolarization_data[aligned_date]['-40_to_-60'].append(depolarization)
                     elif -80 < latitude <= -60:
-                        depolarization_data[file_date]['-60_to_-80'].append(depolarization)
+                        depolarization_data[aligned_date]['-60_to_-80'].append(depolarization)
+
+# Prepare data for plotting
+plot_data = {
+    '-20_to_-40': {'dates': [], 'means': [], 'stds': []},
+    '-40_to_-60': {'dates': [], 'means': [], 'stds': []},
+    '-60_to_-80': {'dates': [], 'means': [], 'stds': []}
+}
+
+# Calculate the mean and std for each period and latitude range
+for date in sorted(depolarization_data.keys()):
+    for lat_range in depolarization_data[date]:
+        if depolarization_data[date][lat_range]:  # if the list is not empty
+            mean_depol = np.mean(depolarization_data[date][lat_range])
+            std_depol = np.std(depolarization_data[date][lat_range])
+            plot_data[lat_range]['dates'].append(date)
+            plot_data[lat_range]['means'].append(mean_depol)
+            plot_data[lat_range]['stds'].append(std_depol)
 
 # Plotting
 plt.figure(figsize=(12, 5))
+colors = {'-20_to_-40': 'blue', '-40_to_-60': 'green', '-60_to_-80': 'purple'}
 
-for date, data in depolarization_data.items():
-    for lat_range, depol_list in data.items():
-        if depol_list:  # if the list is not empty
-            mean_depol = np.mean(depol_list)
-            std_depol = np.std(depol_list)
-            color = ''
-            if lat_range == '-20_to_-40':
-                color = 'blue'
-            elif lat_range == '-40_to_-60':
-                color = 'green'
-            elif lat_range == '-60_to_-80':
-                color = 'purple'
-
-            plt.errorbar(date, mean_depol, yerr=std_depol, fmt='o', color=color, label=lat_range if date == start_date else "")
+for lat_range, color in colors.items():
+    plt.errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'], yerr=plot_data[lat_range]['stds'],
+                 fmt='o', color=color, label=f'Latitude {lat_range.replace("_to_", " to ")}')
 
 # Formatting the date to make it readable
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
