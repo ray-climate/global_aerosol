@@ -60,7 +60,10 @@ for file in os.listdir(INPUT_PATH):
                 except:
                     pass
 
-print(valid_depolarization_counts)
+for lat_range in valid_depolarization_counts:
+    # Check if any data was processed for each latitude range
+    print(f"Data for latitude range {lat_range}: {valid_depolarization_counts[lat_range]}")
+
 # Define the figure and subplots
 fig, axs = plt.subplots(3, 1, figsize=(10, 15), sharex=True)
 
