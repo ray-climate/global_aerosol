@@ -21,6 +21,10 @@ INPUT_PATH = './csv'
 OUTPUT_PATH = './output'
 FIGURE_OUTPUT_PATH = './figures'
 
+# Create output saving directory if not present
+if not os.path.exists(OUTPUT_PATH):
+    os.mkdir(OUTPUT_PATH)
+
 # Create csv saving directory if not present
 if not os.path.exists(FIGURE_OUTPUT_PATH):
     os.mkdir(FIGURE_OUTPUT_PATH)
