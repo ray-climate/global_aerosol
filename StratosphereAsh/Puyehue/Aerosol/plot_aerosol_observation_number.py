@@ -87,8 +87,13 @@ for i, lat_range in enumerate(valid_depolarization_counts):
     # Plot on the respective subplot
     axs[i].plot(dates, counts, marker='*')
     axs[i].set_xlim(start_date, end_date)
+
     axs[i].xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
     axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+    axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    axs[i].xaxis.set_minor_formatter(mdates.DateFormatter('%m-%d'))
+    fig.autofmt_xdate()  # Rotate the dates
 
     axs[i].set_xlabel('Date', fontsize=font_size_label)
     axs[i].set_ylabel("Number of Layers", fontsize=font_size_label)
