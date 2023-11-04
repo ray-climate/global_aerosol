@@ -65,7 +65,14 @@ for lat_range in valid_depolarization_counts:
     print(f"Data for latitude range {lat_range}: {valid_depolarization_counts[lat_range]}")
 
 # Define the figure and subplots
-fig, axs = plt.subplots(3, 1, figsize=(10, 15), sharex=True)
+fig, axs = plt.subplots(3, 1, figsize=(16, 18))  # Changed to create a 3x1 subplot grid
+fig.suptitle('2011 Puyehue: Number of Stratospheric Aerosol Layers', fontsize=20)  # Main title
+
+# Larger font size
+font_size_title = 18  # Title font size
+font_size_label = 18  # Label font size
+font_size_ticks = 16  # Ticks font size
+font_size_legend = 18  # Legend font size
 
 # Define date range for xlim
 start_date = datetime(2011, 4, 1)
@@ -73,22 +80,27 @@ end_date = datetime(2011, 10, 1)
 
 # Plot data for each latitude range
 for i, lat_range in enumerate(valid_depolarization_counts):
+
+    formatted_label = "Latitude: " + lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
     # Sort data by date for the latitude range
     dates, counts = zip(*sorted(valid_depolarization_counts[lat_range].items()))
 
     # Plot on the respective subplot
-    axs[i].plot(dates, counts, marker='o')
+    axs[i].plot(dates, counts, marker='*')
     axs[i].set_xlim(start_date, end_date)
     axs[i].xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
     axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    axs[i].set_ylabel(f"Counts for Lat {lat_range[0]} to {lat_range[1]}")
-    axs[i].grid(True)
 
-# Set the xlabel for the bottom subplot
-axs[-1].set_xlabel('Date')
+    axs[i].set_title(formatted_label, fontsize=font_size_title)
+    axs[i].set_xlabel('Date', fontsize=font_size_label)
+    axs[i].set_ylabel("Number of Layers", fontsize=font_size_label)
+    # axs[i].legend(loc='upper right', fontsize=font_size_legend)
+    axs[i].tick_params(axis='both', which='major', labelsize=font_size_ticks)
+    axs[i].tick_params(axis='both', which='minor', labelsize=font_size_ticks)
+    axs[i].grid(True, linestyle='--')  # Set grid to dashed line
 
-# Automatically adjust the subplot params for a nice fit
-plt.tight_layout()
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.97])
 
 # Save the figure
 plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'valid_depolarization_values_by_latitude.png'))
