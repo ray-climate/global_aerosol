@@ -78,6 +78,8 @@ font_size_legend = 18  # Legend font size
 start_date = datetime(2011, 4, 1)
 end_date = datetime(2011, 10, 1)
 
+latitude_titles = ["Latitude: 20$^{\circ}$S to 40$^{\circ}$S", "Latitude: 40$^{\circ}$S to 60$^{\circ}$S", "Latitude: 60$^{\circ}$S to 80$^{\circ}$S"]
+
 # Plot data for each latitude range
 for i, lat_range in enumerate(valid_depolarization_counts):
 
@@ -100,6 +102,8 @@ for i, lat_range in enumerate(valid_depolarization_counts):
     # axs[i].legend(loc='upper right', fontsize=font_size_legend)
     axs[i].tick_params(axis='both', which='major', labelsize=font_size_ticks)
     axs[i].tick_params(axis='both', which='minor', labelsize=font_size_ticks)
+
+    axs[i].set_title(latitude_titles[i], fontsize=font_size_title)
     axs[i].grid(True, linestyle='--')  # Set grid to dashed line
 
 
