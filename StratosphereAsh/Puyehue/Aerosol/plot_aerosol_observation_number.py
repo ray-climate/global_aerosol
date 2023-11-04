@@ -93,7 +93,7 @@ for i, lat_range in enumerate(valid_depolarization_counts):
     axs[i].plot(depolarization_dates, depolarization_counts, marker='*', color='b',markersize=10, label='All', linestyle='none')
 
     # Plot CAD data on the same subplot
-    axs[i].plot(cad_dates, cad_counts, marker='+', color='r',markersize=10, label='CAD > 40', linestyle='none')
+    axs[i].plot(cad_dates, cad_counts, marker='+', color='r',markersize=25, label='CAD > 40', linestyle='none')
 
     axs[i].set_xlim(start_date, end_date)
     axs[i].set_ylim(0, 2500)
