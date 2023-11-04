@@ -79,7 +79,7 @@ plot_data = {
 # Calculate the mean and std for each period and latitude range
 for date in sorted(depolarization_data.keys()):
     for lat_range in depolarization_data[date]:
-        if len(depolarization_data[date][lat_range]) > 10:  # Check if more than 10 data points are present
+        if len(depolarization_data[date][lat_range]) > 20:  # Check if more than 10 data points are present
             mean_depol = np.mean(depolarization_data[date][lat_range])
             std_depol = np.std(depolarization_data[date][lat_range])
             plot_data[lat_range]['dates'].append(date)
