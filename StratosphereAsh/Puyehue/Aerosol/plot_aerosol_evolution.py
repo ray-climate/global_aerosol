@@ -77,14 +77,16 @@ plot_data = {
 }
 
 # Calculate the mean and std for each period and latitude range
+# Calculate the mean and std for each period and latitude range only if more than 10 points are present
 for date in sorted(depolarization_data.keys()):
     for lat_range in depolarization_data[date]:
-        if depolarization_data[date][lat_range]:  # if the list is not empty
+        if len(depolarization_data[date][lat_range]) > 10:  # Check if there are more than 10 points
             mean_depol = np.mean(depolarization_data[date][lat_range])
             std_depol = np.std(depolarization_data[date][lat_range])
             plot_data[lat_range]['dates'].append(date)
             plot_data[lat_range]['means'].append(mean_depol)
             plot_data[lat_range]['stds'].append(std_depol)
+
 
 # Convert datetime objects to the format Matplotlib expects for dates
 for lat_range in plot_data:
@@ -107,13 +109,11 @@ font_size_legend = 18  # Legend font size
 
 # Iterate through each latitude range and create its subplot
 for i, (lat_range, color) in enumerate(colors.items()):
-    # Format the label to include the degree symbol and superscript
-    formatted_label = "Latitude: " + lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
-
-    axs[i].errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
-                    yerr=plot_data[lat_range]['stds'],
-                    fmt='o', capsize=5, elinewidth=2, markeredgewidth=2,
-                    color=color, label='Depolarization Ratio', linestyle='none')  # Legend label simplified
+    if plot_data[lat_range]['dates']:  # Only plot if there are dates (i.e., more than 10 data points were available)
+        axs[i].errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
+                        yerr=plot_data[lat_range]['stds'],
+                        fmt='o', capsize=5, elinewidth=2, markeredgewidth=2,
+                        color=color, label='Depolarization Ratio', linestyle='none')  # Legend label simplified
 
     # Set x-axis limits to the specified range for each subplot
     axs[i].set_xlim([mdates.date2num(datetime(2011, 4, 1)), mdates.date2num(datetime(2011, 10, 1))])
