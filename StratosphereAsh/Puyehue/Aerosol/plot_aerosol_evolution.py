@@ -108,7 +108,7 @@ font_size_legend = 18  # Legend font size
 for i, (lat_range, color) in enumerate(colors.items()):
     formatted_label = "Latitude: " + lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
     # Check if there is data to plot
-    if plot_data[lat_range]['dates']:  # Check if list is not empty
+    if len(plot_data[lat_range]['dates']) > 0:  # This ensures the array is not empty
         axs[i].errorbar(
             plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
             yerr=plot_data[lat_range]['stds'],
