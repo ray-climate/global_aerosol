@@ -90,10 +90,10 @@ for i, lat_range in enumerate(valid_depolarization_counts):
     cad_dates, cad_counts = zip(*sorted(cad_greater_than_40_counts[lat_range].items()))
 
     # Plot depolarization data on the respective subplot
-    axs[i].plot(depolarization_dates, depolarization_counts, marker='*', label='Depolarization > 0')
+    axs[i].plot(depolarization_dates, depolarization_counts, marker='*', color='b', label='All', linestyle='none')
 
     # Plot CAD data on the same subplot
-    axs[i].plot(cad_dates, cad_counts, marker='o', label='CAD > 40')
+    axs[i].plot(cad_dates, cad_counts, marker='o', color='r', label='CAD > 40', linestyle='none')
 
     axs[i].set_xlim(start_date, end_date)
 
