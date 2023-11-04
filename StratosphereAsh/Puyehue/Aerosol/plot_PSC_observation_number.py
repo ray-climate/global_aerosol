@@ -9,6 +9,7 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
 from collections import defaultdict
+from datetime import timedelta
 import os
 import csv
 
@@ -79,6 +80,14 @@ font_size_legend = 18  # Legend font size
 # Define date range for xlim
 start_date = datetime(2011, 4, 1)
 end_date = datetime(2011, 10, 1)
+
+date_generated = [start_date + timedelta(days=x) for x in range((end_date - start_date).days)]
+for lat_range in valid_depolarization_counts:
+    for date in date_generated:
+        if date not in valid_depolarization_counts[lat_range]:
+            valid_depolarization_counts[lat_range][date] = 0
+        if date not in cad_greater_than_40_counts[lat_range]:
+            cad_greater_than_40_counts[lat_range][date] = 0
 
 latitude_titles = ["Latitude: 20$^{\circ}$S to 40$^{\circ}$S", "Latitude: 40$^{\circ}$S to 60$^{\circ}$S", "Latitude: 60$^{\circ}$S to 80$^{\circ}$S"]
 
