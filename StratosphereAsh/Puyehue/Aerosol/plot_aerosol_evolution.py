@@ -109,6 +109,8 @@ font_size_legend = 18  # Legend font size
 
 # Iterate through each latitude range and create its subplot
 for i, (lat_range, color) in enumerate(colors.items()):
+
+    formatted_label = "Latitude: " + lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
     if plot_data[lat_range]['dates']:  # Only plot if there are dates (i.e., more than 10 data points were available)
         axs[i].errorbar(plot_data[lat_range]['dates'], plot_data[lat_range]['means'],
                         yerr=plot_data[lat_range]['stds'],
