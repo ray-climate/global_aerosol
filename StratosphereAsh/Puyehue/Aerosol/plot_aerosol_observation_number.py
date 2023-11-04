@@ -81,7 +81,6 @@ end_date = datetime(2011, 10, 1)
 # Plot data for each latitude range
 for i, lat_range in enumerate(valid_depolarization_counts):
 
-    formatted_label = "Latitude: " + lat_range.replace("_to_", "$^{\circ}$S to ").replace("-", "") + "$^{\circ}$S"
     # Sort data by date for the latitude range
     dates, counts = zip(*sorted(valid_depolarization_counts[lat_range].items()))
 
@@ -91,7 +90,6 @@ for i, lat_range in enumerate(valid_depolarization_counts):
     axs[i].xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
     axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 
-    axs[i].set_title(formatted_label, fontsize=font_size_title)
     axs[i].set_xlabel('Date', fontsize=font_size_label)
     axs[i].set_ylabel("Number of Layers", fontsize=font_size_label)
     # axs[i].legend(loc='upper right', fontsize=font_size_legend)
