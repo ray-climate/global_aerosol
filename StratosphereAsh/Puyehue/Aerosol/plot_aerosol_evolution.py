@@ -46,22 +46,26 @@ for file in os.listdir(INPUT_PATH):
             reader = csv.reader(f)
             next(reader)  # Skip the header
             for row in reader:
-                latitude = float(row[0])
-                alt_base = float(row[2])
-                alt_top = float(row[3])
-                depolarization = float(row[5])
-                aerosol_type = float(row[6])
-                CAD = float(row[7])
-                file_date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
-                aligned_date = align_to_interval(file_date, start_date)
 
-                if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) and (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) and (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) and (2. <= aerosol_type <= 4.) & (abs(CAD) > 40):
-                    if -40 < latitude <= -20:
-                        depolarization_data[aligned_date]['-20_to_-40'].append(depolarization)
-                    elif -60 < latitude <= -40:
-                        depolarization_data[aligned_date]['-40_to_-60'].append(depolarization)
-                    elif -80 < latitude <= -60:
-                        depolarization_data[aligned_date]['-60_to_-80'].append(depolarization)
+                try:
+                    latitude = float(row[0])
+                    alt_base = float(row[2])
+                    alt_top = float(row[3])
+                    depolarization = float(row[5])
+                    aerosol_type = float(row[6])
+                    CAD = float(row[7])
+                    file_date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
+                    aligned_date = align_to_interval(file_date, start_date)
+
+                    if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) and (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) and (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) and (2. <= aerosol_type <= 4.) & (abs(CAD) > 40):
+                        if -40 < latitude <= -20:
+                            depolarization_data[aligned_date]['-20_to_-40'].append(depolarization)
+                        elif -60 < latitude <= -40:
+                            depolarization_data[aligned_date]['-40_to_-60'].append(depolarization)
+                        elif -80 < latitude <= -60:
+                            depolarization_data[aligned_date]['-60_to_-80'].append(depolarization)
+                except:
+                    pass
 
 # ... [the rest of your code above remains unchanged]
 
