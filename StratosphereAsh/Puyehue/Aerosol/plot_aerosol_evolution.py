@@ -95,7 +95,7 @@ for lat_range in plot_data:
 
 # Set up the figure and subplots
 fig, axs = plt.subplots(3, 1, figsize=(16, 18))  # Changed to create a 3x1 subplot grid
-fig.suptitle('2011 Puyehue: Ice Clouds Depolarization Ratio between 9 and 16 km', fontsize=20)  # Main title
+fig.suptitle('2011 Puyehue: Stratospheric Aerosol Depolarization Ratio between 9 and 16 km', fontsize=20)  # Main title
 
 colors = {'-20_to_-40': 'tab:blue', '-40_to_-60': 'tab:green', '-60_to_-80': 'tab:red'}
 
