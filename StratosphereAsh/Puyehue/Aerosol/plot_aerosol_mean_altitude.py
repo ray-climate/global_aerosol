@@ -126,7 +126,7 @@ for i, (lat_range, color) in enumerate(colors.items()):
     axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     axs[i].xaxis.set_minor_formatter(mdates.DateFormatter('%m-%d'))
     fig.autofmt_xdate()  # Rotate the dates
-    axs[i].set_ylim(9., 12.)
+    axs[i].set_ylim(9., 15.)
 
     axs[i].set_title(formatted_label, fontsize=font_size_title)
     axs[i].set_xlabel('Date', fontsize=font_size_label)
