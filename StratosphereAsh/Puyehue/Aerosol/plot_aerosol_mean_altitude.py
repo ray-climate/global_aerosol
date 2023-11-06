@@ -28,7 +28,7 @@ if not os.path.exists(FIGURE_OUTPUT_PATH):
     os.mkdir(FIGURE_OUTPUT_PATH)
 
 # Function to align dates to the nearest five-day interval start date
-def align_to_interval(date, interval_start, days=5):
+def align_to_interval(date, interval_start, days=3):
     days_since_start = (date - interval_start).days
     aligned_date = interval_start + timedelta(days=(days_since_start // days) * days)
     return aligned_date
@@ -126,11 +126,11 @@ for i, (lat_range, color) in enumerate(colors.items()):
     axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     axs[i].xaxis.set_minor_formatter(mdates.DateFormatter('%m-%d'))
     fig.autofmt_xdate()  # Rotate the dates
-    # axs[i].set_ylim(0, 0.8)
+    axs[i].set_ylim(9., 12.)
 
     axs[i].set_title(formatted_label, fontsize=font_size_title)
     axs[i].set_xlabel('Date', fontsize=font_size_label)
-    axs[i].set_ylabel('Aerosol Layer Height', fontsize=font_size_label)
+    axs[i].set_ylabel('Aerosol Layer Height [km]', fontsize=font_size_label)
     # axs[i].legend(loc='upper right', fontsize=font_size_legend)
     axs[i].tick_params(axis='both', which='major', labelsize=font_size_ticks)
     axs[i].tick_params(axis='both', which='minor', labelsize=font_size_ticks)
