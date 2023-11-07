@@ -84,7 +84,7 @@ for date in unique_dates:
     for height, thickness in day_data:
         heights.append(height)
         thicknesses.append(thickness)
-        print(height, thickness)
+        print(date, height, thickness)
 
     # Compute means
     mean_height = np.mean(heights)
