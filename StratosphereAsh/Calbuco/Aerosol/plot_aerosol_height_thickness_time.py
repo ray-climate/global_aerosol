@@ -60,7 +60,7 @@ for file in os.listdir(INPUT_PATH):
                     aligned_date = align_to_interval(file_date, start_date)
 
                     # Check latitude and altitude ranges, aerosol type, and CAD
-                    if SOUTHERN_LATITUDE <= latitude < NORTHERN_LATITUDE and MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE and MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE and 2. <= aerosol_type <= 2. and abs(CAD) > 40:
+                    if SOUTHERN_LATITUDE <= latitude < NORTHERN_LATITUDE and MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE and MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE and 2. <= aerosol_type <= 2. and abs(CAD) > 20:
                         height = (alt_top + alt_base) / 2.
                         thickness = (alt_top - alt_base)
                         aerosol_layer_data[aligned_date].append((height, thickness))
