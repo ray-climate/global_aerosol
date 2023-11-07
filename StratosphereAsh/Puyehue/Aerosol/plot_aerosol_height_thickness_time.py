@@ -100,6 +100,8 @@ for date in unique_dates:
 # Convert to numpy arrays
 mean_dates = np.array(mean_dates)
 mean_heights = np.array(mean_heights)
+mean_thicknesses = np.array(mean_thicknesses)
+
 mean_thickness_lower = mean_heights - mean_thicknesses / 2.
 mean_thickness_upper = mean_heights + mean_thicknesses / 2.
 
