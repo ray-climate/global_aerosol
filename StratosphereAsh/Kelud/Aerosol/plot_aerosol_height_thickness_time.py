@@ -89,6 +89,7 @@ for date in unique_dates:
         # Compute means
         mean_height = np.mean(heights)
         mean_thickness = np.mean(thicknesses)
+        print(date, mean_height, mean_thickness)
 
         # Compute the days since the reference date
         days_since_reference = (date - reference_date).days
