@@ -106,10 +106,10 @@ mean_thickness_lower = mean_heights - mean_thicknesses / 2.
 mean_thickness_upper = mean_heights + mean_thicknesses / 2.
 
 # Plotting
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10, 10))
 
 # Plot the mean height
-ax.plot(mean_dates, mean_heights, 'o-', label='Mean Aerosol Layer Height')
+ax.plot(mean_dates, mean_heights, '*-', label='Mean Aerosol Layer Height', color='black')
 
 # Plot the mean thickness as shadow
 ax.fill_between(mean_dates, mean_thickness_lower, mean_thickness_upper, color='gray', alpha=0.5,
@@ -121,9 +121,6 @@ plt.ylabel('Height (km)')
 plt.title('Mean Aerosol Layer Height and Thickness Over Time')
 plt.xlim(0, 100)
 plt.ylim(0, 20)
-
-# Show grid
-plt.grid(True)
 
 # Legend
 plt.legend()
