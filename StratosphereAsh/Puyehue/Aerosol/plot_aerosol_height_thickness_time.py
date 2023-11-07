@@ -69,45 +69,54 @@ for file in os.listdir(INPUT_PATH):
                     # Handle any conversion errors
                     pass
 
-# Prepare the data for plotting
-dates = []
-heights = []
-thickness_lower = []
-thickness_upper = []
+# Prepare lists to hold the mean values
+unique_dates = sorted(aerosol_layer_data.keys())
+mean_dates = []
+mean_heights = []
+mean_thicknesses = []
 
-# Sort the dates for plotting
-sorted_dates = sorted(aerosol_layer_data.keys())
+# Calculate mean height and thickness for each date
+for date in unique_dates:
+    day_data = aerosol_layer_data[date]
+    heights = []
+    thicknesses = []
 
-# Process the data
-for date in sorted_dates:
-    for height, thickness in aerosol_layer_data[date]:
-        days_since_reference = (date - reference_date).days
-        dates.append(days_since_reference)
+    for height, thickness in day_data:
         heights.append(height)
-        thickness_lower.append(height - thickness / 2.)
-        thickness_upper.append(height + thickness / 2.)
-        print(days_since_reference, height, height - thickness / 2.)
+        thicknesses.append(thickness)
 
-# Convert to numpy arrays for vectorized operations
-dates = np.array(dates)
-heights = np.array(heights)
-thickness_lower = np.array(thickness_lower)
-thickness_upper = np.array(thickness_upper)
+    # Compute means
+    mean_height = np.mean(heights)
+    mean_thickness = np.mean(thicknesses)
+
+    # Compute the days since the reference date
+    days_since_reference = (date - reference_date).days
+
+    # Append the means to the lists
+    mean_dates.append(days_since_reference)
+    mean_heights.append(mean_height)
+    mean_thicknesses.append(mean_thickness)
+
+# Convert to numpy arrays
+mean_dates = np.array(mean_dates)
+mean_heights = np.array(mean_heights)
+mean_thickness_lower = mean_heights - mean_thicknesses / 2.
+mean_thickness_upper = mean_heights + mean_thicknesses / 2.
 
 # Plotting
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots()
 
-# Plot the height
-ax.plot(dates, heights, 'o', label='Aerosol Layer Height')
+# Plot the mean height
+ax.plot(mean_dates, mean_heights, 'o-', label='Mean Aerosol Layer Height')
 
-# Plot the thickness as shadow
-ax.fill_between(dates, thickness_lower, thickness_upper, color='gray', alpha=0.5, label='Aerosol Layer Thickness')
-ax.set_ylim(0, 20)
-ax.set_xlim(0, 100)
+# Plot the mean thickness as shadow
+ax.fill_between(mean_dates, mean_thickness_lower, mean_thickness_upper, color='gray', alpha=0.5,
+                label='Mean Aerosol Layer Thickness')
+
 # Labels and title
 plt.xlabel('Days since 2011-06-04')
 plt.ylabel('Height (km)')
-plt.title('Aerosol Layer Height and Thickness Over Time')
+plt.title('Mean Aerosol Layer Height and Thickness Over Time')
 
 # Show grid
 plt.grid(True)
