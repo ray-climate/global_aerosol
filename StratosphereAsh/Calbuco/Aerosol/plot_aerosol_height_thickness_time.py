@@ -85,7 +85,7 @@ for date in unique_dates:
         heights.append(height)
         thicknesses.append(thickness)
 
-    if len(thicknesses) > 3:
+    if len(thicknesses) > 5:
         # Compute means
         mean_height = np.mean(heights)
         mean_thickness = np.mean(thicknesses)
