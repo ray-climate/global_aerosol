@@ -60,7 +60,7 @@ for file in os.listdir(INPUT_PATH):
                     aligned_date = align_to_interval(file_date, start_date)
 
                     # Check latitude and altitude ranges, aerosol type, and CAD
-                    if SOUTHERN_LATITUDE <= latitude < NORTHERN_LATITUDE and MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE and MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE and 2. <= aerosol_type <= 2. and abs(CAD) > 10:
+                    if SOUTHERN_LATITUDE <= latitude < NORTHERN_LATITUDE and MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE and MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE and 2. <= aerosol_type <= 2. and abs(CAD) > 1:
                         height = (alt_top + alt_base) / 2.
                         thickness = (alt_top - alt_base)
                         aerosol_layer_data[aligned_date].append((height, thickness))
@@ -86,7 +86,7 @@ for date in unique_dates:
         thicknesses.append(thickness)
         print(date, height, thickness)
 
-    if len(thicknesses) > 3:
+    if len(thicknesses) > 2:
         # Compute means
         mean_height = np.mean(heights)
         mean_thickness = np.mean(thicknesses)
