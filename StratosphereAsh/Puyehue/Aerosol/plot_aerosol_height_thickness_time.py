@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import csv
 
@@ -17,6 +18,9 @@ NORTHERN_LATITUDE = -20
 SOUTHERN_LATITUDE = -40
 MIN_ALTITUDE = 9
 MAX_ALTITUDE = 16.
+
+# Define the reference date
+reference_date = datetime(2011, 6, 4)
 
 # Paths
 INPUT_PATH = './csv_ALay'
@@ -64,3 +68,58 @@ for file in os.listdir(INPUT_PATH):
                 except ValueError:
                     # Handle any conversion errors
                     pass
+
+# Prepare the data for plotting
+dates = []
+heights = []
+thickness_lower = []
+thickness_upper = []
+
+# Sort the dates for plotting
+sorted_dates = sorted(aerosol_layer_data.keys())
+
+# Process the data
+for date in sorted_dates:
+    for height, thickness in aerosol_layer_data[date]:
+        days_since_reference = (date - reference_date).days
+        dates.append(days_since_reference)
+        heights.append(height)
+        thickness_lower.append(height - thickness / 2.)
+        thickness_upper.append(height + thickness / 2.)
+
+# Convert to numpy arrays for vectorized operations
+dates = np.array(dates)
+heights = np.array(heights)
+thickness_lower = np.array(thickness_lower)
+thickness_upper = np.array(thickness_upper)
+
+# Plotting
+fig, ax = plt.subplots()
+
+# Plot the height
+ax.plot(dates, heights, 'o', label='Aerosol Layer Height')
+
+# Plot the thickness as shadow
+ax.fill_between(dates, thickness_lower, thickness_upper, color='gray', alpha=0.5, label='Aerosol Layer Thickness')
+
+# Define the date format for the x-axis
+ax.xaxis.set_major_locator(mdates.AutoDateLocator())
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+# Rotate date labels
+plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
+
+# Labels and title
+plt.xlabel('Days since 2011-06-04')
+plt.ylabel('Height (km)')
+plt.title('Aerosol Layer Height and Thickness Over Time')
+
+# Show grid
+plt.grid(True)
+
+# Legend
+plt.legend()
+
+# Tight layout
+plt.tight_layout()
+plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'aerosol_layer_height_thickness_time.png'), dpi=300)
