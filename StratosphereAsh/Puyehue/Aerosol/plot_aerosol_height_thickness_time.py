@@ -84,21 +84,19 @@ for date in unique_dates:
     for height, thickness in day_data:
         heights.append(height)
         thicknesses.append(thickness)
-        print(date, height, thickness)
 
-    # Compute means
-    mean_height = np.mean(heights)
-    mean_thickness = np.mean(thicknesses)
+    if len(thicknesses) > 10:
+        # Compute means
+        mean_height = np.mean(heights)
+        mean_thickness = np.mean(thicknesses)
 
-    # Compute the days since the reference date
-    days_since_reference = (date - reference_date).days
+        # Compute the days since the reference date
+        days_since_reference = (date - reference_date).days
 
-    # Append the means to the lists
-    mean_dates.append(days_since_reference)
-    mean_heights.append(mean_height)
-    mean_thicknesses.append(mean_thickness)
-
-
+        # Append the means to the lists
+        mean_dates.append(days_since_reference)
+        mean_heights.append(mean_height)
+        mean_thicknesses.append(mean_thickness)
 
 # Convert to numpy arrays
 mean_dates = np.array(mean_dates)
