@@ -96,7 +96,7 @@ for i, lat_range in enumerate(valid_depolarization_counts):
     axs[i].plot(cad_dates, cad_counts, marker='+', color='r',markersize=15, label='CAD > 20', linestyle='none')
 
     axs[i].set_xlim(start_date, end_date)
-    axs[i].set_ylim(0, 2500)
+    axs[i].set_ylim(0, 500)
 
     axs[i].xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
     axs[i].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
