@@ -119,6 +119,8 @@ ax.fill_between(mean_dates, mean_thickness_lower, mean_thickness_upper, color='g
 plt.xlabel('Days since 2011-06-04')
 plt.ylabel('Height (km)')
 plt.title('Mean Aerosol Layer Height and Thickness Over Time')
+plt.xlim(0, 100)
+plt.ylim(0, 20)
 
 # Show grid
 plt.grid(True)
