@@ -94,21 +94,15 @@ thickness_lower = np.array(thickness_lower)
 thickness_upper = np.array(thickness_upper)
 
 # Plotting
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10, 10))
 
 # Plot the height
 ax.plot(dates, heights, 'o', label='Aerosol Layer Height')
 
 # Plot the thickness as shadow
 ax.fill_between(dates, thickness_lower, thickness_upper, color='gray', alpha=0.5, label='Aerosol Layer Thickness')
-
-# Define the date format for the x-axis
-ax.xaxis.set_major_locator(mdates.AutoDateLocator())
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-
-# Rotate date labels
-plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
-
+ax.set_ylim(0, 20)
+ax.set_xlim(0, 100)
 # Labels and title
 plt.xlabel('Days since 2011-06-04')
 plt.ylabel('Height (km)')
