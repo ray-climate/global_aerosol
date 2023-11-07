@@ -90,9 +90,6 @@ for date in sorted(aerosol_layer_height_data.keys()):
 for lat_range in plot_data:
     plot_data[lat_range]['dates'] = mdates.date2num(plot_data[lat_range]['dates'])
 
-# ... [previous code remains unchanged]
-# ... [previous code remains unchanged]
-
 # Set up the figure and subplots
 fig, axs = plt.subplots(3, 1, figsize=(16, 18))  # Changed to create a 3x1 subplot grid
 fig.suptitle('2011 Puyehue: Stratospheric Aerosol Layer Height', fontsize=20)  # Main title
