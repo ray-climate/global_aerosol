@@ -32,7 +32,7 @@ valid_depolarization_counts = {
     (-10, -20): defaultdict(int)
 }
 
-cad_greater_than_40_counts = {
+cad_greater_than_20_counts = {
     (20, 10): defaultdict(int),
     (10, -10): defaultdict(int),
     (-10, -20): defaultdict(int)
@@ -59,8 +59,8 @@ for file in os.listdir(INPUT_PATH):
                             if lat_range[0] >= latitude >= lat_range[1]:
                                 if depolarization > 0:
                                     valid_depolarization_counts[lat_range][date] += 1
-                                if abs(CAD) > 40:
-                                    cad_greater_than_40_counts[lat_range][date] += 1
+                                if abs(CAD) > 20:
+                                    cad_greater_than_20_counts[lat_range][date] += 1
                                 break
                 except ValueError:
                     pass  # or you can print an error message or log the error
@@ -87,13 +87,13 @@ for i, lat_range in enumerate(valid_depolarization_counts):
 
     # Sort data by date for the latitude ranges
     depolarization_dates, depolarization_counts = zip(*sorted(valid_depolarization_counts[lat_range].items()))
-    cad_dates, cad_counts = zip(*sorted(cad_greater_than_40_counts[lat_range].items()))
+    cad_dates, cad_counts = zip(*sorted(cad_greater_than_20_counts[lat_range].items()))
 
     # Plot depolarization data on the respective subplot
     axs[i].plot(depolarization_dates, depolarization_counts, marker='*', color='b',markersize=10, label='All', linestyle='none')
 
     # Plot CAD data on the same subplot
-    axs[i].plot(cad_dates, cad_counts, marker='+', color='r',markersize=15, label='CAD > 40', linestyle='none')
+    axs[i].plot(cad_dates, cad_counts, marker='+', color='r',markersize=15, label='CAD > 20', linestyle='none')
 
     axs[i].set_xlim(start_date, end_date)
     axs[i].set_ylim(0, 2500)
