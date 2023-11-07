@@ -129,3 +129,13 @@ plt.legend(loc='upper right', fontsize=16)
 # Tight layout
 plt.tight_layout()
 plt.savefig(os.path.join(FIGURE_OUTPUT_PATH, 'aerosol_layer_height_thickness_time.png'), dpi=300)
+
+# Save the data to CSV
+csv_output_path = os.path.join(FIGURE_OUTPUT_PATH, 'aerosol_data.csv')
+with open(csv_output_path, 'w', newline='') as csvfile:
+    csvwriter = csv.writer(csvfile)
+    # Write header
+    csvwriter.writerow(['Day Since Reference', 'Mean Height (km)', 'Mean Thickness (km)'])
+    # Write data
+    for i in range(len(mean_dates)):
+        csvwriter.writerow([mean_dates[i], mean_heights[i], mean_thicknesses[i]])
