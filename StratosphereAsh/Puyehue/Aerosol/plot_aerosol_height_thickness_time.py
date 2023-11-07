@@ -117,14 +117,14 @@ ax.fill_between(mean_dates, mean_thickness_lower, mean_thickness_upper, color='g
                 label='Mean Aerosol Layer Thickness')
 
 # Labels and title
-plt.xlabel('Days since 2011-06-04')
-plt.ylabel('Height (km)')
-plt.title('Mean Aerosol Layer Height and Thickness Over Time')
+plt.xlabel('Days since Eruption', fontsize=18)
+plt.ylabel('Height [km]', fontsize=18)
+plt.title('Stratospheric Ash Layer Height and Thickness')
 plt.xlim(0, 100)
 plt.ylim(0, 20)
-
-# Legend
-plt.legend()
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+plt.legend(loc='upper right', fontsize=16)
 
 # Tight layout
 plt.tight_layout()
