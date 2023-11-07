@@ -31,7 +31,7 @@ if not os.path.exists(FIGURE_OUTPUT_PATH):
     os.makedirs(FIGURE_OUTPUT_PATH)
 
 # Function to align dates to the nearest five-day interval start date
-def align_to_interval(date, interval_start, days=1):
+def align_to_interval(date, interval_start, days=3):
     days_since_start = (date - interval_start).days
     aligned_date = interval_start + timedelta(days=(days_since_start // days) * days)
     return aligned_date
