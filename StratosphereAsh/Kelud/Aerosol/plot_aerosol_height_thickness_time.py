@@ -120,7 +120,7 @@ ax.fill_between(mean_dates, mean_thickness_lower, mean_thickness_upper, color='#
 plt.xlabel('Days since Eruption', fontsize=18)
 plt.ylabel('Height [km]', fontsize=18)
 plt.title('Stratospheric Ash Layer Height and Thickness', fontsize=20)
-plt.xlim(0, 100)
+plt.xlim(0, 40)
 plt.ylim(0, 25)
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
