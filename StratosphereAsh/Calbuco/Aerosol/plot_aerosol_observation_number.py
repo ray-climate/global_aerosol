@@ -59,7 +59,7 @@ for file in os.listdir(INPUT_PATH):
                             if lat_range[0] >= latitude >= lat_range[1]:
                                 if depolarization > 0:
                                     valid_depolarization_counts[lat_range][date] += 1
-                                if abs(CAD) > 40:
+                                if abs(CAD) > 20:
                                     cad_greater_than_40_counts[lat_range][date] += 1
                                 break
                 except ValueError:
@@ -80,7 +80,7 @@ font_size_legend = 18  # Legend font size
 start_date = datetime(2015, 4, 1)
 end_date = datetime(2015, 6, 1)
 
-latitude_titles = ["Latitude: 20$^{\circ}$S to 40$^{\circ}$S", "Latitude: 40$^{\circ}$S to 60$^{\circ}$S", "Latitude: 60$^{\circ}$S to 80$^{\circ}$S"]
+latitude_titles = ["Latitude: 20$^{\circ}$S to 30$^{\circ}$S", "Latitude: 30$^{\circ}$S to 40$^{\circ}$S", "Latitude: 40$^{\circ}$S to 50$^{\circ}$S"]
 
 # Plot data for each latitude range
 for i, lat_range in enumerate(valid_depolarization_counts):
@@ -93,7 +93,7 @@ for i, lat_range in enumerate(valid_depolarization_counts):
     axs[i].plot(depolarization_dates, depolarization_counts, marker='*', color='b',markersize=10, label='All', linestyle='none')
 
     # Plot CAD data on the same subplot
-    axs[i].plot(cad_dates, cad_counts, marker='+', color='r',markersize=15, label='CAD > 40', linestyle='none')
+    axs[i].plot(cad_dates, cad_counts, marker='+', color='r',markersize=15, label='CAD > 20', linestyle='none')
 
     axs[i].set_xlim(start_date, end_date)
     axs[i].set_ylim(0, 1000)
