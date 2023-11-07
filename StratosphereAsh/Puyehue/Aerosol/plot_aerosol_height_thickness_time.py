@@ -86,7 +86,7 @@ for date in sorted_dates:
         heights.append(height)
         thickness_lower.append(height - thickness / 2.)
         thickness_upper.append(height + thickness / 2.)
-        print(days_since_reference, height, thickness_lower, thickness_upper)
+        print(days_since_reference, height, height - thickness / 2.)
 
 # Convert to numpy arrays for vectorized operations
 dates = np.array(dates)
