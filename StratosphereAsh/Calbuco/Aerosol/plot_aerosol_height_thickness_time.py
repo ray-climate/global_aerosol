@@ -60,7 +60,7 @@ for file in os.listdir(INPUT_PATH):
                     aligned_date = align_to_interval(file_date, start_date)
 
                     # Check latitude and altitude ranges, aerosol type, and CAD
-                    if SOUTHERN_LATITUDE <= latitude < NORTHERN_LATITUDE and MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE and MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE and 2. <= aerosol_type <= 2. and abs(CAD) > 20:
+                    if SOUTHERN_LATITUDE <= latitude < NORTHERN_LATITUDE and MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE and MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE and 2. <= aerosol_type <= 2. and abs(CAD) > 2:
                         height = (alt_top + alt_base) / 2.
                         thickness = (alt_top - alt_base)
                         aerosol_layer_data[aligned_date].append((height, thickness))
@@ -121,7 +121,7 @@ plt.xlabel('Days since Eruption', fontsize=18)
 plt.ylabel('Height [km]', fontsize=18)
 plt.title('Stratospheric Ash Layer Height and Thickness', fontsize=20)
 plt.xlim(0, 100)
-plt.ylim(0, 20)
+plt.ylim(0, 25)
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
 plt.legend(loc='upper right', fontsize=16)
