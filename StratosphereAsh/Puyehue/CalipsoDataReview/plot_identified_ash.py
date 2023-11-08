@@ -136,6 +136,8 @@ def main():
          aerosol_type_caliop, feature_type_caliop, dp_caliop, alt_tropopause) \
             = extract_variables_from_caliop(closest_file_level2, logger)
 
+        quit()
+
         (footprint_lat_caliop_l1, footprint_lon_caliop_l1,
          alt_caliop_l1, total_attenuated_backscatter, perpendicular_attenuated_backscatter) = \
             extract_variables_from_caliop_level1(closest_file_level1, logger)
