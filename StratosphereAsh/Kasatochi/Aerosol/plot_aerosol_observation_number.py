@@ -63,7 +63,7 @@ for file in os.listdir(INPUT_PATH):
                             if lat_range[0] >= latitude >= lat_range[1]:
                                 if depolarization > 0:
                                     valid_depolarization_counts[lat_range][date] += 1
-                                if abs(CAD) > 20:
+                                if abs(CAD) > 39:
                                     cad_greater_than_40_counts[lat_range][date] += 1
                                 break
                 except ValueError:
