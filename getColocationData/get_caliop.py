@@ -49,8 +49,8 @@ def extract_variables_from_caliop(hdf_file, logger):
                           variable='CAD_Score')
     print(caliop_Depolarization_Ratio_list.shape)
     print(CAD_Score.shape)
-    print(CAD_Score[0, 0, 1:20])
-    print(CAD_Score[1, 0, 1:20])
+    print(CAD_Score[0, -50, 1:20])
+    print(CAD_Score[1, -50, 1:20])
     quit()
     caliop_tropopause_height = caliop_request.\
         _get_tropopause_height(filename=hdf_file)
