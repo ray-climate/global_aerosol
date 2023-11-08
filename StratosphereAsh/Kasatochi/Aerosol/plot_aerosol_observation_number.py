@@ -58,12 +58,12 @@ for file in os.listdir(INPUT_PATH):
                     CAD = float(row[7])
                     date = datetime.strptime(file.split('.')[1][0:10], '%Y-%m-%d')
 
-                    if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) and (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) and (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) and (2. <= aerosol_type <= 4.):
+                    if (SOUTHERN_LATITUDE <= latitude <= NORTHERN_LATITUDE) and (MIN_ALTITUDE <= alt_base <= MAX_ALTITUDE) and (MIN_ALTITUDE <= alt_top <= MAX_ALTITUDE) and (2. <= aerosol_type <= 2.):
                         for lat_range in valid_depolarization_counts:
                             if lat_range[0] >= latitude >= lat_range[1]:
                                 if depolarization > 0:
                                     valid_depolarization_counts[lat_range][date] += 1
-                                if abs(CAD) > 39:
+                                if abs(CAD) >= 20.:
                                     cad_greater_than_40_counts[lat_range][date] += 1
                                 break
                 except ValueError:
