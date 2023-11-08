@@ -72,7 +72,7 @@ for file in os.listdir(INPUT_PATH):
 
 # Define the figure and subplots
 fig, axs = plt.subplots(3, 1, figsize=(16, 18))  # Changed to create a 3x1 subplot grid
-fig.suptitle('2015 Calbuco: Number of Stratospheric Aerosol Layers between 9 and 25 km', fontsize=20)  # Main title
+fig.suptitle('2008 Kasatochi: Number of Stratospheric Aerosol Layers between 9 and 25 km', fontsize=20)  # Main title
 
 # Larger font size
 font_size_title = 18  # Title font size
@@ -80,7 +80,7 @@ font_size_label = 18  # Label font size
 font_size_ticks = 16  # Ticks font size
 font_size_legend = 18  # Legend font size
 
-latitude_titles = ["Latitude: 20$^{\circ}$S to 30$^{\circ}$S", "Latitude: 30$^{\circ}$S to 40$^{\circ}$S", "Latitude: 40$^{\circ}$S to 50$^{\circ}$S"]
+latitude_titles = ["Latitude: 80$^{\circ}$N to 60$^{\circ}$N", "Latitude: 60$^{\circ}$N to 50$^{\circ}$N", "Latitude: 50$^{\circ}$S to 40$^{\circ}$N"]
 
 # Plot data for each latitude range
 for i, lat_range in enumerate(valid_depolarization_counts):
