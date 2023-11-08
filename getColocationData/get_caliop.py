@@ -44,7 +44,7 @@ def extract_variables_from_caliop(hdf_file, logger):
         _get_calipso_data(filename=hdf_file,
                           variable='Particulate_Depolarization_Ratio_Profile_532')
 
-    CAD = caliop_request. \
+    CAD_Score = caliop_request. \
         _get_calipso_data(filename=hdf_file,
                           variable='CAD_Score')
     print(caliop_Depolarization_Ratio_list.shape)
