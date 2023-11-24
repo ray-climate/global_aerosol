@@ -77,77 +77,77 @@ def main():
         # iterate through all files
         for file in file_list:
 
-            try:
+            # try:
 
-                (caliop_Profile_Time,
-                 footprint_lat_caliop, footprint_lon_caliop,
-                 caliop_Integrated_Attenuated_Total_Color_Ratio,
-                 caliop_Integrated_Particulate_Depolarization_Ratio,
-                 caliop_aerosol_type, caliop_feature_type,
-                 caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude,
-                 caliop_Tropopause_Altitude, caliop_CAD) = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
+            (caliop_Profile_Time,
+             footprint_lat_caliop, footprint_lon_caliop,
+             caliop_Integrated_Attenuated_Total_Color_Ratio,
+             caliop_Integrated_Particulate_Depolarization_Ratio,
+             caliop_aerosol_type, caliop_feature_type,
+             caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude,
+             caliop_Tropopause_Altitude, caliop_CAD) = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
 
-                print('Processing file: {}'.format(file))
+            print('Processing file: {}'.format(file))
 
-                """
-                feature type
-                """
-                # 0 = invalid (bad or missing data)
-                # 1 = "clear air"
-                # 2 = cloud
-                # 3 = tropospheric aerosol
-                # 4 = stratospheric aerosol
-                # 5 = surface
-                # 6 = subsurface
-                # 7 = no signal(totally attenuated)
+            """
+            feature type
+            """
+            # 0 = invalid (bad or missing data)
+            # 1 = "clear air"
+            # 2 = cloud
+            # 3 = tropospheric aerosol
+            # 4 = stratospheric aerosol
+            # 5 = surface
+            # 6 = subsurface
+            # 7 = no signal(totally attenuated)
 
-                """
-                aerosol type
-                """
-                # aerosol subtype
-                # 0 = invalid
-                # 1 = polar stratospheric aerosol
-                # 2 = volcanic ash
-                # 3 = sulfate
-                # 4 = elevated smoke
-                # 5 = unclassified
-                # 6 = spare
-                # 7 = spare
+            """
+            aerosol type
+            """
+            # aerosol subtype
+            # 0 = invalid
+            # 1 = polar stratospheric aerosol
+            # 2 = volcanic ash
+            # 3 = sulfate
+            # 4 = elevated smoke
+            # 5 = unclassified
+            # 6 = spare
+            # 7 = spare
 
-                caliop_dp = np.copy(caliop_Integrated_Particulate_Depolarization_Ratio)
-                caliop_color = np.copy(caliop_Integrated_Attenuated_Total_Color_Ratio)
-                caliop_Layer_Top = np.copy(caliop_Layer_Top_Altitude)
-                caliop_Layer_Base = np.copy(caliop_Layer_Base_Altitude)
-                caliop_lat = np.copy(footprint_lat_caliop)
-                caliop_lon = np.copy(footprint_lon_caliop)
-                # convert caliop_Profile_Time in float to datetime, Units are in seconds, starting from January 1, 1993.
-                caliop_Profile_Time = [convert_seconds_to_datetime(time) for time in caliop_Profile_Time]
+            caliop_dp = np.copy(caliop_Integrated_Particulate_Depolarization_Ratio)
+            caliop_color = np.copy(caliop_Integrated_Attenuated_Total_Color_Ratio)
+            caliop_Layer_Top = np.copy(caliop_Layer_Top_Altitude)
+            caliop_Layer_Base = np.copy(caliop_Layer_Base_Altitude)
+            caliop_lat = np.copy(footprint_lat_caliop)
+            caliop_lon = np.copy(footprint_lon_caliop)
+            # convert caliop_Profile_Time in float to datetime, Units are in seconds, starting from January 1, 1993.
+            caliop_Profile_Time = [convert_seconds_to_datetime(time) for time in caliop_Profile_Time]
 
-                caliop_feature_type_4_index = np.where(caliop_feature_type == 4)  # stratospheric aerosol
+            caliop_feature_type_4_index = np.where(caliop_feature_type == 4)  # stratospheric aerosol
 
-                # Process and write data for each file
+            # Process and write data for each file
 
-                for i in range(len(caliop_feature_type_4_index[0])):
-                    index_row = caliop_feature_type_4_index[0][i]
-                    index_col = caliop_feature_type_4_index[1][i]
+            for i in range(len(caliop_feature_type_4_index[0])):
+                index_row = caliop_feature_type_4_index[0][i]
+                index_col = caliop_feature_type_4_index[1][i]
 
-                    writer.writerow((caliop_Profile_Time[index_col],
-                                     caliop_lat[index_col],
-                                     caliop_lon[index_col],
-                                     caliop_Layer_Base[index_row, index_col],
-                                     caliop_Layer_Top[index_row, index_col],
-                                     caliop_Tropopause_Altitude[0, index_col],
-                                     caliop_color[index_row, index_col],
-                                     caliop_dp[index_row, index_col],
-                                     caliop_aerosol_type[index_row, index_col],
-                                     caliop_CAD[index_row, index_col]))
+                writer.writerow((caliop_Profile_Time[index_col],
+                                 caliop_lat[index_col],
+                                 caliop_lon[index_col],
+                                 caliop_Layer_Base[index_row, index_col],
+                                 caliop_Layer_Top[index_row, index_col],
+                                 caliop_Tropopause_Altitude[0, index_col],
+                                 caliop_color[index_row, index_col],
+                                 caliop_dp[index_row, index_col],
+                                 caliop_aerosol_type[index_row, index_col],
+                                 caliop_CAD[index_row, index_col]))
 
-                print('Finished processing file: {}'.format(file))
+            print('Finished processing file: {}'.format(file))
 
-            except:
-
-                print('Cannot process file: {}'.format(file))
-                continue
+            # except:
+            #
+            #     print('Cannot process file: {}'.format(file))
+            #     continue
 
 if __name__ == "__main__":
     main()
