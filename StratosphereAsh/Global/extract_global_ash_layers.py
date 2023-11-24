@@ -12,6 +12,7 @@ import argparse
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
 
 # Append the custom path to system path
@@ -40,6 +41,17 @@ script_base_name, _ = os.path.splitext(sys.modules['__main__'].__file__)
 log_file_name = script_base_name + LOG_EXTENSION
 logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', filemode='w', filename=log_file_name, level=logging.INFO)
 logger = logging.getLogger()
+
+
+def convert_seconds_to_datetime(seconds):
+    """
+    Converts seconds since January 1, 1993, to a datetime object.
+
+    :param seconds: Number of seconds since January 1, 1993
+    :return: A datetime object representing the corresponding date and time
+    """
+    base_date = datetime(1993, 1, 1)
+    return base_date + timedelta(seconds=seconds)
 
 def main():
 
@@ -76,8 +88,6 @@ def main():
                  caliop_Tropopause_Altitude, caliop_CAD) = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
 
                 print('Processing file: {}'.format(file))
-                print(caliop_Profile_Time)
-                quit()
 
                 """
                 feature type
@@ -110,6 +120,8 @@ def main():
                 caliop_Layer_Base = np.copy(caliop_Layer_Base_Altitude)
                 caliop_lat = np.copy(footprint_lat_caliop)
                 caliop_lon = np.copy(footprint_lon_caliop)
+                # convert caliop_Profile_Time in float to datetime, Units are in seconds, starting from January 1, 1993.
+                caliop_Profile_Time = [convert_seconds_to_datetime(time) for time in caliop_Profile_Time]
 
                 caliop_feature_type_4_index = np.where(caliop_feature_type == 4)  # stratospheric aerosol
 
@@ -119,7 +131,8 @@ def main():
                     index_row = caliop_feature_type_4_index[0][i]
                     index_col = caliop_feature_type_4_index[1][i]
 
-                    writer.writerow((caliop_lat[index_col],
+                    writer.writerow((caliop_Profile_Time[index_col],
+                                     caliop_lat[index_col],
                                      caliop_lon[index_col],
                                      caliop_Layer_Base[index_row, index_col],
                                      caliop_Layer_Top[index_row, index_col],
