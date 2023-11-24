@@ -135,12 +135,15 @@ def extract_variables_from_caliop_ALay(hdf_file, logger):
                                                                   variable='Layer_Top_Altitude')
     caliop_Layer_Base_Altitude = caliop_request._get_calipso_data(filename=hdf_file,
                                                                  variable='Layer_Base_Altitude')
+    caliop_Tropopause_Height = caliop_request._get_calipso_data(filename=hdf_file,
+                                                                variable='Tropopause_Height')
 
     caliop_CAD =  caliop_request._get_calipso_data(filename=hdf_file, variable='CAD_Score')
 
     logger.info("Extracted data from caliop ALay file")
-    return caliop_latitude_list, caliop_longitude_list, \
+    return (caliop_latitude_list, caliop_longitude_list, \
            caliop_Integrated_Attenuated_Total_Color_Ratio, \
            caliop_Integrated_Particulate_Depolarization_Ratio, \
            caliop_aerosol_type, caliop_feature_type, \
-           caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude, caliop_CAD
+           caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude,
+            caliop_Tropopause_Height, caliop_CAD)

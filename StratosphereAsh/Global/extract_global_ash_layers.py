@@ -33,7 +33,7 @@ YEAR_MONTH = args.YEAR_MONTH
 
 # Directory paths and locations
 CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmALay-Standard-V4-51/"
-CSV_OUTPUT_PATH = './Ash_Layer_csv'
+CSV_OUTPUT_PATH = './ash_Layer_csv'
 
 # Initialize Logging
 script_base_name, _ = os.path.splitext(sys.modules['__main__'].__file__)
@@ -59,7 +59,7 @@ def main():
     with open(csv_file_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, lineterminator='\n')
         # Write header
-        writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Color_Ratio',
+        writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Tropopause', 'Color_Ratio',
                          'Depolarization_Ratio', 'Aerosol_type', 'CAD'))
 
         # iterate through all files
@@ -72,8 +72,8 @@ def main():
              caliop_Integrated_Particulate_Depolarization_Ratio,
              caliop_aerosol_type, caliop_feature_type,
              caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude,
-             caliop_CAD) \
-                = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
+             caliop_Tropopause_Altitude,
+             caliop_CAD) = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
 
             print('Processing file: {}'.format(file))
 
@@ -121,6 +121,7 @@ def main():
                                  caliop_lon[index_col],
                                  caliop_Layer_Base[index_row, index_col],
                                  caliop_Layer_Top[index_row, index_col],
+                                 caliop_Tropopause_Altitude[index_row, index_col],
                                  caliop_color[index_row, index_col],
                                  caliop_dp[index_row, index_col],
                                  caliop_aerosol_type[index_row, index_col],
