@@ -51,14 +51,20 @@ def main():
     year, month = YEAR_MONTH.split('-')
     data_path = os.path.join(CALIPSO_DATA_PATH, year, month)
     file_list = os.listdir(data_path)
-
-    # only keep files that contains year-month-day in the full file name
     file_list = [file for file in file_list if YEAR_MONTH in file]
+
+    # CSV file for the whole month
+    csv_file_path = os.path.join(CSV_OUTPUT_PATH, f'stratosphere_aerosol_layers_{year}_{month}.csv')
+
+    with open(csv_file_path, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, lineterminator='\n')
+        # Write header
+        writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Color_Ratio',
+                         'Depolarization_Ratio', 'Aerosol_type', 'CAD'))
 
     # iterate through all files
     for file in file_list:
-        print(data_path + file)
-        continue
+
         try:
 
             (footprint_lat_caliop, footprint_lon_caliop,
@@ -71,64 +77,46 @@ def main():
 
             print('Processing file: {}'.format(file))
 
-        except:
+            """
+            feature type
+            """
+            # 0 = invalid (bad or missing data)
+            # 1 = "clear air"
+            # 2 = cloud
+            # 3 = tropospheric aerosol
+            # 4 = stratospheric aerosol
+            # 5 = surface
+            # 6 = subsurface
+            # 7 = no signal(totally attenuated)
 
-            print('Cannot process file: {}'.format(file))
-            continue
+            """
+            aerosol type
+            """
+            # aerosol subtype
+            # 0 = invalid
+            # 1 = polar stratospheric aerosol
+            # 2 = volcanic ash
+            # 3 = sulfate
+            # 4 = elevated smoke
+            # 5 = unclassified
+            # 6 = spare
+            # 7 = spare
 
-        caliop_dp = np.copy(caliop_Integrated_Particulate_Depolarization_Ratio)
-        caliop_color = np.copy(caliop_Integrated_Attenuated_Total_Color_Ratio)
-        caliop_Layer_Top = np.copy(caliop_Layer_Top_Altitude)
-        caliop_Layer_Base = np.copy(caliop_Layer_Base_Altitude)
-        caliop_lat = np.copy(footprint_lat_caliop)
-        caliop_lon = np.copy(footprint_lon_caliop)
+            caliop_dp = np.copy(caliop_Integrated_Particulate_Depolarization_Ratio)
+            caliop_color = np.copy(caliop_Integrated_Attenuated_Total_Color_Ratio)
+            caliop_Layer_Top = np.copy(caliop_Layer_Top_Altitude)
+            caliop_Layer_Base = np.copy(caliop_Layer_Base_Altitude)
+            caliop_lat = np.copy(footprint_lat_caliop)
+            caliop_lon = np.copy(footprint_lon_caliop)
 
-        """
-        feature type
-        """
-        # 0 = invalid (bad or missing data)
-        # 1 = "clear air"
-        # 2 = cloud
-        # 3 = tropospheric aerosol
-        # 4 = stratospheric aerosol
-        # 5 = surface
-        # 6 = subsurface
-        # 7 = no signal(totally attenuated)
+            caliop_feature_type_4_index = np.where(caliop_feature_type == 4)  # stratospheric aerosol
 
-        """
-        aerosol type
-        """
-        # aerosol subtype
-        # 0 = invalid
-        # 1 = polar stratospheric aerosol
-        # 2 = volcanic ash
-        # 3 = sulfate
-        # 4 = elevated smoke
-        # 5 = unclassified
-        # 6 = spare
-        # 7 = spare
-
-        caliop_feature_type_4_index = np.where(caliop_feature_type == 4) # stratospheric aerosol
-
-        stratosphere_aerosol_mask = np.zeros((caliop_feature_type.shape))
-        stratosphere_aerosol_mask[(caliop_feature_type == 4) & (caliop_aerosol_type >= 2) & (caliop_aerosol_type <= 4)] = 1
-
-        print('Number of stratosphere layer: {}'.format(np.sum(stratosphere_aerosol_mask)))
-
-        # save all detected feature type 4 into a csv file, iterative to write each row
-        with open(CSV_OUTPUT_PATH + '/' + file.replace('.hdf', '.csv'), 'w') as csvfile:
-            # first row to write name of parameters
-
-            writer = csv.writer(csvfile, lineterminator='\n')
-            writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Color_Ratio',
-                             'Depolarization_Ratio', 'Aerosol_type', 'CAD'))
+            # Process and write data for each file
 
             for i in range(len(caliop_feature_type_4_index[0])):
-
                 index_row = caliop_feature_type_4_index[0][i]
                 index_col = caliop_feature_type_4_index[1][i]
 
-                # start to write every parameter into the new row
                 writer.writerow((caliop_lat[index_col],
                                  caliop_lon[index_col],
                                  caliop_Layer_Base[index_row, index_col],
@@ -139,6 +127,11 @@ def main():
                                  caliop_CAD[index_row, index_col]))
 
             print('Finished processing file: {}'.format(file))
+
+        except:
+
+            print('Cannot process file: {}'.format(file))
+            continue
 
 if __name__ == "__main__":
     main()
