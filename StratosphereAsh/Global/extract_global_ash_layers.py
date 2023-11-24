@@ -89,6 +89,8 @@ def main():
 
             print('Processing file: {}'.format(file))
             print(caliop_Profile_Time.shape)
+            print(caliop_Tropopause_Altitude.shape)
+            print(caliop_Layer_Top_Altitude.shape)
             """
             feature type
             """
