@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
 # Append the custom path to system path
-sys.path.append('../../../')
+sys.path.append('../../')
 from getColocationData.get_caliop import *
 
 # Constants
