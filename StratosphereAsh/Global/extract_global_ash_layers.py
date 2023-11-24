@@ -88,7 +88,7 @@ def main():
              caliop_Tropopause_Altitude, caliop_CAD) = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
 
             print('Processing file: {}'.format(file))
-
+            print(caliop_Profile_Time.shape)
             """
             feature type
             """
