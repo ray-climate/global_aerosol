@@ -73,10 +73,7 @@ def main():
              caliop_aerosol_type, caliop_feature_type,
              caliop_Layer_Top_Altitude, caliop_Layer_Base_Altitude,
              caliop_Tropopause_Altitude, caliop_CAD) = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
-            print(footprint_lat_caliop.shape)
-            print(caliop_Integrated_Particulate_Depolarization_Ratio.shape)
-            print(caliop_Tropopause_Altitude.shape)
-            print(caliop_Layer_Top_Altitude.shape)
+
             print('Processing file: {}'.format(file))
 
             """
@@ -123,7 +120,7 @@ def main():
                                  caliop_lon[index_col],
                                  caliop_Layer_Base[index_row, index_col],
                                  caliop_Layer_Top[index_row, index_col],
-                                 caliop_Tropopause_Altitude[index_col],
+                                 caliop_Tropopause_Altitude[0, index_col],
                                  caliop_color[index_row, index_col],
                                  caliop_dp[index_row, index_col],
                                  caliop_aerosol_type[index_row, index_col],
