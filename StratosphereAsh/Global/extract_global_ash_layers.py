@@ -88,9 +88,7 @@ def main():
              caliop_Tropopause_Altitude, caliop_CAD) = extract_variables_from_caliop_ALay(data_path + '/' + file, logger)
 
             print('Processing file: {}'.format(file))
-            print(caliop_Profile_Time.shape)
-            print(caliop_Tropopause_Altitude.shape)
-            print(caliop_Layer_Top_Altitude.shape)
+
             """
             feature type
             """
@@ -123,7 +121,7 @@ def main():
             caliop_lat = np.copy(footprint_lat_caliop)
             caliop_lon = np.copy(footprint_lon_caliop)
             # convert caliop_Profile_Time in float to datetime, Units are in seconds, starting from January 1, 1993.
-            caliop_Profile_Time = [convert_seconds_to_datetime(time) for time in caliop_Profile_Time]
+            caliop_Profile_Time = [convert_seconds_to_datetime(time) for time in caliop_Profile_Time[2, :]]
 
             caliop_feature_type_4_index = np.where(caliop_feature_type == 4)  # stratospheric aerosol
 
