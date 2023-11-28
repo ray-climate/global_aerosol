@@ -34,7 +34,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
     with open(ash_layer_csv_file, 'r') as f:
         reader = csv.reader(f)
         next(reader)  # skip the header
-        caliop_Profile_Time = []
+        caliop_Profile_Time = [] # this is a string like "'2018-06-01 01:04:58.787400"
         caliop_lat = []
         caliop_lon = []
         caliop_Layer_Base = []
@@ -43,7 +43,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
         caliop_aerosol_type = []
         caliop_CAD = []
         for row in reader:
-            caliop_Profile_Time.append(float(row[0]))
+            caliop_Profile_Time.append(row[0])
             caliop_lat.append(float(row[1]))
             caliop_lon.append(float(row[2]))
             caliop_Layer_Base.append(float(row[3]))
