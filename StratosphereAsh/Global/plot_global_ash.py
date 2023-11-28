@@ -21,7 +21,7 @@ from matplotlib.gridspec import GridSpec
 sys.path.append('../../')
 from getColocationData.get_caliop import *
 
-ASH_LAYER_DATA_PATH = './ash_Layer_csv'
+ASH_LAYER_DATA_PATH = './ash_Layer_csv_DN_flag'
 SAVE_FIGURE_PATH = './ash_Layer_figures'
 
 # Create csv saving directory if not present
