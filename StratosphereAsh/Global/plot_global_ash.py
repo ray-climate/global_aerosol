@@ -50,8 +50,8 @@ def read_ash_layer_csv(ash_layer_csv_file):
 
         for row in reader:
             try:
-                if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.):
-
+                # if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.):
+                if (float(row[8]) == 2) & (float(row[9]) <= -20.):
                     caliop_Profile_Time.append(row[0])
                     caliop_lat.append(float(row[1]))
                     caliop_lon.append(float(row[2]))
