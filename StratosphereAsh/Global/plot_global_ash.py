@@ -111,19 +111,6 @@ all_caliop_aerosol_type = []
 all_caliop_CAD = []
 all_caliop_DN_flag = []
 
-# After data collection
-filtered_data = filter_data_by_date_box(
-    np.array(all_caliop_lat),
-    np.array(all_caliop_lon),
-    all_caliop_Profile_Time,
-    [all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag]
-)
-
-# Unpack the filtered data
-(all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top,
- all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag) = filtered_data
-
-
 # Iterate over all CSV files in the directory
 for file in os.listdir(ASH_LAYER_DATA_PATH):
     if file.endswith(".csv"):
@@ -142,6 +129,20 @@ for file in os.listdir(ASH_LAYER_DATA_PATH):
         all_caliop_DN_flag.extend(DN_flag)
 
         print('Processed file: ', ash_layer_csv_file)
+
+
+# After data collection
+filtered_data = filter_data_by_date_box(
+    np.array(all_caliop_lat),
+    np.array(all_caliop_lon),
+    all_caliop_Profile_Time,
+    [all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag]
+)
+
+# Unpack the filtered data
+(all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top,
+ all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag) = filtered_data
+
 
 
 # Step 1: Convert all_caliop_Profile_Time to datetime objects
