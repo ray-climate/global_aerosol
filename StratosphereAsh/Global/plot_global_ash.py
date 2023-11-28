@@ -57,9 +57,30 @@ def read_ash_layer_csv(ash_layer_csv_file):
 
     return caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD
 
+# Initialize lists to store data from all files
+all_caliop_Profile_Time = []
+all_caliop_lat = []
+all_caliop_lon = []
+all_caliop_Layer_Base = []
+all_caliop_Layer_Top = []
+all_caliop_Tropopause_Altitude = []
+all_caliop_aerosol_type = []
+all_caliop_CAD = []
+
+# Iterate over all CSV files in the directory
 for file in os.listdir(ASH_LAYER_DATA_PATH):
-    if file.endswith(".csv"):
+    if file.endswith(".csv") & file.__contains__('2011'):
         ash_layer_csv_file = os.path.join(ASH_LAYER_DATA_PATH, file)
         caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD = read_ash_layer_csv(ash_layer_csv_file)
-        print('Processing file: ', ash_layer_csv_file)
-        quit()
+
+        # Append data from this file to the collective lists
+        all_caliop_Profile_Time.extend(caliop_Profile_Time)
+        all_caliop_lat.extend(caliop_lat)
+        all_caliop_lon.extend(caliop_lon)
+        all_caliop_Layer_Base.extend(caliop_Layer_Base)
+        all_caliop_Layer_Top.extend(caliop_Layer_Top)
+        all_caliop_Tropopause_Altitude.extend(caliop_Tropopause_Altitude)
+        all_caliop_aerosol_type.extend(caliop_aerosol_type)
+        all_caliop_CAD.extend(caliop_CAD)
+
+        print('Processed file: ', ash_layer_csv_file)
