@@ -102,10 +102,10 @@ start_time = datetime(2007, 1, 1)
 end_time = datetime(2018, 12, 31)
 
 # Calculate the number of 10-day intervals between start_time and end_time
-num_intervals = (end_time - start_time).days // 10 + 1
+num_intervals = (end_time - start_time).days // 5 + 1
 
 # Define the bins for time and latitude
-time_bins = mdates.date2num([start_time + timedelta(days=10*i) for i in range(num_intervals)])
+time_bins = mdates.date2num([start_time + timedelta(days=5*i) for i in range(num_intervals)])
 lat_bins = np.arange(min(all_caliop_lat), max(all_caliop_lat) + 1, 1)
 
 # Create a 2D histogram
@@ -119,11 +119,11 @@ positive_times = X[positive_hist_indices]
 positive_lats = Y[positive_hist_indices]
 
 # Plot
-fig, ax = plt.subplots(figsize=(18, 7))
+fig, ax = plt.subplots(figsize=(20, 8))
 
 # Use scatter plot for positive values
-scatter = ax.scatter(positive_times, positive_lats, c=positive_hist_values,
-                     cmap='jet', vmin=0., vmax=200.)
+scatter = ax.scatter(positive_times, positive_lats, c=positive_hist_values, s=5,  # smaller point size
+                     cmap='jet', vmin=0., vmax=200., alpha=0.7)  # some transparency
 
 # Format the time axis
 ax.xaxis_date()
