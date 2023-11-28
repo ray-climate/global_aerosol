@@ -49,7 +49,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
 
         for row in reader:
             try:
-                if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.) & (float(row[4]) <= 20.):
+                if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.):
 
                     caliop_Profile_Time.append(row[0])
                     caliop_lat.append(float(row[1]))
@@ -66,6 +66,40 @@ def read_ash_layer_csv(ash_layer_csv_file):
 
     return caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD, DN_flag
 
+def filter_data_by_date_box(latitudes, longitudes, dates, other_data, min_points=3):
+    """
+    Filter data points in each 1-degree by 1-degree lat-lon box for each day,
+    keeping only boxes with at least min_points data points.
+    :param latitudes: List of latitudes
+    :param longitudes: List of longitudes
+    :param dates: List of dates
+    :param other_data: List of lists of other corresponding data points
+    :param min_points: Minimum number of points required in a box per day
+    :return: Filtered data lists
+    """
+    # Round lat and lon to group by 1-degree boxes and convert dates to date objects
+    rounded_lat = np.floor(latitudes)
+    rounded_lon = np.floor(longitudes)
+    date_objects = [datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f').date() for date in dates]
+
+    # Combine lat, lon, dates and other data for grouping
+    combined_data = list(zip(date_objects, rounded_lat, rounded_lon, latitudes, longitudes, *other_data))
+
+    # Group by date and rounded lat-lon
+    grouped_data = {}
+    for data in combined_data:
+        date_box = (data[0], data[1], data[2])
+        if date_box not in grouped_data:
+            grouped_data[date_box] = []
+        grouped_data[date_box].append(data[3:])
+
+    # Filter out groups with less than min_points
+    filtered_data = [data for date_box, data_list in grouped_data.items() if len(data_list) >= min_points]
+
+    # Separate the data back into individual lists
+    filtered_data = list(zip(*[item for sublist in filtered_data for item in sublist]))
+    return filtered_data
+
 # Initialize lists to store data from all files
 all_caliop_Profile_Time = []
 all_caliop_lat = []
@@ -76,6 +110,19 @@ all_caliop_Tropopause_Altitude = []
 all_caliop_aerosol_type = []
 all_caliop_CAD = []
 all_caliop_DN_flag = []
+
+# After data collection
+filtered_data = filter_data_by_date_box(
+    np.array(all_caliop_lat),
+    np.array(all_caliop_lon),
+    all_caliop_Profile_Time,
+    [all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag]
+)
+
+# Unpack the filtered data
+(all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top,
+ all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag) = filtered_data
+
 
 # Iterate over all CSV files in the directory
 for file in os.listdir(ASH_LAYER_DATA_PATH):
