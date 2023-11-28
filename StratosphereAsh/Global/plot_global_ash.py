@@ -6,16 +6,15 @@
 # @Time:        28/11/2023 10:48
 
 import csv
+import os
 import sys
 import logging
 import argparse
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.colors import LogNorm
 from datetime import datetime, timedelta
-from matplotlib.gridspec import GridSpec
 
 # Append the custom path to system path
 sys.path.append('../../')
@@ -27,9 +26,6 @@ SAVE_FIGURE_PATH = './ash_Layer_figures'
 # Create csv saving directory if not present
 if not os.path.exists(SAVE_FIGURE_PATH):
     os.mkdir(SAVE_FIGURE_PATH)
-
-# write a function to read through the csv files and extract the following parameters:
-# caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD
 
 def read_ash_layer_csv(ash_layer_csv_file):
     """
@@ -53,7 +49,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
 
         for row in reader:
             try:
-                if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.):
+                if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.) & (float(row[4]) <= 20.):
 
                     caliop_Profile_Time.append(row[0])
                     caliop_lat.append(float(row[1]))
