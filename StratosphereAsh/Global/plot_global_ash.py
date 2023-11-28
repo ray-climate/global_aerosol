@@ -114,8 +114,7 @@ hist, xedges, yedges = np.histogram2d(mdates.date2num(caliop_times), all_caliop_
 # Plot
 fig, ax = plt.subplots(figsize=(15, 7))
 X, Y = np.meshgrid(xedges, yedges)
-mesh = ax.pcolormesh(X, Y, hist.T, shading='auto')
-
+mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='jet')
 # Format the time axis
 ax.xaxis_date()
 date_format = mdates.DateFormatter('%Y-%m-%d')
