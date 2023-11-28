@@ -43,15 +43,18 @@ def read_ash_layer_csv(ash_layer_csv_file):
         caliop_aerosol_type = []
         caliop_CAD = []
         for row in reader:
-            print(row)
-            caliop_Profile_Time.append(row[0])
-            caliop_lat.append(float(row[1]))
-            caliop_lon.append(float(row[2]))
-            caliop_Layer_Base.append(float(row[3]))
-            caliop_Layer_Top.append(float(row[4]))
-            caliop_Tropopause_Altitude.append(float(row[5]))
-            caliop_aerosol_type.append(float(row[8]))
-            caliop_CAD.append(float(row[9]))
+            try:
+                caliop_Profile_Time.append(row[0])
+                caliop_lat.append(float(row[1]))
+                caliop_lon.append(float(row[2]))
+                caliop_Layer_Base.append(float(row[3]))
+                caliop_Layer_Top.append(float(row[4]))
+                caliop_Tropopause_Altitude.append(float(row[5]))
+                caliop_aerosol_type.append(float(row[8]))
+                caliop_CAD.append(float(row[9]))
+            except:
+                continue
+
     return caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD
 
 for file in os.listdir(ASH_LAYER_DATA_PATH):
