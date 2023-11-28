@@ -77,7 +77,7 @@ all_caliop_CAD = []
 
 # Iterate over all CSV files in the directory
 for file in os.listdir(ASH_LAYER_DATA_PATH):
-    if file.endswith(".csv") & file.__contains__('2011'):
+    if file.endswith(".csv"):
         ash_layer_csv_file = os.path.join(ASH_LAYER_DATA_PATH, file)
         caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD = read_ash_layer_csv(ash_layer_csv_file)
 
