@@ -43,6 +43,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
         caliop_aerosol_type = []
         caliop_CAD = []
         for row in reader:
+            print(row)
             caliop_Profile_Time.append(row[0])
             caliop_lat.append(float(row[1]))
             caliop_lon.append(float(row[2]))
