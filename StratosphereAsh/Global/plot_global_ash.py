@@ -94,11 +94,20 @@ def filter_data_by_date_box(latitudes, longitudes, dates, other_data, min_points
         grouped_data[date_box].append(data[3:])
 
     # Filter out groups with less than min_points
-    filtered_data = [data for date_box, data_list in grouped_data.items() if len(data_list) >= min_points]
+    filtered = [data for date_box, data_list in grouped_data.items() if len(data_list) >= min_points]
 
     # Separate the data back into individual lists
-    filtered_data = list(zip(*[item for sublist in filtered_data for item in sublist]))
-    return filtered_data
+    filtered_lat, filtered_lon, *filtered_other = [], [], []
+    for sublist in filtered:
+        for item in sublist:
+            filtered_lat.append(item[0])
+            filtered_lon.append(item[1])
+            for i, other_item in enumerate(item[2:]):
+                if len(filtered_other) < len(item) - 2:
+                    filtered_other.append([])
+                filtered_other[i].append(other_item)
+
+    return [filtered_lat, filtered_lon] + filtered_other
 
 # Initialize lists to store data from all files
 all_caliop_Profile_Time = []
