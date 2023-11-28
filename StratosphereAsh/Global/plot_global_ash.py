@@ -110,6 +110,8 @@ lat_bins = np.arange(min(all_caliop_lat), max(all_caliop_lat) + 1, 1)
 
 # Create a 2D histogram
 hist, xedges, yedges = np.histogram2d(mdates.date2num(caliop_times), all_caliop_lat, bins=[time_bins, lat_bins])
+
+X, Y = np.meshgrid(xedges, yedges)
 # Only take positive values
 positive_hist_indices = np.where(hist.T > 0)
 positive_hist_values = hist.T[positive_hist_indices]
