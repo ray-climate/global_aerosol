@@ -79,7 +79,7 @@ def main():
 
             try:
 
-                (caliop_Profile_Time,
+                (caliop_Profile_Time, caliop_DN_flag,
                  footprint_lat_caliop, footprint_lon_caliop,
                  caliop_Integrated_Attenuated_Total_Color_Ratio,
                  caliop_Integrated_Particulate_Depolarization_Ratio,
@@ -120,6 +120,11 @@ def main():
                 caliop_Layer_Base = np.copy(caliop_Layer_Base_Altitude)
                 caliop_lat = np.copy(footprint_lat_caliop)
                 caliop_lon = np.copy(footprint_lon_caliop)
+                caliop_DN_flag = np.copy(caliop_DN_flag)
+                print(caliop_dp.shape)
+                print(caliop_lat.shape)
+                print(caliop_DN_flag.shape)
+                quit()
                 # convert caliop_Profile_Time in float to datetime, Units are in seconds, starting from January 1, 1993.
                 caliop_Profile_Time = [convert_seconds_to_datetime(time) for time in caliop_Profile_Time[2, :]]
 
@@ -140,7 +145,8 @@ def main():
                                      caliop_color[index_row, index_col],
                                      caliop_dp[index_row, index_col],
                                      caliop_aerosol_type[index_row, index_col],
-                                     caliop_CAD[index_row, index_col]))
+                                     caliop_CAD[index_row, index_col],
+                                     caliop_DN_flag[index_row, index_col]))
 
                 print('Finished processing file: {}'.format(file))
 
