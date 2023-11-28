@@ -112,19 +112,22 @@ lat_bins = np.arange(min(all_caliop_lat), max(all_caliop_lat) + 1, 1)
 hist, xedges, yedges = np.histogram2d(mdates.date2num(caliop_times), all_caliop_lat, bins=[time_bins, lat_bins])
 
 # Plot
-fig, ax = plt.subplots(figsize=(15, 7))
+fig, ax = plt.subplots(figsize=(18, 7))
 X, Y = np.meshgrid(xedges, yedges)
 mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='hot')
 # Format the time axis
 ax.xaxis_date()
 date_format = mdates.DateFormatter('%Y-%m-%d')
 ax.xaxis.set_major_formatter(date_format)
-plt.xticks(rotation=45)
-
-plt.xlabel('Time')
-plt.ylabel('Latitude')
-plt.title('Occurrence over Time and Latitude (2007-2018)')
+plt.xticks(rotation=45, fontsize=16)
+plt.yticks(fontsize=16)
+plt.ylim([-80., 80.])
+plt.xlabel('Time', fontsize=18)
+plt.ylabel('Latitude', fontsize=18)
+plt.title('Occurrence of Stratopsheric Aerosol Layers from CALIOP', fontsize=18)
 
 # Add colorbar with reference to the mesh
-plt.colorbar(mesh, label='Number of Occurrences', extend='both', shrink=0.8)
+cbar = plt.colorbar(mesh, extend='both', shrink=0.7)
+cbar.set_label('Ash Layer Occurrences', fontsize=16)  # Change the font size of the colorbar label
+cbar.ax.tick_params(labelsize=14)
 plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018.png'), dpi=300)
