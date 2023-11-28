@@ -110,11 +110,19 @@ lat_bins = np.arange(min(all_caliop_lat), max(all_caliop_lat) + 1, 1)
 
 # Create a 2D histogram
 hist, xedges, yedges = np.histogram2d(mdates.date2num(caliop_times), all_caliop_lat, bins=[time_bins, lat_bins])
+# Only take positive values
+positive_hist_indices = np.where(hist.T > 0)
+positive_hist_values = hist.T[positive_hist_indices]
+positive_times = X[positive_hist_indices]
+positive_lats = Y[positive_hist_indices]
 
 # Plot
 fig, ax = plt.subplots(figsize=(18, 7))
-X, Y = np.meshgrid(xedges, yedges)
-mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='jet', vmin=0., vmax=200.)
+
+# Use scatter plot for positive values
+scatter = ax.scatter(positive_times, positive_lats, c=positive_hist_values,
+                     cmap='jet', vmin=0., vmax=200.)
+
 # Format the time axis
 ax.xaxis_date()
 date_format = mdates.DateFormatter('%Y-%m-%d')
@@ -124,10 +132,12 @@ plt.yticks(fontsize=16)
 plt.ylim([-80., 80.])
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Latitude', fontsize=18)
-plt.title('Occurrence of Stratopsheric Aerosol Layers from CALIOP', fontsize=18)
+plt.title('Occurrence of Stratospheric Aerosol Layers from CALIOP', fontsize=18)
 
-# Add colorbar with reference to the mesh
-cbar = plt.colorbar(mesh, extend='both', shrink=0.7)
-cbar.set_label('Ash Layer Occurrences', fontsize=16)  # Change the font size of the colorbar label
+# Add colorbar with reference to the scatter plot
+cbar = plt.colorbar(scatter, extend='both', shrink=0.7)
+cbar.set_label('Ash Layer Occurrences', fontsize=16)
 cbar.ax.tick_params(labelsize=14)
+
+# Save the figure
 plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018.png'), dpi=300)
