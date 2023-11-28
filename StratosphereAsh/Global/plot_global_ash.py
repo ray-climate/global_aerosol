@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.colors import LogNorm
 from datetime import datetime, timedelta
+from collections import defaultdict
 
 # Append the custom path to system path
 sys.path.append('../../')
@@ -66,48 +67,35 @@ def read_ash_layer_csv(ash_layer_csv_file):
 
     return caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD, DN_flag
 
-def filter_data_by_date_box(latitudes, longitudes, dates, other_data, min_points=3):
-    """
-    Filter data points in each 1-degree by 1-degree lat-lon box for each day,
-    keeping only boxes with at least min_points data points.
-    :param latitudes: List of latitudes
-    :param longitudes: List of longitudes
-    :param dates: List of dates
-    :param other_data: List of lists of other corresponding data points
-    :param min_points: Minimum number of points required in a box per day
-    :return: Filtered data lists
-    """
-    # Round lat and lon to group by 1-degree boxes and convert dates to date objects
-    rounded_lat = np.floor(latitudes)
-    rounded_lon = np.floor(longitudes)
-    date_objects = [datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f').date() for date in dates]
+def bin_and_filter_data(dates, lats, lons, *other_data):
+    binned_data = defaultdict(lambda: defaultdict(list))
 
-    # Combine lat, lon, dates and other data for grouping
-    combined_data = list(zip(date_objects, rounded_lat, rounded_lon, latitudes, longitudes, *other_data))
+    for date, lat, lon, *other in zip(dates, lats, lons, *other_data):
+        day = date.date()
+        lat_bin = int(lat)
+        lon_bin = int(lon)
+        binned_data[day][(lat_bin, lon_bin)].append((date, lat, lon, *other))
 
-    # Group by date and rounded lat-lon
-    grouped_data = {}
-    for data in combined_data:
-        date_box = (data[0], data[1], data[2])
-        if date_box not in grouped_data:
-            grouped_data[date_box] = []
-        grouped_data[date_box].append(data[3:])
+    filtered_data = defaultdict(lambda: defaultdict(list))
+    for day, bins in binned_data.items():
+        for bin_key, values in bins.items():
+            if len(values) >= 2:
+                filtered_data[day][bin_key].extend(values)
 
-    # Filter out groups with less than min_points
-    filtered = [data for date_box, data_list in grouped_data.items() if len(data_list) >= min_points]
+    unpacked_data = {new_list: [] for new_list in
+                     ['dates', 'lats', 'lons'] + ['list' + str(i) for i in range(len(other_data))]}
+    for day, bins in filtered_data.items():
+        for bin_key, values in bins.items():
+            for value in values:
+                unpacked_data['dates'].append(value[0])
+                unpacked_data['lats'].append(value[1])
+                unpacked_data['lons'].append(value[2])
+                for i, val in enumerate(value[3:]):
+                    unpacked_data['list' + str(i)].append(val)
 
-    # Separate the data back into individual lists
-    filtered_lat, filtered_lon, *filtered_other = [], [], []
-    for sublist in filtered:
-        for item in sublist:
-            filtered_lat.append(item[0])
-            filtered_lon.append(item[1])
-            for i, other_item in enumerate(item[2:]):
-                if len(filtered_other) < len(item) - 2:
-                    filtered_other.append([])
-                filtered_other[i].append(other_item)
+    return [unpacked_data['dates'], unpacked_data['lats'], unpacked_data['lons']] + [unpacked_data['list' + str(i)] for
+                                                                                     i in range(len(other_data))]
 
-    return [filtered_lat, filtered_lon] + filtered_other
 
 # Initialize lists to store data from all files
 all_caliop_Profile_Time = []
@@ -139,23 +127,11 @@ for file in os.listdir(ASH_LAYER_DATA_PATH):
 
         print('Processed file: ', ash_layer_csv_file)
 
-
-# After data collection
-filtered_data = filter_data_by_date_box(
-    np.array(all_caliop_lat),
-    np.array(all_caliop_lon),
-    all_caliop_Profile_Time,
-    [all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag]
-)
-
-# Unpack the filtered data
-(all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top,
- all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag) = filtered_data
-
-
-
 # Step 1: Convert all_caliop_Profile_Time to datetime objects
 caliop_times = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f') for time in all_caliop_Profile_Time]
+
+# Filter and bin the data
+caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag = bin_and_filter_data(caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag)
 
 # Define start and end times
 start_time = datetime(2007, 1, 1)
