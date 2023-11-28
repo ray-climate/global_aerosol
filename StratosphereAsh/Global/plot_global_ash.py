@@ -49,9 +49,11 @@ def read_ash_layer_csv(ash_layer_csv_file):
         caliop_Tropopause_Altitude = []
         caliop_aerosol_type = []
         caliop_CAD = []
+        DN_flag = []
+
         for row in reader:
             try:
-                if (float(row[8]) == 2) & (float(row[9]) <= -20.):
+                if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.):
 
                     caliop_Profile_Time.append(row[0])
                     caliop_lat.append(float(row[1]))
@@ -61,10 +63,12 @@ def read_ash_layer_csv(ash_layer_csv_file):
                     caliop_Tropopause_Altitude.append(float(row[5]))
                     caliop_aerosol_type.append(float(row[8]))
                     caliop_CAD.append(float(row[9]))
+                    DN_flag.append(float(row[10]))
+
             except:
                 continue
 
-    return caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD
+    return caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD, DN_flag
 
 # Initialize lists to store data from all files
 all_caliop_Profile_Time = []
@@ -75,12 +79,13 @@ all_caliop_Layer_Top = []
 all_caliop_Tropopause_Altitude = []
 all_caliop_aerosol_type = []
 all_caliop_CAD = []
+all_caliop_DN_flag = []
 
 # Iterate over all CSV files in the directory
 for file in os.listdir(ASH_LAYER_DATA_PATH):
     if file.endswith(".csv"):
         ash_layer_csv_file = os.path.join(ASH_LAYER_DATA_PATH, file)
-        caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD = read_ash_layer_csv(ash_layer_csv_file)
+        caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD, DN_flag = read_ash_layer_csv(ash_layer_csv_file)
 
         # Append data from this file to the collective lists
         all_caliop_Profile_Time.extend(caliop_Profile_Time)
@@ -91,6 +96,7 @@ for file in os.listdir(ASH_LAYER_DATA_PATH):
         all_caliop_Tropopause_Altitude.extend(caliop_Tropopause_Altitude)
         all_caliop_aerosol_type.extend(caliop_aerosol_type)
         all_caliop_CAD.extend(caliop_CAD)
+        all_caliop_DN_flag.extend(DN_flag)
 
         print('Processed file: ', ash_layer_csv_file)
 
@@ -126,11 +132,11 @@ plt.yticks(fontsize=16)
 plt.ylim([-80., 80.])
 plt.xlabel('Time', fontsize=18)
 plt.ylabel('Latitude', fontsize=18)
-plt.title('Occurrence of Stratopsheric Aerosol Layers from CALIOP', fontsize=18)
+plt.title('Occurrence of Stratopsheric Aerosol Layers from CALIOP [Night]', fontsize=18)
 
 # Add colorbar with reference to the mesh
 cbar = plt.colorbar(mesh, extend='both', shrink=0.7)
 cbar.set_label('Ash Layer Occurrences', fontsize=16)  # Change the font size of the colorbar label
 cbar.ax.tick_params(labelsize=14)
 plt.tight_layout()
-plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018.png'), dpi=300)
+plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018_night.png'), dpi=300)
