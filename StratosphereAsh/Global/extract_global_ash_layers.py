@@ -34,7 +34,7 @@ YEAR_MONTH = args.YEAR_MONTH
 
 # Directory paths and locations
 CALIPSO_DATA_PATH = "/gws/nopw/j04/qa4ecv_vol3/CALIPSO/asdc.larc.nasa.gov/data/CALIPSO/LID_L2_05kmALay-Standard-V4-51/"
-CSV_OUTPUT_PATH = './ash_Layer_csv'
+CSV_OUTPUT_PATH = './ash_Layer_csv_DN_flag'
 
 # Initialize Logging
 script_base_name, _ = os.path.splitext(sys.modules['__main__'].__file__)
@@ -72,7 +72,7 @@ def main():
         writer = csv.writer(csvfile, lineterminator='\n')
         # Write header
         writer.writerow(('Latitude', 'Longitude', 'Altitude_Base', 'Altitude_Top', 'Tropopause', 'Color_Ratio',
-                         'Depolarization_Ratio', 'Aerosol_type', 'CAD'))
+                         'Depolarization_Ratio', 'Aerosol_type', 'CAD', 'DN_Flag'))
 
         # iterate through all files
         for file in file_list:
@@ -121,10 +121,7 @@ def main():
                 caliop_lat = np.copy(footprint_lat_caliop)
                 caliop_lon = np.copy(footprint_lon_caliop)
                 caliop_DN_flag = np.copy(caliop_DN_flag)
-                print(caliop_dp.shape)
-                print(caliop_lat.shape)
-                print(caliop_DN_flag.shape)
-                quit()
+
                 # convert caliop_Profile_Time in float to datetime, Units are in seconds, starting from January 1, 1993.
                 caliop_Profile_Time = [convert_seconds_to_datetime(time) for time in caliop_Profile_Time[2, :]]
 
@@ -146,7 +143,7 @@ def main():
                                      caliop_dp[index_row, index_col],
                                      caliop_aerosol_type[index_row, index_col],
                                      caliop_CAD[index_row, index_col],
-                                     caliop_DN_flag[index_row, index_col]))
+                                     caliop_DN_flag[0, index_col]))
 
                 print('Finished processing file: {}'.format(file))
 
