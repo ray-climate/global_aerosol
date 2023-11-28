@@ -79,7 +79,7 @@ def bin_and_filter_data(dates, lats, lons, *other_data):
     filtered_data = defaultdict(lambda: defaultdict(list))
     for day, bins in binned_data.items():
         for bin_key, values in bins.items():
-            if len(values) >= 5:
+            if len(values) >= 3:
                 filtered_data[day][bin_key].extend(values)
 
     unpacked_data = {new_list: [] for new_list in
