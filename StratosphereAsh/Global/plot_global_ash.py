@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.colors import LogNorm
 from datetime import datetime, timedelta
 from matplotlib.gridspec import GridSpec
 
@@ -114,7 +115,8 @@ hist, xedges, yedges = np.histogram2d(mdates.date2num(caliop_times), all_caliop_
 # Plot
 fig, ax = plt.subplots(figsize=(18, 7))
 X, Y = np.meshgrid(xedges, yedges)
-mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', vmin=0., vmax=200.)
+mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', norm=LogNorm())
+
 # Format the time axis
 ax.xaxis_date()
 date_format = mdates.DateFormatter('%Y-%m-%d')
@@ -130,4 +132,5 @@ plt.title('Occurrence of Stratopsheric Aerosol Layers from CALIOP', fontsize=18)
 cbar = plt.colorbar(mesh, extend='both', shrink=0.7)
 cbar.set_label('Ash Layer Occurrences', fontsize=16)  # Change the font size of the colorbar label
 cbar.ax.tick_params(labelsize=14)
+plt.tight_layout()
 plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018.png'), dpi=300)
