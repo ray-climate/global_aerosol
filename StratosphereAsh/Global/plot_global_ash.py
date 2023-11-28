@@ -114,7 +114,7 @@ hist, xedges, yedges = np.histogram2d(mdates.date2num(caliop_times), all_caliop_
 # Plot
 fig, ax = plt.subplots(figsize=(10, 6))
 X, Y = np.meshgrid(xedges, yedges)
-ax.pcolormesh(X, Y, hist.T, shading='auto')
+mesh = ax.pcolormesh(X, Y, hist.T, shading='auto')
 
 # Format the time axis
 ax.xaxis_date()
@@ -125,5 +125,7 @@ plt.xticks(rotation=45)
 plt.xlabel('Time')
 plt.ylabel('Latitude')
 plt.title('Occurrence over Time and Latitude (2007-2018)')
-plt.colorbar(label='Number of Occurrences')
+
+# Add colorbar with reference to the mesh
+plt.colorbar(mesh, label='Number of Occurrences')
 plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018.png'), dpi=300)
