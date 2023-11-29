@@ -133,46 +133,40 @@ for file in os.listdir(ASH_LAYER_DATA_PATH):
 
         print('Number of detected ash layers from file {}: {}'.format(file, len(caliop_Profile_Time)))
 
-quit()
 # Step 1: Convert all_caliop_Profile_Time to datetime objects
 caliop_times = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f') for time in all_caliop_Profile_Time]
 
 # Filter and bin the data
 caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag = bin_and_filter_data(caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag)
-
-# Define start and end times
-start_time = datetime(2007, 1, 1)
-end_time = datetime(2018, 12, 31)
-
-# Calculate the number of 10-day intervals between start_time and end_time
-num_intervals = (end_time - start_time).days // 10 + 1
-
-# Define the bins for time and latitude
-time_bins = mdates.date2num([start_time + timedelta(days=10*i) for i in range(num_intervals)])
-lat_bins = np.arange(min(all_caliop_lat), max(all_caliop_lat) + 1, 1)
-
-# Create a 2D histogram
-hist, xedges, yedges = np.histogram2d(mdates.date2num(caliop_times), all_caliop_lat, bins=[time_bins, lat_bins])
+layer_base_minus_tropopause = np.array(all_caliop_Layer_Base) - np.array(all_caliop_Tropopause_Altitude)
 
 # Plot
-fig, ax = plt.subplots(figsize=(18, 7))
-X, Y = np.meshgrid(xedges, yedges)
-mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', norm=LogNorm())
-# mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', vmin=20, vmax=100)
-# Format the time axis
-ax.xaxis_date()
-date_format = mdates.DateFormatter('%Y-%m-%d')
-ax.xaxis.set_major_formatter(date_format)
-plt.xticks(rotation=45, fontsize=16)
-plt.yticks(fontsize=16)
-plt.ylim([-80., 80.])
-plt.xlabel('Time', fontsize=18)
-plt.ylabel('Latitude', fontsize=18)
-plt.title('Occurrence of Stratospheric Aerosol Layers from CALIOP [Night]', fontsize=18)
+fig, ax = plt.subplots(figsize=(18, 18))
 
-# Add colorbar with reference to the mesh
-cbar = plt.colorbar(mesh, extend='both', shrink=0.7)
-cbar.set_label('Ash Layer Occurrences', fontsize=16)  # Change the font size of the colorbar label
-cbar.ax.tick_params(labelsize=14)
-plt.tight_layout()
-plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018_night.png'), dpi=300)
+plt.hist(layer_base_minus_tropopause, bins=50, color='blue', edgecolor='black')
+plt.title('Ash Layer Base to Tropopause Distance [km]')
+plt.xlabel('Distance [km]')
+plt.ylabel('Frequency')
+plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png'), dpi=300)
+#
+#
+# X, Y = np.meshgrid(xedges, yedges)
+# mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', norm=LogNorm())
+# # mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', vmin=20, vmax=100)
+# # Format the time axis
+# ax.xaxis_date()
+# date_format = mdates.DateFormatter('%Y-%m-%d')
+# ax.xaxis.set_major_formatter(date_format)
+# plt.xticks(rotation=45, fontsize=16)
+# plt.yticks(fontsize=16)
+# plt.ylim([-80., 80.])
+# plt.xlabel('Time', fontsize=18)
+# plt.ylabel('Latitude', fontsize=18)
+# plt.title('Occurrence of Stratospheric Aerosol Layers from CALIOP [Night]', fontsize=18)
+#
+# # Add colorbar with reference to the mesh
+# cbar = plt.colorbar(mesh, extend='both', shrink=0.7)
+# cbar.set_label('Ash Layer Occurrences', fontsize=16)  # Change the font size of the colorbar label
+# cbar.ax.tick_params(labelsize=14)
+# plt.tight_layout()
+# plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018_night.png'), dpi=300)
