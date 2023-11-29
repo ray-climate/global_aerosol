@@ -116,7 +116,7 @@ all_caliop_DN_flag = []
 
 # Iterate over all CSV files in the directory
 for file in os.listdir(ASH_LAYER_DATA_PATH):
-    if file.endswith(".csv"):
+    if file.endswith(".csv") & file.startswith('stratosphere_aerosol_layers_2011'):
         ash_layer_csv_file = os.path.join(ASH_LAYER_DATA_PATH, file)
         caliop_Profile_Time, caliop_lat, caliop_lon, caliop_Layer_Base, caliop_Layer_Top, caliop_Tropopause_Altitude, caliop_aerosol_type, caliop_CAD, DN_flag = read_ash_layer_csv(ash_layer_csv_file)
 
@@ -138,7 +138,7 @@ caliop_times = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f') for time in all_
 
 # Filter and bin the data
 caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag = bin_and_filter_data(caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag)
-layer_base_minus_tropopause = np.array(all_caliop_Layer_Base) - np.array(all_caliop_Tropopause_Altitude)
+layer_base_minus_tropopause = np.array((all_caliop_Layer_Top+all_caliop_Layer_Base)/2.) - np.array(all_caliop_Tropopause_Altitude)
 
 # Plot
 fig, ax = plt.subplots(figsize=(18, 18))
