@@ -55,7 +55,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
             try:
                 profile_time = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S.%f')
                 lat = float(row[1])
-                print(START_DATE, profile_time)
+                print(START_DATE, profile_time, 1)
                 quit()
                 if (-80 <= lat <= -20) & (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.) & (START_DATE <= profile_time <= END_DATE):
 
