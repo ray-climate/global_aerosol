@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @Filename:    plot_global_ash.py
+# @Filename:    plot_distance_above_tropopause.py
 # @Author:      Dr. Rui Song
 # @Email:       rui.song@physics.ox.ac.uk
-# @Time:        28/11/2023 10:48
+# @Time:        29/11/2023 21:55
 
 import csv
 import os
@@ -23,6 +23,9 @@ from getColocationData.get_caliop import *
 
 ASH_LAYER_DATA_PATH = './ash_Layer_csv_DN_flag'
 SAVE_FIGURE_PATH = './ash_Layer_figures'
+
+START_DATE = '2011-06-04'
+END_DATE = '2011-07-31'
 
 # Create csv saving directory if not present
 if not os.path.exists(SAVE_FIGURE_PATH):
@@ -50,7 +53,10 @@ def read_ash_layer_csv(ash_layer_csv_file):
 
         for row in reader:
             try:
-                if (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.):
+                profile_time = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S.%f')
+                lat = float(row[1])
+
+                if (80 <= lat <= -20) & (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.) & (START_DATE <= profile_time <= END_DATE):
 
                     caliop_Profile_Time.append(row[0])
                     caliop_lat.append(float(row[1]))
@@ -127,6 +133,7 @@ for file in os.listdir(ASH_LAYER_DATA_PATH):
 
         print('Processed file: ', ash_layer_csv_file)
 
+quit()
 # Step 1: Convert all_caliop_Profile_Time to datetime objects
 caliop_times = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f') for time in all_caliop_Profile_Time]
 
