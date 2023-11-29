@@ -131,7 +131,7 @@ for file in os.listdir(ASH_LAYER_DATA_PATH):
         all_caliop_CAD.extend(caliop_CAD)
         all_caliop_DN_flag.extend(DN_flag)
 
-        print('Processed file: ', ash_layer_csv_file)
+        print('Number of detected ash layers from file {}: {}'.format(file, len(caliop_Profile_Time)))
 
 quit()
 # Step 1: Convert all_caliop_Profile_Time to datetime objects
