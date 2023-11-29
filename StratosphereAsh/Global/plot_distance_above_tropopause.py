@@ -56,7 +56,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
                 profile_time = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S.%f')
                 lat = float(row[1])
 
-                if (80 <= lat <= -20) & (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.) & (START_DATE <= profile_time <= END_DATE):
+                if (-80 <= lat <= -20) & (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.) & (START_DATE <= profile_time <= END_DATE):
 
                     caliop_Profile_Time.append(row[0])
                     caliop_lat.append(float(row[1]))
