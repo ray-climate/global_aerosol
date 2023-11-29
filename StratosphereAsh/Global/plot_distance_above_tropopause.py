@@ -138,7 +138,7 @@ caliop_times = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f') for time in all_
 
 # Filter and bin the data
 caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag = bin_and_filter_data(caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag)
-layer_base_minus_tropopause = np.array((all_caliop_Layer_Top+all_caliop_Layer_Base)/2.) - np.array(all_caliop_Tropopause_Altitude)
+layer_base_minus_tropopause = (np.array(all_caliop_Layer_Top) + np.array(all_caliop_Layer_Base)) / 2. - np.array(all_caliop_Tropopause_Altitude)
 
 # Plot
 fig, ax = plt.subplots(figsize=(18, 18))
