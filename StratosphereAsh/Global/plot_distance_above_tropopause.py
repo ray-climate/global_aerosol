@@ -24,8 +24,8 @@ from getColocationData.get_caliop import *
 ASH_LAYER_DATA_PATH = './ash_Layer_csv_DN_flag'
 SAVE_FIGURE_PATH = './ash_Layer_figures'
 
-START_DATE = '2011-06-04'
-END_DATE = '2011-07-31'
+START_DATE = datetime.strptime('2011-06-04', '%Y-%m-%d')
+END_DATE = datetime.strptime('2011-07-31', '%Y-%m-%d')
 
 # Create csv saving directory if not present
 if not os.path.exists(SAVE_FIGURE_PATH):
@@ -55,8 +55,7 @@ def read_ash_layer_csv(ash_layer_csv_file):
             try:
                 profile_time = datetime.strptime(row[0], '%Y-%m-%d %H:%M:%S.%f')
                 lat = float(row[1])
-                print(START_DATE, profile_time, 1)
-                quit()
+
                 if (-80 <= lat <= -20) & (float(row[8]) == 2) & (float(row[9]) <= -20.) & (float(row[10]) == 1.) & (START_DATE <= profile_time <= END_DATE):
 
                     caliop_Profile_Time.append(row[0])
