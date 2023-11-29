@@ -11,6 +11,7 @@ import sys
 import logging
 import argparse
 import numpy as np
+import proplot as pplt
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.colors import LogNorm
@@ -139,15 +140,29 @@ caliop_times = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f') for time in all_
 # Filter and bin the data
 caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag = bin_and_filter_data(caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag)
 layer_base_minus_tropopause = (np.array(all_caliop_Layer_Top) + np.array(all_caliop_Layer_Base)) / 2. - np.array(all_caliop_Tropopause_Altitude)
+data = layer_base_minus_tropopause
 
-# Plot
-fig, ax = plt.subplots(figsize=(18, 18))
+# Set up the figure using ProPlot
+fig, ax = pplt.subplots(figsize=(18, 18))
 
-plt.hist(layer_base_minus_tropopause, bins=50, color='blue', edgecolor='black')
-plt.title('Ash Layer Base to Tropopause Distance [km]')
-plt.xlabel('Distance [km]')
-plt.ylabel('Frequency')
-plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png'), dpi=300)
+# Create the histogram with ProPlot's enhanced features
+ax.hist(data, bins=50, color='blue', edgecolor='black')
+
+# Set titles and labels with improved formatting
+ax.set_title('Ash Layer Base to Tropopause Distance [km]', fontsize=16)
+ax.set_xlabel('Distance [km]', fontsize=14)
+ax.set_ylabel('Frequency', fontsize=14)
+
+# Save the figure
+save_path = os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png')
+fig.savefig(save_path, dpi=300)
+# fig, ax = plt.subplots(figsize=(18, 18))
+#
+# plt.hist(layer_base_minus_tropopause, bins=50, color='blue', edgecolor='black')
+# plt.title('Ash Layer Base to Tropopause Distance [km]')
+# plt.xlabel('Distance [km]')
+# plt.ylabel('Frequency')
+# plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png'), dpi=300)
 #
 #
 # X, Y = np.meshgrid(xedges, yedges)
