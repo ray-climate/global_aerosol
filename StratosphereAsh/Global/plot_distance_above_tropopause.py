@@ -143,25 +143,28 @@ layer_base_minus_tropopause = (np.array(all_caliop_Layer_Top) + np.array(all_cal
 data = layer_base_minus_tropopause
 
 # Set a custom style for the plot
-pplt.rc.update({
-    'figure.facecolor': 'white',  # Background color
-    'axes.labelcolor': 'black',   # Label color
-    'axes.edgecolor': 'black',   # Axis edge color
-    'xtick.color': 'black',      # X-axis tick color
-    'ytick.color': 'black',      # Y-axis tick color
-    'grid.alpha': 0.5,           # Grid lines transparency
-})
+# pplt.rc.update({
+#     'figure.facecolor': 'white',  # Background color
+#     'axes.labelcolor': 'black',   # Label color
+#     'axes.edgecolor': 'black',   # Axis edge color
+#     'xtick.color': 'black',      # X-axis tick color
+#     'ytick.color': 'black',      # Y-axis tick color
+#     'grid.alpha': 0.5,           # Grid lines transparency
+# })
 
 # Set up the figure using ProPlot
-fig, ax = pplt.subplots(figsize=(6, 4))
+fig, ax = pplt.subplots(refwidth=4, refaspect=(3, 2))
 
-# Create the histogram with ProPlot's enhanced features
-ax.hist(data, bins=50, color='blue', edgecolor='black')
+# Set title, xlabel, and ylabel
+ax.format(suptitle='Ash Layer Base to Tropopause Distance Histogram', xlabel='Distance [km]', ylabel='Frequency')
 
-# Set titles and labels with improved formatting
-ax.set_title('Ash Layer Base to Tropopause Distance [km]', fontsize=16)
-ax.set_xlabel('Distance [km]', fontsize=14)
-ax.set_ylabel('Frequency', fontsize=14)
+# Create a histogram plot
+ax.hist(
+    layer_base_minus_tropopause, pplt.arange(min(layer_base_minus_tropopause), max(layer_base_minus_tropopause), 0.2),
+    filled=True, alpha=0.7, edgecolor='black',
+    cycle=('indigo9', 'gray3', 'red9'), legend='ul', labels=['Data']
+)
+
 
 # Save the figure
 save_path = os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png')
