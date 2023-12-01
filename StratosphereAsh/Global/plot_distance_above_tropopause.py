@@ -146,7 +146,7 @@ data = layer_base_minus_tropopause[layer_base_minus_tropopause>=0.]
 fig, ax = pplt.subplots(refwidth=4, refaspect=(3, 2))
 
 # Set title, xlabel, and ylabel
-ax.format(suptitle='Distance between Tropopause and Ash Layer Base', xlabel='Distance [km]', ylabel='Frequency')
+ax.format(suptitle='Distance between Tropopause and Ash Layer Centre', xlabel='Distance [km]', ylabel='Frequency')
 
 # Create a histogram plot
 ax.hist(
