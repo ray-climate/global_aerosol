@@ -163,10 +163,12 @@ fig.savefig(save_path, dpi=300)
 days_away = [(date - START_DATE).days for date in caliop_times]
 fig, ax = pplt.subplots(figsize=(8, 6))
 # Create the scatter plot
-ax.scatter(days_away, layer_base_minus_tropopause, s=10, c='blue', alpha=0.5)
+hist = ax.hist2d(days_away, layer_base_minus_tropopause, bins=(50, 50), cmap='viridis', cmin=1)
+# Add colorbar
+cb = fig.colorbar(hist, label='Density', ax=ax)
 # Set labels and title
 ax.set_xlabel('Days Away from START_DATE')
 ax.set_ylabel('Layer Base - Tropopause [km]')
-ax.set_title('Scatter Plot of Layer Base - Tropopause vs. Days Away from START_DATE')
+ax.set_title('2D Histogram of Layer Base - Tropopause vs. Days Away from START_DATE')
 # Save the figure
 fig.savefig(os.path.join(SAVE_FIGURE_PATH, 'layer_tropopause_scatter_plot.png'), dpi=300)
