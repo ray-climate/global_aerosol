@@ -142,8 +142,18 @@ caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_
 layer_base_minus_tropopause = (np.array(all_caliop_Layer_Top) + np.array(all_caliop_Layer_Base)) / 2. - np.array(all_caliop_Tropopause_Altitude)
 data = layer_base_minus_tropopause
 
+# Set a custom style for the plot
+pplt.rc.update({
+    'figure.facecolor': 'white',  # Background color
+    'axes.labelcolor': 'black',   # Label color
+    'axes.edgecolor': 'black',   # Axis edge color
+    'xtick.color': 'black',      # X-axis tick color
+    'ytick.color': 'black',      # Y-axis tick color
+    'grid.alpha': 0.5,           # Grid lines transparency
+})
+
 # Set up the figure using ProPlot
-fig, ax = pplt.subplots(figsize=(18, 18))
+fig, ax = pplt.subplots(figsize=(6, 4))
 
 # Create the histogram with ProPlot's enhanced features
 ax.hist(data, bins=50, color='blue', edgecolor='black')
