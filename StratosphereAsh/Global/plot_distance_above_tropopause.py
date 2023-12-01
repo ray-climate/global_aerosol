@@ -154,6 +154,7 @@ ax.hist(
     filled=True, alpha=0.7, edgecolor='black',
     cycle=('indigo9', 'gray3', 'red9')
 )
+ax.set_xlim([0., 6.])
 # Save the figure
 save_path = os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png')
 fig.savefig(save_path, dpi=300)
