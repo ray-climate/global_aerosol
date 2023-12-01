@@ -150,7 +150,7 @@ ax.format(suptitle='Distance between Tropopause and Ash Layer Base', xlabel='Dis
 
 # Create a histogram plot
 ax.hist(
-    layer_base_minus_tropopause, pplt.arange(min(layer_base_minus_tropopause), max(layer_base_minus_tropopause), 0.2),
+    data, pplt.arange(min(layer_base_minus_tropopause), max(layer_base_minus_tropopause), 0.2),
     filled=True, alpha=0.7, edgecolor='black',
     cycle=('indigo9', 'gray3', 'red9')
 )
