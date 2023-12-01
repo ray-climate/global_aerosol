@@ -140,61 +140,20 @@ caliop_times = [datetime.strptime(time, '%Y-%m-%d %H:%M:%S.%f') for time in all_
 # Filter and bin the data
 caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag = bin_and_filter_data(caliop_times, all_caliop_lat, all_caliop_lon, all_caliop_Layer_Base, all_caliop_Layer_Top, all_caliop_Tropopause_Altitude, all_caliop_aerosol_type, all_caliop_CAD, all_caliop_DN_flag)
 layer_base_minus_tropopause = (np.array(all_caliop_Layer_Top) + np.array(all_caliop_Layer_Base)) / 2. - np.array(all_caliop_Tropopause_Altitude)
-data = layer_base_minus_tropopause
-
-# Set a custom style for the plot
-# pplt.rc.update({
-#     'figure.facecolor': 'white',  # Background color
-#     'axes.labelcolor': 'black',   # Label color
-#     'axes.edgecolor': 'black',   # Axis edge color
-#     'xtick.color': 'black',      # X-axis tick color
-#     'ytick.color': 'black',      # Y-axis tick color
-#     'grid.alpha': 0.5,           # Grid lines transparency
-# })
+data = layer_base_minus_tropopause[layer_base_minus_tropopause>=0.]
 
 # Set up the figure using ProPlot
 fig, ax = pplt.subplots(refwidth=4, refaspect=(3, 2))
 
 # Set title, xlabel, and ylabel
-ax.format(suptitle='Ash Layer Base to Tropopause Distance Histogram', xlabel='Distance [km]', ylabel='Frequency')
+ax.format(suptitle='Distance between Tropopause and Ash Layer Base', xlabel='Distance [km]', ylabel='Frequency')
 
 # Create a histogram plot
 ax.hist(
     layer_base_minus_tropopause, pplt.arange(min(layer_base_minus_tropopause), max(layer_base_minus_tropopause), 0.2),
     filled=True, alpha=0.7, edgecolor='black',
-    cycle=('indigo9', 'gray3', 'red9'), legend='ul', labels=['Data']
+    cycle=('indigo9', 'gray3', 'red9')
 )
-
-
 # Save the figure
 save_path = os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png')
 fig.savefig(save_path, dpi=300)
-# fig, ax = plt.subplots(figsize=(18, 18))
-#
-# plt.hist(layer_base_minus_tropopause, bins=50, color='blue', edgecolor='black')
-# plt.title('Ash Layer Base to Tropopause Distance [km]')
-# plt.xlabel('Distance [km]')
-# plt.ylabel('Frequency')
-# plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'base_above_tropopause_hist.png'), dpi=300)
-#
-#
-# X, Y = np.meshgrid(xedges, yedges)
-# mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', norm=LogNorm())
-# # mesh = ax.pcolormesh(X, Y, hist.T, shading='auto', cmap='plasma', vmin=20, vmax=100)
-# # Format the time axis
-# ax.xaxis_date()
-# date_format = mdates.DateFormatter('%Y-%m-%d')
-# ax.xaxis.set_major_formatter(date_format)
-# plt.xticks(rotation=45, fontsize=16)
-# plt.yticks(fontsize=16)
-# plt.ylim([-80., 80.])
-# plt.xlabel('Time', fontsize=18)
-# plt.ylabel('Latitude', fontsize=18)
-# plt.title('Occurrence of Stratospheric Aerosol Layers from CALIOP [Night]', fontsize=18)
-#
-# # Add colorbar with reference to the mesh
-# cbar = plt.colorbar(mesh, extend='both', shrink=0.7)
-# cbar.set_label('Ash Layer Occurrences', fontsize=16)  # Change the font size of the colorbar label
-# cbar.ax.tick_params(labelsize=14)
-# plt.tight_layout()
-# plt.savefig(os.path.join(SAVE_FIGURE_PATH, 'Occurrence_over_Time_and_Latitude_2007_2018_night.png'), dpi=300)
