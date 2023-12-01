@@ -162,10 +162,12 @@ fig.savefig(save_path, dpi=300)
 # Calculate the number of days away from START_DATE
 days_away = [(date - START_DATE).days for date in caliop_times]
 fig, ax = pplt.subplots(figsize=(8, 6))
-# Create the scatter plot
-hist = ax.hist2d(days_away, layer_base_minus_tropopause, bins=(50, 50), cmap='viridis', cmin=1)
+hist, xedges, yedges = np.histogram2d(days_away, layer_base_minus_tropopause, bins=(50, 50))
+cax = ax.pcolormesh(xedges, yedges, hist.T, cmap='viridis', shading='auto')
+
 # Add colorbar
-cb = fig.colorbar(hist, label='Density', ax=ax)
+cb = fig.colorbar(cax, label='Density', ax=ax)
+
 # Set labels and title
 ax.set_xlabel('Days Away from START_DATE')
 ax.set_ylabel('Layer Base - Tropopause [km]')
