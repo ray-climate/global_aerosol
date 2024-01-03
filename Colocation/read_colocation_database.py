@@ -73,7 +73,7 @@ fig = plt.figure(figsize=(24, 18))
 ax = plt.axes(projection=ccrs.PlateCarree())
 gl = ax.gridlines(draw_labels=True, linewidth=0.3, color="black", alpha=0.5, linestyle="-")
 colocation_points = plt.pcolormesh(lon_glob_mesh, lat_glob_mesh, weight_glob, transform=ccrs.PlateCarree(),
-                                   vmin = colourbar_min, vmax = colourbar_max, cmap='gist_heat')
+                                   vmin = colourbar_min, vmax = colourbar_max, cmap='gist_heat_r')
 
 ax.coastlines(color='white')
 # ax.stock_img()
