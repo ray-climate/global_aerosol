@@ -248,7 +248,9 @@ if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
     kde = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
-    plt.colorbar(kde, ax=plt.gca(), label='Density')  # Adding a colorbar
+    quad_mesh = kde.collections[0]  # Get the QuadMesh object
+    plt.colorbar(quad_mesh, ax=plt.gca(), label='Density')  # Adding a colorbar
+
 
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
