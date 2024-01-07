@@ -295,7 +295,7 @@ if True:
     # # Set the x-axis scale and ticks
     # ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
     # ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-    ax.set_xlim([1.e-6, 0.05])
+    ax.set_xlim([-1, 5.e-2])
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_backscatter_density_aeolus_linear.png'
     plt.savefig(output_path, dpi=300)
