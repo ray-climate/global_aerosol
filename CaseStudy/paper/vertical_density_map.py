@@ -249,7 +249,7 @@ if True:
     plt.figure(figsize=(8, 12))
     kde = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True)
     quad_mesh = kde.collections[0]  # Get the QuadMesh object
-    plt.colorbar(quad_mesh, ax=plt.gca(), label='Density')  # Adding a colorbar
+    plt.colorbar(quad_mesh, ax=plt.gca(), label='Density', cmap='Blues')  # Adding a colorbar
 
 
     for i in range(len(beta_aeolus_mean)-1):
