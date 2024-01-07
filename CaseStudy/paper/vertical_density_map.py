@@ -278,7 +278,7 @@ new plot fig.4(b)
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_aeolus_beta_linear, x='beta_aeolus_linear', y='Altitude', cmap='Blues', fill=True)
+    sns.kdeplot(data=long_form_data_aeolus_beta_linear, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i] / conversion_factor], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
