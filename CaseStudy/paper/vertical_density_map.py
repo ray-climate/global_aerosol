@@ -344,7 +344,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(-2.4, 18, '%d CALIOP Profile'%beta_caliop_mean.shape[1], fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(-2.4, 18, '%d CALIOP Profile'%beta_caliop_all.shape[1], fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
