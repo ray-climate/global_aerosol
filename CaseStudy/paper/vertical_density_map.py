@@ -327,7 +327,7 @@ if True:
     vmin, vmax = 0.01, 0.02
     norm = Normalize(vmin=vmin, vmax=vmax)
 
-    ax =  sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True)
+    ax =  sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm)
 
     # Create a colorbar with the extend option manually
     sm = ScalarMappable(cmap='Greens', norm=norm)
@@ -396,8 +396,7 @@ if True:
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm)
-
+    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True)
     plt.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP')
 
     plt.ylabel('Altitude (km)', fontsize=20)
