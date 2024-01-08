@@ -258,6 +258,8 @@ if True:
     cax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     # only set 6 major ticks
     cax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+    # extend below 1% and above 5%
+    cax.set_ylim([0., 0.05])
 
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
