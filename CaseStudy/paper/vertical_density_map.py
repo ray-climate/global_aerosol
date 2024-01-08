@@ -136,8 +136,7 @@ dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 dp_caliop_all_std = np.nanstd(dp_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
 beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
-print(beta_caliop_all.shape)
-quit()
+
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
 
@@ -345,7 +344,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(-1.5, 18, 'CALIOP', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(-2.4, 18, '%d CALIOP Profile'%beta_caliop_mean.shape[1], fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
