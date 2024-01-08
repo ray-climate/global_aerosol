@@ -396,7 +396,8 @@ if True:
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True)
+    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm)
+
     plt.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP')
 
     plt.ylabel('Altitude (km)', fontsize=20)
