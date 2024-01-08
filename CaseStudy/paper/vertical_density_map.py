@@ -243,21 +243,26 @@ long_form_data_aeolus_alpha = long_form_data_aeolus_alpha[long_form_data_aeolus_
 # new info
 long_form_data_aeolus_beta_linear = long_form_data_aeolus_beta[long_form_data_aeolus_beta['beta_aeolus'] >= 1.e-5]
 
+from matplotlib.colors import Normalize
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
 
-    sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
-                      cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2, 'extend': 'both'})
+    vmin, vmax = 0.01, 0.05
+    # sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
+    #                   cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2})
+    sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True,
+                norm=Normalize(vmin=vmin, vmax=vmax), cbar=True,
+                cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2, 'extend': 'both'})
+
     fig = plt.gcf()
     cax = fig.axes[-1]  # The colorbar axes should be the last one in the list
     # Set the formatter for the colorbar's y-axis
     cax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     # only set 6 major ticks
     cax.yaxis.set_major_locator(ticker.MaxNLocator(6))
-    # extend below 1% and above 5%
-    cax.set_ylim([0., 0.05])
+    # extend below 1% and above 5%, and set colorbar as extend on both sides
 
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
