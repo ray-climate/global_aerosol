@@ -245,6 +245,7 @@ long_form_data_aeolus_beta_linear = long_form_data_aeolus_beta[long_form_data_ae
 
 from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
+print(beta_aeolus_all.shape)
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
