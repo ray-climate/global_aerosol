@@ -324,7 +324,7 @@ if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
 
-    vmin, vmax = 0.02, 0.35
+    vmin, vmax = 0.02, 0.035
     norm = Normalize(vmin=vmin, vmax=vmax)
 
     ax =  sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True)
