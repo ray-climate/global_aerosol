@@ -248,11 +248,14 @@ if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
 
-    ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
+    sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
                       cbar_kws={'label': 'Density', 'shrink': 0.4, 'orientation': 'vertical', 'pad': -0.2, 'format':'%.2f'})
 
-    cbar = ax.collections[0].colorbar
-    cbar.ax.yaxis.set_major_formatter(ticker.LogFormatter())
+    fig = plt.gcf()
+    cax = fig.axes[-1]  # The colorbar axes should be the last one in the list
+
+    # Set the formatter for the colorbar's y-axis
+    cax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=2))
 
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
