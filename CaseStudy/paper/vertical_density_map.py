@@ -254,7 +254,7 @@ if True:
     #                   cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2})
     sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True,
                 norm=Normalize(vmin=vmin, vmax=vmax), cbar=True,
-                cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2, 'extend': 'both'})
+                cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2, 'extend': 'both', 'extendrect': False})
 
     fig = plt.gcf()
     cax = fig.axes[-1]  # The colorbar axes should be the last one in the list
