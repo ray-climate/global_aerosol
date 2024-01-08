@@ -267,9 +267,9 @@ if True:
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     for i in range(len(beta_aeolus_mean)-1):
-        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
+        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=3)
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i+1] / conversion_factor)], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r')
+        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i+1] / conversion_factor)], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=3)
     plt.plot([], [], 'k', label='Aeolus')
     plt.ylabel('Altitude [km]', fontsize=20)
     plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
