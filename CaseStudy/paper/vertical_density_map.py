@@ -250,18 +250,17 @@ if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
 
-    vmin, vmax = 0.01, 0.05
+    vmin, vmax = 0.008, 0.048
     norm = Normalize(vmin=vmin, vmax=vmax)
 
     # sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
     #                   cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2})
-    ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True,
-                     norm=norm)
+    ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm)
 
     # Create a colorbar with the extend option manually
     sm = ScalarMappable(cmap='Blues', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
-    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=0.05, shrink=0.3, extend='both')
+    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=12)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
