@@ -245,7 +245,7 @@ long_form_data_aeolus_beta_linear = long_form_data_aeolus_beta[long_form_data_ae
 
 from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
-print(beta_aeolus_all.shape)
+
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
@@ -262,7 +262,7 @@ if True:
     sm = ScalarMappable(cmap='Blues', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
     cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
-    cbar.set_label('Density', fontsize=12)
+    cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
@@ -277,7 +277,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(-2, 18, '%d ALADIN Profiles'%beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(-2.4, 18, '%d ALADIN Profiles'%beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
