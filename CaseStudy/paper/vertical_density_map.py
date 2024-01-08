@@ -249,6 +249,10 @@ if True:
     plt.figure(figsize=(8, 12))
     kde = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True)
 
+    cbar = ax.collections[0].colorbar
+    cbar.set_label('Density', fontsize=16)  # Set the label for the colorbar
+    cbar.ax.set_position([0.85, 0.85, 0.05, 0.7])  # Modify these values for position and size: [left, bottom, width, height]
+
 
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
