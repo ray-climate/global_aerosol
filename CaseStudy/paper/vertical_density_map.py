@@ -249,8 +249,10 @@ if True:
     plt.figure(figsize=(8, 12))
 
     ax = kde = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
-                      cbar_kws={'label': 'Density', 'shrink': 0.4, 'orientation': 'vertical', 'pad': -0.2, 'format':'%.2f', 'ticks': [0., 0.01, 0.02, 0.03, 0.04, 0.05]})
+                      cbar_kws={'label': 'Density', 'shrink': 0.4, 'orientation': 'vertical', 'pad': -0.2, 'format':'%.2f'})
 
+    cbar = ax.collections[0].colorbar
+    cbar.ax.yaxis.set_major_formatter(ticker.LogFormatter())
 
     for i in range(len(beta_aeolus_mean)-1):
         plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
