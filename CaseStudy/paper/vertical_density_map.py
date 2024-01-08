@@ -248,7 +248,7 @@ if True:
     # Plot the KDE density plot and the curve plot for aeolus
     plt.figure(figsize=(8, 12))
 
-    ax = kde = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
+    ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
                       cbar_kws={'label': 'Density', 'shrink': 0.4, 'orientation': 'vertical', 'pad': -0.2, 'format':'%.2f'})
 
     cbar = ax.collections[0].colorbar
