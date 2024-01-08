@@ -136,7 +136,8 @@ dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 dp_caliop_all_std = np.nanstd(dp_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
 beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
-
+print(beta_caliop_all.shape)
+quit()
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
 
@@ -324,7 +325,7 @@ if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
 
-    vmin, vmax = 0.05, 0.25
+    vmin, vmax = 0.02, 0.3
     norm = Normalize(vmin=vmin, vmax=vmax)
 
     ax = sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm)
