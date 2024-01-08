@@ -324,20 +324,20 @@ if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
 
-    vmin, vmax = 0.008, 0.048
+    vmin, vmax = 0.02, 0.06
     norm = Normalize(vmin=vmin, vmax=vmax)
 
     ax =  sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True)
 
     # Create a colorbar with the extend option manually
-    sm = ScalarMappable(cmap='Blues', norm=norm)
+    sm = ScalarMappable(cmap='Greens', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
     cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
-    plt.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='CALIOP')
+    plt.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
     plt.ylabel('Altitude [km]', fontsize=20)
     plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
     # plt.title(f'CALIPSO aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
