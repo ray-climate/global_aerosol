@@ -324,18 +324,18 @@ if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
 
-    vmin, vmax = 0.01, 0.02
+    vmin, vmax = 0.1, 0.2
     norm = Normalize(vmin=vmin, vmax=vmax)
 
-    sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True,cbar=True)
+    sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm)
 
     # Create a colorbar with the extend option manually
-    # sm = ScalarMappable(cmap='Greens', norm=norm)
-    # sm.set_array([])  # You need to set_array for ScalarMappable
-    # cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
-    # cbar.set_label('Density', fontsize=15)
-    # cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
-    # cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+    sm = ScalarMappable(cmap='Greens', norm=norm)
+    sm.set_array([])  # You need to set_array for ScalarMappable
+    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
+    cbar.set_label('Density', fontsize=15)
+    cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
+    cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     plt.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
     plt.ylabel('Altitude [km]', fontsize=20)
