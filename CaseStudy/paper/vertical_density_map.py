@@ -249,7 +249,7 @@ if True:
     plt.figure(figsize=(8, 12))
 
     ax = kde = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
-                      cbar_kws={'label': 'Density', 'shrink': 0.4, 'orientation': 'vertical', 'pad': -0.2, 'format':'%.2f'})
+                      cbar_kws={'label': 'Density', 'shrink': 0.4, 'orientation': 'vertical', 'pad': -0.2, 'format':'%.2f', 'extend':'both'})
 
 
     for i in range(len(beta_aeolus_mean)-1):
