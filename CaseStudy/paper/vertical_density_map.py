@@ -321,8 +321,33 @@ if True:
     plt.savefig(output_path, dpi=300)
     plt.close()
 
-quit()
+# caliop backscatter linear
 
+if True:
+    # plot the KDE density plot and the curve plot for caliop
+    plt.figure(figsize=(8, 12))
+
+    ax = sns.kdeplot(data=long_form_data_caliop, x='beta_caliop', y='Altitude', cmap='Greens', fill=True)
+    plt.plot(beta_caliop_mean, alt_caliop, 'r', label='CALIOP', lw=2)
+    plt.ylabel('Altitude [km]', fontsize=20)
+    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
+    # plt.title(f'CALIPSO aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+    # Set x-axis and y-axis ticks
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+    plt.text(0.011, 18, '%d CALIOP Profiles'%beta_caliop_all.shape[1], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    ax = plt.gca()
+    # # Set the x-axis scale and ticks
+    custom_ticks = [0, 0.005, 0.01, 0.015, 0.02]
+    ax.set_xticks(custom_ticks)
+    ax.set_xticklabels([str(tick) for tick in custom_ticks])
+    ax.set_xlim([0., 0.02])
+    plt.ylim([0.,20.])
+    output_path = output_dir + f'retrieval_backscatter_density_caliop_linear.png'
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+
+quit()
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
