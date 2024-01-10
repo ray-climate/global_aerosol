@@ -298,9 +298,9 @@ if True:
     plt.figure(figsize=(8, 12))
     sns.kdeplot(data=long_form_data_aeolus_beta_linear, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
     for i in range(len(beta_aeolus_mean)-1):
-        plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i] / conversion_factor], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r')
+        plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i] / conversion_factor], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=2)
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-        plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i+1] / conversion_factor], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r')
+        plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i+1] / conversion_factor], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=2)
     plt.plot([], [], 'k', label='Aeolus')
     plt.ylabel('Altitude [km]', fontsize=20)
     plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
@@ -309,16 +309,18 @@ if True:
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
     # plt.text(-1.5, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(0.125, 18, '%d ALADIN Profiles' % beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
-    # ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
-    # ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
+    custom_ticks = [0, 0.005, 0.01, 0.015, 0.02]
+    ax.set_xticks(custom_ticks)
+    ax.set_xticklabels([str(tick) for tick in custom_ticks])
     ax.set_xlim([0.,0.02])
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_backscatter_density_aeolus_linear.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
-
+quit()
 
 if True:
     # plot the KDE density plot and the curve plot for caliop
