@@ -412,9 +412,9 @@ if True:
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     for i in range(len(alpha_aeolus_mean)-1):
-        plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
+        plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=3)
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-        plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'k')
+        plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=3)
     plt.plot([], [], 'k', label='Aeolus')
     # Customize the plot
     plt.ylabel('Altitude [km]', fontsize=20)
@@ -434,12 +434,12 @@ if True:
     output_path = output_dir + f'retrieval_extinction_density_aeolus_linear.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
-quit()
+
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True)
-    plt.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP')
+    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True, cbar=True)
+    plt.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
 
     plt.ylabel('Altitude (km)', fontsize=20)
     plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
