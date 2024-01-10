@@ -401,7 +401,7 @@ if True:
     norm = Normalize(vmin=vmin, vmax=vmax)
 
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True)
+    ax = sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True)
 
     # Create a colorbar with the extend option manually
     sm = ScalarMappable(cmap='Blues', norm=norm)
@@ -420,7 +420,7 @@ if True:
     plt.ylabel('Altitude [km]', fontsize=20)
     plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
     # plt.text(0, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    plt.text(-0.5, 18, '%d ALADIN Profiles' % alpha_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(-0.4, 18, '%d ALADIN Profiles' % alpha_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     # plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
