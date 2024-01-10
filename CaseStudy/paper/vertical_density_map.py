@@ -309,7 +309,7 @@ if True:
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
     # plt.text(-1.5, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    plt.text(0.011, 18, '%d ALADIN Profiles' % beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(0.03, 18, '%d ALADIN Profiles' % beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     custom_ticks = [0, 0.01, 0.02, 0.03, 0.04, 0.05]
@@ -335,7 +335,7 @@ if True:
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(0.011, 18, '%d CALIOP Profiles'%beta_caliop_all.shape[1], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(0.03, 18, '%d CALIOP Profiles'%beta_caliop_all.shape[1], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
     custom_ticks = [0, 0.01, 0.02, 0.03, 0.04, 0.05]
