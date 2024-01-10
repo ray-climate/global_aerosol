@@ -397,19 +397,19 @@ alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
-    vmin, vmax = 0.008, 0.048
+    vmin, vmax = 0.001, 0.05
     norm = Normalize(vmin=vmin, vmax=vmax)
 
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,)
+    sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True)
 
-    # # Create a colorbar with the extend option manually
-    # sm = ScalarMappable(cmap='Blues', norm=norm)
-    # sm.set_array([])  # You need to set_array for ScalarMappable
-    # cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
-    # cbar.set_label('Density', fontsize=15)
-    # cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
-    # cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+    # Create a colorbar with the extend option manually
+    sm = ScalarMappable(cmap='Blues', norm=norm)
+    sm.set_array([])  # You need to set_array for ScalarMappable
+    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
+    cbar.set_label('Density', fontsize=15)
+    cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
+    cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     for i in range(len(alpha_aeolus_mean)-1):
         plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'k')
@@ -420,7 +420,7 @@ if True:
     plt.ylabel('Altitude [km]', fontsize=20)
     plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
     # plt.text(0, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    plt.text(-1.5, 18, '%d ALADIN Profiles' % alpha_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(-0.5, 18, '%d ALADIN Profiles' % alpha_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     # plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
