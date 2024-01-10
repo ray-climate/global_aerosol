@@ -322,6 +322,7 @@ if True:
     plt.close()
 
 # caliop backscatter linear
+"""
 
 if True:
     # plot the KDE density plot and the curve plot for caliop
@@ -347,7 +348,7 @@ if True:
     plt.savefig(output_path, dpi=300)
     plt.close()
 
-quit()
+
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
@@ -386,8 +387,8 @@ if True:
     ############# depolarization ratio plot #############
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
+"""
 
-quit()
 alpha_caliop_all[alpha_caliop_all < 1.e-3] = np.nan
 alpha_aeolus_all[alpha_aeolus_all < 1.e-3] = np.nan
 
@@ -406,7 +407,8 @@ if True:
     # Customize the plot
     plt.ylabel('Altitude [km]', fontsize=20)
     plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
-    plt.text(0, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    # plt.text(0, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+    plt.text(0.2, 18, '%d ALADIN Profiles' % alpha_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     # plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
     plt.xticks(fontsize=16)
@@ -420,7 +422,7 @@ if True:
     output_path = output_dir + f'retrieval_extinction_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
-
+quit()
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
