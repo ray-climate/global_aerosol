@@ -312,10 +312,10 @@ if True:
     plt.text(0.011, 18, '%d ALADIN Profiles' % beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
-    custom_ticks = [0, 0.005, 0.01, 0.015, 0.02]
+    custom_ticks = [0, 0.01, 0.02, 0.03, 0.04, 0.05]
     ax.set_xticks(custom_ticks)
     ax.set_xticklabels([str(tick) for tick in custom_ticks])
-    ax.set_xlim([0.,0.02])
+    ax.set_xlim([0., 0.05])
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_backscatter_density_aeolus_linear.png'
     plt.savefig(output_path, dpi=300)
@@ -338,10 +338,10 @@ if True:
     plt.text(0.011, 18, '%d CALIOP Profiles'%beta_caliop_all.shape[1], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
     ax = plt.gca()
     # # Set the x-axis scale and ticks
-    custom_ticks = [0, 0.005, 0.01, 0.015, 0.02]
+    custom_ticks = [0, 0.01, 0.02, 0.03, 0.04, 0.05]
     ax.set_xticks(custom_ticks)
     ax.set_xticklabels([str(tick) for tick in custom_ticks])
-    ax.set_xlim([0., 0.02])
+    ax.set_xlim([0., 0.05])
     plt.ylim([0.,20.])
     output_path = output_dir + f'retrieval_backscatter_density_caliop_linear.png'
     plt.savefig(output_path, dpi=300)
