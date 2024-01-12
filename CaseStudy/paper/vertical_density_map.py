@@ -254,41 +254,35 @@ if True:
     vmin, vmax = 0.008, 0.048
     norm = Normalize(vmin=vmin, vmax=vmax)
 
-    g = sns.JointGrid(x="beta_aeolus_log", y="Altitude", data=long_form_data_aeolus_beta, height=8, space=0, ratio=5)
+    # Create a figure and a grid of subplots
+    fig = plt.figure(figsize=(8, 12))
+    gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
+                          left=0.1, right=0.9, bottom=0.1, top=0.9,
+                          wspace=0.05, hspace=0.05)
 
-    # sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
-    #                   cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2})
-    ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm, ax=g.ax_joint)
+    # Main KDE plot
+    ax_main = fig.add_subplot(gs[1, 0])
+    ax_main = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude',
+                          cmap='Blues', fill=True, norm=norm, ax=ax_main)
 
-    # Create a colorbar with the extend option manually
-    sm = ScalarMappable(cmap='Blues', norm=norm)
-    sm.set_array([])  # You need to set_array for ScalarMappable
-    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
-    cbar.set_label('Density', fontsize=15)
-    cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
-    cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+    # Marginal plot on the right
+    ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
+    sns.kdeplot(data=long_form_data_aeolus_beta, y='Altitude', ax=ax_marg_y, vertical=True, fill=True)
+    ax_marg_y.set_ylabel('')
+    ax_marg_y.tick_params(left=False, labelleft=False)
 
-    for i in range(len(beta_aeolus_mean)-1):
-        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=3)
-    for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-        plt.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i+1] / conversion_factor)], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=3)
-    plt.plot([], [], 'k', label='Aeolus')
-    plt.ylabel('Altitude [km]', fontsize=20)
-    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
-    # plt.title(f'AEOLUS aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
-    # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=16)
-    plt.yticks(fontsize=16)
-    # plt.text(-2.4, 18, '%d ALADIN Profiles'%beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    ax = plt.gca()
-    # # Set the x-axis scale and ticks
-    ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
-    ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-    ax.set_xlim(np.log10([1.e-6, 1]))
-    plt.ylim([0.,20.])
+    # Your existing code for customization, colorbar, etc.
+    # ...
+
+    # Adjust the limits and labels as needed
+    ax_main.set_xlim(np.log10([1.e-6, 1]))
+    ax_main.set_ylim([0., 20.])
+    ax_main.set_xticks([-6, -5, -4, -3, -2, -1, 0])
+    ax_main.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
+
+    # Save the plot
     output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
-    plt.close()
 quit()
 """
 new plot fig.4(b)
