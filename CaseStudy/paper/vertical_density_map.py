@@ -264,8 +264,8 @@ if True:
         kind='kde',
         cmap='Blues',
         fill=True,
-        space=0,
-        marginal_kws=dict(kind='hist', bins=30, fill=True)
+        space=0
+        # No marginal_kws needed here
     )
 
     # Create a colorbar with the extend option manually
