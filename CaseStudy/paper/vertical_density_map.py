@@ -249,7 +249,7 @@ from matplotlib.cm import ScalarMappable
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
-    plt.figure(figsize=(8, 12))
+    plt.figure(figsize=(8, 20))
 
     vmin, vmax = 0.008, 0.048
     norm = Normalize(vmin=vmin, vmax=vmax)
