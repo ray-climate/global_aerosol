@@ -271,6 +271,15 @@ if True:
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
+    for i in range(len(beta_aeolus_mean) - 1):
+        ax_main.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)],
+                 [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'r', lw=3)
+    for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
+        ax_main.plot(
+            [np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i + 1] / conversion_factor)],
+            [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'r', lw=3)
+    ax_main.plot([], [], 'k', label='Aeolus')
+
     # Marginal plot on the right
     ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
     sns.kdeplot(data=long_form_data_aeolus_beta, y='Altitude', ax=ax_marg_y, fill=True)
