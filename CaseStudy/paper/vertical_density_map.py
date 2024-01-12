@@ -249,12 +249,12 @@ from matplotlib.cm import ScalarMappable
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
-    plt.figure(figsize=(8, 20))
+    plt.figure(figsize=(8, 12))
 
     vmin, vmax = 0.008, 0.048
     norm = Normalize(vmin=vmin, vmax=vmax)
 
-    g = sns.JointGrid(x="beta_aeolus_log", data=long_form_data_aeolus_beta)
+    g = sns.JointGrid(x="beta_aeolus_log", data=long_form_data_aeolus_beta, height=8, ratio=12/8)
     # sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
     #                   cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2})
     ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm, ax=g.ax_joint)
