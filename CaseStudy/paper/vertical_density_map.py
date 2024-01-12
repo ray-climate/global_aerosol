@@ -267,7 +267,7 @@ if True:
 
     # Marginal plot on the right
     ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
-    sns.kdeplot(data=long_form_data_aeolus_beta, y='Altitude', ax=ax_marg_y, vertical=True, fill=True)
+    sns.kdeplot(data=long_form_data_aeolus_beta, y='Altitude', ax=ax_marg_y, fill=True)
     ax_marg_y.set_ylabel('')
     ax_marg_y.tick_params(left=False, labelleft=False)
 
@@ -283,6 +283,7 @@ if True:
     # Save the plot
     output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
+    plt.close()
 quit()
 """
 new plot fig.4(b)
