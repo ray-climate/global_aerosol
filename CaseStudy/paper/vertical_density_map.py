@@ -262,8 +262,14 @@ if True:
 
     # Main KDE plot
     ax_main = fig.add_subplot(gs[1, 0])
-    ax_main = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude',
-                          cmap='Blues', fill=True, norm=norm, ax=ax_main)
+    ax_main = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm, ax=ax_main)
+
+    sm = ScalarMappable(cmap='Blues', norm=norm)
+    sm.set_array([])  # You need to set_array for ScalarMappable
+    cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
+    cbar.set_label('Density', fontsize=15)
+    cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
+    cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     # Marginal plot on the right
     ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
