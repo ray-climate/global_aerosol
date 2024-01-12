@@ -264,6 +264,9 @@ if True:
     ax_main = fig.add_subplot(gs[1, 0])
     ax_main = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm, ax=ax_main)
 
+    ax_main.set_xticks(fontsize=16)
+    ax_main.set_yticks(fontsize=16)
+
     # sm = ScalarMappable(cmap='Blues', norm=norm)
     # sm.set_array([])  # You need to set_array for ScalarMappable
     # cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=0.02, shrink=0.3, extend='both')
