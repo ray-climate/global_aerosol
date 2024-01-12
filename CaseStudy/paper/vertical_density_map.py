@@ -267,12 +267,18 @@ if True:
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
 
-    # sm = ScalarMappable(cmap='Blues', norm=norm)
-    # sm.set_array([])  # You need to set_array for ScalarMappable
+    sm = ScalarMappable(cmap='Blues', norm=norm)
+    sm.set_array([])  # You need to set_array for ScalarMappable
     # cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=0.02, shrink=0.3, extend='both')
     # cbar.set_label('Density', fontsize=15)
     # cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     # cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+
+    cbar = fig.colorbar(sm, ax=ax_main, orientation='vertical', pad=-0.2, shrink=0.3, extend='both', fraction=0.046)
+    cbar.set_label('Density', fontsize=15)
+    cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
+    cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+
 
     for i in range(len(beta_aeolus_mean) - 1):
         ax_main.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)],
