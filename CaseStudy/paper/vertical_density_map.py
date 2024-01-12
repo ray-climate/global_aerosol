@@ -256,7 +256,9 @@ if True:
 
     # sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
     #                   cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2})
-    ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm)
+    # ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm)
+    ax = sns.jointplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', kind='kde', cmap='Blues', fill=True, space=0)
+    ax.ax_joint.collections[0].set_alpha(0)
 
     # Create a colorbar with the extend option manually
     sm = ScalarMappable(cmap='Blues', norm=norm)
@@ -287,7 +289,7 @@ if True:
     output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
-
+quit()
 """
 new plot fig.4(b)
 """
