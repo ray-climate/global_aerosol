@@ -258,7 +258,7 @@ if True:
     fig = plt.figure(figsize=(8, 15))
     gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
                           left=0.1, right=0.9, bottom=0.1, top=0.9,
-                          wspace=0.05, hspace=0.05)
+                          wspace=0.1, hspace=0.05)
 
     # Main KDE plot
     ax_main = fig.add_subplot(gs[1, 0])
@@ -292,7 +292,7 @@ if True:
     # Adjust the limits and labels as needed
     ax_main.set_xlim(np.log10([1.e-6, 1]))
     ax_main.set_ylim([0., 20.])
-    ax_main.set_xticks([-6, -5, -4, -3, -2, -1])
+    ax_main.set_xticks([-6, -5, -4, -3, -2, -1, 0])
     ax_main.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
 
     # Save the plot
