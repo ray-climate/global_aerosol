@@ -258,7 +258,7 @@ if True:
     fig = plt.figure(figsize=(8, 15))
     gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
                           left=0.1, right=0.9, bottom=0.1, top=0.9,
-                          wspace=0.2, hspace=0.05)
+                          wspace=0.05, hspace=0.05)
 
     # Main KDE plot
     ax_main = fig.add_subplot(gs[1, 0])
@@ -288,9 +288,6 @@ if True:
     sns.kdeplot(data=long_form_data_aeolus_beta, y='Altitude', ax=ax_marg_y, fill=True)
     ax_marg_y.set_ylabel('')
     ax_marg_y.tick_params(left=False, labelleft=False)
-
-    # Your existing code for customization, colorbar, etc.
-    # ...
 
     # Adjust the limits and labels as needed
     ax_main.set_xlim(np.log10([1.e-6, 1]))
