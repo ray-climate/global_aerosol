@@ -280,6 +280,9 @@ if True:
             [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'r', lw=3)
     ax_main.plot([], [], 'k', label='Aeolus')
 
+    ax_main.ylabel('Altitude [km]', fontsize=20)
+    ax_main.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
+
     # Marginal plot on the right
     ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
     sns.kdeplot(data=long_form_data_aeolus_beta, y='Altitude', ax=ax_marg_y, fill=True)
