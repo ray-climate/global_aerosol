@@ -257,7 +257,7 @@ if True:
     # Create a figure and a grid of subplots
     fig = plt.figure(figsize=(8, 15))
     gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
-                          left=0.1, right=0.9, bottom=0.1, top=0.9,
+                          left=0.1, right=0.8, bottom=0.1, top=0.9,
                           wspace=0.2, hspace=0.05)
 
     # Main KDE plot
