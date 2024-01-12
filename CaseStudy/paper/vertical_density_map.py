@@ -292,7 +292,7 @@ if True:
     # Adjust the limits and labels as needed
     ax_main.set_xlim(np.log10([1.e-6, 1]))
     ax_main.set_ylim([0., 20.])
-    ax_main.set_xticks([-6, -5, -4, -3, -2, -1, 0])
+    ax_main.set_xticks([-6, -5, -4, -3, -2, -1])
     ax_main.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
 
     # Save the plot
