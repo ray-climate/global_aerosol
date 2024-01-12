@@ -304,6 +304,7 @@ if True:
     ax_main.set_xticks([-6, -5, -4, -3, -2, -1, 0])
     ax_main.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
 
+    fig.subplots_adjust(right=0.85)
     # Save the plot
     output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
