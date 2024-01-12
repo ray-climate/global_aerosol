@@ -257,7 +257,7 @@ if True:
     # Create a figure and a grid of subplots
     fig = plt.figure(figsize=(8, 15))
     gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
-                          left=0.1, right=0.8, bottom=0.1, top=0.9,
+                          left=0.1, right=0.9, bottom=0.1, top=0.9,
                           wspace=0.2, hspace=0.05)
 
     # Main KDE plot
@@ -266,7 +266,7 @@ if True:
 
     sm = ScalarMappable(cmap='Blues', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
-    cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=-0.3, shrink=0.3, extend='both')
+    cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=0.02, shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
