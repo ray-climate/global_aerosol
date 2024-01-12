@@ -264,12 +264,12 @@ if True:
     ax_main = fig.add_subplot(gs[1, 0])
     ax_main = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm, ax=ax_main)
 
-    sm = ScalarMappable(cmap='Blues', norm=norm)
-    sm.set_array([])  # You need to set_array for ScalarMappable
-    cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=0.02, shrink=0.3, extend='both')
-    cbar.set_label('Density', fontsize=15)
-    cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
-    cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+    # sm = ScalarMappable(cmap='Blues', norm=norm)
+    # sm.set_array([])  # You need to set_array for ScalarMappable
+    # cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=0.02, shrink=0.3, extend='both')
+    # cbar.set_label('Density', fontsize=15)
+    # cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
+    # cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     for i in range(len(beta_aeolus_mean) - 1):
         ax_main.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)],
