@@ -258,7 +258,7 @@ if True:
     fig = plt.figure(figsize=(8, 15))
     gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
                           left=0.1, right=0.9, bottom=0.1, top=0.9,
-                          wspace=0.05, hspace=0.05)
+                          wspace=0.15, hspace=0.15)
 
     # Main KDE plot
     ax_main = fig.add_subplot(gs[1, 0])
