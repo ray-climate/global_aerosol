@@ -254,19 +254,10 @@ if True:
     vmin, vmax = 0.008, 0.048
     norm = Normalize(vmin=vmin, vmax=vmax)
 
+    g = sns.JointGrid(x="sepal_width", y="petal_length", data=long_form_data_aeolus_beta)
     # sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, cbar=True,
     #                   cbar_kws={'label': 'Density', 'shrink': 0.3, 'orientation': 'vertical', 'pad': -0.2})
-    # ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm)
-    ax = sns.jointplot(
-        data=long_form_data_aeolus_beta,
-        x='beta_aeolus_log',
-        y='Altitude',
-        kind='kde',
-        cmap='Blues',
-        fill=True,
-        space=0
-        # No marginal_kws needed here
-    )
+    ax = sns.kdeplot(data=long_form_data_aeolus_beta, x='beta_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm, ax=g.ax_joint)
 
     # Create a colorbar with the extend option manually
     sm = ScalarMappable(cmap='Blues', norm=norm)
