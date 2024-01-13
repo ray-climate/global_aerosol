@@ -274,7 +274,8 @@ if True:
     # cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     # cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
-    cbar = fig.colorbar(sm, ax=ax_main, orientation='vertical', pad=-0.3, shrink=0.3, extend='both', fraction=0.02)
+    cbar_ax = fig.add_axes([0.88, 0.1, 0.03, 0.8])  # Adjust the position as necessary
+    cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical', shrink=0.75, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
@@ -304,7 +305,6 @@ if True:
     ax_main.set_xticks([-6, -5, -4, -3, -2, -1, 0])
     ax_main.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
 
-    fig.subplots_adjust(right=0.85)
     # Save the plot
     output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
