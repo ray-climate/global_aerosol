@@ -139,8 +139,7 @@ beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
 # get number of valid values of beta_aeolus_all at axis=0
 beta_aeolus_all_valid = np.sum(~np.isnan(beta_aeolus_all), axis=0)
-print(beta_aeolus_all_valid)
-quit()
+
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
 
@@ -292,11 +291,14 @@ if True:
     ax_main.set_ylabel('Altitude [km]', fontsize=20)
     ax_main.set_xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
 
-    # Marginal plot on the right
-    ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
-    sns.kdeplot(data=long_form_data_aeolus_beta, y='Altitude', ax=ax_marg_y, fill=True)
-    ax_marg_y.set_ylabel('')
-    ax_marg_y.tick_params(left=False, labelleft=False)
+    # Marginal plot on the right, plot beta_aeolus_all_valid over alt_aeolus_mean
+    ax_marg_x = fig.add_subplot(gs[0, 0], sharex=ax_main)
+    for i in range(len(beta_aeolus_mean) - 1):
+        ax_marg_x.plot([beta_aeolus_all_valid[i], beta_aeolus_all_valid[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k', lw=2)
+    for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
+        ax_marg_x.plot([beta_aeolus_all_valid[i], beta_aeolus_all_valid[i + 1]], [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k', lw=2)
+    ax_marg_x.set_xlabel('')
+    ax_marg_x.tick_params(bottom=False, labelbottom=False)
 
     # Adjust the limits and labels as needed
     ax_main.set_xlim(np.log10([1.e-6, 1]))
