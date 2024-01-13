@@ -260,7 +260,7 @@ if True:
     # Create a figure and a grid of subplots
     fig = plt.figure(figsize=(8, 15))
     gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
-                          left=0.15, right=0.9, bottom=0.1, top=0.9,
+                          left=0.15, right=0.9, bottom=0.1, top=1,
                           wspace=0.1, hspace=0.05)
 
     # Main KDE plot
@@ -297,7 +297,7 @@ if True:
         ax_marg_y.plot([beta_aeolus_all_valid[i], beta_aeolus_all_valid[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k', lw=2)
     for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
         ax_marg_y.plot([beta_aeolus_all_valid[i], beta_aeolus_all_valid[i + 1]], [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k', lw=2)
-    ax_marg_y.set_ylabel('')
+    ax_marg_y.set_ylabel('Number of retrievals')
     ax_marg_y.tick_params(left=False, labelleft=False)
 
     # Adjust the limits and labels as needed
