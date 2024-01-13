@@ -274,7 +274,7 @@ if True:
     # cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     # cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
-    cbar_ax = fig.add_axes([0.58, 0.1, 0.03, 0.3])  # Adjust the position as necessary
+    cbar_ax = fig.add_axes([0.58, 0.3, 0.015, 0.3])  # Adjust the position as necessary
     cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical', shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
