@@ -298,7 +298,7 @@ if True:
     for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
         ax_marg_y.plot([beta_aeolus_all_valid[i], beta_aeolus_all_valid[i + 1]], [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k', lw=2)
     ax_marg_y.yaxis.set_label_position("right")
-    ax_marg_y.set_ylabel('Number of retrievals', fontsize=20)
+    ax_marg_y.set_ylabel('Number of retrievals', fontsize=16)
     ax_marg_y.tick_params(left=False, labelleft=False)
 
     # Adjust the limits and labels as needed
