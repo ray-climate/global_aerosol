@@ -292,7 +292,7 @@ if True:
     ax_main.set_xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
 
     # Marginal plot on the right, plot beta_aeolus_all_valid over alt_aeolus_mean
-    ax_marg_x = fig.add_subplot(gs[1, 1], sharex=ax_main)
+    ax_marg_x = fig.add_subplot(gs[1, 1], sharey=ax_main)
     for i in range(len(beta_aeolus_mean) - 1):
         ax_marg_x.plot([beta_aeolus_all_valid[i], beta_aeolus_all_valid[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k', lw=2)
     for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
