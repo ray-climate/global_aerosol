@@ -137,6 +137,10 @@ dp_caliop_all_std = np.nanstd(dp_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
 beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
+# get number of valid values of beta_aeolus_all at axis=0
+beta_aeolus_all_valid = np.sum(~np.isnan(beta_aeolus_all), axis=0)
+print(beta_aeolus_all_valid)
+quit()
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
 
@@ -269,17 +273,12 @@ if True:
 
     sm = ScalarMappable(cmap='Blues', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
-    # cbar = plt.colorbar(sm, ax=ax_main, orientation='vertical', pad=0.02, shrink=0.3, extend='both')
-    # cbar.set_label('Density', fontsize=15)
-    # cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
-    # cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     cbar_ax = fig.add_axes([0.6, 0.3, 0.02, 0.25])  # Adjust the position as necessary
     cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical', shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
-
 
     for i in range(len(beta_aeolus_mean) - 1):
         ax_main.plot([np.log10(beta_aeolus_mean[i] / conversion_factor), np.log10(beta_aeolus_mean[i] / conversion_factor)],
