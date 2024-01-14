@@ -442,7 +442,7 @@ alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
 alpha_aeolus_all_valid = np.sum(~np.isnan(alpha_aeolus_all), axis=0)
-# beta_caliop_all_valid = np.sum(~np.isnan(beta_caliop_all), axis=1)
+alpha_caliop_all_valid = np.sum(~np.isnan(alpha_caliop_all), axis=1)
 
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
@@ -502,26 +502,52 @@ if True:
     plt.savefig(output_path, dpi=300)
     plt.close()
 
-quit()
+
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True, cbar=True)
-    plt.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
 
-    plt.ylabel('Altitude (km)', fontsize=20)
-    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
-    # plt.title(f'CALIPSO aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
-    # Set x-axis and y-axis ticks
+    vmin, vmax = 0.02, 0.3
+    norm = Normalize(vmin=vmin, vmax=vmax)
+
+    fig = plt.figure(figsize=(8, 15))
+    gs = fig.add_gridspec(2, 2, width_ratios=(5, 2), height_ratios=(2, 5),
+                          left=0.15, right=0.9, bottom=0.1, top=1,
+                          wspace=0.1, hspace=0.05)
+
+    # Main KDE plot
+    ax_main = fig.add_subplot(gs[1, 0])
+    ax_main = sns.kdeplot(data=long_form_data_caliop, x='alpha_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm, ax=ax_main)
+
     plt.xticks(fontsize=16)
     plt.yticks(fontsize=16)
-    plt.text(0, 18, 'CALIOP', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    ax = plt.gca()
-    # # Set the x-axis scale and ticks
-    ax.set_xticks([-3, -2, -1, 0, 1])
-    ax.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
-    ax.set_xlim(np.log10([1.e-3, 1.e1]))
-    plt.ylim([0.,20.])
+
+    sm = ScalarMappable(cmap='Greens', norm=norm)
+    sm.set_array([])  # You need to set_array for ScalarMappable
+
+    cbar_ax = fig.add_axes([0.52, 0.3, 0.02, 0.2])  # Adjust the position as necessary
+    cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical', shrink=0.3, extend='both')
+    cbar.set_label('Density', fontsize=15)
+    cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
+    cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
+
+    ax_main.set_ylabel('Altitude (km)', fontsize=20)
+    ax_main.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
+
+    # Marginal plot on the right, plot beta_aeolus_all_valid over alt_aeolus_mean
+    ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
+    ax_marg_y.plot(alpha_caliop_all_valid, alt_caliop, 'k', lw=2)
+
+    ax_marg_y.yaxis.set_label_position("right")
+    ax_marg_y.set_ylabel('Number of retrievals', fontsize=16)
+    ax_marg_y.tick_params(left=False, labelleft=False)
+
+    # Adjust the limits and labels as needed
+    ax_main.set_xlim(np.log10([1.e-3, 1.e1]))
+    ax_main.set_ylim([0., 20.])
+    ax_main.set_xticks([-3, -2, -1, 0, 1])
+    ax_main.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
+
     output_path = output_dir + f'retrieval_extinction_density_caliop.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
