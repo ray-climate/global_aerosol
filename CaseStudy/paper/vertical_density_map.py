@@ -167,7 +167,7 @@ for i in range(len(alt_aeolus_mean)-1):
 
 print(beta_caliop_mean_interp)
 # print(beta_caliop_std_interp)
-quit()
+
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
 dp_caliop_mean_upper = np.nanmean(dp_caliop_all[(alt_caliop>2.5) & (alt_caliop<7.),:])
@@ -269,6 +269,7 @@ long_form_data_aeolus_beta_linear = long_form_data_aeolus_beta[long_form_data_ae
 from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
 
+"""
 #
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
@@ -331,39 +332,40 @@ if True:
     output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
+"""
 
 """
 new plot fig.4(b)
 """
 
-# aeolus backscatter linear
-if True:
-    # Plot the KDE density plot and the curve plot for aeolus
-    plt.figure(figsize=(8, 12))
-    sns.kdeplot(data=long_form_data_aeolus_beta_linear, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
-    for i in range(len(beta_aeolus_mean)-1):
-        plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i] / conversion_factor], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=2)
-    for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-        plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i+1] / conversion_factor], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=2)
-    plt.plot([], [], 'k', label='Aeolus')
-    plt.ylabel('Altitude [km]', fontsize=20)
-    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
-    # plt.title(f'AEOLUS aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
-    # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=16)
-    plt.yticks(fontsize=16)
-    # plt.text(-1.5, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    plt.text(0.03, 18, '%d ALADIN Profiles' % beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    ax = plt.gca()
-    # # Set the x-axis scale and ticks
-    custom_ticks = [0, 0.01, 0.02, 0.03, 0.04, 0.05]
-    ax.set_xticks(custom_ticks)
-    ax.set_xticklabels([str(tick) for tick in custom_ticks])
-    ax.set_xlim([0., 0.05])
-    plt.ylim([0.,20.])
-    output_path = output_dir + f'retrieval_backscatter_density_aeolus_linear.png'
-    plt.savefig(output_path, dpi=300)
-    plt.close()
+# # aeolus backscatter linear
+# if True:
+#     # Plot the KDE density plot and the curve plot for aeolus
+#     plt.figure(figsize=(8, 12))
+#     sns.kdeplot(data=long_form_data_aeolus_beta_linear, x='beta_aeolus', y='Altitude', cmap='Blues', fill=True)
+#     for i in range(len(beta_aeolus_mean)-1):
+#         plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i] / conversion_factor], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=2)
+#     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+#         plt.plot([beta_aeolus_mean[i] / conversion_factor, beta_aeolus_mean[i+1] / conversion_factor], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=2)
+#     plt.plot([], [], 'k', label='Aeolus')
+#     plt.ylabel('Altitude [km]', fontsize=20)
+#     plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
+#     # plt.title(f'AEOLUS aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
+#     # Set x-axis and y-axis ticks
+#     plt.xticks(fontsize=16)
+#     plt.yticks(fontsize=16)
+#     # plt.text(-1.5, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+#     plt.text(0.03, 18, '%d ALADIN Profiles' % beta_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+#     ax = plt.gca()
+#     # # Set the x-axis scale and ticks
+#     custom_ticks = [0, 0.01, 0.02, 0.03, 0.04, 0.05]
+#     ax.set_xticks(custom_ticks)
+#     ax.set_xticklabels([str(tick) for tick in custom_ticks])
+#     ax.set_xlim([0., 0.05])
+#     plt.ylim([0.,20.])
+#     output_path = output_dir + f'retrieval_backscatter_density_aeolus_linear.png'
+#     plt.savefig(output_path, dpi=300)
+#     plt.close()
 
 # caliop backscatter linear
 
@@ -462,6 +464,18 @@ alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
 alpha_aeolus_all_valid = np.sum(~np.isnan(alpha_aeolus_all), axis=0)
 alpha_caliop_all_valid = np.sum(~np.isnan(alpha_caliop_all), axis=1)
+
+alpha_caliop_mean_interp = np.zeros((len(alt_aeolus_mean)))
+alpha_caliop_mean_interp[:] = np.nan
+# beta_caliop_std_interp[:] = np.nan
+
+for i in range(len(alt_aeolus_mean)-1):
+    alpha_caliop_mean_interp[i] = np.nanmean(alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean_org[i]) & (alt_caliop >= alt_aeolus_mean_org[i + 1])])
+
+print(alt_aeolus_mean_org)
+print(alpha_aeolus_mean)
+print(alpha_caliop_mean_interp)
+quit()
 
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
