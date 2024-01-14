@@ -374,6 +374,8 @@ if True:
     plt.close()
 """
 
+
+"""
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
@@ -431,7 +433,7 @@ if True:
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
 
-quit()
+"""
 
 alpha_caliop_all[alpha_caliop_all < 1.e-3] = np.nan
 alpha_aeolus_all[alpha_aeolus_all < 1.e-3] = np.nan
@@ -439,46 +441,68 @@ alpha_aeolus_all[alpha_aeolus_all < 1.e-3] = np.nan
 alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
 
+alpha_aeolus_all_valid = np.sum(~np.isnan(alpha_aeolus_all), axis=0)
+# beta_caliop_all_valid = np.sum(~np.isnan(beta_caliop_all), axis=1)
+
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
     vmin, vmax = 0.001, 0.05
     norm = Normalize(vmin=vmin, vmax=vmax)
 
-    plt.figure(figsize=(8, 12))
-    ax = sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True)
+    # Create a figure and a grid of subplots
+    fig = plt.figure(figsize=(8, 15))
+    gs = fig.add_gridspec(2, 2, width_ratios=(5, 2), height_ratios=(2, 5),
+                          left=0.15, right=0.9, bottom=0.1, top=1,
+                          wspace=0.1, hspace=0.05)
 
-    # Create a colorbar with the extend option manually
+    # Main KDE plot
+    ax_main = fig.add_subplot(gs[1, 0])
+    ax_main = sns.kdeplot(data=long_form_data_aeolus_alpha, x='alpha_aeolus_log', y='Altitude', cmap='Blues', fill=True, norm=norm, ax=ax_main)
+
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+
     sm = ScalarMappable(cmap='Blues', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
-    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
+
+    cbar_ax = fig.add_axes([0.52, 0.3, 0.02, 0.2])  # Adjust the position as necessary
+    cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical', shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     for i in range(len(alpha_aeolus_mean)-1):
-        plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=3)
+        ax_main.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i])], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'r', lw=3)
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
-        plt.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=3)
-    plt.plot([], [], 'k', label='Aeolus')
+        ax_main.plot([np.log10(alpha_aeolus_mean[i]), np.log10(alpha_aeolus_mean[i+1])], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'r', lw=3)
+    ax_main.plot([], [], 'k', label='Aeolus')
+
     # Customize the plot
-    plt.ylabel('Altitude [km]', fontsize=20)
-    plt.xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
-    # plt.text(0, 18, 'ALADIN', fontsize=20, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    plt.text(-0.6, 18, '%d ALADIN Profiles' % alpha_aeolus_all.shape[0], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    # plt.title(f'AEOLUS aerosol retrievals over the Sahara [extinction] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
-    # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=16)
-    plt.yticks(fontsize=16)
-    ax = plt.gca()
+    ax_main.set_ylabel('Altitude [km]', fontsize=20)
+    ax_main.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
+
+    # Marginal plot on the right, plot extinction_aeolus_all_valid over alt_aeolus_mean
+    ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
+    for i in range(len(beta_aeolus_mean) - 1):
+        ax_marg_y.plot([alpha_aeolus_all_valid[i], alpha_aeolus_all_valid[i]],
+                       [alt_aeolus_mean[i], alt_aeolus_mean[i + 1]], 'k', lw=2)
+    for i in range(len(retrieval_numbers_aeolus_all_norm) - 1):
+        ax_marg_y.plot([alpha_aeolus_all_valid[i], alpha_aeolus_all_valid[i + 1]],
+                       [alt_aeolus_mean[i + 1], alt_aeolus_mean[i + 1]], 'k', lw=2)
+    ax_marg_y.yaxis.set_label_position("right")
+    ax_marg_y.set_ylabel('Number of retrievals', fontsize=16)
+    ax_marg_y.tick_params(left=False, labelleft=False)
+
     # Set the x-axis scale and ticks
-    ax.set_xticks([-3, -2, -1, 0, 1])
-    ax.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
-    ax.set_xlim(np.log10([1.e-3, 1.e1]))
-    plt.ylim([0.,20.])
+    ax_main.set_xticks([-3, -2, -1, 0, 1])
+    ax_main.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
+    ax_main.set_xlim(np.log10([1.e-3, 1.e1]))
+    ax_main.set_ylim([0.,20.])
     output_path = output_dir + f'retrieval_extinction_density_aeolus_linear.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
 
+quit()
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
