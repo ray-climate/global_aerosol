@@ -79,6 +79,7 @@ beta_aeolus_mask = np.zeros((beta_aeolus_all.shape))
 beta_aeolus_mask[beta_aeolus_all > 0.0] = 1.0
 
 alt_aeolus_mean = np.nanmean(alt_aeolus_all, axis=0)
+alt_aeolus_mean_org = np.copy(alt_aeolus_mean)
 alt_aeolus_mean = (alt_aeolus_mean[1:] + alt_aeolus_mean[:-1]) / 2.0
 
 retrieval_numbers_caliop_all = np.sum(beta_caliop_mask, axis=1)
@@ -152,8 +153,8 @@ print('delta circ 355 is: ', conversion_factor)
 print(beta_caliop_mean)
 print(alt_caliop)
 print(beta_aeolus_mean)
-print(alt_aeolus_mean)
-
+print(alt_aeolus_mean_org)
+quit()
 
 # interpolate the beta_caliop_mean to the same altitude as beta_aeolus_mean by ignoring nan values
 beta_caliop_mean_interp = np.interp(alt_aeolus_mean[1:][::-1], alt_caliop[::-1], beta_caliop_mean[::-1])[::-1]
