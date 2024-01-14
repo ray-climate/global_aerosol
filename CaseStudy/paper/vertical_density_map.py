@@ -139,6 +139,7 @@ beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
 
 # get number of valid values of beta_aeolus_all at axis=0
 beta_aeolus_all_valid = np.sum(~np.isnan(beta_aeolus_all), axis=0)
+beta_caliop_all_valid = np.sum(~np.isnan(beta_caliop_all), axis=1)
 
 conversion_factor = (np.nanmean(dp_caliop_mean) * 0.82 * 2) / (1. - np.nanmean(dp_caliop_mean) * 0.82)
 conversion_factor = 1 / (1. + conversion_factor)
@@ -311,7 +312,7 @@ if True:
     output_path = output_dir + f'retrieval_backscatter_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
-quit()
+
 """
 new plot fig.4(b)
 """
@@ -346,8 +347,8 @@ if True:
     plt.close()
 
 # caliop backscatter linear
-"""
 
+"""
 if True:
     # plot the KDE density plot and the curve plot for caliop
     plt.figure(figsize=(8, 12))
@@ -371,7 +372,7 @@ if True:
     output_path = output_dir + f'retrieval_backscatter_density_caliop_linear.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
-
+"""
 
 if True:
     # plot the KDE density plot and the curve plot for caliop
@@ -380,30 +381,48 @@ if True:
     vmin, vmax = 0.02, 0.3
     norm = Normalize(vmin=vmin, vmax=vmax)
 
-    ax = sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm)
+    fig = plt.figure(figsize=(8, 15))
+    gs = fig.add_gridspec(2, 2, width_ratios=(5, 2), height_ratios=(2, 5),
+                          left=0.15, right=0.9, bottom=0.1, top=1,
+                          wspace=0.1, hspace=0.05)
 
-    # Create a colorbar with the extend option manually
+    # Main KDE plot
+    ax_main = fig.add_subplot(gs[1, 0])
+    ax_main = sns.kdeplot(data=long_form_data_caliop, x='beta_caliop_log', y='Altitude', cmap='Greens', fill=True, norm=norm, ax=ax_main)
+
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+
     sm = ScalarMappable(cmap='Greens', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
-    cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=-0.2, shrink=0.3, extend='both')
+
+    cbar_ax = fig.add_axes([0.52, 0.3, 0.02, 0.2])  # Adjust the position as necessary
+    cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical', shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
-    plt.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
-    plt.ylabel('Altitude [km]', fontsize=20)
-    plt.xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
+    ax_main.plot(np.log10(beta_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
+    ax_main.set_ylabel('Altitude [km]', fontsize=20)
+    ax_main.set_xlabel('Backscatter coeff.\n[km$^{-1}$sr$^{-1}$]', fontsize=20)
     # plt.title(f'CALIPSO aerosol retrievals over the Sahara [backscatter] \n $14^{{th}}$ - $24^{{th}}$ June 2020', fontsize=18, y=1.05)
     # Set x-axis and y-axis ticks
-    plt.xticks(fontsize=16)
-    plt.yticks(fontsize=16)
-    plt.text(-2.4, 18, '%d CALIOP Profiles'%beta_caliop_all.shape[1], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
-    ax = plt.gca()
-    # # Set the x-axis scale and ticks
-    ax.set_xticks([-6, -5, -4, -3, -2, -1, 0])
-    ax.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
-    ax.set_xlim(np.log10([1.e-6, 1]))
-    plt.ylim([0.,20.])
+    # plt.text(-2.4, 18, '%d CALIOP Profiles'%beta_caliop_all.shape[1], fontsize=16, color='k', bbox=dict(facecolor='none', edgecolor='black'))
+
+    # Marginal plot on the right, plot beta_aeolus_all_valid over alt_aeolus_mean
+    ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
+    ax_marg_y.plot(beta_caliop_all_valid, alt_caliop, 'k', lw=2)
+
+    ax_marg_y.yaxis.set_label_position("right")
+    ax_marg_y.set_ylabel('Number of retrievals', fontsize=16)
+    ax_marg_y.tick_params(left=False, labelleft=False)
+
+    # Adjust the limits and labels as needed
+    ax_main.set_xlim(np.log10([1.e-6, 1]))
+    ax_main.set_ylim([0., 20.])
+    ax_main.set_xticks([-6, -5, -4, -3, -2, -1, 0])
+    ax_main.set_xticklabels(['$10^{-6}$', '$10^{-5}$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$'])
+
     output_path = output_dir + f'retrieval_backscatter_density_caliop.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
@@ -411,7 +430,8 @@ if True:
     ############# depolarization ratio plot #############
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
-"""
+
+quit()
 
 alpha_caliop_all[alpha_caliop_all < 1.e-3] = np.nan
 alpha_aeolus_all[alpha_aeolus_all < 1.e-3] = np.nan
