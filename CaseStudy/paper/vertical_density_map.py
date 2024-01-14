@@ -136,7 +136,9 @@ dp_caliop_all[dp_caliop_all > 1.] = np.nan
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 dp_caliop_all_std = np.nanstd(dp_caliop_all, axis=1)
 beta_caliop_mean = np.nanmean(beta_caliop_all, axis=1)
+beta_caliop_std = np.nanstd(beta_caliop_all, axis=1)
 beta_aeolus_mean = np.nanmean(beta_aeolus_all, axis=0)
+beta_aeolus_std = np.nanstd(beta_aeolus_all, axis=0)
 
 # get number of valid values of beta_aeolus_all at axis=0
 beta_aeolus_all_valid = np.sum(~np.isnan(beta_aeolus_all), axis=0)
@@ -150,14 +152,21 @@ print('mean depolarisation ratio: ', np.nanmean(dp_caliop_mean))
 print('std depolarisation ratio: ', np.nanstd(dp_caliop_mean))
 print('delta circ 355 is: ', conversion_factor)
 
-print(beta_aeolus_mean)
 print(alt_aeolus_mean_org)
+print(beta_aeolus_mean)
+print(beta_aeolus_std)
 
 beta_caliop_mean_interp = np.zeros((len(alt_aeolus_mean)))
+beta_caliop_std_interp = np.zeros((len(alt_aeolus_mean)))
 beta_caliop_mean_interp[:] = np.nan
+beta_caliop_std_interp[:] = np.nan
+
 for i in range(len(alt_aeolus_mean)-1):
     beta_caliop_mean_interp[i] = np.nanmean(beta_caliop_mean[(alt_caliop <= alt_aeolus_mean_org[i]) & (alt_caliop >= alt_aeolus_mean_org[i + 1])])
+    beta_caliop_std_interp[i] = np.nanmean(beta_caliop_std[(alt_caliop <= alt_aeolus_mean_org[i]) & (alt_caliop >= alt_aeolus_mean_org[i + 1])])
+
 print(beta_caliop_mean_interp)
+print(beta_caliop_std_interp)
 quit()
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
