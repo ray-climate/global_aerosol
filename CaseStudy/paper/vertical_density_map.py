@@ -498,7 +498,7 @@ if True:
     ax_main.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
     ax_main.set_xlim(np.log10([1.e-3, 1.e1]))
     ax_main.set_ylim([0.,20.])
-    output_path = output_dir + f'retrieval_extinction_density_aeolus_linear.png'
+    output_path = output_dir + f'retrieval_extinction_density_aeolus.png'
     plt.savefig(output_path, dpi=300)
     plt.close()
 
