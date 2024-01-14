@@ -273,7 +273,7 @@ if True:
     sm = ScalarMappable(cmap='Blues', norm=norm)
     sm.set_array([])  # You need to set_array for ScalarMappable
 
-    cbar_ax = fig.add_axes([0.6, 0.3, 0.02, 0.25])  # Adjust the position as necessary
+    cbar_ax = fig.add_axes([0.45, 0.3, 0.02, 0.2])  # Adjust the position as necessary
     cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical', shrink=0.3, extend='both')
     cbar.set_label('Density', fontsize=15)
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
