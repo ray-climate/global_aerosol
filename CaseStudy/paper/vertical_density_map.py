@@ -259,7 +259,7 @@ if True:
 
     # Create a figure and a grid of subplots
     fig = plt.figure(figsize=(8, 15))
-    gs = fig.add_gridspec(2, 2, width_ratios=(5, 1), height_ratios=(1, 5),
+    gs = fig.add_gridspec(2, 2, width_ratios=(5, 1.5), height_ratios=(1.5, 5),
                           left=0.15, right=0.9, bottom=0.1, top=1,
                           wspace=0.1, hspace=0.05)
 
