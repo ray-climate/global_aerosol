@@ -154,11 +154,14 @@ print(alt_caliop)
 print(beta_aeolus_mean)
 print(alt_aeolus_mean)
 # print the max of beta_caliop_mean and the corresponding altitude
-print('max beta_caliop_mean: ', np.nanmax(beta_caliop_mean))
-print('max beta_caliop_mean altitude: ', alt_caliop[np.nanargmax(beta_caliop_mean)])
-print('max beta_aeolus_mean: ', np.nanmax(beta_aeolus_mean))
-print('max beta_aeolus_mean altitude: ', alt_aeolus_mean[np.nanargmax(beta_aeolus_mean)])
+# print('max beta_caliop_mean: ', np.nanmax(beta_caliop_mean))
+# print('max beta_caliop_mean altitude: ', alt_caliop[np.nanargmax(beta_caliop_mean)])
+# print('max beta_aeolus_mean: ', np.nanmax(beta_aeolus_mean))
+# print('max beta_aeolus_mean altitude: ', alt_aeolus_mean[np.nanargmax(beta_aeolus_mean)])
 
+# interpolate the beta_caliop_mean to the same altitude as beta_aeolus_mean
+beta_caliop_mean_interp = np.interp(alt_aeolus_mean, alt_caliop, beta_caliop_mean)
+print(beta_caliop_mean_interp)
 quit()
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
