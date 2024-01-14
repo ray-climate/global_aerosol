@@ -154,12 +154,12 @@ print('delta circ 355 is: ', conversion_factor)
 
 print(alt_aeolus_mean_org)
 print(beta_aeolus_mean)
-print(beta_aeolus_std)
+# print(beta_aeolus_std)
 
 beta_caliop_mean_interp = np.zeros((len(alt_aeolus_mean)))
 beta_caliop_std_interp = np.zeros((len(alt_aeolus_mean)))
 beta_caliop_mean_interp[:] = np.nan
-beta_caliop_std_interp[:] = np.nan
+# beta_caliop_std_interp[:] = np.nan
 
 for i in range(len(alt_aeolus_mean)-1):
     beta_caliop_mean_interp[i] = np.nanmean(beta_caliop_mean[(alt_caliop <= alt_aeolus_mean_org[i]) & (alt_caliop >= alt_aeolus_mean_org[i + 1])])
