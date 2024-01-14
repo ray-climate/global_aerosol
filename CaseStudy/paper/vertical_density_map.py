@@ -531,6 +531,7 @@ if True:
     cbar.ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1, decimals=1))
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
+    ax_main.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
     ax_main.set_ylabel('Altitude (km)', fontsize=20)
     ax_main.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
 
