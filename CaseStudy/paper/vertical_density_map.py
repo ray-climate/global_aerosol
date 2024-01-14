@@ -156,7 +156,7 @@ print(beta_aeolus_mean)
 print(alt_aeolus_mean_org)
 
 beta_caliop_mean_interp = np.zeros((len(alt_aeolus_mean)))
-
+beta_caliop_mean_interp[:] = np.nan
 for i in range(len(alt_aeolus_mean)-1):
     beta_caliop_mean_interp[i] = np.nanmean(beta_caliop_mean[(alt_caliop <= alt_aeolus_mean[i]) & (alt_caliop >= alt_aeolus_mean[i + 1])])
 print(beta_caliop_mean_interp)
