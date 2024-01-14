@@ -149,6 +149,11 @@ print('mean depolarisation ratio: ', np.nanmean(dp_caliop_mean))
 print('std depolarisation ratio: ', np.nanstd(dp_caliop_mean))
 print('delta circ 355 is: ', conversion_factor)
 
+print(beta_caliop_mean)
+print(alt_caliop)
+print(beta_aeolus_mean)
+print(alt_aeolus_mean)
+quit()
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
 dp_caliop_mean_upper = np.nanmean(dp_caliop_all[(alt_caliop>2.5) & (alt_caliop<7.),:])
