@@ -166,7 +166,7 @@ for i in range(len(alt_aeolus_mean)-1):
     beta_caliop_std_interp[i] = np.nanmean(beta_caliop_std[(alt_caliop <= alt_aeolus_mean_org[i]) & (alt_caliop >= alt_aeolus_mean_org[i + 1])])
 
 print(beta_caliop_mean_interp)
-print(beta_caliop_std_interp)
+# print(beta_caliop_std_interp)
 quit()
 ################## plot depolarisation ratio
 # Create a DataFrame from the data
