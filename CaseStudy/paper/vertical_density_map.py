@@ -472,10 +472,7 @@ alpha_caliop_mean_interp[:] = np.nan
 for i in range(len(alt_aeolus_mean)-1):
     alpha_caliop_mean_interp[i] = np.nanmean(alpha_caliop_mean[(alt_caliop <= alt_aeolus_mean_org[i]) & (alt_caliop >= alt_aeolus_mean_org[i + 1])])
 
-print(alt_aeolus_mean_org)
-print(alpha_aeolus_mean)
-print(alpha_caliop_mean_interp)
-quit()
+
 
 if True:
     # Plot the KDE density plot and the curve plot for aeolus
@@ -589,6 +586,50 @@ if True:
     ############# depolarization ratio plot #############
     plt.figure(figsize=(8, 12))
     plt.plot(dp_caliop_mean, alt_caliop, 'r', label='Caliop')
+
+if True:
+    plt.figure(figsize=(8, 12))
+    vmin, vmax = 0., 0.1
+
+    fig = plt.figure(figsize=(8, 15))
+    gs = fig.add_gridspec(2, 2, width_ratios=(5, 2), height_ratios=(2, 5),
+                          left=0.15, right=0.9, bottom=0.1, top=1,
+                          wspace=0.1, hspace=0.05)
+
+    # Main KDE plot
+    ax_main = fig.add_subplot(gs[1, 0])
+
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+
+    ax_main.plot(alpha_caliop_mean, alt_caliop, 'g', label='CALIOP', lw=3)
+
+    for i in range(len(alpha_aeolus_mean)-1):
+        ax_main.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'b', lw=3)
+    for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
+        ax_main.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'b', lw=3)
+    ax_main.plot([], [], 'b', label='Aeolus')
+
+    ax_main.set_ylabel('Altitude (km)', fontsize=20)
+    ax_main.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
+
+    # Marginal plot on the right, plot beta_aeolus_all_valid over alt_aeolus_mean
+    ax_marg_y = fig.add_subplot(gs[1, 1], sharey=ax_main)
+    ax_marg_y.plot(alpha_caliop_all_valid, alt_caliop, 'k', lw=2)
+
+    ax_marg_y.yaxis.set_label_position("right")
+    ax_marg_y.set_ylabel('Number of retrievals', fontsize=16)
+    ax_marg_y.tick_params(left=False, labelleft=False)
+
+    # Adjust the limits and labels as needed
+    ax_main.set_xlim(vmin, vmax)
+    ax_main.set_ylim([0., 20.])
+    # ax_main.set_xticks([-3, -2, -1, 0, 1])
+    # ax_main.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
+
+    output_path = output_dir + f'retrieval_extinction_combine.png'
+    plt.savefig(output_path, dpi=300)
+    plt.close()
 
 quit()
 
