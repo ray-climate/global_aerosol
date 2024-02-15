@@ -128,10 +128,10 @@ plt.close()
 ############# backscatter plot #############
 # ang_coef = (355. / 532.) ** (-0.1)
 ang_coef = 1.
-beta_caliop_all[beta_caliop_all < 1.e-5] = np.nan
-beta_aeolus_all[beta_aeolus_all < 1.e-5] = np.nan
-dp_caliop_all[dp_caliop_all < 0.] = np.nan
-dp_caliop_all[dp_caliop_all > 1.] = np.nan
+beta_caliop_all[beta_caliop_all < 1.e-5] = 0
+beta_aeolus_all[beta_aeolus_all < 1.e-5] = 0
+dp_caliop_all[dp_caliop_all < 0.] = 0
+dp_caliop_all[dp_caliop_all > 1.] = 0
 
 dp_caliop_mean = np.nanmean(dp_caliop_all, axis=1)
 dp_caliop_all_std = np.nanstd(dp_caliop_all, axis=1)
@@ -456,8 +456,8 @@ if True:
 
 """
 
-alpha_caliop_all[alpha_caliop_all < 1.e-3] = np.nan
-alpha_aeolus_all[alpha_aeolus_all < 1.e-3] = np.nan
+alpha_caliop_all[alpha_caliop_all < 1.e-3] = 0
+alpha_aeolus_all[alpha_aeolus_all < 1.e-3] = 0
 
 alpha_caliop_mean = np.nanmean(alpha_caliop_all, axis=1)
 alpha_aeolus_mean = np.nanmean(alpha_aeolus_all, axis=0)
@@ -626,7 +626,8 @@ if True:
     ax_main.set_ylim([0., 20.])
     # ax_main.set_xticks([-3, -2, -1, 0, 1])
     # ax_main.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
-    plt.legend(loc='best', fontsize=16, frameon=False)
+    # set legent
+    ax_main.legend(loc='best', fontsize=16, frameon=False)
 
     output_path = output_dir + f'retrieval_extinction_combine.png'
     plt.savefig(output_path, dpi=300)
