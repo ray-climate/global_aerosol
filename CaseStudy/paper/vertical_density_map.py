@@ -608,7 +608,7 @@ if True:
         ax_main.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i]], [alt_aeolus_mean[i], alt_aeolus_mean[i+1]], 'b', lw=3)
     for i in range(len(retrieval_numbers_aeolus_all_norm)-1):
         ax_main.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'b', lw=3)
-    ax_main.plot([], [], 'b', label='Aeolus')
+    ax_main.plot([], [], 'b', label='ALADIN')
 
     ax_main.set_ylabel('Altitude [km]', fontsize=20)
     ax_main.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
@@ -627,7 +627,7 @@ if True:
     # ax_main.set_xticks([-3, -2, -1, 0, 1])
     # ax_main.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
     # set legent
-    ax_main.legend(loc='best', fontsize=16, frameon=False)
+    ax_main.legend(loc='best', fontsize=20, frameon=False)
 
     output_path = output_dir + f'retrieval_extinction_combine.png'
     plt.savefig(output_path, dpi=300)
