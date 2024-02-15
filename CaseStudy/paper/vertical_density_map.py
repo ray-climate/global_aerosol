@@ -562,7 +562,7 @@ if True:
     cbar.ax.yaxis.set_major_locator(ticker.MaxNLocator(6))
 
     ax_main.plot(np.log10(alpha_caliop_mean), alt_caliop, 'r', label='CALIOP', lw=3)
-    ax_main.set_ylabel('Altitude (km)', fontsize=20)
+    ax_main.set_ylabel('Altitude [km]', fontsize=20)
     ax_main.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
 
     # Marginal plot on the right, plot beta_aeolus_all_valid over alt_aeolus_mean
@@ -610,7 +610,7 @@ if True:
         ax_main.plot([alpha_aeolus_mean[i], alpha_aeolus_mean[i+1]], [alt_aeolus_mean[i+1], alt_aeolus_mean[i+1]], 'b', lw=3)
     ax_main.plot([], [], 'b', label='Aeolus')
 
-    ax_main.set_ylabel('Altitude (km)', fontsize=20)
+    ax_main.set_ylabel('Altitude [km]', fontsize=20)
     ax_main.set_xlabel('Extinction coeff.\n[km$^{-1}$]', fontsize=20)
 
     # Marginal plot on the right, plot beta_aeolus_all_valid over alt_aeolus_mean
@@ -626,6 +626,7 @@ if True:
     ax_main.set_ylim([0., 20.])
     # ax_main.set_xticks([-3, -2, -1, 0, 1])
     # ax_main.set_xticklabels(['$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$10^{0}$', '$10^{1}$'])
+    plt.legend(loc='best', fontsize=16, frameon=False)
 
     output_path = output_dir + f'retrieval_extinction_combine.png'
     plt.savefig(output_path, dpi=300)
