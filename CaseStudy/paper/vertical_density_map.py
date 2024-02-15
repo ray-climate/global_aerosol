@@ -589,7 +589,7 @@ if True:
 
 if True:
     plt.figure(figsize=(8, 12))
-    vmin, vmax = 0., 0.1
+    vmin, vmax = 0.,1.
 
     fig = plt.figure(figsize=(8, 15))
     gs = fig.add_gridspec(2, 2, width_ratios=(5, 2), height_ratios=(2, 5),
